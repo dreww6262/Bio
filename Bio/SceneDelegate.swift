@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import Parse
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
@@ -48,6 +48,27 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
     }
 
+    func login() {
+        
+        // remember user's login
+        let username : String? = UserDefaults.standard.string(forKey: "username")
+        
+        // if loged in
+        if username != nil {
+            print("This is the username were dealing with \(username!)")
+            print("1")
+            let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            print("2")
+            let myTabBar = storyboard.instantiateViewController(withIdentifier: "tabBar") as! UITabBarController
+            print("3")
+              myTabBar.selectedIndex = 1   // or whatever you want
+            print("4")
+            window?.rootViewController = myTabBar
+            print("5")
+        }
+        
+    }
+    
 
 }
 
