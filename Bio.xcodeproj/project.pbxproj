@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4907D154249FB00600B66093 /* DrawingBoard3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4907D153249FB00600B66093 /* DrawingBoard3.swift */; };
 		491ADB7324971B2500B62C5A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491ADB7224971B2500B62C5A /* AppDelegate.swift */; };
 		491ADB7524971B2500B62C5A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491ADB7424971B2500B62C5A /* SceneDelegate.swift */; };
 		491ADB7724971B2500B62C5A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491ADB7624971B2500B62C5A /* ViewController.swift */; };
@@ -32,7 +33,6 @@
 		491ADBC22497D57000B62C5A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 491ADBC12497D57000B62C5A /* CoreLocation.framework */; };
 		491ADBC42497D57500B62C5A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 491ADBC32497D57500B62C5A /* QuartzCore.framework */; };
 		491ADBC62497D57C00B62C5A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 491ADBC52497D57C00B62C5A /* Security.framework */; };
-		491ADBC82497D58200B62C5A /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 491ADBC72497D58200B62C5A /* StoreKit.framework */; };
 		491ADBCA2497D58800B62C5A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 491ADBC92497D58800B62C5A /* SystemConfiguration.framework */; };
 		491ADBD02497D69200B62C5A /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 491ADBCF2497D69200B62C5A /* libz.tbd */; };
 		49C2059B2497D9EE0022EE53 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49C2059A2497D9EE0022EE53 /* Parse.framework */; };
@@ -63,6 +63,8 @@
 		49C205D3249814E90022EE53 /* ResetPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205D2249814E90022EE53 /* ResetPasswordVC.swift */; };
 		49C205D524981AC80022EE53 /* segue1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205D424981AC80022EE53 /* segue1.swift */; };
 		49C205D7249833E80022EE53 /* CreativeToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205D6249833E80022EE53 /* CreativeToolBar.swift */; };
+		49C205D92499A0770022EE53 /* DrawingBoardVC2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205D82499A0770022EE53 /* DrawingBoardVC2.swift */; };
+		49C205DB2499AF730022EE53 /* MusicPlayerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205DA2499AF730022EE53 /* MusicPlayerVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +85,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4907D153249FB00600B66093 /* DrawingBoard3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingBoard3.swift; sourceTree = "<group>"; };
 		491ADB6F24971B2500B62C5A /* Bio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		491ADB7224971B2500B62C5A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		491ADB7424971B2500B62C5A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -114,7 +117,6 @@
 		491ADBC12497D57000B62C5A /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		491ADBC32497D57500B62C5A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		491ADBC52497D57C00B62C5A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		491ADBC72497D58200B62C5A /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		491ADBC92497D58800B62C5A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		491ADBCF2497D69200B62C5A /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		49C2059A2497D9EE0022EE53 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
@@ -145,6 +147,8 @@
 		49C205D2249814E90022EE53 /* ResetPasswordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResetPasswordVC.swift; path = "../../Dart1/Dart1/Sign in sign up/ResetPasswordVC.swift"; sourceTree = "<group>"; };
 		49C205D424981AC80022EE53 /* segue1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = segue1.swift; sourceTree = "<group>"; };
 		49C205D6249833E80022EE53 /* CreativeToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreativeToolBar.swift; sourceTree = "<group>"; };
+		49C205D82499A0770022EE53 /* DrawingBoardVC2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingBoardVC2.swift; sourceTree = "<group>"; };
+		49C205DA2499AF730022EE53 /* MusicPlayerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayerVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,7 +157,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				491ADBCA2497D58800B62C5A /* SystemConfiguration.framework in Frameworks */,
-				491ADBC82497D58200B62C5A /* StoreKit.framework in Frameworks */,
 				491ADBC62497D57C00B62C5A /* Security.framework in Frameworks */,
 				491ADBC42497D57500B62C5A /* QuartzCore.framework in Frameworks */,
 				491ADBD02497D69200B62C5A /* libz.tbd in Frameworks */,
@@ -225,6 +228,7 @@
 				49C205B82497DDA20022EE53 /* headerView.swift */,
 				49C205BA2497DDBC0022EE53 /* pictureCell.swift */,
 				49C205D2249814E90022EE53 /* ResetPasswordVC.swift */,
+				49C205DA2499AF730022EE53 /* MusicPlayerVC.swift */,
 				49C205A42497DCFA0022EE53 /* guestVC.swift */,
 				49C205CC2497EE560022EE53 /* tabbarVC.swift */,
 				49C205C42497DE180022EE53 /* commentCell.swift */,
@@ -245,6 +249,8 @@
 				491ADBAC249720A000B62C5A /* DrawingSettingsVC.swift */,
 				491ADBA824971FE400B62C5A /* HomeVC.swift */,
 				49C2059E2497DB4D0022EE53 /* DrawingBoardVC.swift */,
+				49C205D82499A0770022EE53 /* DrawingBoardVC2.swift */,
+				4907D153249FB00600B66093 /* DrawingBoard3.swift */,
 				491ADBAA2497203B00B62C5A /* SearchVC.swift */,
 				491ADBAE2497237000B62C5A /* SettingsVC.swift */,
 				49C205D424981AC80022EE53 /* segue1.swift */,
@@ -280,7 +286,6 @@
 			isa = PBXGroup;
 			children = (
 				491ADBC92497D58800B62C5A /* SystemConfiguration.framework */,
-				491ADBC72497D58200B62C5A /* StoreKit.framework */,
 				491ADBC52497D57C00B62C5A /* Security.framework */,
 				491ADBC32497D57500B62C5A /* QuartzCore.framework */,
 				491ADBC12497D57000B62C5A /* CoreLocation.framework */,
@@ -435,7 +440,9 @@
 			files = (
 				491ADBAB2497203B00B62C5A /* SearchVC.swift in Sources */,
 				491ADBAD249720A000B62C5A /* DrawingSettingsVC.swift in Sources */,
+				49C205DB2499AF730022EE53 /* MusicPlayerVC.swift in Sources */,
 				491ADB7724971B2500B62C5A /* ViewController.swift in Sources */,
+				49C205D92499A0770022EE53 /* DrawingBoardVC2.swift in Sources */,
 				491ADBA924971FE400B62C5A /* HomeVC.swift in Sources */,
 				49C205D7249833E80022EE53 /* CreativeToolBar.swift in Sources */,
 				491ADB7324971B2500B62C5A /* AppDelegate.swift in Sources */,
@@ -452,6 +459,7 @@
 				49C205BB2497DDBD0022EE53 /* pictureCell.swift in Sources */,
 				491ADBA524971ED400B62C5A /* SignUpVC.swift in Sources */,
 				49C205D524981AC80022EE53 /* segue1.swift in Sources */,
+				4907D154249FB00600B66093 /* DrawingBoard3.swift in Sources */,
 				491ADB7524971B2500B62C5A /* SceneDelegate.swift in Sources */,
 				49C205C52497DE190022EE53 /* commentCell.swift in Sources */,
 				49C205A32497DCBC0022EE53 /* followersCell.swift in Sources */,
@@ -641,6 +649,7 @@
 					"$(PROJECT_DIR)/Bio",
 				);
 				INFOPLIST_FILE = Bio/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -667,6 +676,7 @@
 					"$(PROJECT_DIR)/Bio",
 				);
 				INFOPLIST_FILE = Bio/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
