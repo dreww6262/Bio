@@ -76,7 +76,8 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         repeatPassword.frame = CGRect(x: 10, y: passwordTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
         emailTxt.frame = CGRect(x: 10, y: repeatPassword.frame.origin.y + 60, width: self.view.frame.size.width - 20, height: 30)
         firstNameTxt.frame = CGRect(x: 10, y: emailTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
-        bioTxt.frame = CGRect(x: 10, y: firstNameTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
+        lastNameText.frame = CGRect(x: 10, y: firstNameTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
+        bioTxt.frame = CGRect(x: 10, y: lastNameText.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
         webTxt.frame = CGRect(x: 10, y: bioTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
         
         signUpBtn.frame = CGRect(x: 20, y: webTxt.frame.origin.y + 50, width: self.view.frame.size.width / 4, height: 30)
@@ -180,7 +181,8 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         user.username = usernameTxt.text?.lowercased()
         user.email = emailTxt.text?.lowercased()
         user.password = passwordTxt.text
-        user["fullname"] = firstNameTxt.text?.lowercased()
+        user["firstName"] = firstNameTxt.text?.lowercased()
+        user["lastName"] = lastNameText.text?.lowercased()
         user["bio"] = bioTxt.text
         user["web"] = webTxt.text?.lowercased()
 
