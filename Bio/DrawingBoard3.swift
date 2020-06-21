@@ -8,15 +8,15 @@
 
 import UIKit
 
-class DrawingBoard3: UIViewController, UIGestureRecognizerDelegate {
+class DrawingBoard3: UIViewController, UIGestureRecognizerDelegate, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     @IBOutlet weak var textBoxButton: UIButton!
     @IBOutlet weak var scrollView: UIScrollView!
        var panGesture  = UIPanGestureRecognizer()
     var pinchGesture = UIPinchGestureRecognizer()
     var selected: UIView? = nil
     var scrollViewPinchGesture = UIPinchGestureRecognizer()
-    
-    
+     var imagePicker = UIImagePickerController()
+    var chosenImage = UIImage()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,6 +77,81 @@ class DrawingBoard3: UIViewController, UIGestureRecognizerDelegate {
           // newTextView.addGestureRecognizer(rotate)
         blankView.addGestureRecognizer(rotate)
     }
+    
+//    func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!){
+//          self.dismiss(animated: true, completion: { () -> Void in
+//
+//          })
+//
+//     //    newImage.image = image
+//      }
+//
+    @IBAction func createImageButtonPressed(_ sender: UIButton) {
+        //choose an image
+        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum){
+                  print("Button capture")
+
+                  imagePicker.delegate = self
+                  imagePicker.sourceType = .savedPhotosAlbum
+                  imagePicker.allowsEditing = false
+                  present(imagePicker, animated: true, completion: nil)
+              }
+        
+        func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!){
+              self.dismiss(animated: true, completion: { () -> Void in
+
+              })
+
+         chosenImage = image
+    
+        }
+        
+        let seconds = 4.0
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+            // Put your code which should be executed with a delay here
+     print("🎱🎱🎱🎱🎱🎱🎱🎱🎱🎱🎱🎱 I just chose image")
+            self.panGesture = UIPanGestureRecognizer(target: self, action: #selector(DrawingBoard3.dragItem(_:)))
+            self.pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(DrawingBoard3.pinchText(sender:)))
+            var blankView = UIView(frame: CGRect(x: 0, y: 150, width: self.view.frame.width*0.6, height: 100))
+            blankView.backgroundColor = .red
+            self.view.addSubview(blankView)
+           var newImage = UIImageView(frame: CGRect(x: blankView.frame.width/8, y: blankView.frame.height/8 + 10, width: blankView.frame.width*0.75, height: 60))
+            newImage.image = self.chosenImage
+        print(newImage.image)
+        print("Right above me is new image.image 🚴🏻‍♀️🚴🏻‍♀️🚴🏻‍♀️🚴🏻‍♀️🚴🏻‍♀️🚴🏻‍♀️🚴🏻‍♀️")
+        newImage.isUserInteractionEnabled = true
+
+        blankView.addSubview(newImage)
+            self.selected = newImage
+            
+            // copied from online
+        //add pan gesture
+            let gestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(self.handlePan))
+               gestureRecognizer.delegate = self
+             //  newTextView.addGestureRecognizer(gestureRecognizer)
+             blankView.addGestureRecognizer(gestureRecognizer)
+
+               //Enable multiple touch and user interaction for textfield
+               newImage.isUserInteractionEnabled = true
+               newImage.isMultipleTouchEnabled = true
+
+               //add pinch gesture
+            let pinchGesture = UIPinchGestureRecognizer(target: self, action:#selector(self.pinchRecognized(pinch:)))
+               pinchGesture.delegate = self
+    //           newTextView.addGestureRecognizer(pinchGesture)
+             blankView.addGestureRecognizer(pinchGesture)
+
+               //add rotate gesture.
+            let rotate = UIRotationGestureRecognizer.init(target: self, action: #selector(self.handleRotate(recognizer:)))
+               rotate.delegate = self
+              // newTextView.addGestureRecognizer(rotate)
+            blankView.addGestureRecognizer(rotate)
+        }
+    }
+    
+
+    
+    
     
     
     
