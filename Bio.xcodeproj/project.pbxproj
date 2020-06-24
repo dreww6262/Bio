@@ -35,6 +35,14 @@
 		491ADBC62497D57C00B62C5A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 491ADBC52497D57C00B62C5A /* Security.framework */; };
 		491ADBCA2497D58800B62C5A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 491ADBC92497D58800B62C5A /* SystemConfiguration.framework */; };
 		491ADBD02497D69200B62C5A /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 491ADBCF2497D69200B62C5A /* libz.tbd */; };
+		4959E04924A3053200264DB7 /* SpotifyiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4959E04824A3052F00264DB7 /* SpotifyiOS.framework */; };
+		4959E04B24A3105300264DB7 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4959E04A24A3105200264DB7 /* VideoViewController.swift */; };
+		4959E04D24A3111E00264DB7 /* YoutubeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4959E04C24A3111E00264DB7 /* YoutubeTableViewController.swift */; };
+		4959E04F24A3116400264DB7 /* YoutubeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4959E04E24A3116400264DB7 /* YoutubeTableViewCell.swift */; };
+		49A3743C24A3CD38007A48E0 /* HexagonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A3743B24A3CD38007A48E0 /* HexagonView.swift */; };
+		49A3743E24A3E4D4007A48E0 /* HexagonGrid2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A3743D24A3E4D4007A48E0 /* HexagonGrid2.swift */; };
+		49B3FA9724A3F2E2004578CA /* HexagonGrid3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B3FA9624A3F2E2004578CA /* HexagonGrid3.swift */; };
+		49B3FA9924A4059B004578CA /* HexagonGrid4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B3FA9824A4059B004578CA /* HexagonGrid4.swift */; };
 		49C2059B2497D9EE0022EE53 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49C2059A2497D9EE0022EE53 /* Parse.framework */; };
 		49C2059D2497DA1E0022EE53 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49C2059C2497DA1E0022EE53 /* Bolts.framework */; };
 		49C2059F2497DB4D0022EE53 /* DrawingBoardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C2059E2497DB4D0022EE53 /* DrawingBoardVC.swift */; };
@@ -119,6 +127,14 @@
 		491ADBC52497D57C00B62C5A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		491ADBC92497D58800B62C5A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		491ADBCF2497D69200B62C5A /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		4959E04824A3052F00264DB7 /* SpotifyiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyiOS.framework; sourceTree = "<group>"; };
+		4959E04A24A3105200264DB7 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
+		4959E04C24A3111E00264DB7 /* YoutubeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeTableViewController.swift; sourceTree = "<group>"; };
+		4959E04E24A3116400264DB7 /* YoutubeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeTableViewCell.swift; sourceTree = "<group>"; };
+		49A3743B24A3CD38007A48E0 /* HexagonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexagonView.swift; sourceTree = "<group>"; };
+		49A3743D24A3E4D4007A48E0 /* HexagonGrid2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexagonGrid2.swift; sourceTree = "<group>"; };
+		49B3FA9624A3F2E2004578CA /* HexagonGrid3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexagonGrid3.swift; sourceTree = "<group>"; };
+		49B3FA9824A4059B004578CA /* HexagonGrid4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexagonGrid4.swift; sourceTree = "<group>"; };
 		49C2059A2497D9EE0022EE53 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		49C2059C2497DA1E0022EE53 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		49C2059E2497DB4D0022EE53 /* DrawingBoardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingBoardVC.swift; sourceTree = "<group>"; };
@@ -156,6 +172,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4959E04924A3053200264DB7 /* SpotifyiOS.framework in Frameworks */,
 				491ADBCA2497D58800B62C5A /* SystemConfiguration.framework in Frameworks */,
 				491ADBC62497D57C00B62C5A /* Security.framework in Frameworks */,
 				491ADBC42497D57500B62C5A /* QuartzCore.framework in Frameworks */,
@@ -244,6 +261,12 @@
 				491ADB7624971B2500B62C5A /* ViewController.swift */,
 				49C205A22497DCBC0022EE53 /* followersCell.swift */,
 				491ADB7824971B2500B62C5A /* Main.storyboard */,
+				49A3743D24A3E4D4007A48E0 /* HexagonGrid2.swift */,
+				49B3FA9624A3F2E2004578CA /* HexagonGrid3.swift */,
+				49B3FA9824A4059B004578CA /* HexagonGrid4.swift */,
+				4959E04A24A3105200264DB7 /* VideoViewController.swift */,
+				4959E04C24A3111E00264DB7 /* YoutubeTableViewController.swift */,
+				4959E04E24A3116400264DB7 /* YoutubeTableViewCell.swift */,
 				49C205D6249833E80022EE53 /* CreativeToolBar.swift */,
 				491ADBB4249729A400B62C5A /* DiscoverVC.swift */,
 				491ADBAC249720A000B62C5A /* DrawingSettingsVC.swift */,
@@ -254,10 +277,12 @@
 				491ADBAA2497203B00B62C5A /* SearchVC.swift */,
 				491ADBAE2497237000B62C5A /* SettingsVC.swift */,
 				49C205D424981AC80022EE53 /* segue1.swift */,
+				4959E04824A3052F00264DB7 /* SpotifyiOS.framework */,
 				491ADBB22497294000B62C5A /* Navigator.swift */,
 				491ADBB0249723FC00B62C5A /* PublicityTableVC.swift */,
 				49C205CE249804790022EE53 /* PrivacyCell.swift */,
 				491ADB7B24971B2D00B62C5A /* Assets.xcassets */,
+				49A3743B24A3CD38007A48E0 /* HexagonView.swift */,
 				491ADB7D24971B2D00B62C5A /* LaunchScreen.storyboard */,
 				491ADB8024971B2D00B62C5A /* Info.plist */,
 			);
@@ -440,6 +465,8 @@
 			files = (
 				491ADBAB2497203B00B62C5A /* SearchVC.swift in Sources */,
 				491ADBAD249720A000B62C5A /* DrawingSettingsVC.swift in Sources */,
+				49B3FA9724A3F2E2004578CA /* HexagonGrid3.swift in Sources */,
+				49B3FA9924A4059B004578CA /* HexagonGrid4.swift in Sources */,
 				49C205DB2499AF730022EE53 /* MusicPlayerVC.swift in Sources */,
 				491ADB7724971B2500B62C5A /* ViewController.swift in Sources */,
 				49C205D92499A0770022EE53 /* DrawingBoardVC2.swift in Sources */,
@@ -455,6 +482,8 @@
 				491ADBB1249723FC00B62C5A /* PublicityTableVC.swift in Sources */,
 				491ADBA324971E2700B62C5A /* SignInVC.swift in Sources */,
 				49C205CD2497EE570022EE53 /* tabbarVC.swift in Sources */,
+				49A3743C24A3CD38007A48E0 /* HexagonView.swift in Sources */,
+				4959E04B24A3105300264DB7 /* VideoViewController.swift in Sources */,
 				49C205A12497DBC80022EE53 /* Pencil.swift in Sources */,
 				49C205BB2497DDBD0022EE53 /* pictureCell.swift in Sources */,
 				491ADBA524971ED400B62C5A /* SignUpVC.swift in Sources */,
@@ -462,9 +491,12 @@
 				4907D154249FB00600B66093 /* DrawingBoard3.swift in Sources */,
 				491ADB7524971B2500B62C5A /* SceneDelegate.swift in Sources */,
 				49C205C52497DE190022EE53 /* commentCell.swift in Sources */,
+				4959E04F24A3116400264DB7 /* YoutubeTableViewCell.swift in Sources */,
 				49C205A32497DCBC0022EE53 /* followersCell.swift in Sources */,
+				49A3743E24A3E4D4007A48E0 /* HexagonGrid2.swift in Sources */,
 				49C205C12497DDF30022EE53 /* commentVC.swift in Sources */,
 				491ADBB5249729A400B62C5A /* DiscoverVC.swift in Sources */,
+				4959E04D24A3111E00264DB7 /* YoutubeTableViewController.swift in Sources */,
 				49C2059F2497DB4D0022EE53 /* DrawingBoardVC.swift in Sources */,
 				49C205BD2497DDCE0022EE53 /* followersVC.swift in Sources */,
 				49C205BF2497DDE30022EE53 /* postVC.swift in Sources */,

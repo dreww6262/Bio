@@ -9,9 +9,28 @@
 import UIKit
 
 class DrawingBoard3: UIViewController, UIGestureRecognizerDelegate, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+    var videoLink = ""
+    var videoCode = ""
+    
+  //  @IBOutlet weak var videoWebView: UIWebView!
+    
+    @IBOutlet weak var shapeView: UIView!
+    @IBOutlet weak var circleButton: UIButton!
+    @IBOutlet weak var triangleButton: UIButton!
+    @IBOutlet weak var squareButton: UIButton!
+    @IBOutlet weak var starButton: UIButton!
+    @IBOutlet weak var arrowButton: UIButton!
+    @IBOutlet weak var heartButton: UIButton!
+    @IBOutlet weak var hexagonButton: UIButton!
+    
+    @IBOutlet weak var youtubeLinkField: UITextField!
+    
+    @IBOutlet weak var youtubeSearchButton: UIButton!
+    
     @IBOutlet weak var textBoxButton: UIButton!
     @IBOutlet weak var scrollView: UIScrollView!
        var panGesture  = UIPanGestureRecognizer()
+    @IBOutlet weak var premadeImageView: UIImageView!
     var pinchGesture = UIPinchGestureRecognizer()
     var selected: UIView? = nil
     var scrollViewPinchGesture = UIPinchGestureRecognizer()
@@ -20,7 +39,12 @@ class DrawingBoard3: UIViewController, UIGestureRecognizerDelegate, UIImagePicke
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        youtubeSearchButton.isHidden = true
+        youtubeLinkField.isHidden = true
+   //     videoWebView.isHidden = true
+        
+        shapeView.isHidden = true
         //create a panGesture for dragging Items
 //         panGesture = UIPanGestureRecognizer(target: self, action: #selector(DrawingBoard3.dragItem(_:)))
 //        pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(DrawingBoard3.pinchText(sender:)))
@@ -86,6 +110,93 @@ class DrawingBoard3: UIViewController, UIGestureRecognizerDelegate, UIImagePicke
 //     //    newImage.image = image
 //      }
 //
+    
+    func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!){
+          chosenImage = image
+               self.dismiss(animated: true, completion: { () -> Void in
+
+               })
+
+//          chosenImage = image
+     
+         }
+    @IBAction func minimizeShapesPressed(_ sender: Any) {
+        shapeView.isHidden = true
+        print("minimize shape view")
+    }
+    
+    @IBAction func createShapeButtonPressed(_ sender: UIButton) {
+        shapeView.isHidden = false
+        shapeView.layer.borderColor = UIColor.blue.cgColor
+        shapeView.layer.borderWidth = 1
+        print("Shape view should be showing")
+        
+    }
+    
+    @IBAction func addYoutubeVideoPressed(_ sender: UIButton) {
+        if youtubeLinkField.isHidden == true {
+            youtubeLinkField.isHidden = false
+            youtubeSearchButton.isHidden = false
+            print("it should be showing")
+        }
+      else {
+            youtubeLinkField.isHidden = true
+            youtubeSearchButton.isHidden = true
+            print("time to hide youtube stuff")
+                }
+    
+//        panGesture = UIPanGestureRecognizer(target: self, action: #selector(DrawingBoard3.dragItem(_:)))
+//                pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(DrawingBoard3.pinchText(sender:)))
+//        let rotate = UIRotationGestureRecognizer.init(target: self, action: #selector(handleRotate(recognizer:)))
+//        rotate.delegate = self
+//
+//        let newWebView = UIWebView(frame: CGRect(x: 15, y: 550, width: self.view.frame.width*0.8, height: 200))
+//         self.view.addSubview(newWebView)
+//        newWebView.addGestureRecognizer(pinchGesture)
+//        newWebView.addGestureRecognizer(panGesture)
+//        newWebView.addGestureRecognizer(rotate)
+    }
+    
+    @IBAction func searchButtonPressed(_ sender: UIButton) {
+        videoLink = youtubeLinkField.text!
+      //   let url = URL(string: "https://www.youtube.com/embed/\(videoKey)")
+        videoCode = String(videoLink.suffix(11))
+        print("\(videoLink) is videoLink")
+         print("\(videoCode) is the video code")
+        var url = URL(string: "https://www.youtube.com/embed/\(videoCode)")
+        print("\(url) is url")
+      ///\  videoWebView.isHidden = false
+      //   getVideo(videoKey: videoCode)
+
+    panGesture = UIPanGestureRecognizer(target: self, action: #selector(DrawingBoard3.dragItem(_:)))
+            pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(DrawingBoard3.pinchText(sender:)))
+    let rotate = UIRotationGestureRecognizer.init(target: self, action: #selector(handleRotate(recognizer:)))
+    rotate.delegate = self
+    
+    let newWebView = UIWebView(frame: CGRect(x: 15, y: 550, width: self.view.frame.width*0.8, height: 200))
+     self.view.addSubview(newWebView)
+    newWebView.isHidden = true
+    //newWebView.addGestureRecognizer(pinchGesture)
+    newWebView.addGestureRecognizer(panGesture)
+    newWebView.addGestureRecognizer(rotate)
+    //url = URL(string: "https://www.youtube.com/embed/\(videoCode)")
+        url = URL(string: "https://www.youtube.com/watch?v=\(videoCode)")
+        
+    newWebView.loadRequest(URLRequest(url: url!))
+        newWebView.isHidden = false 
+        
+    }
+    
+    func getVideo(videoKey:String) {
+         
+         let url = URL(string: "https://www.youtube.com/embed/\(videoCode)")
+        
+       //  videoWebView.loadRequest(URLRequest(url: url!))
+         
+     }
+    
+    
+    
     @IBAction func createImageButtonPressed(_ sender: UIButton) {
         //choose an image
         if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum){
@@ -97,31 +208,45 @@ class DrawingBoard3: UIViewController, UIGestureRecognizerDelegate, UIImagePicke
                   present(imagePicker, animated: true, completion: nil)
               }
         
-        func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!){
-              self.dismiss(animated: true, completion: { () -> Void in
-
-              })
-
-         chosenImage = image
-    
-        }
+//        func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!){
+//              self.dismiss(animated: true, completion: { () -> Void in
+//
+//              })
+//
+//         chosenImage = image
+//
+//        }
         
-        let seconds = 4.0
+        
+        let seconds = 5.0
         DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
             // Put your code which should be executed with a delay here
      print("🎱🎱🎱🎱🎱🎱🎱🎱🎱🎱🎱🎱 I just chose image")
             self.panGesture = UIPanGestureRecognizer(target: self, action: #selector(DrawingBoard3.dragItem(_:)))
             self.pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(DrawingBoard3.pinchText(sender:)))
             var blankView = UIView(frame: CGRect(x: 0, y: 150, width: self.view.frame.width*0.6, height: 100))
-            blankView.backgroundColor = .red
+            blankView.backgroundColor = .green
             self.view.addSubview(blankView)
-           var newImage = UIImageView(frame: CGRect(x: blankView.frame.width/8, y: blankView.frame.height/8 + 10, width: blankView.frame.width*0.75, height: 60))
+         //  var newImage = UIImageView(frame: CGRect(x: blankView.frame.width/8, y: blankView.frame.height/8 + 10, width: blankView.frame.width*0.75, height: 60))
+           var newImage = UIImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+            print("This is before putting chosenImage in \(newImage.image)")
             newImage.image = self.chosenImage
-        print(newImage.image)
-        print("Right above me is new image.image 🚴🏻‍♀️🚴🏻‍♀️🚴🏻‍♀️🚴🏻‍♀️🚴🏻‍♀️🚴🏻‍♀️🚴🏻‍♀️")
+          //  newImage.image = self.chosenImgage
+           //  newImage.image = UIImage(named: "the_starry_night-t2")
+            self.premadeImageView.image = self.chosenImage
+          // self.premadeImageView.image = UIImage(named: "the_starry_night-t2")
+            newImage.setNeedsDisplay()
+            self.premadeImageView.setNeedsDisplay()
+            self.premadeImageView.setNeedsLayout()
+            newImage.setNeedsLayout()
+            print("This is after putting in premadeImageView \(self.premadeImageView.image!)")
+        print(newImage.image!)
+        print("Right above me is newimage.image 🚴🏻‍♀️🚴🏻‍♀️🚴🏻‍♀️🚴🏻‍♀️🚴🏻‍♀️🚴🏻‍♀️🚴🏻‍♀️")
         newImage.isUserInteractionEnabled = true
 
         blankView.addSubview(newImage)
+        newImage.image = self.chosenImage
+         
             self.selected = newImage
             
             // copied from online
