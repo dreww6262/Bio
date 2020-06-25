@@ -39,6 +39,7 @@
 		4959E04B24A3105300264DB7 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4959E04A24A3105200264DB7 /* VideoViewController.swift */; };
 		4959E04D24A3111E00264DB7 /* YoutubeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4959E04C24A3111E00264DB7 /* YoutubeTableViewController.swift */; };
 		4959E04F24A3116400264DB7 /* YoutubeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4959E04E24A3116400264DB7 /* YoutubeTableViewCell.swift */; };
+		496122A124A43EB80057579F /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496122A024A43EB70057579F /* UserProfile.swift */; };
 		49A3743C24A3CD38007A48E0 /* HexagonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A3743B24A3CD38007A48E0 /* HexagonView.swift */; };
 		49A3743E24A3E4D4007A48E0 /* HexagonGrid2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A3743D24A3E4D4007A48E0 /* HexagonGrid2.swift */; };
 		49B3FA9724A3F2E2004578CA /* HexagonGrid3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B3FA9624A3F2E2004578CA /* HexagonGrid3.swift */; };
@@ -131,6 +132,7 @@
 		4959E04A24A3105200264DB7 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		4959E04C24A3111E00264DB7 /* YoutubeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeTableViewController.swift; sourceTree = "<group>"; };
 		4959E04E24A3116400264DB7 /* YoutubeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeTableViewCell.swift; sourceTree = "<group>"; };
+		496122A024A43EB70057579F /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		49A3743B24A3CD38007A48E0 /* HexagonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexagonView.swift; sourceTree = "<group>"; };
 		49A3743D24A3E4D4007A48E0 /* HexagonGrid2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexagonGrid2.swift; sourceTree = "<group>"; };
 		49B3FA9624A3F2E2004578CA /* HexagonGrid3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexagonGrid3.swift; sourceTree = "<group>"; };
@@ -263,6 +265,7 @@
 				491ADB7824971B2500B62C5A /* Main.storyboard */,
 				49A3743D24A3E4D4007A48E0 /* HexagonGrid2.swift */,
 				49B3FA9624A3F2E2004578CA /* HexagonGrid3.swift */,
+				496122A024A43EB70057579F /* UserProfile.swift */,
 				49B3FA9824A4059B004578CA /* HexagonGrid4.swift */,
 				4959E04A24A3105200264DB7 /* VideoViewController.swift */,
 				4959E04C24A3111E00264DB7 /* YoutubeTableViewController.swift */,
@@ -475,6 +478,7 @@
 				491ADB7324971B2500B62C5A /* AppDelegate.swift in Sources */,
 				49C205D3249814E90022EE53 /* ResetPasswordVC.swift in Sources */,
 				49C205B92497DDA20022EE53 /* headerView.swift in Sources */,
+				496122A124A43EB80057579F /* UserProfile.swift in Sources */,
 				49C205A52497DCFA0022EE53 /* guestVC.swift in Sources */,
 				491ADBB32497294000B62C5A /* Navigator.swift in Sources */,
 				49C205CB2497DE260022EE53 /* newsCell.swift in Sources */,

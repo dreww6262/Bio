@@ -27,6 +27,10 @@ class HexagonGrid4: UIViewController, UIScrollViewDelegate {
           // scrollView.contentSize = imageView.bounds.size
         scrollView.autoresizingMask = UIView.AutoresizingMask.flexibleWidth
         scrollView.autoresizingMask = UIView.AutoresizingMask.flexibleHeight
+        scrollView.delegate = self
+        scrollView.minimumZoomScale = 0.1
+        scrollView.maximumZoomScale = 4.0
+        scrollView.zoomScale = 1.0
         
         
         
@@ -213,6 +217,13 @@ class HexagonGrid4: UIViewController, UIScrollViewDelegate {
         scrollView.zoomScale = 1.0
         
     }
+    
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+    return scrollView
+    }
+//
+    
+    
     
 
     /*

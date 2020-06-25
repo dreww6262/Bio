@@ -2064,6 +2064,21 @@
             </objects>
             <point key="canvasLocation" x="8705.7971014492759" y="-3046.2053571428569"/>
         </scene>
+        <!--User Profile-->
+        <scene sceneID="jzT-W6-rbE">
+            <objects>
+                <viewController storyboardIdentifier="userProfile" id="Xzk-J8-pvs" customClass="UserProfile" customModule="Bio" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5DK-5f-Rrb">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="6Cv-np-9rl"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iX5-TH-JUp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="9607" y="-3046"/>
+        </scene>
         <!--Let's Learn Swift-->
         <scene sceneID="0gf-WR-81R">
             <objects>

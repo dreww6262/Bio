@@ -157,6 +157,120 @@ class HexagonGrid2: UIViewController, UIScrollViewDelegate {
                     print("I want this to be 18th 🎲🎲🎲🎲🎲🎲")
                     image.image = UIImage(named: "stickfigure1")
                 }
+                
+                if image.frame.midX == 879.3747686898278 && image.frame.midY == 550.0 {
+                                 print("I want this to be 18th 🎲🎲🎲🎲🎲🎲")
+                                 image.image = UIImage(named: "stickfigure1")
+                             }
+                
+                if image.frame.midX == 1014.2785792574934 && image.frame.midY == 550.0 {
+                    print("I want this to be 18th 🎲🎲🎲🎲🎲🎲")
+                    image.image = UIImage(named: "stickfigure1")
+                }
+                
+                if image.frame.midX == 1149.1823898251594 && image.frame.midY == 550.0 {
+                                  print("I want this to be 18th 🎲🎲🎲🎲🎲🎲")
+                                  image.image = UIImage(named: "stickfigure1")
+                              }
+                if image.frame.midX == 1216.6342951089923 && image.frame.midY == 667.5 {
+                                                 print("I want this to be 18th 🎲🎲🎲🎲🎲🎲")
+                                                 image.image = UIImage(named: "stickfigure1")
+                            }
+                
+                if image.frame.midX == 1284.0862003928253 && image.frame.midY == 785.0 {
+                                                                print("I want this to be 18th 🎲🎲🎲🎲🎲🎲")
+                                                                image.image = UIImage(named: "stickfigure1")
+                                           }
+                
+                if image.frame.midX == 1351.5381056766582 && image.frame.midY == 902.5 {
+                                     print("I want this to be 18th 🎲🎲🎲🎲🎲🎲")
+                                     image.image = UIImage(named: "stickfigure1")
+                }
+                
+                if image.frame.midX == 1284.0862003928253 && image.frame.midY == 1020.0 {
+                                                  print("I want this to be 18th 🎲🎲🎲🎲🎲🎲")
+                                                  image.image = UIImage(named: "stickfigure1")
+                             }
+                if image.frame.midX == 1216.6342951089923 && image.frame.midY == 1137.5 {
+                                                                 print("I want this to be 18th 🎲🎲🎲🎲🎲🎲")
+                                                                 image.image = UIImage(named: "stickfigure1")
+                }
+                
+                
+        if image.frame.midX == 1149.1823898251594 && image.frame.midY == 1255.0 {
+                             print("I want this to be 18th 🎲🎲🎲🎲🎲🎲")
+                             image.image = UIImage(named: "stickfigure1")
+        }
+            
+                
+                if image.frame.midX == 1014.2785792574934 && image.frame.midY == 1255.0 {
+                                            print("I want this to be 18th 🎲🎲🎲🎲🎲🎲")
+                                            image.image = UIImage(named: "stickfigure1")
+                       }
+                
+                if image.frame.midX == 879.3747686898278 && image.frame.midY == 1255.0 {
+                                     print("I want this to be 18th 🎲🎲🎲🎲🎲🎲")
+                                     image.image = UIImage(named: "stickfigure1")
+                }
+                
+                if image.frame.midX == 744.4709581221618 && image.frame.midY == 1255.0 {
+                                                    print("I want this to be 18th 🎲🎲🎲🎲🎲🎲")
+                                                    image.image = UIImage(named: "stickfigure1")
+                               }
+                if image.frame.midX == 677.0190528383291 && image.frame.midY == 1137.5 {
+                                                                 print("I want this to be 18th 🎲🎲🎲🎲🎲🎲")
+                                                                 image.image = UIImage(named: "stickfigure1")
+                                            }
+                
+                [677.0190528383291, 1137.5]
+                if image.frame.midX == 609.5671475544962 && image.frame.midY == 1020.0 {
+                                     print("I want this to be 18th 🎲🎲🎲🎲🎲🎲")
+                                     image.image = UIImage(named: "stickfigure1")
+                }
+                
+                if image.frame.midX == 542.1152422706632 && image.frame.midY == 902.5 {
+                                                    print("I want this to be 18th 🎲🎲🎲🎲🎲🎲")
+                                                    image.image = UIImage(named: "stickfigure1")
+                               }
+              
+                if image.frame.midX == 609.5671475544962 && image.frame.midY == 785.0 {
+                                     print("I want this to be 18th 🎲🎲🎲🎲🎲🎲")
+                                     image.image = UIImage(named: "stickfigure1")
+                }
+                
+                if image.frame.midX == 677.0190528383291 && image.frame.midY == 667.5 {
+                                                   print("I want this to be 18th 🎲🎲🎲🎲🎲🎲")
+                                                   image.image = UIImage(named: "stickfigure1")
+                              }
+                if image.frame.midX == 744.4709581221618 && image.frame.midY == 550.0 {
+                                                                  print("I want this to be 18th 🎲🎲🎲🎲🎲🎲")
+                                                                  image.image = UIImage(named: "stickfigure1")
+                                             }
+                
+                
+                
+                [744.4709581221618, 550.0]
+                [677.0190528383291, 667.5]
+                [609.5671475544962, 785.0]
+                [542.1152422706632, 902.5]
+                [609.5671475544962, 1020.0]
+                [677.0190528383291, 1137.5]
+                [744.4709581221618, 1255.0]
+                [879.3747686898278, 1255.0]
+                [1014.2785792574934, 1255.0]
+                [1149.1823898251594, 1255.0]
+                [1216.6342951089923, 1137.5]
+                [1284.0862003928253, 1020.0]
+                [1351.5381056766582, 902.5]
+                [1284.0862003928253, 785.0]
+                
+                [1216.6342951089923, 667.5]
+                
+                [1149.1823898251594, 550.0]
+                
+                [1014.2785792574934, 550.0]
+                
+                [879.3747686898278, 550.0]
                              
                 [811.9228634059948, 667.5]
                 [744.4709581221618, 785.0]
