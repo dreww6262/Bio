@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import AVKit
 //import SPT
 
 class HexagonGrid3: UIViewController {
+    var player = AVAudioPlayer()
 
     @IBOutlet weak var scrollView: UIScrollView!
     var coordinateArray: [[CGFloat]] = []
@@ -27,7 +29,9 @@ class HexagonGrid3: UIViewController {
     override func viewDidLoad() {
     
         super.viewDidLoad()
-        
+             //   downloadFileFromURL(url: URL(string: "https://p.scdn.co/mp3-preview/18d3b87b0765cd6d8c0a418d6142b3b441c0f8b2?cid=476c620368f349cc8be5b2a29b596eaf")!)
+        play(url: "https://p.scdn.co/mp3-preview/18d3b87b0765cd6d8c0a418d6142b3b441c0f8b2?cid=476c620368f349cc8be5b2a29b596eaf")
+       
      
         
         
@@ -319,6 +323,47 @@ class HexagonGrid3: UIViewController {
      }
     
  
+    
+//    func downloadFileFromURL(url: URL){
+//            var downloadTask = URLSessionDownloadTask()
+//            downloadTask = URLSession.shared.downloadTask(with: url, completionHandler: {
+//                customURL, response, error in
+//    //            print("customURL \(customURL)")
+//    //            self.play(url: customURL!)
+//                print("url 🎾 \(url)")
+//                //self.play(url: url)
+//    //            self.player.playSpotifyURI("spotify:track:03IxJiB8ZOH9hEQZF5mCNY", startingWith: 0, startingWithPosition: 0, callback: { (error) in
+//    //            })
+//                self.play(url: url)
+//
+//            })
+//
+//            downloadTask.resume()
+//
+//
+//        }
+
+        func play(url: String) {
+
+            do {
+                var urlStringTurnURL = URL(string: url)
+                //player = try AVAudioPlayer(contentsOf: url)
+                player = try AVAudioPlayer(contentsOf: urlStringTurnURL!)
+                player.prepareToPlay()
+                player.play()
+
+            }
+            catch{
+                print(error)
+            }
+
+
+        }
+    
+    
+    
+    
+    
     
 }
 
