@@ -48,12 +48,17 @@
 		497ACC5924A92B8B002333A6 /* GoodBioSignInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497ACC5824A92B8B002333A6 /* GoodBioSignInVC.swift */; };
 		497ACC5B24A935D3002333A6 /* SignUpPopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497ACC5A24A935D3002333A6 /* SignUpPopUpView.swift */; };
 		497ACC5D24A93651002333A6 /* DummyVCForPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497ACC5C24A93651002333A6 /* DummyVCForPopUp.swift */; };
+		497ACC6224A961EC002333A6 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 497ACC6024A95C0F002333A6 /* FBSDKLoginKit.framework */; };
+		497ACC6324A961EC002333A6 /* FBSDKLoginKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 497ACC6024A95C0F002333A6 /* FBSDKLoginKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		497ACC6524A961F1002333A6 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 497ACC5E24A95BF8002333A6 /* FBSDKCoreKit.framework */; };
+		497ACC6624A961F1002333A6 /* FBSDKCoreKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 497ACC5E24A95BF8002333A6 /* FBSDKCoreKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		497ACC6724A96205002333A6 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49C2059C2497DA1E0022EE53 /* Bolts.framework */; };
+		497ACC6824A96205002333A6 /* Bolts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 49C2059C2497DA1E0022EE53 /* Bolts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		49A3743C24A3CD38007A48E0 /* HexagonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A3743B24A3CD38007A48E0 /* HexagonView.swift */; };
 		49A3743E24A3E4D4007A48E0 /* HexagonGrid2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A3743D24A3E4D4007A48E0 /* HexagonGrid2.swift */; };
 		49B3FA9724A3F2E2004578CA /* HexagonGrid3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B3FA9624A3F2E2004578CA /* HexagonGrid3.swift */; };
 		49B3FA9924A4059B004578CA /* HexagonGrid4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B3FA9824A4059B004578CA /* HexagonGrid4.swift */; };
 		49C2059B2497D9EE0022EE53 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49C2059A2497D9EE0022EE53 /* Parse.framework */; };
-		49C2059D2497DA1E0022EE53 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49C2059C2497DA1E0022EE53 /* Bolts.framework */; };
 		49C2059F2497DB4D0022EE53 /* DrawingBoardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C2059E2497DB4D0022EE53 /* DrawingBoardVC.swift */; };
 		49C205A12497DBC80022EE53 /* Pencil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205A02497DBC80022EE53 /* Pencil.swift */; };
 		49C205A32497DCBC0022EE53 /* followersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205A22497DCBC0022EE53 /* followersCell.swift */; };
@@ -97,6 +102,22 @@
 			remoteInfo = Bio;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		497ACC6424A961EC002333A6 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				497ACC6824A96205002333A6 /* Bolts.framework in Embed Frameworks */,
+				497ACC6324A961EC002333A6 /* FBSDKLoginKit.framework in Embed Frameworks */,
+				497ACC6624A961F1002333A6 /* FBSDKCoreKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		4907D153249FB00600B66093 /* DrawingBoard3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingBoard3.swift; sourceTree = "<group>"; };
@@ -146,6 +167,8 @@
 		497ACC5824A92B8B002333A6 /* GoodBioSignInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodBioSignInVC.swift; sourceTree = "<group>"; };
 		497ACC5A24A935D3002333A6 /* SignUpPopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpPopUpView.swift; sourceTree = "<group>"; };
 		497ACC5C24A93651002333A6 /* DummyVCForPopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyVCForPopUp.swift; sourceTree = "<group>"; };
+		497ACC5E24A95BF8002333A6 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		497ACC6024A95C0F002333A6 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		49A3743B24A3CD38007A48E0 /* HexagonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexagonView.swift; sourceTree = "<group>"; };
 		49A3743D24A3E4D4007A48E0 /* HexagonGrid2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexagonGrid2.swift; sourceTree = "<group>"; };
 		49B3FA9624A3F2E2004578CA /* HexagonGrid3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexagonGrid3.swift; sourceTree = "<group>"; };
@@ -184,15 +207,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				497ACC6724A96205002333A6 /* Bolts.framework in Frameworks */,
 				4959E04924A3053200264DB7 /* SpotifyiOS.framework in Frameworks */,
 				491ADBCA2497D58800B62C5A /* SystemConfiguration.framework in Frameworks */,
+				497ACC6224A961EC002333A6 /* FBSDKLoginKit.framework in Frameworks */,
 				491ADBC62497D57C00B62C5A /* Security.framework in Frameworks */,
 				491ADBC42497D57500B62C5A /* QuartzCore.framework in Frameworks */,
 				491ADBD02497D69200B62C5A /* libz.tbd in Frameworks */,
 				491ADBC22497D57000B62C5A /* CoreLocation.framework in Frameworks */,
 				49C2059B2497D9EE0022EE53 /* Parse.framework in Frameworks */,
-				49C2059D2497DA1E0022EE53 /* Bolts.framework in Frameworks */,
 				491ADBC02497D56B00B62C5A /* CoreGraphics.framework in Frameworks */,
+				497ACC6524A961F1002333A6 /* FBSDKCoreKit.framework in Frameworks */,
 				491ADBBE2497D56500B62C5A /* CFNetwork.framework in Frameworks */,
 				491ADBBC2497D53800B62C5A /* AudioToolbox.framework in Frameworks */,
 				491ADBBA2497D52A00B62C5A /* libz.tbd in Frameworks */,
@@ -252,8 +277,10 @@
 				49C205AC2497DD560022EE53 /* Video Items */,
 				49C2059C2497DA1E0022EE53 /* Bolts.framework */,
 				491ADBCF2497D69200B62C5A /* libz.tbd */,
+				497ACC5E24A95BF8002333A6 /* FBSDKCoreKit.framework */,
 				497ACC5624A92600002333A6 /* NewBioSignInPage.swift */,
 				497ACC5824A92B8B002333A6 /* GoodBioSignInVC.swift */,
+				497ACC6024A95C0F002333A6 /* FBSDKLoginKit.framework */,
 				49C205B82497DDA20022EE53 /* headerView.swift */,
 				49C205BA2497DDBC0022EE53 /* pictureCell.swift */,
 				49C205DA2499AF730022EE53 /* MusicPlayerVC.swift */,
@@ -351,6 +378,7 @@
 				491ADB6B24971B2500B62C5A /* Sources */,
 				491ADB6C24971B2500B62C5A /* Frameworks */,
 				491ADB6D24971B2500B62C5A /* Resources */,
+				497ACC6424A961EC002333A6 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

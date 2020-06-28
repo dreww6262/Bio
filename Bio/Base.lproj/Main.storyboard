@@ -2257,8 +2257,39 @@
                                     <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                             </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.95846420529999998" green="0.91407060620000002" blue="0.86989611389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <viewLayoutGuide key="safeArea" id="1Ez-mm-TEK"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Tcc-D9-wSF"/>
+                    <connections>
+                        <outlet property="emailButton" destination="P0y-MA-3zR" id="TwN-YM-0bC"/>
+                        <outlet property="facebookButton" destination="J73-wO-cPp" id="dOm-eA-wo0"/>
+                        <outlet property="googleButton" destination="dur-rb-ifs" id="MH6-Yi-ap9"/>
+                        <outlet property="label" destination="aTE-iU-chw" id="FRB-XT-fCX"/>
+                        <outlet property="mottoLabel" destination="IyL-FO-tFn" id="Tnh-jL-Seh"/>
+                        <outlet property="popUpView" destination="o2N-wX-vEt" id="JtE-WZ-wYg"/>
+                        <outlet property="signInButton" destination="1YW-hO-4a4" id="HYm-xU-eDw"/>
+                        <outlet property="signUpButton" destination="MhP-9d-291" id="DcB-Ow-yZA"/>
+                        <outlet property="signUpLabel" destination="5vd-ja-uqa" id="ABS-sm-EtC"/>
+                        <outlet property="signUpMottoLabel" destination="Nci-7K-uRo" id="pZw-m1-ncJ"/>
+                        <outlet property="signUpWithInstagramButton" destination="MhP-9d-291" id="msz-5w-xSx"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nMO-7p-aiI" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4398.5507246376819" y="-4041.2946428571427"/>
+        </scene>
+        <!--DummyVC For Pop Up-->
+        <scene sceneID="APC-0D-NpM">
+            <objects>
+                <viewController storyboardIdentifier="DummyVCForPopUp" id="MG6-lh-2Wi" customClass="DummyVCForPopUp" customModule="Bio" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="CW0-wJ-VnC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
                             <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="o2N-wX-vEt" customClass="SignUpPopUpView" customModule="Bio" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="52" width="414" height="392"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="392"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J73-wO-cPp">
                                         <rect key="frame" x="95" y="181" width="224" height="30"/>
@@ -2321,35 +2352,6 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.95846420529999998" green="0.91407060620000002" blue="0.86989611389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <viewLayoutGuide key="safeArea" id="1Ez-mm-TEK"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="Tcc-D9-wSF"/>
-                    <connections>
-                        <outlet property="emailButton" destination="P0y-MA-3zR" id="TwN-YM-0bC"/>
-                        <outlet property="facebookButton" destination="J73-wO-cPp" id="dOm-eA-wo0"/>
-                        <outlet property="googleButton" destination="dur-rb-ifs" id="MH6-Yi-ap9"/>
-                        <outlet property="label" destination="aTE-iU-chw" id="FRB-XT-fCX"/>
-                        <outlet property="mottoLabel" destination="IyL-FO-tFn" id="Tnh-jL-Seh"/>
-                        <outlet property="popUpView" destination="o2N-wX-vEt" id="JtE-WZ-wYg"/>
-                        <outlet property="signInButton" destination="1YW-hO-4a4" id="HYm-xU-eDw"/>
-                        <outlet property="signUpButton" destination="MhP-9d-291" id="DcB-Ow-yZA"/>
-                        <outlet property="signUpLabel" destination="5vd-ja-uqa" id="ABS-sm-EtC"/>
-                        <outlet property="signUpMottoLabel" destination="Nci-7K-uRo" id="pZw-m1-ncJ"/>
-                        <outlet property="signUpWithInstagramButton" destination="MhP-9d-291" id="msz-5w-xSx"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="nMO-7p-aiI" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4398.5507246376819" y="-4041.2946428571427"/>
-        </scene>
-        <!--DummyVC For Pop Up-->
-        <scene sceneID="APC-0D-NpM">
-            <objects>
-                <viewController storyboardIdentifier="DummyVCForPopUp" id="MG6-lh-2Wi" customClass="DummyVCForPopUp" customModule="Bio" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="CW0-wJ-VnC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="FEf-PX-UAQ"/>
                     </view>

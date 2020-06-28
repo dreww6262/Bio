@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FBSDKLoginKit
 
 class GoodBioSignInVC: UIViewController {
     @IBOutlet weak var label: UILabel!
@@ -31,19 +32,30 @@ class GoodBioSignInVC: UIViewController {
     @IBOutlet weak var emailButton: UIButton!
     
     override func viewWillAppear(_ animated: Bool) {
-        self.view.addSubview(popUpView)
+   //     self.view.addSubview(popUpView)
 
     }
     override func viewWillLayoutSubviews() {
-        self.view.bringSubviewToFront(popUpView)
-        popUpView.isUserInteractionEnabled = true
-        popUpView.backgroundColor = UIColor.white
-        popUpView.frame = CGRect(x: 0, y: self.view.frame.height-400, width: 400, height: 400)
+//        self.view.bringSubviewToFront(popUpView)
+     //   popUpView.isUserInteractionEnabled = true
+     //   popUpView.backgroundColor = UIColor.white
+      //  popUpView.frame = CGRect(x: 0, y: self.view.frame.height-400, width: 400, height: 400)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        let loginButton = FBLoginButton()
+              loginButton.center = view.center
+        self.view.addSubview(loginButton)
+        //check if user logged in
+        if let token = AccessToken.current,
+            !token.isExpired {
+            // User is logged in, do work such as go to next view controller.
+            print("user is logged in with token \(token)")
+        } else {
+            print("user is expired")
+        }
+        loginButton.permissions = ["public_profile", "email"]
         
         //UIColor(white: <#T##CGFloat#>, alpha: <#T##CGFloat#>)
         
@@ -52,6 +64,7 @@ class GoodBioSignInVC: UIViewController {
         mottoLabel.frame = CGRect(x: (self.view.frame.width-224)/2, y: (0.5)*(label.frame.maxY + label.frame.minY) + 20, width: 224, height: 50)
         signUpButton.frame = CGRect(x: (self.view.frame.width-224)/2 , y: self.view.frame.height*3/4, width: 224, height: 44)
         signInButton.frame = CGRect(x: (self.view.frame.size.width-224)/2, y: signUpButton.frame.maxY + 20, width: 224, height: 44)
+        
      //   popUpView.frame = CGRect(x: 0, y: 0, width: 400, height: 400)
         
         
@@ -126,19 +139,19 @@ class GoodBioSignInVC: UIViewController {
     }
     
     @IBAction func signUpPressed(_ sender: UIButton) {
-        popUpView.isHidden = false
+    //    popUpView.isHidden = false
        // expandSliderButton.isHidden = true
    //   let xPosition = view.frame.width - popUpView.frame.width
         let xPosition = 0.0
        //    let xPosition = navigatorSlider.frame.origin.x
         let yPosition = self.view.frame.height - 400  // Slide Up - 20px
 
-           let width = popUpView.frame.size.width
-           let height = popUpView.frame.size.height
+        //   let width = popUpView.frame.size.width
+        //   let height = popUpView.frame.size.height
 
-           UIView.animate(withDuration: 1.0, animations: {
-            self.popUpView.frame = CGRect(x: CGFloat(xPosition), y: yPosition, width: width, height: height)
-           })
+//           UIView.animate(withDuration: 1.0, animations: {
+//            self.popUpView.frame = CGRect(x: CGFloat(xPosition), y: yPosition, width: width, height: height)
+//           })
     }
     
     

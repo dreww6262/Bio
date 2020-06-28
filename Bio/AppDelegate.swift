@@ -6,36 +6,94 @@
 //  Copyright © 2020 Patrick McDonough. All rights reserved.
 //
 import UIKit
+//import FBSDKCoreKit
 import Parse
+import FBSDKCoreKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
- var window: UIWindow?
+ 
+    //copying from facebook instructions
+    func application(
+           _ application: UIApplication,
+           didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+       ) -> Bool {
+        
+             //confiugratoin of using Parce code in Heroku
+                let parseConfig = ParseClientConfiguration {(ParseClientConfiguration) in
+                    print("had to comment out the mutable client configuration")
+                    //accessing heroku app via id and keys
+        //            ParseMutableClientConfiguration.applicationID = "dartVisualsPatrick"
+        //            ParseMutableClientConfiguration.clientKey = "dartVisualsKeyPatrick123456789"
+        //            ParseMutableClientConfiguration.server = "http://dartvisuals.herokuapp.com/parse"
+                    //accessing heroku app via id and keys
+           ParseClientConfiguration.applicationId = "biosocialmedia1234567890987654321"
+                    ParseClientConfiguration.clientKey = "bioSocialMediaKey12345654321"
+                    ParseClientConfiguration.server = "https://biosocialmedia.herokuapp.com/parse"
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        
-        //confiugratoin of using Parce code in Heroku
-        let parseConfig = ParseClientConfiguration {(ParseClientConfiguration) in
-            print("had to comment out the mutable client configuration")
-            //accessing heroku app via id and keys
-//            ParseMutableClientConfiguration.applicationID = "dartVisualsPatrick"
-//            ParseMutableClientConfiguration.clientKey = "dartVisualsKeyPatrick123456789"
-//            ParseMutableClientConfiguration.server = "http://dartvisuals.herokuapp.com/parse"
-            //accessing heroku app via id and keys
-   ParseClientConfiguration.applicationId = "biosocialmedia1234567890987654321"
-            ParseClientConfiguration.clientKey = "bioSocialMediaKey12345654321"
-            ParseClientConfiguration.server = "https://biosocialmedia.herokuapp.com/parse"
+                }
+                
 
-        }
-        
+                Parse.initialize(with: parseConfig)
+             
+           ApplicationDelegate.shared.application(
+               application,
+               didFinishLaunchingWithOptions: launchOptions
+           )
 
-        Parse.initialize(with: parseConfig)
-        
-        
-        return true
-    }
+           return true
+       }
+             
+       func application(
+           _ app: UIApplication,
+           open url: URL,
+           options: [UIApplication.OpenURLOptionsKey : Any] = [:]
+       ) -> Bool {
+
+           ApplicationDelegate.shared.application(
+               app,
+               open: url,
+               sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
+               annotation: options[UIApplication.OpenURLOptionsKey.annotation]
+           )
+
+       }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    var window: UIWindow?
+    
+//    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+//        // Override point for customization after application launch.
+//
+//        //confiugratoin of using Parce code in Heroku
+//        let parseConfig = ParseClientConfiguration {(ParseClientConfiguration) in
+//            print("had to comment out the mutable client configuration")
+//            //accessing heroku app via id and keys
+////            ParseMutableClientConfiguration.applicationID = "dartVisualsPatrick"
+////            ParseMutableClientConfiguration.clientKey = "dartVisualsKeyPatrick123456789"
+////            ParseMutableClientConfiguration.server = "http://dartvisuals.herokuapp.com/parse"
+//            //accessing heroku app via id and keys
+//   ParseClientConfiguration.applicationId = "biosocialmedia1234567890987654321"
+//            ParseClientConfiguration.clientKey = "bioSocialMediaKey12345654321"
+//            ParseClientConfiguration.server = "https://biosocialmedia.herokuapp.com/parse"
+//
+//        }
+//
+//
+//        Parse.initialize(with: parseConfig)
+//
+//
+//        return true
+//}
 
     // MARK: UISceneSession Lifecycle
 //@available(iOS 13.0, *)
