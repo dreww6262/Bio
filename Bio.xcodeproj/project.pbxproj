@@ -40,6 +40,14 @@
 		4959E04D24A3111E00264DB7 /* YoutubeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4959E04C24A3111E00264DB7 /* YoutubeTableViewController.swift */; };
 		4959E04F24A3116400264DB7 /* YoutubeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4959E04E24A3116400264DB7 /* YoutubeTableViewCell.swift */; };
 		496122A124A43EB80057579F /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496122A024A43EB70057579F /* UserProfile.swift */; };
+		497ACC4D24A90496002333A6 /* HexagonStructData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497ACC4C24A90496002333A6 /* HexagonStructData.swift */; };
+		497ACC4F24A90905002333A6 /* ProfileTypeHexagon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497ACC4E24A90905002333A6 /* ProfileTypeHexagon.swift */; };
+		497ACC5124A90C0F002333A6 /* HexagonClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497ACC5024A90C0F002333A6 /* HexagonClass.swift */; };
+		497ACC5324A91738002333A6 /* Hexagons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497ACC5224A91738002333A6 /* Hexagons.swift */; };
+		497ACC5724A92601002333A6 /* NewBioSignInPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497ACC5624A92600002333A6 /* NewBioSignInPage.swift */; };
+		497ACC5924A92B8B002333A6 /* GoodBioSignInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497ACC5824A92B8B002333A6 /* GoodBioSignInVC.swift */; };
+		497ACC5B24A935D3002333A6 /* SignUpPopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497ACC5A24A935D3002333A6 /* SignUpPopUpView.swift */; };
+		497ACC5D24A93651002333A6 /* DummyVCForPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497ACC5C24A93651002333A6 /* DummyVCForPopUp.swift */; };
 		49A3743C24A3CD38007A48E0 /* HexagonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A3743B24A3CD38007A48E0 /* HexagonView.swift */; };
 		49A3743E24A3E4D4007A48E0 /* HexagonGrid2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A3743D24A3E4D4007A48E0 /* HexagonGrid2.swift */; };
 		49B3FA9724A3F2E2004578CA /* HexagonGrid3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B3FA9624A3F2E2004578CA /* HexagonGrid3.swift */; };
@@ -50,10 +58,8 @@
 		49C205A12497DBC80022EE53 /* Pencil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205A02497DBC80022EE53 /* Pencil.swift */; };
 		49C205A32497DCBC0022EE53 /* followersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205A22497DCBC0022EE53 /* followersCell.swift */; };
 		49C205A52497DCFA0022EE53 /* guestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205A42497DCFA0022EE53 /* guestVC.swift */; };
-		49C205AF2497DD570022EE53 /* Cells in Resources */ = {isa = PBXBuildFile; fileRef = 49C205A62497DD550022EE53 /* Cells */; };
 		49C205B02497DD570022EE53 /* Sign in sign up in Resources */ = {isa = PBXBuildFile; fileRef = 49C205A72497DD550022EE53 /* Sign in sign up */; };
 		49C205B12497DD570022EE53 /* Search in Resources */ = {isa = PBXBuildFile; fileRef = 49C205A82497DD550022EE53 /* Search */; };
-		49C205B22497DD570022EE53 /* Notifications in Resources */ = {isa = PBXBuildFile; fileRef = 49C205A92497DD550022EE53 /* Notifications */; };
 		49C205B32497DD570022EE53 /* Feed Items in Resources */ = {isa = PBXBuildFile; fileRef = 49C205AA2497DD560022EE53 /* Feed Items */; };
 		49C205B42497DD570022EE53 /* User Profile Items in Resources */ = {isa = PBXBuildFile; fileRef = 49C205AB2497DD560022EE53 /* User Profile Items */; };
 		49C205B52497DD570022EE53 /* Video Items in Resources */ = {isa = PBXBuildFile; fileRef = 49C205AC2497DD560022EE53 /* Video Items */; };
@@ -69,7 +75,6 @@
 		49C205CB2497DE260022EE53 /* newsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205CA2497DE260022EE53 /* newsCell.swift */; };
 		49C205CD2497EE570022EE53 /* tabbarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205CC2497EE560022EE53 /* tabbarVC.swift */; };
 		49C205CF249804790022EE53 /* PrivacyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205CE249804790022EE53 /* PrivacyCell.swift */; };
-		49C205D3249814E90022EE53 /* ResetPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205D2249814E90022EE53 /* ResetPasswordVC.swift */; };
 		49C205D524981AC80022EE53 /* segue1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205D424981AC80022EE53 /* segue1.swift */; };
 		49C205D7249833E80022EE53 /* CreativeToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205D6249833E80022EE53 /* CreativeToolBar.swift */; };
 		49C205D92499A0770022EE53 /* DrawingBoardVC2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205D82499A0770022EE53 /* DrawingBoardVC2.swift */; };
@@ -133,6 +138,14 @@
 		4959E04C24A3111E00264DB7 /* YoutubeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeTableViewController.swift; sourceTree = "<group>"; };
 		4959E04E24A3116400264DB7 /* YoutubeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeTableViewCell.swift; sourceTree = "<group>"; };
 		496122A024A43EB70057579F /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		497ACC4C24A90496002333A6 /* HexagonStructData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexagonStructData.swift; sourceTree = "<group>"; };
+		497ACC4E24A90905002333A6 /* ProfileTypeHexagon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTypeHexagon.swift; sourceTree = "<group>"; };
+		497ACC5024A90C0F002333A6 /* HexagonClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexagonClass.swift; sourceTree = "<group>"; };
+		497ACC5224A91738002333A6 /* Hexagons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hexagons.swift; sourceTree = "<group>"; };
+		497ACC5624A92600002333A6 /* NewBioSignInPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBioSignInPage.swift; sourceTree = "<group>"; };
+		497ACC5824A92B8B002333A6 /* GoodBioSignInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodBioSignInVC.swift; sourceTree = "<group>"; };
+		497ACC5A24A935D3002333A6 /* SignUpPopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpPopUpView.swift; sourceTree = "<group>"; };
+		497ACC5C24A93651002333A6 /* DummyVCForPopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyVCForPopUp.swift; sourceTree = "<group>"; };
 		49A3743B24A3CD38007A48E0 /* HexagonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexagonView.swift; sourceTree = "<group>"; };
 		49A3743D24A3E4D4007A48E0 /* HexagonGrid2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexagonGrid2.swift; sourceTree = "<group>"; };
 		49B3FA9624A3F2E2004578CA /* HexagonGrid3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexagonGrid3.swift; sourceTree = "<group>"; };
@@ -143,10 +156,8 @@
 		49C205A02497DBC80022EE53 /* Pencil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pencil.swift; sourceTree = "<group>"; };
 		49C205A22497DCBC0022EE53 /* followersCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = followersCell.swift; sourceTree = "<group>"; };
 		49C205A42497DCFA0022EE53 /* guestVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = guestVC.swift; sourceTree = "<group>"; };
-		49C205A62497DD550022EE53 /* Cells */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Cells; sourceTree = "<group>"; };
 		49C205A72497DD550022EE53 /* Sign in sign up */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Sign in sign up"; sourceTree = "<group>"; };
 		49C205A82497DD550022EE53 /* Search */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Search; sourceTree = "<group>"; };
-		49C205A92497DD550022EE53 /* Notifications */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Notifications; sourceTree = "<group>"; };
 		49C205AA2497DD560022EE53 /* Feed Items */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Feed Items"; sourceTree = "<group>"; };
 		49C205AB2497DD560022EE53 /* User Profile Items */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "User Profile Items"; sourceTree = "<group>"; };
 		49C205AC2497DD560022EE53 /* Video Items */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Video Items"; sourceTree = "<group>"; };
@@ -162,7 +173,6 @@
 		49C205CA2497DE260022EE53 /* newsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newsCell.swift; sourceTree = "<group>"; };
 		49C205CC2497EE560022EE53 /* tabbarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tabbarVC.swift; sourceTree = "<group>"; };
 		49C205CE249804790022EE53 /* PrivacyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyCell.swift; sourceTree = "<group>"; };
-		49C205D2249814E90022EE53 /* ResetPasswordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResetPasswordVC.swift; path = "../../Dart1/Dart1/Sign in sign up/ResetPasswordVC.swift"; sourceTree = "<group>"; };
 		49C205D424981AC80022EE53 /* segue1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = segue1.swift; sourceTree = "<group>"; };
 		49C205D6249833E80022EE53 /* CreativeToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreativeToolBar.swift; sourceTree = "<group>"; };
 		49C205D82499A0770022EE53 /* DrawingBoardVC2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingBoardVC2.swift; sourceTree = "<group>"; };
@@ -233,20 +243,19 @@
 			children = (
 				49C2059A2497D9EE0022EE53 /* Parse.framework */,
 				491ADB7224971B2500B62C5A /* AppDelegate.swift */,
-				49C205A62497DD550022EE53 /* Cells */,
 				49C205AE2497DD560022EE53 /* Create A Post Items */,
 				49C205AA2497DD560022EE53 /* Feed Items */,
 				49C205AD2497DD560022EE53 /* Navigation Items */,
-				49C205A92497DD550022EE53 /* Notifications */,
 				49C205A82497DD550022EE53 /* Search */,
 				49C205A72497DD550022EE53 /* Sign in sign up */,
 				49C205AB2497DD560022EE53 /* User Profile Items */,
 				49C205AC2497DD560022EE53 /* Video Items */,
 				49C2059C2497DA1E0022EE53 /* Bolts.framework */,
 				491ADBCF2497D69200B62C5A /* libz.tbd */,
+				497ACC5624A92600002333A6 /* NewBioSignInPage.swift */,
+				497ACC5824A92B8B002333A6 /* GoodBioSignInVC.swift */,
 				49C205B82497DDA20022EE53 /* headerView.swift */,
 				49C205BA2497DDBC0022EE53 /* pictureCell.swift */,
-				49C205D2249814E90022EE53 /* ResetPasswordVC.swift */,
 				49C205DA2499AF730022EE53 /* MusicPlayerVC.swift */,
 				49C205A42497DCFA0022EE53 /* guestVC.swift */,
 				49C205CC2497EE560022EE53 /* tabbarVC.swift */,
@@ -256,6 +265,10 @@
 				49C205BC2497DDCE0022EE53 /* followersVC.swift */,
 				49C205C02497DDF30022EE53 /* commentVC.swift */,
 				49C205BE2497DDE30022EE53 /* postVC.swift */,
+				497ACC4C24A90496002333A6 /* HexagonStructData.swift */,
+				497ACC5024A90C0F002333A6 /* HexagonClass.swift */,
+				497ACC5224A91738002333A6 /* Hexagons.swift */,
+				497ACC4E24A90905002333A6 /* ProfileTypeHexagon.swift */,
 				491ADBA224971E2700B62C5A /* SignInVC.swift */,
 				49C205A02497DBC80022EE53 /* Pencil.swift */,
 				491ADBA424971ED400B62C5A /* SignUpVC.swift */,
@@ -263,6 +276,8 @@
 				491ADB7624971B2500B62C5A /* ViewController.swift */,
 				49C205A22497DCBC0022EE53 /* followersCell.swift */,
 				491ADB7824971B2500B62C5A /* Main.storyboard */,
+				497ACC5A24A935D3002333A6 /* SignUpPopUpView.swift */,
+				497ACC5C24A93651002333A6 /* DummyVCForPopUp.swift */,
 				49A3743D24A3E4D4007A48E0 /* HexagonGrid2.swift */,
 				49B3FA9624A3F2E2004578CA /* HexagonGrid3.swift */,
 				496122A024A43EB70057579F /* UserProfile.swift */,
@@ -432,7 +447,6 @@
 			files = (
 				49C205B72497DD570022EE53 /* Create A Post Items in Resources */,
 				49C205B32497DD570022EE53 /* Feed Items in Resources */,
-				49C205AF2497DD570022EE53 /* Cells in Resources */,
 				49C205B62497DD570022EE53 /* Navigation Items in Resources */,
 				491ADB7F24971B2D00B62C5A /* LaunchScreen.storyboard in Resources */,
 				49C205B12497DD570022EE53 /* Search in Resources */,
@@ -440,7 +454,6 @@
 				491ADB7A24971B2500B62C5A /* Main.storyboard in Resources */,
 				49C205B52497DD570022EE53 /* Video Items in Resources */,
 				49C205B42497DD570022EE53 /* User Profile Items in Resources */,
-				49C205B22497DD570022EE53 /* Notifications in Resources */,
 				49C205B02497DD570022EE53 /* Sign in sign up in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -468,6 +481,7 @@
 			files = (
 				491ADBAB2497203B00B62C5A /* SearchVC.swift in Sources */,
 				491ADBAD249720A000B62C5A /* DrawingSettingsVC.swift in Sources */,
+				497ACC5924A92B8B002333A6 /* GoodBioSignInVC.swift in Sources */,
 				49B3FA9724A3F2E2004578CA /* HexagonGrid3.swift in Sources */,
 				49B3FA9924A4059B004578CA /* HexagonGrid4.swift in Sources */,
 				49C205DB2499AF730022EE53 /* MusicPlayerVC.swift in Sources */,
@@ -476,16 +490,20 @@
 				491ADBA924971FE400B62C5A /* HomeVC.swift in Sources */,
 				49C205D7249833E80022EE53 /* CreativeToolBar.swift in Sources */,
 				491ADB7324971B2500B62C5A /* AppDelegate.swift in Sources */,
-				49C205D3249814E90022EE53 /* ResetPasswordVC.swift in Sources */,
 				49C205B92497DDA20022EE53 /* headerView.swift in Sources */,
 				496122A124A43EB80057579F /* UserProfile.swift in Sources */,
+				497ACC4D24A90496002333A6 /* HexagonStructData.swift in Sources */,
 				49C205A52497DCFA0022EE53 /* guestVC.swift in Sources */,
+				497ACC5724A92601002333A6 /* NewBioSignInPage.swift in Sources */,
 				491ADBB32497294000B62C5A /* Navigator.swift in Sources */,
 				49C205CB2497DE260022EE53 /* newsCell.swift in Sources */,
 				49C205C32497DDF50022EE53 /* postCell.swift in Sources */,
+				497ACC5D24A93651002333A6 /* DummyVCForPopUp.swift in Sources */,
+				497ACC5124A90C0F002333A6 /* HexagonClass.swift in Sources */,
 				491ADBB1249723FC00B62C5A /* PublicityTableVC.swift in Sources */,
 				491ADBA324971E2700B62C5A /* SignInVC.swift in Sources */,
 				49C205CD2497EE570022EE53 /* tabbarVC.swift in Sources */,
+				497ACC5324A91738002333A6 /* Hexagons.swift in Sources */,
 				49A3743C24A3CD38007A48E0 /* HexagonView.swift in Sources */,
 				4959E04B24A3105300264DB7 /* VideoViewController.swift in Sources */,
 				49C205A12497DBC80022EE53 /* Pencil.swift in Sources */,
@@ -495,7 +513,9 @@
 				4907D154249FB00600B66093 /* DrawingBoard3.swift in Sources */,
 				491ADB7524971B2500B62C5A /* SceneDelegate.swift in Sources */,
 				49C205C52497DE190022EE53 /* commentCell.swift in Sources */,
+				497ACC4F24A90905002333A6 /* ProfileTypeHexagon.swift in Sources */,
 				4959E04F24A3116400264DB7 /* YoutubeTableViewCell.swift in Sources */,
+				497ACC5B24A935D3002333A6 /* SignUpPopUpView.swift in Sources */,
 				49C205A32497DCBC0022EE53 /* followersCell.swift in Sources */,
 				49A3743E24A3E4D4007A48E0 /* HexagonGrid2.swift in Sources */,
 				49C205C12497DDF30022EE53 /* commentVC.swift in Sources */,
