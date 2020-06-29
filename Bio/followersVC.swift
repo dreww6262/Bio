@@ -17,7 +17,7 @@ class followersVC: UITableViewController {
     
     // arrays to hold data received from servers
     var usernameArray = [String]()
-    var avaArray = [PFFile]()
+    var avaArray = [PFFileObject]()
     
     // array showing who do we follow or who followings us
     var followArray = [String]()
@@ -89,7 +89,7 @@ class followersVC: UITableViewController {
                         // find related objects in User class of Parse
                         for object in objects! {
                             self.usernameArray.append(object.object(forKey: "username") as! String)
-                            self.avaArray.append(object.object(forKey: "ava") as! PFFile)
+                            self.avaArray.append(object.object(forKey: "ava") as! PFFileObject)
                             self.tableView.reloadData()
                         }
                     } else {
@@ -138,7 +138,7 @@ class followersVC: UITableViewController {
                         // find related objects in "User" class of Parse
                         for object in objects! {
                             self.usernameArray.append(object.object(forKey: "username") as! String)
-                            self.avaArray.append(object.object(forKey: "ava") as! PFFile)
+                            self.avaArray.append(object.object(forKey: "ava") as! PFFileObject)
                             self.tableView.reloadData()
                         }
                     } else {

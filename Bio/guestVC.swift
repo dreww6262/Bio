@@ -20,7 +20,7 @@ class guestVC: UICollectionViewController {
     
     // arrays to hold data from server
     var uuidArray = [String]()
-    var picArray = [PFFile]()
+    var picArray = [PFFileObject]()
     
     
     // default func
@@ -95,7 +95,7 @@ class guestVC: UICollectionViewController {
                     
                     // hold found information in arrays
                     self.uuidArray.append(object.value(forKey: "uuid") as! String)
-                    self.picArray.append(object.value(forKey: "pic") as! PFFile)
+                    self.picArray.append(object.value(forKey: "pic") as! PFFileObject)
                 }
                 
                 self.collectionView?.reloadData()
@@ -139,7 +139,7 @@ class guestVC: UICollectionViewController {
                     // find related objects
                     for object in objects! {
                         self.uuidArray.append(object.value(forKey: "uuid") as! String)
-                        self.picArray.append(object.value(forKey: "pic") as! PFFile)
+                        self.picArray.append(object.value(forKey: "pic") as! PFFileObject)
                     }
                     
                     print("loaded +\(self.page)")
@@ -218,7 +218,7 @@ class guestVC: UICollectionViewController {
                     header.bioLbl.sizeToFit()
                     header.webTxt.text = object.object(forKey: "web") as? String
                     header.webTxt.sizeToFit()
-                    let avaFile : PFFile = (object.object(forKey: "ava") as? PFFile)!
+                    let avaFile : PFFileObject = (object.object(forKey: "ava") as? PFFileObject)!
                     avaFile.getDataInBackground(block: { (data, error) -> Void in
                         header.avaImg.image = UIImage(data: data!)
                     })

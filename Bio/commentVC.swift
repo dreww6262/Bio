@@ -27,7 +27,7 @@ class commentVC: UIViewController, UITextViewDelegate, UITableViewDelegate, UITa
     
     // arrays to hold server data
     var usernameArray = [String]()
-    var avaArray = [PFFile]()
+    var avaArray = [PFFileObject]()
     var commentArray = [String]()
     var dateArray = [Date?]()
     
@@ -225,7 +225,7 @@ class commentVC: UIViewController, UITextViewDelegate, UITableViewDelegate, UITa
                     // find related objects
                     for object in objects! {
                         self.usernameArray.append(object.object(forKey: "username") as! String)
-                        self.avaArray.append(object.object(forKey: "ava") as! PFFile)
+                        self.avaArray.append(object.object(forKey: "ava") as! PFFileObject)
                         self.commentArray.append(object.object(forKey: "comment") as! String)
                         self.dateArray.append(object.createdAt)
                         self.tableView.reloadData()
@@ -281,7 +281,7 @@ class commentVC: UIViewController, UITextViewDelegate, UITableViewDelegate, UITa
                         // find related objects
                         for object in objects! {
                             self.usernameArray.append(object.object(forKey: "username") as! String)
-                            self.avaArray.append(object.object(forKey: "ava") as! PFFile)
+                            self.avaArray.append(object.object(forKey: "ava") as! PFFileObject)
                             self.commentArray.append(object.object(forKey: "comment") as! String)
                             self.dateArray.append(object.createdAt)
                             self.tableView.reloadData()
@@ -302,7 +302,7 @@ class commentVC: UIViewController, UITextViewDelegate, UITableViewDelegate, UITa
         
         // STEP 1. Add row in tableView
         usernameArray.append(PFUser.current()!.username!)
-        avaArray.append(PFUser.current()?.object(forKey: "ava") as! PFFile)
+        avaArray.append(PFUser.current()?.object(forKey: "ava") as! PFFileObject)
         dateArray.append(Date())
         commentArray.append(commentTxt.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines))
         tableView.reloadData()
@@ -358,7 +358,7 @@ class commentVC: UIViewController, UITextViewDelegate, UITableViewDelegate, UITa
                 
                 let newsObj = PFObject(className: "news")
                 newsObj["by"] = PFUser.current()?.username
-                newsObj["ava"] = PFUser.current()?.object(forKey: "ava") as! PFFile
+                newsObj["ava"] = PFUser.current()?.object(forKey: "ava") as! PFFileObject
                 newsObj["to"] = word
                 newsObj["owner"] = commentowner.last
                 newsObj["uuid"] = commentuuid.last
@@ -373,7 +373,7 @@ class commentVC: UIViewController, UITextViewDelegate, UITableViewDelegate, UITa
         if commentowner.last != PFUser.current()?.username && mentionCreated == false {
             let newsObj = PFObject(className: "news")
             newsObj["by"] = PFUser.current()?.username
-            newsObj["ava"] = PFUser.current()?.object(forKey: "ava") as! PFFile
+            newsObj["ava"] = PFUser.current()?.object(forKey: "ava") as! PFFileObject
             newsObj["to"] = commentowner.last
             newsObj["owner"] = commentowner.last
             newsObj["uuid"] = commentuuid.last

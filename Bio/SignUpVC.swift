@@ -192,7 +192,7 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         
         // convert our image for sending to server
         let avaData = avaImg.image!.jpegData(compressionQuality: 0.5)
-        let avaFile = PFFile(name: "ava.jpg", data: avaData!)
+        let avaFile = PFFileObject(name: "ava.jpg", data: avaData!)
         user["ava"] = avaFile
         
         // save data in server

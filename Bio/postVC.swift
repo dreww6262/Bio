@@ -7,10 +7,10 @@ var postuuid = [String]()
 class postVC: UITableViewController {
 
     // arrays to hold information from server
-    var avaArray = [PFFile]()
+    var avaArray = [PFFileObject]()
     var usernameArray = [String]()
     var dateArray = [Date?]()
-    var picArray = [PFFile]()
+    var picArray = [PFFileObject]()
     var uuidArray = [String]()
     var titleArray = [String]()
     
@@ -54,10 +54,10 @@ class postVC: UITableViewController {
                 
                 // find related objects
                 for object in objects! {
-                    self.avaArray.append(object.value(forKey: "ava") as! PFFile)
+                    self.avaArray.append(object.value(forKey: "ava") as! PFFileObject)
                     self.usernameArray.append(object.value(forKey: "username") as! String)
                     self.dateArray.append(object.createdAt)
-                    self.picArray.append(object.value(forKey: "pic") as! PFFile)
+                    self.picArray.append(object.value(forKey: "pic") as! PFFileObject)
                     self.uuidArray.append(object.value(forKey: "uuid") as! String)
                     self.titleArray.append(object.value(forKey: "title") as! String)
                 }

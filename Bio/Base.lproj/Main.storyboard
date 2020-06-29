@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bbh-XN-JYU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="9yN-Id-LDM">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -145,13 +145,13 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="bio" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="h7P-JE-Bbb">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="instagram username" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="h7P-JE-Bbb">
                                         <rect key="frame" x="8" y="380" width="304" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="web" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="xxj-g5-J1s">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="snapchat username" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="xxj-g5-J1s">
                                         <rect key="frame" x="8" y="418" width="304" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -2056,13 +2056,14 @@
             <objects>
                 <viewController id="2xM-ld-mPr" customClass="HexagonGrid3" customModule="Bio" customModuleProvider="target" sceneMemberID="viewController">
                     <scrollView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" id="BVg-mW-evo">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" red="0.90768188240000003" green="0.2555268705" blue="0.2549206316" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="0Yw-eu-igj"/>
                         <viewLayoutGuide key="contentLayoutGuide" id="Xfw-rw-vJp"/>
                         <viewLayoutGuide key="frameLayoutGuide" id="HCQ-Bu-Vjz"/>
                     </scrollView>
+                    <navigationItem key="navigationItem" id="3ww-Kb-uFC"/>
                     <connections>
                         <outlet property="scrollView" destination="BVg-mW-evo" id="3Ip-8O-Bic"/>
                     </connections>
@@ -2245,6 +2246,7 @@
                                 </state>
                                 <connections>
                                     <action selector="signUpPressed:" destination="bbh-XN-JYU" eventType="touchUpInside" id="IGV-Lh-UD2"/>
+                                    <segue destination="2xM-ld-mPr" kind="show" identifier="toHexagonGrid" id="sN4-ZK-u42"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1YW-hO-4a4">
@@ -2257,23 +2259,26 @@
                                     <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VPb-R4-4by">
+                                <rect key="frame" x="168" y="113" width="79" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Test Button"/>
+                                <connections>
+                                    <action selector="zoomInButton:" destination="bbh-XN-JYU" eventType="touchUpInside" id="oCL-ld-x87"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.95846420529999998" green="0.91407060620000002" blue="0.86989611389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="1Ez-mm-TEK"/>
                     </view>
                     <navigationItem key="navigationItem" id="Tcc-D9-wSF"/>
                     <connections>
-                        <outlet property="emailButton" destination="P0y-MA-3zR" id="TwN-YM-0bC"/>
-                        <outlet property="facebookButton" destination="J73-wO-cPp" id="dOm-eA-wo0"/>
-                        <outlet property="googleButton" destination="dur-rb-ifs" id="MH6-Yi-ap9"/>
                         <outlet property="label" destination="aTE-iU-chw" id="FRB-XT-fCX"/>
                         <outlet property="mottoLabel" destination="IyL-FO-tFn" id="Tnh-jL-Seh"/>
-                        <outlet property="popUpView" destination="o2N-wX-vEt" id="JtE-WZ-wYg"/>
                         <outlet property="signInButton" destination="1YW-hO-4a4" id="HYm-xU-eDw"/>
                         <outlet property="signUpButton" destination="MhP-9d-291" id="DcB-Ow-yZA"/>
-                        <outlet property="signUpLabel" destination="5vd-ja-uqa" id="ABS-sm-EtC"/>
-                        <outlet property="signUpMottoLabel" destination="Nci-7K-uRo" id="pZw-m1-ncJ"/>
                         <outlet property="signUpWithInstagramButton" destination="MhP-9d-291" id="msz-5w-xSx"/>
+                        <outlet property="testButton" destination="VPb-R4-4by" id="g4p-4Q-JTr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nMO-7p-aiI" sceneMemberID="firstResponder"/>
@@ -2281,88 +2286,72 @@
             <point key="canvasLocation" x="4398.5507246376819" y="-4041.2946428571427"/>
         </scene>
         <!--DummyVC For Pop Up-->
-        <scene sceneID="APC-0D-NpM">
+        <scene sceneID="quL-lf-iIt">
             <objects>
-                <viewController storyboardIdentifier="DummyVCForPopUp" id="MG6-lh-2Wi" customClass="DummyVCForPopUp" customModule="Bio" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="CW0-wJ-VnC">
+                <viewController id="9yN-Id-LDM" customClass="DummyVCForPopUp" customModule="Bio" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="oLz-EV-aWZ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="o2N-wX-vEt" customClass="SignUpPopUpView" customModule="Bio" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="44" width="414" height="392"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J73-wO-cPp">
-                                        <rect key="frame" x="95" y="181" width="224" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Facebook">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="facebookButtonPressed:" destination="o2N-wX-vEt" eventType="touchUpInside" id="JVU-Zy-bXE"/>
-                                            <action selector="facebookButtonPressed:" destination="Y7N-aq-U7n" eventType="touchUpInside" id="ODW-YK-6b8"/>
-                                            <action selector="facebookPressed:" destination="bbh-XN-JYU" eventType="touchUpInside" id="a0Y-Im-NrY"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dur-rb-ifs">
-                                        <rect key="frame" x="95" y="219" width="224" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Google">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="googleButtonPressed:" destination="Y7N-aq-U7n" eventType="touchUpInside" id="26J-kY-OB7"/>
-                                            <action selector="googleButtonPressed:" destination="o2N-wX-vEt" eventType="touchUpInside" id="ALI-Zt-4eY"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P0y-MA-3zR">
-                                        <rect key="frame" x="95" y="257" width="224" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Email">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="emailButtonPressed:" destination="Y7N-aq-U7n" eventType="touchUpInside" id="6oz-ip-GQ6"/>
-                                            <action selector="emailButtonPressed:" destination="o2N-wX-vEt" eventType="touchUpInside" id="maZ-d1-Xb2"/>
-                                        </connections>
-                                    </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign Up For Bio" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5vd-ja-uqa">
-                                        <rect key="frame" x="16" y="32" width="164" height="54"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="54" id="7H3-Bx-5SK"/>
-                                            <constraint firstAttribute="width" constant="164" id="yFz-PT-9Zl"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="ChalkboardSE-Regular" family="Chalkboard SE" pointSize="22"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Let's Get To Know Each Other" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nci-7K-uRo">
-                                        <rect key="frame" x="24" y="98" width="228" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstItem="Nci-7K-uRo" firstAttribute="top" secondItem="5vd-ja-uqa" secondAttribute="bottom" constant="12" id="AvK-VU-DE5"/>
-                                    <constraint firstItem="5vd-ja-uqa" firstAttribute="top" secondItem="o2N-wX-vEt" secondAttribute="top" constant="32" id="DAJ-uP-tH7"/>
-                                    <constraint firstItem="5vd-ja-uqa" firstAttribute="leading" secondItem="o2N-wX-vEt" secondAttribute="leading" constant="16" id="bry-Ao-hUG"/>
-                                    <constraint firstAttribute="height" constant="400" id="kyf-8X-icP"/>
-                                    <constraint firstItem="Nci-7K-uRo" firstAttribute="leading" secondItem="o2N-wX-vEt" secondAttribute="leading" constant="24" id="nS7-Sr-keC"/>
-                                </constraints>
-                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y88-wL-ypf">
+                                <rect key="frame" x="98" y="229" width="218" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" name="AmericanTypewriter-Semibold" family="American Typewriter" pointSize="19"/>
+                                <state key="normal" title="Google">
+                                    <color key="titleColor" red="0.95846420529999998" green="0.91407060620000002" blue="0.86989611389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3ta-8I-bhj">
+                                <rect key="frame" x="98" y="159" width="218" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" name="AmericanTypewriter-Semibold" family="American Typewriter" pointSize="19"/>
+                                <state key="normal" title="Facebook">
+                                    <color key="titleColor" red="0.95846420529999998" green="0.91407060620000002" blue="0.86989611389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Strive Comfortably Together" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4uk-6N-BfQ">
+                                <rect key="frame" x="20" y="128" width="224" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Sign Up" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nPX-m0-HCn">
+                                <rect key="frame" x="20" y="64" width="224" height="56"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="40"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4yt-LB-eXA">
+                                <rect key="frame" x="98" y="292" width="218" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" name="AmericanTypewriter-Semibold" family="American Typewriter" pointSize="19"/>
+                                <state key="normal" title="Email">
+                                    <color key="titleColor" red="0.95846420529999998" green="0.91407060620000002" blue="0.86989611389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="FEf-PX-UAQ"/>
+                        <viewLayoutGuide key="safeArea" id="XYl-Jz-NbV"/>
                     </view>
                     <connections>
-                        <outlet property="examplePopUp" destination="o2N-wX-vEt" id="wMt-cT-WVh"/>
+                        <outlet property="emailButton" destination="4yt-LB-eXA" id="cgY-Iu-ChR"/>
+                        <outlet property="facebookButton" destination="3ta-8I-bhj" id="KzX-Di-bTf"/>
+                        <outlet property="googleButton" destination="Y88-wL-ypf" id="tWA-ta-3Il"/>
+                        <outlet property="mottoLabel" destination="4uk-6N-BfQ" id="20j-cV-aKL"/>
+                        <outlet property="signUpLabel" destination="nPX-m0-HCn" id="rYm-MW-agl"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="jQ6-ph-dHk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="Y7N-aq-U7n" userLabel="Exit" sceneMemberID="exit"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="l5V-1U-ipY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5365.217391304348" y="-4025.2232142857142"/>
+            <point key="canvasLocation" x="5162.3188405797109" y="-3991.0714285714284"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

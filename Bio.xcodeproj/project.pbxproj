@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -35,6 +35,8 @@
 		491ADBC62497D57C00B62C5A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 491ADBC52497D57C00B62C5A /* Security.framework */; };
 		491ADBCA2497D58800B62C5A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 491ADBC92497D58800B62C5A /* SystemConfiguration.framework */; };
 		491ADBD02497D69200B62C5A /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 491ADBCF2497D69200B62C5A /* libz.tbd */; };
+		4944D79424A9C8F000AD3955 /* RatingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4944D79324A9C8EF00AD3955 /* RatingViewController.xib */; };
+		4944D79624A9C90200AD3955 /* RatingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4944D79524A9C90200AD3955 /* RatingViewController.swift */; };
 		4959E04924A3053200264DB7 /* SpotifyiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4959E04824A3052F00264DB7 /* SpotifyiOS.framework */; };
 		4959E04B24A3105300264DB7 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4959E04A24A3105200264DB7 /* VideoViewController.swift */; };
 		4959E04D24A3111E00264DB7 /* YoutubeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4959E04C24A3111E00264DB7 /* YoutubeTableViewController.swift */; };
@@ -48,12 +50,6 @@
 		497ACC5924A92B8B002333A6 /* GoodBioSignInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497ACC5824A92B8B002333A6 /* GoodBioSignInVC.swift */; };
 		497ACC5B24A935D3002333A6 /* SignUpPopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497ACC5A24A935D3002333A6 /* SignUpPopUpView.swift */; };
 		497ACC5D24A93651002333A6 /* DummyVCForPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497ACC5C24A93651002333A6 /* DummyVCForPopUp.swift */; };
-		497ACC6224A961EC002333A6 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 497ACC6024A95C0F002333A6 /* FBSDKLoginKit.framework */; };
-		497ACC6324A961EC002333A6 /* FBSDKLoginKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 497ACC6024A95C0F002333A6 /* FBSDKLoginKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		497ACC6524A961F1002333A6 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 497ACC5E24A95BF8002333A6 /* FBSDKCoreKit.framework */; };
-		497ACC6624A961F1002333A6 /* FBSDKCoreKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 497ACC5E24A95BF8002333A6 /* FBSDKCoreKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		497ACC6724A96205002333A6 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49C2059C2497DA1E0022EE53 /* Bolts.framework */; };
-		497ACC6824A96205002333A6 /* Bolts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 49C2059C2497DA1E0022EE53 /* Bolts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		49A3743C24A3CD38007A48E0 /* HexagonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A3743B24A3CD38007A48E0 /* HexagonView.swift */; };
 		49A3743E24A3E4D4007A48E0 /* HexagonGrid2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A3743D24A3E4D4007A48E0 /* HexagonGrid2.swift */; };
 		49B3FA9724A3F2E2004578CA /* HexagonGrid3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B3FA9624A3F2E2004578CA /* HexagonGrid3.swift */; };
@@ -84,6 +80,7 @@
 		49C205D7249833E80022EE53 /* CreativeToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205D6249833E80022EE53 /* CreativeToolBar.swift */; };
 		49C205D92499A0770022EE53 /* DrawingBoardVC2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205D82499A0770022EE53 /* DrawingBoardVC2.swift */; };
 		49C205DB2499AF730022EE53 /* MusicPlayerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205DA2499AF730022EE53 /* MusicPlayerVC.swift */; };
+		F8E01B31E01681020139180B /* Pods_Bio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863D25901B2498D1508F481F /* Pods_Bio.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,9 +107,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				497ACC6824A96205002333A6 /* Bolts.framework in Embed Frameworks */,
-				497ACC6324A961EC002333A6 /* FBSDKLoginKit.framework in Embed Frameworks */,
-				497ACC6624A961F1002333A6 /* FBSDKCoreKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -120,6 +114,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1407FC84B7D3C1C7BF080385 /* Pods-Bio.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bio.debug.xcconfig"; path = "Target Support Files/Pods-Bio/Pods-Bio.debug.xcconfig"; sourceTree = "<group>"; };
 		4907D153249FB00600B66093 /* DrawingBoard3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingBoard3.swift; sourceTree = "<group>"; };
 		491ADB6F24971B2500B62C5A /* Bio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		491ADB7224971B2500B62C5A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -154,6 +149,8 @@
 		491ADBC52497D57C00B62C5A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		491ADBC92497D58800B62C5A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		491ADBCF2497D69200B62C5A /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		4944D79324A9C8EF00AD3955 /* RatingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RatingViewController.xib; sourceTree = "<group>"; };
+		4944D79524A9C90200AD3955 /* RatingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingViewController.swift; sourceTree = "<group>"; };
 		4959E04824A3052F00264DB7 /* SpotifyiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyiOS.framework; sourceTree = "<group>"; };
 		4959E04A24A3105200264DB7 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		4959E04C24A3111E00264DB7 /* YoutubeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeTableViewController.swift; sourceTree = "<group>"; };
@@ -167,14 +164,11 @@
 		497ACC5824A92B8B002333A6 /* GoodBioSignInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodBioSignInVC.swift; sourceTree = "<group>"; };
 		497ACC5A24A935D3002333A6 /* SignUpPopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpPopUpView.swift; sourceTree = "<group>"; };
 		497ACC5C24A93651002333A6 /* DummyVCForPopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyVCForPopUp.swift; sourceTree = "<group>"; };
-		497ACC5E24A95BF8002333A6 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
-		497ACC6024A95C0F002333A6 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		49A3743B24A3CD38007A48E0 /* HexagonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexagonView.swift; sourceTree = "<group>"; };
 		49A3743D24A3E4D4007A48E0 /* HexagonGrid2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexagonGrid2.swift; sourceTree = "<group>"; };
 		49B3FA9624A3F2E2004578CA /* HexagonGrid3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexagonGrid3.swift; sourceTree = "<group>"; };
 		49B3FA9824A4059B004578CA /* HexagonGrid4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexagonGrid4.swift; sourceTree = "<group>"; };
 		49C2059A2497D9EE0022EE53 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
-		49C2059C2497DA1E0022EE53 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		49C2059E2497DB4D0022EE53 /* DrawingBoardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingBoardVC.swift; sourceTree = "<group>"; };
 		49C205A02497DBC80022EE53 /* Pencil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pencil.swift; sourceTree = "<group>"; };
 		49C205A22497DCBC0022EE53 /* followersCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = followersCell.swift; sourceTree = "<group>"; };
@@ -200,6 +194,8 @@
 		49C205D6249833E80022EE53 /* CreativeToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreativeToolBar.swift; sourceTree = "<group>"; };
 		49C205D82499A0770022EE53 /* DrawingBoardVC2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingBoardVC2.swift; sourceTree = "<group>"; };
 		49C205DA2499AF730022EE53 /* MusicPlayerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayerVC.swift; sourceTree = "<group>"; };
+		6A3D10DE50F0AEB6F29494BF /* Pods-Bio.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bio.release.xcconfig"; path = "Target Support Files/Pods-Bio/Pods-Bio.release.xcconfig"; sourceTree = "<group>"; };
+		863D25901B2498D1508F481F /* Pods_Bio.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bio.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,21 +203,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				497ACC6724A96205002333A6 /* Bolts.framework in Frameworks */,
 				4959E04924A3053200264DB7 /* SpotifyiOS.framework in Frameworks */,
 				491ADBCA2497D58800B62C5A /* SystemConfiguration.framework in Frameworks */,
-				497ACC6224A961EC002333A6 /* FBSDKLoginKit.framework in Frameworks */,
 				491ADBC62497D57C00B62C5A /* Security.framework in Frameworks */,
 				491ADBC42497D57500B62C5A /* QuartzCore.framework in Frameworks */,
 				491ADBD02497D69200B62C5A /* libz.tbd in Frameworks */,
 				491ADBC22497D57000B62C5A /* CoreLocation.framework in Frameworks */,
 				49C2059B2497D9EE0022EE53 /* Parse.framework in Frameworks */,
 				491ADBC02497D56B00B62C5A /* CoreGraphics.framework in Frameworks */,
-				497ACC6524A961F1002333A6 /* FBSDKCoreKit.framework in Frameworks */,
 				491ADBBE2497D56500B62C5A /* CFNetwork.framework in Frameworks */,
 				491ADBBC2497D53800B62C5A /* AudioToolbox.framework in Frameworks */,
 				491ADBBA2497D52A00B62C5A /* libz.tbd in Frameworks */,
 				491ADBB82497D51800B62C5A /* libsqlite3.tbd in Frameworks */,
+				F8E01B31E01681020139180B /* Pods_Bio.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -242,6 +236,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		297B30509CCFB5AD77C14C95 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1407FC84B7D3C1C7BF080385 /* Pods-Bio.debug.xcconfig */,
+				6A3D10DE50F0AEB6F29494BF /* Pods-Bio.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		491ADB6624971B2500B62C5A = {
 			isa = PBXGroup;
 			children = (
@@ -250,6 +253,7 @@
 				491ADB9324971B2D00B62C5A /* BioUITests */,
 				491ADB7024971B2500B62C5A /* Products */,
 				491ADBB62497D51700B62C5A /* Frameworks */,
+				297B30509CCFB5AD77C14C95 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -275,12 +279,9 @@
 				49C205A72497DD550022EE53 /* Sign in sign up */,
 				49C205AB2497DD560022EE53 /* User Profile Items */,
 				49C205AC2497DD560022EE53 /* Video Items */,
-				49C2059C2497DA1E0022EE53 /* Bolts.framework */,
 				491ADBCF2497D69200B62C5A /* libz.tbd */,
-				497ACC5E24A95BF8002333A6 /* FBSDKCoreKit.framework */,
 				497ACC5624A92600002333A6 /* NewBioSignInPage.swift */,
 				497ACC5824A92B8B002333A6 /* GoodBioSignInVC.swift */,
-				497ACC6024A95C0F002333A6 /* FBSDKLoginKit.framework */,
 				49C205B82497DDA20022EE53 /* headerView.swift */,
 				49C205BA2497DDBC0022EE53 /* pictureCell.swift */,
 				49C205DA2499AF730022EE53 /* MusicPlayerVC.swift */,
@@ -305,6 +306,8 @@
 				491ADB7824971B2500B62C5A /* Main.storyboard */,
 				497ACC5A24A935D3002333A6 /* SignUpPopUpView.swift */,
 				497ACC5C24A93651002333A6 /* DummyVCForPopUp.swift */,
+				4944D79524A9C90200AD3955 /* RatingViewController.swift */,
+				4944D79324A9C8EF00AD3955 /* RatingViewController.xib */,
 				49A3743D24A3E4D4007A48E0 /* HexagonGrid2.swift */,
 				49B3FA9624A3F2E2004578CA /* HexagonGrid3.swift */,
 				496122A024A43EB70057579F /* UserProfile.swift */,
@@ -364,6 +367,7 @@
 				491ADBBB2497D53800B62C5A /* AudioToolbox.framework */,
 				491ADBB92497D52A00B62C5A /* libz.tbd */,
 				491ADBB72497D51800B62C5A /* libsqlite3.tbd */,
+				863D25901B2498D1508F481F /* Pods_Bio.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -375,10 +379,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 491ADB9924971B2D00B62C5A /* Build configuration list for PBXNativeTarget "Bio" */;
 			buildPhases = (
+				9C35B45D7321CD3F8F04600F /* [CP] Check Pods Manifest.lock */,
 				491ADB6B24971B2500B62C5A /* Sources */,
 				491ADB6C24971B2500B62C5A /* Frameworks */,
 				491ADB6D24971B2500B62C5A /* Resources */,
 				497ACC6424A961EC002333A6 /* Embed Frameworks */,
+				9299D81CD8918B5F9E92F199 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -474,6 +480,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				49C205B72497DD570022EE53 /* Create A Post Items in Resources */,
+				4944D79424A9C8F000AD3955 /* RatingViewController.xib in Resources */,
 				49C205B32497DD570022EE53 /* Feed Items in Resources */,
 				49C205B62497DD570022EE53 /* Navigation Items in Resources */,
 				491ADB7F24971B2D00B62C5A /* LaunchScreen.storyboard in Resources */,
@@ -502,6 +509,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		9299D81CD8918B5F9E92F199 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Bio/Pods-Bio-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Bio/Pods-Bio-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Bio/Pods-Bio-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9C35B45D7321CD3F8F04600F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Bio-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		491ADB6B24971B2500B62C5A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -516,6 +565,7 @@
 				491ADB7724971B2500B62C5A /* ViewController.swift in Sources */,
 				49C205D92499A0770022EE53 /* DrawingBoardVC2.swift in Sources */,
 				491ADBA924971FE400B62C5A /* HomeVC.swift in Sources */,
+				4944D79624A9C90200AD3955 /* RatingViewController.swift in Sources */,
 				49C205D7249833E80022EE53 /* CreativeToolBar.swift in Sources */,
 				491ADB7324971B2500B62C5A /* AppDelegate.swift in Sources */,
 				49C205B92497DDA20022EE53 /* headerView.swift in Sources */,
@@ -724,6 +774,7 @@
 		};
 		491ADB9A24971B2D00B62C5A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1407FC84B7D3C1C7BF080385 /* Pods-Bio.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -751,6 +802,7 @@
 		};
 		491ADB9B24971B2D00B62C5A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6A3D10DE50F0AEB6F29494BF /* Pods-Bio.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

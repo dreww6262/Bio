@@ -15,14 +15,14 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
     
     // tableView arrays to hold information from server
     var usernameArray = [String]()
-    var avaArray = [PFFile]()
+    var avaArray = [PFFileObject]()
     
     
     // collectionView UI
     //var collectionView : UICollectionView!
     
     // collectionView arrays to hold infromation from server
-    var picArray = [PFFile]()
+    var picArray = [PFFileObject]()
     var uuidArray = [String]()
     var page : Int = 15
     
@@ -65,7 +65,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
                 // found related objects
                 for object in objects! {
                     self.usernameArray.append(object.value(forKey: "username") as! String)
-                    self.avaArray.append(object.value(forKey: "ava") as! PFFile)
+                    self.avaArray.append(object.value(forKey: "ava") as! PFFileObject)
                 }
                 
                 // reload
@@ -103,7 +103,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
                             // found related objects
                             for object in objects! {
                                 self.usernameArray.append(object.object(forKey: "username") as! String)
-                                self.avaArray.append(object.object(forKey: "ava") as! PFFile)
+                                self.avaArray.append(object.object(forKey: "ava") as! PFFileObject)
                             }
                             
                             // reload
@@ -120,7 +120,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
                 // found related objects
                 for object in objects! {
                     self.usernameArray.append(object.object(forKey: "username") as! String)
-                    self.avaArray.append(object.object(forKey: "ava") as! PFFile)
+                    self.avaArray.append(object.object(forKey: "ava") as! PFFileObject)
                 }
                 
                 // reload

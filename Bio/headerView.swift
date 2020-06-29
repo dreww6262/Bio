@@ -70,7 +70,7 @@ class headerView: UICollectionReusableView {
                     // send follow notification
                     let newsObj = PFObject(className: "news")
                     newsObj["by"] = PFUser.current()?.username
-                    newsObj["ava"] = PFUser.current()?.object(forKey: "ava") as! PFFile
+                    newsObj["ava"] = PFUser.current()?.object(forKey: "ava") as! PFFileObject
                     newsObj["to"] = guestname.last
                     newsObj["owner"] = ""
                     newsObj["uuid"] = ""

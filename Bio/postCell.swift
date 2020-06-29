@@ -228,7 +228,7 @@ class postCell: UITableViewCell {
                     if self.usernameBtn.titleLabel?.text != PFUser.current()?.username {
                         let newsObj = PFObject(className: "news")
                         newsObj["by"] = PFUser.current()?.username
-                        newsObj["ava"] = PFUser.current()?.object(forKey: "ava") as! PFFile
+                        newsObj["ava"] = PFUser.current()?.object(forKey: "ava") as! PFFileObject
                         newsObj["to"] = self.usernameBtn.titleLabel!.text
                         newsObj["owner"] = self.usernameBtn.titleLabel!.text
                         newsObj["uuid"] = self.uuidLbl.text
@@ -270,7 +270,7 @@ class postCell: UITableViewCell {
                     if self.usernameBtn.titleLabel?.text != PFUser.current()?.username {
                         let newsObj = PFObject(className: "news")
                         newsObj["by"] = PFUser.current()?.username
-                        newsObj["ava"] = PFUser.current()?.object(forKey: "ava") as! PFFile
+                        newsObj["ava"] = PFUser.current()?.object(forKey: "ava") as! PFFileObject
                         newsObj["to"] = self.usernameBtn.titleLabel!.text
                         newsObj["owner"] = self.usernameBtn.titleLabel!.text
                         newsObj["uuid"] = self.uuidLbl.text
