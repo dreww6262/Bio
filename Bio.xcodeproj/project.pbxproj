@@ -37,6 +37,9 @@
 		491ADBD02497D69200B62C5A /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 491ADBCF2497D69200B62C5A /* libz.tbd */; };
 		4944D79424A9C8F000AD3955 /* RatingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4944D79324A9C8EF00AD3955 /* RatingViewController.xib */; };
 		4944D79624A9C90200AD3955 /* RatingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4944D79524A9C90200AD3955 /* RatingViewController.swift */; };
+		4944D79A24ABBEF900AD3955 /* GoodBioSignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4944D79924ABBEF900AD3955 /* GoodBioSignUpVC.swift */; };
+		4944D79C24ABD2E700AD3955 /* AddSocialMediaVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4944D79B24ABD2E700AD3955 /* AddSocialMediaVC.swift */; };
+		4944D79E24ABE2FB00AD3955 /* PersonalInformationVCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4944D79D24ABE2FA00AD3955 /* PersonalInformationVCViewController.swift */; };
 		4959E04924A3053200264DB7 /* SpotifyiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4959E04824A3052F00264DB7 /* SpotifyiOS.framework */; };
 		4959E04B24A3105300264DB7 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4959E04A24A3105200264DB7 /* VideoViewController.swift */; };
 		4959E04D24A3111E00264DB7 /* YoutubeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4959E04C24A3111E00264DB7 /* YoutubeTableViewController.swift */; };
@@ -151,6 +154,9 @@
 		491ADBCF2497D69200B62C5A /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		4944D79324A9C8EF00AD3955 /* RatingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RatingViewController.xib; sourceTree = "<group>"; };
 		4944D79524A9C90200AD3955 /* RatingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingViewController.swift; sourceTree = "<group>"; };
+		4944D79924ABBEF900AD3955 /* GoodBioSignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodBioSignUpVC.swift; sourceTree = "<group>"; };
+		4944D79B24ABD2E700AD3955 /* AddSocialMediaVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSocialMediaVC.swift; sourceTree = "<group>"; };
+		4944D79D24ABE2FA00AD3955 /* PersonalInformationVCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInformationVCViewController.swift; sourceTree = "<group>"; };
 		4959E04824A3052F00264DB7 /* SpotifyiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyiOS.framework; sourceTree = "<group>"; };
 		4959E04A24A3105200264DB7 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		4959E04C24A3111E00264DB7 /* YoutubeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeTableViewController.swift; sourceTree = "<group>"; };
@@ -304,6 +310,9 @@
 				491ADB7624971B2500B62C5A /* ViewController.swift */,
 				49C205A22497DCBC0022EE53 /* followersCell.swift */,
 				491ADB7824971B2500B62C5A /* Main.storyboard */,
+				4944D79924ABBEF900AD3955 /* GoodBioSignUpVC.swift */,
+				4944D79B24ABD2E700AD3955 /* AddSocialMediaVC.swift */,
+				4944D79D24ABE2FA00AD3955 /* PersonalInformationVCViewController.swift */,
 				497ACC5A24A935D3002333A6 /* SignUpPopUpView.swift */,
 				497ACC5C24A93651002333A6 /* DummyVCForPopUp.swift */,
 				4944D79524A9C90200AD3955 /* RatingViewController.swift */,
@@ -564,10 +573,12 @@
 				49C205DB2499AF730022EE53 /* MusicPlayerVC.swift in Sources */,
 				491ADB7724971B2500B62C5A /* ViewController.swift in Sources */,
 				49C205D92499A0770022EE53 /* DrawingBoardVC2.swift in Sources */,
+				4944D79A24ABBEF900AD3955 /* GoodBioSignUpVC.swift in Sources */,
 				491ADBA924971FE400B62C5A /* HomeVC.swift in Sources */,
 				4944D79624A9C90200AD3955 /* RatingViewController.swift in Sources */,
 				49C205D7249833E80022EE53 /* CreativeToolBar.swift in Sources */,
 				491ADB7324971B2500B62C5A /* AppDelegate.swift in Sources */,
+				4944D79E24ABE2FB00AD3955 /* PersonalInformationVCViewController.swift in Sources */,
 				49C205B92497DDA20022EE53 /* headerView.swift in Sources */,
 				496122A124A43EB80057579F /* UserProfile.swift in Sources */,
 				497ACC4D24A90496002333A6 /* HexagonStructData.swift in Sources */,
@@ -595,6 +606,7 @@
 				4959E04F24A3116400264DB7 /* YoutubeTableViewCell.swift in Sources */,
 				497ACC5B24A935D3002333A6 /* SignUpPopUpView.swift in Sources */,
 				49C205A32497DCBC0022EE53 /* followersCell.swift in Sources */,
+				4944D79C24ABD2E700AD3955 /* AddSocialMediaVC.swift in Sources */,
 				49A3743E24A3E4D4007A48E0 /* HexagonGrid2.swift in Sources */,
 				49C205C12497DDF30022EE53 /* commentVC.swift in Sources */,
 				491ADBB5249729A400B62C5A /* DiscoverVC.swift in Sources */,

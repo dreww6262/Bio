@@ -56,7 +56,8 @@ class HexagonView: UIViewController {
          mask.strokeColor = UIColor.clear.cgColor
          mask.fillColor = UIColor.white.cgColor
          imageView.layer.mask = mask
-        var degrees = 90.0 //the value in degrees
+      //  var degrees = 90.0 //the value in degrees
+        var degrees = 0.0
         imageView.transform = CGAffineTransform(rotationAngle: CGFloat((degrees * M_PI/180)))
 
          let border = CAShapeLayer()
