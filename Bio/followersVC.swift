@@ -191,7 +191,7 @@ class followersVC: UITableViewController {
             if error == nil {
                 if count == 0 {
                     cell.followBtn.setTitle("FOLLOW", for: UIControl.State())
-                    cell.followBtn.backgroundColor = .lightGray
+                    cell.followBtn.backgroundColor = .red
                 } else {
                     cell.followBtn.setTitle("FOLLOWING", for: UIControl.State())
                     cell.followBtn.backgroundColor = UIColor.green

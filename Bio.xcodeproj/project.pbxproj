@@ -35,11 +35,15 @@
 		491ADBC62497D57C00B62C5A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 491ADBC52497D57C00B62C5A /* Security.framework */; };
 		491ADBCA2497D58800B62C5A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 491ADBC92497D58800B62C5A /* SystemConfiguration.framework */; };
 		491ADBD02497D69200B62C5A /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 491ADBCF2497D69200B62C5A /* libz.tbd */; };
+		492E245A24B65D4B005745D1 /* CalltoUserBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492E245924B65D4B005745D1 /* CalltoUserBackend.swift */; };
+		492E245E24B664C2005745D1 /* SubscribersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492E245D24B664C2005745D1 /* SubscribersCell.swift */; };
+		492E246024B664D7005745D1 /* SearchUsersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492E245F24B664D7005745D1 /* SearchUsersVC.swift */; };
 		4944D79424A9C8F000AD3955 /* RatingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4944D79324A9C8EF00AD3955 /* RatingViewController.xib */; };
 		4944D79624A9C90200AD3955 /* RatingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4944D79524A9C90200AD3955 /* RatingViewController.swift */; };
 		4944D79A24ABBEF900AD3955 /* GoodBioSignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4944D79924ABBEF900AD3955 /* GoodBioSignUpVC.swift */; };
 		4944D79C24ABD2E700AD3955 /* AddSocialMediaVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4944D79B24ABD2E700AD3955 /* AddSocialMediaVC.swift */; };
 		4944D79E24ABE2FB00AD3955 /* PersonalInformationVCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4944D79D24ABE2FA00AD3955 /* PersonalInformationVCViewController.swift */; };
+		4944D7A024AD6A1B00AD3955 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4944D79F24AD6A1B00AD3955 /* UserData.swift */; };
 		4959E04924A3053200264DB7 /* SpotifyiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4959E04824A3052F00264DB7 /* SpotifyiOS.framework */; };
 		4959E04B24A3105300264DB7 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4959E04A24A3105200264DB7 /* VideoViewController.swift */; };
 		4959E04D24A3111E00264DB7 /* YoutubeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4959E04C24A3111E00264DB7 /* YoutubeTableViewController.swift */; };
@@ -152,11 +156,15 @@
 		491ADBC52497D57C00B62C5A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		491ADBC92497D58800B62C5A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		491ADBCF2497D69200B62C5A /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		492E245924B65D4B005745D1 /* CalltoUserBackend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalltoUserBackend.swift; sourceTree = "<group>"; };
+		492E245D24B664C2005745D1 /* SubscribersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscribersCell.swift; sourceTree = "<group>"; };
+		492E245F24B664D7005745D1 /* SearchUsersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SearchUsersVC.swift; path = /Users/annmcdonough/Documents/Bio/Bio/SearchUsersVC.swift; sourceTree = "<absolute>"; };
 		4944D79324A9C8EF00AD3955 /* RatingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RatingViewController.xib; sourceTree = "<group>"; };
 		4944D79524A9C90200AD3955 /* RatingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingViewController.swift; sourceTree = "<group>"; };
 		4944D79924ABBEF900AD3955 /* GoodBioSignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodBioSignUpVC.swift; sourceTree = "<group>"; };
 		4944D79B24ABD2E700AD3955 /* AddSocialMediaVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSocialMediaVC.swift; sourceTree = "<group>"; };
 		4944D79D24ABE2FA00AD3955 /* PersonalInformationVCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInformationVCViewController.swift; sourceTree = "<group>"; };
+		4944D79F24AD6A1B00AD3955 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		4959E04824A3052F00264DB7 /* SpotifyiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyiOS.framework; sourceTree = "<group>"; };
 		4959E04A24A3105200264DB7 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		4959E04C24A3111E00264DB7 /* YoutubeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeTableViewController.swift; sourceTree = "<group>"; };
@@ -292,6 +300,7 @@
 				49C205BA2497DDBC0022EE53 /* pictureCell.swift */,
 				49C205DA2499AF730022EE53 /* MusicPlayerVC.swift */,
 				49C205A42497DCFA0022EE53 /* guestVC.swift */,
+				492E245924B65D4B005745D1 /* CalltoUserBackend.swift */,
 				49C205CC2497EE560022EE53 /* tabbarVC.swift */,
 				49C205C42497DE180022EE53 /* commentCell.swift */,
 				49C205C22497DDF50022EE53 /* postCell.swift */,
@@ -299,8 +308,8 @@
 				49C205BC2497DDCE0022EE53 /* followersVC.swift */,
 				49C205C02497DDF30022EE53 /* commentVC.swift */,
 				49C205BE2497DDE30022EE53 /* postVC.swift */,
+				4944D79924ABBEF900AD3955 /* GoodBioSignUpVC.swift */,
 				497ACC4C24A90496002333A6 /* HexagonStructData.swift */,
-				497ACC5024A90C0F002333A6 /* HexagonClass.swift */,
 				497ACC5224A91738002333A6 /* Hexagons.swift */,
 				497ACC4E24A90905002333A6 /* ProfileTypeHexagon.swift */,
 				491ADBA224971E2700B62C5A /* SignInVC.swift */,
@@ -310,7 +319,10 @@
 				491ADB7624971B2500B62C5A /* ViewController.swift */,
 				49C205A22497DCBC0022EE53 /* followersCell.swift */,
 				491ADB7824971B2500B62C5A /* Main.storyboard */,
-				4944D79924ABBEF900AD3955 /* GoodBioSignUpVC.swift */,
+				492E245F24B664D7005745D1 /* SearchUsersVC.swift */,
+				492E245D24B664C2005745D1 /* SubscribersCell.swift */,
+				497ACC5024A90C0F002333A6 /* HexagonClass.swift */,
+				4944D79F24AD6A1B00AD3955 /* UserData.swift */,
 				4944D79B24ABD2E700AD3955 /* AddSocialMediaVC.swift */,
 				4944D79D24ABE2FA00AD3955 /* PersonalInformationVCViewController.swift */,
 				497ACC5A24A935D3002333A6 /* SignUpPopUpView.swift */,
@@ -578,6 +590,7 @@
 				4944D79624A9C90200AD3955 /* RatingViewController.swift in Sources */,
 				49C205D7249833E80022EE53 /* CreativeToolBar.swift in Sources */,
 				491ADB7324971B2500B62C5A /* AppDelegate.swift in Sources */,
+				492E245E24B664C2005745D1 /* SubscribersCell.swift in Sources */,
 				4944D79E24ABE2FB00AD3955 /* PersonalInformationVCViewController.swift in Sources */,
 				49C205B92497DDA20022EE53 /* headerView.swift in Sources */,
 				496122A124A43EB80057579F /* UserProfile.swift in Sources */,
@@ -589,8 +602,10 @@
 				49C205C32497DDF50022EE53 /* postCell.swift in Sources */,
 				497ACC5D24A93651002333A6 /* DummyVCForPopUp.swift in Sources */,
 				497ACC5124A90C0F002333A6 /* HexagonClass.swift in Sources */,
+				492E246024B664D7005745D1 /* SearchUsersVC.swift in Sources */,
 				491ADBB1249723FC00B62C5A /* PublicityTableVC.swift in Sources */,
 				491ADBA324971E2700B62C5A /* SignInVC.swift in Sources */,
+				4944D7A024AD6A1B00AD3955 /* UserData.swift in Sources */,
 				49C205CD2497EE570022EE53 /* tabbarVC.swift in Sources */,
 				497ACC5324A91738002333A6 /* Hexagons.swift in Sources */,
 				49A3743C24A3CD38007A48E0 /* HexagonView.swift in Sources */,
@@ -603,6 +618,7 @@
 				491ADB7524971B2500B62C5A /* SceneDelegate.swift in Sources */,
 				49C205C52497DE190022EE53 /* commentCell.swift in Sources */,
 				497ACC4F24A90905002333A6 /* ProfileTypeHexagon.swift in Sources */,
+				492E245A24B65D4B005745D1 /* CalltoUserBackend.swift in Sources */,
 				4959E04F24A3116400264DB7 /* YoutubeTableViewCell.swift in Sources */,
 				497ACC5B24A935D3002333A6 /* SignUpPopUpView.swift in Sources */,
 				49C205A32497DCBC0022EE53 /* followersCell.swift in Sources */,

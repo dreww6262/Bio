@@ -15,6 +15,7 @@ class Hexagons {
 //    var db: Firestore!
     var currentUserHexagons: [HexagonStructData] = []
      var allHexagons: [HexagonStructData] = []
+    var pageViews = 0
     
 //    init() {
 //       db = Firestore.firestore()

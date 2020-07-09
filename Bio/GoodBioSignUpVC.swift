@@ -84,18 +84,10 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         usernameTxt.frame = CGRect(x: 10, y: avaImg.frame.origin.y + 90, width: self.view.frame.size.width - 20, height: 30)
         passwordTxt.frame = CGRect(x: 10, y: usernameTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
         repeatPassword.frame = CGRect(x: 10, y: passwordTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
-        emailTxt.frame = CGRect(x: 10, y: repeatPassword.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
-        firstNameTxt.frame = CGRect(x: 10, y: emailTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
-         lastNameTxt.frame = CGRect(x: 10, y: firstNameTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
-        instagramUsernameTxt.frame = CGRect(x: 10, y: lastNameTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
-        instagramLogo.frame = CGRect(x: self.view.frame.size.width - 37, y: lastNameTxt.frame.origin.y + 43, width: 24, height: 24)
-        snapcatUsernameTxt.frame =  CGRect(x: 10, y: instagramUsernameTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
-        snapchatLogo.frame =  CGRect(x: self.view.frame.size.width - 37, y: instagramUsernameTxt.frame.origin.y + 43, width: 24, height: 24)
         
-        signUpBtn.frame = CGRect(x: 20, y: snapcatUsernameTxt.frame.origin.y + 50, width: self.view.frame.size.width / 4, height: 30)
+        signUpBtn.frame = CGRect(x: 10, y: repeatPassword.frame.origin.y + 50, width: self.view.frame.size.width - 20, height: 30)
         signUpBtn.layer.cornerRadius = signUpBtn.frame.size.width / 20
-        
-        cancelBtn.frame = CGRect(x: self.view.frame.size.width - self.view.frame.size.width / 4 - 20, y: signUpBtn.frame.origin.y, width: self.view.frame.size.width / 4, height: 30)
+        cancelBtn.frame = CGRect(x: 5, y: 15, width: 24, height: 23)
         cancelBtn.layer.cornerRadius = cancelBtn.frame.size.width / 20
         
         // background
@@ -175,6 +167,7 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
             return
         }
         
+        
         // if different passwords
         if passwordTxt.text != repeatPassword.text {
             
@@ -191,17 +184,14 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         // send data to server to related collumns
         let user = PFUser()
         user.username = usernameTxt.text?.lowercased()
-        user.email = emailTxt.text?.lowercased()
+     //   user.email = emailTxt.text?.lowercased()
         user.password = passwordTxt.text
-        user["firstName"] = firstNameTxt.text
-        user["lastName"] = lastNameTxt.text
-        user["instagramUsername"] = instagramUsernameTxt.text
-        user["snapchatUsername"] = snapcatUsernameTxt.text?.lowercased()
+      
 
         // in Edit Profile it's gonna be assigned
-        user["tel"] = ""
-        user["gender"] = ""
-        
+//        user["tel"] = ""
+//        user["gender"] = ""
+//
         // convert our image for sending to server
         let avaData = avaImg.image!.jpegData(compressionQuality: 0.5)
         let avaFile = PFFileObject(name: "ava.jpg", data: avaData!)

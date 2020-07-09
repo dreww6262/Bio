@@ -63,7 +63,11 @@ class PersonalInformationVC: UIViewController, UIImagePickerControllerDelegate, 
         // round ava
       //  avaImg.layer.cornerRadius = avaImg.frame.size.width / 2
         //hexagonAva
- titleText.frame = CGRect(x: 0,y:20, width: self.view.frame.size.width, height: 30)
+
+cancelBtn.frame = CGRect(x: 5, y: 15, width: 24, height: 24)
+                       cancelBtn.layer.cornerRadius = cancelBtn.frame.size.width / 20
+titleText.frame = CGRect(x: 0,y:36, width: self.view.frame.size.width, height: 30)
+
  subtitleText.frame = CGRect(x:0, y: titleText.frame.origin.y + 30, width: self.view.frame.size.width, height: 30)
     
         firstNameText.frame = CGRect(x: 10, y: subtitleText.frame.origin.y + 50, width: self.view.frame.size.width - 20, height: 30)
@@ -77,11 +81,10 @@ class PersonalInformationVC: UIViewController, UIImagePickerControllerDelegate, 
        //    poshmarkText.frame = CGRect(x: 10, y: hometownText.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
        
         
-        signUpBtn.frame = CGRect(x: 20, y: hometownText.frame.origin.y + 40, width: self.view.frame.size.width / 4, height: 30)
+        signUpBtn.frame = CGRect(x: self.view.frame.size.width*3/4 - 10, y: hometownText.frame.origin.y + 47, width: self.view.frame.size.width/4, height: 30)
         signUpBtn.layer.cornerRadius = signUpBtn.frame.size.width / 20
         
-        cancelBtn.frame = CGRect(x: self.view.frame.size.width - self.view.frame.size.width / 4 - 20, y: signUpBtn.frame.origin.y, width: self.view.frame.size.width / 4, height: 30)
-        cancelBtn.layer.cornerRadius = cancelBtn.frame.size.width / 20
+       
         
         // background
         let bg = UIImageView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height))
@@ -186,8 +189,8 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         //user["poshmarkUsername"] = poshmarkText.text?.lowercased()
 
         // in Edit Profile it's gonna be assigned
-        user["tel"] = ""
-        user["gender"] = ""
+//        user["tel"] = ""
+//        user["gender"] = ""
         
         // convert our image for sending to server
         ///let avaData = avaImg.image!.jpegData(compressionQuality: 0.5)

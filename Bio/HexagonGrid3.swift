@@ -34,7 +34,11 @@ class HexagonGrid3: UIViewController {
              //   downloadFileFromURL(url: URL(string: "https://p.scdn.co/mp3-preview/18d3b87b0765cd6d8c0a418d6142b3b441c0f8b2?cid=476c620368f349cc8be5b2a29b596eaf")!)
         play(url: "https://p.scdn.co/mp3-preview/18d3b87b0765cd6d8c0a418d6142b3b441c0f8b2?cid=476c620368f349cc8be5b2a29b596eaf")
        
-     
+     // background
+            let bg = UIImageView(frame: CGRect(x: -400, y: -400, width: 3000, height: 3000))
+            bg.image = UIImage(named: "outerspace1")
+            bg.layer.zPosition = -1
+            self.view.addSubview(bg)
         
         
 //        SPTAuth.defaultInstance().clientID        = "934ec9a2f19640bdaddd48aedcd4199e"
@@ -65,17 +69,15 @@ class HexagonGrid3: UIViewController {
                 let rows = 15
                 let firstRowColumns = 15
                 
-                scrollView.contentSize = CGSize(width: spacing + CGFloat(firstRowColumns) * (hexaWidth + spacing),
-                                          height: spacing + CGFloat(rows) * (hexaDiameter - hexaHeightDelta + spacing) + hexaHeightDelta)
-        
+        self.scrollView.contentSize = CGSize(width: spacing + CGFloat(firstRowColumns) * (hexaWidth + spacing), height: spacing + CGFloat(rows) * (hexaDiameter - hexaHeightDelta + spacing) + hexaHeightDelta)
         
         
 //        self.scrollView.center.x = 946.8266739736607
 //         self.scrollView.center.y = 902.5
-         scrollView.backgroundColor = UIColor.black
+        self.scrollView.backgroundColor = UIColor.black
            // scrollView.contentSize = imageView.bounds.size
-         scrollView.autoresizingMask = UIView.AutoresizingMask.flexibleWidth
-         scrollView.autoresizingMask = UIView.AutoresizingMask.flexibleHeight
+        self.scrollView.autoresizingMask = UIView.AutoresizingMask.flexibleWidth
+        self.scrollView.autoresizingMask = UIView.AutoresizingMask.flexibleHeight
          
         
         
@@ -113,7 +115,7 @@ class HexagonGrid3: UIViewController {
     }
     
     func populateSocialMedia() {
-       imageViewArray[0].image = UIImage(named: "stickfigure1")
+       imageViewArray[0].image = UIImage(named: "patsbitmoji")
      //   imageViewArray[0].loadGif(name: "hockeygif")
         fakeUserTotalProfileArray.append(imageViewArray[0].image!)
         imageViewArray[1].image = UIImage(named: "facebooklogo")
@@ -130,6 +132,7 @@ class HexagonGrid3: UIViewController {
         fakeUserTotalProfileArray.append(imageViewArray[6].image!)
         
     }
+    
    func openInstagram(instagramHandle: String) {
        guard let url = URL(string: "https://instagram.com/\(instagramHandle)")  else { return }
        if UIApplication.shared.canOpenURL(url) {
@@ -275,6 +278,7 @@ class HexagonGrid3: UIViewController {
             
 
     }
+        
         if sender.view!.tag == 1 {
                openFacebook(facebookHandle: "")
                }

@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-struct HexagonStructData { // : Codable { //Codable {
+struct HexagonStructData {  // : Codable { //Codable {
     var text: String
     var type: Type
     var time: TimeInterval
@@ -24,6 +24,7 @@ struct HexagonStructData { // : Codable { //Codable {
     var videoString: String
     var isAnimated: Bool
 }
+
 
 struct Type {     //} Codable {
     var typeString: String
