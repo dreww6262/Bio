@@ -2054,11 +2054,11 @@
         <!--Hexagon Grid3-->
         <scene sceneID="CEg-Id-KoI">
             <objects>
-                <viewController restorationIdentifier="HexagonGrid3" storyboardIdentifier="HexagonGrid3" id="2xM-ld-mPr" customClass="HexagonGrid3" customModule="Bio" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="hexgrid3" storyboardIdentifier="hexgrid3" id="2xM-ld-mPr" customClass="HexagonGrid3" customModule="Bio" customModuleProvider="target" sceneMemberID="viewController">
                     <scrollView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" id="BVg-mW-evo">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" red="0.90768188240000003" green="0.2555268705" blue="0.2549206316" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="0Yw-eu-igj"/>
                         <viewLayoutGuide key="contentLayoutGuide" id="Xfw-rw-vJp"/>
                         <viewLayoutGuide key="frameLayoutGuide" id="HCQ-Bu-Vjz"/>

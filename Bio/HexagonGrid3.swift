@@ -56,7 +56,7 @@ class HexagonGrid3: UIViewController {
        // scrollView.addGestureRecognizer(tap)
         
         
-          // Do any additional setup after loading the view.
+//          // Do any additional setup after loading the view.
                 let hexaDiameter : CGFloat = 150
                 let hexaWidth = hexaDiameter * sqrt(3) * 0.5
                 let hexaWidthDelta = (hexaDiameter - hexaWidth) * 0.5
@@ -68,17 +68,17 @@ class HexagonGrid3: UIViewController {
 
                 let rows = 15
                 let firstRowColumns = 15
-                
-        self.scrollView.contentSize = CGSize(width: spacing + CGFloat(firstRowColumns) * (hexaWidth + spacing), height: spacing + CGFloat(rows) * (hexaDiameter - hexaHeightDelta + spacing) + hexaHeightDelta)
-        
-        
-//        self.scrollView.center.x = 946.8266739736607
-//         self.scrollView.center.y = 902.5
-        self.scrollView.backgroundColor = UIColor.black
-           // scrollView.contentSize = imageView.bounds.size
-        self.scrollView.autoresizingMask = UIView.AutoresizingMask.flexibleWidth
-        self.scrollView.autoresizingMask = UIView.AutoresizingMask.flexibleHeight
-         
+
+//        self.scrollView.contentSize = CGSize(width: spacing + CGFloat(firstRowColumns) * (hexaWidth + spacing), height: spacing + CGFloat(rows) * (hexaDiameter - hexaHeightDelta + spacing) + hexaHeightDelta)
+//
+//
+////        self.scrollView.center.x = 946.8266739736607
+////         self.scrollView.center.y = 902.5
+//        self.scrollView.backgroundColor = UIColor.black
+//           // scrollView.contentSize = imageView.bounds.size
+//        self.scrollView.autoresizingMask = UIView.AutoresizingMask.flexibleWidth
+//        self.scrollView.autoresizingMask = UIView.AutoresizingMask.flexibleHeight
+//
         
         
         
@@ -113,6 +113,36 @@ class HexagonGrid3: UIViewController {
         
         
     }
+    
+    func viewWillAppear() {
+        super.viewWillAppear(true) // No need for semicolon
+           // Do any additional setup after loading the view.
+                        let hexaDiameter : CGFloat = 150
+                        let hexaWidth = hexaDiameter * sqrt(3) * 0.5
+                        let hexaWidthDelta = (hexaDiameter - hexaWidth) * 0.5
+                        let hexaHeightDelta = hexaDiameter * 0.25
+                        let spacing : CGFloat = 5
+
+                //        let rows = 10
+                //        let firstRowColumns = 6
+
+                        let rows = 15
+                        let firstRowColumns = 15
+                        
+                self.scrollView.contentSize = CGSize(width: spacing + CGFloat(firstRowColumns) * (hexaWidth + spacing), height: spacing + CGFloat(rows) * (hexaDiameter - hexaHeightDelta + spacing) + hexaHeightDelta)
+                
+                
+        //        self.scrollView.center.x = 946.8266739736607
+        //         self.scrollView.center.y = 902.5
+                self.scrollView.backgroundColor = UIColor.black
+                   // scrollView.contentSize = imageView.bounds.size
+                self.scrollView.autoresizingMask = UIView.AutoresizingMask.flexibleWidth
+                self.scrollView.autoresizingMask = UIView.AutoresizingMask.flexibleHeight
+    }
+    
+    
+    
+    
     
     func populateSocialMedia() {
        imageViewArray[0].image = UIImage(named: "patsbitmoji")

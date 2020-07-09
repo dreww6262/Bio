@@ -17,7 +17,7 @@ class SearchUsersVC: UITableViewController, UISearchBarDelegate {
     var usernameArray = [String]()
     var avaArray = [PFFileObject]()
     var fullNameArray = [String]()
-    
+    var navigationVC: UINavigationController!
     
     // collectionView UI
     var collectionView : UICollectionView!
@@ -31,7 +31,7 @@ class SearchUsersVC: UITableViewController, UISearchBarDelegate {
     // default func
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print("This is printing")
         // implement search bar
         searchBar.delegate = self
         searchBar.sizeToFit()
@@ -266,15 +266,22 @@ class SearchUsersVC: UITableViewController, UISearchBarDelegate {
         // if user tapped on his name go home, else go guest
         if cell.usernameLbl.text! == PFUser.current()?.username {
         //    let home = self.storyboard?.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
-             let home = self.storyboard?.instantiateViewController(withIdentifier: "HexagonGrid3") as! HexagonGrid3
-            self.navigationController?.pushViewController(home, animated: true)
+             let home = self.storyboard?.instantiateViewController(withIdentifier: "hexgrid3") as! HexagonGrid3
+           // self.navigationController?.pushViewController(home, animated: true)
+          self.present(HexagonGrid3(), animated:true, completion:nil)
         } else {
             guestname.append(cell.usernameLbl.text!)
             //let guest = self.storyboard?.instantiateViewController(withIdentifier: "guestVC") as! guestVC
             print("🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣")
-              let guest = self.storyboard?.instantiateViewController(withIdentifier: "HexagonGrid3") as! HexagonGrid3
-           // self.navigationController?.pushViewController(guest, animated: true)
-            self.present(HexagonGrid3(), animated:true, completion:nil)
+          //    let guest = self.storyboard?.instantiateViewController(withIdentifier: "HexagonGrid3") as! HexagonGrid3
+          // self.navigationController?.pushViewController(guest, animated: true)
+          // self.present(HexagonGrid3(), animated:true, completion:nil)
+          //  self.show()
+            
+            let guestView = self.storyboard?.instantiateViewController(withIdentifier: "hexgrid3") as! HexagonGrid3
+            self.navigationVC?.pushViewController(guestView, animated: true)
+            //self.navVC?.pushViewController(guestView, animated: true )
+            
             
         }
     }
