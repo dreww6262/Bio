@@ -114,8 +114,9 @@ class HexagonGrid3: UIViewController {
         
     }
     
-    func viewWillAppear() {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true) // No need for semicolon
+        print("viewwillappear")
            // Do any additional setup after loading the view.
                         let hexaDiameter : CGFloat = 150
                         let hexaWidth = hexaDiameter * sqrt(3) * 0.5

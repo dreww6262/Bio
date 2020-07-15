@@ -287,7 +287,13 @@ class DrawingBoard3: UIViewController, UIGestureRecognizerDelegate, UIImagePicke
            let translation = sender.translation(in: self.view)
            sender.view?.center = CGPoint(x: (sender.view?.center.x)! + translation.x, y: (sender.view?.center.y)! + translation.y)
                 sender.setTranslation(CGPoint.zero, in: self.view)
+        
+        //try to pan over image grid
+//        self.view.center = CGPoint(x: (self.view.center.x) + translation.x, y: (self.view.center.y) + translation.y)
+        ///sender.setTranslation(CGPoint.zero, in: self.view)
+        
             }
+    
     
     func adjustUITextViewHeight(textView: UITextView) {
         let fixedWidth = textView.frame.size.width

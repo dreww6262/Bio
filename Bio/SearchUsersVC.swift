@@ -6,6 +6,9 @@
 
 import UIKit
 import Parse
+//var usernameArray = [String]()
+// var avaArray = [PFFileObject]()
+// var fullNameArray = [String]()
 
 class SearchUsersVC: UITableViewController, UISearchBarDelegate {
     
@@ -14,6 +17,8 @@ class SearchUsersVC: UITableViewController, UISearchBarDelegate {
     // declare search bar
    // var searchBar = UISearchBar(frame: CGRect(x: 0.0, y: 0.0, width: 500.0, height: 50.0))
     // tableView arrays to hold information from server
+
+//commented this out to try global variable 
     var usernameArray = [String]()
     var avaArray = [PFFileObject]()
     var fullNameArray = [String]()
