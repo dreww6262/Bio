@@ -136,7 +136,7 @@ class DraggableHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //,
             print(coordinates)
             let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(longTap))
 //            let dragGesture = UIPanGestureRecognizer(target: self, action: #selector(dragItem(_:)))
-            let dragGesture = UIPanGestureRecognizer(target: self, action: #selector(dragItem))
+            let dragGesture = UIPanGestureRecognizer(target: self, action: #selector(dragged))
             
             let image = UIImageView(frame: CGRect(x: coordinates[0]-680,
                                                                  y: coordinates[1]-570,
@@ -401,19 +401,102 @@ class DraggableHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //,
 //    }
     
     var dragView : UIView? = nil
-    @objc func dragged(sender : UILongPressGestureRecognizer) {
-        if (sender.state == .began) {
-            let pannedView: UIView = sender.view!
+    @objc func dragged(sender : UIPanGestureRecognizer) {
+        
+        // if hexagon is in movable mode.
+        if (hexIsMovable) {
             
-            dragView = pannedView
-            dragView?.center = sender.location(in: scrollView)
-            scrollView.bringSubviewToFront(dragView!)
+            print("I am movable")
+            //if the state has begun, store dragview for first time and center, bring scrollview subview to front
+            if (sender.state == .began) {
+                let pannedView: UIView = sender.view!
+                
+                dragView = pannedView
+                dragView?.center = sender.location(in: scrollView)
+                scrollView.bringSubviewToFront(dragView!)
+            }
+                
+            // if sender state is changed, store deltas and check if srollview needs to pan
+            else if (sender.state == .changed) {
+                let xDelta = dragView!.center.x - sender.location(in: scrollView).x
+                let yDelta = dragView!.center.y - sender.location(in: scrollView).y
+                dragView?.center = sender.location(in: scrollView)
+                self.scrollIfNeeded(location: sender.location(in: scrollView.superview), xDelta: xDelta, yDelta: yDelta)
+            }
+            else if (sender.state == .ended) {
+                hexIsMovable = false
+            }
         }
-        else if (sender.state == .changed) {
-            let xDelta = dragView!.center.x - sender.location(in: scrollView).x
-            let yDelta = dragView!.center.y - sender.location(in: scrollView).y
-            dragView?.center = sender.location(in: scrollView)
-            self.scrollIfNeeded(location: sender.location(in: scrollView.superview), xDelta: xDelta, yDelta: yDelta)
+            
+        // if hexagon is not in movable mode
+        else {
+            
+            if (sender.state == .began) {
+                //sender.view?.isUserInteractionEnabled = false
+                let pannedView: UIView = sender.view!
+                
+                dragView = pannedView
+            }
+            else if (sender.state == .changed) {
+            
+            //print("im not movable")
+//
+//                let xDelta = scrollView.frame.minX - sender.location(in: scrollView).x
+//                let yDelta = scrollView.frame.minY - sender.location(in: scrollView).y
+//                print ("xdelta \(xDelta)")
+//                print ("ydelta \(yDelta)")
+//                print ("sender frame \(sender.view!.frame)")
+//                let speed: CGFloat = 10.0
+//                let location = sender.location(in: scrollView)
+//                let bounds: CGRect = scrollView.superview!.bounds
+                var scrollOffset = scrollView.contentOffset
+//
+//                var xOfs: CGFloat = 0.0
+//
+//
+//                    var yOfs: CGFloat = 0.0
+//
+//                print("checking deltas")
+//                if xDelta > 0 {
+//                    xOfs = CGFloat(CGFloat(speed) * location.x/bounds.size.width)
+//                }
+//                else if xDelta < 0 {
+//                    xOfs = -1 * speed * (1.0 - location.x/bounds.size.width)
+//                }
+//                if yDelta > 0 {
+//                    yOfs = CGFloat(CGFloat(speed) * location.y/bounds.size.height)
+//                }
+//                else if yDelta < 0 {
+//                    yOfs = -1 * speed * (1.0 - location.y/bounds.size.height)
+//                }
+//                print("checking ofs")
+//
+//                if (xOfs < 0)
+//                {
+//                    if (scrollOffset.x == 0){
+//                        return
+//                    }
+//                    if (xOfs < -scrollOffset.x){
+//                        xOfs = -scrollOffset.x
+//                    }
+//                }
+//                if (yOfs < 0)
+//                {
+//                    if (scrollOffset.y == 0){
+//                        return
+//                    }
+//                    if (yOfs < -scrollOffset.y){
+//                        yOfs = -scrollOffset.y
+//                    }
+//                }
+//                print("xOfs \(xOfs)")
+//                print("yOfs \(yOfs)")
+                let translation = sender.translation(in: self.view)
+                scrollOffset.x = scrollOffset.x - translation.x/10
+                scrollOffset.y = scrollOffset.y - translation.y/10
+                let rect = CGRect(x: scrollOffset.x, y: scrollOffset.y, width: scrollView.bounds.size.width, height: scrollView.bounds.size.height)
+                scrollView.scrollRectToVisible(rect, animated: false)
+            }
         }
         
     }
