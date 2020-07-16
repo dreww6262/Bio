@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vCn-Dw-efS">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bbh-XN-JYU">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -2209,10 +2209,10 @@
             </objects>
             <point key="canvasLocation" x="3057" y="-2788"/>
         </scene>
-        <!--Good Bio Sign InVC-->
+        <!--Phone Sign InVC-->
         <scene sceneID="Aas-bo-Mh5">
             <objects>
-                <viewController storyboardIdentifier="goodSignIn" id="bbh-XN-JYU" customClass="GoodBioSignInVC" customModule="Bio" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="phoneSignIn" id="bbh-XN-JYU" customClass="PhoneSignInVC" customModule="Bio" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="PHP-gI-3eE"/>
                         <viewControllerLayoutGuide type="bottom" id="IkA-Xy-z4o"/>
@@ -2245,7 +2245,6 @@
                                     <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="signUpPressed:" destination="bbh-XN-JYU" eventType="touchUpInside" id="IGV-Lh-UD2"/>
                                     <segue destination="2xM-ld-mPr" kind="show" identifier="toHexagonGrid" id="sN4-ZK-u42"/>
                                 </connections>
                             </button>
@@ -2263,9 +2262,6 @@
                                 <rect key="frame" x="168" y="113" width="79" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Test Button"/>
-                                <connections>
-                                    <action selector="zoomInButton:" destination="bbh-XN-JYU" eventType="touchUpInside" id="oCL-ld-x87"/>
-                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.95846420529999998" green="0.91407060620000002" blue="0.86989611389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -2273,11 +2269,10 @@
                     </view>
                     <navigationItem key="navigationItem" id="Tcc-D9-wSF"/>
                     <connections>
-                        <outlet property="label" destination="aTE-iU-chw" id="FRB-XT-fCX"/>
+                        <outlet property="label" destination="aTE-iU-chw" id="eMl-ur-L4P"/>
                         <outlet property="mottoLabel" destination="IyL-FO-tFn" id="Tnh-jL-Seh"/>
                         <outlet property="signInButton" destination="1YW-hO-4a4" id="HYm-xU-eDw"/>
                         <outlet property="signUpButton" destination="MhP-9d-291" id="DcB-Ow-yZA"/>
-                        <outlet property="signUpWithInstagramButton" destination="MhP-9d-291" id="msz-5w-xSx"/>
                         <outlet property="testButton" destination="VPb-R4-4by" id="g4p-4Q-JTr"/>
                     </connections>
                 </viewController>
