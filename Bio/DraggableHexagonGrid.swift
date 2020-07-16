@@ -13,6 +13,8 @@ import AVKit
 import SwiftUI
 let red = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
 let gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
+let purple = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
+let white = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
 class DraggableHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UIScrollViewDelegate {
     
     
@@ -132,6 +134,9 @@ class DraggableHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //,
             image.addGestureRecognizer(dragGesture)
             //    var gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
             image.setupHexagonMask(lineWidth: 10.0, color: gold, cornerRadius: 10.0)
+            if index == 0 {
+                 image.setupHexagonMask(lineWidth: 10.0, color: purple, cornerRadius: 10.0)
+            }
             view.addSubview(image)
             imageViewArray.append(image)
             imageViewArray[index].tag = index
