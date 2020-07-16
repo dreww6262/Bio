@@ -244,11 +244,153 @@ class HexagonGrid2: UIViewController, UIScrollViewDelegate {
                               }
                 if image.frame.midX == 744.4709581221618 && image.frame.midY == 550.0 {
                                                                   print("I want this to be 18th 🎲🎲🎲🎲🎲🎲")
-                                                                  image.image = UIImage(named: "stickfigure1")
+                                                                  image.image = UIImage(named: "kbit")
                                              }
                 
+                if image.frame.midX == 811.9228634059948 && image.frame.midY == 432.5 {
+                                     print("I want this to be 19th 🎲🎲🎲🎲🎲🎲")
+                                     image.image = UIImage(named: "kbit")
+                }
+                
+                if image.frame.midX == 946.8266739736607 && image.frame.midY == 432.5 {
+                                                   print("I want this to be 20th 🎲🎲🎲🎲🎲🎲")
+                                                   image.image = UIImage(named: "kbit")
+                              }
+                
+                if image.frame.midX == 1081.7304845413264 && image.frame.midY == 432.5 {
+                                                                 print("I want this to be 21th 🎲🎲🎲🎲🎲🎲")
+                                                                 image.image = UIImage(named: "kbit")
+                                            }
+                if image.frame.midX == 1216.6342951089923 && image.frame.midY == 432.5 {
+                                                                                print("I want this to be 22th 🎲🎲🎲🎲🎲🎲")
+                                                                                image.image = UIImage(named: "kbit")
+                                                           }
+                
+                if image.frame.midX == 1284.0862003928253 && image.frame.midY == 550.0 {
+                                                                                             print("I want this to be 23th 🎲🎲🎲🎲🎲🎲")
+                                                                                             image.image = UIImage(named: "kbit")
+                                                                        }
+                if image.frame.midX == 1351.5381056766582 && image.frame.midY == 667.5 {
+                                     print("I want this to be 24th 🎲🎲🎲🎲🎲🎲")
+                                     image.image = UIImage(named: "kbit")
+                }
+                
+                if image.frame.midX == 1418.990010960491 && image.frame.midY == 785.0 {
+                                     print("I want this to be 25th 🎲🎲🎲🎲🎲🎲")
+                                     image.image = UIImage(named: "kbit")
+                }
+                
+                if image.frame.midX == 1486.441916244324 && image.frame.midY == 902.5 {
+                                                  print("I want this to be 26th 🎲🎲🎲🎲🎲🎲")
+                                                  image.image = UIImage(named: "kbit")
+                             }
+                
+                if image.frame.midX == 1418.990010960491 && image.frame.midY == 1020.0 {
+                                     print("I want this to be 27th 🎲🎲🎲🎲🎲🎲")
+                                     image.image = UIImage(named: "kbit")
+                }
+                
+                if image.frame.midX == 1351.5381056766582 && image.frame.midY == 1137.5 {
+                                                   print("I want this to be 27th 🎲🎲🎲🎲🎲🎲")
+                                                   image.image = UIImage(named: "kbit")
+                              }
+                
+                if image.frame.midX == 1284.0862003928253 && image.frame.midY == 1255.0 {
+                                                                 print("I want this to be 28th 🎲🎲🎲🎲🎲🎲")
+                                                                 image.image = UIImage(named: "kbit")
+                                            }
+                
+                if image.frame.midX == 1216.6342951089923 && image.frame.midY == 1372.5 {
+                                                                                print("I want this to be 29th 🎲🎲🎲🎲🎲🎲")
+                                                                                image.image = UIImage(named: "kbit")
+                                                           }
+                
+                if image.frame.midX == 1081.7304845413264 && image.frame.midY == 1372.5 {
+                                                                                               print("I want this to be 30th 🎲🎲🎲🎲🎲🎲")
+                                                                                               image.image = UIImage(named: "kbit")
+                                                                          }
+                if image.frame.midX == 946.8266739736607 && image.frame.midY == 1372.5 {
+                                                                                                              print("I want this to be 30th 🎲🎲🎲🎲🎲🎲")
+                                                                                                              image.image = UIImage(named: "kbit")
+                    }
+            
+                if image.frame.midX == 811.9228634059948 && image.frame.midY == 1372.5 {
+                                                                                                                             print("I want this to be 31th 🎲🎲🎲🎲🎲🎲")
+                                                                                                                             image.image = UIImage(named: "kbit")
+                                   }
+                
+                if image.frame.midX == 677.0190528383291 && image.frame.midY == 1372.5 {
+                                                                                                          print("I want this to be 32th 🎲🎲🎲🎲🎲🎲")
+                                                                                                          image.image = UIImage(named: "kbit")
+                }
+                
+                if image.frame.midX == 609.5671475544962 && image.frame.midY == 1255.0 {
+                                                                                                                         print("I want this to be 33th 🎲🎲🎲🎲🎲🎲")
+                                                                                                                         image.image = UIImage(named: "kbit")
+                               }
+                
+                if image.frame.midX == 542.1152422706632 && image.frame.midY == 1137.5 {
+                                                                                                          print("I want this to be 34th 🎲🎲🎲🎲🎲🎲")
+                                                                                                          image.image = UIImage(named: "kbit")
+                }
+                
+                if image.frame.midX == 474.6633369868303 && image.frame.midY == 1020.0 {
+                                                                                                                        print("I want this to be 35th 🎲🎲🎲🎲🎲🎲")
+                                                                                                                        image.image = UIImage(named: "kbit")
+                              }
+                               
+                if image.frame.midX == 407.2114317029974 && image.frame.midY == 902.5 {
+                                                                                                                                       print("I want this to be 36th 🎲🎲🎲🎲🎲🎲")
+                                                                                                                                       image.image = UIImage(named: "kbit")
+                                             }
+                
+                if image.frame.midX == 474.6633369868303 && image.frame.midY == 785.0 {
+                                                                                                          print("I want this to be 37th 🎲🎲🎲🎲🎲🎲")
+                                                                                                          image.image = UIImage(named: "kbit")
+                }
+                
+                if image.frame.midX == 542.1152422706632 && image.frame.midY == 667.5 {
+                                                                                                                 print("I want this to be 38th 🎲🎲🎲🎲🎲🎲")
+                                                                                                                 image.image = UIImage(named: "kbit")
+                       }
+                
+                if image.frame.midX == 609.5671475544962 && image.frame.midY == 550.0 {
+                                                                                                                               print("I want this to be 39th 🎲🎲🎲🎲🎲🎲")
+                                                                                                                               image.image = UIImage(named: "kbit")
+                                     }
+                
+            if image.frame.midX == 677.0190528383291 && image.frame.midY == 432.5 {
+                                                                                                                                         print("I want this to be 40th 🎲🎲🎲🎲🎲🎲")
+                                                                                                                                         image.image = UIImage(named: "kbit")
+                                               }
                 
                 
+                
+                
+            [677.0190528383291, 432.5]
+                [609.5671475544962, 550.0]
+                [542.1152422706632, 667.5]
+                [474.6633369868303, 785.0]
+                [407.2114317029974, 902.5]
+                [474.6633369868303, 1020.0]
+                [542.1152422706632, 1137.5]
+                [609.5671475544962, 1255.0]
+                [677.0190528383291, 1372.5]
+                [811.9228634059948, 1372.5]
+                [946.8266739736607, 1372.5]
+                [1081.7304845413264, 1372.5]
+                [1216.6342951089923, 1372.5]
+                [1284.0862003928253, 1255.0]
+                [1351.5381056766582, 1137.5]
+                [1418.990010960491, 1020.0]
+                [1486.441916244324, 902.5]
+                [1418.990010960491, 785.0]
+                [1351.5381056766582, 667.5]
+                [1284.0862003928253, 550.0]
+                [1216.6342951089923, 432.5]
+                [1081.7304845413264, 432.5]
+                [946.8266739736607, 432.5]
+                [811.9228634059948, 432.5]
                 [744.4709581221618, 550.0]
                 [677.0190528383291, 667.5]
                 [609.5671475544962, 785.0]
