@@ -7,14 +7,11 @@
 //
 
 import UIKit
-import Parse
-
+import Firebase
+import FirebaseFirestore
+import FirebaseAuth
 
 class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
-    @IBOutlet weak var instagramLogo: UIImageView!
-    
-    @IBOutlet weak var snapchatLogo: UIImageView!
     
   // scrollView
     @IBOutlet weak var scrollView: UIScrollView!
@@ -22,17 +19,12 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     // profile image
     @IBOutlet weak var avaImg: UIImageView!
     
+    @IBOutlet weak var displayNameTxt: UITextField!
+    
     // textfields
     @IBOutlet weak var usernameTxt: UITextField!
     @IBOutlet weak var passwordTxt: UITextField!
     @IBOutlet weak var repeatPassword: UITextField!
-    @IBOutlet weak var emailTxt: UITextField!
-    @IBOutlet weak var firstNameTxt: UITextField!
-    
-    @IBOutlet weak var lastNameTxt: UITextField!
-    @IBOutlet weak var instagramUsernameTxt: UITextField!
-    @IBOutlet weak var snapcatUsernameTxt: UITextField!
-    
     // buttons
     @IBOutlet weak var signUpBtn: UIButton!
     @IBOutlet weak var cancelBtn: UIButton!
@@ -82,7 +74,8 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         // alignment
         avaImg.frame = CGRect(x: self.view.frame.size.width / 2 - 40, y: 40, width: 80, height: 80)
         usernameTxt.frame = CGRect(x: 10, y: avaImg.frame.origin.y + 90, width: self.view.frame.size.width - 20, height: 30)
-        passwordTxt.frame = CGRect(x: 10, y: usernameTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
+          displayNameTxt.frame = CGRect(x: 10, y: usernameTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
+        passwordTxt.frame = CGRect(x: 10, y: displayNameTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
         repeatPassword.frame = CGRect(x: 10, y: passwordTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
         
         signUpBtn.frame = CGRect(x: 10, y: repeatPassword.frame.origin.y + 50, width: self.view.frame.size.width - 20, height: 30)
@@ -156,7 +149,7 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         self.view.endEditing(true)
         
         // if fields are empty
-        if (usernameTxt.text!.isEmpty || passwordTxt.text!.isEmpty || repeatPassword.text!.isEmpty || emailTxt.text!.isEmpty || firstNameTxt.text!.isEmpty || instagramUsernameTxt.text!.isEmpty || snapcatUsernameTxt.text!.isEmpty) {
+        if (usernameTxt.text!.isEmpty || passwordTxt.text!.isEmpty || repeatPassword.text!.isEmpty || displayNameTxt.text!.isEmpty) {
             
             // alert message
             let alert = UIAlertController(title: "PLEASE", message: "fill all fields", preferredStyle: UIAlertController.Style.alert)
@@ -180,49 +173,83 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
             return
         }
         
+        let currentUser = Auth.auth().currentUser
+        let fakeEmail = usernameTxt.text! + "@fakeemail.bio97.com"
+        currentUser?.updateEmail(to: fakeEmail, completion: { (error) in
+            if (error != nil) {
+                print(error)
+            }
+        })
+        currentUser?.updatePassword(to: passwordTxt.text!, completion: { (error) in
+            if (error != nil) {
+                print(error)
+            }
+        })
+        let userCopy = currentUser?.createProfileChangeRequest()
+        userCopy?.displayName = displayNameTxt.text
+        userCopy?.commitChanges(completion: { (error) in
+            if (error != nil) {
+                print(error)
+            }
+        })
+        
+        var userData : UserData = UserData(publicID: usernameTxt.text!, privateID: currentUser!.uid, avaLink: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/Screenshot%202020-07-14%20at%201.01.33%20AM.png?alt=media&token=0a9b4da1-4079-4d1c-b0ea-b093d4b6d2e6", instagramUsername: "", snapchatUsername: "", twitterHandle: "", facebookInfo: "", appleMusicInfo: "", venmoUsername: "", pinterestUsername: "", poshmarkUsername: "", hexagonGridID: "", userPage: "", subscribedUsers: [""], subscriptions: [""])
+        let db = Firestore.firestore()
+        let userDataCollection = db.collection("UserData")
+        userDataCollection.addDocument(data: userData.dictionary)
+        
+        
+        
+      //  Firebase
+
+        
+        
+        
+        
         
         // send data to server to related collumns
-        let user = PFUser()
-        user.username = usernameTxt.text?.lowercased()
-     //   user.email = emailTxt.text?.lowercased()
-        user.password = passwordTxt.text
-      
-
-        // in Edit Profile it's gonna be assigned
-//        user["tel"] = ""
-//        user["gender"] = ""
+//        let user = PFUser()
+//        user.username = usernameTxt.text?.lowercased()
+//     //   user.email = emailTxt.text?.lowercased()
+//        user.password = passwordTxt.text
 //
-        // convert our image for sending to server
-        let avaData = avaImg.image!.jpegData(compressionQuality: 0.5)
-        let avaFile = PFFileObject(name: "ava.jpg", data: avaData!)
-        user["ava"] = avaFile
-        
-        // save data in server
-        user.signUpInBackground { (success, error) -> Void in
-            if success {
-                print("registered")
-                
-                // remember looged user
-                UserDefaults.standard.set(user.username, forKey: "username")
-                UserDefaults.standard.synchronize()
-                
-                // call login func from AppDelegate.swift class
-//                let appDelegate : AppDelegate = UIApplication.shared.delegate as! AppDelegate
-//                appDelegate.login()
-                    //      let sceneDelegate : SceneDelegate = UIApplication.shared.delegate as! SceneDelegate
-                let sceneDelegate = UIApplication.shared.connectedScenes
-                      .first!.delegate as! SceneDelegate
-                sceneDelegate.login()
-                
-            } else {
-
-                // show alert message
-                let alert = UIAlertController(title: "Error", message: error!.localizedDescription, preferredStyle: UIAlertController.Style.alert)
-                let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
-                alert.addAction(ok)
-                self.present(alert, animated: true, completion: nil)
-            }
-        }
+//
+//        // in Edit Profile it's gonna be assigned
+////        user["tel"] = ""
+////        user["gender"] = ""
+////
+//        // convert our image for sending to server
+//        let avaData = avaImg.image!.jpegData(compressionQuality: 0.5)
+//        let avaFile = UIImage(data: avaData!)
+//        user["ava"] = avaFile
+//
+//        // save data in server
+//        user.signUpInBackground { (success, error) -> Void in
+//            if success {
+//                print("registered")
+//
+//                // remember looged user
+//                UserDefaults.standard.set(user.username, forKey: "username")
+//                UserDefaults.standard.synchronize()
+//
+//                // call login func from AppDelegate.swift class
+////                let appDelegate : AppDelegate = UIApplication.shared.delegate as! AppDelegate
+////                appDelegate.login()
+//                    //      let sceneDelegate : SceneDelegate = UIApplication.shared.delegate as! SceneDelegate
+//                let sceneDelegate = UIApplication.shared.connectedScenes
+//                      .first!.delegate as! SceneDelegate
+//                //sceneDelegate.login()
+//                //TODO: Make sceneDelegate to login through Firebase
+//                
+//            } else {
+//
+//                // show alert message
+//                let alert = UIAlertController(title: "Error", message: error!.localizedDescription, preferredStyle: UIAlertController.Style.alert)
+//                let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
+//                alert.addAction(ok)
+//                self.present(alert, animated: true, completion: nil)
+//            }
+//        }
         
         
     }

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Parse
+//import Parse
 
 
 // global variables of icons
@@ -82,20 +82,20 @@ class tabbarVC: UITabBarController {
     
     // multiple query
     func query (_ type:[String], image:UIImage) {
-        
-        let query = PFQuery(className: "news")
-        query.whereKey("to", equalTo: PFUser.current()!.username!)
-        //query.whereKey("checked", equalTo: "no")
-        query.whereKey("type", containedIn: type)
-        query.countObjectsInBackground (block: { (count, error) -> Void in
-            if error == nil {
-                if count > 0 {
-                    self.placeIcon(image, text: "\(count)")
-                }
-            } else {
-                print(error!.localizedDescription)
-            }
-        })
+//        
+//        let query = PFQuery(className: "news")
+//        query.whereKey("to", equalTo: PFUser.current()!.username!)
+//        //query.whereKey("checked", equalTo: "no")
+//        query.whereKey("type", containedIn: type)
+//        query.countObjectsInBackground (block: { (count, error) -> Void in
+//            if error == nil {
+//                if count > 0 {
+//                    self.placeIcon(image, text: "\(count)")
+//                }
+//            } else {
+//                print(error!.localizedDescription)
+//            }
+//        })
     }
     
     

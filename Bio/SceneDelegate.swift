@@ -7,24 +7,24 @@
 //
 
 import UIKit
-import Parse
-import FBSDKLoginKit
+//import Parse
+//import FBSDKLoginKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-        guard let url = URLContexts.first?.url else {
-            return
-        }
-
-        ApplicationDelegate.shared.application(
-            UIApplication.shared,
-            open: url,
-            sourceApplication: nil,
-            annotation: [UIApplication.OpenURLOptionsKey.annotation]
-        )
-    }
+//    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+//        guard let url = URLContexts.first?.url else {
+//            return
+//        }
+//
+//        ApplicationDelegate.shared.application(
+//            UIApplication.shared,
+//            open: url,
+//            sourceApplication: nil,
+//            annotation: [UIApplication.OpenURLOptionsKey.annotation]
+//        )
+//    }
     
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -62,26 +62,26 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
     }
 
-    func login() {
-        
-        // remember user's login
-        let username : String? = UserDefaults.standard.string(forKey: "username")
-        
-        // if loged in
-        if username != nil {
-            print("This is the username were dealing with \(username!)")
-            print("1")
-            let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            print("2")
-            let myTabBar = storyboard.instantiateViewController(withIdentifier: "tabBar") as! UITabBarController
-            print("3")
-              myTabBar.selectedIndex = 1   // or whatever you want
-            print("4")
-            window?.rootViewController = myTabBar
-            print("5")
-        }
-        
-    }
+//    func login() {
+//        
+//        // remember user's login
+//        let username : String? = UserDefaults.standard.string(forKey: "username")
+//        
+//        // if loged in
+//        if username != nil {
+//            print("This is the username were dealing with \(username!)")
+//            print("1")
+//            let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//            print("2")
+//            let myTabBar = storyboard.instantiateViewController(withIdentifier: "tabBar") as! UITabBarController
+//            print("3")
+//              myTabBar.selectedIndex = 1   // or whatever you want
+//            print("4")
+//            window?.rootViewController = myTabBar
+//            print("5")
+//        }
+//        
+//    }
     
 
 }

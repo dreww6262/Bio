@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Parse
+//import Parse
 
 
 class resetPasswordVC: UIViewController {
@@ -58,22 +58,22 @@ class resetPasswordVC: UIViewController {
         }
         
         // request for reseting password
-        PFUser.requestPasswordResetForEmail(inBackground: emailTxt.text!) { (success, error) -> Void in
-            if success {
-                
-                // show alert message
-                let alert = UIAlertController(title: "Email for reseting password", message: "has been sent to texted email", preferredStyle: UIAlertController.Style.alert)
-                
-                // if pressed OK call self.dismiss.. function
-                let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { (UIAlertAction) -> Void in
-                    self.dismiss(animated: true, completion: nil)
-                })
-                alert.addAction(ok)
-                self.present(alert, animated: true, completion: nil)
-            } else {
-                print(error?.localizedDescription as Any)
-            }
-        }
+//        PFUser.requestPasswordResetForEmail(inBackground: emailTxt.text!) { (success, error) -> Void in
+//            if success {
+//
+//                // show alert message
+//                let alert = UIAlertController(title: "Email for reseting password", message: "has been sent to texted email", preferredStyle: UIAlertController.Style.alert)
+//
+//                // if pressed OK call self.dismiss.. function
+//                let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { (UIAlertAction) -> Void in
+//                    self.dismiss(animated: true, completion: nil)
+//                })
+//                alert.addAction(ok)
+//                self.present(alert, animated: true, completion: nil)
+//            } else {
+//                print(error?.localizedDescription as Any)
+//            }
+//        }
         
     }
     

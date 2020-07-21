@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-import Parse
+//import Parse
 
 struct HexagonStructData {  // : Codable { //Codable {
     var text: String
@@ -16,7 +16,7 @@ struct HexagonStructData {  // : Codable { //Codable {
     var time: TimeInterval
     var postingUserID: String
     var views: Int
-    var thumbnail: PFFileObject
+    var thumbnail: UIImage
     var profilePicture: UIImage
     var location: Int
     var coordinateX: CGFloat

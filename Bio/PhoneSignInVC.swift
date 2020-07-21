@@ -9,8 +9,10 @@
 
 import UIKit
 //import FBSDKLoginKit
- //import FBSDKCoreKit
-import Parse
+//import FBSDKCoreKit
+//import Parse
+import Firebase
+import FirebaseAuth
 //import PopupDialog
 
 class PhoneSignInVC: UIViewController {
@@ -18,9 +20,7 @@ class PhoneSignInVC: UIViewController {
     @IBOutlet weak var mottoLabel: UILabel!
     @IBOutlet weak var signUpButton: UIButton!
     
-    @IBOutlet weak var signInButton: UIButton!
-    
-    @IBOutlet weak var testButton: UIButton!
+    @IBOutlet weak var signIn: UIButton!
     
     @IBOutlet weak var popUpView: SignUpPopUpView!
     
@@ -28,64 +28,91 @@ class PhoneSignInVC: UIViewController {
     
     @IBOutlet weak var signUpMottoLabel: UILabel!
     
-    private var loginButton: FBLoginButton!
+    //private var loginButton: FBLoginButton!
+    
     
     override func viewWillAppear(_ animated: Bool) {
-   //     self.view.addSubview(popUpView)
-
+        //     self.view.addSubview(popUpView)
+        
     }
     override func viewWillLayoutSubviews() {
-//        self.view.bringSubviewToFront(popUpView)
-     //   popUpView.isUserInteractionEnabled = true
-     //   popUpView.backgroundColor = UIColor.white
-      //  popUpView.frame = CGRect(x: 0, y: self.view.frame.height-400, width: 400, height: 400)
+        //        self.view.bringSubviewToFront(popUpView)
+        //   popUpView.isUserInteractionEnabled = true
+        //   popUpView.backgroundColor = UIColor.white
+        //  popUpView.frame = CGRect(x: 0, y: self.view.frame.height-400, width: 400, height: 400)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loginButton = FBLoginButton() // TODO: Change button from FB to custom layout
+        //loginButton = FBLoginButton() // TODO: Change button from FB to custom layout
         
-       // loginButton.center = signUpButton.frame.or signInButton.center +
-        self.view.addSubview(loginButton)
-
+        // loginButton.center = signUpButton.frame.or signInButton.center +
+        //self.view.addSubview(loginButton)
+        
         
         //popUpView.isHidden = true
         label.frame = CGRect(x: 0, y: self.view.frame.height/4, width: self.view.frame.size.width, height: 300)
-        testButton.frame = CGRect(x: (self.view.frame.width-224)/2, y: (0.5)*(label.frame.maxY + label.frame.minY) - 60, width: 224, height: 50)
         mottoLabel.frame = CGRect(x: (self.view.frame.width-224)/2, y: (0.5)*(label.frame.maxY + label.frame.minY) + 20, width: 224, height: 50)
         signUpButton.frame = CGRect(x: (self.view.frame.width-224)/2 , y: self.view.frame.height*3/4, width: 224, height: 44)
-        signInButton.frame = CGRect(x: (self.view.frame.size.width-224)/2, y: signUpButton.frame.maxY + 20, width: 224, height: 44)
-            loginButton.frame = CGRect(x: (self.view.frame.size.width-224)/2, y: signInButton.frame.maxY + 20, width: 224, height: 44)
+        signIn.frame = CGRect(x: (self.view.frame.size.width-224)/2, y: signUpButton.frame.maxY + 20, width: 224, height: 44)
+        //loginButton.frame = CGRect(x: (self.view.frame.size.width-224)/2, y: signInButton.frame.maxY + 20, width: 224, height: 44)
         
-
-         
-         // tap to hide keyboard
-         let hideTap = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard(_:)))
-         hideTap.numberOfTapsRequired = 1
-         self.view.isUserInteractionEnabled = true
-         self.view.addGestureRecognizer(hideTap)
-         
+        
+        
+        // tap to hide keyboard
+        let hideTap = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard(_:)))
+        hideTap.numberOfTapsRequired = 1
+        self.view.isUserInteractionEnabled = true
+        self.view.addGestureRecognizer(hideTap)
+        
+        
+        
+        // Adds Firebase fake user signin
+        fakeUserSignIn()
+        
         
     }
     
-    // hide keyboard func
-       @objc func hideKeyboard(_ recognizer : UITapGestureRecognizer) {
-           self.view.endEditing(true)
-       }
+
     
-    func popUpViewNow() {
-         popUpView.isHidden = false
-            popUpView.backgroundColor = .white
-        //    popUpView.frame.height
-          //  popUpView.backgroundColor?.cgColor =
-      //  self.addChild(<#T##childController: UIViewController##UIViewController#>)
-        
-            popUpView.backgroundColor = .white
-            popUpView.frame.origin.y = self.view.frame.height - popUpView.frame.height
-            print(popUpView.frame.height)
-        popUpView.isUserInteractionEnabled = true
-        print(popUpView.backgroundColor)
-            print("sign up pressed")
+    
+    
+    
+    var _user: User? = nil
+    func fakeUserSignIn() {
+      //  let phoneNumber = "+17817333496"
+        let phoneNumber = "+16177807235"
+        // This test verification code is specified for the given test phone number in the developer console.
+        //let testVerificationCode = "123456"
+        let testVerificationCode = "654321"
+        PhoneAuthProvider.provider(auth: Auth.auth())
+        Auth.auth().settings!.isAppVerificationDisabledForTesting = true
+        print("Phone auth provider() \(PhoneAuthProvider.provider())")
+        PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber, uiDelegate: nil) {
+            verificationID, error in
+            if ((error) != nil) {
+                print ("Big Yikes, error in verify phone number")
+                print(error as Any)
+                return
+            }
+            
+            let credential = PhoneAuthProvider.provider().credential(withVerificationID: verificationID!,
+                                                                     verificationCode: testVerificationCode)
+            Auth.auth().signInAndRetrieveData(with: credential) { authData, error in
+                if ((error) != nil) {
+                    print("Big Yikes, error in signInAndRetrieveData")
+                    // Handles error
+                    print(error as Any)
+                    return
+                }
+                self._user = authData!.user
+            }
+        }
+    }
+    
+    // hide keyboard func
+    @objc func hideKeyboard(_ recognizer : UITapGestureRecognizer) {
+        self.view.endEditing(true)
     }
 }
 
@@ -98,11 +125,11 @@ class PhoneSignInVC: UIViewController {
 
 //check if user logged in
 //if let token = AccessToken.current,
-    //!token.isExpired {
-    // User is logged in, do work such as go to next view controller.
-    //print("user is logged in with token \(token)")
+//!token.isExpired {
+// User is logged in, do work such as go to next view controller.
+//print("user is logged in with token \(token)")
 //} else {
-    //print("user is expired")
+//print("user is expired")
 //}
 
 //loginButton.permissions = ["public_profile", "email"]
@@ -110,9 +137,9 @@ class PhoneSignInVC: UIViewController {
 //UIColor(white: <#T##CGFloat#>, alpha: <#T##CGFloat#>)
 
 
-     //   popUpView.frame = CGRect(x: 0, y: 0, width: 400, height: 400)
-        
-        
+//   popUpView.frame = CGRect(x: 0, y: 0, width: 400, height: 400)
+
+
 //         usernameTxt.frame = CGRect(x: 10, y: label.frame.origin.y + 70, width: self.view.frame.size.width - 20, height: 30)
 //         passwordTxt.frame = CGRect(x: 10, y: usernameTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
 //
@@ -126,7 +153,7 @@ class PhoneSignInVC: UIViewController {
 
 
 
-    
+
 //    @IBAction func zoomIn(button: UIButton) {
 //    print("I'm in zoomIn function")
 //   // let popUpVC = AnimationCurvePickerViewController(style: .grouped)
@@ -140,8 +167,8 @@ class PhoneSignInVC: UIViewController {
 //      // view.addSubviewWithZoomInAnimation(popUpVC.view, duration: 1.0, options: selectedCurve.animationOption)
 //       popUpVC.didMove(toParent: self)
 //     }
-    
-    // this had an error but can be tweaked i think 🎯🎯🎯🎯
+
+// this had an error but can be tweaked i think 🎯🎯🎯🎯
 //    func loginButton(_ loginButton: FBLoginButton!, didCompleteWith result: LoginManagerLoginResult!, error: Error!) {
 //        if error != nil { //if theres an error
 //            print(error)
@@ -194,8 +221,8 @@ class PhoneSignInVC: UIViewController {
 //            }
 //        }
 //    }
-    
-    
+
+
 //
 //
 //    @IBAction func signUpPressed(_ sender: UIButton) {
@@ -292,13 +319,13 @@ class PhoneSignInVC: UIViewController {
 //    }
 //
 //    }
-    
-    
+
+
 //    @IBAction func facebookPressed(_ sender: UIButton) {
 //        print("try to log in with facebook")
 //    }
-    
-    
+
+
 //    func showCustomDialog(animated: Bool = true) {
 //
 //        // Create a custom view controller
@@ -327,10 +354,10 @@ class PhoneSignInVC: UIViewController {
 //        // Present dialog
 //        present(popup, animated: animated, completion: nil)
 //    }
-    
-    
-    
-    
+
+
+
+
 //
 //    func openPopUp2() {
 //        let popupVC = DummyVCForPopUp(contentController: DummyVCForPopUp(), position: .bottom(20), popupWidth: 200, popupHeight: 300)
@@ -341,10 +368,10 @@ class PhoneSignInVC: UIViewController {
 //             popupVC.shadowEnabled = true
 //             present(popupVC, animated: true, completion: nil)
 //    }
-    
-    
-    
-    
+
+
+
+
 //    func openPopUp() {
 //        var helpView = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DummyVCForPopUp") as? DummyVCForPopUp
 //        helpView?.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
@@ -356,5 +383,21 @@ class PhoneSignInVC: UIViewController {
 //        window?.rootViewController?.addChild(helpView!)
 //        helpView!.didMove(toParent: self)
 //    }
-    
-    
+
+
+//    func popUpViewNow() {
+//         popUpView.isHidden = false
+//            popUpView.backgroundColor = .white
+//        //    popUpView.frame.height
+//          //  popUpView.backgroundColor?.cgColor =
+//      //  self.addChild(<#T##childController: UIViewController##UIViewController#>)
+//
+//            popUpView.backgroundColor = .white
+//            popUpView.frame.origin.y = self.view.frame.height - popUpView.frame.height
+//            print(popUpView.frame.height)
+//        popUpView.isUserInteractionEnabled = true
+//        print(popUpView.backgroundColor)
+//            print("sign up pressed")
+//    }
+//
+

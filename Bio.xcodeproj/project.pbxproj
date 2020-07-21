@@ -16,8 +16,6 @@
 		491ADB7F24971B2D00B62C5A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 491ADB7D24971B2D00B62C5A /* LaunchScreen.storyboard */; };
 		491ADB8A24971B2D00B62C5A /* BioTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491ADB8924971B2D00B62C5A /* BioTests.swift */; };
 		491ADB9524971B2D00B62C5A /* BioUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491ADB9424971B2D00B62C5A /* BioUITests.swift */; };
-		491ADBA324971E2700B62C5A /* SignInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491ADBA224971E2700B62C5A /* SignInVC.swift */; };
-		491ADBA524971ED400B62C5A /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491ADBA424971ED400B62C5A /* SignUpVC.swift */; };
 		491ADBA924971FE400B62C5A /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491ADBA824971FE400B62C5A /* HomeVC.swift */; };
 		491ADBAB2497203B00B62C5A /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491ADBAA2497203B00B62C5A /* SearchVC.swift */; };
 		491ADBAD249720A000B62C5A /* DrawingSettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491ADBAC249720A000B62C5A /* DrawingSettingsVC.swift */; };
@@ -26,7 +24,6 @@
 		491ADBB32497294000B62C5A /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491ADBB22497294000B62C5A /* Navigator.swift */; };
 		491ADBB5249729A400B62C5A /* DiscoverVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491ADBB4249729A400B62C5A /* DiscoverVC.swift */; };
 		491ADBB82497D51800B62C5A /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 491ADBB72497D51800B62C5A /* libsqlite3.tbd */; };
-		491ADBBA2497D52A00B62C5A /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 491ADBB92497D52A00B62C5A /* libz.tbd */; };
 		491ADBBC2497D53800B62C5A /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 491ADBBB2497D53800B62C5A /* AudioToolbox.framework */; };
 		491ADBBE2497D56500B62C5A /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 491ADBBD2497D56500B62C5A /* CFNetwork.framework */; };
 		491ADBC02497D56B00B62C5A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 491ADBBF2497D56B00B62C5A /* CoreGraphics.framework */; };
@@ -35,6 +32,7 @@
 		491ADBC62497D57C00B62C5A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 491ADBC52497D57C00B62C5A /* Security.framework */; };
 		491ADBCA2497D58800B62C5A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 491ADBC92497D58800B62C5A /* SystemConfiguration.framework */; };
 		491ADBD02497D69200B62C5A /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 491ADBCF2497D69200B62C5A /* libz.tbd */; };
+		491BC46324C7882F00C751B6 /* BioProfileHexagonGrid2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491BC46224C7882F00C751B6 /* BioProfileHexagonGrid2.swift */; };
 		492E245A24B65D4B005745D1 /* CalltoUserBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492E245924B65D4B005745D1 /* CalltoUserBackend.swift */; };
 		492E245E24B664C2005745D1 /* SubscribersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492E245D24B664C2005745D1 /* SubscribersCell.swift */; };
 		492E246024B664D7005745D1 /* SearchUsersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492E245F24B664D7005745D1 /* SearchUsersVC.swift */; };
@@ -58,12 +56,13 @@
 		497ACC5324A91738002333A6 /* Hexagons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497ACC5224A91738002333A6 /* Hexagons.swift */; };
 		497ACC5B24A935D3002333A6 /* SignUpPopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497ACC5A24A935D3002333A6 /* SignUpPopUpView.swift */; };
 		497ACC5D24A93651002333A6 /* DummyVCForPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497ACC5C24A93651002333A6 /* DummyVCForPopUp.swift */; };
+		499408E524C0E70200912576 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 499408E424C0E70200912576 /* GoogleService-Info.plist */; };
+		4996227C24C754190017AEB4 /* BioSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4996227B24C754190017AEB4 /* BioSearchVC.swift */; };
+		4996227E24C761E70017AEB4 /* BioTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4996227D24C761E70017AEB4 /* BioTableViewCell.swift */; };
 		49A3743C24A3CD38007A48E0 /* HexagonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A3743B24A3CD38007A48E0 /* HexagonView.swift */; };
 		49A3743E24A3E4D4007A48E0 /* HexagonGrid2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A3743D24A3E4D4007A48E0 /* HexagonGrid2.swift */; };
-		49AB70E024C09E56002A971D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 49AB70DF24C09E4D002A971D /* GoogleService-Info.plist */; };
 		49B3FA9724A3F2E2004578CA /* HexagonGrid3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B3FA9624A3F2E2004578CA /* HexagonGrid3.swift */; };
 		49B3FA9924A4059B004578CA /* HexagonGrid4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B3FA9824A4059B004578CA /* HexagonGrid4.swift */; };
-		49C2059B2497D9EE0022EE53 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49C2059A2497D9EE0022EE53 /* Parse.framework */; };
 		49C2059F2497DB4D0022EE53 /* DrawingBoardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C2059E2497DB4D0022EE53 /* DrawingBoardVC.swift */; };
 		49C205A12497DBC80022EE53 /* Pencil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205A02497DBC80022EE53 /* Pencil.swift */; };
 		49C205A32497DCBC0022EE53 /* followersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205A22497DCBC0022EE53 /* followersCell.swift */; };
@@ -73,13 +72,8 @@
 		49C205B42497DD570022EE53 /* User Profile Items in Resources */ = {isa = PBXBuildFile; fileRef = 49C205AB2497DD560022EE53 /* User Profile Items */; };
 		49C205B62497DD570022EE53 /* Navigation Items in Resources */ = {isa = PBXBuildFile; fileRef = 49C205AD2497DD560022EE53 /* Navigation Items */; };
 		49C205B72497DD570022EE53 /* Create A Post Items in Resources */ = {isa = PBXBuildFile; fileRef = 49C205AE2497DD560022EE53 /* Create A Post Items */; };
-		49C205B92497DDA20022EE53 /* headerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205B82497DDA20022EE53 /* headerView.swift */; };
 		49C205BB2497DDBD0022EE53 /* pictureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205BA2497DDBC0022EE53 /* pictureCell.swift */; };
 		49C205BD2497DDCE0022EE53 /* followersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205BC2497DDCE0022EE53 /* followersVC.swift */; };
-		49C205BF2497DDE30022EE53 /* postVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205BE2497DDE30022EE53 /* postVC.swift */; };
-		49C205C12497DDF30022EE53 /* commentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205C02497DDF30022EE53 /* commentVC.swift */; };
-		49C205C32497DDF50022EE53 /* postCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205C22497DDF50022EE53 /* postCell.swift */; };
-		49C205C52497DE190022EE53 /* commentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205C42497DE180022EE53 /* commentCell.swift */; };
 		49C205CB2497DE260022EE53 /* newsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205CA2497DE260022EE53 /* newsCell.swift */; };
 		49C205CD2497EE570022EE53 /* tabbarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205CC2497EE560022EE53 /* tabbarVC.swift */; };
 		49C205CF249804790022EE53 /* PrivacyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205CE249804790022EE53 /* PrivacyCell.swift */; };
@@ -138,8 +132,6 @@
 		491ADB9024971B2D00B62C5A /* BioUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BioUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		491ADB9424971B2D00B62C5A /* BioUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BioUITests.swift; sourceTree = "<group>"; };
 		491ADB9624971B2D00B62C5A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		491ADBA224971E2700B62C5A /* SignInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInVC.swift; sourceTree = "<group>"; };
-		491ADBA424971ED400B62C5A /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		491ADBA824971FE400B62C5A /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		491ADBAA2497203B00B62C5A /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
 		491ADBAC249720A000B62C5A /* DrawingSettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingSettingsVC.swift; sourceTree = "<group>"; };
@@ -157,6 +149,7 @@
 		491ADBC52497D57C00B62C5A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		491ADBC92497D58800B62C5A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		491ADBCF2497D69200B62C5A /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		491BC46224C7882F00C751B6 /* BioProfileHexagonGrid2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BioProfileHexagonGrid2.swift; sourceTree = "<group>"; };
 		492E245924B65D4B005745D1 /* CalltoUserBackend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalltoUserBackend.swift; sourceTree = "<group>"; };
 		492E245D24B664C2005745D1 /* SubscribersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscribersCell.swift; sourceTree = "<group>"; };
 		492E245F24B664D7005745D1 /* SearchUsersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SearchUsersVC.swift; path = /Users/annmcdonough/Documents/Bio/Bio/SearchUsersVC.swift; sourceTree = "<absolute>"; };
@@ -180,12 +173,13 @@
 		497ACC5224A91738002333A6 /* Hexagons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hexagons.swift; sourceTree = "<group>"; };
 		497ACC5A24A935D3002333A6 /* SignUpPopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpPopUpView.swift; sourceTree = "<group>"; };
 		497ACC5C24A93651002333A6 /* DummyVCForPopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyVCForPopUp.swift; sourceTree = "<group>"; };
+		499408E424C0E70200912576 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		4996227B24C754190017AEB4 /* BioSearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BioSearchVC.swift; sourceTree = "<group>"; };
+		4996227D24C761E70017AEB4 /* BioTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BioTableViewCell.swift; sourceTree = "<group>"; };
 		49A3743B24A3CD38007A48E0 /* HexagonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexagonView.swift; sourceTree = "<group>"; };
 		49A3743D24A3E4D4007A48E0 /* HexagonGrid2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexagonGrid2.swift; sourceTree = "<group>"; };
-		49AB70DF24C09E4D002A971D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		49B3FA9624A3F2E2004578CA /* HexagonGrid3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexagonGrid3.swift; sourceTree = "<group>"; };
 		49B3FA9824A4059B004578CA /* HexagonGrid4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexagonGrid4.swift; sourceTree = "<group>"; };
-		49C2059A2497D9EE0022EE53 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		49C2059E2497DB4D0022EE53 /* DrawingBoardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingBoardVC.swift; sourceTree = "<group>"; };
 		49C205A02497DBC80022EE53 /* Pencil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pencil.swift; sourceTree = "<group>"; };
 		49C205A22497DCBC0022EE53 /* followersCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = followersCell.swift; sourceTree = "<group>"; };
@@ -195,13 +189,8 @@
 		49C205AB2497DD560022EE53 /* User Profile Items */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "User Profile Items"; sourceTree = "<group>"; };
 		49C205AD2497DD560022EE53 /* Navigation Items */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Navigation Items"; sourceTree = "<group>"; };
 		49C205AE2497DD560022EE53 /* Create A Post Items */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Create A Post Items"; sourceTree = "<group>"; };
-		49C205B82497DDA20022EE53 /* headerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = headerView.swift; sourceTree = "<group>"; };
 		49C205BA2497DDBC0022EE53 /* pictureCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pictureCell.swift; sourceTree = "<group>"; };
 		49C205BC2497DDCE0022EE53 /* followersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = followersVC.swift; sourceTree = "<group>"; };
-		49C205BE2497DDE30022EE53 /* postVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = postVC.swift; sourceTree = "<group>"; };
-		49C205C02497DDF30022EE53 /* commentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = commentVC.swift; sourceTree = "<group>"; };
-		49C205C22497DDF50022EE53 /* postCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = postCell.swift; sourceTree = "<group>"; };
-		49C205C42497DE180022EE53 /* commentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = commentCell.swift; sourceTree = "<group>"; };
 		49C205CA2497DE260022EE53 /* newsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newsCell.swift; sourceTree = "<group>"; };
 		49C205CC2497EE560022EE53 /* tabbarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tabbarVC.swift; sourceTree = "<group>"; };
 		49C205CE249804790022EE53 /* PrivacyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyCell.swift; sourceTree = "<group>"; };
@@ -225,11 +214,9 @@
 				491ADBC42497D57500B62C5A /* QuartzCore.framework in Frameworks */,
 				491ADBD02497D69200B62C5A /* libz.tbd in Frameworks */,
 				491ADBC22497D57000B62C5A /* CoreLocation.framework in Frameworks */,
-				49C2059B2497D9EE0022EE53 /* Parse.framework in Frameworks */,
 				491ADBC02497D56B00B62C5A /* CoreGraphics.framework in Frameworks */,
 				491ADBBE2497D56500B62C5A /* CFNetwork.framework in Frameworks */,
 				491ADBBC2497D53800B62C5A /* AudioToolbox.framework in Frameworks */,
-				491ADBBA2497D52A00B62C5A /* libz.tbd in Frameworks */,
 				491ADBB82497D51800B62C5A /* libsqlite3.tbd in Frameworks */,
 				F8E01B31E01681020139180B /* Pods_Bio.framework in Frameworks */,
 			);
@@ -286,7 +273,6 @@
 		491ADB7124971B2500B62C5A /* Bio */ = {
 			isa = PBXGroup;
 			children = (
-				49C2059A2497D9EE0022EE53 /* Parse.framework */,
 				491ADB7224971B2500B62C5A /* AppDelegate.swift */,
 				49C205AE2497DD560022EE53 /* Create A Post Items */,
 				49C205AD2497DD560022EE53 /* Navigation Items */,
@@ -295,29 +281,24 @@
 				49C205AB2497DD560022EE53 /* User Profile Items */,
 				491ADBCF2497D69200B62C5A /* libz.tbd */,
 				49EEDC6D24C0AA1D003C8378 /* PhoneSignInVC.swift */,
-				49C205B82497DDA20022EE53 /* headerView.swift */,
 				49C205BA2497DDBC0022EE53 /* pictureCell.swift */,
 				49C205DA2499AF730022EE53 /* MusicPlayerVC.swift */,
 				49C205A42497DCFA0022EE53 /* guestVC.swift */,
 				492E245924B65D4B005745D1 /* CalltoUserBackend.swift */,
 				49C205CC2497EE560022EE53 /* tabbarVC.swift */,
-				49C205C42497DE180022EE53 /* commentCell.swift */,
-				49C205C22497DDF50022EE53 /* postCell.swift */,
 				4944D79924ABBEF900AD3955 /* GoodBioSignUpVC.swift */,
 				49C205CA2497DE260022EE53 /* newsCell.swift */,
 				49C205BC2497DDCE0022EE53 /* followersVC.swift */,
 				493B739B24B7754E004754BC /* ProfilesHexagonGrid1.swift */,
-				49C205C02497DDF30022EE53 /* commentVC.swift */,
-				49C205BE2497DDE30022EE53 /* postVC.swift */,
+				491BC46224C7882F00C751B6 /* BioProfileHexagonGrid2.swift */,
 				497ACC4C24A90496002333A6 /* HexagonStructData.swift */,
 				497ACC5224A91738002333A6 /* Hexagons.swift */,
 				497ACC4E24A90905002333A6 /* ProfileTypeHexagon.swift */,
-				491ADBA224971E2700B62C5A /* SignInVC.swift */,
 				49C205A02497DBC80022EE53 /* Pencil.swift */,
-				491ADBA424971ED400B62C5A /* SignUpVC.swift */,
 				491ADB7424971B2500B62C5A /* SceneDelegate.swift */,
 				491ADB7624971B2500B62C5A /* ViewController.swift */,
 				49C205A22497DCBC0022EE53 /* followersCell.swift */,
+				4996227D24C761E70017AEB4 /* BioTableViewCell.swift */,
 				491ADB7824971B2500B62C5A /* Main.storyboard */,
 				492E245F24B664D7005745D1 /* SearchUsersVC.swift */,
 				492E245D24B664C2005745D1 /* SubscribersCell.swift */,
@@ -346,6 +327,7 @@
 				49C205D82499A0770022EE53 /* DrawingBoardVC2.swift */,
 				4907D153249FB00600B66093 /* DrawingBoard3.swift */,
 				491ADBAA2497203B00B62C5A /* SearchVC.swift */,
+				4996227B24C754190017AEB4 /* BioSearchVC.swift */,
 				491ADBAE2497237000B62C5A /* SettingsVC.swift */,
 				49C205D424981AC80022EE53 /* segue1.swift */,
 				4959E04824A3052F00264DB7 /* SpotifyiOS.framework */,
@@ -356,7 +338,7 @@
 				49A3743B24A3CD38007A48E0 /* HexagonView.swift */,
 				491ADB7D24971B2D00B62C5A /* LaunchScreen.storyboard */,
 				491ADB8024971B2D00B62C5A /* Info.plist */,
-				49AB70DF24C09E4D002A971D /* GoogleService-Info.plist */,
+				499408E424C0E70200912576 /* GoogleService-Info.plist */,
 			);
 			path = Bio;
 			sourceTree = "<group>";
@@ -507,10 +489,10 @@
 				4944D79424A9C8F000AD3955 /* RatingViewController.xib in Resources */,
 				49C205B62497DD570022EE53 /* Navigation Items in Resources */,
 				491ADB7F24971B2D00B62C5A /* LaunchScreen.storyboard in Resources */,
-				49AB70E024C09E56002A971D /* GoogleService-Info.plist in Resources */,
 				49C205B12497DD570022EE53 /* Search in Resources */,
 				491ADB7C24971B2D00B62C5A /* Assets.xcassets in Resources */,
 				491ADB7A24971B2500B62C5A /* Main.storyboard in Resources */,
+				499408E524C0E70200912576 /* GoogleService-Info.plist in Resources */,
 				49C205B42497DD570022EE53 /* User Profile Items in Resources */,
 				49C205B02497DD570022EE53 /* Sign in sign up in Resources */,
 			);
@@ -593,21 +575,21 @@
 				49C205D7249833E80022EE53 /* CreativeToolBar.swift in Sources */,
 				491ADB7324971B2500B62C5A /* AppDelegate.swift in Sources */,
 				492E245E24B664C2005745D1 /* SubscribersCell.swift in Sources */,
+				4996227E24C761E70017AEB4 /* BioTableViewCell.swift in Sources */,
 				4944D79E24ABE2FB00AD3955 /* PersonalInformationVCViewController.swift in Sources */,
-				49C205B92497DDA20022EE53 /* headerView.swift in Sources */,
 				496122A124A43EB80057579F /* UserProfile.swift in Sources */,
 				49EEDC6E24C0AA1D003C8378 /* PhoneSignInVC.swift in Sources */,
 				497ACC4D24A90496002333A6 /* HexagonStructData.swift in Sources */,
 				49C205A52497DCFA0022EE53 /* guestVC.swift in Sources */,
 				491ADBB32497294000B62C5A /* Navigator.swift in Sources */,
 				49C205CB2497DE260022EE53 /* newsCell.swift in Sources */,
+				4996227C24C754190017AEB4 /* BioSearchVC.swift in Sources */,
 				49755DC124B8FE83000E75FC /* AlgorithmHexagonGrid.swift in Sources */,
-				49C205C32497DDF50022EE53 /* postCell.swift in Sources */,
 				497ACC5D24A93651002333A6 /* DummyVCForPopUp.swift in Sources */,
 				497ACC5124A90C0F002333A6 /* HexagonClass.swift in Sources */,
+				491BC46324C7882F00C751B6 /* BioProfileHexagonGrid2.swift in Sources */,
 				492E246024B664D7005745D1 /* SearchUsersVC.swift in Sources */,
 				491ADBB1249723FC00B62C5A /* PublicityTableVC.swift in Sources */,
-				491ADBA324971E2700B62C5A /* SignInVC.swift in Sources */,
 				4944D7A024AD6A1B00AD3955 /* UserData.swift in Sources */,
 				49C205CD2497EE570022EE53 /* tabbarVC.swift in Sources */,
 				497ACC5324A91738002333A6 /* Hexagons.swift in Sources */,
@@ -615,11 +597,9 @@
 				4959E04B24A3105300264DB7 /* VideoViewController.swift in Sources */,
 				49C205A12497DBC80022EE53 /* Pencil.swift in Sources */,
 				49C205BB2497DDBD0022EE53 /* pictureCell.swift in Sources */,
-				491ADBA524971ED400B62C5A /* SignUpVC.swift in Sources */,
 				49C205D524981AC80022EE53 /* segue1.swift in Sources */,
 				4907D154249FB00600B66093 /* DrawingBoard3.swift in Sources */,
 				491ADB7524971B2500B62C5A /* SceneDelegate.swift in Sources */,
-				49C205C52497DE190022EE53 /* commentCell.swift in Sources */,
 				49755DC324BC1B0F000E75FC /* DraggableHexagonGrid.swift in Sources */,
 				497ACC4F24A90905002333A6 /* ProfileTypeHexagon.swift in Sources */,
 				492E245A24B65D4B005745D1 /* CalltoUserBackend.swift in Sources */,
@@ -628,12 +608,10 @@
 				49C205A32497DCBC0022EE53 /* followersCell.swift in Sources */,
 				4944D79C24ABD2E700AD3955 /* AddSocialMediaVC.swift in Sources */,
 				49A3743E24A3E4D4007A48E0 /* HexagonGrid2.swift in Sources */,
-				49C205C12497DDF30022EE53 /* commentVC.swift in Sources */,
 				491ADBB5249729A400B62C5A /* DiscoverVC.swift in Sources */,
 				4959E04D24A3111E00264DB7 /* YoutubeTableViewController.swift in Sources */,
 				49C2059F2497DB4D0022EE53 /* DrawingBoardVC.swift in Sources */,
 				49C205BD2497DDCE0022EE53 /* followersVC.swift in Sources */,
-				49C205BF2497DDE30022EE53 /* postVC.swift in Sources */,
 				49C205CF249804790022EE53 /* PrivacyCell.swift in Sources */,
 				491ADBAF2497237000B62C5A /* SettingsVC.swift in Sources */,
 			);

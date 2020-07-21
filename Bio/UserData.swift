@@ -15,6 +15,7 @@ class UserData {
     
     var publicID: String
     var privateID: String
+    var avaLink: String
     var instagramUsername: String
     var snapchatUsername: String
     var twitterHandle: String
@@ -31,13 +32,14 @@ class UserData {
     
 
     var dictionary: [String: Any] {
-        return ["publicID": publicID, "privateID": privateID, "instagramUsername": instagramUsername, "snapchatUsername": snapchatUsername, "twitterHandle": twitterHandle, "facebookInfo": facebookInfo, "appleMusicInfo": appleMusicInfo, "venmoUsername": venmoUsername, "pinterestUsername": pinterestUsername, "poshmarkUsername": poshmarkUsername, "hexagonGridID": hexagonGridID, "userPage": userPage, "subscribedUsers": subscribedUsers, "subscriptions":  subscriptions]
+        return ["publicID": publicID, "privateID": privateID, "avaLink": avaLink, "instagramUsername": instagramUsername, "snapchatUsername": snapchatUsername, "twitterHandle": twitterHandle, "facebookInfo": facebookInfo, "appleMusicInfo": appleMusicInfo, "venmoUsername": venmoUsername, "pinterestUsername": pinterestUsername, "poshmarkUsername": poshmarkUsername, "hexagonGridID": hexagonGridID, "userPage": userPage, "subscribedUsers": subscribedUsers, "subscriptions":  subscriptions]
     }
     
     
-    init(publicID: String, privateID: String, instagramUsername: String, snapchatUsername: String, twitterHandle: String, facebookInfo: String, appleMusicInfo: String, venmoUsername: String, pinterestUsername: String, poshmarkUsername: String, hexagonGridID: String, userPage: String, subscribedUsers:  [String], subscriptions: [String]) {
+    init(publicID: String, privateID: String, avaLink: String, instagramUsername: String, snapchatUsername: String, twitterHandle: String, facebookInfo: String, appleMusicInfo: String, venmoUsername: String, pinterestUsername: String, poshmarkUsername: String, hexagonGridID: String, userPage: String, subscribedUsers:  [String], subscriptions: [String]) {
         self.publicID = publicID
         self.privateID = privateID
+        self.avaLink = avaLink
         self.instagramUsername = instagramUsername
         self.snapchatUsername = snapchatUsername
         self.twitterHandle = twitterHandle
@@ -56,6 +58,7 @@ class UserData {
     convenience init(dictionary: [String: Any]) {
         let publicID = dictionary["publicID"] as! String? ?? ""
         let privateID = dictionary["privateID"] as! String? ?? ""
+        let avaLink = dictionary["avaLink"] as! String? ?? ""
         let instagramUsername = dictionary["instagramUsername"] as! String? ?? ""
         let snapchatUsername = dictionary["snapchatUsername"] as! String? ?? ""
         let twitterHandle = dictionary["twitterHandle"] as! String? ?? ""
@@ -71,7 +74,7 @@ class UserData {
 
          
 
-        self.init(publicID: publicID,privateID: privateID, instagramUsername: instagramUsername, snapchatUsername: snapchatUsername, twitterHandle: twitterHandle, facebookInfo: facebookInfo, appleMusicInfo: appleMusicInfo, venmoUsername: venmoUsername, pinterestUsername: pinterestUsername, poshmarkUsername: poshmarkUsername, hexagonGridID: hexagonGridID, userPage: userPage, subscribedUsers: subscribedUsers, subscriptions: subscriptions)
+        self.init(publicID: publicID,privateID: privateID, avaLink: avaLink, instagramUsername: instagramUsername, snapchatUsername: snapchatUsername, twitterHandle: twitterHandle, facebookInfo: facebookInfo, appleMusicInfo: appleMusicInfo, venmoUsername: venmoUsername, pinterestUsername: pinterestUsername, poshmarkUsername: poshmarkUsername, hexagonGridID: hexagonGridID, userPage: userPage, subscribedUsers: subscribedUsers, subscriptions: subscriptions)
         
     
     }

@@ -186,7 +186,7 @@ class AlgorithmHexagonGrid: UIViewController {
                         let hexaWidth = hexaDiameter * sqrt(3) * 0.5
                         let hexaWidthDelta = (hexaDiameter - hexaWidth) * 0.5
                         let hexaHeightDelta = hexaDiameter * 0.25
-                        let spacing : CGFloat = 5
+                        let spacing : CGFloat = 0
 
                 //        let rows = 10
                 //        let firstRowColumns = 6
