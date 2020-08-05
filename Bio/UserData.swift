@@ -12,75 +12,50 @@ import UIKit
 //import FirebaseUI
 
 class UserData {
-    
+    var email: String
     var publicID: String
     var privateID: String
-    var avaLink: String
-    var instagramUsername: String
-    var snapchatUsername: String
-    var twitterHandle: String
-    var facebookInfo: String
-    var appleMusicInfo: String
-    var venmoUsername: String
-    var pinterestUsername: String
-    var poshmarkUsername: String
+    var avaRef: String
     var hexagonGridID: String
     var userPage: String
     var subscribedUsers: [String]
     var subscriptions: [String]
-
+    var numPosts: Int
     
-
+    
+    
     var dictionary: [String: Any] {
-        return ["publicID": publicID, "privateID": privateID, "avaLink": avaLink, "instagramUsername": instagramUsername, "snapchatUsername": snapchatUsername, "twitterHandle": twitterHandle, "facebookInfo": facebookInfo, "appleMusicInfo": appleMusicInfo, "venmoUsername": venmoUsername, "pinterestUsername": pinterestUsername, "poshmarkUsername": poshmarkUsername, "hexagonGridID": hexagonGridID, "userPage": userPage, "subscribedUsers": subscribedUsers, "subscriptions":  subscriptions]
+        return ["email": email, "publicID": publicID, "privateID": privateID, "avaRef": avaRef, "hexagonGridID": hexagonGridID, "userPage": userPage, "subscribedUsers": subscribedUsers, "subscriptions":  subscriptions, "numPosts": numPosts]
     }
     
     
-    init(publicID: String, privateID: String, avaLink: String, instagramUsername: String, snapchatUsername: String, twitterHandle: String, facebookInfo: String, appleMusicInfo: String, venmoUsername: String, pinterestUsername: String, poshmarkUsername: String, hexagonGridID: String, userPage: String, subscribedUsers:  [String], subscriptions: [String]) {
+    init(email: String, publicID: String, privateID: String, avaRef: String, hexagonGridID: String, userPage: String, subscribedUsers:  [String], subscriptions: [String], numPosts: Int) {
+        self.email = email
         self.publicID = publicID
         self.privateID = privateID
-        self.avaLink = avaLink
-        self.instagramUsername = instagramUsername
-        self.snapchatUsername = snapchatUsername
-        self.twitterHandle = twitterHandle
-        self.facebookInfo = facebookInfo
-        self.appleMusicInfo = appleMusicInfo
-        self.venmoUsername = venmoUsername
-        self.pinterestUsername = pinterestUsername
-        self.poshmarkUsername = poshmarkUsername
+        self.avaRef = avaRef
         self.hexagonGridID = hexagonGridID
         self.userPage = userPage
         self.subscribedUsers = subscribedUsers
         self.subscriptions = subscriptions
+        self.numPosts = numPosts
     }
-
+    
     
     convenience init(dictionary: [String: Any]) {
+        let email = dictionary["email"] as! String? ?? ""
         let publicID = dictionary["publicID"] as! String? ?? ""
         let privateID = dictionary["privateID"] as! String? ?? ""
-        let avaLink = dictionary["avaLink"] as! String? ?? ""
-        let instagramUsername = dictionary["instagramUsername"] as! String? ?? ""
-        let snapchatUsername = dictionary["snapchatUsername"] as! String? ?? ""
-        let twitterHandle = dictionary["twitterHandle"] as! String? ?? ""
-        let facebookInfo = dictionary["facebookInfo"] as! String? ?? ""
-         let appleMusicInfo = dictionary["appleMusicInfo"] as! String? ?? ""
-        let venmoUsername = dictionary["venmoUsername"] as! String? ?? ""
-        let pinterestUsername = dictionary["pinterestUsername"] as! String? ?? ""
-        let poshmarkUsername = dictionary["poshmarkUsername"] as! String? ?? ""
+        let avaRef = dictionary["avaRef"] as! String? ?? ""
         let hexagonGridID = dictionary["hexagonGridID"] as! String? ?? ""
-     let userPage = dictionary["userPage"] as! String? ?? ""
-         let subscribedUsers = dictionary["subscribedUsers"] as! [String]? ?? [""]
-           let subscriptions = dictionary["subscriptions"] as! [String]? ?? [""]
-
-         
-
-        self.init(publicID: publicID,privateID: privateID, avaLink: avaLink, instagramUsername: instagramUsername, snapchatUsername: snapchatUsername, twitterHandle: twitterHandle, facebookInfo: facebookInfo, appleMusicInfo: appleMusicInfo, venmoUsername: venmoUsername, pinterestUsername: pinterestUsername, poshmarkUsername: poshmarkUsername, hexagonGridID: hexagonGridID, userPage: userPage, subscribedUsers: subscribedUsers, subscriptions: subscriptions)
+        let userPage = dictionary["userPage"] as! String? ?? ""
+        let subscribedUsers = dictionary["subscribedUsers"] as! [String]? ?? [""]
+        let subscriptions = dictionary["subscriptions"] as! [String]? ?? [""]
+        let numPosts = Int(dictionary["numPosts"] as! Int? ?? 0)
         
-    
+        
+        
+        self.init(email: email, publicID: publicID,privateID: privateID, avaRef: avaRef, hexagonGridID: hexagonGridID, userPage: userPage, subscribedUsers: subscribedUsers, subscriptions: subscriptions, numPosts: numPosts)
     }
-    
-    
-    
-    
 }
 

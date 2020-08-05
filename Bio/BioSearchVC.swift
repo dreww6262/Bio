@@ -258,7 +258,7 @@ class BioSearchVC: UITableViewController, UISearchBarDelegate {
 //            }
 //        }
         
-        let avaLink = URL(string: loadUserDataArray[indexPath.row].avaLink)
+        let avaLink = URL(string: loadUserDataArray[indexPath.row].avaRef)
         cell.avaImg.load(url: avaLink!)
 
         return cell

@@ -11,30 +11,73 @@ import UIKit
 //import Parse
 
 struct HexagonStructData {  // : Codable { //Codable {
-    var text: String
-    var type: Type
-    var time: TimeInterval
-    var postingUserID: String
-    var views: Int
-    var thumbnail: UIImage
-    var profilePicture: UIImage
+    var resource: String
+    var type: String
     var location: Int
-    var coordinateX: CGFloat
-    var coordinateY: CGFloat
-    var musicString: String
-    var videoString: String
-    var isAnimated: Bool
-    var isDraggable: Bool
+    var thumbResource: String
+    var createdAt: TimeInterval
+    var postingUserID: String
+    var text: String
+    var views: Int
+    
+    
+//    var text: String
+//    var type: Type
+//    var time: TimeInterval
+//    var postingUserID: String
+//    var views: Int
+//    var thumbnail: UIImage
+//    var location: Int
+//    var musicString: String
+//    var videoString: String
+//    var isAnimated: Bool
+//    var isDraggable: Bool
+
+
+
+//struct Type {     //} Codable {
+//    var typeString: String
+//    var typeThumbnail: UIImage
+//    var isAnimated: Bool
+//    var contentString: String
+//    //examples of types: Profile Image, Snapchat, Facebook, Twitter, Instagram, TikTok,
+//    // Apple Music, Link to Bio Profile, Video Type, Image Type, Music Type
+//}
+
+
+var dictionary: [String: Any] {
+       return ["resource": resource, "type": type, "location": location, "thumbResource": thumbResource, "createdAt": createdAt, "postingUserID": postingUserID, "text": text, "views": views]
+   }
+   
+   
+   init(resource: String, type: String, location: Int, thumbResource: String, createdAt: TimeInterval, postingUserID: String, text: String, views: Int)  {
+       self.resource = resource
+       self.type = type
+       self.location = location
+       self.thumbResource = thumbResource
+       self.createdAt = createdAt
+       self.postingUserID = postingUserID
+       self.text = text
+       self.views = views
+
+   }
+
+   
+    init(dictionary: [String: Any]) {
+       let resource = dictionary["resource"] as! String? ?? ""
+       let type = dictionary["type"] as! String? ?? ""
+       let location = dictionary["location"] as! Int? ?? -1
+       let thumbResource = dictionary["thumbResource"] as! String? ?? ""
+    let createdAt = dictionary["createdAt"] as! TimeInterval? ?? 0.0
+       let postingUserID = dictionary["postingUserID"] as! String? ?? ""
+       let text = dictionary["text"] as! String? ?? ""
+        let views = dictionary["views"] as! Int? ?? 0
+       
+    
+       self.init(resource: resource,type: type, location: location, thumbResource: thumbResource, createdAt: createdAt, postingUserID: postingUserID, text: text, views: views)
+       
+   
+   }
+
+
 }
-
-
-struct Type {     //} Codable {
-    var typeString: String
-    var typeThumbnail: UIImage
-    var isAnimated: Bool
-    var contentString: String
-    //examples of types: Profile Image, Snapchat, Facebook, Twitter, Instagram, TikTok,
-    // Apple Music, Link to Bio Profile, Video Type, Image Type, Music Type
-}
-
-

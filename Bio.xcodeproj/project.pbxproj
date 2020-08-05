@@ -33,6 +33,8 @@
 		491ADBCA2497D58800B62C5A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 491ADBC92497D58800B62C5A /* SystemConfiguration.framework */; };
 		491ADBD02497D69200B62C5A /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 491ADBCF2497D69200B62C5A /* libz.tbd */; };
 		491BC46324C7882F00C751B6 /* BioProfileHexagonGrid2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491BC46224C7882F00C751B6 /* BioProfileHexagonGrid2.swift */; };
+		4920A45624D30F4400F06551 /* HomeHexagonGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4920A45524D30F4400F06551 /* HomeHexagonGrid.swift */; };
+		4920A45824D32B9300F06551 /* uploadFromCameraRollVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4920A45724D32B9300F06551 /* uploadFromCameraRollVC.swift */; };
 		492E245A24B65D4B005745D1 /* CalltoUserBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492E245924B65D4B005745D1 /* CalltoUserBackend.swift */; };
 		492E245E24B664C2005745D1 /* SubscribersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492E245D24B664C2005745D1 /* SubscribersCell.swift */; };
 		492E246024B664D7005745D1 /* SearchUsersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492E245F24B664D7005745D1 /* SearchUsersVC.swift */; };
@@ -50,6 +52,7 @@
 		496122A124A43EB80057579F /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496122A024A43EB70057579F /* UserProfile.swift */; };
 		49755DC124B8FE83000E75FC /* AlgorithmHexagonGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49755DC024B8FE83000E75FC /* AlgorithmHexagonGrid.swift */; };
 		49755DC324BC1B0F000E75FC /* DraggableHexagonGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49755DC224BC1B0F000E75FC /* DraggableHexagonGrid.swift */; };
+		4979D67E24D89B68008A17A8 /* NewPostOptionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4979D67D24D89B68008A17A8 /* NewPostOptionsVC.swift */; };
 		497ACC4D24A90496002333A6 /* HexagonStructData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497ACC4C24A90496002333A6 /* HexagonStructData.swift */; };
 		497ACC4F24A90905002333A6 /* ProfileTypeHexagon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497ACC4E24A90905002333A6 /* ProfileTypeHexagon.swift */; };
 		497ACC5124A90C0F002333A6 /* HexagonClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497ACC5024A90C0F002333A6 /* HexagonClass.swift */; };
@@ -150,6 +153,8 @@
 		491ADBC92497D58800B62C5A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		491ADBCF2497D69200B62C5A /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		491BC46224C7882F00C751B6 /* BioProfileHexagonGrid2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BioProfileHexagonGrid2.swift; sourceTree = "<group>"; };
+		4920A45524D30F4400F06551 /* HomeHexagonGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHexagonGrid.swift; sourceTree = "<group>"; };
+		4920A45724D32B9300F06551 /* uploadFromCameraRollVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = uploadFromCameraRollVC.swift; sourceTree = "<group>"; };
 		492E245924B65D4B005745D1 /* CalltoUserBackend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalltoUserBackend.swift; sourceTree = "<group>"; };
 		492E245D24B664C2005745D1 /* SubscribersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscribersCell.swift; sourceTree = "<group>"; };
 		492E245F24B664D7005745D1 /* SearchUsersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SearchUsersVC.swift; path = /Users/annmcdonough/Documents/Bio/Bio/SearchUsersVC.swift; sourceTree = "<absolute>"; };
@@ -167,6 +172,7 @@
 		496122A024A43EB70057579F /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		49755DC024B8FE83000E75FC /* AlgorithmHexagonGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlgorithmHexagonGrid.swift; sourceTree = "<group>"; };
 		49755DC224BC1B0F000E75FC /* DraggableHexagonGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableHexagonGrid.swift; sourceTree = "<group>"; };
+		4979D67D24D89B68008A17A8 /* NewPostOptionsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostOptionsVC.swift; sourceTree = "<group>"; };
 		497ACC4C24A90496002333A6 /* HexagonStructData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexagonStructData.swift; sourceTree = "<group>"; };
 		497ACC4E24A90905002333A6 /* ProfileTypeHexagon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTypeHexagon.swift; sourceTree = "<group>"; };
 		497ACC5024A90C0F002333A6 /* HexagonClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexagonClass.swift; sourceTree = "<group>"; };
@@ -292,6 +298,7 @@
 				493B739B24B7754E004754BC /* ProfilesHexagonGrid1.swift */,
 				491BC46224C7882F00C751B6 /* BioProfileHexagonGrid2.swift */,
 				497ACC4C24A90496002333A6 /* HexagonStructData.swift */,
+				4944D79F24AD6A1B00AD3955 /* UserData.swift */,
 				497ACC5224A91738002333A6 /* Hexagons.swift */,
 				497ACC4E24A90905002333A6 /* ProfileTypeHexagon.swift */,
 				49C205A02497DBC80022EE53 /* Pencil.swift */,
@@ -300,10 +307,11 @@
 				49C205A22497DCBC0022EE53 /* followersCell.swift */,
 				4996227D24C761E70017AEB4 /* BioTableViewCell.swift */,
 				491ADB7824971B2500B62C5A /* Main.storyboard */,
+				4979D67D24D89B68008A17A8 /* NewPostOptionsVC.swift */,
+				4920A45724D32B9300F06551 /* uploadFromCameraRollVC.swift */,
 				492E245F24B664D7005745D1 /* SearchUsersVC.swift */,
 				492E245D24B664C2005745D1 /* SubscribersCell.swift */,
 				497ACC5024A90C0F002333A6 /* HexagonClass.swift */,
-				4944D79F24AD6A1B00AD3955 /* UserData.swift */,
 				4944D79B24ABD2E700AD3955 /* AddSocialMediaVC.swift */,
 				4944D79D24ABE2FA00AD3955 /* PersonalInformationVCViewController.swift */,
 				497ACC5A24A935D3002333A6 /* SignUpPopUpView.swift */,
@@ -313,6 +321,7 @@
 				49A3743D24A3E4D4007A48E0 /* HexagonGrid2.swift */,
 				49B3FA9624A3F2E2004578CA /* HexagonGrid3.swift */,
 				49755DC224BC1B0F000E75FC /* DraggableHexagonGrid.swift */,
+				4920A45524D30F4400F06551 /* HomeHexagonGrid.swift */,
 				49755DC024B8FE83000E75FC /* AlgorithmHexagonGrid.swift */,
 				496122A024A43EB70057579F /* UserProfile.swift */,
 				49B3FA9824A4059B004578CA /* HexagonGrid4.swift */,
@@ -580,6 +589,7 @@
 				496122A124A43EB80057579F /* UserProfile.swift in Sources */,
 				49EEDC6E24C0AA1D003C8378 /* PhoneSignInVC.swift in Sources */,
 				497ACC4D24A90496002333A6 /* HexagonStructData.swift in Sources */,
+				4920A45624D30F4400F06551 /* HomeHexagonGrid.swift in Sources */,
 				49C205A52497DCFA0022EE53 /* guestVC.swift in Sources */,
 				491ADBB32497294000B62C5A /* Navigator.swift in Sources */,
 				49C205CB2497DE260022EE53 /* newsCell.swift in Sources */,
@@ -595,6 +605,7 @@
 				497ACC5324A91738002333A6 /* Hexagons.swift in Sources */,
 				49A3743C24A3CD38007A48E0 /* HexagonView.swift in Sources */,
 				4959E04B24A3105300264DB7 /* VideoViewController.swift in Sources */,
+				4920A45824D32B9300F06551 /* uploadFromCameraRollVC.swift in Sources */,
 				49C205A12497DBC80022EE53 /* Pencil.swift in Sources */,
 				49C205BB2497DDBD0022EE53 /* pictureCell.swift in Sources */,
 				49C205D524981AC80022EE53 /* segue1.swift in Sources */,
@@ -605,6 +616,7 @@
 				492E245A24B65D4B005745D1 /* CalltoUserBackend.swift in Sources */,
 				4959E04F24A3116400264DB7 /* YoutubeTableViewCell.swift in Sources */,
 				497ACC5B24A935D3002333A6 /* SignUpPopUpView.swift in Sources */,
+				4979D67E24D89B68008A17A8 /* NewPostOptionsVC.swift in Sources */,
 				49C205A32497DCBC0022EE53 /* followersCell.swift in Sources */,
 				4944D79C24ABD2E700AD3955 /* AddSocialMediaVC.swift in Sources */,
 				49A3743E24A3E4D4007A48E0 /* HexagonGrid2.swift in Sources */,

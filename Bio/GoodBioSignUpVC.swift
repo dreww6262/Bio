@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import FirebaseFirestore
 import FirebaseAuth
+import FirebaseUI
 
 class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -21,6 +22,7 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     
     @IBOutlet weak var displayNameTxt: UITextField!
     
+    @IBOutlet weak var emailTxt: UITextField!
     // textfields
     @IBOutlet weak var usernameTxt: UITextField!
     @IBOutlet weak var passwordTxt: UITextField!
@@ -73,7 +75,8 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         
         // alignment
         avaImg.frame = CGRect(x: self.view.frame.size.width / 2 - 40, y: 40, width: 80, height: 80)
-        usernameTxt.frame = CGRect(x: 10, y: avaImg.frame.origin.y + 90, width: self.view.frame.size.width - 20, height: 30)
+        emailTxt.frame = CGRect(x: 10, y: avaImg.frame.origin.y + 90, width: self.view.frame.size.width - 20, height: 30)
+        usernameTxt.frame = CGRect(x: 10, y: emailTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
           displayNameTxt.frame = CGRect(x: 10, y: usernameTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
         passwordTxt.frame = CGRect(x: 10, y: displayNameTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
         repeatPassword.frame = CGRect(x: 10, y: passwordTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
@@ -149,7 +152,7 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         self.view.endEditing(true)
         
         // if fields are empty
-        if (usernameTxt.text!.isEmpty || passwordTxt.text!.isEmpty || repeatPassword.text!.isEmpty || displayNameTxt.text!.isEmpty) {
+        if (emailTxt.text!.isEmpty || usernameTxt.text!.isEmpty || passwordTxt.text!.isEmpty || repeatPassword.text!.isEmpty || displayNameTxt.text!.isEmpty) {
             
             // alert message
             let alert = UIAlertController(title: "PLEASE", message: "fill all fields", preferredStyle: UIAlertController.Style.alert)
@@ -173,83 +176,67 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
             return
         }
         
-        let currentUser = Auth.auth().currentUser
-        let fakeEmail = usernameTxt.text! + "@fakeemail.bio97.com"
-        currentUser?.updateEmail(to: fakeEmail, completion: { (error) in
-            if (error != nil) {
-                print(error)
-            }
-        })
-        currentUser?.updatePassword(to: passwordTxt.text!, completion: { (error) in
-            if (error != nil) {
-                print(error)
-            }
-        })
-        let userCopy = currentUser?.createProfileChangeRequest()
-        userCopy?.displayName = displayNameTxt.text
-        userCopy?.commitChanges(completion: { (error) in
+        let username = usernameTxt.text!
+        let email = emailTxt.text!
+        let password = passwordTxt.text!
+        //let group = DispatchGroup()
+        var user: User? = nil
+        
+        print("about to create new user")
+        
+        // maybe add group.enter before moving to other thread
+        //group.enter()
+        //DispatchQueue.main.async{
+            //group.enter()
+            //TODO: Dispatch Queue prevents callback from being heard when createUser is successful.
+            
+            Auth.auth().createUser(withEmail: email, password: password, completion: { obj, error in
+                if error == nil {
+                    user = obj?.user
+                    print("\(user) successfully added")
+                }
+                else {
+                    print("failed to create user \(error?.localizedDescription)")
+                }
+                print("completed")
+                //group.leave()
+            })
+        //}
+        
+        
+        //group.wait()
+        print("passed wait \(user)")
+        user = Auth.auth().currentUser
+        if (user == nil) {
+            print ("still not finding user")
+        }
+        
+        let changableUser = user?.createProfileChangeRequest()
+        changableUser?.displayName = displayNameTxt.text!
+        changableUser?.commitChanges(completion: { (error) in
             if (error != nil) {
                 print(error)
             }
         })
         
-        var userData : UserData = UserData(publicID: usernameTxt.text!, privateID: currentUser!.uid, avaLink: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/Screenshot%202020-07-14%20at%201.01.33%20AM.png?alt=media&token=0a9b4da1-4079-4d1c-b0ea-b093d4b6d2e6", instagramUsername: "", snapchatUsername: "", twitterHandle: "", facebookInfo: "", appleMusicInfo: "", venmoUsername: "", pinterestUsername: "", poshmarkUsername: "", hexagonGridID: "", userPage: "", subscribedUsers: [""], subscriptions: [""])
+        var userData : UserData = UserData(email: email, publicID: usernameTxt.text!, privateID: user!.uid, avaRef: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/Screenshot%202020-07-14%20at%201.01.33%20AM.png?alt=media&token=0a9b4da1-4079-4d1c-b0ea-b093d4b6d2e6", hexagonGridID: "", userPage: "", subscribedUsers: [""], subscriptions: [""], numPosts: 0)
         let db = Firestore.firestore()
         let userDataCollection = db.collection("UserData")
-        userDataCollection.addDocument(data: userData.dictionary)
+        //group.enter()
+        DispatchQueue.main.async {
+            userDataCollection.addDocument(data: userData.dictionary, completion: { error in
+                print("userData posted")
+                //group.leave()
+            })
+        }
+        print("waiting for userdata now")
+        //group.wait()
+        print("passed wait for userdata")
+        //Trying to present AddSocialMEdia VC
+    //    present(AddSocialMediaVC(), animated: true, completion: nil)
         
         
-        
-      //  Firebase
 
-        
-        
-        
-        
-        
-        // send data to server to related collumns
-//        let user = PFUser()
-//        user.username = usernameTxt.text?.lowercased()
-//     //   user.email = emailTxt.text?.lowercased()
-//        user.password = passwordTxt.text
-//
-//
-//        // in Edit Profile it's gonna be assigned
-////        user["tel"] = ""
-////        user["gender"] = ""
-////
-//        // convert our image for sending to server
-//        let avaData = avaImg.image!.jpegData(compressionQuality: 0.5)
-//        let avaFile = UIImage(data: avaData!)
-//        user["ava"] = avaFile
-//
-//        // save data in server
-//        user.signUpInBackground { (success, error) -> Void in
-//            if success {
-//                print("registered")
-//
-//                // remember looged user
-//                UserDefaults.standard.set(user.username, forKey: "username")
-//                UserDefaults.standard.synchronize()
-//
-//                // call login func from AppDelegate.swift class
-////                let appDelegate : AppDelegate = UIApplication.shared.delegate as! AppDelegate
-////                appDelegate.login()
-//                    //      let sceneDelegate : SceneDelegate = UIApplication.shared.delegate as! SceneDelegate
-//                let sceneDelegate = UIApplication.shared.connectedScenes
-//                      .first!.delegate as! SceneDelegate
-//                //sceneDelegate.login()
-//                //TODO: Make sceneDelegate to login through Firebase
-//                
-//            } else {
-//
-//                // show alert message
-//                let alert = UIAlertController(title: "Error", message: error!.localizedDescription, preferredStyle: UIAlertController.Style.alert)
-//                let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
-//                alert.addAction(ok)
-//                self.present(alert, animated: true, completion: nil)
-//            }
-//        }
         
         
     }
