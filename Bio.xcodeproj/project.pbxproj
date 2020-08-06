@@ -45,6 +45,7 @@
 		4944D79C24ABD2E700AD3955 /* AddSocialMediaVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4944D79B24ABD2E700AD3955 /* AddSocialMediaVC.swift */; };
 		4944D79E24ABE2FB00AD3955 /* PersonalInformationVCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4944D79D24ABE2FA00AD3955 /* PersonalInformationVCViewController.swift */; };
 		4944D7A024AD6A1B00AD3955 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4944D79F24AD6A1B00AD3955 /* UserData.swift */; };
+		494C403C24DB85E000A47788 /* GuestHexagonGridVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C403B24DB85E000A47788 /* GuestHexagonGridVC.swift */; };
 		4959E04924A3053200264DB7 /* SpotifyiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4959E04824A3052F00264DB7 /* SpotifyiOS.framework */; };
 		4959E04B24A3105300264DB7 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4959E04A24A3105200264DB7 /* VideoViewController.swift */; };
 		4959E04D24A3111E00264DB7 /* YoutubeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4959E04C24A3111E00264DB7 /* YoutubeTableViewController.swift */; };
@@ -165,6 +166,7 @@
 		4944D79B24ABD2E700AD3955 /* AddSocialMediaVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSocialMediaVC.swift; sourceTree = "<group>"; };
 		4944D79D24ABE2FA00AD3955 /* PersonalInformationVCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInformationVCViewController.swift; sourceTree = "<group>"; };
 		4944D79F24AD6A1B00AD3955 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
+		494C403B24DB85E000A47788 /* GuestHexagonGridVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestHexagonGridVC.swift; sourceTree = "<group>"; };
 		4959E04824A3052F00264DB7 /* SpotifyiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyiOS.framework; sourceTree = "<group>"; };
 		4959E04A24A3105200264DB7 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		4959E04C24A3111E00264DB7 /* YoutubeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeTableViewController.swift; sourceTree = "<group>"; };
@@ -297,6 +299,7 @@
 				49C205BC2497DDCE0022EE53 /* followersVC.swift */,
 				493B739B24B7754E004754BC /* ProfilesHexagonGrid1.swift */,
 				491BC46224C7882F00C751B6 /* BioProfileHexagonGrid2.swift */,
+				494C403B24DB85E000A47788 /* GuestHexagonGridVC.swift */,
 				497ACC4C24A90496002333A6 /* HexagonStructData.swift */,
 				4944D79F24AD6A1B00AD3955 /* UserData.swift */,
 				497ACC5224A91738002333A6 /* Hexagons.swift */,
@@ -600,6 +603,7 @@
 				491BC46324C7882F00C751B6 /* BioProfileHexagonGrid2.swift in Sources */,
 				492E246024B664D7005745D1 /* SearchUsersVC.swift in Sources */,
 				491ADBB1249723FC00B62C5A /* PublicityTableVC.swift in Sources */,
+				494C403C24DB85E000A47788 /* GuestHexagonGridVC.swift in Sources */,
 				4944D7A024AD6A1B00AD3955 /* UserData.swift in Sources */,
 				49C205CD2497EE570022EE53 /* tabbarVC.swift in Sources */,
 				497ACC5324A91738002333A6 /* Hexagons.swift in Sources */,

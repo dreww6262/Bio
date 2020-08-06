@@ -11,10 +11,11 @@ import Firebase
 import FirebaseFirestore
 import FirebaseAuth
 import FirebaseUI
+import Photos
 
 class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-  // scrollView
+    // scrollView
     @IBOutlet weak var scrollView: UIScrollView!
     
     // profile image
@@ -31,7 +32,12 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     @IBOutlet weak var signUpBtn: UIButton!
     @IBOutlet weak var cancelBtn: UIButton!
     
-
+    var user: User?
+    var userData: UserData?
+    //var avaImageExtension = ".jpg"
+    
+    let storage = Storage.storage().reference()
+    
     // reset default size
     var scrollViewHeight : CGFloat = 0
     
@@ -62,7 +68,7 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         self.view.addGestureRecognizer(hideTap)
         
         // round ava
-      //  avaImg.layer.cornerRadius = avaImg.frame.size.width / 2
+        //  avaImg.layer.cornerRadius = avaImg.frame.size.width / 2
         //hexagonAva
         HexagonView.setupHexagonImageView(imageView: avaImg)
         avaImg.clipsToBounds = true
@@ -77,7 +83,7 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         avaImg.frame = CGRect(x: self.view.frame.size.width / 2 - 40, y: 40, width: 80, height: 80)
         emailTxt.frame = CGRect(x: 10, y: avaImg.frame.origin.y + 90, width: self.view.frame.size.width - 20, height: 30)
         usernameTxt.frame = CGRect(x: 10, y: emailTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
-          displayNameTxt.frame = CGRect(x: 10, y: usernameTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
+        displayNameTxt.frame = CGRect(x: 10, y: usernameTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
         passwordTxt.frame = CGRect(x: 10, y: displayNameTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
         repeatPassword.frame = CGRect(x: 10, y: passwordTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
         
@@ -106,10 +112,14 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     
     // connect selected image to our ImageView
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-// Local variable inserted by Swift 4.2 migrator.
-let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
-
+        // Local variable inserted by Swift 4.2 migrator.
+        let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         avaImg.image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
+//        if let imageURL = info[UIImagePickerController.InfoKey.referenceURL.rawValue] as? URL {
+//            let result = PHAsset.fetchAssets(withALAssetURLs: [imageURL], options: nil)
+//            avaImageExtension = String((result.firstObject?.value(forKey: "filename") as! String).split(separator: ".")[1])
+//            print("extension \(avaImageExtension)")
+//        }
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -139,6 +149,22 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         // move down UI
         UIView.animate(withDuration: 0.4, animations: { () -> Void in
             self.scrollView.frame.size.height = self.view.frame.height
+        })
+    }
+    
+    
+    func createUser(email: String, password: String, completion: @escaping (User) -> Void) {
+        Auth.auth().createUser(withEmail: email, password: password, completion: { obj, error in
+            if error == nil {
+                guard let obj = obj else { return }
+                self.user = obj.user
+                print("\(self.user!) successfully added")
+                completion(self.user!)
+            }
+            else {
+                print("failed to create user \(error?.localizedDescription)")
+            }
+            print("completed")
         })
     }
     
@@ -179,66 +205,47 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         let username = usernameTxt.text!
         let email = emailTxt.text!
         let password = passwordTxt.text!
-        //let group = DispatchGroup()
-        var user: User? = nil
+        var signedInUser: User? = nil
         
         print("about to create new user")
         
-        // maybe add group.enter before moving to other thread
-        //group.enter()
-        //DispatchQueue.main.async{
-            //group.enter()
-            //TODO: Dispatch Queue prevents callback from being heard when createUser is successful.
-            
-            Auth.auth().createUser(withEmail: email, password: password, completion: { obj, error in
-                if error == nil {
-                    user = obj?.user
-                    print("\(user) successfully added")
+        createUser(email: email, password: password, completion: {user in
+            signedInUser = user
+            let changableUser = signedInUser?.createProfileChangeRequest()
+            changableUser?.displayName = self.displayNameTxt.text!
+            changableUser?.commitChanges(completion: { (error) in
+                if (error != nil) {
+                    print(error as Any)
+                }
+            })
+            var reference = "userFiles/\(username)"
+            let userDataStorageRef = self.storage.child(reference)
+            let filename = "\(username)_avatar.png"
+            reference.append("/\(filename)")
+            let avaFileRef = userDataStorageRef.child(filename)
+            avaFileRef.putData(self.avaImg.image!.pngData()!, metadata: nil, completion: { meta, error in
+                if (error == nil) {
+                    self.userData = UserData(email: email, publicID: self.usernameTxt.text!, privateID: signedInUser!.uid, avaRef: reference, hexagonGridID: "", userPage: "", subscribedUsers: [""], subscriptions: [""], numPosts: 0)
+                    let db = Firestore.firestore()
+                    let userDataCollection = db.collection("UserData")
+                    let docRef = userDataCollection.document(user.uid)
+                    docRef.setData(self.userData!.dictionary, completion: { error in
+                        print("userData posted")
+                    })
+                    print("performing segue")
+                    self.performSegue(withIdentifier: "toAddSocialMedia", sender: self)
                 }
                 else {
-                    print("failed to create user \(error?.localizedDescription)")
+                    print("could not upload profile photo \(error?.localizedDescription)")
                 }
-                print("completed")
-                //group.leave()
             })
-        //}
-        
-        
-        //group.wait()
-        print("passed wait \(user)")
-        user = Auth.auth().currentUser
-        if (user == nil) {
-            print ("still not finding user")
-        }
-        
-        let changableUser = user?.createProfileChangeRequest()
-        changableUser?.displayName = displayNameTxt.text!
-        changableUser?.commitChanges(completion: { (error) in
-            if (error != nil) {
-                print(error)
-            }
         })
-        
-        var userData : UserData = UserData(email: email, publicID: usernameTxt.text!, privateID: user!.uid, avaRef: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/Screenshot%202020-07-14%20at%201.01.33%20AM.png?alt=media&token=0a9b4da1-4079-4d1c-b0ea-b093d4b6d2e6", hexagonGridID: "", userPage: "", subscribedUsers: [""], subscriptions: [""], numPosts: 0)
-        let db = Firestore.firestore()
-        let userDataCollection = db.collection("UserData")
-        //group.enter()
-        DispatchQueue.main.async {
-            userDataCollection.addDocument(data: userData.dictionary, completion: { error in
-                print("userData posted")
-                //group.leave()
-            })
-        }
-        print("waiting for userdata now")
-        //group.wait()
-        print("passed wait for userdata")
-        //Trying to present AddSocialMEdia VC
-    //    present(AddSocialMediaVC(), animated: true, completion: nil)
-        
-        
-
-        
-        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        var addSocialMediaVC = segue.destination as! AddSocialMediaVC
+        addSocialMediaVC.currentUser = user
+        addSocialMediaVC.userData = userData
     }
     
     
@@ -250,8 +257,8 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         
         self.dismiss(animated: true, completion: nil)
     }
-
-   
+    
+    
     
     
     

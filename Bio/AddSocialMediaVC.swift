@@ -52,7 +52,7 @@ class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINav
     @IBOutlet weak var continueBtn: UIButton!
     @IBOutlet weak var cancelBtn: UIButton!
     
-    let currentUser = Auth.auth().currentUser
+    var currentUser: User? = nil
     var userData: UserData? = nil
     var userDataRef: DocumentReference? = nil
     let db = Firestore.firestore()
@@ -69,36 +69,36 @@ class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINav
     override func viewDidLoad() {
         var alreadySnapped = false
         super.viewDidLoad()
-        let group = DispatchGroup()
-    
+        //        let group = DispatchGroup()
+        //
+        //
+        //        DispatchQueue.global().async {
+        //            group.enter()
+        //            self.db.collection("UserData").whereField("email", isEqualTo: "zetully@gmail.com").addSnapshotListener({objects,error in
+        //                if (!alreadySnapped) {
+        //                    alreadySnapped = true
+        //                    print("Currently in snapshot listener 2")
+        //                    if (error == nil) {
+        //                        self.userData = UserData(dictionary: objects!.documents[0].data())
+        //                        self.userDataRef = objects!.documents[0].reference
+        //                        print("got user \(self.userData!.publicID)")
+        //
+        //                    }
+        //                    else {
+        //                        print("user data not loaded bc of error: \(error?.localizedDescription)")
+        //                    }
+        //                    group.leave()
+        //                }
+        //            })
+        //        }
+        //group.wait()
+        //print("passed wait 1")
         
-        DispatchQueue.global().async {
-            group.enter()
-            self.db.collection("UserData").whereField("email", isEqualTo: "zetully@gmail.com").addSnapshotListener({objects,error in
-                if (!alreadySnapped) {
-                    alreadySnapped = true
-                    print("Currently in snapshot listener 2")
-                    if (error == nil) {
-                        self.userData = UserData(dictionary: objects!.documents[0].data())
-                        self.userDataRef = objects!.documents[0].reference
-                        print("got user \(self.userData!.publicID)")
-                        
-                    }
-                    else {
-                        print("user data not loaded bc of error: \(error?.localizedDescription)")
-                    }
-                    group.leave()
-                }
-            })
-        }
-        group.wait()
-        print("passed wait 1")
-
         if (userData == nil) {
             print("userdata is nil")
         }
         else {
-            print(userData!.publicID)
+            print("loaded addVC with userdata: \(userData!.publicID) and user \(currentUser!.email)")
         }
         
         //poshmarkLogo.image = UIImage(named: "poshmarkLogo")
@@ -153,7 +153,7 @@ class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINav
         continueBtn.frame =  CGRect(x: 10.0, y: poshmarkText.frame.origin.y + 43, width: facebookInfoTxt.frame.width, height: 24)
         continueBtn.layer.cornerRadius = continueBtn.frame.size.width / 20
         cancelBtn.frame =  CGRect(x: 10.0, y: continueBtn.frame.origin.y + 43, width: continueBtn.frame.width, height: 24)
-           cancelBtn.layer.cornerRadius = cancelBtn.frame.size.width / 20
+        cancelBtn.layer.cornerRadius = cancelBtn.frame.size.width / 20
         
         // background
         let bg = UIImageView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height))
@@ -162,25 +162,25 @@ class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINav
         self.view.addSubview(bg)
     }
     
-//
-//    // call picker to select image
-//    @objc func loadImg(_ recognizer:UITapGestureRecognizer) {
-//        let picker = UIImagePickerController()
-//        picker.delegate = self
-//        picker.sourceType = .photoLibrary
-//        picker.allowsEditing = true
-//        present(picker, animated: true, completion: nil)
-//    }
-//
-//
-//    // connect selected image to our ImageView
-//    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-//        // Local variable inserted by Swift 4.2 migrator.
-//        let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
-//
-//        //    avaImg.image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
-//        self.dismiss(animated: true, completion: nil)
-//    }
+    //
+    //    // call picker to select image
+    //    @objc func loadImg(_ recognizer:UITapGestureRecognizer) {
+    //        let picker = UIImagePickerController()
+    //        picker.delegate = self
+    //        picker.sourceType = .photoLibrary
+    //        picker.allowsEditing = true
+    //        present(picker, animated: true, completion: nil)
+    //    }
+    //
+    //
+    //    // connect selected image to our ImageView
+    //    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    //        // Local variable inserted by Swift 4.2 migrator.
+    //        let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+    //
+    //        //    avaImg.image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
+    //        self.dismiss(animated: true, completion: nil)
+    //    }
     
     
     // hide keyboard if tapped
@@ -211,6 +211,23 @@ class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINav
         })
     }
     
+    func addHex(hexData: HexagonStructData, completion: @escaping (Bool) -> Void) {
+        let hexCollectionRef = db.collection("Hexagons")
+        hexCollectionRef.addDocument(data: hexData.dictionary).addSnapshotListener({object,error in
+            //     group.leave()
+            if error == nil {
+                print("added hex: \(hexData)")
+            }
+            else {
+                print("failed to add hex \(hexData)")
+            }
+        })
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        var homeHexGrid = segue.destination as! HomeHexagonGrid
+        homeHexGrid.userData = userData
+    }
     
     
     // clicked sign up
@@ -234,121 +251,101 @@ class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINav
         
         let username = userData!.publicID
         var numPosts = userData!.numPosts
-        let hexCollectionRef = db.collection("Hexagons")
+        var success = true
         
         
-        let group = DispatchGroup()
+        
+        //let group = DispatchGroup()
         if (!instagramUsernameTxt.text!.isEmpty) {
             numPosts += 1
-            let instaHex = HexagonStructData(resource: "https://instagram.com/\(instagramUsernameTxt.text!)", type: "socialmedia_instagram", location: numPosts, thumbResource: "icons/instagram.jpg", createdAt: TimeInterval.init(), postingUserID: username, text: "\(instagramUsernameTxt.text!)", views: 0)
-            DispatchQueue.global().async {
-                group.enter()
-                hexCollectionRef.addDocument(data: instaHex.dictionary).addSnapshotListener({object,error in
-                    group.leave()
-                })
-            }
-        }
-
-        if (!snapchatUsernameTxt.text!.isEmpty) {
-            numPosts += 1
-            let snapHex = HexagonStructData(resource: "snapchat://add/\(snapchatUsernameTxt.text!)", type: "socialmedia_snapchat", location: numPosts, thumbResource: "icons/snap.jpg", createdAt: TimeInterval.init(), postingUserID: username, text: "\(snapchatUsernameTxt.text!)", views: 0)
-            DispatchQueue.global().async {
-                group.enter()
-                hexCollectionRef.addDocument(data: snapHex.dictionary).addSnapshotListener({ object, error in
-                    group.leave()
-                })
-            }
-        }
-
-        if (!twitterHandleTxt.text!.isEmpty) {
-            numPosts += 1
-            let twitterHex = HexagonStructData(resource: "https://twitter.com/\(twitterHandleTxt.text!)", type: "socialmedia_twitter", location: numPosts, thumbResource: "icons/twitter.jpg", createdAt: TimeInterval.init(), postingUserID: username, text: "\(twitterHandleTxt.text!)", views: 0)
-            DispatchQueue.global().async {
-                group.enter()
-                hexCollectionRef.addDocument(data: twitterHex.dictionary).addSnapshotListener({ object, error in
-                    group.leave()
-                    
-                })
-            }
-        }
-
-        if (!facebookInfoTxt.text!.isEmpty) {
-            numPosts += 1
-            let facebookHex = HexagonStructData(resource: facebookInfoTxt.text!, type: "socialmedia_facebook", location: numPosts, thumbResource: "icons/facebook.jpg", createdAt: TimeInterval.init(), postingUserID: username, text: "\(facebookInfoTxt.text!)", views: 0)
-            DispatchQueue.global().async {
-                group.enter()
-                hexCollectionRef.addDocument(data: facebookHex.dictionary).addSnapshotListener({ object, error in
-                    group.leave()
-                })
-            }
-        }
-
-        if (!appleMusicTxt.text!.isEmpty) {
-            numPosts += 1
-            let appleHex = HexagonStructData(resource: "https://applemusic.com/\(appleMusicTxt.text!)", type: "socialmedia_appleMusic", location: numPosts, thumbResource: "icons/appleMusic.jpg", createdAt: TimeInterval.init(), postingUserID: username, text: "\(appleMusicTxt.text!)", views: 0)
-            DispatchQueue.global().async {
-                group.enter()
-                hexCollectionRef.addDocument(data: appleHex.dictionary).addSnapshotListener({ object, error in
-                    group.leave()
-                })
-            }
-        }
-
-        if (!venmoTxt.text!.isEmpty) {
-            numPosts += 1
-            let venmoHex = HexagonStructData(resource: "https://venmo.com/\(venmoTxt.text!)", type: "socialmedia_venmo", location: numPosts, thumbResource: "icons/venmo.jpg", createdAt: TimeInterval.init(), postingUserID: username, text: "\(venmoTxt.text!)", views: 0)
-            DispatchQueue.global().async {
-                group.enter()
-                hexCollectionRef.addDocument(data: venmoHex.dictionary).addSnapshotListener({ object, error in
-                    group.leave()
-                    
-                })
-            }
-        }
-
-        if (!pinterestTxt.text!.isEmpty) {
-            numPosts += 1
-            let pinterestHex = HexagonStructData(resource: "https://www.pinterest.ie/\(pinterestTxt.text!)/", type: "socialmedia_pinterest", location: numPosts, thumbResource: "icons/pinterest.jpg", createdAt: TimeInterval.init(), postingUserID: username, text: "\(pinterestTxt.text!)", views: 0)
-            DispatchQueue.global().async {
-                group.enter()
-                hexCollectionRef.addDocument(data: pinterestHex.dictionary).addSnapshotListener({ object, error in
-                    group.leave()
-                    
-                })
-            }
-        }
-
-        if (!poshmarkText.text!.isEmpty) {
-            numPosts += 1
-            let poshmarkHex = HexagonStructData(resource: "https://poshmark.com/closet/\(poshmarkText.text!)", type: "socialmedia_poshmark", location: numPosts, thumbResource: "icons/poshmark.jpg", createdAt: TimeInterval.init(), postingUserID: username, text: "\(poshmarkText.text!)", views: 0)
-            DispatchQueue.global().async {
-                group.enter()
-                hexCollectionRef.addDocument(data: poshmarkHex.dictionary).addSnapshotListener({ object, error in
-                    group.leave()
-                    
-                })
-            }
-        }
-
-        group.wait() // wait for social media tiles to add
-        print("passed wait for social media tiles")
-        userData?.numPosts = numPosts
-        DispatchQueue.global().async {
-            group.enter()
-                self.userDataRef?.setData(self.userData!.dictionary, completion: { error in
-                if error == nil {
-                    //present Home View Controller Segue
-                    group.leave()
-                    self.present(HomeHexagonGrid(), animated: true, completion: nil)
-                }
-                else {
-                    group.leave()
-                    print("userData not saved \(error?.localizedDescription)")
-                }
+            let instaHex = HexagonStructData(resource: "https://instagram.com/\(instagramUsernameTxt.text!)", type: "socialmedia_instagram", location: numPosts, thumbResource: "icons/instagramLogo.png", createdAt: TimeInterval.init(), postingUserID: username, text: "\(instagramUsernameTxt.text!)", views: 0)
+            addHex(hexData: instaHex, completion: { bool in
+                success = success && bool
                 
             })
         }
-        group.wait() // wait for user to update
+        
+        if (!snapchatUsernameTxt.text!.isEmpty) {
+            numPosts += 1
+            let snapHex = HexagonStructData(resource: "snapchat://add/\(snapchatUsernameTxt.text!)", type: "socialmedia_snapchat", location: numPosts, thumbResource: "icons/snapchatlogo.jpg", createdAt: TimeInterval.init(), postingUserID: username, text: "\(snapchatUsernameTxt.text!)", views: 0)
+            addHex(hexData: snapHex, completion: {bool in
+                success = success && bool
+                
+            })
+        }
+        
+        if (!twitterHandleTxt.text!.isEmpty) {
+            numPosts += 1
+            let twitterHex = HexagonStructData(resource: "https://twitter.com/\(twitterHandleTxt.text!)", type: "socialmedia_twitter", location: numPosts, thumbResource: "icons/twitterlogo.png", createdAt: TimeInterval.init(), postingUserID: username, text: "\(twitterHandleTxt.text!)", views: 0)
+            addHex(hexData: twitterHex, completion: {bool in
+                success = success && bool
+                
+            })
+        }
+        
+        if (!facebookInfoTxt.text!.isEmpty) {
+            numPosts += 1
+            let facebookHex = HexagonStructData(resource: facebookInfoTxt.text!, type: "socialmedia_facebook", location: numPosts, thumbResource: "icons/facebooklogo.png", createdAt: TimeInterval.init(), postingUserID: username, text: "\(facebookInfoTxt.text!)", views: 0)
+            addHex(hexData: facebookHex, completion: {bool in
+                success = success && bool
+                
+            })
+        }
+        
+        if (!appleMusicTxt.text!.isEmpty) {
+            numPosts += 1
+            let appleHex = HexagonStructData(resource: "https://applemusic.com/\(appleMusicTxt.text!)", type: "socialmedia_appleMusic", location: numPosts, thumbResource: "icons/appleMusicLogo.jpg", createdAt: TimeInterval.init(), postingUserID: username, text: "\(appleMusicTxt.text!)", views: 0)
+            addHex(hexData: appleHex, completion: {bool in
+                success = success && bool
+                
+            })
+        }
+        
+        if (!venmoTxt.text!.isEmpty) {
+            numPosts += 1
+            let venmoHex = HexagonStructData(resource: "https://venmo.com/\(venmoTxt.text!)", type: "socialmedia_venmo", location: numPosts, thumbResource: "icons/venmologo.png", createdAt: TimeInterval.init(), postingUserID: username, text: "\(venmoTxt.text!)", views: 0)
+            addHex(hexData: venmoHex, completion: {bool in
+                success = success && bool
+                
+            })
+        }
+        
+        if (!pinterestTxt.text!.isEmpty) {
+            numPosts += 1
+            let pinterestHex = HexagonStructData(resource: "https://www.pinterest.ie/\(pinterestTxt.text!)/", type: "socialmedia_pinterest", location: numPosts, thumbResource: "icons/pinterestLogo.jpg", createdAt: TimeInterval.init(), postingUserID: username, text: "\(pinterestTxt.text!)", views: 0)
+            addHex(hexData: pinterestHex, completion: {bool in
+                success = success && bool
+                
+            })
+        }
+        
+        if (!poshmarkText.text!.isEmpty) {
+            numPosts += 1
+            let poshmarkHex = HexagonStructData(resource: "https://poshmark.com/closet/\(poshmarkText.text!)", type: "socialmedia_poshmark", location: numPosts, thumbResource: "icons/poshmarkLogo.png", createdAt: TimeInterval.init(), postingUserID: username, text: "\(poshmarkText.text!)", views: 0)
+            addHex(hexData: poshmarkHex, completion: {bool in
+                success = success && bool
+                
+            })
+        }
+        
+        print("passed wait for social media tiles")
+        userData?.numPosts = numPosts
+        db.collection("UserData").document(currentUser!.uid).setData(self.userData!.dictionary, completion: { error in
+            if error == nil {
+                //present Home View Controller Segue
+                print("present home hex grid")
+                let homeGrid = self.storyboard?.instantiateViewController(identifier: "homeHexGrid420") as! HomeHexagonGrid
+                homeGrid.userData = self.userData
+                self.present(homeGrid, animated: true, completion: nil)
+                print("should have presented home hex grid")
+                
+            }
+            else {
+                print("userData not saved \(error?.localizedDescription)")
+            }
+            
+        })
+        
         
     }
     
@@ -356,10 +353,21 @@ class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINav
     // clicked cancel
     @IBAction func cancelBtn_click(_ sender: AnyObject) {
         
+        print("hit cancel button")
         // hide keyboard when pressed cancel
         self.view.endEditing(true)
-        
-        self.dismiss(animated: true, completion: nil)
+        if (cancelBtn.titleLabel?.text! == "Skip") {
+            print("present home hex grid")
+            //self.performSegue(withIdentifier: "toHomeHexGrid", sender: nil)
+            let hexGrid = (storyboard?.instantiateViewController(identifier: "homeHexGrid420"))! as HomeHexagonGrid
+            hexGrid.userData = userData
+            show(hexGrid, sender: nil)
+            print("should have presented home hex grid")
+        }
+        else {
+            print("should dismiss vc")
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
     
@@ -367,101 +375,79 @@ class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINav
     
     
     func openInstagram(instagramHandle: String) {
-           guard let url = URL(string: "https://instagram.com/\(instagramHandle)")  else { return }
-           if UIApplication.shared.canOpenURL(url) {
-               if #available(iOS 10.0, *) {
-                   UIApplication.shared.open(url, options: [:], completionHandler: nil)
-               } else {
-                   UIApplication.shared.openURL(url)
-               }
-           }
-       }
-       
-       func openTikTok(tikTokHandle: String) {
-           guard let url = URL(string: tikTokHandle)  else { return }
-           if UIApplication.shared.canOpenURL(url) {
-               if #available(iOS 10.0, *) {
-                   UIApplication.shared.open(url, options: [:], completionHandler: nil)
-               } else {
-                   UIApplication.shared.openURL(url)
-               }
-           }
-       }
-       
-       func openSpotifySong() {
-           //  UIApplication.shared.open(URL(string: "spotify:artist:4gzpq5DPGxSnKTe4SA8HAU")!, options: [:], completionHandler: nil)
-           // UIApplication.shared.openURL(URL(string: "spotify:track:1dNIEtp7AY3oDAKCGg2XkH")!)
-           //   UIApplication.shared.open(URL(string: "spotify:track:1dNIEtp7AY3oDAKCGg2XkH")!, options: [:], completionHandler: nil)
-           UIApplication.shared.open(URL(string: "https://p.scdn.co/mp3-preview/18d3b87b0765cd6d8c0a418d6142b3b441c0f8b2?cid=476c620368f349cc8be5b2a29b596eaf" )!, options: [:], completionHandler: nil)
-           
-           //   UIApplication.shared.
-           //   UIApplication.shared.open(<#T##url: URL##URL#>, options: <#T##[UIApplication.OpenExternalURLOptionsKey : Any]#>, completionHandler: <#T##((Bool) -> Void)?##((Bool) -> Void)?##(Bool) -> Void#>)
-           // UIApplication.
-           //  "https://p.scdn.co/mp3-preview/18d3b87b0765cd6d8c0a418d6142b3b441c0f8b2?cid=476c620368f349cc8be5b2a29b596eaf"
-           
-           //  URL(string: "spotify:track:1dNIEtp7AY3oDAKCGg2XkH")
-       }
-       
-       
-       
-       
-       
-       func openFacebook(facebookHandle: String) {
-           let webURL: NSURL = NSURL(string: "https://www.facebook.com/ID")!
-           let IdURL: NSURL = NSURL(string: "fb://profile/ID")!
-           
-           if(UIApplication.shared.canOpenURL(IdURL as URL)){
-               // FB installed
-               UIApplication.shared.open(webURL as URL, options: [:], completionHandler: nil)
-           } else {
-               // FB is not installed, open in safari
-               UIApplication.shared.open(webURL as URL, options: [:], completionHandler: nil)
-           }
-           
-       }
-       
-       func openTwitter(twitterHandle: String) {
-           guard let url = URL(string: "https://twitter.com/\(twitterHandle)")  else { return }
-           if UIApplication.shared.canOpenURL(url) {
-               if #available(iOS 10.0, *) {
-                   UIApplication.shared.open(url, options: [:], completionHandler: nil)
-               } else {
-                   UIApplication.shared.openURL(url)
-               }
-           }
-       }
-       
-       func openSnapchat(snapchatUsername: String) {
-           let username = snapchatUsername
-           let appURL = URL(string: "snapchat://add/\(username)")!
-           let application = UIApplication.shared
-           
-           if application.canOpenURL(appURL) {
-               application.open(appURL)
-               
-           } else {
-               // if Snapchat app is not installed, open URL inside Safari
-               let webURL = URL(string: "https://www.snapchat.com/add/\(username)")!
-               application.open(webURL)
-               
-           }
-       }
+        guard let url = URL(string: "https://instagram.com/\(instagramHandle)")  else { return }
+        if UIApplication.shared.canOpenURL(url) {
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.openURL(url)
+            }
+        }
+    }
+    
+    func openTikTok(tikTokHandle: String) {
+        guard let url = URL(string: tikTokHandle)  else { return }
+        if UIApplication.shared.canOpenURL(url) {
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.openURL(url)
+            }
+        }
+    }
+    
+    func openSpotifySong() {
+        //  UIApplication.shared.open(URL(string: "spotify:artist:4gzpq5DPGxSnKTe4SA8HAU")!, options: [:], completionHandler: nil)
+        // UIApplication.shared.openURL(URL(string: "spotify:track:1dNIEtp7AY3oDAKCGg2XkH")!)
+        //   UIApplication.shared.open(URL(string: "spotify:track:1dNIEtp7AY3oDAKCGg2XkH")!, options: [:], completionHandler: nil)
+        UIApplication.shared.open(URL(string: "https://p.scdn.co/mp3-preview/18d3b87b0765cd6d8c0a418d6142b3b441c0f8b2?cid=476c620368f349cc8be5b2a29b596eaf" )!, options: [:], completionHandler: nil)
+        
+    }
     
     
     
     
     
+    func openFacebook(facebookHandle: String) {
+        let webURL: NSURL = NSURL(string: "https://www.facebook.com/ID")!
+        let IdURL: NSURL = NSURL(string: "fb://profile/ID")!
+        
+        if(UIApplication.shared.canOpenURL(IdURL as URL)){
+            // FB installed
+            UIApplication.shared.open(webURL as URL, options: [:], completionHandler: nil)
+        } else {
+            // FB is not installed, open in safari
+            UIApplication.shared.open(webURL as URL, options: [:], completionHandler: nil)
+        }
+        
+    }
     
+    func openTwitter(twitterHandle: String) {
+        guard let url = URL(string: "https://twitter.com/\(twitterHandle)")  else { return }
+        if UIApplication.shared.canOpenURL(url) {
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.openURL(url)
+            }
+        }
+    }
     
+    func openSnapchat(snapchatUsername: String) {
+        let username = snapchatUsername
+        let appURL = URL(string: "snapchat://add/\(username)")!
+        let application = UIApplication.shared
+        
+        if application.canOpenURL(appURL) {
+            application.open(appURL)
+            
+        } else {
+            // if Snapchat app is not installed, open URL inside Safari
+            let webURL = URL(string: "https://www.snapchat.com/add/\(username)")!
+            application.open(webURL)
+            
+        }
+    }
+ 
 }
-//
-//// Helper function inserted by Swift 4.2 migrator.
-//fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
-//    return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
-//}
-//
-//// Helper function inserted by Swift 4.2 migrator.
-//fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
-//    return input.rawValue
-//}
 
