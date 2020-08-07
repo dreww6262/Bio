@@ -74,6 +74,12 @@ class PhoneSignInVC: UIViewController {
     }
     
 
+    @IBAction func createAccountPressed(_ sender: UIButton) {
+        let signUpVC = storyboard?.instantiateViewController(identifier: "signUpID") as! GoodBioSignUpVC
+               //signUpVC.userData = userData
+               self.present(signUpVC, animated: false)
+               signUpVC.modalPresentationStyle = .fullScreen
+    }
     
     
     

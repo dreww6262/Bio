@@ -102,6 +102,7 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
     
     override func viewDidLoad() {
         print("This is current user email: \(user?.email)")
+        //user = Auth.auth().currentUser
         print(fakeUserImageArray.count)
         super.viewDidLoad()
         //   downloadFileFromURL(url: URL(string: "https://p.scdn.co/mp3-preview/18d3b87b0765cd6d8c0a418d6142b3b441c0f8b2?cid=476c620368f349cc8be5b2a29b596eaf")!)
@@ -228,7 +229,15 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
     
     @IBAction func friendsButtonClicked(_ sender: UIButton) {
       let profileHexGrid =   storyboard?.instantiateViewController(identifier: "ProfileHexGrid") as! BioProfileHexagonGrid2
-        show(profileHexGrid, sender: nil)
+        present(profileHexGrid, animated: false)
+        //self.dismiss(animated: false, completion: nil)
+    }
+    
+    @IBAction func newPostButtonClicked(_ sender: UIButton) {
+        let newPostVC =   storyboard?.instantiateViewController(identifier: "newPostVC") as! NewPostOptionsVC
+        newPostVC.userData = userData
+        present(newPostVC, animated: false)
+        //self.dismiss(animated: false, completion: nil)
     }
     
     @objc func tappedMenuButton(sender: UITapGestureRecognizer) {
@@ -271,7 +280,7 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
             //find button
             let button = findMenuHexagonButton(hexCenter: point)
             button?.sendActions(for: .touchUpInside)
-//            print("button triggered: \(button?.titleLabel)")
+            //print("button triggered: \(button?.titleLabel)")
             hideMenuOptions()
             //change VC
         }
@@ -369,7 +378,7 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
         self.populateUserAvatar()
 //        print("finished avatar")
         loadData {
-//            print("loading data 💡💡💡💡💡💡💡💡💡💡💡💡💡💡💡💡💡💡💡💡")
+            print("loading data 💡💡💡💡💡💡💡💡💡💡💡💡💡💡💡💡💡💡💡💡")
             self.populateHexagonGrid2()
 //            print("finished hexGrid2")
         }
@@ -422,7 +431,7 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
             //there are querySnapshot!.documents.count docments in the spots snapshot
             
             for document in querySnapshot!.documents {
-                print(document)
+//                print(document)
                 let newHexagonPost = HexagonStructData(dictionary: document.data())
                 self.hexagonStructArray.append(newHexagonPost)
 //                print("Loaded: \(newHexagonPost)")
@@ -656,7 +665,7 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
     func populateUserAvatar() {
         // to for hexstruct array once algorithm done
         let ref = self.storage.child(userData!.avaRef)
-        print(ref)
+        //print(ref)
         self.imageViewArray[0].sd_setImage(with: ref)
 //        print("This is the imageView.image \(self.imageViewArray[0].image)")
 //        print("This is ref \(0) \(ref)")

@@ -7,22 +7,53 @@
 //
 
 import UIKit
+import FMPhotoPicker
 
-class NewPostOptionsVC: UIViewController {
+class NewPostOptionsVC: UIViewController, FMPhotoPickerViewControllerDelegate {
+    func fmPhotoPickerController(_ picker: FMPhotoPickerViewController, didFinishPickingPhotoWith photos: [UIImage]) {
+        if photos.isEmpty {
+            self.dismiss(animated: true, completion: nil)
+        }
+        else {
+
+            // TODO: Learn how to implement video
+            let uploadPreviewVC = storyboard?.instantiateViewController(identifier: "uploadPreviewVC") as! UploadPreviewVC
+            print(photos)
+            uploadPreviewVC.userData = userData
+            uploadPreviewVC.photos = photos
+            self.dismiss(animated: false, completion: nil)
+            self.present(uploadPreviewVC, animated: false, completion: nil)
+            uploadPreviewVC.modalPresentationStyle = .fullScreen
+            
+        }
+    }
+    
+    
     
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var pic1: UIImageView!
-    @IBOutlet weak var pic2: UIImageView!
-    @IBOutlet weak var pic3: UIImageView!
-    @IBOutlet weak var pic4: UIImageView!
-    @IBOutlet weak var pic5: UIImageView!
-    @IBOutlet weak var pic6: UIImageView!
+    
+    @IBOutlet weak var pic1: UIButton!
+    
+    @IBOutlet weak var pic2: UIButton!
+    
+    @IBOutlet weak var pic3: UIButton!
+    
+    @IBOutlet weak var pic4: UIButton!
+    
+    @IBOutlet weak var pic5: UIButton!
+    
+    @IBOutlet weak var pic6: UIButton!
+    
     @IBOutlet weak var l1: UILabel!
     @IBOutlet weak var l2: UILabel!
     @IBOutlet weak var l3: UILabel!
     @IBOutlet weak var l4: UILabel!
     @IBOutlet weak var l5: UILabel!
     @IBOutlet weak var l6: UILabel!
+    
+    let config = FMPhotoPickerConfig()
+    
+    var userData: UserData?
     
     
     
@@ -33,6 +64,12 @@ class NewPostOptionsVC: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    @IBAction func addPhotoPressed(_ sender: UIButton) {
+      //  sender.sendActions(for: .touchUpInside)
+        let picker = FMPhotoPickerViewController(config: config)
+        picker.delegate = self
+        self.present(picker, animated: true)
+    }
     
     func formatPicturesAndLabels(){
         titleLabel.frame = CGRect(x: 10.0, y: 10.0, width: self.view.frame.width, height: 66.0)
