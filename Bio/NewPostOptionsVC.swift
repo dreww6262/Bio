@@ -23,7 +23,8 @@ class NewPostOptionsVC: UIViewController, FMPhotoPickerViewControllerDelegate {
             uploadPreviewVC.photos = photos
             self.dismiss(animated: false, completion: nil)
             self.present(uploadPreviewVC, animated: false, completion: nil)
-            uploadPreviewVC.modalPresentationStyle = .fullScreen
+           // uploadPreviewVC.modalPresentationStyle = .fullScreen
+            uploadPreviewVC.modalPresentationStyle = .overFullScreen
             
         }
     }
@@ -51,6 +52,8 @@ class NewPostOptionsVC: UIViewController, FMPhotoPickerViewControllerDelegate {
     @IBOutlet weak var l5: UILabel!
     @IBOutlet weak var l6: UILabel!
     
+    var customTabBar: TabNavigationMenu!
+    
     let config = FMPhotoPickerConfig()
     
     var userData: UserData?
@@ -70,6 +73,22 @@ class NewPostOptionsVC: UIViewController, FMPhotoPickerViewControllerDelegate {
         picker.delegate = self
         self.present(picker, animated: true)
     }
+    
+    @IBAction func addLinkPressed(_ sender: UIButton) {
+        let linkVC = storyboard?.instantiateViewController(identifier: "linkVC") as! AddLinkVCViewController
+        linkVC.userData = userData
+        show(linkVC, sender: nil)
+        linkVC.modalPresentationStyle = .fullScreen
+    }
+    
+    @IBAction func addSocialMediaPressed(_ sender: UIButton) {
+        let addSocialMediaVC = storyboard?.instantiateViewController(identifier: "addSocialMediaVC") as! AddSocialMediaVC
+           addSocialMediaVC.userData = userData
+       // addSocialMediaVC.publicID = userData?.publicID
+           show(addSocialMediaVC, sender: nil)
+           addSocialMediaVC.modalPresentationStyle = .fullScreen
+    }
+    
     
     func formatPicturesAndLabels(){
         titleLabel.frame = CGRect(x: 10.0, y: 10.0, width: self.view.frame.width, height: 66.0)

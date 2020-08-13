@@ -43,11 +43,12 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     
     // keyboard frame size
     var keyboard = CGRect()
-    
+        
     
     // default func
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         avaImg.image = UIImage(named: "boyprofile")
         let gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
         let gray = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)

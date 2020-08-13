@@ -27,6 +27,7 @@ class PhoneSignInVC: UIViewController {
     @IBOutlet weak var signUpLabel: UILabel!
     
     @IBOutlet weak var signUpMottoLabel: UILabel!
+    var userData: UserData?
     
     //private var loginButton: FBLoginButton!
     
@@ -67,8 +68,8 @@ class PhoneSignInVC: UIViewController {
         
         
         
-        // Adds Firebase fake user signin
-        fakeUserSignIn()
+        // Ad Firebase fake user signin
+        //fakeUserSignIn()
         
         
     }
@@ -81,7 +82,13 @@ class PhoneSignInVC: UIViewController {
                signUpVC.modalPresentationStyle = .fullScreen
     }
     
-    
+    @IBAction func unvindSegueToMenu(segue:UIStoryboardSegue) {
+        let tabBar = self.tabBarController! as! NavigationMenuBaseController
+        let homeHexGrid = (tabBar.viewControllers![2] as! HomeHexagonGrid)
+        homeHexGrid.userData = userData
+        tabBar.viewControllers![2] = homeHexGrid
+        tabBar.customTabBar.switchTab(from: 5, to: 2) // to home controller
+    }
     
     
     var _user: User? = nil

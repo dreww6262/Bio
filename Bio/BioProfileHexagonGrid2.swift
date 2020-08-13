@@ -49,6 +49,8 @@ class BioProfileHexagonGrid2: UIViewController {
     var hexaHeightDelta : CGFloat = 0.0
     let spacing : CGFloat = 5
     
+    var customTabBar: TabNavigationMenu!
+    
     
     // var tapGesture = UITapGestureRecognizer()
     //var fakeUserImageArray: [UIImage] = []
@@ -80,6 +82,26 @@ class BioProfileHexagonGrid2: UIViewController {
         bg.image = UIImage(named: "outerspace1")
         bg.layer.zPosition = -1
         self.view.addSubview(bg)
+//        if (userData == nil) {
+//            db.collection("UserData").document(user!.uid).getDocument(completion: {obj,error in
+//                if (error == nil) {
+//                    self.userData = UserData(dictionary: obj!.data()!)
+//                    self.loadFollowings()
+//                }
+//                else {
+//                    print("could not load userdata from \(self.user?.email)")
+//                    print(error?.localizedDescription)
+//                }
+//            })
+//        }
+//        else {
+//            loadFollowings()
+//        }
+        print("hexagon data array viewdidload 🤽‍♂️🤽‍♂️🤽‍♂️")
+    }
+    
+    func refresh() {
+        loadView()
         if (userData == nil) {
             db.collection("UserData").document(user!.uid).getDocument(completion: {obj,error in
                 if (error == nil) {
@@ -95,7 +117,6 @@ class BioProfileHexagonGrid2: UIViewController {
         else {
             loadFollowings()
         }
-        print("hexagon data array viewdidload 🤽‍♂️🤽‍♂️🤽‍♂️")
     }
     
     
@@ -142,6 +163,9 @@ class BioProfileHexagonGrid2: UIViewController {
 
         print("usernameText \(usernameText)")
         self.followArray.removeAll(keepingCapacity: false)
+        
+        self.followingUserDataArray.removeAll(keepingCapacity: false)
+        self.followingUserDataArray.append(self.userData!)
 
         let followQuery = followCollection.whereField("follower", isEqualTo: usernameText).addSnapshotListener({ (objects, error) -> Void in
             if error == nil {
@@ -160,8 +184,7 @@ class BioProfileHexagonGrid2: UIViewController {
                 if (!self.followArray.isEmpty) {
                     let userDataCollection = self.db.collection("UserData")
                     let userDataQuery = userDataCollection.whereField("publicID", in: self.followArray)
-                    self.followingUserDataArray.removeAll(keepingCapacity: false)
-                    self.followingUserDataArray.append(self.userData!)
+                    
                     userDataQuery.addSnapshotListener( { (objects, error) -> Void in
                         if error == nil {
                             guard let documents = objects?.documents else {
@@ -184,6 +207,9 @@ class BioProfileHexagonGrid2: UIViewController {
                         }
                         
                     })
+                }
+                else {
+                    self.loadProfileHexagons()
                 }
                 
                 
@@ -242,7 +268,7 @@ class BioProfileHexagonGrid2: UIViewController {
         //adjust coordinates
         
         for point in self.reOrderedCoordinateArrayPoints {
-            var newPointX = point.x - 604 //680
+            var newPointX = point.x - 104 //680
             var newPointY = point.y - 493 //570
             var newPoint = CGPoint(x: newPointX, y: newPointY)
             reorderedCoordinateArrayPointsCentered.append(newPoint)
@@ -297,7 +323,9 @@ class BioProfileHexagonGrid2: UIViewController {
             thisIndex = thisIndex+1
             
         }
-        print(imageViewArray)
+    
+        //self.view.frame.origin = imageViewArray[0].frame.origin
+        print("imageViewArray: \(imageViewArray)")
 
     }
 

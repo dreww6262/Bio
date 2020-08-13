@@ -53,6 +53,10 @@
 		494C404824DC82F000A47788 /* FMPickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C404724DC82F000A47788 /* FMPickerVC.swift */; };
 		494C404A24DC9CC400A47788 /* UploadPreviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C404924DC9CC400A47788 /* UploadPreviewVC.swift */; };
 		494C404C24DC9D7A00A47788 /* UploadPreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C404B24DC9D7A00A47788 /* UploadPreviewCell.swift */; };
+		494C408E24E4830D00A47788 /* AddLinkVCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C408D24E4830D00A47788 /* AddLinkVCViewController.swift */; };
+		494C409024E4BFFE00A47788 /* TabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C408F24E4BFFD00A47788 /* TabItem.swift */; };
+		494C409224E4C26E00A47788 /* NavigationMenuBaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C409124E4C26E00A47788 /* NavigationMenuBaseController.swift */; };
+		494C409424E4C34A00A47788 /* TabNavigationMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C409324E4C34A00A47788 /* TabNavigationMenu.swift */; };
 		4959E04924A3053200264DB7 /* SpotifyiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4959E04824A3052F00264DB7 /* SpotifyiOS.framework */; };
 		4959E04B24A3105300264DB7 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4959E04A24A3105200264DB7 /* VideoViewController.swift */; };
 		4959E04D24A3111E00264DB7 /* YoutubeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4959E04C24A3111E00264DB7 /* YoutubeTableViewController.swift */; };
@@ -181,6 +185,10 @@
 		494C404724DC82F000A47788 /* FMPickerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMPickerVC.swift; sourceTree = "<group>"; };
 		494C404924DC9CC400A47788 /* UploadPreviewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadPreviewVC.swift; sourceTree = "<group>"; };
 		494C404B24DC9D7A00A47788 /* UploadPreviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadPreviewCell.swift; sourceTree = "<group>"; };
+		494C408D24E4830D00A47788 /* AddLinkVCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLinkVCViewController.swift; sourceTree = "<group>"; };
+		494C408F24E4BFFD00A47788 /* TabItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabItem.swift; sourceTree = "<group>"; };
+		494C409124E4C26E00A47788 /* NavigationMenuBaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationMenuBaseController.swift; sourceTree = "<group>"; };
+		494C409324E4C34A00A47788 /* TabNavigationMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabNavigationMenu.swift; sourceTree = "<group>"; };
 		4959E04824A3052F00264DB7 /* SpotifyiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyiOS.framework; sourceTree = "<group>"; };
 		4959E04A24A3105200264DB7 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		4959E04C24A3111E00264DB7 /* YoutubeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeTableViewController.swift; sourceTree = "<group>"; };
@@ -316,6 +324,7 @@
 				494C404724DC82F000A47788 /* FMPickerVC.swift */,
 				493B739B24B7754E004754BC /* ProfilesHexagonGrid1.swift */,
 				491BC46224C7882F00C751B6 /* BioProfileHexagonGrid2.swift */,
+				4920A45524D30F4400F06551 /* HomeHexagonGrid.swift */,
 				494C403B24DB85E000A47788 /* GuestHexagonGridVC.swift */,
 				497ACC4C24A90496002333A6 /* HexagonStructData.swift */,
 				4944D79F24AD6A1B00AD3955 /* UserData.swift */,
@@ -336,6 +345,7 @@
 				492E245D24B664C2005745D1 /* SubscribersCell.swift */,
 				497ACC5024A90C0F002333A6 /* HexagonClass.swift */,
 				4944D79B24ABD2E700AD3955 /* AddSocialMediaVC.swift */,
+				494C408F24E4BFFD00A47788 /* TabItem.swift */,
 				4944D79D24ABE2FA00AD3955 /* PersonalInformationVCViewController.swift */,
 				497ACC5A24A935D3002333A6 /* SignUpPopUpView.swift */,
 				497ACC5C24A93651002333A6 /* DummyVCForPopUp.swift */,
@@ -344,7 +354,6 @@
 				49A3743D24A3E4D4007A48E0 /* HexagonGrid2.swift */,
 				49B3FA9624A3F2E2004578CA /* HexagonGrid3.swift */,
 				49755DC224BC1B0F000E75FC /* DraggableHexagonGrid.swift */,
-				4920A45524D30F4400F06551 /* HomeHexagonGrid.swift */,
 				49755DC024B8FE83000E75FC /* AlgorithmHexagonGrid.swift */,
 				496122A024A43EB70057579F /* UserProfile.swift */,
 				49B3FA9824A4059B004578CA /* HexagonGrid4.swift */,
@@ -359,6 +368,7 @@
 				49C205D82499A0770022EE53 /* DrawingBoardVC2.swift */,
 				4907D153249FB00600B66093 /* DrawingBoard3.swift */,
 				491ADBAA2497203B00B62C5A /* SearchVC.swift */,
+				494C408D24E4830D00A47788 /* AddLinkVCViewController.swift */,
 				4996227B24C754190017AEB4 /* BioSearchVC.swift */,
 				491ADBAE2497237000B62C5A /* SettingsVC.swift */,
 				494C403D24DC580700A47788 /* PhotoEditorVC.swift */,
@@ -368,6 +378,8 @@
 				491ADBB0249723FC00B62C5A /* PublicityTableVC.swift */,
 				49C205CE249804790022EE53 /* PrivacyCell.swift */,
 				491ADB7B24971B2D00B62C5A /* Assets.xcassets */,
+				494C409124E4C26E00A47788 /* NavigationMenuBaseController.swift */,
+				494C409324E4C34A00A47788 /* TabNavigationMenu.swift */,
 				49A3743B24A3CD38007A48E0 /* HexagonView.swift */,
 				491ADB7D24971B2D00B62C5A /* LaunchScreen.storyboard */,
 				491ADB8024971B2D00B62C5A /* Info.plist */,
@@ -609,8 +621,10 @@
 				49C205D7249833E80022EE53 /* CreativeToolBar.swift in Sources */,
 				491ADB7324971B2500B62C5A /* AppDelegate.swift in Sources */,
 				492E245E24B664C2005745D1 /* SubscribersCell.swift in Sources */,
+				494C409224E4C26E00A47788 /* NavigationMenuBaseController.swift in Sources */,
 				4996227E24C761E70017AEB4 /* BioTableViewCell.swift in Sources */,
 				4944D79E24ABE2FB00AD3955 /* PersonalInformationVCViewController.swift in Sources */,
+				494C409424E4C34A00A47788 /* TabNavigationMenu.swift in Sources */,
 				496122A124A43EB80057579F /* UserProfile.swift in Sources */,
 				49EEDC6E24C0AA1D003C8378 /* PhoneSignInVC.swift in Sources */,
 				494C404A24DC9CC400A47788 /* UploadPreviewVC.swift in Sources */,
@@ -626,6 +640,7 @@
 				491BC46324C7882F00C751B6 /* BioProfileHexagonGrid2.swift in Sources */,
 				492E246024B664D7005745D1 /* SearchUsersVC.swift in Sources */,
 				491ADBB1249723FC00B62C5A /* PublicityTableVC.swift in Sources */,
+				494C409024E4BFFE00A47788 /* TabItem.swift in Sources */,
 				494C403E24DC580700A47788 /* PhotoEditorVC.swift in Sources */,
 				494C403C24DB85E000A47788 /* GuestHexagonGridVC.swift in Sources */,
 				4944D7A024AD6A1B00AD3955 /* UserData.swift in Sources */,
@@ -650,6 +665,7 @@
 				4944D79C24ABD2E700AD3955 /* AddSocialMediaVC.swift in Sources */,
 				49A3743E24A3E4D4007A48E0 /* HexagonGrid2.swift in Sources */,
 				491ADBB5249729A400B62C5A /* DiscoverVC.swift in Sources */,
+				494C408E24E4830D00A47788 /* AddLinkVCViewController.swift in Sources */,
 				4959E04D24A3111E00264DB7 /* YoutubeTableViewController.swift in Sources */,
 				494C404C24DC9D7A00A47788 /* UploadPreviewCell.swift in Sources */,
 				49C2059F2497DB4D0022EE53 /* DrawingBoardVC.swift in Sources */,
