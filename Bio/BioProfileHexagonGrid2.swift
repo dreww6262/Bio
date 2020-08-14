@@ -383,7 +383,7 @@ class BioProfileHexagonGrid2: UIViewController {
         user = Auth.auth().currentUser
         print("current user: \(user)")
         if (user != nil) {
-            if (userData == nil) {
+            if (userData == nil || userData?.email != user?.email) {
                 db.collection("UserData").document(user!.uid).getDocument(completion: {obj,error in
                     if (error == nil) {
                         self.userData = UserData(dictionary: obj!.data()!)
@@ -464,6 +464,7 @@ class BioProfileHexagonGrid2: UIViewController {
         
         if (self.followingUserDataArray.isEmpty) {
             self.followingUserDataArray = newUserDataArray
+            loadProfileHexagons()
         }
         
         
@@ -478,7 +479,10 @@ class BioProfileHexagonGrid2: UIViewController {
                 // find related objects in "follow" class of Parse
                 for object in objects!.documents {
                     print (object.data())
-                    newFollowArray.append(object.get("following") as! String)
+                    let followerString = object.get("following")
+                    if followerString != nil  && !newFollowArray.contains(followerString as! String){
+                        newFollowArray.append(followerString as! String)
+                    }
                     print("Now this is followArray \(self.followArray)")
                 }
                 
@@ -501,7 +505,7 @@ class BioProfileHexagonGrid2: UIViewController {
                             }
                             self.followingUserDataArray = newUserDataArray
                             newUserDataArray.forEach({ doc in
-                                print(doc.publicID)
+                                print("username: \(doc.publicID)")
                             })
                             print("new user data array: \(newUserDataArray)")
                             self.removeCurrentProfileHexagons()
@@ -514,10 +518,10 @@ class BioProfileHexagonGrid2: UIViewController {
                         
                     })
                 }
-                else {
-                    self.removeCurrentProfileHexagons()
-                    self.loadProfileHexagons()
-                }
+//                else {
+//                    self.removeCurrentProfileHexagons()
+//                    self.loadProfileHexagons()
+//                }
                 
                 
             } else {
@@ -540,17 +544,27 @@ class BioProfileHexagonGrid2: UIViewController {
     
     @objc func imageTapped(sender: UITapGestureRecognizer){
         print("🎯🎯🎯🎯🎯🎯🎯I tapped image with tag \(sender.view!.tag)")
-        // let newImage.tag = sender.view!.tag
-        let newImageView = UIImageView(image: fakeUserTotalProfileArray[sender.view!.tag])
-        newImageView.frame = UIScreen.main.bounds
-        newImageView.backgroundColor = .black
-        newImageView.contentMode = .scaleAspectFit
-        newImageView.isUserInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImage))
-        newImageView.addGestureRecognizer(tap)
-        self.view.addSubview(newImageView)
-        self.navigationController?.isNavigationBarHidden = true
-        self.tabBarController?.tabBar.isHidden = true
+        print("Line below is user that you tapped. send to page")
+        let tappedUser = self.followArray[sender.view!.tag]
+        print("tappedUser: \(tappedUser)")
+//        // let newImage.tag = sender.view!.tag
+//        let newImageView = UIImageView(image: fakeUserTotalProfileArray[sender.view!.tag])
+//        newImageView.frame = UIScreen.main.bounds
+//        newImageView.backgroundColor = .black
+//        newImageView.contentMode = .scaleAspectFit
+//        newImageView.isUserInteractionEnabled = true
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImage))
+//        newImageView.addGestureRecognizer(tap)
+//        self.view.addSubview(newImageView)
+//        self.navigationController?.isNavigationBarHidden = true
+//        self.tabBarController?.tabBar.isHidden = true
+//
+        
+        
+        
+        
+        
+        
     }
     
     
@@ -591,14 +605,12 @@ class BioProfileHexagonGrid2: UIViewController {
         }
         let contentTapGesture = UITapGestureRecognizer(target: self, action: #selector(DraggableHexagonGrid.handleContentViewerTap))
         self.contentViewer.addGestureRecognizer(contentTapGesture)
-        
-        
-        
-        
+    
         //          // Do any additional setup after loading the view.
         let hexaDiameter : CGFloat = 150
         
         var thisIndex = 0
+        print ("following data count \(followingUserDataArray.count)")
         for data in followingUserDataArray {
             //print(coordinates)
             

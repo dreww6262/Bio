@@ -62,6 +62,7 @@ class NewPostOptionsVC: UIViewController, FMPhotoPickerViewControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.navigationBar.isHidden = true
         formatPicturesAndLabels()
 
         // Do any additional setup after loading the view.

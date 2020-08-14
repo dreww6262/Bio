@@ -986,11 +986,12 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
     
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
         //        print("🎯🎯🎯🎯🎯Hello World")
-        //        print("🎯🎯🎯🎯🎯🎯🎯I tapped image with tag \(sender.view!.tag)")
+            print("🎯🎯🎯🎯🎯🎯🎯I tapped image with tag \(sender.view!.tag)")
         //if sender.view!.tag == 0 {
-        let newImageView = UIImageView(image: fakeUserTotalProfileArray[sender.view!.tag])
+        let newImageView = UIImageView(image: UIImage(named: "kbit"))
         // let newImageView = UIImageView(image: imageViewArray[sender.view!.tag].image)
-        let frame = CGRect(x: scrollView.frame.minX + scrollView.contentOffset.x, y: scrollView.frame.minY + scrollView.contentOffset.y, width: scrollView.frame.width, height: scrollView.frame.height)
+    //    let frame = CGRect(x: scrollView.frame.minX + scrollView.contentOffset.x, y: scrollView.frame.minY + scrollView.contentOffset.y, width: scrollView.frame.width, height: scrollView.frame.height)
+        let frame = CGRect(x: scrollView.frame.minX, y: scrollView.frame.minY, width: scrollView.frame.width, height: scrollView.frame.height)
         
         newImageView.frame = frame
         newImageView.backgroundColor = .white

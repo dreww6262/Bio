@@ -8,13 +8,18 @@
 
 import UIKit
 import FirebaseAuth
-class NavigationMenuBaseController: UITabBarController {
+class NavigationMenuBaseController: UITabBarController, UINavigationControllerDelegate {
     var customTabBar: TabNavigationMenu!
     var tabBarHeight: CGFloat = 0.0 //67.0
     override func viewDidLoad() {
         super.viewDidLoad()
         self.loadTabBar()
+        self.moreNavigationController.delegate = self
+        
     }
+    
+    //override func viewWillAppear(_ animated: Bool) {}
+    
     func loadTabBar() {
         let tabItems: [TabItem] = [.settings, .dms, .home, .friends, .addPost, .signIn]
         self.setupCustomTabMenu(tabItems) { (controllers) in

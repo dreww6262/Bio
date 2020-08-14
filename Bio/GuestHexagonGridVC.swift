@@ -656,6 +656,7 @@ class GuestHexagonGridVC: UIViewController, UIGestureRecognizerDelegate  { //, /
         print("🎯🎯🎯🎯🎯Hello World")
         print("🎯🎯🎯🎯🎯🎯🎯I tapped image with tag \(sender.view!.tag)")
         //if sender.view!.tag == 0 {
+        
         let tappedHex = hexagonStructArray[sender.view!.tag - 1]
         
         //if hex is for other app link

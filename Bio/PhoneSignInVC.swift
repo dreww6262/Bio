@@ -45,6 +45,7 @@ class PhoneSignInVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.navigationBar.isHidden = true
         //loginButton = FBLoginButton() // TODO: Change button from FB to custom layout
         
         // loginButton.center = signUpButton.frame.or signInButton.center +
