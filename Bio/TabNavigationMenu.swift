@@ -42,18 +42,12 @@ class TabNavigationMenu: UIView {
         }
         self.setNeedsLayout()
         self.layoutIfNeeded()
-        do {
-            try Auth.auth().signOut()
-        }
-        catch let error {
-            print("not signed in \(error.localizedDescription)")
-        }
 
         if (Auth.auth().currentUser == nil){
             self.activateTab(tab: 5) // activate the first tab
         }
         else {
-            self.activateTab(tab: 3)
+            self.activateTab(tab: 2)
         }
     }
     
@@ -96,47 +90,14 @@ class TabNavigationMenu: UIView {
         self.activateTab(tab: to)
     }
     func activateTab(tab: Int) {
-        switch tab {
-        //case 0:
-            // settings does not need to refresh
-//            (tabItems![tab].viewController as! HomeHexagonGrid).refresh()
-
-        case 1:
-            print("dm tab")
-            // change to valid DM View Controller
-            //(tabItems![tab].viewController as! dms).refresh()
-        case 2:
-            print("home tab")
-            let homeGrid = (tabItems![tab].viewController as! HomeHexagonGrid)
-            //homeGrid.loadView()
-            homeGrid.refresh()
-        case 3:
-            print("friends tab")
-            let friendsGrid = (tabItems![tab].viewController as! BioProfileHexagonGrid2)
-            //friendsGrid.loadView()
-            friendsGrid.refresh()
-        case 4:
-            print("add Post tab")
-            let newPostVC = (tabItems![tab].viewController as! NewPostOptionsVC)
-            //newPostVC.loadView()
-            //newPostVC.refresh()
-            // add post does not need to refresh
-//            .refresh()
-        case 5:
-            print("signin tab")
-            // sign in does not need to refresh
-            let phoneVC = (tabItems![tab].viewController as! PhoneSignInVC)
-            phoneVC.loadView()
-//            (tabItems![tab].viewController as! HomeHexagonGrid).refresh()
-        default:
-            print("not possible... not a valid tab")
-        }
+        
         let tabToActivate = self.subviews[tab]
         let borderWidth = tabToActivate.frame.size.width - 20
         let borderLayer = CALayer()
         borderLayer.backgroundColor = UIColor.green.cgColor
         borderLayer.name = "active border"
         borderLayer.frame = CGRect(x: 10, y: 0, width: borderWidth, height: 2)
+        prepareForeSwitch(tab: tab)
         DispatchQueue.main.async {
             UIView.animate(withDuration: 0.8, delay: 0.0, options: [.curveEaseIn, .allowUserInteraction], animations: {
                 tabToActivate.layer.addSublayer(borderLayer)
@@ -147,6 +108,45 @@ class TabNavigationMenu: UIView {
         }
         self.activeItem = tab
     }
+    
+    func prepareForeSwitch(tab: Int) {
+        switch tab {
+                //case 0:
+                    // settings does not need to refresh
+        //            (tabItems![tab].viewController as! HomeHexagonGrid).refresh()
+
+                case 1:
+                    print("dm tab")
+                    // change to valid DM View Controller
+                    //(tabItems![tab].viewController as! dms).refresh()
+                case 2:
+                    print("home tab")
+                    let homeGrid = (tabItems![tab].viewController as! HomeHexagonGrid)
+                    //homeGrid.loadView()
+                    //homeGrid.refresh()
+                case 3:
+                    print("friends tab")
+                    let friendsGrid = (tabItems![tab].viewController as! BioProfileHexagonGrid2)
+                    //friendsGrid.loadView()
+                    //friendsGrid.refresh()
+                case 4:
+                    print("add Post tab")
+                    let newPostVC = (tabItems![tab].viewController as! NewPostOptionsVC)
+                    //newPostVC.loadView()
+                    //newPostVC.refresh()
+                    // add post does not need to refresh
+        //            .refresh()
+                case 5:
+                    print("signin tab")
+                    // sign in does not need to refresh
+                    let phoneVC = (tabItems![tab].viewController as! PhoneSignInVC)
+                    //phoneVC.loadView()
+        //            (tabItems![tab].viewController as! HomeHexagonGrid).refresh()
+                default:
+                    print("not possible... not a valid tab")
+                }
+    }
+    
     func deactivateTab(tab: Int) {
         let inactiveTab = self.subviews[tab]
         let layersToRemove = inactiveTab.layer.sublayers!.filter({ $0.name == "active border" })

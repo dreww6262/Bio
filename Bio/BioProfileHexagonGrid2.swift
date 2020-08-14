@@ -21,6 +21,7 @@ import FirebaseStorage
 
 class BioProfileHexagonGrid2: UIViewController {
     //var user = PFUser.current()!.username!
+    
     var user = Auth.auth().currentUser
     var storage = Storage.storage().reference()
     var contentViewer = UIView()
@@ -31,6 +32,20 @@ class BioProfileHexagonGrid2: UIViewController {
     var followingUserDataArray = [UserData]()
     let db = Firestore.firestore()
     var userData: UserData?
+    @IBOutlet weak var addPostButton: UIButton!
+    
+    @IBOutlet weak var newPostButton: UIButton!
+    @IBOutlet weak var friendsButton: UIButton!
+    
+    @IBOutlet weak var settingsButton: UIButton!
+    
+    @IBOutlet weak var dmButton: UIButton!
+    
+    @IBOutlet weak var homeProfileButton: UIButton!
+    
+    
+    var tabController: NavigationMenuBaseController?
+    
     //var hexagonDataArray = [HexagonStructData]()
     
     //    var player = AVAudioPlayer()
@@ -41,7 +56,7 @@ class BioProfileHexagonGrid2: UIViewController {
     var coordinate: [CGFloat] = []
     var imageViewArray: [UIImageView] = []
     
-    @IBOutlet weak var expandedView: UIImageView!
+    //@IBOutlet weak var expandedView: UIImageView!
     
     let hexaDiameter : CGFloat = 150
     var hexaWidth : CGFloat = 0.0
@@ -71,17 +86,115 @@ class BioProfileHexagonGrid2: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        //tabController = tabBarController! as! NavigationMenuBaseController
         hexaWidth = hexaDiameter * CGFloat(sqrt(3)) * CGFloat(0.5)
         hexaWidthDelta = (hexaWidth)*CGFloat(0.5)
         hexaHeightDelta = hexaDiameter * CGFloat(0.25)
         //   downloadFileFromURL(url: URL(string: "https://p.scdn.co/mp3-preview/18d3b87b0765cd6d8c0a418d6142b3b441c0f8b2?cid=476c620368f349cc8be5b2a29b596eaf")!)
         
         // background
-        let bg = UIImageView(frame: CGRect(x: -400, y: -400, width: 3000, height: 3000))
-        bg.image = UIImage(named: "outerspace1")
-        bg.layer.zPosition = -1
-        self.view.addSubview(bg)
+//        let bg = UIImageView(frame: CGRect(x: -400, y: -400, width: 3000, height: 3000))
+//        bg.image = UIImage(named: "outerspace1")
+//        bg.layer.zPosition = -1
+//        self.view.addSubview(bg)
+        
+//        let bg = UIImageView(frame: CGRect(x: -400, y: -400, width: 3000, height: 3000))
+//               bg.image = UIImage(named: "outerspace1")
+//               bg.layer.zPosition = -1
+//               scrollView.addSubview(bg)
+        
+        print("addPostbuttons")
+        self.view.addSubview(addPostButton)
+        
+        self.view.addSubview(newPostButton)
+        
+        self.view.addSubview(friendsButton)
+        
+        self.view.addSubview(settingsButton)
+        
+        self.view.addSubview(dmButton)
+        
+        self.view.addSubview(homeProfileButton)
+        
+        addPostButton.frame = CGRect(x: self.view.frame.width/2-40, y: self.view.frame.height - 83, width: 80, height: 80)
+        //  addPostButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
+        // round ava
+        addPostButton.layer.cornerRadius = addPostButton.frame.size.width / 2
+        addPostButton.clipsToBounds = true
+        
+        
+        newPostButton.frame = CGRect(x: 13, y: addPostButton.frame.minY, width: 80, height: 80)
+        //  newPostButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
+        // round ava
+        newPostButton.layer.cornerRadius = newPostButton.frame.size.width / 2
+        newPostButton.clipsToBounds = true
+        
+        
+        friendsButton.frame = CGRect(x: self.view.frame.width/2 - 40, y: self.view.frame.height - 203, width: 80, height: 80)
+        // friendsButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
+        // round ava
+        friendsButton.layer.cornerRadius = friendsButton.frame.size.width / 2
+        friendsButton.clipsToBounds = true
+        
+        
+        
+        
+        dmButton.frame = CGRect(x: self.view.frame.width*3/5 + 20, y: self.view.frame.height - 166, width: 80, height: 80)
+        //  dmButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
+        // round ava
+        dmButton.layer.cornerRadius = dmButton.frame.size.width / 2
+        dmButton.clipsToBounds = true
+        
+        
+        
+        settingsButton.frame = CGRect(x: self.view.frame.width - 93, y: self.view.frame.height - 83, width: 80, height: 80)
+        // settingsButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
+        // round ava
+        settingsButton.layer.cornerRadius = settingsButton.frame.size.width / 2
+        settingsButton.clipsToBounds = true
+        
+        
+        
+        homeProfileButton.frame = CGRect(x: self.view.frame.width/5 - 20, y: dmButton.frame.minY, width: 80, height: 80)
+        // homeProfileButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
+        // round ava
+        homeProfileButton.layer.cornerRadius = homeProfileButton.frame.size.width / 2
+        homeProfileButton.clipsToBounds = true
+        //        let curvedHeight = friendsButton.frame.minY - 10
+        //        curvedRect = CGRect(x: 0.0, y: curvedHeight, width: self.view.frame.width, height: self.view.frame.height )
+        //        var curvedRect = CGRect(x: 0.0, y: curvedHeight, width: scrollView.frame.width, height: scrollView.frame.height)
+        //        curvedLayer = UIImageView(frame: curvedRect)
+        //        curvedLayer.backgroundColor = gold
+        //
+        //        //round layer
+        //        curvedLayer.layer.cornerRadius = curvedLayer.frame.size.width / 2
+        //        curvedLayer.clipsToBounds = true
+        
+        let menuTapped = UITapGestureRecognizer(target: self, action: #selector(tappedMenuButton))
+        let menuDragged = UIPanGestureRecognizer(target: self, action: #selector(draggedMenuButton))
+        let menuLongPressed = UILongPressGestureRecognizer(target: self, action: #selector(longPressMenuButton))
+        addPostButton.addGestureRecognizer(menuTapped)
+        addPostButton.addGestureRecognizer(menuDragged)
+        addPostButton.addGestureRecognizer(menuLongPressed)
+        
+        newPostButton.isHidden = true
+        settingsButton.isHidden = true
+        friendsButton.isHidden = true
+        dmButton.isHidden = true
+        homeProfileButton.isHidden = true
+        //  curvedLayer.isHidden = true
+        
+        
+        // show add Post button
+        addPostButton.isHidden = false
+        addPostButton.imageView?.image = UIImage(named: "k23")
+        //        print("below is addPOstButtonFrame")
+        //        print(addPostButton.frame)
+        //        print("add post button image")
+        //        print(addPostButton.imageView?.image)
+        //        print("add post button layer")
+        addPostButton.layer.zPosition = 2
+        
 //        if (userData == nil) {
 //            db.collection("UserData").document(user!.uid).getDocument(completion: {obj,error in
 //                if (error == nil) {
@@ -100,22 +213,193 @@ class BioProfileHexagonGrid2: UIViewController {
         print("hexagon data array viewdidload 🤽‍♂️🤽‍♂️🤽‍♂️")
     }
     
-    func refresh() {
-        loadView()
-        if (userData == nil) {
-            db.collection("UserData").document(user!.uid).getDocument(completion: {obj,error in
-                if (error == nil) {
-                    self.userData = UserData(dictionary: obj!.data()!)
-                    self.loadFollowings()
-                }
-                else {
-                    print("could not load userdata from \(self.user?.email)")
-                    print(error?.localizedDescription)
-                }
-            })
+    
+    
+    @IBAction func friendsButtonClicked(_ sender: UIButton) {
+// do nothing....  in current vc
+//        let viewControllers = tabBarController!.customizableViewControllers!
+//        let profileGrid = (viewControllers[3] as! BioProfileHexagonGrid2)
+//        profileGrid.userData = userData
+//        tabController!.viewControllers![3] = profileGrid
+//        tabController!.customTabBar.switchTab(from: 3, to: 3)
+    }
+    
+    @IBAction func homeButtonClicked(_ sender: Any) {
+        let viewControllers = tabBarController!.customizableViewControllers!
+        let homeVC = (viewControllers[2] as! HomeHexagonGrid)
+        homeVC.userData = userData
+        tabController!.viewControllers![2] = homeVC
+        tabController!.customTabBar.switchTab(from: 3, to: 2)
+    }
+    
+    
+    @IBAction func newPostButtonClicked(_ sender: UIButton) {
+        //        let newPostVC =   storyboard?.instantiateViewController(identifier: "newPostVC") as! NewPostOptionsVC
+        //        newPostVC.userData = userData
+        //        self.dismiss(animated: false, completion: nil)
+        //        present(newPostVC, animated: false)
+        //        //self.dismiss(animated: false, completion: nil)
+        let viewControllers = tabBarController!.customizableViewControllers!
+        let newPostVC = (viewControllers[4] as! NewPostOptionsVC)
+        newPostVC.userData = userData
+        tabController!.viewControllers![4] = newPostVC
+        tabController!.customTabBar.switchTab(from: 3, to: 4)
+    }
+    
+    
+    
+    @objc func tappedMenuButton(sender: UITapGestureRecognizer) {
+        if (dmButton.isHidden == true) {
+            makeAllMenuButtonsBlack()
+            showMenuOptions()
         }
+            //sleep(3000)
         else {
-            loadFollowings()
+            hideMenuOptions()
+        }
+    }
+    
+    
+    // TODO: TO DO Redo this for circular border
+    func makeAllMenuButtonsBlack() {
+        newPostButton.imageView?.makeRounded()
+        homeProfileButton.imageView?.makeRounded()
+        dmButton.imageView?.makeRounded()
+        settingsButton.imageView?.makeRounded()
+        friendsButton.imageView?.makeRounded()
+        addPostButton.imageView?.makeRounded()
+        
+        //        newPostButton.layer.borderWidth = 4
+        //        homeProfileButton.layer.borderWidth = 4
+        //        dmButton.layer.borderWidth = 4
+        //        settingsButton.layer.borderWidth = 4
+        //        friendsButton.layer.borderWidth = 4
+        //
+        //
+        //
+        //        newPostButton.layer.borderColor = UIColor.black.cgColor
+        //         homeProfileButton.layer.borderColor = UIColor.black.cgColor
+        //         dmButton.layer.borderColor = UIColor.black.cgColor
+        //         settingsButton.layer.borderColor = UIColor.black.cgColor
+        //         friendsButton.layer.borderColor = UIColor.black.cgColor
+        
+        //        newPostButton.imageView!.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10)
+        //        homeProfileButton.imageView!.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10)
+        //        dmButton.imageView!.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10)
+        //        settingsButton.imageView!.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10)
+        //        friendsButton.imageView!.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10)
+    }
+    
+    @objc func draggedMenuButton(sender: UIPanGestureRecognizer) {
+        var point : CGPoint = sender.translation(in: view)
+        point.x += sender.view!.frame.midX
+        point.y += sender.view!.frame.midY
+        //        print(point)
+        if (sender.state == .began) {
+            makeAllMenuButtonsBlack()
+            showMenuOptions()
+        }
+        if (sender.state == .changed) {
+            //showMenuOptions()
+            //            print("changing")
+            makeAllMenuButtonsBlack()
+            let button = findMenuHexagonButton(hexCenter: point)
+            //            print("buttin \(button?.titleLabel)")
+            // button?.imageView?.setupHexagonMask(lineWidth: 10.0, color: red, cornerRadius: 10)
+            button?.imageView?.makeRoundedRed()
+        }
+        if (sender.state == .ended) {
+            //find button
+            let button = findMenuHexagonButton(hexCenter: point)
+            button?.sendActions(for: .touchUpInside)
+            //print("button triggered: \(button?.titleLabel)")
+            hideMenuOptions()
+            //change VC
+        }
+    }
+    func findMenuHexagonButton(hexCenter: CGPoint) -> UIButton? {
+        //        print(hexCenter)
+        if (distance(hexCenter, newPostButton.center) < 70) {
+            return newPostButton
+        }
+        if (distance(hexCenter, homeProfileButton.center) < 70) {
+            return homeProfileButton
+        }
+        if (distance(hexCenter, dmButton.center) < 70) {
+            return dmButton
+        }
+        if (distance(hexCenter, settingsButton.center) < 70) {
+            return settingsButton
+        }
+        if (distance(hexCenter, friendsButton.center) < 70) {
+            return friendsButton
+        }
+        return nil
+        
+        
+    }
+    func distance(_ a: CGPoint, _ b: CGPoint) -> CGFloat {
+        let xDist = a.x - b.x
+        let yDist = a.y - b.y
+        return CGFloat(sqrt(xDist * xDist + yDist * yDist))
+    }
+    
+    @objc func longPressMenuButton(sender: UILongPressGestureRecognizer) {
+        if (sender.state == .began) {
+            makeAllMenuButtonsBlack()
+            showMenuOptions()
+        }
+        if (sender.state == .ended) {
+            hideMenuOptions()
+        }
+    }
+    
+    
+    func showMenuOptions() {
+        newPostButton.isHidden = false
+        homeProfileButton.isHidden = false
+        dmButton.isHidden = false
+        settingsButton.isHidden = false
+        friendsButton.isHidden = false
+//        curvedLayer.isHidden = false
+    }
+    func hideMenuOptions() {
+        newPostButton.isHidden = true
+        homeProfileButton.isHidden = true
+        dmButton.isHidden = true
+        settingsButton.isHidden = true
+        friendsButton.isHidden = true
+//        curvedLayer.isHidden = true
+    }
+    
+    func refresh() {
+        print("in refresh")
+        if (tabController == nil) {
+            tabController = tabBarController! as! NavigationMenuBaseController
+            
+        }
+        //loadView()
+        //print("in refresh after loadView")
+        user = Auth.auth().currentUser
+        print("current user: \(user)")
+        if (user != nil) {
+            if (userData == nil) {
+                db.collection("UserData").document(user!.uid).getDocument(completion: {obj,error in
+                    if (error == nil) {
+                        self.userData = UserData(dictionary: obj!.data()!)
+                        print("should load followings, userdata was found: \(self.userData?.email)")
+                        self.loadFollowings()
+                    }
+                    else {
+                        print("could not load userdata from \(self.user?.email)")
+                        print(error?.localizedDescription)
+                    }
+                })
+            }
+            else {
+                print("userData wasnt nil \(userData?.email)")
+                loadFollowings()
+            }
         }
     }
     
@@ -124,8 +408,13 @@ class BioProfileHexagonGrid2: UIViewController {
         
         
         super.viewWillAppear(true) // No need for semicolon
+        let menuRect = CGRect(x: 0, y: self.view.frame.height - 150, width: self.view.frame.width, height: 150)
+//        let menuView = MenuView.init(frame: menuRect)
+//        tabController = tabBarController! as! NavigationMenuBaseController
+//        menuView.setTabController(tabController: tabController!)
+//        view.addSubview(menuView)
         
-        
+        print("viewWillAppear -- after addpostButtons")
         self.scrollView.maximumZoomScale = 3
         let rows = 15
         let firstRowColumns = 15
@@ -134,17 +423,22 @@ class BioProfileHexagonGrid2: UIViewController {
         let scrollviewHeight: CGFloat = self.spacing + (CGFloat(rows) * CGFloat(self.hexaDiameter - CGFloat(self.hexaHeightDelta) + self.spacing)) + CGFloat(self.hexaHeightDelta)
         
         self.scrollView.contentSize = CGSize(width: scrollviewWidth, height: scrollviewHeight)
+        
         print("Scrollview content size: \(self.scrollView.contentSize)")
         print("View content size: \(self.view.frame.size)")
         
         
         //        self.scrollView.center.x = 946.8266739736607
         //         self.scrollView.center.y = 902.5
+        let bg = UIImageView(frame: CGRect(x: -400, y: -400, width: 3000, height: 3000))
+        bg.image = UIImage(named: "outerspace1")
+        bg.layer.zPosition = -1
+        scrollView.addSubview(bg)
         self.scrollView.backgroundColor = UIColor.black
         // scrollView.contentSize = imageView.bounds.size
         self.scrollView.autoresizingMask = UIView.AutoresizingMask.flexibleWidth
         self.scrollView.autoresizingMask = UIView.AutoresizingMask.flexibleHeight
-
+        refresh()
     }
     
     
@@ -162,10 +456,19 @@ class BioProfileHexagonGrid2: UIViewController {
         let usernameText:String = userData!.publicID
 
         print("usernameText \(usernameText)")
-        self.followArray.removeAll(keepingCapacity: false)
         
-        self.followingUserDataArray.removeAll(keepingCapacity: false)
-        self.followingUserDataArray.append(self.userData!)
+        //self.followArray.removeAll(keepingCapacity: false)
+        
+        var newFollowArray: [String] = []
+        var newUserDataArray: [UserData] = [userData!]
+        
+        if (self.followingUserDataArray.isEmpty) {
+            self.followingUserDataArray = newUserDataArray
+        }
+        
+        
+//        self.followingUserDataArray.removeAll(keepingCapacity: false)
+//        self.followingUserDataArray.append(self.userData!)
 
         let followQuery = followCollection.whereField("follower", isEqualTo: usernameText).addSnapshotListener({ (objects, error) -> Void in
             if error == nil {
@@ -175,16 +478,16 @@ class BioProfileHexagonGrid2: UIViewController {
                 // find related objects in "follow" class of Parse
                 for object in objects!.documents {
                     print (object.data())
-                    self.followArray.append(object.get("following") as! String)
+                    newFollowArray.append(object.get("following") as! String)
                     print("Now this is followArray \(self.followArray)")
                 }
                 
                 // STEP 3. Basing on followArray information (inside users) show infromation from User class of Parse
                 // find users followeb by user
-                if (!self.followArray.isEmpty) {
+                if (!newFollowArray.isEmpty && !newFollowArray.elementsEqual(self.followArray)) {
                     let userDataCollection = self.db.collection("UserData")
-                    let userDataQuery = userDataCollection.whereField("publicID", in: self.followArray)
-                    
+                    let userDataQuery = userDataCollection.whereField("publicID", in: newFollowArray)
+                    self.followArray = newFollowArray
                     userDataQuery.addSnapshotListener( { (objects, error) -> Void in
                         if error == nil {
                             guard let documents = objects?.documents else {
@@ -194,11 +497,14 @@ class BioProfileHexagonGrid2: UIViewController {
                             }
 
                             for object in documents {
-                                self.followingUserDataArray.append(UserData(dictionary: object.data()))
+                                newUserDataArray.append(UserData(dictionary: object.data()))
                             }
-                            self.followingUserDataArray.forEach({ doc in
+                            self.followingUserDataArray = newUserDataArray
+                            newUserDataArray.forEach({ doc in
                                 print(doc.publicID)
                             })
+                            print("new user data array: \(newUserDataArray)")
+                            self.removeCurrentProfileHexagons()
                             self.loadProfileHexagons()
                             
                         } else {
@@ -209,6 +515,7 @@ class BioProfileHexagonGrid2: UIViewController {
                     })
                 }
                 else {
+                    self.removeCurrentProfileHexagons()
                     self.loadProfileHexagons()
                 }
                 
@@ -221,6 +528,14 @@ class BioProfileHexagonGrid2: UIViewController {
             
         })
     }
+    
+    func removeCurrentProfileHexagons() {
+        imageViewArray.forEach({ image in
+            image.removeFromSuperview()
+        })
+        imageViewArray = []
+    }
+    
     
     
     @objc func imageTapped(sender: UITapGestureRecognizer){
@@ -318,9 +633,11 @@ class BioProfileHexagonGrid2: UIViewController {
                 image.setupHexagonMask(lineWidth: 10.0, color: purple, cornerRadius: 10.0)
             }
             scrollView.addSubview(image)
+            image.isHidden = false
             imageViewArray.append(image)
             imageViewArray[thisIndex].tag = thisIndex
             thisIndex = thisIndex+1
+            print("added profile image")
             
         }
     

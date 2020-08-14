@@ -159,7 +159,11 @@ class GuestHexagonGridVC: UIViewController, UIGestureRecognizerDelegate  { //, /
         
     }
     
-    
+    func distance(_ a: CGPoint, _ b: CGPoint) -> CGFloat {
+        let xDist = a.x - b.x
+        let yDist = a.y - b.y
+        return CGFloat(sqrt(xDist * xDist + yDist * yDist))
+    }
     
     @IBAction func friendsButtonClicked(_ sender: UIButton) {
       let profileHexGrid =   storyboard?.instantiateViewController(identifier: "ProfileHexGrid") as! BioProfileHexagonGrid2
@@ -340,12 +344,7 @@ class GuestHexagonGridVC: UIViewController, UIGestureRecognizerDelegate  { //, /
         
     }
     
-    func distance(_ a: CGPoint, _ b: CGPoint) -> CGFloat {
-        let xDist = a.x - b.x
-        let yDist = a.y - b.y
-        return CGFloat(sqrt(xDist * xDist + yDist * yDist))
-    }
-    
+
     
     
     func populateSocialMedia() {

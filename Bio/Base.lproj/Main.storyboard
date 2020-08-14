@@ -2612,6 +2612,68 @@
             </objects>
             <point key="canvasLocation" x="-1858" y="-4341"/>
         </scene>
+        <!--Sign InVC-->
+        <scene sceneID="vFr-8k-Go8">
+            <objects>
+                <viewController id="iEc-KO-fKI" customClass="SignInVC" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="cBY-wn-0C3">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vcf-4w-pB2">
+                                <rect key="frame" x="20" y="44" width="22" height="22"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" image="arrow.turn.up.left" catalog="system">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="titleShadowColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="cancelBtn_click:" destination="DBW-5l-dEq" eventType="touchUpInside" id="Xza-Eb-pEa"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cV5-9f-wDd">
+                                <rect key="frame" x="159" y="208" width="97" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bdK-Fm-T5V">
+                                <rect key="frame" x="159" y="284" width="97" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" textContentType="password"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7UO-UM-W9j">
+                                <rect key="frame" x="55" y="362" width="304" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="0.80004686120000001" blue="0.40029424429999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Sign In">
+                                    <color key="titleColor" red="0.33333334329999997" green="0.33333334329999997" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="signInClicked:" destination="iEc-KO-fKI" eventType="touchUpInside" id="beO-Rx-yOR"/>
+                                    <action selector="signUpBtn_click:" destination="DBW-5l-dEq" eventType="touchUpInside" id="6f6-cx-2gp"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="aIB-VA-VdR"/>
+                    </view>
+                    <connections>
+                        <outlet property="emailText" destination="cV5-9f-wDd" id="bPf-Kq-XBt"/>
+                        <outlet property="passwordText" destination="bdK-Fm-T5V" id="Xxq-18-sS3"/>
+                        <outlet property="signInButton" destination="7UO-UM-W9j" id="cwV-Zp-8PD"/>
+                        <segue destination="yUY-Qd-9W7" kind="unwind" identifier="unwindFromSignIn" unwindAction="unvindSegueToMenuWithSegue:" id="6mq-To-8uI"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PAM-mJ-nVG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="yUY-Qd-9W7" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="-1859" y="-3605"/>
+        </scene>
         <!--DummyVC For Pop Up-->
         <scene sceneID="quL-lf-iIt">
             <objects>
@@ -2931,20 +2993,87 @@
         <scene sceneID="NsO-jD-gQu">
             <objects>
                 <viewController restorationIdentifier="profileGrid1" storyboardIdentifier="ProfileHexGrid" id="S0c-tb-pNQ" customClass="BioProfileHexagonGrid2" customModule="Bio" customModuleProvider="target" sceneMemberID="viewController">
-                    <scrollView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" id="rrR-Yo-xbp">
+                    <view key="view" contentMode="scaleToFill" id="Zed-Hw-irv">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" systemColor="systemPurpleColor" red="0.68627450980000004" green="0.32156862749999998" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <viewLayoutGuide key="safeArea" id="zrc-xQ-RsC"/>
-                        <viewLayoutGuide key="contentLayoutGuide" id="1Tv-Zk-G6P"/>
-                        <viewLayoutGuide key="frameLayoutGuide" id="4zB-Ys-gk1"/>
-                    </scrollView>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p0I-VH-9XV">
+                                <rect key="frame" x="-15" y="258" width="445" height="380"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button" image="stickFigure"/>
+                                <connections>
+                                    <action selector="homeButtonClicked:" destination="S0c-tb-pNQ" eventType="touchUpInside" id="lHg-lv-XNN"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZBX-c6-iA4">
+                                <rect key="frame" x="167" y="408" width="80" height="80"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="plusImage"/>
+                                <connections>
+                                    <action selector="newPostButtonClicked:" destination="nNT-PQ-yLu" eventType="touchUpInside" id="Sd0-6D-Jkt"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Q9v-wG-egz">
+                                <rect key="frame" x="170" y="411" width="73" height="73"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="plusImage">
+                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="addPostButton:" destination="D7B-CN-SMs" eventType="touchUpInside" id="QgC-1S-eZY"/>
+                                    <action selector="newPostButtonClicked:" destination="S0c-tb-pNQ" eventType="touchUpInside" id="3Sr-he-lgE"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GUZ-hD-ImY">
+                                <rect key="frame" x="167" y="408" width="80" height="80"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="boyprofile"/>
+                                <connections>
+                                    <action selector="friendsButtonClicked:" destination="S0c-tb-pNQ" eventType="touchUpInside" id="DS8-jX-77y"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QdX-89-Ghl">
+                                <rect key="frame" x="167" y="408" width="80" height="80"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button" image="settingsGear"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="gGe-ek-ZmM">
+                                <rect key="frame" x="167" y="408" width="80" height="80"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="stickFigure"/>
+                            </button>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" id="2ZI-MK-Ixu">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <viewLayoutGuide key="safeArea" id="WMJ-B3-hVw"/>
+                                <viewLayoutGuide key="contentLayoutGuide" id="N0O-eX-YxP"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="gpM-Fo-gN0"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="KOn-Ip-Jy8"/>
+                    </view>
                     <navigationItem key="navigationItem" id="Efm-tf-OUw"/>
                     <connections>
-                        <outlet property="scrollView" destination="rrR-Yo-xbp" id="fJW-FB-bxG"/>
+                        <outlet property="addPostButton" destination="ZBX-c6-iA4" id="fjo-Ic-SXY"/>
+                        <outlet property="dmButton" destination="gGe-ek-ZmM" id="eB1-q6-sFc"/>
+                        <outlet property="friendsButton" destination="GUZ-hD-ImY" id="3M2-R5-1Cl"/>
+                        <outlet property="homeProfileButton" destination="p0I-VH-9XV" id="xYh-hz-HMJ"/>
+                        <outlet property="newPostButton" destination="Q9v-wG-egz" id="gE3-ao-3uw"/>
+                        <outlet property="scrollView" destination="2ZI-MK-Ixu" id="4Yv-Vv-uNI"/>
+                        <outlet property="settingsButton" destination="QdX-89-Ghl" id="p0g-tR-Wma"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CNo-sf-qNT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="D8J-7n-Vqj">
+                    <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" image="boyprofile"/>
+                    <connections>
+                        <action selector="friendsButtonClicked:" destination="nNT-PQ-yLu" eventType="touchUpInside" id="TVZ-fH-7RP"/>
+                    </connections>
+                </button>
             </objects>
             <point key="canvasLocation" x="2220" y="-4438"/>
         </scene>

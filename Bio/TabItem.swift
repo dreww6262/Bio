@@ -19,28 +19,34 @@ var viewController: UIViewController {
         switch self {
         case .home:
             let homeVC = storyboard.instantiateViewController(identifier: "homeHexGrid420") as! HomeHexagonGrid
-            //homeVC.loadView()
+            homeVC.loadView()
+            homeVC.viewDidLoad()
             return homeVC
     
         case .friends:
             let friendsVC = storyboard.instantiateViewController(identifier: "ProfileHexGrid") as! BioProfileHexagonGrid2
-            //friendsVC.loadView()
+            friendsVC.loadView()
+            friendsVC.viewDidLoad()
             return friendsVC
         case .addPost:
             let newPostVC = storyboard.instantiateViewController(identifier: "newPostVC") as! NewPostOptionsVC
-            //newPostVC.loadView()
+            newPostVC.loadView()
+            newPostVC.viewDidLoad()
             return newPostVC
         case .settings:
             let homeVC = storyboard.instantiateViewController(identifier: "newPostVC") as! NewPostOptionsVC
-            //homeVC.loadView()
+            homeVC.loadView()
+            homeVC.viewDidLoad()
             return homeVC
         case .dms:
             let homeVC = storyboard.instantiateViewController(identifier: "newPostVC") as! NewPostOptionsVC
-            //homeVC.loadView()
+            homeVC.loadView()
+            homeVC.viewDidLoad()
             return homeVC
         case .signIn:
             let signInVC = storyboard.instantiateViewController(identifier:"phoneSignIn") as! PhoneSignInVC
-            //signInVC.loadView()
+            signInVC.loadView()
+            signInVC.viewDidLoad()
             return signInVC
         }
     }

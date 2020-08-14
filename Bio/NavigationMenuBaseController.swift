@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 class NavigationMenuBaseController: UITabBarController {
     var customTabBar: TabNavigationMenu!
     var tabBarHeight: CGFloat = 0.0 //67.0
@@ -19,7 +20,12 @@ class NavigationMenuBaseController: UITabBarController {
         self.setupCustomTabMenu(tabItems) { (controllers) in
             self.viewControllers = controllers
         }
-        self.selectedIndex = 5 // default our selected index to the first item
+        if (Auth.auth().currentUser == nil) {
+            self.selectedIndex = 5 // default our selected index to the first item
+        }
+        else {
+            self.selectedIndex = 2
+        }
         print("selectedIndex of FirstVC: \(self.selectedIndex)")
         
     }
@@ -53,6 +59,7 @@ class NavigationMenuBaseController: UITabBarController {
     func changeTab(tab: Int) {
         //self.customTabBar.switchTab(from: selectedIndex, to: tab)
         self.selectedIndex = tab
+        print("selectedIndex: \(selectedIndex)")
         
     }
 }
