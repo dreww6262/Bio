@@ -43,7 +43,6 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
     let db = Firestore.firestore()
     var curvedRect = CGRect(x: 0.0, y: 0.0, width: 0.0, height: 0.0)
     var curvedLayer = UIImageView()
-    var tabController: NavigationMenuBaseController? = nil
     // let curvedHeight = friendsButton.frame.minY - 10
     
     //curvedLayer.backgroundColor = gold
@@ -279,14 +278,12 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
     
     func refresh() {
         //loadView()
-        if (tabController == nil) {
-            tabController = tabBarController! as! NavigationMenuBaseController
-        }
+
         if (userData != nil) {
             createImageViews()
         }
         user = Auth.auth().currentUser
-        db.collection("UserData").whereField("email", isEqualTo: user?.email).addSnapshotListener({ objects, error in
+        db.collection("UserData1").whereField("email", isEqualTo: user?.email).addSnapshotListener({ objects, error in
             if (error == nil) {
                 if (objects!.documents.capacity > 0) {
                     let newData = UserData(dictionary: objects!.documents[0].data())
@@ -319,10 +316,11 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
         //self.dismiss(animated: false, completion: nil)
         let viewControllers = tabBarController!.customizableViewControllers!
         let profileGrid = (viewControllers[3] as! BioProfileHexagonGrid2)
+        let tabController = tabBarController! as! NavigationMenuBaseController
         profileGrid.userData = userData
         profileGrid.refresh()
-        tabController!.viewControllers![3] = profileGrid
-        tabController!.customTabBar.switchTab(from: 2, to: 3)
+        tabController.viewControllers![3] = profileGrid
+        tabController.customTabBar.switchTab(from: 2, to: 3)
     }
     
     @IBAction func newPostButtonClicked(_ sender: UIButton) {
@@ -334,8 +332,9 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
         let viewControllers = tabBarController!.customizableViewControllers!
         let newPostVC = (viewControllers[4] as! NewPostOptionsVC)
         newPostVC.userData = userData
-        tabController!.viewControllers![4] = newPostVC
-        tabController!.customTabBar.switchTab(from: 2, to: 4)
+        let tabController = tabBarController! as! NavigationMenuBaseController
+        tabController.viewControllers![4] = newPostVC
+        tabController.customTabBar.switchTab(from: 2, to: 4)
     }
     
     @objc func tappedMenuButton(sender: UITapGestureRecognizer) {
@@ -536,11 +535,6 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
         else {
             self.populateUserAvatar()
         }
-        
-        
-        
-        //
-        
     }
     
     
@@ -588,15 +582,16 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
                 print("error loading home photos: \n \(error!.localizedDescription)")
                 return completed()
             }
-            self.hexagonStructArray = []
+            var newHexArray = [HexagonStructData]()
             //there are querySnapshot!.documents.count docments in the spots snapshot
             
             for document in querySnapshot!.documents {
                 //                print(document)
                 let newHexagonPost = HexagonStructData(dictionary: document.data())
-                self.hexagonStructArray.append(newHexagonPost)
+                newHexArray.append(newHexagonPost)
                 //                print("Loaded: \(newHexagonPost)")
             }
+            self.resetOrderOfHexArray(array: newHexArray)
             // self.populateHexagonGrid()
             
             
@@ -606,6 +601,31 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
         //completed()
     }
     
+    func resetOrderOfHexArray(array: [HexagonStructData]) {
+        hexagonStructArray = []
+        var optionalHexagonStructArray = [HexagonStructData?]()
+        for hex in array {
+            optionalHexagonStructArray.append(nil)
+        }
+        for hex in array {
+            if (hex.location <= optionalHexagonStructArray.count && optionalHexagonStructArray[hex.location - 1] != nil) {
+                print("cannot place \(hex) there is already an item here \(optionalHexagonStructArray[hex.location - 1])")
+            }
+            else if (hex.location > optionalHexagonStructArray.count) {
+                print("location is out of bounds of num of hexagons.  Count = \(optionalHexagonStructArray.count), hex location: \(hex.location)")
+            }
+            optionalHexagonStructArray[hex.location - 1] = hex
+        }
+        for hex in optionalHexagonStructArray {
+            if (hex != nil) {
+                hexagonStructArray.append(hex!)
+            }
+            else {
+                print("hex location was nil")
+            }
+        }
+        
+    }
     
     
     
@@ -637,8 +657,9 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
     func findIntersectingHexagon(hexCenter: CGPoint) -> Int {
         //find coordinates of final location for hexagon
         var thisIndex = 0
-        for coordinate in self.reOrderedCoordinateArrayPointsCentered {
-            if distance(hexCenter, coordinate) < 110.0 {
+        for hex in self.imageViewArray {
+            
+            if distance(hexCenter, reOrderedCoordinateArrayPointsCentered[thisIndex]) < 110.0 {
                 //                print("This is the coordinates it belongs to \(coordinate)")
                 //                print("This is the location in the reOrderedCoordinatePointArray \(thisIndex)")
                 var red = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
@@ -654,7 +675,7 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
                     }
                 }
                 //                print("🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮")
-                return thisIndex
+                return thisIndex - 1
             }
             
             //            print("Thiis is coordinate for hexCenter \(hexCenter) and for testHexagonIndex \(thisIndex): \(coordinate)")
@@ -811,6 +832,38 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
         //        print ("in hex grid 2 \(self.hexagonStructArray.count)")
         // to for hexstruct array once algorithm done
         //  for hexagon in self.hexagonStructArray {
+        if hexagonStructArray.count + 1 > imageViewArray.count {
+            var difference = hexagonStructArray.count + 1 - imageViewArray.count
+            var counter = 0
+            while difference > 0 {
+                let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.longTap))
+                //            let dragGesture = UIPanGestureRecognizer(target: self, action: #selector(dragItem(_:)))
+                let dragGesture = UIPanGestureRecognizer(target: self, action: #selector(self.dragged))
+                
+                let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
+                
+                let image = UIImageView(frame: CGRect(x: self.reOrderedCoordinateArray[counter + imageViewArray.count][0]-680,
+                                                      y: self.reOrderedCoordinateArray[counter + imageViewArray.count][1]-570,
+                                                      width: 150,
+                                                      height: 150))
+                image.contentMode = .scaleAspectFill
+                image.image = UIImage()
+                
+                
+                image.addGestureRecognizer(longGesture)
+                image.addGestureRecognizer(tapGesture)
+                image.isUserInteractionEnabled = true
+                image.addGestureRecognizer(dragGesture)
+                //    var gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
+                image.setupHexagonMask(lineWidth: 10.0, color: .darkGray, cornerRadius: 10.0)
+
+                //self.scrollView.addSubview(image)
+                imageViewArray.append(image)
+                imageViewArray.last!.tag = imageViewArray.count - 1
+                difference -= 1
+                counter += 1
+            }
+        }
         for hexagon in self.hexagonStructArray {
             //            print("This is imageviewArray.count \(imageViewArray.count)")
             //            print("this is hexagonstructArray.count \(hexagonStructArray.count)")
@@ -874,16 +927,84 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
                 currentHexagonCenter = (sender.view?.center)!
                 //                print("This is newIndex before \(newIndex)")
                 newIndex = findIntersectingHexagon(hexCenter: currentHexagonCenter)
+                let currentIndex = sender.view!.tag - 1
+//                let imageIndex = sender.view!.tag
+//                if (newIndex == 0 || newIndex == imageIndex) {
+//                    // do nothing
+//                }
+//                else if (newIndex > imageIndex) {
+//                    let temp = hexagonStructArray[newIndex - 1]
+//                    let tempIndex = imageIndex
+//                    hexagonStructArray[newIndex - 1] = hexagonStructArray[imageIndex]
+//                    while (tempIndex < newIndex - 2) {
+//                        hexagonStructArray[tempIndex] = hexagonStructArray[tempIndex + 1]
+//                    }
+//                    hexagonStructArray[newIndex - 2] = temp
+//                }
+//                else {
+//
+//                }
+                
+                if (newIndex != 0 && newIndex != currentIndex) {
+                    let temp = hexagonStructArray[newIndex]
+                    hexagonStructArray[newIndex] = hexagonStructArray[currentIndex]
+                    hexagonStructArray[currentIndex] = temp
+                    hexagonStructArray[newIndex].location = newIndex
+                    hexagonStructArray[currentIndex].location = currentIndex
+                    
+                    print("should repopulate hexagons")
+                    populateHexagonGrid2()
+                    print("hexagon \(currentIndex) should have went to \(newIndex)")
+                    let listener = db.collection("Hexagons").whereField("postingUserID", isEqualTo: userData!.publicID).addSnapshotListener({ snap, error in
+                        if (error == nil) {
+                            guard let docs = snap?.documents else{
+                                return
+                            }
+                            var changedHexes = [HexagonStructData]()
+                            var dirtyDocs = [QueryDocumentSnapshot]()
+                            for doc in docs {
+                                var tempHex = HexagonStructData(dictionary: doc.data())
+                                if (tempHex.location == currentIndex) {
+                                    tempHex.location = newIndex
+                                    changedHexes.append(tempHex)
+                                    dirtyDocs.append(doc)
+                                }
+                                else if (tempHex.location == newIndex) {
+                                    tempHex.location = currentIndex
+                                    changedHexes.append(tempHex)
+                                    dirtyDocs.append(doc)
+                                }
+                            }
+                            var i = 0
+                            print("Changed locations in backend")
+                            for doc in dirtyDocs {
+                                doc.reference.setData(changedHexes[i].dictionary)
+                                i += 1
+                            }
+                            self.refresh()
+                        }
+                        
+                    })
+                    listener.remove()
+                }
+                
+                
                 print("This is current newIndex \(newIndex)")
                 hexIsMovable = false
-                var originalFrame = currentDraggedHexagonFrame
-                var tempImage1 = imageViewArray[currentDraggedHexagonTag].image
-                var tempImage2 = imageViewArray[newIndex].image
-                imageViewArray[currentDraggedHexagonTag].frame = originalFrame
-                imageViewArray[currentDraggedHexagonTag].image = tempImage2
-                imageViewArray[newIndex].image = tempImage1
-                self.imageViewArray[currentDraggedHexagonTag].setupHexagonMask(lineWidth: 10.0, color: gold, cornerRadius: 10.0)
-                self.imageViewArray[newIndex].setupHexagonMask(lineWidth: 10.0, color: gold, cornerRadius: 10.0)
+//                var originalFrame = currentDraggedHexagonFrame
+//                var tempImage1 = imageViewArray[currentDraggedHexagonTag].image
+//                var tempImage2 = imageViewArray[newIndex].image
+                imageViewArray[currentIndex + 1].frame = CGRect(x: reOrderedCoordinateArrayPointsCentered[newIndex + 1].x - 75, y: reOrderedCoordinateArrayPointsCentered[newIndex + 1].y - 75, width: 150, height: 150)
+                imageViewArray[newIndex + 1].frame = CGRect(x: reOrderedCoordinateArrayPointsCentered[currentIndex + 1].x - 75, y: reOrderedCoordinateArrayPointsCentered[currentIndex + 1].y - 75, width: 150, height: 150)
+                imageViewArray[newIndex + 1].tag = currentIndex + 1
+                imageViewArray[currentIndex + 1].tag = newIndex + 1
+                let tempImageView = imageViewArray[newIndex + 1]
+                imageViewArray[newIndex + 1] = imageViewArray[currentIndex + 1]
+                imageViewArray[currentIndex + 1] = tempImageView
+//                imageViewArray[currentDraggedHexagonTag].image = tempImage2
+//                imageViewArray[newIndex].image = tempImage1
+//                self.imageViewArray[currentDraggedHexagonTag].setupHexagonMask(lineWidth: 10.0, color: gold, cornerRadius: 10.0)
+//                self.imageViewArray[newIndex].setupHexagonMask(lineWidth: 10.0, color: gold, cornerRadius: 10.0)
                 
             }
         }
@@ -978,8 +1099,9 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
     }
     
     func dismissFullscreenImage(view: UIView) {
-        self.navigationController?.isNavigationBarHidden = false
-        self.tabBarController?.tabBar.isHidden = false
+        self.navigationController?.isNavigationBarHidden = true
+        self.tabBarController?.tabBar.isHidden = true
+        addPostButton.isHidden = false 
         view.removeFromSuperview()
     }
     
@@ -987,8 +1109,16 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
         //        print("🎯🎯🎯🎯🎯Hello World")
             print("🎯🎯🎯🎯🎯🎯🎯I tapped image with tag \(sender.view!.tag)")
-        //if sender.view!.tag == 0 {
+        if sender.view!.tag == 0 {
+            print("Tried to click profile pic handle later")
+        
+        }
+        else if hexagonStructArray[sender.view!.tag-1].type.contains("photo") {
+            addPostButton.isHidden = true 
         let newImageView = UIImageView(image: UIImage(named: "kbit"))
+        let ref = storage.child(self.hexagonStructArray[sender.view!.tag-1].thumbResource)
+        newImageView.sd_setImage(with: ref)
+        
         // let newImageView = UIImageView(image: imageViewArray[sender.view!.tag].image)
     //    let frame = CGRect(x: scrollView.frame.minX + scrollView.contentOffset.x, y: scrollView.frame.minY + scrollView.contentOffset.y, width: scrollView.frame.width, height: scrollView.frame.height)
         let frame = CGRect(x: scrollView.frame.minX, y: scrollView.frame.minY, width: scrollView.frame.width, height: scrollView.frame.height)
@@ -1005,46 +1135,67 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
         textView.text = "asdfkjlasdfjasdf"
         textView.textColor = .red
         
-        
-        if sender.view!.tag == 1 {
-            dismissFullscreenImage(view: newImageView)
-            openFacebook(facebookHandle: "")
         }
-        
-        if sender.view!.tag == 2 {
-            dismissFullscreenImage(view: newImageView)
-            openInstagram(instagramHandle: "patmcdonough42")
-        }
-        
-        if sender.view!.tag == 3 {
-            dismissFullscreenImage(view: newImageView)
-            openTwitter(twitterHandle: "kanyewest")
-        }
-        
-        if sender.view!.tag == 4 {
-            dismissFullscreenImage(view: newImageView)
-            openSpotifySong()
-        }
-        
-        if sender.view!.tag == 5 {
-            dismissFullscreenImage(view: newImageView)
-            openSnapchat(snapchatUsername: "patmcdonough42")
+        else if hexagonStructArray[sender.view!.tag-1].type.contains("social") {
+            let theType = hexagonStructArray[sender.view!.tag-1].type
+            if theType.contains("instagram") {
+                openInstagram(instagramHandle: hexagonStructArray[sender.view!.tag-1].text)
+            }
+            if theType.contains("twitter") {
+                    openTwitter(twitterHandle: hexagonStructArray[sender.view!.tag-1].text)
+            }
+            if theType.contains("tik") {
+                          openTikTok(tikTokHandle: hexagonStructArray[sender.view!.tag-1].text)
+                      }
+            if theType.contains("snapchat") {
+                          openSnapchat(snapchatUsername: hexagonStructArray[sender.view!.tag-1].text)
+                      }
+            
+            
+            
             
         }
         
-        if sender.view!.tag == 6 {
-            print("im about to play video")
-            dismissFullscreenImage(view: newImageView)
-            // openTikTok(tikTokHandle: "https://vm.tiktok.com/JeQCbBR/")
-            loadVideo(urlString: "https://firebasestorage.googleapis.com/v0/b/hw05-54fe6.appspot.com/o/example-movie.mp4?alt=media&token=4dc2f663-94a1-460a-a05f-a2ce6774ae5b")
-        }
-        if sender.view!.tag == 8 {
-            print("im about to play old spice video")
-            dismissFullscreenImage(view: newImageView)
-            // openTikTok(tikTokHandle: "https://vm.tiktok.com/JeQCbBR/")
-            // scrollView.backgroundColor = .black
-            loadVideo(urlString: "https://firebasestorage.googleapis.com/v0/b/hw05-54fe6.appspot.com/o/Old%20Spice%20%7C%20The%20Man%20Your%20Man%20Could%20Smell%20Like.mp4?alt=media&token=c465fe00-4e95-485f-bc18-2806076b82f3")
-        }
+        
+//        if sender.view!.tag == 1 {
+//            dismissFullscreenImage(view: newImageView)
+//            openFacebook(facebookHandle: "")
+//        }
+//
+//        if sender.view!.tag == 2 {
+//            dismissFullscreenImage(view: newImageView)
+//            openInstagram(instagramHandle: "patmcdonough42")
+//        }
+//
+//        if sender.view!.tag == 3 {
+//            dismissFullscreenImage(view: newImageView)
+//            openTwitter(twitterHandle: "kanyewest")
+//        }
+//
+//        if sender.view!.tag == 4 {
+//            dismissFullscreenImage(view: newImageView)
+//            openSpotifySong()
+//        }
+//
+//        if sender.view!.tag == 5 {
+//            dismissFullscreenImage(view: newImageView)
+//            openSnapchat(snapchatUsername: "patmcdonough42")
+//
+//        }
+//
+//        if sender.view!.tag == 6 {
+//            print("im about to play video")
+//            dismissFullscreenImage(view: newImageView)
+//            // openTikTok(tikTokHandle: "https://vm.tiktok.com/JeQCbBR/")
+//            loadVideo(urlString: "https://firebasestorage.googleapis.com/v0/b/hw05-54fe6.appspot.com/o/example-movie.mp4?alt=media&token=4dc2f663-94a1-460a-a05f-a2ce6774ae5b")
+//        }
+//        if sender.view!.tag == 8 {
+//            print("im about to play old spice video")
+//            dismissFullscreenImage(view: newImageView)
+//            // openTikTok(tikTokHandle: "https://vm.tiktok.com/JeQCbBR/")
+//            // scrollView.backgroundColor = .black
+//            loadVideo(urlString: "https://firebasestorage.googleapis.com/v0/b/hw05-54fe6.appspot.com/o/Old%20Spice%20%7C%20The%20Man%20Your%20Man%20Could%20Smell%20Like.mp4?alt=media&token=c465fe00-4e95-485f-bc18-2806076b82f3")
+//        }
         
         
         

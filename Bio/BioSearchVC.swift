@@ -123,7 +123,7 @@ class BioSearchVC: UITableViewController, UISearchBarDelegate {
 
         // find by username
         var success = true
-        let usernameQuery = db.collection("UserData")
+        let usernameQuery = db.collection("UserData1")
         usernameQuery.addSnapshotListener({snapshots,error in
             if (error != nil) {
                 print("god damnit")

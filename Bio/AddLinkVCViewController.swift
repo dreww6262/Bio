@@ -255,7 +255,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
             
             
             userData?.numPosts = numPosts
-            db.collection("UserData").document(currentUser!.uid).setData(self.userData!.dictionary, completion: { error in
+            db.collection("UserData1").document(currentUser!.uid).setData(self.userData!.dictionary, completion: { error in
                 if error == nil {
                     //present Home View Controller Segue
                     print("present home hex grid")

@@ -19,9 +19,12 @@ import FirebaseStorage
 
 
 
-class BioProfileHexagonGrid2: UIViewController {
+class BioProfileHexagonGrid2: UIViewController, UISearchBarDelegate {
+ 
+    
     //var user = PFUser.current()!.username!
     
+    var searchBar = UISearchBar()
     var user = Auth.auth().currentUser
     var storage = Storage.storage().reference()
     var contentViewer = UIView()
@@ -32,6 +35,8 @@ class BioProfileHexagonGrid2: UIViewController {
     var followingUserDataArray = [UserData]()
     let db = Firestore.firestore()
     var userData: UserData?
+    var loadUserDataArray: [UserData] = []
+    var tableView = UITableView()
     @IBOutlet weak var addPostButton: UIButton!
     
     @IBOutlet weak var newPostButton: UIButton!
@@ -86,6 +91,19 @@ class BioProfileHexagonGrid2: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.addSubview(searchBar)
+            searchBar.delegate = self
+               searchBar.sizeToFit()
+               searchBar.tintColor = UIColor.black
+               searchBar.frame.size.width = self.view.frame.size.width
+        
+               let searchItem = UIBarButtonItem(customView: searchBar)
+               self.navigationItem.leftBarButtonItem = searchItem
+        
+        
+        
+        
         //tabController = tabBarController! as! NavigationMenuBaseController
         hexaWidth = hexaDiameter * CGFloat(sqrt(3)) * CGFloat(0.5)
         hexaWidthDelta = (hexaWidth)*CGFloat(0.5)
@@ -335,9 +353,10 @@ class BioProfileHexagonGrid2: UIViewController {
             return friendsButton
         }
         return nil
-        
-        
+
     }
+    
+    
     func distance(_ a: CGPoint, _ b: CGPoint) -> CGFloat {
         let xDist = a.x - b.x
         let yDist = a.y - b.y
@@ -363,6 +382,7 @@ class BioProfileHexagonGrid2: UIViewController {
         friendsButton.isHidden = false
 //        curvedLayer.isHidden = false
     }
+    
     func hideMenuOptions() {
         newPostButton.isHidden = true
         homeProfileButton.isHidden = true
@@ -384,7 +404,7 @@ class BioProfileHexagonGrid2: UIViewController {
         print("current user: \(user)")
         if (user != nil) {
             if (userData == nil || userData?.email != user?.email) {
-                db.collection("UserData").document(user!.uid).getDocument(completion: {obj,error in
+                db.collection("UserData1").document(user!.uid).getDocument(completion: {obj,error in
                     if (error == nil) {
                         self.userData = UserData(dictionary: obj!.data()!)
                         print("should load followings, userdata was found: \(self.userData?.email)")
@@ -489,7 +509,7 @@ class BioProfileHexagonGrid2: UIViewController {
                 // STEP 3. Basing on followArray information (inside users) show infromation from User class of Parse
                 // find users followeb by user
                 if (!newFollowArray.isEmpty && !newFollowArray.elementsEqual(self.followArray)) {
-                    let userDataCollection = self.db.collection("UserData")
+                    let userDataCollection = self.db.collection("UserData1")
                     let userDataQuery = userDataCollection.whereField("publicID", in: newFollowArray)
                     self.followArray = newFollowArray
                     userDataQuery.addSnapshotListener( { (objects, error) -> Void in
@@ -592,6 +612,81 @@ class BioProfileHexagonGrid2: UIViewController {
     }
     
     
+    // search updated
+        func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+            let userTableVC = storyboard?.instantiateViewController(identifier: "userTableVC")
+            present(userTableVC!, animated: false)
+            return true
+        }
+
+
+        // tapped on the searchBar
+//        func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+//            // hide collectionView when started search
+//           // collectionView.isHidden = true
+//            // show cancel button
+//            searchBar.showsCancelButton = true
+//        }
+//
+//
+//        // clicked cancel button
+//        func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+//            // unhide collectionView when tapped cancel button
+//          //  collectionView.isHidden = false
+//            // dismiss keyboard
+//            searchBar.resignFirstResponder()
+//
+//            // hide cancel button
+//            searchBar.showsCancelButton = false
+//
+//            // reset text
+//            searchBar.text = ""
+//
+//            // reset shown users
+//            loadUserDataArray = []
+//
+//            //usernameArray = []
+//        }
+
+     // SEARCHING CODE
+        // load users function
+        func loadUsers() {
+
+//            let usersQuery = PFQuery(className: "_User")
+//            usersQuery.addDescendingOrder("createdAt")
+//            usersQuery.limit = 20
+//            usersQuery.findObjectsInBackground (block: { (objects, error) -> Void in
+//                if error == nil {
+//
+//                    // clean up
+//                    self.usernameArray.removeAll(keepingCapacity: false)
+//                    self.avaArray.removeAll(keepingCapacity: false)
+//
+//                    // found related objects
+//                    for object in objects! {
+//                        self.usernameArray.append(object.value(forKey: "username") as! String)
+//                        self.avaArray.append(object.value(forKey: "ava") as! PFFileObject)
+//                    }
+//
+//                    // reload
+//                    self.tableView.reloadData()
+//
+//                } else {
+//                    print(error!.localizedDescription)
+//                }
+//            })
+
+        }
+    
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+           var userTableVC = segue.destination as! UserTableView
+           userTableVC.currentUser = user
+           userTableVC.loadUserDataArray = loadUserDataArray
+        userTableVC.searchString = searchBar.text!
+        userTableVC.searchBar.text = searchBar.text!
+       }
+    
+    
     func loadProfileHexagons() {
 
         //adjust coordinates
@@ -660,3 +755,4 @@ class BioProfileHexagonGrid2: UIViewController {
 
     
 }
+

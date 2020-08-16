@@ -38,6 +38,9 @@
 		492E245A24B65D4B005745D1 /* CalltoUserBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492E245924B65D4B005745D1 /* CalltoUserBackend.swift */; };
 		492E245E24B664C2005745D1 /* SubscribersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492E245D24B664C2005745D1 /* SubscribersCell.swift */; };
 		492E246024B664D7005745D1 /* SearchUsersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492E245F24B664D7005745D1 /* SearchUsersVC.swift */; };
+		493E95B924E9E8BD002E9380 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493E95B824E9E8BD002E9380 /* UserCell.swift */; };
+		493E95BB24E9EA55002E9380 /* UserTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493E95BA24E9EA55002E9380 /* UserTableView.swift */; };
+		493E95BD24E9FAEC002E9380 /* UserListTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493E95BC24E9FAEC002E9380 /* UserListTableVC.swift */; };
 		4944D79424A9C8F000AD3955 /* RatingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4944D79324A9C8EF00AD3955 /* RatingViewController.xib */; };
 		4944D79624A9C90200AD3955 /* RatingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4944D79524A9C90200AD3955 /* RatingViewController.swift */; };
 		4944D79A24ABBEF900AD3955 /* GoodBioSignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4944D79924ABBEF900AD3955 /* GoodBioSignUpVC.swift */; };
@@ -170,6 +173,9 @@
 		492E245924B65D4B005745D1 /* CalltoUserBackend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalltoUserBackend.swift; sourceTree = "<group>"; };
 		492E245D24B664C2005745D1 /* SubscribersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscribersCell.swift; sourceTree = "<group>"; };
 		492E245F24B664D7005745D1 /* SearchUsersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SearchUsersVC.swift; path = /Users/annmcdonough/Documents/Bio/Bio/SearchUsersVC.swift; sourceTree = "<absolute>"; };
+		493E95B824E9E8BD002E9380 /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
+		493E95BA24E9EA55002E9380 /* UserTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTableView.swift; sourceTree = "<group>"; };
+		493E95BC24E9FAEC002E9380 /* UserListTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListTableVC.swift; sourceTree = "<group>"; };
 		4944D79324A9C8EF00AD3955 /* RatingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RatingViewController.xib; sourceTree = "<group>"; };
 		4944D79524A9C90200AD3955 /* RatingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingViewController.swift; sourceTree = "<group>"; };
 		4944D79924ABBEF900AD3955 /* GoodBioSignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodBioSignUpVC.swift; sourceTree = "<group>"; };
@@ -326,6 +332,9 @@
 				4920A45524D30F4400F06551 /* HomeHexagonGrid.swift */,
 				494C403B24DB85E000A47788 /* GuestHexagonGridVC.swift */,
 				491ADB7824971B2500B62C5A /* Main.storyboard */,
+				493E95BA24E9EA55002E9380 /* UserTableView.swift */,
+				493E95BC24E9FAEC002E9380 /* UserListTableVC.swift */,
+				493E95B824E9E8BD002E9380 /* UserCell.swift */,
 				494C93E924E6FD25004EA9AA /* SignInVC.swift */,
 				494C408F24E4BFFD00A47788 /* TabItem.swift */,
 				494C409124E4C26E00A47788 /* NavigationMenuBaseController.swift */,
@@ -617,6 +626,7 @@
 				491ADBA924971FE400B62C5A /* HomeVC.swift in Sources */,
 				4944D79624A9C90200AD3955 /* RatingViewController.swift in Sources */,
 				494C404424DC5C2A00A47788 /* ImageHelper.swift in Sources */,
+				493E95B924E9E8BD002E9380 /* UserCell.swift in Sources */,
 				49C205D7249833E80022EE53 /* CreativeToolBar.swift in Sources */,
 				494C93EA24E6FD25004EA9AA /* SignInVC.swift in Sources */,
 				491ADB7324971B2500B62C5A /* AppDelegate.swift in Sources */,
@@ -629,6 +639,7 @@
 				49EEDC6E24C0AA1D003C8378 /* PhoneSignInVC.swift in Sources */,
 				494C404A24DC9CC400A47788 /* UploadPreviewVC.swift in Sources */,
 				497ACC4D24A90496002333A6 /* HexagonStructData.swift in Sources */,
+				493E95BD24E9FAEC002E9380 /* UserListTableVC.swift in Sources */,
 				4920A45624D30F4400F06551 /* HomeHexagonGrid.swift in Sources */,
 				49C205A52497DCFA0022EE53 /* guestVC.swift in Sources */,
 				491ADBB32497294000B62C5A /* Navigator.swift in Sources */,
@@ -671,6 +682,7 @@
 				49C2059F2497DB4D0022EE53 /* DrawingBoardVC.swift in Sources */,
 				49C205BD2497DDCE0022EE53 /* followersVC.swift in Sources */,
 				494C404624DC5D1D00A47788 /* HazeRemovalFilter.swift in Sources */,
+				493E95BB24E9EA55002E9380 /* UserTableView.swift in Sources */,
 				494C404824DC82F000A47788 /* FMPickerVC.swift in Sources */,
 				49C205CF249804790022EE53 /* PrivacyCell.swift in Sources */,
 				491ADBAF2497237000B62C5A /* SettingsVC.swift in Sources */,

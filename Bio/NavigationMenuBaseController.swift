@@ -18,6 +18,13 @@ class NavigationMenuBaseController: UITabBarController, UINavigationControllerDe
         
     }
     
+    @IBAction func unvindSegueFromAddToHome(segue:UIStoryboardSegue) {
+        //let homeHexGrid = (tabBar.viewControllers![2] as! HomeHexagonGrid)
+        //homeHexGrid.userData = userData
+        //tabBar.viewControllers![2] = homeHexGrid
+        customTabBar.switchTab(from: 4, to: 2) // to home controller
+    }
+    
     //override func viewWillAppear(_ animated: Bool) {}
     
     func loadTabBar() {

@@ -36,7 +36,7 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
         if (userData == nil) {
             print("userdata did not get passed through")
             let userEmail = Auth.auth().currentUser?.email
-            db.collection("UserData").whereField("email", isEqualTo: userEmail).addSnapshotListener({ objects, error in
+            db.collection("UserData1").whereField("email", isEqualTo: userEmail).addSnapshotListener({ objects, error in
                 if (error == nil && objects?.documents.count ?? 0 > 0) {
                     self.userData = UserData(dictionary: objects!.documents[0].data())
                 }
@@ -61,7 +61,7 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
                     print("didnt upload shid")
                 }
             })
-            let photoHex = HexagonStructData(resource: photoLocation, type: "photo", location: self.userData!.numPosts, thumbResource: photoLocation, createdAt: TimeInterval.init(), postingUserID: self.userData!.publicID, text: "\(cell.captionField.text)", views: 0)
+            let photoHex = HexagonStructData(resource: photoLocation, type: "photo", location: self.userData!.numPosts + count, thumbResource: photoLocation, createdAt: TimeInterval.init(), postingUserID: self.userData!.publicID, text: "\(cell.captionField.text)", views: 0)
             print("should be adding \(photoHex)")
             self.addHex(hexData: photoHex, completion: {    bool in
               success = success && bool
@@ -76,16 +76,16 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
             
         }
         self.userData!.numPosts += count
-        self.db.collection("UserData").document(Auth.auth().currentUser!.uid).setData(self.userData!.dictionary, completion: { error in
+        self.db.collection("UserData1").document(Auth.auth().currentUser!.uid).setData(self.userData!.dictionary, completion: { error in
             if error == nil {
                 print("should navigate to homehexgrid")
-                let homeVC = self.storyboard?.instantiateViewController(identifier: "homeHexGrid420") as! HomeHexagonGrid
-                homeVC.userData = self.userData
-                self.present(homeVC, animated: false)
-                homeVC.modalPresentationStyle = .fullScreen
+                self.performSegue(withIdentifier: "unwindFromUpload", sender: nil)
             }
         })
         
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // prepare if needed
     }
     
     func uploadPhoto(reference: String, image: UIImage, completion: @escaping (Bool) -> Void) {

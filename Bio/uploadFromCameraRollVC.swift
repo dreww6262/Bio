@@ -199,7 +199,7 @@ class uploadFromCameraRollVC: UIViewController, UIImagePickerControllerDelegate,
                 let hexCollection = Firestore.firestore().collection("Hexagons")
                 var userData: UserData? = nil
                 var userDataRef: DocumentReference? = nil
-                let userDataCollection = Firestore.firestore().collection("UserData")
+                let userDataCollection = Firestore.firestore().collection("UserData1")
                 let userQuery = userDataCollection.whereField("publicID", isEqualTo: usernameString)
                 userQuery.addSnapshotListener({objects,error -> Void in
                     print("im still running")

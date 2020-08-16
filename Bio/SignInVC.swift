@@ -17,6 +17,7 @@ class SignInVC: UIViewController {
     
     @IBOutlet weak var signInButton: UIButton!
     
+    @IBOutlet weak var cancelButton: UIButton!
     let auth = Auth.auth()
     
     override func viewDidLoad() {
@@ -24,6 +25,14 @@ class SignInVC: UIViewController {
 
         // Do any additional setup after loading the view.
     }
+    
+ func formatStuff() {
+    emailText.frame = CGRect(x: self.view.frame.width/2 - 50, y: self.view.frame.height-66, width: 100, height: 44)
+    passwordText.frame = CGRect(x: emailText.frame.minX, y: emailText.frame.maxY + 10, width: 100, height: 44)
+    signInButton.frame = CGRect(x: passwordText.frame.minX, y: passwordText.frame.maxY + 10, width: 100, height: 44)
+    cancelButton.frame = CGRect(x: signInButton.frame.minX, y: signInButton.frame.maxY + 10, width: 100, height: 44)
+    }
+    
     
     @IBAction func signInClicked(_ sender: Any) {
         auth.signIn(withEmail: emailText.text!, password: passwordText.text!, completion: { result, error in
@@ -40,6 +49,9 @@ class SignInVC: UIViewController {
         })
     }
     
+    @IBAction func cancelButtonClicked(_ sender: Any) {
+        self.dismiss(animated: false, completion: nil)
+    }
     /*
     // MARK: - Navigation
 

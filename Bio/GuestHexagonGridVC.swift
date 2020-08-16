@@ -134,7 +134,7 @@ class GuestHexagonGridVC: UIViewController, UIGestureRecognizerDelegate  { //, /
         }
         else {
             print("SHOULD NOT EVER HAPPEN. This vc should be prepopulated with userdata that has been passed through.  Defaults to getting signed in user data.")
-            db.collection("UserData").whereField("email", isEqualTo: user?.email).addSnapshotListener({ objects, error in
+            db.collection("UserData1").whereField("email", isEqualTo: user?.email).addSnapshotListener({ objects, error in
                 if (error == nil) {
                     if (objects!.documents.capacity > 0) {
                         self.userData = UserData(dictionary: objects!.documents[0].data())
