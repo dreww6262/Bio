@@ -21,7 +21,8 @@ class UserCell: UITableViewCell {
         // default func
         override func awakeFromNib() {
             super.awakeFromNib()
-    
+            self.backgroundColor = .black
+            
             // alignment
             let width = UIScreen.main.bounds.width
             let cellHeight = self.frame.height

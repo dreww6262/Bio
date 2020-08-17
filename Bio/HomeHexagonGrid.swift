@@ -22,11 +22,12 @@ import SDWebImage
 
 import SwiftUI
 
-class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UIScrollViewDelegate {
+class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate  { //, //UIScrollViewDelegate {
     
     
     
     var player = AVAudioPlayer()
+    var loadDataListener: ListenerRegistration?
     // var webView = WKWebView()
     @objc var panGesture  = UIPanGestureRecognizer()
     @IBOutlet weak var scrollView: UIScrollView!
@@ -44,6 +45,7 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
     var curvedRect = CGRect(x: 0.0, y: 0.0, width: 0.0, height: 0.0)
     var curvedLayer = UIImageView()
     // let curvedHeight = friendsButton.frame.minY - 10
+    @IBOutlet weak var zoomView: UIView!
     
     //curvedLayer.backgroundColor = gold
     
@@ -66,7 +68,9 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
     
     @IBOutlet weak var homeProfileButton: UIButton!
     
+    @IBOutlet weak var trashButton: UIButton!
     
+    @IBOutlet weak var toSearchButton: UIButton!
     
     
     //    var addPostButton: UIButton = UIButton()
@@ -119,6 +123,12 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
         super.viewDidLoad()
         
         //tabController = tabBarController! as! NavigationMenuBaseController
+        self.view.addSubview(scrollView)
+        self.scrollView.addSubview(zoomView)
+        scrollView.bringSubviewToFront(zoomView)
+        zoomView.backgroundColor = .green
+        zoomView.isHidden = false
+        zoomView.frame = CGRect(x: 0,y: 0,width: scrollView.contentSize.x, height: scrollView.contentSize.y)
         self.view.addSubview(addPostButton)
         
         self.view.addSubview(newPostButton)
@@ -130,6 +140,8 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
         self.view.addSubview(dmButton)
         
         self.view.addSubview(homeProfileButton)
+        self.view.addSubview(trashButton)
+         self.view.addSubview(toSearchButton)
         
         // self.view.addSubview(curvedLayer)
         
@@ -139,10 +151,22 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
         
         
         addPostButton.frame = CGRect(x: self.view.frame.width/2-40, y: self.view.frame.height - 83, width: 80, height: 80)
-        //  addPostButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
         // round ava
         addPostButton.layer.cornerRadius = addPostButton.frame.size.width / 2
         addPostButton.clipsToBounds = true
+        
+        
+        trashButton.frame = CGRect(x: self.view.frame.width/2-40, y: self.view.frame.height - 83, width: 80, height: 80)
+        // round ava
+        trashButton.layer.cornerRadius = addPostButton.frame.size.width / 2
+        trashButton.clipsToBounds = true
+        
+        toSearchButton.frame = CGRect(x: self.view.frame.width-60, y: 5, width: 50, height: 50)
+        // round ava
+        toSearchButton.layer.cornerRadius = toSearchButton.frame.size.width / 2
+        toSearchButton.clipsToBounds = true
+        
+        
         
         
         newPostButton.frame = CGRect(x: 13, y: addPostButton.frame.minY, width: 80, height: 80)
@@ -228,7 +252,8 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
         
                 // background
                 let bg = UIImageView(frame: CGRect(x: -400, y: -400, width: 3000, height: 3000))
-                bg.image = UIImage(named: "outerspace1")
+            //    bg.image = UIImage(named: "outerspace1")
+        bg.backgroundColor = .black
                 bg.layer.zPosition = -1
                 scrollView.addSubview(bg)
         
@@ -238,11 +263,13 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
         
         
         //hide buttons
+        trashButton.isHidden = true
         newPostButton.isHidden = true
         settingsButton.isHidden = true
         friendsButton.isHidden = true
         dmButton.isHidden = true
         homeProfileButton.isHidden = true
+        toSearchButton.isHidden = false
         //  curvedLayer.isHidden = true
         
         
@@ -272,9 +299,57 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
         // populateSocialMedia()
         // populateFakeUserPhotos()
         //populateHexagonGrid()
+        
+        
+        scrollView.delegate = self
+        setZoomScale()
+//        scrollView.minimumZoomScale = 0.1
+//        scrollView.maximumZoomScale = 4.0
+//        scrollView.zoomScale = 1.0
+        
+        
+        
+        
         print("viewdidLoad")
         
     }
+    
+    func setZoomScale() {
+        let imageViewSize = zoomView.bounds.size
+        let scrollViewSize = scrollView.bounds.size
+        let widthScale = scrollViewSize.width / imageViewSize.width
+        let heightScale = scrollViewSize.height / imageViewSize.height
+        
+        scrollView.minimumZoomScale = min(widthScale, heightScale)
+        scrollView.zoomScale = 1.0
+        
+    }
+    
+    override func viewWillLayoutSubviews() {
+        setZoomScale()
+    }
+    
+    
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        let imageViewSize = zoomView.frame.size
+        let scrollViewSize = scrollView.bounds.size
+        let verticalPadding = imageViewSize.height < scrollViewSize.height ? (scrollViewSize.height - imageViewSize.height)/2 : 0
+           let horizontalPadding = imageViewSize.width < scrollViewSize.width ? (scrollViewSize.width - imageViewSize.width)/2 : 0
+        
+        scrollView.contentInset = UIEdgeInsets(top: verticalPadding, left: horizontalPadding, bottom: verticalPadding, right: horizontalPadding)
+        
+    }
+    
+    
+    
+    
+    
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return zoomView
+    }
+    
+    
+    
     
     func refresh() {
         //loadView()
@@ -306,6 +381,11 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
         })
     }
     
+    @IBAction func toSearchButtonClicked(_ sender: UIButton) {
+        let userTableVC = storyboard?.instantiateViewController(identifier: "userTableVC")
+        present(userTableVC!, animated: false)
+        
+    }
     
     
     @IBAction func friendsButtonClicked(_ sender: UIButton) {
@@ -395,7 +475,7 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
             let button = findMenuHexagonButton(hexCenter: point)
             //            print("buttin \(button?.titleLabel)")
             // button?.imageView?.setupHexagonMask(lineWidth: 10.0, color: red, cornerRadius: 10)
-            button?.imageView?.makeRoundedRed()
+            button?.imageView?.makeRoundedGold()
         }
         if (sender.state == .ended) {
             //find button
@@ -516,9 +596,9 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
             self.imageViewArray = newImageViewArray
             for image in imageViewArray {
                 print("added Image")
-                self.scrollView.addSubview(image)
+                self.zoomView.addSubview(image)
                 //self.view.addSubview(image)
-                scrollView.bringSubviewToFront(image)
+                zoomView.bringSubviewToFront(image)
                 image.isHidden = false
                 //                print(image)
                 //                print(image.frame)
@@ -529,6 +609,7 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
             loadData {
                 print("loading data 💡💡💡💡💡💡💡💡💡💡💡💡💡💡💡💡💡💡💡💡")
                 self.populateHexagonGrid2()
+                self.loadDataListener?.remove()
                 //            print("finished hexGrid2")
             }
         }
@@ -576,8 +657,12 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
     
     func loadData(completed: @escaping () -> ()) {
         //        print("in load data funtion")
-        let hexQuery = db.collection("Hexagons").whereField("postingUserID", isEqualTo: userData?.publicID)
-        hexQuery.addSnapshotListener { (querySnapshot, error) in
+        
+        
+        
+        
+        let hexQuery = db.collection("Hexagons2").whereField("postingUserID", isEqualTo: userData?.publicID)
+        loadDataListener = hexQuery.addSnapshotListener { (querySnapshot, error) in
             guard error == nil else {
                 print("error loading home photos: \n \(error!.localizedDescription)")
                 return completed()
@@ -588,7 +673,9 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
             for document in querySnapshot!.documents {
                 //                print(document)
                 let newHexagonPost = HexagonStructData(dictionary: document.data())
-                newHexArray.append(newHexagonPost)
+                if (newHexagonPost.isArchived == false) {
+                    newHexArray.append(newHexagonPost)
+                }
                 //                print("Loaded: \(newHexagonPost)")
             }
             self.resetOrderOfHexArray(array: newHexArray)
@@ -596,6 +683,7 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
             
             
             completed()
+            
             return
         }
         //completed()
@@ -614,6 +702,7 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
             else if (hex.location > optionalHexagonStructArray.count) {
                 print("location is out of bounds of num of hexagons.  Count = \(optionalHexagonStructArray.count), hex location: \(hex.location)")
             }
+            
             optionalHexagonStructArray[hex.location - 1] = hex
         }
         for hex in optionalHexagonStructArray {
@@ -797,41 +886,8 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
         }
     }
     
-    
-    
-    
-    
-    
-    
-    //    func populateFakeUserPhotos() {
-    //        index1 = 0
-    //        for image in self.hexagonStructArray {
-    //            self.hexagonStructArray[index1+7].image = fakeUserImageArray[index1]
-    //            print("This is image \(self.hexagonStructArray[index1+7].image)")
-    //            fakeUserTotalProfileArray.append(imageViewArray[index1+7].image!)
-    //            index1 = index1+1
-    //            //            fakeUserTotalProfileArray[0].loadGif(named: "hockeygif")
-    //        }
-    //    }
-    
-    //    func populateHexagonGrid() {
-    //        var index3 = 0
-    //        // to for hexstruct array once algorithm done
-    //        //  for hexagon in self.hexagonStructArray {
-    //        for hexagon in self.imageViewArray {
-    //            print("This is imageviewArray.count \(imageViewArray.count)")
-    //            print("this is hexagonstructArray.count \(hexagonStructArray.count)")
-    //            let ref = storage.child(self.hexagonStructArray[index3].thumbResource)
-    //            imageViewArray[index3].sd_setImage(with: ref)
-    //            index3 += 1
-    //        }
-    //    }
-    //
     func populateHexagonGrid2() {
         var index3 = 0
-        //        print ("in hex grid 2 \(self.hexagonStructArray.count)")
-        // to for hexstruct array once algorithm done
-        //  for hexagon in self.hexagonStructArray {
         if hexagonStructArray.count + 1 > imageViewArray.count {
             var difference = hexagonStructArray.count + 1 - imageViewArray.count
             var counter = 0
@@ -894,10 +950,14 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
         0.0)
     @objc func dragged(sender : UIPanGestureRecognizer) {
         
+        
         // if hexagon is in movable mode.
         if (hexIsMovable) {
+            addPostButton.isHidden = true
+            trashButton.isHidden = false
             var newIndex: Int = 0
             var currentHexagonCenter = CGPoint(x:0.0, y:0.0)
+            
             
             //            print("I am movable")
             //if the state has begun, store dragview for first time and center, bring scrollview subview to front
@@ -914,20 +974,69 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
                 let xDelta = dragView!.center.x - sender.location(in: scrollView).x
                 let yDelta = dragView!.center.y - sender.location(in: scrollView).y
                 dragView?.center = sender.location(in: scrollView)
+                
                 self.scrollIfNeeded(location: sender.location(in: scrollView.superview), xDelta: xDelta, yDelta: yDelta)
                 //                print("This is newIndex before \(newIndex)")
                 currentHexagonCenter = (sender.view?.center)!
+                let hexCenterInView = scrollView.convert(currentHexagonCenter, to: view)
                 newIndex = findIntersectingHexagon(hexCenter: currentHexagonCenter)
                 //                print("This is current newIndex \(newIndex)")
                 // if this center < radius/150 distance from any point in coordinate array,
                 //                print("just before finding newIndex")
                 //                print("This is currentCenter \(currentHexagonCenter)")
+                
+                print(distance(hexCenterInView, trashButton.center))
+                if (distance(hexCenterInView, trashButton.center) < 70) {
+                    trashButton.imageView!.makeRoundedGold()
+                    print("It should be gold")
+                } else {
+                    trashButton.imageView!.makeRounded()
+                    print("This is outside 70")
+                    
+                }
+                
+                
+                
+                
             }
             else if (sender.state == .ended) {
+               
                 currentHexagonCenter = (sender.view?.center)!
+                let hexCenterInView = scrollView.convert(currentHexagonCenter, to: view)
+                var currentIndex = sender.view!.tag - 1
+                if (distance(hexCenterInView, trashButton.center) < 70) {
+                    // trash current hexagon
+                    hexagonStructArray[currentIndex].isArchived = true
+                    // push update to server
+                    var temp = hexagonStructArray.remove(at: currentIndex)
+                    var docRef = db.collection("Hexagons2").document(temp.docID)
+                    docRef.setData(temp.dictionary) { error in
+                        if error == nil {
+                            self.userData!.numPosts -= 1
+                            self.db.collection("UserData1").document(self.userData!.privateID).setData(self.userData!.dictionary)
+                        }
+                    }
+                    print("current Index: \(currentIndex), count: \(hexagonStructArray.count)")
+                    var tempIndex = currentIndex
+                    while tempIndex < hexagonStructArray.count {
+                        print("temp Index: \(tempIndex), count: \(hexagonStructArray.count)")
+
+                        hexagonStructArray[tempIndex].location -= 1
+                        let newtemp = hexagonStructArray[tempIndex]
+                        docRef = db.collection("Hexagons2").document(newtemp.docID)
+                        docRef.setData(newtemp.dictionary)
+                        tempIndex += 1
+                    }
+                    imageViewArray.removeLast().removeFromSuperview()
+                    sender.view?.frame = CGRect(x: reOrderedCoordinateArrayPointsCentered[currentIndex + 1].x - 75, y: reOrderedCoordinateArrayPointsCentered[currentIndex + 1].y - 75, width: 150, height: 150)
+                    populateHexagonGrid2()
+                    
+                    return
+                }
                 //                print("This is newIndex before \(newIndex)")
                 newIndex = findIntersectingHexagon(hexCenter: currentHexagonCenter)
-                let currentIndex = sender.view!.tag - 1
+                 trashButton.isHidden = true
+                addPostButton.isHidden = false
 //                let imageIndex = sender.view!.tag
 //                if (newIndex == 0 || newIndex == imageIndex) {
 //                    // do nothing
@@ -955,7 +1064,7 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
                     print("should repopulate hexagons")
                     populateHexagonGrid2()
                     print("hexagon \(currentIndex) should have went to \(newIndex)")
-                    let listener = db.collection("Hexagons").whereField("postingUserID", isEqualTo: userData!.publicID).addSnapshotListener({ snap, error in
+                    let listener = db.collection("Hexagons2").whereField("postingUserID", isEqualTo: userData!.publicID).addSnapshotListener({ snap, error in
                         if (error == nil) {
                             guard let docs = snap?.documents else{
                                 return
@@ -985,7 +1094,6 @@ class HomeHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //, //UI
                         }
                         
                     })
-                    listener.remove()
                 }
                 
                 
@@ -1356,6 +1464,16 @@ extension UIImageView {
         self.layer.cornerRadius = self.frame.height / 2
         self.clipsToBounds = true
     }
+
+ func makeRoundedGold() {
+        
+        self.layer.borderWidth = 4
+        self.layer.masksToBounds = false
+        self.layer.borderColor = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
+        self.layer.cornerRadius = self.frame.height / 2
+        self.clipsToBounds = true
+    }
+
 }
 
 extension UIView {

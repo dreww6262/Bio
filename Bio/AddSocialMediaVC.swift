@@ -217,16 +217,19 @@ class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINav
     }
     
     func addHex(hexData: HexagonStructData, completion: @escaping (Bool) -> Void) {
-        let hexCollectionRef = db.collection("Hexagons")
-        hexCollectionRef.addDocument(data: hexData.dictionary).addSnapshotListener({object,error in
-            //     group.leave()
+        let hexCollectionRef = db.collection("Hexagons2")
+        let hexDoc = hexCollectionRef.document()
+        var hexCopy = HexagonStructData(dictionary: hexData.dictionary)
+        hexCopy.docID = hexDoc.documentID
+        hexDoc.setData(hexCopy.dictionary){ error in
             if error == nil {
-                print("added hex: \(hexData)")
+                completion(true)
             }
             else {
-                print("failed to add hex \(hexData)")
+                completion(false)
             }
-        })
+        }
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -263,7 +266,7 @@ class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINav
         //let group = DispatchGroup()
         if (!instagramUsernameTxt.text!.isEmpty) {
             numPosts += 1
-            let instaHex = HexagonStructData(resource: "https://instagram.com/\(instagramUsernameTxt.text!)", type: "socialmedia_instagram", location: numPosts, thumbResource: "icons/instagramLogo.png", createdAt: TimeInterval.init(), postingUserID: username, text: "\(instagramUsernameTxt.text!)", views: 0)
+            let instaHex = HexagonStructData(resource: "https://instagram.com/\(instagramUsernameTxt.text!)", type: "socialmedia_instagram", location: numPosts, thumbResource: "icons/instagramLogo.png", createdAt: TimeInterval.init(), postingUserID: username, text: "\(instagramUsernameTxt.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: instaHex, completion: { bool in
                 success = success && bool
                 
@@ -272,7 +275,7 @@ class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINav
         
         if (!snapchatUsernameTxt.text!.isEmpty) {
             numPosts += 1
-            let snapHex = HexagonStructData(resource: "snapchat://add/\(snapchatUsernameTxt.text!)", type: "socialmedia_snapchat", location: numPosts, thumbResource: "icons/snapchatlogo.jpg", createdAt: TimeInterval.init(), postingUserID: username, text: "\(snapchatUsernameTxt.text!)", views: 0)
+            let snapHex = HexagonStructData(resource: "snapchat://add/\(snapchatUsernameTxt.text!)", type: "socialmedia_snapchat", location: numPosts, thumbResource: "icons/snapchatlogo.jpg", createdAt: TimeInterval.init(), postingUserID: username, text: "\(snapchatUsernameTxt.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: snapHex, completion: {bool in
                 success = success && bool
                 
@@ -281,7 +284,7 @@ class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINav
         
         if (!twitterHandleTxt.text!.isEmpty) {
             numPosts += 1
-            let twitterHex = HexagonStructData(resource: "https://twitter.com/\(twitterHandleTxt.text!)", type: "socialmedia_twitter", location: numPosts, thumbResource: "icons/twitterlogo.png", createdAt: TimeInterval.init(), postingUserID: username, text: "\(twitterHandleTxt.text!)", views: 0)
+            let twitterHex = HexagonStructData(resource: "https://twitter.com/\(twitterHandleTxt.text!)", type: "socialmedia_twitter", location: numPosts, thumbResource: "icons/twitter.png", createdAt: TimeInterval.init(), postingUserID: username, text: "\(twitterHandleTxt.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: twitterHex, completion: {bool in
                 success = success && bool
                 
@@ -290,7 +293,7 @@ class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINav
         
         if (!facebookInfoTxt.text!.isEmpty) {
             numPosts += 1
-            let facebookHex = HexagonStructData(resource: facebookInfoTxt.text!, type: "socialmedia_facebook", location: numPosts, thumbResource: "icons/facebooklogo.png", createdAt: TimeInterval.init(), postingUserID: username, text: "\(facebookInfoTxt.text!)", views: 0)
+            let facebookHex = HexagonStructData(resource: facebookInfoTxt.text!, type: "socialmedia_facebook", location: numPosts, thumbResource: "icons/facebooklogo.png", createdAt: TimeInterval.init(), postingUserID: username, text: "\(facebookInfoTxt.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: facebookHex, completion: {bool in
                 success = success && bool
                 
@@ -299,7 +302,7 @@ class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINav
         
         if (!appleMusicTxt.text!.isEmpty) {
             numPosts += 1
-            let appleHex = HexagonStructData(resource: "https://applemusic.com/\(appleMusicTxt.text!)", type: "socialmedia_appleMusic", location: numPosts, thumbResource: "icons/appleMusicLogo.jpg", createdAt: TimeInterval.init(), postingUserID: username, text: "\(appleMusicTxt.text!)", views: 0)
+            let appleHex = HexagonStructData(resource: "https://applemusic.com/\(appleMusicTxt.text!)", type: "socialmedia_appleMusic", location: numPosts, thumbResource: "icons/appleMusicLogo.jpg", createdAt: TimeInterval.init(), postingUserID: username, text: "\(appleMusicTxt.text!)", views: 0,isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: appleHex, completion: {bool in
                 success = success && bool
                 
@@ -308,7 +311,7 @@ class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINav
         
         if (!venmoTxt.text!.isEmpty) {
             numPosts += 1
-            let venmoHex = HexagonStructData(resource: "https://venmo.com/\(venmoTxt.text!)", type: "socialmedia_venmo", location: numPosts, thumbResource: "icons/venmologo.png", createdAt: TimeInterval.init(), postingUserID: username, text: "\(venmoTxt.text!)", views: 0)
+            let venmoHex = HexagonStructData(resource: "https://venmo.com/\(venmoTxt.text!)", type: "socialmedia_venmo", location: numPosts, thumbResource: "icons/venmologo.png", createdAt: TimeInterval.init(), postingUserID: username, text: "\(venmoTxt.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: venmoHex, completion: {bool in
                 success = success && bool
                 
@@ -317,7 +320,7 @@ class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINav
         
         if (!tikTokText.text!.isEmpty) {
             numPosts += 1
-            let tikTokHex = HexagonStructData(resource: "https://www.tiktok.com/\(tikTokText.text!)/", type: "socialmedia_tiktok", location: numPosts, thumbResource: "icons/tiktokLogo.jpg", createdAt: TimeInterval.init(), postingUserID: username, text: "\(tikTokText.text!)", views: 0)
+            let tikTokHex = HexagonStructData(resource: "https://www.tiktok.com/\(tikTokText.text!)/", type: "socialmedia_tiktok", location: numPosts, thumbResource: "icons/tiktokLogo.jpg", createdAt: TimeInterval.init(), postingUserID: username, text: "\(tikTokText.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: tikTokHex, completion: {bool in
                 success = success && bool
                 
@@ -326,7 +329,7 @@ class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINav
         
         if (!poshmarkText.text!.isEmpty) {
             numPosts += 1
-            let poshmarkHex = HexagonStructData(resource: "https://poshmark.com/closet/\(poshmarkText.text!)", type: "socialmedia_poshmark", location: numPosts, thumbResource: "icons/poshmarkLogo.png", createdAt: TimeInterval.init(), postingUserID: username, text: "\(poshmarkText.text!)", views: 0)
+            let poshmarkHex = HexagonStructData(resource: "https://poshmark.com/closet/\(poshmarkText.text!)", type: "socialmedia_poshmark", location: numPosts, thumbResource: "icons/poshmarkLogo.png", createdAt: TimeInterval.init(), postingUserID: username, text: "\(poshmarkText.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: poshmarkHex, completion: {bool in
                 success = success && bool
                 

@@ -2183,29 +2183,74 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="shield" catalog="system"/>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fjk-ai-lFF">
+                                <rect key="frame" x="10" y="460" width="32" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="plusImage"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fFM-Pt-psZ">
+                                <rect key="frame" x="50" y="458" width="37" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="plusImage"/>
+                                <connections>
+                                    <action selector="newPostButtonClicked:" destination="VZv-rN-vbo" eventType="touchUpInside" id="Mky-4T-9Ej"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BkO-QY-2MM">
+                                <rect key="frame" x="54" y="418" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="boyprofile"/>
+                                <connections>
+                                    <action selector="friendsButtonClicked:" destination="VZv-rN-vbo" eventType="touchUpInside" id="6VD-8e-sqy"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pqb-Mb-hVT">
+                                <rect key="frame" x="50" y="200" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="mailcircle"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VZL-s5-6ve">
+                                <rect key="frame" x="100" y="200" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="settingsGear"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="20g-pa-iQa">
+                                <rect key="frame" x="102" y="447" width="38" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="stickFigure"/>
+                                <connections>
+                                    <action selector="homeButtonClicked:" destination="VZv-rN-vbo" eventType="touchUpInside" id="BdP-Fo-3VL"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="leC-eH-Aoh"/>
                     </view>
                     <connections>
+                        <outlet property="addPostButton" destination="Fjk-ai-lFF" id="Clc-nt-P7c"/>
+                        <outlet property="dmButton" destination="pqb-Mb-hVT" id="OHY-4U-owf"/>
+                        <outlet property="friendsButton" destination="BkO-QY-2MM" id="OLl-ff-9XQ"/>
+                        <outlet property="homeProfileButton" destination="20g-pa-iQa" id="bQ5-4R-u3e"/>
                         <outlet property="l1" destination="lye-j9-aOL" id="PhK-wO-JLc"/>
                         <outlet property="l2" destination="WPV-0w-qhr" id="pvD-8V-JmH"/>
                         <outlet property="l3" destination="Fqs-0J-KuI" id="d42-r5-wJY"/>
                         <outlet property="l4" destination="QgJ-5X-koj" id="22f-d4-qpo"/>
                         <outlet property="l5" destination="KXK-qF-dQr" id="Fgf-8h-QUe"/>
                         <outlet property="l6" destination="G9N-ju-apm" id="HHe-3v-3hD"/>
+                        <outlet property="newPostButton" destination="fFM-Pt-psZ" id="rTa-bn-2WF"/>
                         <outlet property="pic1" destination="iWJ-8H-cA3" id="v6Q-44-ych"/>
                         <outlet property="pic2" destination="xWF-sV-5U1" id="YTa-Ow-hXu"/>
                         <outlet property="pic3" destination="OiV-Vm-LDw" id="Ujx-jE-RqY"/>
                         <outlet property="pic4" destination="ahf-Pk-Wnj" id="JXW-wI-kOa"/>
                         <outlet property="pic5" destination="tw1-XV-b4T" id="TX4-Bz-Kzh"/>
                         <outlet property="pic6" destination="1uL-Lm-PNr" id="WAc-wV-ASZ"/>
+                        <outlet property="settingsButton" destination="VZL-s5-6ve" id="how-aX-UTh"/>
                         <outlet property="titleLabel" destination="mzq-00-ZBX" id="gho-SG-CSQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FJi-hX-PM9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2486" y="-5174"/>
+            <point key="canvasLocation" x="2485.507246376812" y="-5174.3303571428569"/>
         </scene>
         <!--Upload PreviewVC-->
         <scene sceneID="Q7i-Yx-Ctm">
@@ -3048,11 +3093,22 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="gGe-ek-ZmM">
                                 <rect key="frame" x="167" y="408" width="80" height="80"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="stickFigure"/>
+                                <state key="normal" image="mailcircle"/>
                             </button>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" id="2ZI-MK-Ixu">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XHC-tl-tDm">
+                                        <rect key="frame" x="214" y="52" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Button" image="redmagnifyingglass"/>
+                                        <connections>
+                                            <action selector="toSearchButtonClicked:" destination="nNT-PQ-yLu" eventType="touchUpInside" id="30F-e7-LCo"/>
+                                            <action selector="toSearchButtonClicked:" destination="S0c-tb-pNQ" eventType="touchUpInside" id="tr4-lB-szO"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <viewLayoutGuide key="safeArea" id="WMJ-B3-hVw"/>
                                 <viewLayoutGuide key="contentLayoutGuide" id="N0O-eX-YxP"/>
@@ -3071,6 +3127,7 @@
                         <outlet property="newPostButton" destination="Q9v-wG-egz" id="gE3-ao-3uw"/>
                         <outlet property="scrollView" destination="2ZI-MK-Ixu" id="4Yv-Vv-uNI"/>
                         <outlet property="settingsButton" destination="QdX-89-Ghl" id="p0g-tR-Wma"/>
+                        <outlet property="toSearchButton" destination="XHC-tl-tDm" id="LeM-bD-wsh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CNo-sf-qNT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -3473,7 +3530,7 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dag-2J-Sw2">
                                 <rect key="frame" x="170" y="410" width="80" height="80"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button" image="dartLogoSquare"/>
+                                <state key="normal" title="Button" image="mailcircle"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WYY-kF-LD8">
                                 <rect key="frame" x="-49" y="192" width="80" height="80"/>
@@ -3483,7 +3540,31 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" id="SUT-vw-xXn">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iy2-li-0lk">
+                                        <rect key="frame" x="0.0" y="44" width="414" height="852"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zt4-aN-hYV">
+                                        <rect key="frame" x="50" y="50" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Button" image="trashCircle"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z1n-Q0-Osp">
+                                        <rect key="frame" x="208" y="71" width="50" height="50"/>
+                                        <state key="normal" title="Button" image="redmagnifyingglass"/>
+                                        <connections>
+                                            <action selector="toSearchButtonClicked:" destination="nNT-PQ-yLu" eventType="touchUpInside" id="3T6-wj-SQu"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
                                 <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="pHy-v9-68o" firstAttribute="trailing" secondItem="iy2-li-0lk" secondAttribute="trailing" id="Jde-eP-Yx2"/>
+                                    <constraint firstItem="iy2-li-0lk" firstAttribute="top" secondItem="z1n-Q0-Osp" secondAttribute="bottom" id="M7C-Ku-hEu"/>
+                                    <constraint firstItem="iy2-li-0lk" firstAttribute="leading" secondItem="pHy-v9-68o" secondAttribute="leading" id="fyQ-YP-MwX"/>
+                                    <constraint firstItem="pHy-v9-68o" firstAttribute="bottom" secondItem="iy2-li-0lk" secondAttribute="bottom" id="hUh-SW-l3X"/>
+                                </constraints>
                                 <viewLayoutGuide key="safeArea" id="pHy-v9-68o"/>
                                 <viewLayoutGuide key="contentLayoutGuide" id="zDf-wy-rWg"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="D0P-Mr-NwL"/>
@@ -3501,12 +3582,15 @@
                         <outlet property="newPostButton" destination="dhn-NR-iNA" id="qBo-09-vjM"/>
                         <outlet property="scrollView" destination="SUT-vw-xXn" id="ney-yJ-emU"/>
                         <outlet property="settingsButton" destination="WYY-kF-LD8" id="FoG-3Y-NLm"/>
+                        <outlet property="toSearchButton" destination="z1n-Q0-Osp" id="xgG-n1-CdF"/>
+                        <outlet property="trashButton" destination="zt4-aN-hYV" id="23K-vJ-0NS"/>
+                        <outlet property="zoomView" destination="iy2-li-0lk" id="PPh-MZ-rrD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4pn-iW-66E" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="D7B-CN-SMs" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1380" y="-5174"/>
+            <point key="canvasLocation" x="1378.2608695652175" y="-5174.3303571428569"/>
         </scene>
         <!--Upload From Camera RollVC-->
         <scene sceneID="4Dh-aU-FhT">
@@ -3963,7 +4047,7 @@
         <!--Guest Hexagon GridVC-->
         <scene sceneID="PGi-35-btO">
             <objects>
-                <viewController restorationIdentifier="homeHexGrid" storyboardIdentifier="guestGridVC" id="Clo-AK-WBk" customClass="GuestHexagonGridVC" customModule="Bio" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="homeHexGrid" storyboardIdentifier="guestGridVC" modalPresentationStyle="fullScreen" id="Clo-AK-WBk" customClass="GuestHexagonGridVC" customModule="Bio" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ve0-c5-b2d">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -3997,6 +4081,19 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" id="ipO-jT-G31">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s1R-Xw-ZLB">
+                                        <rect key="frame" x="-99" y="-73" width="260" height="280"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" image="redx">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="backButtonPressed:" destination="Clo-AK-WBk" eventType="touchUpInside" id="UoS-FV-fbl"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
                                 <color key="backgroundColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <viewLayoutGuide key="safeArea" id="ogr-Yy-ufT"/>
                                 <viewLayoutGuide key="contentLayoutGuide" id="hRk-vO-hx4"/>
@@ -4008,13 +4105,14 @@
                     </view>
                     <navigationItem key="navigationItem" id="efv-AD-eMI"/>
                     <connections>
+                        <outlet property="returnButton" destination="s1R-Xw-ZLB" id="Scy-lP-y5i"/>
                         <outlet property="scrollView" destination="ipO-jT-G31" id="ysa-VJ-DAV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sc4-mZ-eGn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="vIF-df-8fn" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="5613" y="-5259"/>
+            <point key="canvasLocation" x="5611.594202898551" y="-5259.375"/>
         </scene>
         <!--Add LinkVC View Controller-->
         <scene sceneID="6G5-wl-bS4">
@@ -4223,6 +4321,7 @@
         <image name="link.circle.fill" catalog="system" width="128" height="121"/>
         <image name="list.bullet" catalog="system" width="128" height="88"/>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
+        <image name="mailcircle" width="1000" height="1080"/>
         <image name="minus" catalog="system" width="128" height="24"/>
         <image name="music.note" catalog="system" width="97" height="128"/>
         <image name="pencil" catalog="system" width="128" height="113"/>
@@ -4232,6 +4331,8 @@
         <image name="plusImage" width="150" height="150"/>
         <image name="poshmarkLogo" width="256" height="256"/>
         <image name="pp.jpg" width="128" height="128"/>
+        <image name="redmagnifyingglass" width="225" height="225"/>
+        <image name="redx" width="260" height="280"/>
         <image name="settingsGear" width="512" height="512"/>
         <image name="shield" catalog="system" width="128" height="121"/>
         <image name="snapchatlogo" width="2100" height="2100"/>
@@ -4243,6 +4344,7 @@
         <image name="textbox" catalog="system" width="128" height="91"/>
         <image name="the_starry_night-t2" width="510" height="330"/>
         <image name="tiktoklogo" width="750" height="749"/>
+        <image name="trashCircle" width="512" height="512"/>
         <image name="triangle" catalog="system" width="128" height="112"/>
         <image name="triangle.fill" catalog="system" width="128" height="112"/>
         <image name="twitter" width="400" height="325"/>

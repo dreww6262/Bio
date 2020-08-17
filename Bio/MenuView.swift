@@ -209,7 +209,7 @@ class MenuView: UIView {
             let button = findMenuHexagonButton(hexCenter: point)
             //            print("buttin \(button?.titleLabel)")
             // button?.imageView?.setupHexagonMask(lineWidth: 10.0, color: red, cornerRadius: 10)
-            button?.imageView?.makeRoundedRed()
+            button?.imageView?.makeRoundedGold()
         }
         if (sender.state == .ended) {
             //find button

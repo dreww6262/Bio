@@ -28,6 +28,18 @@ class NewPostOptionsVC: UIViewController, FMPhotoPickerViewControllerDelegate {
             
         }
     }
+    @IBOutlet weak var addPostButton: UIButton!
+      
+      @IBOutlet weak var newPostButton: UIButton!
+      @IBOutlet weak var friendsButton: UIButton!
+      
+      @IBOutlet weak var settingsButton: UIButton!
+      
+      @IBOutlet weak var dmButton: UIButton!
+      
+      @IBOutlet weak var homeProfileButton: UIButton!
+    
+    
     
     
     
@@ -63,6 +75,94 @@ class NewPostOptionsVC: UIViewController, FMPhotoPickerViewControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = true
+        
+        self.view.addSubview(addPostButton)
+               
+               self.view.addSubview(newPostButton)
+               
+               self.view.addSubview(friendsButton)
+               
+               self.view.addSubview(settingsButton)
+               
+               self.view.addSubview(dmButton)
+               
+               self.view.addSubview(homeProfileButton)
+        
+        newPostButton.isHidden = true
+        settingsButton.isHidden = true
+        friendsButton.isHidden = true
+        dmButton.isHidden = true
+        homeProfileButton.isHidden = true
+        //  curvedLayer.isHidden = true
+        // show add Post button
+        addPostButton.isHidden = false
+         addPostButton.layer.zPosition = 2
+               
+        addPostButton.frame = CGRect(x: self.view.frame.width/2-40, y: self.view.frame.height - 83, width: 80, height: 80)
+               //  addPostButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
+               // round ava
+               addPostButton.layer.cornerRadius = addPostButton.frame.size.width / 2
+               addPostButton.clipsToBounds = true
+               
+               
+               newPostButton.frame = CGRect(x: 13, y: addPostButton.frame.minY, width: 80, height: 80)
+               //  newPostButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
+               // round ava
+               newPostButton.layer.cornerRadius = newPostButton.frame.size.width / 2
+               newPostButton.clipsToBounds = true
+               
+               
+               friendsButton.frame = CGRect(x: self.view.frame.width/2 - 40, y: self.view.frame.height - 203, width: 80, height: 80)
+               // friendsButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
+               // round ava
+               friendsButton.layer.cornerRadius = friendsButton.frame.size.width / 2
+               friendsButton.clipsToBounds = true
+               
+               
+               
+               
+               dmButton.frame = CGRect(x: self.view.frame.width*3/5 + 20, y: self.view.frame.height - 166, width: 80, height: 80)
+               //  dmButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
+               // round ava
+               dmButton.layer.cornerRadius = dmButton.frame.size.width / 2
+               dmButton.clipsToBounds = true
+               
+               
+               
+               settingsButton.frame = CGRect(x: self.view.frame.width - 93, y: self.view.frame.height - 83, width: 80, height: 80)
+               // settingsButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
+               // round ava
+               settingsButton.layer.cornerRadius = settingsButton.frame.size.width / 2
+               settingsButton.clipsToBounds = true
+               
+               
+               
+               homeProfileButton.frame = CGRect(x: self.view.frame.width/5 - 20, y: dmButton.frame.minY, width: 80, height: 80)
+               // homeProfileButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
+               // round ava
+               homeProfileButton.layer.cornerRadius = homeProfileButton.frame.size.width / 2
+               homeProfileButton.clipsToBounds = true
+               //        let curvedHeight = friendsButton.frame.minY - 10
+               //        curvedRect = CGRect(x: 0.0, y: curvedHeight, width: self.view.frame.width, height: self.view.frame.height )
+               //        var curvedRect = CGRect(x: 0.0, y: curvedHeight, width: scrollView.frame.width, height: scrollView.frame.height)
+               //        curvedLayer = UIImageView(frame: curvedRect)
+               //        curvedLayer.backgroundColor = gold
+               //
+               //        //round layer
+               //        curvedLayer.layer.cornerRadius = curvedLayer.frame.size.width / 2
+               //        curvedLayer.clipsToBounds = true
+               
+        let menuTapped = UITapGestureRecognizer(target: self, action: #selector(HomeHexagonGrid.tappedMenuButton))
+        let menuDragged = UIPanGestureRecognizer(target: self, action: #selector(HomeHexagonGrid.draggedMenuButton))
+        let menuLongPressed = UILongPressGestureRecognizer(target: self, action: #selector(HomeHexagonGrid.longPressMenuButton))
+               addPostButton.addGestureRecognizer(menuTapped)
+               addPostButton.addGestureRecognizer(menuDragged)
+               addPostButton.addGestureRecognizer(menuLongPressed)
+               
+        
+        
+        
+        
         formatPicturesAndLabels()
 
         // Do any additional setup after loading the view.
@@ -89,6 +189,162 @@ class NewPostOptionsVC: UIViewController, FMPhotoPickerViewControllerDelegate {
            show(addSocialMediaVC, sender: nil)
            addSocialMediaVC.modalPresentationStyle = .fullScreen
     }
+    
+    @IBAction func friendsButtonClicked(_ sender: UIButton) {
+        //      let profileHexGrid =   storyboard?.instantiateViewController(identifier: "ProfileHexGrid") as! BioProfileHexagonGrid2
+        //        profileHexGrid.userData = userData
+        //        self.dismiss(animated: false, completion: nil)
+        //        present(profileHexGrid, animated: false)
+        //self.dismiss(animated: false, completion: nil)
+        let viewControllers = tabBarController!.customizableViewControllers!
+        let profileGrid = (viewControllers[3] as! BioProfileHexagonGrid2)
+        let tabController = tabBarController! as! NavigationMenuBaseController
+        profileGrid.userData = userData
+        profileGrid.refresh()
+        tabController.viewControllers![3] = profileGrid
+        tabController.customTabBar.switchTab(from: 4, to: 3)
+    }
+    
+    @IBAction func homeButtonClicked(_ sender: Any) {
+        let viewControllers = tabBarController!.customizableViewControllers!
+        let homeVC = (viewControllers[2] as! HomeHexagonGrid)
+        let tabController = tabBarController! as! NavigationMenuBaseController
+        homeVC.userData = userData
+        tabController.viewControllers![2] = homeVC
+        tabController.customTabBar.switchTab(from: 4, to: 2)
+    }
+    
+    
+    @IBAction func newPostButtonClicked(_ sender: UIButton) {
+        //        let newPostVC =   storyboard?.instantiateViewContr?
+    }
+    
+    @objc func tappedMenuButton(sender: UITapGestureRecognizer) {
+        if (dmButton.isHidden == true) {
+            makeAllMenuButtonsBlack()
+            showMenuOptions()
+        }
+            //sleep(3000)
+        else {
+            hideMenuOptions()
+        }
+    }
+    
+    
+    // TODO: TO DO Redo this for circular border
+    func makeAllMenuButtonsBlack() {
+        newPostButton.imageView?.makeRounded()
+        homeProfileButton.imageView?.makeRounded()
+        dmButton.imageView?.makeRounded()
+        settingsButton.imageView?.makeRounded()
+        friendsButton.imageView?.makeRounded()
+        addPostButton.imageView?.makeRounded()
+        
+        //        newPostButton.layer.borderWidth = 4
+        //        homeProfileButton.layer.borderWidth = 4
+        //        dmButton.layer.borderWidth = 4
+        //        settingsButton.layer.borderWidth = 4
+        //        friendsButton.layer.borderWidth = 4
+        //
+        //
+        //
+        //        newPostButton.layer.borderColor = UIColor.black.cgColor
+        //         homeProfileButton.layer.borderColor = UIColor.black.cgColor
+        //         dmButton.layer.borderColor = UIColor.black.cgColor
+        //         settingsButton.layer.borderColor = UIColor.black.cgColor
+        //         friendsButton.layer.borderColor = UIColor.black.cgColor
+        
+        //        newPostButton.imageView!.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10)
+        //        homeProfileButton.imageView!.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10)
+        //        dmButton.imageView!.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10)
+        //        settingsButton.imageView!.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10)
+        //        friendsButton.imageView!.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10)
+    }
+    
+    @objc func draggedMenuButton(sender: UIPanGestureRecognizer) {
+        var point : CGPoint = sender.translation(in: view)
+        point.x += sender.view!.frame.midX
+        point.y += sender.view!.frame.midY
+        //        print(point)
+        if (sender.state == .began) {
+            makeAllMenuButtonsBlack()
+            showMenuOptions()
+        }
+        if (sender.state == .changed) {
+            //showMenuOptions()
+            //            print("changing")
+            makeAllMenuButtonsBlack()
+            let button = findMenuHexagonButton(hexCenter: point)
+            //            print("buttin \(button?.titleLabel)")
+            // button?.imageView?.setupHexagonMask(lineWidth: 10.0, color: red, cornerRadius: 10)
+            button?.imageView?.makeRoundedGold()
+        }
+        if (sender.state == .ended) {
+            //find button
+            let button = findMenuHexagonButton(hexCenter: point)
+            button?.sendActions(for: .touchUpInside)
+            //print("button triggered: \(button?.titleLabel)")
+            hideMenuOptions()
+            //change VC
+        }
+    }
+    
+    func distance(_ a: CGPoint, _ b: CGPoint) -> CGFloat {
+          let xDist = a.x - b.x
+          let yDist = a.y - b.y
+          return CGFloat(sqrt(xDist * xDist + yDist * yDist))
+      }
+    
+    func findMenuHexagonButton(hexCenter: CGPoint) -> UIButton? {
+        //        print(hexCenter)
+        if (distance(hexCenter, newPostButton.center) < 70) {
+            return newPostButton
+        }
+        if (distance(hexCenter, homeProfileButton.center) < 70) {
+            return homeProfileButton
+        }
+        if (distance(hexCenter, dmButton.center) < 70) {
+            return dmButton
+        }
+        if (distance(hexCenter, settingsButton.center) < 70) {
+            return settingsButton
+        }
+        if (distance(hexCenter, friendsButton.center) < 70) {
+            return friendsButton
+        }
+        return nil
+        
+        
+    }
+    
+    @objc func longPressMenuButton(sender: UILongPressGestureRecognizer) {
+        if (sender.state == .began) {
+            makeAllMenuButtonsBlack()
+            showMenuOptions()
+        }
+        if (sender.state == .ended) {
+            hideMenuOptions()
+        }
+    }
+    
+    
+    func showMenuOptions() {
+        newPostButton.isHidden = false
+        homeProfileButton.isHidden = false
+        dmButton.isHidden = false
+        settingsButton.isHidden = false
+        friendsButton.isHidden = false
+        //curvedLayer.isHidden = false
+    }
+    func hideMenuOptions() {
+        newPostButton.isHidden = true
+        homeProfileButton.isHidden = true
+        dmButton.isHidden = true
+        settingsButton.isHidden = true
+        friendsButton.isHidden = true
+       // curvedLayer.isHidden = true
+    }
+    
     
     
     func formatPicturesAndLabels(){

@@ -40,16 +40,17 @@ class GuestHexagonGridVC: UIViewController, UIGestureRecognizerDelegate  { //, /
     var hexagonStructArray: [HexagonStructData] = []
     let db = Firestore.firestore()
     let storage = Storage.storage().reference()
-    //    var username = String(Auth.auth().currentUser?.email?.split(separator: "@")[0] ?? "")
+ 
     var user = Auth.auth().currentUser
     var userData: UserData? = nil
+    @IBOutlet weak var returnButton: UIButton!
     
    
     
     //@IBOutlet weak var expandedView: UIImageView!
     var index = 0
     var index1 = 0
-    //var presentingFrame = CGRect()
+
     
     var homeUserImageArray: [String] = []
     
@@ -85,6 +86,20 @@ class GuestHexagonGridVC: UIViewController, UIGestureRecognizerDelegate  { //, /
         print("This is current user email: \(user?.email)")
         //print(fakeUserImageArray.count)
         super.viewDidLoad()
+        
+//        returnButton.frame = CGRect(x:5, y: 5, width: 50, height: 50)
+//        returnButton.imageView?.image = UIImage(systemName: "arrow.turn.up.left")
+//        returnButton.tintColor = .black
+     //   returnButton.imageView?.image = UIImage(named: "redx")
+        
+        returnButton.frame = CGRect(x: self.view.frame.width/2-40, y: self.view.frame.height - 83, width: 80, height: 80)
+        //  addPostButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
+        // round ava
+        returnButton.layer.cornerRadius = returnButton.frame.size.width / 2
+        returnButton.clipsToBounds = true
+        view.addSubview(returnButton)
+        
+        
         //   downloadFileFromURL(url: URL(string: "https://p.scdn.co/mp3-preview/18d3b87b0765cd6d8c0a418d6142b3b441c0f8b2?cid=476c620368f349cc8be5b2a29b596eaf")!)
 
         
@@ -159,6 +174,13 @@ class GuestHexagonGridVC: UIViewController, UIGestureRecognizerDelegate  { //, /
         
     }
     
+    
+    @IBAction func backButtonPressed(_ sender: UIButton) {
+        self.dismiss(animated: false, completion: nil)
+    }
+    
+    
+    
     func distance(_ a: CGPoint, _ b: CGPoint) -> CGFloat {
         let xDist = a.x - b.x
         let yDist = a.y - b.y
@@ -169,6 +191,11 @@ class GuestHexagonGridVC: UIViewController, UIGestureRecognizerDelegate  { //, /
       let profileHexGrid =   storyboard?.instantiateViewController(identifier: "ProfileHexGrid") as! BioProfileHexagonGrid2
         show(profileHexGrid, sender: nil)
     }
+    
+    
+    
+    
+    
     
     
     func createImageViews() {
@@ -258,7 +285,7 @@ class GuestHexagonGridVC: UIViewController, UIGestureRecognizerDelegate  { //, /
     
     func loadData(completed: @escaping () -> ()) {
         print("in load data funtion")
-        let hexQuery = db.collection("Hexagons").whereField("postingUserID", isEqualTo: userData?.publicID)
+        let hexQuery = db.collection("Hexagons2").whereField("postingUserID", isEqualTo: userData?.publicID)
         hexQuery.addSnapshotListener { (querySnapshot, error) in
             guard error == nil else {
                 print("error loading home photos: \n \(error!.localizedDescription)")

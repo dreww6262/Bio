@@ -48,6 +48,9 @@ class BioProfileHexagonGrid2: UIViewController, UISearchBarDelegate {
     
     @IBOutlet weak var homeProfileButton: UIButton!
     
+    @IBOutlet weak var toSearchButton: UIButton!
+    
+    
     
     var tabController: NavigationMenuBaseController?
     
@@ -100,7 +103,7 @@ class BioProfileHexagonGrid2: UIViewController, UISearchBarDelegate {
         
                let searchItem = UIBarButtonItem(customView: searchBar)
                self.navigationItem.leftBarButtonItem = searchItem
-        
+        searchBar.isHidden = true
         
         
         
@@ -134,11 +137,18 @@ class BioProfileHexagonGrid2: UIViewController, UISearchBarDelegate {
         
         self.view.addSubview(homeProfileButton)
         
+        self.view.addSubview(toSearchButton)
+        
         addPostButton.frame = CGRect(x: self.view.frame.width/2-40, y: self.view.frame.height - 83, width: 80, height: 80)
-        //  addPostButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
         // round ava
         addPostButton.layer.cornerRadius = addPostButton.frame.size.width / 2
         addPostButton.clipsToBounds = true
+        
+        toSearchButton.frame = CGRect(x: self.view.frame.width - 90, y: 5, width: 80, height: 80)
+        // round ava
+        toSearchButton.layer.cornerRadius = addPostButton.frame.size.width / 2
+        toSearchButton.clipsToBounds = true
+        
         
         
         newPostButton.frame = CGRect(x: 13, y: addPostButton.frame.minY, width: 80, height: 80)
@@ -232,6 +242,10 @@ class BioProfileHexagonGrid2: UIViewController, UISearchBarDelegate {
     }
     
     
+    @IBAction func toSearchButtonClicked(_ sender: UIButton) {
+        let userTableVC = storyboard?.instantiateViewController(identifier: "userTableVC")
+                   present(userTableVC!, animated: false)
+    }
     
     @IBAction func friendsButtonClicked(_ sender: UIButton) {
 // do nothing....  in current vc
@@ -451,7 +465,8 @@ class BioProfileHexagonGrid2: UIViewController, UISearchBarDelegate {
         //        self.scrollView.center.x = 946.8266739736607
         //         self.scrollView.center.y = 902.5
         let bg = UIImageView(frame: CGRect(x: -400, y: -400, width: 3000, height: 3000))
-        bg.image = UIImage(named: "outerspace1")
+       // bg.image = UIImage(named: "outerspace1")
+        bg.backgroundColor = .black
         bg.layer.zPosition = -1
         scrollView.addSubview(bg)
         self.scrollView.backgroundColor = UIColor.black

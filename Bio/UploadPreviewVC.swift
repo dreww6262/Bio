@@ -61,7 +61,7 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
                     print("didnt upload shid")
                 }
             })
-            let photoHex = HexagonStructData(resource: photoLocation, type: "photo", location: self.userData!.numPosts + count, thumbResource: photoLocation, createdAt: TimeInterval.init(), postingUserID: self.userData!.publicID, text: "\(cell.captionField.text)", views: 0)
+            let photoHex = HexagonStructData(resource: photoLocation, type: "photo", location: self.userData!.numPosts + count, thumbResource: photoLocation, createdAt: TimeInterval.init(), postingUserID: self.userData!.publicID, text: "\(cell.captionField!.text!)", views: 0, isArchived: false, docID: "willBeSetLater")
             print("should be adding \(photoHex)")
             self.addHex(hexData: photoHex, completion: {    bool in
               success = success && bool
@@ -101,17 +101,20 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
     }
     
     func addHex(hexData: HexagonStructData, completion: @escaping (Bool) -> Void) {
-          let hexCollectionRef = db.collection("Hexagons")
-          hexCollectionRef.addDocument(data: hexData.dictionary).addSnapshotListener({object,error in
-              if error == nil {
-                  print("added hex: \(hexData)")
-                return completion(true)
-              }
-              else {
-                  print("failed to add hex \(hexData)")
-                return completion(false)
-              }
-          })
+          let hexCollectionRef = db.collection("Hexagons2")
+            let docRef = hexCollectionRef.document()
+        let docID = docRef.documentID
+        var hexCopy = HexagonStructData(dictionary: hexData.dictionary)
+        docRef.setData(hexCopy.dictionary) { error in
+            if error == nil {
+                print("added hex: \(hexCopy)")
+              return completion(true)
+            }
+            else {
+                print("failed to add hex \(hexCopy)")
+              return completion(false)
+            }
+        }
       }
     
     @IBAction func cancelPost(_ sender: UIButton) {

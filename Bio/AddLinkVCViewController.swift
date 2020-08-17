@@ -190,16 +190,21 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     }
     
     func addHex(hexData: HexagonStructData, completion: @escaping (Bool) -> Void) {
-        let hexCollectionRef = db.collection("Hexagons")
-        hexCollectionRef.addDocument(data: hexData.dictionary).addSnapshotListener({object,error in
+        let hexCollectionRef = db.collection("Hexagons2")
+        let hexDoc = hexCollectionRef.document()
+        var hexCopy = HexagonStructData(dictionary: hexData.dictionary)
+        hexCopy.docID = hexDoc.documentID
+        hexDoc.setData(hexCopy.dictionary){ error in
             //     group.leave()
             if error == nil {
                 print("added hex: \(hexData)")
+                completion(true)
             }
             else {
                 print("failed to add hex \(hexData)")
+                completion(false)
             }
-        })
+        }
     }
     
     
@@ -235,7 +240,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
             let refText = "userFiles/\(username)/\(imageFileName)"
             let imageRef = storageRef.child(refText)
             numPosts += 1
-            let linkHex = HexagonStructData(resource: linkTextField.text!, type: "link", location: numPosts, thumbResource: refText, createdAt: TimeInterval.init(), postingUserID: username, text: "\(linkTextField.text!)", views: 0)
+            let linkHex = HexagonStructData(resource: linkTextField.text!, type: "link", location: numPosts, thumbResource: refText, createdAt: TimeInterval.init(), postingUserID: username, text: "\(linkTextField.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
             
             
             addHex(hexData: linkHex, completion: { bool in

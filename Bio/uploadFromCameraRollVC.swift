@@ -196,7 +196,7 @@ class uploadFromCameraRollVC: UIViewController, UIImagePickerControllerDelegate,
             uploadTask.observe(.success) { snapshot -> Void in
                 print("im in")
                 let resourceString = "userFiles/\(usernameString)/\(uniqueName)"
-                let hexCollection = Firestore.firestore().collection("Hexagons")
+                let hexCollection = Firestore.firestore().collection("Hexagons2")
                 var userData: UserData? = nil
                 var userDataRef: DocumentReference? = nil
                 let userDataCollection = Firestore.firestore().collection("UserData1")
@@ -206,11 +206,11 @@ class uploadFromCameraRollVC: UIViewController, UIImagePickerControllerDelegate,
                     if error == nil && self.firstTime == true {
                         userData = UserData(dictionary: objects!.documents[0].data())
                         userDataRef = objects!.documents[0].reference
-                        
-                        let hexData = HexagonStructData(resource: resourceString, type: "Photo", location: userData!.numPosts + 1, thumbResource: resourceString, createdAt: NSTimeIntervalSince1970, postingUserID: usernameString, text: self.titleTxt.text, views: 0)
+                        let hexDoc = hexCollection.document()
+                        let hexData = HexagonStructData(resource: resourceString, type: "Photo", location: userData!.numPosts + 1, thumbResource: resourceString, createdAt: NSTimeIntervalSince1970, postingUserID: usernameString, text: self.titleTxt.text, views: 0, isArchived: false, docID: hexDoc.documentID)
                         userData?.numPosts += 1
                         userDataRef?.updateData(userData!.dictionary)
-                        hexCollection.addDocument(data: hexData.dictionary)
+                        hexDoc.setData(hexData.dictionary)
                         print("This is hexData \(hexData)")
                         self.firstTime = false
                         print("I went through, first time = \(self.firstTime)")

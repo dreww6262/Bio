@@ -27,10 +27,12 @@ class UserListTableVC: UIViewController, UISearchBarDelegate {
     var searchString: String?
 
     @IBOutlet weak var tableView: UITableView!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(searchBar)
+        tableView.backgroundColor = .black
                    searchBar.delegate = self
                       searchBar.sizeToFit()
                       searchBar.tintColor = UIColor.black

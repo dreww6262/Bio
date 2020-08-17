@@ -19,6 +19,8 @@ struct HexagonStructData {  // : Codable { //Codable {
     var postingUserID: String
     var text: String
     var views: Int
+    var isArchived: Bool
+    var docID: String
     
     
 //    var text: String
@@ -46,11 +48,11 @@ struct HexagonStructData {  // : Codable { //Codable {
 
 
 var dictionary: [String: Any] {
-       return ["resource": resource, "type": type, "location": location, "thumbResource": thumbResource, "createdAt": createdAt, "postingUserID": postingUserID, "text": text, "views": views]
+    return ["resource": resource, "type": type, "location": location, "thumbResource": thumbResource, "createdAt": createdAt, "postingUserID": postingUserID, "text": text, "views": views, "isArchived": isArchived, "docID": docID]
    }
    
    
-   init(resource: String, type: String, location: Int, thumbResource: String, createdAt: TimeInterval, postingUserID: String, text: String, views: Int)  {
+    init(resource: String, type: String, location: Int, thumbResource: String, createdAt: TimeInterval, postingUserID: String, text: String, views: Int, isArchived: Bool, docID: String)  {
        self.resource = resource
        self.type = type
        self.location = location
@@ -59,7 +61,8 @@ var dictionary: [String: Any] {
        self.postingUserID = postingUserID
        self.text = text
        self.views = views
-
+        self.isArchived = isArchived
+        self.docID = docID
    }
 
    
@@ -72,9 +75,11 @@ var dictionary: [String: Any] {
        let postingUserID = dictionary["postingUserID"] as! String? ?? ""
        let text = dictionary["text"] as! String? ?? ""
         let views = dictionary["views"] as! Int? ?? 0
+        let isArchived = dictionary["isArchived"] as! Bool? ?? true
+        let docID = dictionary["docID"] as! String? ?? ""
        
     
-       self.init(resource: resource,type: type, location: location, thumbResource: thumbResource, createdAt: createdAt, postingUserID: postingUserID, text: text, views: views)
+        self.init(resource: resource,type: type, location: location, thumbResource: thumbResource, createdAt: createdAt, postingUserID: postingUserID, text: text, views: views, isArchived: isArchived, docID: docID)
        
    
    }

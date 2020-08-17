@@ -11,6 +11,7 @@ import UIKit
 //import FBSDKCoreKit
 import Firebase
 import FirebaseCore
+import FirebaseFirestore
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,6 +22,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      didFinishLaunchingWithOptions launchOptions:
         [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
+        //For testing purposes only*****
+        Firestore.firestore().clearPersistence(completion: { error in
+            if error != nil {
+                print("Could not enable persistence: \(error?.localizedDescription)")
+            }
+        })
+        // clears persistence data for firesetore
         return true
     }
     
