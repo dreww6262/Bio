@@ -9,10 +9,6 @@
 
 import UIKit
 import AVKit
-//import MBVideoPlayer
-//import AVPlayer
-//import WebKit
-//import SPT
 import Firebase
 import FirebaseFirestore
 import FirebaseStorage
@@ -22,7 +18,7 @@ import SDWebImage
 
 import SwiftUI
 
-class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate  { //, //UIScrollViewDelegate {
+class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate  {
     
     
     
@@ -46,14 +42,9 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     var curvedLayer = UIImageView()
     // let curvedHeight = friendsButton.frame.minY - 10
     @IBOutlet weak var zoomView: UIView!
-    
-    //curvedLayer.backgroundColor = gold
-    
-    //round layer
-    // curvedLayer.layer.cornerRadius = curvedLayer.frame.size.width / 2
-    //   curvedLayer.clipsToBounds = true
+
     let storage = Storage.storage().reference()
-    //    var username = String(Auth.auth().currentUser?.email?.split(separator: "@")[0] ?? "")
+
     var user = Auth.auth().currentUser
     var userData: UserData? = nil
     
@@ -72,33 +63,17 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     
     @IBOutlet weak var toSearchButton: UIButton!
     
-    
-    //    var addPostButton: UIButton = UIButton()
-    //    var newPostButton: UIButton = UIButton()
-    //
-    //    var friendsButton: UIButton = UIButton()
-    //
-    //    var settingsButton: UIButton = UIButton()
-    
-    //@IBOutlet weak var expandedView: UIImageView!
+
     var index = 0
     var index1 = 0
-    //var presentingFrame = CGRect()
     
     var homeUserImageArray: [String] = []
     
     var fakeUserImageArray = [UIImage(named: "kayser1"),UIImage(named: "oldspice"),UIImage(named: "kayser3"),UIImage(named: "k34"),UIImage(named: "kayser5"),UIImage(named: "kayser6"),UIImage(named: "couch"),UIImage(named: "kayser8"),UIImage(named: "teamimpact"),UIImage(named: "k32"),UIImage(named: "bchigh"),UIImage(named: "k11"),UIImage(named: "k50"),UIImage(named: "k13"),UIImage(named: "childrens"),UIImage(named: "k15"),UIImage(named: "k16"),UIImage(named: "k36"),UIImage(named: "shockey"),UIImage(named: "k19"),UIImage(named: "stjude"),UIImage(named: "k21"),UIImage(named: "k22"),UIImage(named: "k23"),UIImage(named: "k33"),UIImage(named: "k25"),UIImage(named: "k26"),UIImage(named: "k27"),UIImage(named: "k35"),UIImage(named: "k99"),UIImage(named: "k30")]
     
-    //with 3rdr row
-    // var fakeUserImageArray = [UIImage(named: "kayser1"),UIImage(named: "kayser2"),UIImage(named: "kayser3"),UIImage(named: "k34"),UIImage(named: "kayser5"),UIImage(named: "kayser6"),UIImage(named: "kayser7"),UIImage(named: "kayser8"),UIImage(named: "teamimpact"),UIImage(named: "k32"),UIImage(named: "bchigh"),UIImage(named: "k11"),UIImage(named: "k50"),UIImage(named: "k13"),UIImage(named: "childrens"),UIImage(named: "k15"),UIImage(named: "k16"),UIImage(named: "k36"),UIImage(named: "shockey"),UIImage(named: "k19"),UIImage(named: "stjude"),UIImage(named: "k21"),UIImage(named: "k22"),UIImage(named: "k23"),UIImage(named: "k24"),UIImage(named: "k25"),UIImage(named: "k26"),UIImage(named: "k27"),UIImage(named: "k35"),UIImage(named: "k99"),UIImage(named: "k30"), UIImage(named: "kayser8"),UIImage(named: "teamimpact"),UIImage(named: "k32"),UIImage(named: "bchigh"),UIImage(named: "k11"),UIImage(named: "k50"),UIImage(named: "k13"),UIImage(named: "childrens"),UIImage(named: "k15"),UIImage(named: "k16"),UIImage(named: "k36"),UIImage(named: "shockey"),UIImage(named: "k19"),UIImage(named: "stjude"),UIImage(named: "k21"),UIImage(named: "k22"),UIImage(named: "k23"),UIImage(named: "k24"),UIImage(named: "k25"),UIImage(named: "k26"),UIImage(named: "k27"),UIImage(named: "k35"),UIImage(named: "k99"),UIImage(named: "k30")]
     
     
-    
-    var updatedUserImageArray: [UIImage] = []
-    
-    //    var reOrderedCoordinateArray: [[CGFloat]] = [[946.8266739736607, 902.5],[1081.7304845413264, 902.5], [1014.2785792574934, 1020.0],   [879.3747686898278,1020.0], [811.9228634059948,902.5], [879.3747686898278,785.0],[1014.2785792574934,785.0],[946.8266739736607, 667.5],[1081.7304845413264, 667.5], [1149.1823898251594, 785.0],  [1216.6342951089923, 902.5],[1149.1823898251594, 1020.0],   [1081.7304845413264, 1137.5], [1081.7304845413264, 1137.5],[946.8266739736607, 1137.5],[811.9228634059948, 1137.5],[744.4709581221618, 1020.0],[677.0190528383291, 902.5],[744.4709581221618, 785.0],  [811.9228634059948, 667.5],[879.3747686898278, 550.0],[1014.2785792574934, 550.0],[1149.1823898251594, 550.0],[1216.6342951089923, 667.5],[1284.0862003928253, 785.0],[1351.5381056766582, 902.5], [1284.0862003928253, 1020.0], [1216.6342951089923, 1137.5],[1149.1823898251594, 1255.0], [1014.2785792574934, 1255.0],[879.3747686898278, 1255.0],  [744.4709581221618, 1255.0],[677.0190528383291, 1137.5],[609.5671475544962, 1020.0],[542.1152422706632, 902.5],[609.5671475544962, 785.0],[677.0190528383291, 667.5],[744.4709581221618, 550.0]]
-    
-    //       var reOrderedCoordinateArray: [[CGFloat]] = [[946.8266739736607, 902.5],[1081.7304845413264, 902.5], [1014.2785792574934, 1020.0],   [879.3747686898278,1020.0], [811.9228634059948,902.5], [879.3747686898278,785.0],[1014.2785792574934,785.0],[946.8266739736607, 667.5],[1081.7304845413264, 667.5], [1149.1823898251594, 785.0],  [1216.6342951089923, 902.5],[1149.1823898251594, 1020.0],   [1081.7304845413264, 1137.5], [1081.7304845413264, 1137.5],[946.8266739736607, 1137.5],[811.9228634059948, 1137.5],[744.4709581221618, 1020.0],[677.0190528383291, 902.5],[744.4709581221618, 785.0],  [811.9228634059948, 667.5],[879.3747686898278, 550.0],[1014.2785792574934, 550.0],[1149.1823898251594, 550.0],[1216.6342951089923, 667.5],[1284.0862003928253, 785.0],[1351.5381056766582, 902.5], [1284.0862003928253, 1020.0], [1216.6342951089923, 1137.5],[1149.1823898251594, 1255.0], [1014.2785792574934, 1255.0],[879.3747686898278, 1255.0],  [744.4709581221618, 1255.0],[677.0190528383291, 1137.5],[609.5671475544962, 1020.0],[542.1152422706632, 902.5],[609.5671475544962, 785.0],[677.0190528383291, 667.5],[744.4709581221618, 550.0], [811.9228634059948, 432.5], [946.8266739736607, 432.5], [1081.7304845413264, 432.5], [1216.6342951089923, 432.5],[1284.0862003928253, 550.0],[1351.5381056766582, 667.5], [1418.990010960491, 785.0],  [1486.441916244324, 902.5], [1418.990010960491, 1020.0],[1351.5381056766582, 1137.5],   [1284.0862003928253, 1255.0],[1216.6342951089923, 1372.5],   [1081.7304845413264, 1372.5],[946.8266739736607, 1372.5],[811.9228634059948, 1372.5],[677.0190528383291, 1372.5], [609.5671475544962, 1255.0],[542.1152422706632, 1137.5],[474.6633369868303, 1020.0],[407.2114317029974, 902.5],[474.6633369868303, 785.0],[542.1152422706632, 667.5],[609.5671475544962, 550.0],[677.0190528383291, 432.5]]
+
     
     var reOrderedCoordinateArray: [[CGFloat]] = [[946.8266739736607, 902.5],[1081.7304845413264, 902.5], [1014.2785792574934, 1020.0],   [879.3747686898278,1020.0], [811.9228634059948,902.5], [879.3747686898278,785.0],[1014.2785792574934,785.0],[946.8266739736607, 667.5],[1081.7304845413264, 667.5], [1149.1823898251594, 785.0],  [1216.6342951089923, 902.5],[1149.1823898251594, 1020.0],   [1081.7304845413264, 1137.5], [1081.7304845413264, 1137.5],[946.8266739736607, 1137.5],[811.9228634059948, 1137.5],[744.4709581221618, 1020.0],[677.0190528383291, 902.5],[744.4709581221618, 785.0],  [811.9228634059948, 667.5],[879.3747686898278, 550.0],[1014.2785792574934, 550.0],[1149.1823898251594, 550.0],[1216.6342951089923, 667.5],[1284.0862003928253, 785.0],[1351.5381056766582, 902.5], [1284.0862003928253, 1020.0], [1216.6342951089923, 1137.5],[1149.1823898251594, 1255.0], [1014.2785792574934, 1255.0],[879.3747686898278, 1255.0],  [744.4709581221618, 1255.0],[677.0190528383291, 1137.5],[609.5671475544962, 1020.0],[542.1152422706632, 902.5],[609.5671475544962, 785.0],[677.0190528383291, 667.5],[744.4709581221618, 550.0]] // , /[811.9228634059948, 432.5], [946.8266739736607, 432.5], [1081.7304845413264, 432.5], [1216.6342951089923, 432.5],[1284.0862003928253, 550.0],[1351.5381056766582, 667.5], [1418.990010960491, 785.0],  [1486.441916244324, 902.5], [1418.990010960491, 1020.0],[1351.5381056766582, 1137.5],   [1284.0862003928253, 1255.0],[1216.6342951089923, 1372.5],   [1081.7304845413264, 1372.5],[946.8266739736607, 1372.5],[811.9228634059948, 1372.5],[677.0190528383291, 1372.5], [609.5671475544962, 1255.0],[542.1152422706632, 1137.5],[474.6633369868303, 1020.0],[407.2114317029974, 902.5],[474.6633369868303, 785.0],[542.1152422706632, 667.5],[609.5671475544962, 550.0],[677.0190528383291, 432.5]]
     
@@ -116,19 +91,36 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     var fakeUserTotalProfileArray: [UIImage] = []
     
     override func viewDidLoad() {
-        
-        //print("This is current user email: \(user?.email)")
-        //user = Auth.auth().currentUser
-        // print(fakeUserImageArray.count)
         super.viewDidLoad()
         
-        //tabController = tabBarController! as! NavigationMenuBaseController
-        self.view.addSubview(scrollView)
-        self.scrollView.addSubview(zoomView)
-        scrollView.bringSubviewToFront(zoomView)
-        zoomView.backgroundColor = .green
-        zoomView.isHidden = false
-        zoomView.frame = CGRect(x: 0,y: 0,width: scrollView.contentSize.x, height: scrollView.contentSize.y)
+        setUpScrollView()
+        
+        
+        addMenuButtons()
+        
+        for point in reOrderedCoordinateArrayPoints {
+            var newPointX = point.x - 604 //680
+            var newPointY = point.y - 493 //570
+            var newPoint = CGPoint(x: newPointX, y: newPointY)
+            reOrderedCoordinateArrayPointsCentered.append(newPoint)
+            
+        }
+        let contentTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleContentViewerTap))
+        contentViewer.addGestureRecognizer(contentTapGesture)
+        
+        
+        
+        
+        play(url: "https://p.scdn.co/mp3-preview/18d3b87b0765cd6d8c0a418d6142b3b441c0f8b2?cid=476c620368f349cc8be5b2a29b596eaf")
+        
+        
+        setZoomScale()
+        
+        print("viewdidLoad")
+        
+    }
+    
+    func addMenuButtons() {
         self.view.addSubview(addPostButton)
         
         self.view.addSubview(newPostButton)
@@ -142,12 +134,6 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         self.view.addSubview(homeProfileButton)
         self.view.addSubview(trashButton)
          self.view.addSubview(toSearchButton)
-        
-        // self.view.addSubview(curvedLayer)
-        
-        //  addPostButton.startShimmering()
-        
-        //   downloadFileFromURL(url: URL(string: "https://p.scdn.co/mp3-preview/18d3b87b0765cd6d8c0a418d6142b3b441c0f8b2?cid=476c620368f349cc8be5b2a29b596eaf")!)
         
         
         addPostButton.frame = CGRect(x: self.view.frame.width/2-40, y: self.view.frame.height - 83, width: 80, height: 80)
@@ -206,15 +192,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         // round ava
         homeProfileButton.layer.cornerRadius = homeProfileButton.frame.size.width / 2
         homeProfileButton.clipsToBounds = true
-        //        let curvedHeight = friendsButton.frame.minY - 10
-        //        curvedRect = CGRect(x: 0.0, y: curvedHeight, width: self.view.frame.width, height: self.view.frame.height )
-        //        var curvedRect = CGRect(x: 0.0, y: curvedHeight, width: scrollView.frame.width, height: scrollView.frame.height)
-        //        curvedLayer = UIImageView(frame: curvedRect)
-        //        curvedLayer.backgroundColor = gold
-        //
-        //        //round layer
-        //        curvedLayer.layer.cornerRadius = curvedLayer.frame.size.width / 2
-        //        curvedLayer.clipsToBounds = true
+
         
         let menuTapped = UITapGestureRecognizer(target: self, action: #selector(tappedMenuButton))
         let menuDragged = UIPanGestureRecognizer(target: self, action: #selector(draggedMenuButton))
@@ -222,45 +200,6 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         addPostButton.addGestureRecognizer(menuTapped)
         addPostButton.addGestureRecognizer(menuDragged)
         addPostButton.addGestureRecognizer(menuLongPressed)
-        
-        
-        
-        
-        
-        for point in reOrderedCoordinateArrayPoints {
-            var newPointX = point.x - 604 //680
-            var newPointY = point.y - 493 //570
-            var newPoint = CGPoint(x: newPointX, y: newPointY)
-            reOrderedCoordinateArrayPointsCentered.append(newPoint)
-            
-        }
-        let contentTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleContentViewerTap))
-        contentViewer.addGestureRecognizer(contentTapGesture)
-        
-        
-        
-        
-        play(url: "https://p.scdn.co/mp3-preview/18d3b87b0765cd6d8c0a418d6142b3b441c0f8b2?cid=476c620368f349cc8be5b2a29b596eaf")
-        
-        
-        // zoom stuff
-        //  let delegate = scrollView.delegate
-        // let scrollViewFrame = scrollV
-        //viewForZooming(in: scrollView)
-        
-        
-        
-                // background
-                let bg = UIImageView(frame: CGRect(x: -400, y: -400, width: 3000, height: 3000))
-            //    bg.image = UIImage(named: "outerspace1")
-        bg.backgroundColor = .black
-                bg.layer.zPosition = -1
-                scrollView.addSubview(bg)
-        
-        
-        
-        
-        
         
         //hide buttons
         trashButton.isHidden = true
@@ -270,47 +209,51 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         dmButton.isHidden = true
         homeProfileButton.isHidden = true
         toSearchButton.isHidden = false
-        //  curvedLayer.isHidden = true
-        
         
         // show add Post button
         addPostButton.isHidden = false
         addPostButton.imageView?.image = UIImage(named: "k23")
-        //        print("below is addPOstButtonFrame")
-        //        print(addPostButton.frame)
-        //        print("add post button image")
-        //        print(addPostButton.imageView?.image)
-        //        print("add post button layer")
         addPostButton.layer.zPosition = 2
-        //        print(addPostButton.layer.zPosition)
+    }
+    
+    func setUpScrollView() {
+        // Do any additional setup after loading the view.
+        let hexaDiameter : CGFloat = 150
+        let hexaWidth = hexaDiameter * sqrt(3) * 0.5
+        let hexaWidthDelta = (hexaDiameter - hexaWidth) * 0.5
+        let hexaHeightDelta = hexaDiameter * 0.25
+        let spacing : CGFloat = 5
+        
+        let rows = 15
+        let firstRowColumns = 15
+        //scroll view stuff 2
+        print("Bounds of zoomview: \(zoomView.bounds.size)")
+        self.scrollView.contentSize = CGSize(width: spacing + CGFloat(firstRowColumns) * (hexaWidth + spacing), height: spacing + CGFloat(rows) * (hexaDiameter - hexaHeightDelta + spacing) + hexaHeightDelta)
+        print("scrollview content size \(scrollView.contentSize)")
         
         
-        //        if (userData != nil) {
-        //            createImageViews()
-        //        }
-        //        else {
+        //scrollViewStuff1
+        scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
+        let location = CGPoint(x: reOrderedCoordinateArrayPoints[0].x - self.view.frame.width*2.125, y: reOrderedCoordinateArrayPoints[0].y - self.view.frame.height*1.2)
+        self.scrollView.contentOffset = location
+        
+//        let bg = UIImageView(frame: CGRect(x: -400, y: -400, width: 3000, height: 3000))
+//        bg.backgroundColor = .black
+//        bg.layer.zPosition = -1
+        scrollView.backgroundColor = .black
         
         
-        //}
+        zoomView.backgroundColor = .black
+        zoomView.isHidden = false
+        //zoomView.frame = CGRect(x: 0,y: 0,width: scrollView.frame.size.width, height: scrollView.frame.size.height)
+        scrollView.addSubview(zoomView)
+        zoomView.frame = CGRect(x: 0, y: 0, width: scrollView.contentSize.width, height: scrollView.contentSize.height)
+        scrollView.bringSubviewToFront(zoomView)
         
-        
-        //print(imageViewArray)
-        
-        // populateSocialMedia()
-        // populateFakeUserPhotos()
-        //populateHexagonGrid()
-        
-        
+        view.addSubview(scrollView)
         scrollView.delegate = self
-        setZoomScale()
-//        scrollView.minimumZoomScale = 0.1
-//        scrollView.maximumZoomScale = 4.0
-//        scrollView.zoomScale = 1.0
         
-        
-        
-        
-        print("viewdidLoad")
         
     }
     
@@ -320,9 +263,12 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         let widthScale = scrollViewSize.width / imageViewSize.width
         let heightScale = scrollViewSize.height / imageViewSize.height
         
-        scrollView.minimumZoomScale = min(widthScale, heightScale)
-        scrollView.zoomScale = 1.0
-        
+        print("width scale: \(widthScale)")
+        print("height scale: \(heightScale)")
+       // scrollView.minimumZoomScale = min(widthScale, heightScale)
+        //scrollView.zoomScale = scrollView.minimumZoomScale
+        scrollView.maximumZoomScale = 60
+        scrollView.minimumZoomScale = 0.5
     }
     
     override func viewWillLayoutSubviews() {
@@ -340,17 +286,10 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         
     }
     
-    
-    
-    
-    
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return zoomView
     }
-    
-    
-    
-    
+
     func refresh() {
         //loadView()
 
@@ -365,6 +304,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                     if (self.userData == nil || !NSDictionary(dictionary: newData.dictionary).isEqual(to: self.userData!.dictionary)) {
                         self.userData = newData
                         self.createImageViews()
+                        print("created image views")
                     }
                     else {
                         print("nothing changed")
@@ -384,16 +324,13 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     @IBAction func toSearchButtonClicked(_ sender: UIButton) {
         let userTableVC = storyboard?.instantiateViewController(identifier: "userTableVC")
         present(userTableVC!, animated: false)
+        print("frame after pressed \(toSearchButton.frame)")
         
     }
     
     
     @IBAction func friendsButtonClicked(_ sender: UIButton) {
-        //      let profileHexGrid =   storyboard?.instantiateViewController(identifier: "ProfileHexGrid") as! BioProfileHexagonGrid2
-        //        profileHexGrid.userData = userData
-        //        self.dismiss(animated: false, completion: nil)
-        //        present(profileHexGrid, animated: false)
-        //self.dismiss(animated: false, completion: nil)
+
         let viewControllers = tabBarController!.customizableViewControllers!
         let profileGrid = (viewControllers[3] as! BioProfileHexagonGrid2)
         let tabController = tabBarController! as! NavigationMenuBaseController
@@ -404,11 +341,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     }
     
     @IBAction func newPostButtonClicked(_ sender: UIButton) {
-        //        let newPostVC =   storyboard?.instantiateViewController(identifier: "newPostVC") as! NewPostOptionsVC
-        //        newPostVC.userData = userData
-        //        self.dismiss(animated: false, completion: nil)
-        //        present(newPostVC, animated: false)
-        //        //self.dismiss(animated: false, completion: nil)
+
         let viewControllers = tabBarController!.customizableViewControllers!
         let newPostVC = (viewControllers[4] as! NewPostOptionsVC)
         newPostVC.userData = userData
@@ -544,8 +477,11 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
 //        bg.layer.zPosition = -1
 //        scrollView.addSubview(bg)
         
-        //       print("This is scroll view frame")
+        print("This is scroll view frame")
         print(self.scrollView.frame)
+        print(self.zoomView.frame)
+//        zoomView.frame = scrollView.bounds
+//        print(self.zoomView.frame)
         let hexaDiameter : CGFloat = 150
         
         let numPosts = self.userData?.numPosts ?? 0
@@ -597,6 +533,10 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             for image in imageViewArray {
                 print("added Image")
                 self.zoomView.addSubview(image)
+                    print("imageFrame: \(image.frame)")
+                print("image frame in scrollview\(scrollView.convert(image.frame, from: zoomView))")
+                print("zoom view frame in scrollView \(scrollView.convert(zoomView.frame, from: zoomView))")
+                
                 //self.view.addSubview(image)
                 zoomView.bringSubviewToFront(image)
                 image.isHidden = false
@@ -622,35 +562,13 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     override func viewWillAppear(_ animated: Bool) {
         //loadView()
         super.viewWillAppear(true) // No need for semicolon
+        print("search button \(toSearchButton.frame)")
         
         
-        // Do any additional setup after loading the view.
-        let hexaDiameter : CGFloat = 150
-        let hexaWidth = hexaDiameter * sqrt(3) * 0.5
-        let hexaWidthDelta = (hexaDiameter - hexaWidth) * 0.5
-        let hexaHeightDelta = hexaDiameter * 0.25
-        let spacing : CGFloat = 5
-        
-        //        let rows = 10
-        //        let firstRowColumns = 6
-        
-        let rows = 15
-        let firstRowColumns = 15
-        
-        //scroll view stuff 2
-        self.scrollView.contentSize = CGSize(width: spacing + CGFloat(firstRowColumns) * (hexaWidth + spacing), height: spacing + CGFloat(rows) * (hexaDiameter - hexaHeightDelta + spacing) + hexaHeightDelta)
-        
-        
-        //scrollViewStuff1
-        //self.scrollView.backgroundColor = UIColor.black
-        // scrollView.contentSize = imageView.bounds.size
-        self.scrollView.autoresizingMask = UIView.AutoresizingMask.flexibleWidth
-        self.scrollView.autoresizingMask = UIView.AutoresizingMask.flexibleHeight
-        let location = CGPoint(x: reOrderedCoordinateArrayPoints[0].x - self.view.frame.width*2.125, y: reOrderedCoordinateArrayPoints[0].y - self.view.frame.height*1.2)
-        self.scrollView.contentOffset = location
         
         //createImageViews()
         refresh()
+        
     }
     
     
@@ -913,7 +831,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                 //    var gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
                 image.setupHexagonMask(lineWidth: 10.0, color: .darkGray, cornerRadius: 10.0)
 
-                //self.scrollView.addSubview(image)
+                self.zoomView.addSubview(image)
                 imageViewArray.append(image)
                 imageViewArray.last!.tag = imageViewArray.count - 1
                 difference -= 1
@@ -1109,10 +1027,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                 let tempImageView = imageViewArray[newIndex + 1]
                 imageViewArray[newIndex + 1] = imageViewArray[currentIndex + 1]
                 imageViewArray[currentIndex + 1] = tempImageView
-//                imageViewArray[currentDraggedHexagonTag].image = tempImage2
-//                imageViewArray[newIndex].image = tempImage1
-//                self.imageViewArray[currentDraggedHexagonTag].setupHexagonMask(lineWidth: 10.0, color: gold, cornerRadius: 10.0)
-//                self.imageViewArray[newIndex].setupHexagonMask(lineWidth: 10.0, color: gold, cornerRadius: 10.0)
+
                 
             }
         }
@@ -1129,8 +1044,6 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             else if (sender.state == .changed) {
                 var scrollOffset = ogPosition
                 let translation = sender.translation(in: scrollView.superview)
-                //print("translation.x \(translation.x)")
-                //print ("translation.y \(translation.y)")
                 scrollOffset.x = ogPosition.x - translation.x
                 scrollOffset.y = ogPosition.y - translation.y
                 let rect = CGRect(x: scrollOffset.x, y: scrollOffset.y, width: scrollView.bounds.size.width, height: scrollView.bounds.size.height)

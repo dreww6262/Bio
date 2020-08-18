@@ -188,15 +188,7 @@ class BioProfileHexagonGrid2: UIViewController, UISearchBarDelegate {
         // round ava
         homeProfileButton.layer.cornerRadius = homeProfileButton.frame.size.width / 2
         homeProfileButton.clipsToBounds = true
-        //        let curvedHeight = friendsButton.frame.minY - 10
-        //        curvedRect = CGRect(x: 0.0, y: curvedHeight, width: self.view.frame.width, height: self.view.frame.height )
-        //        var curvedRect = CGRect(x: 0.0, y: curvedHeight, width: scrollView.frame.width, height: scrollView.frame.height)
-        //        curvedLayer = UIImageView(frame: curvedRect)
-        //        curvedLayer.backgroundColor = gold
-        //
-        //        //round layer
-        //        curvedLayer.layer.cornerRadius = curvedLayer.frame.size.width / 2
-        //        curvedLayer.clipsToBounds = true
+
         
         let menuTapped = UITapGestureRecognizer(target: self, action: #selector(tappedMenuButton))
         let menuDragged = UIPanGestureRecognizer(target: self, action: #selector(draggedMenuButton))
@@ -216,28 +208,10 @@ class BioProfileHexagonGrid2: UIViewController, UISearchBarDelegate {
         // show add Post button
         addPostButton.isHidden = false
         addPostButton.imageView?.image = UIImage(named: "k23")
-        //        print("below is addPOstButtonFrame")
-        //        print(addPostButton.frame)
-        //        print("add post button image")
-        //        print(addPostButton.imageView?.image)
-        //        print("add post button layer")
+
         addPostButton.layer.zPosition = 2
         
-//        if (userData == nil) {
-//            db.collection("UserData").document(user!.uid).getDocument(completion: {obj,error in
-//                if (error == nil) {
-//                    self.userData = UserData(dictionary: obj!.data()!)
-//                    self.loadFollowings()
-//                }
-//                else {
-//                    print("could not load userdata from \(self.user?.email)")
-//                    print(error?.localizedDescription)
-//                }
-//            })
-//        }
-//        else {
-//            loadFollowings()
-//        }
+
         print("hexagon data array viewdidload 🤽‍♂️🤽‍♂️🤽‍♂️")
     }
     

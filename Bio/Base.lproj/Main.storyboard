@@ -3537,34 +3537,30 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="settingsGear"/>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zt4-aN-hYV">
+                                <rect key="frame" x="182" y="423" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button" image="trashCircle"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z1n-Q0-Osp">
+                                <rect key="frame" x="182" y="423" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="redmagnifyingglass"/>
+                                <connections>
+                                    <action selector="toSearchButtonClicked:" destination="nNT-PQ-yLu" eventType="touchUpInside" id="3T6-wj-SQu"/>
+                                </connections>
+                            </button>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" id="SUT-vw-xXn">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iy2-li-0lk">
+                                    <view clipsSubviews="YES" contentMode="scaleAspectFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iy2-li-0lk">
                                         <rect key="frame" x="0.0" y="44" width="414" height="852"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                    </view>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zt4-aN-hYV">
-                                        <rect key="frame" x="50" y="50" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Button" image="trashCircle"/>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z1n-Q0-Osp">
-                                        <rect key="frame" x="208" y="71" width="50" height="50"/>
-                                        <state key="normal" title="Button" image="redmagnifyingglass"/>
-                                        <connections>
-                                            <action selector="toSearchButtonClicked:" destination="nNT-PQ-yLu" eventType="touchUpInside" id="3T6-wj-SQu"/>
-                                        </connections>
-                                    </button>
+                                        <color key="backgroundColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstItem="pHy-v9-68o" firstAttribute="trailing" secondItem="iy2-li-0lk" secondAttribute="trailing" id="Jde-eP-Yx2"/>
-                                    <constraint firstItem="iy2-li-0lk" firstAttribute="top" secondItem="z1n-Q0-Osp" secondAttribute="bottom" id="M7C-Ku-hEu"/>
-                                    <constraint firstItem="iy2-li-0lk" firstAttribute="leading" secondItem="pHy-v9-68o" secondAttribute="leading" id="fyQ-YP-MwX"/>
-                                    <constraint firstItem="pHy-v9-68o" firstAttribute="bottom" secondItem="iy2-li-0lk" secondAttribute="bottom" id="hUh-SW-l3X"/>
-                                </constraints>
                                 <viewLayoutGuide key="safeArea" id="pHy-v9-68o"/>
                                 <viewLayoutGuide key="contentLayoutGuide" id="zDf-wy-rWg"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="D0P-Mr-NwL"/>

@@ -16,4 +16,5 @@ pod 'Firebase/Storage'
 pod 'Firebase'
 pod 'FirebaseUI/Storage'
 pod 'FMPhotoPicker', '~> 1.1.0'
+pod 'Gallery'
 end
