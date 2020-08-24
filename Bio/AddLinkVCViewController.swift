@@ -41,6 +41,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     let db = Firestore.firestore()
     let storageRef = Storage.storage().reference()
     
+    @IBOutlet weak var changeCoverLabel: UILabel!
     
     // reset default size
     var scrollViewHeight : CGFloat = 0
@@ -119,20 +120,23 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         
         //cancelBtn.frame = CGRect(x: 5, y: 15, width: 24, height: 24)
         cancelBtn.layer.cornerRadius = cancelBtn.frame.size.width / 20
-        titleText.frame = CGRect(x: 0,y:60, width: self.view.frame.size.width, height: 30)
+        titleText.frame = CGRect(x: 0,y:10, width: self.view.frame.size.width, height: 30)
         subtitleText.frame = CGRect(x:0, y: titleText.frame.origin.y + 30, width: self.view.frame.size.width, height: 30)
         
-        linkTextField.frame = CGRect(x: 10, y: subtitleText.frame.origin.y + 50, width: self.view.frame.size.width - 20, height: 30)
-        linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: subtitleText.frame.origin.y + 50, width: 30, height: 30)
+        changeCoverLabel.frame = CGRect(x: 10, y: subtitleText.frame.maxY + 20, width: self.view.frame.size.width - 20, height: 30)
+        
         
         //         linkHexagonImage.frame = CGRect(x: 10, y: linkTextField.frame.origin.y + 30, width: self.view.frame.size.width - 20, height: 30)
-        linkHexagonImage.frame = CGRect(x:0.0, y: linkTextField.frame.maxY + 10, width: scrollView.frame.width, height: scrollView.frame.width)
+        linkHexagonImage.frame = CGRect(x:0.0, y: changeCoverLabel.frame.maxY + 10, width: scrollView.frame.width, height: scrollView.frame.width)
         
-        continueBtn.frame =  CGRect(x: 10.0, y: linkHexagonImage.frame.maxY + 20, width: linkHexagonImage.frame.width, height: 24)
+        linkTextField.frame = CGRect(x: 10, y: linkHexagonImage.frame.maxY + 20, width: self.view.frame.size.width - 20, height: 30)
+        linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: linkTextField.frame.minY, width: 30, height: 30)
+        
+        continueBtn.frame =  CGRect(x: 10.0, y: linkTextField.frame.maxY + 20, width: self.view.frame.width - 20, height: 24)
         continueBtn.layer.cornerRadius = continueBtn.frame.size.width / 20
         cancelBtn.frame =  CGRect(x: 10.0, y: continueBtn.frame.maxY + 10, width: continueBtn.frame.width, height: 24)
         cancelBtn.layer.cornerRadius = cancelBtn.frame.size.width / 20
-        linkHexagonImage.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
+        linkHexagonImage.setupHexagonMask(lineWidth: 15.0, color: gold, cornerRadius: 10.0)
         // background
         let bg = UIImageView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height))
         bg.image = UIImage(named: "manaloghourglass")

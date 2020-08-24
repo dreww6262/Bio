@@ -48,21 +48,15 @@ class NewPostOptionsVC: UIViewController, FMPhotoPickerViewControllerDelegate {
     @IBOutlet weak var pic1: UIButton!
     
     @IBOutlet weak var pic2: UIButton!
+    @IBOutlet weak var pic4: UIButton!
     
     @IBOutlet weak var pic3: UIButton!
     
-    @IBOutlet weak var pic4: UIButton!
-    
-    @IBOutlet weak var pic5: UIButton!
-    
-    @IBOutlet weak var pic6: UIButton!
     
     @IBOutlet weak var l1: UILabel!
     @IBOutlet weak var l2: UILabel!
     @IBOutlet weak var l3: UILabel!
     @IBOutlet weak var l4: UILabel!
-    @IBOutlet weak var l5: UILabel!
-    @IBOutlet weak var l6: UILabel!
     
     var customTabBar: TabNavigationMenu!
     
@@ -142,6 +136,25 @@ class NewPostOptionsVC: UIViewController, FMPhotoPickerViewControllerDelegate {
                // round ava
                homeProfileButton.layer.cornerRadius = homeProfileButton.frame.size.width / 2
                homeProfileButton.clipsToBounds = true
+        
+        
+        
+        pic1.layer.cornerRadius = pic1.frame.size.width / 2
+            pic1.clipsToBounds = true
+        
+        pic2.layer.cornerRadius = pic2.frame.size.width / 2
+                  pic2.clipsToBounds = true
+        
+        pic3.layer.cornerRadius = pic3.frame.size.width / 2
+                  pic3.clipsToBounds = true
+        
+        pic4.layer.cornerRadius = pic4.frame.size.width / 2
+                  pic4.clipsToBounds = true
+        
+        
+        
+        
+        
                //        let curvedHeight = friendsButton.frame.minY - 10
                //        curvedRect = CGRect(x: 0.0, y: curvedHeight, width: self.view.frame.width, height: self.view.frame.height )
                //        var curvedRect = CGRect(x: 0.0, y: curvedHeight, width: scrollView.frame.width, height: scrollView.frame.height)
@@ -348,28 +361,23 @@ class NewPostOptionsVC: UIViewController, FMPhotoPickerViewControllerDelegate {
     
     
     func formatPicturesAndLabels(){
-        titleLabel.frame = CGRect(x: 10.0, y: 10.0, width: self.view.frame.width, height: 66.0)
-        pic1.frame = CGRect(x: 10.0, y: titleLabel.frame.maxY + 20.0, width: self.view.frame.width/3, height: self.view.frame.width/6)
-        l1.frame = CGRect(x: 10.0, y: pic1.frame.maxY + 20.0, width: self.view.frame.width/3, height: 33.0)
-        l1.text = "Add Photo/Video"
-         l2.text = "Add Song/Playlist"
-         l3.text = "Write A Blog"
+        titleLabel.frame = CGRect(x: 0, y: 10.0, width: self.view.frame.width, height: 66.0)
+        pic1.frame = CGRect(x: (self.view.frame.width/12), y: (self.view.frame.height/3) - (self.view.frame.width/6) - 20 , width: self.view.frame.width/3, height: self.view.frame.width/3)
+        l1.frame = CGRect(x: self.view.frame.width/12, y: pic1.frame.maxY + 30.0, width: self.view.frame.width/3, height: 33.0)
+        l1.text = "Add Photo"
+         l2.text = "Add Video"
+         l3.text = "Add Link"
          l4.text = "Add Social Media"
-         l5.text = "Add Link"
-         l6.text = "Add Badge"
         
-        pic2.frame = CGRect(x: ((self.view.frame.width*2/3)-30.0), y: titleLabel.frame.maxY + 20.0, width: self.view.frame.width/3, height: self.view.frame.width/6)
-        l2.frame = CGRect(x: ((self.view.frame.width*2/3)-30.0), y: pic1.frame.maxY + 20.0, width: self.view.frame.width/3, height: 33.0)
+        pic2.frame = CGRect(x: (self.view.frame.width*7/12), y: (self.view.frame.height/3) - (self.view.frame.width/6)-20, width: self.view.frame.width/3, height: self.view.frame.width/3)
+        l2.frame = CGRect(x: (self.view.frame.width*7/12), y: pic1.frame.maxY + 30.0, width: self.view.frame.width/3, height: 33.0)
         
-        pic3.frame = CGRect(x: 10.0, y: pic1.frame.maxY + 100.0, width: self.view.frame.width/3, height: self.view.frame.width/6)
-          l3.frame = CGRect(x: 10.0, y: pic3.frame.maxY + 20.0, width: self.view.frame.width/3, height: 33.0)
-          pic4.frame = CGRect(x: ((self.view.frame.width*2/3)-30.0), y: pic2.frame.maxY + 100.0, width: self.view.frame.width/3, height: self.view.frame.width/6)
-          l4.frame = CGRect(x: ((self.view.frame.width*2/3)-30.0), y: pic4.frame.maxY + 20.0, width: self.view.frame.width/3, height: 33.0)
+            pic3.frame = CGRect(x: self.view.frame.width/12, y: (self.view.frame.height*2/3) - (self.view.frame.width/6) - 20, width: self.view.frame.width/3, height: self.view.frame.width/3)
+          pic4.frame = CGRect(x: (self.view.frame.width*7/12), y: (self.view.frame.height*2/3) - (self.view.frame.width/6) - 20, width: self.view.frame.width/3, height: self.view.frame.width/3)
+       
+            l3.frame = CGRect(x: self.view.frame.width/12, y: pic3.frame.maxY + 30.0, width: self.view.frame.width/3, height: 33.0)
         
-        pic5.frame = CGRect(x: 10.0, y: pic3.frame.maxY + 100.0, width: self.view.frame.width/3, height: self.view.frame.width/6)
-               l5.frame = CGRect(x: 10.0, y: pic5.frame.maxY + 20.0, width: self.view.frame.width/3, height: 33.0)
-               pic6.frame = CGRect(x: ((self.view.frame.width*2/3)-30.0), y: pic4.frame.maxY + 100.0, width: self.view.frame.width/3, height: self.view.frame.width/6)
-               l6.frame = CGRect(x: ((self.view.frame.width*2/3)-30.0), y: pic6.frame.maxY + 20.0, width: self.view.frame.width/3, height: 33.0)
+        l4.frame = CGRect(x: self.view.frame.width*7/12, y: pic4.frame.maxY + 30.0, width: self.view.frame.width/3, height: 33.0)
         
         
 //         pic1.setupHexagonMask(lineWidth: 10.0, color: gold, cornerRadius: 10.0)
