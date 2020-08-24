@@ -21,6 +21,7 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     // profile image
     @IBOutlet weak var avaImg: UIImageView!
     
+    @IBOutlet weak var gradientImage: UIImageView!
     @IBOutlet weak var displayNameTxt: UITextField!
     
     @IBOutlet weak var emailTxt: UITextField!

@@ -41,6 +41,8 @@
 		493E95B924E9E8BD002E9380 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493E95B824E9E8BD002E9380 /* UserCell.swift */; };
 		493E95BB24E9EA55002E9380 /* UserTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493E95BA24E9EA55002E9380 /* UserTableView.swift */; };
 		493E95BD24E9FAEC002E9380 /* UserListTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493E95BC24E9FAEC002E9380 /* UserListTableVC.swift */; };
+		493E95BF24EED5E3002E9380 /* SettingsVCGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493E95BE24EED5E3002E9380 /* SettingsVCGradient.swift */; };
+		493E95C124EED9ED002E9380 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493E95C024EED9ED002E9380 /* SettingsCell.swift */; };
 		4944D79424A9C8F000AD3955 /* RatingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4944D79324A9C8EF00AD3955 /* RatingViewController.xib */; };
 		4944D79624A9C90200AD3955 /* RatingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4944D79524A9C90200AD3955 /* RatingViewController.swift */; };
 		4944D79A24ABBEF900AD3955 /* GoodBioSignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4944D79924ABBEF900AD3955 /* GoodBioSignUpVC.swift */; };
@@ -176,6 +178,8 @@
 		493E95B824E9E8BD002E9380 /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		493E95BA24E9EA55002E9380 /* UserTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTableView.swift; sourceTree = "<group>"; };
 		493E95BC24E9FAEC002E9380 /* UserListTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListTableVC.swift; sourceTree = "<group>"; };
+		493E95BE24EED5E3002E9380 /* SettingsVCGradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVCGradient.swift; sourceTree = "<group>"; };
+		493E95C024EED9ED002E9380 /* SettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
 		4944D79324A9C8EF00AD3955 /* RatingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RatingViewController.xib; sourceTree = "<group>"; };
 		4944D79524A9C90200AD3955 /* RatingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingViewController.swift; sourceTree = "<group>"; };
 		4944D79924ABBEF900AD3955 /* GoodBioSignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodBioSignUpVC.swift; sourceTree = "<group>"; };
@@ -318,6 +322,7 @@
 				491ADBCF2497D69200B62C5A /* libz.tbd */,
 				49C205BA2497DDBC0022EE53 /* pictureCell.swift */,
 				494C404324DC5C2A00A47788 /* ImageHelper.swift */,
+				493E95C024EED9ED002E9380 /* SettingsCell.swift */,
 				494C403F24DC5A3E00A47788 /* FilterCell.swift */,
 				49C205DA2499AF730022EE53 /* MusicPlayerVC.swift */,
 				49C205A42497DCFA0022EE53 /* guestVC.swift */,
@@ -389,6 +394,7 @@
 				491ADBB0249723FC00B62C5A /* PublicityTableVC.swift */,
 				49C205CE249804790022EE53 /* PrivacyCell.swift */,
 				491ADB7B24971B2D00B62C5A /* Assets.xcassets */,
+				493E95BE24EED5E3002E9380 /* SettingsVCGradient.swift */,
 				49A3743B24A3CD38007A48E0 /* HexagonView.swift */,
 				491ADB7D24971B2D00B62C5A /* LaunchScreen.storyboard */,
 				491ADB8024971B2D00B62C5A /* Info.plist */,
@@ -666,6 +672,7 @@
 				49C205D524981AC80022EE53 /* segue1.swift in Sources */,
 				4907D154249FB00600B66093 /* DrawingBoard3.swift in Sources */,
 				491ADB7524971B2500B62C5A /* SceneDelegate.swift in Sources */,
+				493E95BF24EED5E3002E9380 /* SettingsVCGradient.swift in Sources */,
 				49755DC324BC1B0F000E75FC /* DraggableHexagonGrid.swift in Sources */,
 				497ACC4F24A90905002333A6 /* ProfileTypeHexagon.swift in Sources */,
 				492E245A24B65D4B005745D1 /* CalltoUserBackend.swift in Sources */,
@@ -673,6 +680,7 @@
 				497ACC5B24A935D3002333A6 /* SignUpPopUpView.swift in Sources */,
 				4979D67E24D89B68008A17A8 /* NewPostOptionsVC.swift in Sources */,
 				49C205A32497DCBC0022EE53 /* followersCell.swift in Sources */,
+				493E95C124EED9ED002E9380 /* SettingsCell.swift in Sources */,
 				4944D79C24ABD2E700AD3955 /* AddSocialMediaVC.swift in Sources */,
 				49A3743E24A3E4D4007A48E0 /* HexagonGrid2.swift in Sources */,
 				491ADBB5249729A400B62C5A /* DiscoverVC.swift in Sources */,

@@ -20,6 +20,7 @@ class PhoneSignInVC: UIViewController {
     @IBOutlet weak var mottoLabel: UILabel!
     @IBOutlet weak var signUpButton: UIButton!
     
+    @IBOutlet weak var gradientImage: UILabel!
     @IBOutlet weak var signIn: UIButton!
     
     @IBOutlet weak var popUpView: SignUpPopUpView!
@@ -57,6 +58,7 @@ class PhoneSignInVC: UIViewController {
         mottoLabel.frame = CGRect(x: (self.view.frame.width-224)/2, y: (0.5)*(label.frame.maxY + label.frame.minY) + 20, width: 224, height: 50)
         signUpButton.frame = CGRect(x: (self.view.frame.width-224)/2 , y: self.view.frame.height*3/4, width: 224, height: 44)
         signIn.frame = CGRect(x: (self.view.frame.size.width-224)/2, y: signUpButton.frame.maxY + 20, width: 224, height: 44)
+        
         //loginButton.frame = CGRect(x: (self.view.frame.size.width-224)/2, y: signInButton.frame.maxY + 20, width: 224, height: 44)
         
         

@@ -20,7 +20,7 @@ import FirebaseUI
 import SDWebImage
 
 import SwiftUI
-class GuestHexagonGridVC: UIViewController, UIGestureRecognizerDelegate  { //, //UIScrollViewDelegate {
+class GuestHexagonGridVC: UIViewController, UIGestureRecognizerDelegate, UIScrollViewDelegate  { //, //UIScrollViewDelegate {
     
     
     
@@ -78,6 +78,7 @@ class GuestHexagonGridVC: UIViewController, UIGestureRecognizerDelegate  { //, /
     
     var reOrderedCoordinateArrayPointsCentered: [CGPoint] = []
     
+    @IBOutlet weak var contentView: UIView!
     
     
     var fakeUserTotalProfileArray: [UIImage] = []
@@ -86,6 +87,9 @@ class GuestHexagonGridVC: UIViewController, UIGestureRecognizerDelegate  { //, /
         print("This is current user email: \(user?.email)")
         //print(fakeUserImageArray.count)
         super.viewDidLoad()
+        
+        setUpScrollView()
+        
         
 //        returnButton.frame = CGRect(x:5, y: 5, width: 50, height: 50)
 //        returnButton.imageView?.image = UIImage(systemName: "arrow.turn.up.left")
@@ -192,6 +196,79 @@ class GuestHexagonGridVC: UIViewController, UIGestureRecognizerDelegate  { //, /
         show(profileHexGrid, sender: nil)
     }
     
+    func setUpScrollView() {
+            // Do any additional setup after loading the view.
+            let hexaDiameter : CGFloat = 150
+            let hexaWidth = hexaDiameter * sqrt(3) * 0.5
+            let hexaWidthDelta = (hexaDiameter - hexaWidth) * 0.5
+            let hexaHeightDelta = hexaDiameter * 0.25
+            let spacing : CGFloat = 5
+            
+            let rows = 15
+            let firstRowColumns = 15
+            //scroll view stuff 2
+            print("Bounds of content view: \(contentView.bounds.size)")
+            self.scrollView.contentSize = CGSize(width: spacing + CGFloat(firstRowColumns) * (hexaWidth + spacing), height: spacing + CGFloat(rows) * (hexaDiameter - hexaHeightDelta + spacing) + hexaHeightDelta)
+            print("scrollview content size \(scrollView.contentSize)")
+            
+            
+            //scrollViewStuff1
+            scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
+            let location = CGPoint(x: reOrderedCoordinateArrayPoints[0].x - self.view.frame.width*2.125, y: reOrderedCoordinateArrayPoints[0].y - self.view.frame.height*1.2)
+            self.scrollView.contentOffset = location
+            
+    //        let bg = UIImageView(frame: CGRect(x: -400, y: -400, width: 3000, height: 3000))
+    //        bg.backgroundColor = .black
+    //        bg.layer.zPosition = -1
+            scrollView.backgroundColor = .black
+            
+            
+            contentView.backgroundColor = .black
+            contentView.isHidden = false
+
+            scrollView.addSubview(contentView)
+            contentView.frame = CGRect(x: 0, y: 0, width: scrollView.contentSize.width, height: scrollView.contentSize.height)
+            scrollView.bringSubviewToFront(contentView)
+            
+            view.addSubview(scrollView)
+            scrollView.delegate = self
+            
+            
+        }
+        
+        func setZoomScale() {
+            let imageViewSize = contentView.bounds.size
+            let scrollViewSize = scrollView.bounds.size
+            let widthScale = scrollViewSize.width / imageViewSize.width
+            let heightScale = scrollViewSize.height / imageViewSize.height
+            
+            print("width scale: \(widthScale)")
+            print("height scale: \(heightScale)")
+           // scrollView.minimumZoomScale = min(widthScale, heightScale)
+            //scrollView.zoomScale = scrollView.minimumZoomScale
+            scrollView.maximumZoomScale = 60
+            scrollView.minimumZoomScale = 0.5
+        }
+        
+        override func viewWillLayoutSubviews() {
+            setZoomScale()
+        }
+        
+        
+        func scrollViewDidZoom(_ scrollView: UIScrollView) {
+            let imageViewSize = contentView.frame.size
+            let scrollViewSize = scrollView.bounds.size
+            let verticalPadding = imageViewSize.height < scrollViewSize.height ? (scrollViewSize.height - imageViewSize.height)/2 : 0
+               let horizontalPadding = imageViewSize.width < scrollViewSize.width ? (scrollViewSize.width - imageViewSize.width)/2 : 0
+            
+            scrollView.contentInset = UIEdgeInsets(top: verticalPadding, left: horizontalPadding, bottom: verticalPadding, right: horizontalPadding)
+            
+        }
+        
+        func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+            return contentView
+        }
     
     
     
@@ -233,7 +310,7 @@ class GuestHexagonGridVC: UIViewController, UIGestureRecognizerDelegate  { //, /
             if i == 0 {
                 image.setupHexagonMask(lineWidth: 10.0, color: .white, cornerRadius: 10.0)
             }
-            self.scrollView.addSubview(image)
+            self.contentView.addSubview(image)
             self.imageViewArray.append(image)
             self.imageViewArray[i].tag = i
             i = i+1
@@ -254,31 +331,7 @@ class GuestHexagonGridVC: UIViewController, UIGestureRecognizerDelegate  { //, /
     override func viewWillAppear(_ animated: Bool) {
         
         super.viewWillAppear(true) // No need for semicolon
-        
-        // Do any additional setup after loading the view.
-        let hexaDiameter : CGFloat = 150
-        let hexaWidth = hexaDiameter * sqrt(3) * 0.5
-        let hexaWidthDelta = (hexaDiameter - hexaWidth) * 0.5
-        let hexaHeightDelta = hexaDiameter * 0.25
-        let spacing : CGFloat = 5
-        
-        //        let rows = 10
-        //        let firstRowColumns = 6
-        
-        let rows = 15
-        let firstRowColumns = 15
-        
-        //scroll view stuff 2
-        self.scrollView.contentSize = CGSize(width: spacing + CGFloat(firstRowColumns) * (hexaWidth + spacing), height: spacing + CGFloat(rows) * (hexaDiameter - hexaHeightDelta + spacing) + hexaHeightDelta)
-        
-        
-        //scrollViewStuff1
-        self.scrollView.backgroundColor = UIColor.black
-        // scrollView.contentSize = imageView.bounds.size
-        self.scrollView.autoresizingMask = UIView.AutoresizingMask.flexibleWidth
-        self.scrollView.autoresizingMask = UIView.AutoresizingMask.flexibleHeight
-        let location = CGPoint(x: reOrderedCoordinateArrayPoints[0].x - self.view.frame.width*2.125, y: reOrderedCoordinateArrayPoints[0].y - self.view.frame.height*1.2)
-        self.scrollView.contentOffset = location
+     
     }
     
     

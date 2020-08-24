@@ -246,7 +246,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         
         zoomView.backgroundColor = .black
         zoomView.isHidden = false
-        //zoomView.frame = CGRect(x: 0,y: 0,width: scrollView.frame.size.width, height: scrollView.frame.size.height)
+
         scrollView.addSubview(zoomView)
         zoomView.frame = CGRect(x: 0, y: 0, width: scrollView.contentSize.width, height: scrollView.contentSize.height)
         scrollView.bringSubviewToFront(zoomView)

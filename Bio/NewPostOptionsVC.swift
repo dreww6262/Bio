@@ -66,18 +66,18 @@ class NewPostOptionsVC: UIViewController, FMPhotoPickerViewControllerDelegate {
     
     var customTabBar: TabNavigationMenu!
     
-    let config = FMPhotoPickerConfig()
+   
     
     var userData: UserData?
     
+    @IBOutlet weak var gradientImage: UIImageView!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = true
-        
         self.view.addSubview(addPostButton)
-               
+        
                self.view.addSubview(newPostButton)
                
                self.view.addSubview(friendsButton)

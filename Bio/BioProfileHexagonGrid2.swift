@@ -19,7 +19,7 @@ import FirebaseStorage
 
 
 
-class BioProfileHexagonGrid2: UIViewController, UISearchBarDelegate {
+class BioProfileHexagonGrid2: UIViewController, UISearchBarDelegate, UIScrollViewDelegate {
  
     
     //var user = PFUser.current()!.username!
@@ -39,6 +39,7 @@ class BioProfileHexagonGrid2: UIViewController, UISearchBarDelegate {
     var tableView = UITableView()
     @IBOutlet weak var addPostButton: UIButton!
     
+    @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var newPostButton: UIButton!
     @IBOutlet weak var friendsButton: UIButton!
     
@@ -94,6 +95,8 @@ class BioProfileHexagonGrid2: UIViewController, UISearchBarDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setUpScrollView()
         
         view.addSubview(searchBar)
             searchBar.delegate = self
@@ -214,6 +217,86 @@ class BioProfileHexagonGrid2: UIViewController, UISearchBarDelegate {
 
         print("hexagon data array viewdidload 🤽‍♂️🤽‍♂️🤽‍♂️")
     }
+    
+     func setUpScrollView() {
+            // Do any additional setup after loading the view.
+            let hexaDiameter : CGFloat = 150
+            let hexaWidth = hexaDiameter * sqrt(3) * 0.5
+            let hexaWidthDelta = (hexaDiameter - hexaWidth) * 0.5
+            let hexaHeightDelta = hexaDiameter * 0.25
+            let spacing : CGFloat = 5
+            
+            let rows = 15
+            let firstRowColumns = 15
+            //scroll view stuff 2
+            print("Bounds of content view: \(contentView.bounds.size)")
+            self.scrollView.contentSize = CGSize(width: spacing + CGFloat(firstRowColumns) * (hexaWidth + spacing), height: spacing + CGFloat(rows) * (hexaDiameter - hexaHeightDelta + spacing) + hexaHeightDelta)
+            print("scrollview content size \(scrollView.contentSize)")
+            
+            
+            //scrollViewStuff1
+            scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
+            let location = CGPoint(x: reOrderedCoordinateArrayPoints[0].x - self.view.frame.width*2.125, y: reOrderedCoordinateArrayPoints[0].y - self.view.frame.height*1.2)
+            self.scrollView.contentOffset = location
+            
+    //        let bg = UIImageView(frame: CGRect(x: -400, y: -400, width: 3000, height: 3000))
+    //        bg.backgroundColor = .black
+    //        bg.layer.zPosition = -1
+            scrollView.backgroundColor = .black
+            
+            
+            contentView.backgroundColor = .black
+            contentView.isHidden = false
+
+            scrollView.addSubview(contentView)
+            contentView.frame = CGRect(x: 0, y: 0, width: scrollView.contentSize.width, height: scrollView.contentSize.height)
+            scrollView.bringSubviewToFront(contentView)
+            
+            view.addSubview(scrollView)
+            scrollView.delegate = self
+            
+            
+        }
+        
+        func setZoomScale() {
+            let imageViewSize = contentView.bounds.size
+            let scrollViewSize = scrollView.bounds.size
+            let widthScale = scrollViewSize.width / imageViewSize.width
+            let heightScale = scrollViewSize.height / imageViewSize.height
+            
+            print("width scale: \(widthScale)")
+            print("height scale: \(heightScale)")
+           // scrollView.minimumZoomScale = min(widthScale, heightScale)
+            //scrollView.zoomScale = scrollView.minimumZoomScale
+            scrollView.maximumZoomScale = 60
+            scrollView.minimumZoomScale = 0.5
+        }
+        
+        override func viewWillLayoutSubviews() {
+            setZoomScale()
+        }
+        
+        
+        func scrollViewDidZoom(_ scrollView: UIScrollView) {
+            let imageViewSize = contentView.frame.size
+            let scrollViewSize = scrollView.bounds.size
+            let verticalPadding = imageViewSize.height < scrollViewSize.height ? (scrollViewSize.height - imageViewSize.height)/2 : 0
+               let horizontalPadding = imageViewSize.width < scrollViewSize.width ? (scrollViewSize.width - imageViewSize.width)/2 : 0
+            
+            scrollView.contentInset = UIEdgeInsets(top: verticalPadding, left: horizontalPadding, bottom: verticalPadding, right: horizontalPadding)
+            
+        }
+        
+        func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+            return contentView
+        }
+    
+    
+    
+    
+    
+    
     
     
     @IBAction func toSearchButtonClicked(_ sender: UIButton) {
@@ -416,37 +499,36 @@ class BioProfileHexagonGrid2: UIViewController, UISearchBarDelegate {
         
         
         super.viewWillAppear(true) // No need for semicolon
-        let menuRect = CGRect(x: 0, y: self.view.frame.height - 150, width: self.view.frame.width, height: 150)
+//        let menuRect = CGRect(x: 0, y: self.view.frame.height - 150, width: self.view.frame.width, height: 150)
 //        let menuView = MenuView.init(frame: menuRect)
 //        tabController = tabBarController! as! NavigationMenuBaseController
 //        menuView.setTabController(tabController: tabController!)
 //        view.addSubview(menuView)
+//        
+//        print("viewWillAppear -- after addpostButtons")
+//        let rows = 15
+//        let firstRowColumns = 15
         
-        print("viewWillAppear -- after addpostButtons")
-        self.scrollView.maximumZoomScale = 3
-        let rows = 15
-        let firstRowColumns = 15
+//        let scrollviewWidth: CGFloat = self.spacing + (CGFloat(firstRowColumns) * (CGFloat(self.hexaWidth) + self.spacing))
+//        let scrollviewHeight: CGFloat = self.spacing + (CGFloat(rows) * CGFloat(self.hexaDiameter - CGFloat(self.hexaHeightDelta) + self.spacing)) + CGFloat(self.hexaHeightDelta)
+//
+//        self.scrollView.contentSize = CGSize(width: scrollviewWidth, height: scrollviewHeight)
         
-        let scrollviewWidth: CGFloat = self.spacing + (CGFloat(firstRowColumns) * (CGFloat(self.hexaWidth) + self.spacing))
-        let scrollviewHeight: CGFloat = self.spacing + (CGFloat(rows) * CGFloat(self.hexaDiameter - CGFloat(self.hexaHeightDelta) + self.spacing)) + CGFloat(self.hexaHeightDelta)
-        
-        self.scrollView.contentSize = CGSize(width: scrollviewWidth, height: scrollviewHeight)
-        
-        print("Scrollview content size: \(self.scrollView.contentSize)")
-        print("View content size: \(self.view.frame.size)")
-        
-        
+//        print("Scrollview content size: \(self.scrollView.contentSize)")
+//        print("View content size: \(self.view.frame.size)")
+//
+//
         //        self.scrollView.center.x = 946.8266739736607
         //         self.scrollView.center.y = 902.5
-        let bg = UIImageView(frame: CGRect(x: -400, y: -400, width: 3000, height: 3000))
-       // bg.image = UIImage(named: "outerspace1")
-        bg.backgroundColor = .black
-        bg.layer.zPosition = -1
-        scrollView.addSubview(bg)
-        self.scrollView.backgroundColor = UIColor.black
-        // scrollView.contentSize = imageView.bounds.size
-        self.scrollView.autoresizingMask = UIView.AutoresizingMask.flexibleWidth
-        self.scrollView.autoresizingMask = UIView.AutoresizingMask.flexibleHeight
+//        let bg = UIImageView(frame: CGRect(x: -400, y: -400, width: 3000, height: 3000))
+//       // bg.image = UIImage(named: "outerspace1")
+//        bg.backgroundColor = .black
+//        bg.layer.zPosition = -1
+//        scrollView.addSubview(bg)
+//        self.scrollView.backgroundColor = UIColor.black
+//        // scrollView.contentSize = imageView.bounds.size
+//        self.scrollView.autoresizingMask = UIView.AutoresizingMask.flexibleWidth
+//        self.scrollView.autoresizingMask = UIView.AutoresizingMask.flexibleHeight
         refresh()
     }
     
@@ -676,6 +758,7 @@ class BioProfileHexagonGrid2: UIViewController, UISearchBarDelegate {
        }
     
     
+    
     func loadProfileHexagons() {
 
         //adjust coordinates
@@ -728,7 +811,7 @@ class BioProfileHexagonGrid2: UIViewController, UISearchBarDelegate {
             if thisIndex == 0 {
                 image.setupHexagonMask(lineWidth: 10.0, color: purple, cornerRadius: 10.0)
             }
-            scrollView.addSubview(image)
+            contentView.addSubview(image)
             image.isHidden = false
             imageViewArray.append(image)
             imageViewArray[thisIndex].tag = thisIndex
