@@ -41,7 +41,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     var curvedRect = CGRect(x: 0.0, y: 0.0, width: 0.0, height: 0.0)
     var curvedLayer = UIImageView()
     // let curvedHeight = friendsButton.frame.minY - 10
-    @IBOutlet weak var zoomView: UIView!
+    @IBOutlet weak var contentView: UIView!
 
     let storage = Storage.storage().reference()
 
@@ -119,6 +119,40 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         print("viewdidLoad")
         
     }
+    
+    func resizeScrollView(numPosts: Int) {
+        var rows = 0
+        var width = view.frame.width
+        var height = view.frame.height
+        let additionalRowWidth = ((view.frame.width/3) - 10)*2
+   //     let heightDifference = height - width
+        if numPosts < 7 {
+            rows = 1
+            //self.scrollView.frame.width =
+        }
+        else if numPosts < 19 {
+            rows = 2
+            width = width + additionalRowWidth
+        }
+        else if numPosts  < 43 {
+            rows = 3
+            width = width + (2*additionalRowWidth)
+            height = height + (additionalRowWidth)
+        }
+        else if numPosts < 91 {
+        rows = 4
+        width = width + (3*additionalRowWidth)
+        height = height + (2*additionalRowWidth)
+    }
+      //  var addedWidth = 2*(rows-1)*160
+       // var addedHeight =  2 * (rows-1)*160
+        self.scrollView.frame = CGRect(x: 0, y: 0, width: width, height:  height)
+        self.contentView.frame = CGRect(x: 0, y: 0, width: width, height:  height)
+        self.scrollView.contentSize = scrollView.frame.size
+        
+        
+    }
+    
     
     func addMenuButtons() {
         self.view.addSubview(addPostButton)
@@ -227,7 +261,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         let rows = 15
         let firstRowColumns = 15
         //scroll view stuff 2
-        print("Bounds of zoomview: \(zoomView.bounds.size)")
+        print("Bounds of zoomview: \(contentView.bounds.size)")
         self.scrollView.contentSize = CGSize(width: spacing + CGFloat(firstRowColumns) * (hexaWidth + spacing), height: spacing + CGFloat(rows) * (hexaDiameter - hexaHeightDelta + spacing) + hexaHeightDelta)
         print("scrollview content size \(scrollView.contentSize)")
         
@@ -241,15 +275,15 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
 //        let bg = UIImageView(frame: CGRect(x: -400, y: -400, width: 3000, height: 3000))
 //        bg.backgroundColor = .black
 //        bg.layer.zPosition = -1
-        scrollView.backgroundColor = .black
+        scrollView.backgroundColor = .purple
         
         
-        zoomView.backgroundColor = .black
-        zoomView.isHidden = false
+        contentView.backgroundColor = .green
+        contentView.isHidden = false
 
-        scrollView.addSubview(zoomView)
-        zoomView.frame = CGRect(x: 0, y: 0, width: scrollView.contentSize.width, height: scrollView.contentSize.height)
-        scrollView.bringSubviewToFront(zoomView)
+        scrollView.addSubview(contentView)
+        contentView.frame = CGRect(x: 0, y: 0, width: scrollView.contentSize.width, height: scrollView.contentSize.height)
+        scrollView.bringSubviewToFront(contentView)
         
         view.addSubview(scrollView)
         scrollView.delegate = self
@@ -258,7 +292,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     }
     
     func setZoomScale() {
-        let imageViewSize = zoomView.bounds.size
+        let imageViewSize = contentView.bounds.size
         let scrollViewSize = scrollView.bounds.size
         let widthScale = scrollViewSize.width / imageViewSize.width
         let heightScale = scrollViewSize.height / imageViewSize.height
@@ -277,7 +311,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     
     
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
-        let imageViewSize = zoomView.frame.size
+        let imageViewSize = contentView.frame.size
         let scrollViewSize = scrollView.bounds.size
         let verticalPadding = imageViewSize.height < scrollViewSize.height ? (scrollViewSize.height - imageViewSize.height)/2 : 0
            let horizontalPadding = imageViewSize.width < scrollViewSize.width ? (scrollViewSize.width - imageViewSize.width)/2 : 0
@@ -287,7 +321,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     }
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        return zoomView
+        return contentView
     }
 
     func refresh() {
@@ -479,12 +513,13 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         
         print("This is scroll view frame")
         print(self.scrollView.frame)
-        print(self.zoomView.frame)
+        print(self.contentView.frame)
 //        zoomView.frame = scrollView.bounds
 //        print(self.zoomView.frame)
         let hexaDiameter : CGFloat = 150
         
-        let numPosts = self.userData?.numPosts ?? 0
+       let numPosts = self.userData?.numPosts ?? 0
+        
         //print("userdata \(self.userData)")
         
         if (numPosts == 0) {
@@ -530,15 +565,17 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                 image.removeFromSuperview()
             }
             self.imageViewArray = newImageViewArray
+            resizeScrollView(numPosts: imageViewArray.count - 1)
+            
             for image in imageViewArray {
                 print("added Image")
-                self.zoomView.addSubview(image)
+                self.contentView.addSubview(image)
                     print("imageFrame: \(image.frame)")
-                print("image frame in scrollview\(scrollView.convert(image.frame, from: zoomView))")
-                print("zoom view frame in scrollView \(scrollView.convert(zoomView.frame, from: zoomView))")
+                print("image frame in scrollview\(scrollView.convert(image.frame, from: contentView))")
+                print("zoom view frame in scrollView \(scrollView.convert(contentView.frame, from: contentView))")
                 
                 //self.view.addSubview(image)
-                zoomView.bringSubviewToFront(image)
+                contentView.bringSubviewToFront(image)
                 image.isHidden = false
                 //                print(image)
                 //                print(image.frame)
@@ -831,7 +868,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                 //    var gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
                 image.setupHexagonMask(lineWidth: 10.0, color: .darkGray, cornerRadius: 10.0)
 
-                self.zoomView.addSubview(image)
+                self.contentView.addSubview(image)
                 imageViewArray.append(image)
                 imageViewArray.last!.tag = imageViewArray.count - 1
                 difference -= 1
@@ -1254,7 +1291,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         let item = AVPlayerItem(asset: asset)
         let rect = CGRect(x: scrollView.contentOffset.x, y: scrollView.contentOffset.y, width: self.view.frame.width, height: self.view.frame.height)
         contentViewer.frame = rect
-        contentViewer.backgroundColor = .black
+        contentViewer.backgroundColor = .red
         avPlayer = AVPlayer(playerItem: item)
         let playerLayer = AVPlayerLayer(player: avPlayer)
         playerLayer.frame = self.contentViewer.bounds //bounds of the view in which AVPlayer should be displayed

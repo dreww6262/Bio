@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bbh-XN-JYU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="AGA-wN-m2B">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -2637,18 +2637,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MhP-9d-291">
-                                <rect key="frame" x="99" y="824" width="218" height="34"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" name="AmericanTypewriter-Semibold" family="American Typewriter" pointSize="19"/>
-                                <state key="normal" title="Create a Bio Account">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="createAccountPressed:" destination="bbh-XN-JYU" eventType="touchUpInside" id="Poz-Tf-oLq"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aod-ZX-5kU">
                                 <rect key="frame" x="101" y="682" width="218" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -2662,11 +2650,23 @@
                                     <segue destination="iEc-KO-fKI" kind="show" id="Sou-CJ-lGY"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MhP-9d-291">
+                                <rect key="frame" x="99" y="824" width="218" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" name="AmericanTypewriter-Semibold" family="American Typewriter" pointSize="19"/>
+                                <state key="normal" title="Create a Bio Account">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="createAccountPressed:" destination="bbh-XN-JYU" eventType="touchUpInside" id="Poz-Tf-oLq"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.95846420529999998" green="0.91407060620000002" blue="0.86989611389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="1Ez-mm-TEK" firstAttribute="trailing" secondItem="2pm-ax-tCU" secondAttribute="trailing" id="2Gd-33-r20"/>
-                            <constraint firstItem="MhP-9d-291" firstAttribute="top" secondItem="2pm-ax-tCU" secondAttribute="bottom" id="HCJ-lb-lfl"/>
                             <constraint firstItem="2pm-ax-tCU" firstAttribute="top" secondItem="PHP-gI-3eE" secondAttribute="bottom" id="X6z-Ar-c0T"/>
                             <constraint firstItem="2pm-ax-tCU" firstAttribute="leading" secondItem="1Ez-mm-TEK" secondAttribute="leading" id="sRg-jD-sx9"/>
                         </constraints>
@@ -2840,9 +2840,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vgc-Ux-feZ">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vgc-Ux-feZ">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="gradBG" translatesAutoresizingMaskIntoConstraints="NO" id="g9Q-yA-sLy">
+                                        <rect key="frame" x="0.0" y="16" width="414" height="864"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="boyprofile" translatesAutoresizingMaskIntoConstraints="NO" id="qMT-Lc-Ma3">
                                         <rect key="frame" x="120" y="32" width="80" height="80"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -2903,18 +2909,8 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="gradBG" translatesAutoresizingMaskIntoConstraints="NO" id="g9Q-yA-sLy">
-                                        <rect key="frame" x="0.0" y="32" width="414" height="864"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="g9Q-yA-sLy" secondAttribute="bottom" id="Ivq-Cy-bVy"/>
-                                    <constraint firstItem="g9Q-yA-sLy" firstAttribute="leading" secondItem="vgc-Ux-feZ" secondAttribute="leading" id="UoB-SN-Cxt"/>
-                                    <constraint firstAttribute="trailing" secondItem="g9Q-yA-sLy" secondAttribute="trailing" id="jqf-RS-c8g"/>
-                                    <constraint firstItem="g9Q-yA-sLy" firstAttribute="top" secondItem="vgc-Ux-feZ" secondAttribute="top" id="ylB-Ez-c5p"/>
-                                </constraints>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -3677,6 +3673,7 @@
                     <navigationItem key="navigationItem" id="dcd-Qq-xlH"/>
                     <connections>
                         <outlet property="addPostButton" destination="5eJ-Gd-XzJ" id="Y7n-3y-bSl"/>
+                        <outlet property="contentView" destination="iy2-li-0lk" id="PPh-MZ-rrD"/>
                         <outlet property="dmButton" destination="Dag-2J-Sw2" id="Dqe-Lr-LQK"/>
                         <outlet property="friendsButton" destination="Jn5-9U-wrD" id="wLw-wQ-6lv"/>
                         <outlet property="homeProfileButton" destination="P5G-Xj-IMy" id="do8-tv-Xsy"/>
@@ -3685,7 +3682,6 @@
                         <outlet property="settingsButton" destination="WYY-kF-LD8" id="FoG-3Y-NLm"/>
                         <outlet property="toSearchButton" destination="z1n-Q0-Osp" id="xgG-n1-CdF"/>
                         <outlet property="trashButton" destination="zt4-aN-hYV" id="23K-vJ-0NS"/>
-                        <outlet property="zoomView" destination="iy2-li-0lk" id="PPh-MZ-rrD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4pn-iW-66E" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
