@@ -66,7 +66,7 @@ class NewPostOptionsVC: UIViewController, FMPhotoPickerViewControllerDelegate {
     
     var customTabBar: TabNavigationMenu!
     
-   
+    let config = FMPhotoPickerConfig()
     
     var userData: UserData?
     
