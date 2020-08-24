@@ -37,7 +37,6 @@
 		4920A45824D32B9300F06551 /* uploadFromCameraRollVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4920A45724D32B9300F06551 /* uploadFromCameraRollVC.swift */; };
 		492E245A24B65D4B005745D1 /* CalltoUserBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492E245924B65D4B005745D1 /* CalltoUserBackend.swift */; };
 		492E245E24B664C2005745D1 /* SubscribersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492E245D24B664C2005745D1 /* SubscribersCell.swift */; };
-		492E246024B664D7005745D1 /* SearchUsersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492E245F24B664D7005745D1 /* SearchUsersVC.swift */; };
 		493E95B924E9E8BD002E9380 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493E95B824E9E8BD002E9380 /* UserCell.swift */; };
 		493E95BB24E9EA55002E9380 /* UserTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493E95BA24E9EA55002E9380 /* UserTableView.swift */; };
 		493E95BD24E9FAEC002E9380 /* UserListTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493E95BC24E9FAEC002E9380 /* UserListTableVC.swift */; };
@@ -50,9 +49,7 @@
 		4944D79E24ABE2FB00AD3955 /* PersonalInformationVCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4944D79D24ABE2FA00AD3955 /* PersonalInformationVCViewController.swift */; };
 		4944D7A024AD6A1B00AD3955 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4944D79F24AD6A1B00AD3955 /* UserData.swift */; };
 		494C403C24DB85E000A47788 /* GuestHexagonGridVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C403B24DB85E000A47788 /* GuestHexagonGridVC.swift */; };
-		494C403E24DC580700A47788 /* PhotoEditorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C403D24DC580700A47788 /* PhotoEditorVC.swift */; };
 		494C404024DC5A3E00A47788 /* FilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C403F24DC5A3E00A47788 /* FilterCell.swift */; };
-		494C404424DC5C2A00A47788 /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C404324DC5C2A00A47788 /* ImageHelper.swift */; };
 		494C404624DC5D1D00A47788 /* HazeRemovalFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C404524DC5D1D00A47788 /* HazeRemovalFilter.swift */; };
 		494C404824DC82F000A47788 /* FMPickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C404724DC82F000A47788 /* FMPickerVC.swift */; };
 		494C404A24DC9CC400A47788 /* UploadPreviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C404924DC9CC400A47788 /* UploadPreviewVC.swift */; };
@@ -174,7 +171,6 @@
 		4920A45724D32B9300F06551 /* uploadFromCameraRollVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = uploadFromCameraRollVC.swift; sourceTree = "<group>"; };
 		492E245924B65D4B005745D1 /* CalltoUserBackend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalltoUserBackend.swift; sourceTree = "<group>"; };
 		492E245D24B664C2005745D1 /* SubscribersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscribersCell.swift; sourceTree = "<group>"; };
-		492E245F24B664D7005745D1 /* SearchUsersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SearchUsersVC.swift; path = /Users/annmcdonough/Documents/Bio/Bio/SearchUsersVC.swift; sourceTree = "<absolute>"; };
 		493E95B824E9E8BD002E9380 /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		493E95BA24E9EA55002E9380 /* UserTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTableView.swift; sourceTree = "<group>"; };
 		493E95BC24E9FAEC002E9380 /* UserListTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListTableVC.swift; sourceTree = "<group>"; };
@@ -187,9 +183,7 @@
 		4944D79D24ABE2FA00AD3955 /* PersonalInformationVCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInformationVCViewController.swift; sourceTree = "<group>"; };
 		4944D79F24AD6A1B00AD3955 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		494C403B24DB85E000A47788 /* GuestHexagonGridVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestHexagonGridVC.swift; sourceTree = "<group>"; };
-		494C403D24DC580700A47788 /* PhotoEditorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEditorVC.swift; sourceTree = "<group>"; };
 		494C403F24DC5A3E00A47788 /* FilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCell.swift; sourceTree = "<group>"; };
-		494C404324DC5C2A00A47788 /* ImageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ImageHelper.swift; path = /Users/annmcdonough/Documents/Bio/Bio/ImageHelper.swift; sourceTree = "<absolute>"; };
 		494C404524DC5D1D00A47788 /* HazeRemovalFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HazeRemovalFilter.swift; sourceTree = "<group>"; };
 		494C404724DC82F000A47788 /* FMPickerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMPickerVC.swift; sourceTree = "<group>"; };
 		494C404924DC9CC400A47788 /* UploadPreviewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadPreviewVC.swift; sourceTree = "<group>"; };
@@ -321,7 +315,6 @@
 				49C205AB2497DD560022EE53 /* User Profile Items */,
 				491ADBCF2497D69200B62C5A /* libz.tbd */,
 				49C205BA2497DDBC0022EE53 /* pictureCell.swift */,
-				494C404324DC5C2A00A47788 /* ImageHelper.swift */,
 				493E95C024EED9ED002E9380 /* SettingsCell.swift */,
 				494C403F24DC5A3E00A47788 /* FilterCell.swift */,
 				49C205DA2499AF730022EE53 /* MusicPlayerVC.swift */,
@@ -358,7 +351,6 @@
 				494C404B24DC9D7A00A47788 /* UploadPreviewCell.swift */,
 				494C404924DC9CC400A47788 /* UploadPreviewVC.swift */,
 				4920A45724D32B9300F06551 /* uploadFromCameraRollVC.swift */,
-				492E245F24B664D7005745D1 /* SearchUsersVC.swift */,
 				492E245D24B664C2005745D1 /* SubscribersCell.swift */,
 				497ACC5024A90C0F002333A6 /* HexagonClass.swift */,
 				4944D79B24ABD2E700AD3955 /* AddSocialMediaVC.swift */,
@@ -387,7 +379,6 @@
 				494C408D24E4830D00A47788 /* AddLinkVCViewController.swift */,
 				4996227B24C754190017AEB4 /* BioSearchVC.swift */,
 				491ADBAE2497237000B62C5A /* SettingsVC.swift */,
-				494C403D24DC580700A47788 /* PhotoEditorVC.swift */,
 				49C205D424981AC80022EE53 /* segue1.swift */,
 				4959E04824A3052F00264DB7 /* SpotifyiOS.framework */,
 				491ADBB22497294000B62C5A /* Navigator.swift */,
@@ -631,7 +622,6 @@
 				4944D79A24ABBEF900AD3955 /* GoodBioSignUpVC.swift in Sources */,
 				491ADBA924971FE400B62C5A /* HomeVC.swift in Sources */,
 				4944D79624A9C90200AD3955 /* RatingViewController.swift in Sources */,
-				494C404424DC5C2A00A47788 /* ImageHelper.swift in Sources */,
 				493E95B924E9E8BD002E9380 /* UserCell.swift in Sources */,
 				49C205D7249833E80022EE53 /* CreativeToolBar.swift in Sources */,
 				494C93EA24E6FD25004EA9AA /* SignInVC.swift in Sources */,
@@ -655,10 +645,8 @@
 				497ACC5D24A93651002333A6 /* DummyVCForPopUp.swift in Sources */,
 				497ACC5124A90C0F002333A6 /* HexagonClass.swift in Sources */,
 				491BC46324C7882F00C751B6 /* BioProfileHexagonGrid2.swift in Sources */,
-				492E246024B664D7005745D1 /* SearchUsersVC.swift in Sources */,
 				491ADBB1249723FC00B62C5A /* PublicityTableVC.swift in Sources */,
 				494C409024E4BFFE00A47788 /* TabItem.swift in Sources */,
-				494C403E24DC580700A47788 /* PhotoEditorVC.swift in Sources */,
 				494C403C24DB85E000A47788 /* GuestHexagonGridVC.swift in Sources */,
 				4944D7A024AD6A1B00AD3955 /* UserData.swift in Sources */,
 				497ACC5324A91738002333A6 /* Hexagons.swift in Sources */,

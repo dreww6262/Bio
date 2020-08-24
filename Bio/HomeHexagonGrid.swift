@@ -40,6 +40,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     let db = Firestore.firestore()
     var curvedRect = CGRect(x: 0.0, y: 0.0, width: 0.0, height: 0.0)
     var curvedLayer = UIImageView()
+    var firstLoad  = true
     // let curvedHeight = friendsButton.frame.minY - 10
     @IBOutlet weak var contentView: UIView!
 
@@ -518,6 +519,8 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
 //        print(self.zoomView.frame)
         let hexaDiameter : CGFloat = 150
         
+        
+        
        let numPosts = self.userData?.numPosts ?? 0
         
         //print("userdata \(self.userData)")
@@ -565,7 +568,10 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                 image.removeFromSuperview()
             }
             self.imageViewArray = newImageViewArray
-            resizeScrollView(numPosts: imageViewArray.count - 1)
+            if (firstLoad) {
+                resizeScrollView(numPosts: imageViewArray.count - 1)
+                firstLoad = false
+            }
             
             for image in imageViewArray {
                 print("added Image")
@@ -600,7 +606,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         //loadView()
         super.viewWillAppear(true) // No need for semicolon
         print("search button \(toSearchButton.frame)")
-        
+        firstLoad = true
         
         
         //createImageViews()
