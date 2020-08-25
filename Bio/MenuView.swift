@@ -10,13 +10,16 @@ import UIKit
 
 class MenuView: UIView {
     
-    var addPostButton: UIButton = UIButton()
+    var menuButton: UIButton = UIButton()
     var newPostButton: UIButton = UIButton()
     var friendsButton: UIButton = UIButton()
     var settingsButton: UIButton = UIButton()
     var dmButton: UIButton = UIButton()
     var homeProfileButton: UIButton =  UIButton()
     var tabController: NavigationMenuBaseController? = nil
+    var userData: UserData? = nil
+    
+    var currentTab: Int = 0
     
     
     override init(frame: CGRect) {
@@ -26,59 +29,65 @@ class MenuView: UIView {
     func setTabController(tabController: NavigationMenuBaseController) {
         self.tabController = tabController
     }
-
+    
     convenience init() {
         self.init(frame: CGRect.zero)
     }
-
+    
     required init(coder aDecoder: NSCoder) {
         fatalError("This class does not support NSCoding")
     }
-
+    
     func addBehavior() {
-        self.addSubview(addPostButton)
-        self.addSubview(newPostButton)
-        self.addSubview(friendsButton)
-        self.addSubview(settingsButton)
-        self.addSubview(dmButton)
-        self.addSubview(homeProfileButton)
-        addPostButton.frame = CGRect(x: self.frame.width/2-40, y: self.frame.height - 83, width: 80, height: 80)
-        //  addPostButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
+        self.isUserInteractionEnabled = false
+        self.superview!.addSubview(menuButton)
+        self.superview!.addSubview(newPostButton)
+        self.superview!.addSubview(friendsButton)
+        self.superview!.addSubview(settingsButton)
+        self.superview!.addSubview(dmButton)
+        self.superview!.addSubview(homeProfileButton)
+        
+        
+        self.backgroundColor = .white
+        
+        print("menuFrame \(self.frame)")
+        
+        menuButton.frame = CGRect(x: self.frame.width/2-40, y: self.superview!.frame.height-120, width: 80, height: 80)
         // round ava
-        addPostButton.layer.cornerRadius = addPostButton.frame.size.width / 2
-        addPostButton.clipsToBounds = true
+        menuButton.layer.cornerRadius = menuButton.frame.size.width / 2
+        menuButton.clipsToBounds = true
+        print ("menuButton frame \(menuButton.frame)")
         
-        
-        newPostButton.frame = CGRect(x: 13, y: addPostButton.frame.minY, width: 80, height: 80)
+        newPostButton.frame = CGRect(x: self.frame.width/5 - 40, y: menuButton.frame.minY, width: 80, height: 80)
         //  newPostButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
         // round ava
         newPostButton.layer.cornerRadius = newPostButton.frame.size.width / 2
         newPostButton.clipsToBounds = true
+        print ("newpost frame \(newPostButton.frame)")
         
-        
-        friendsButton.frame = CGRect(x: self.frame.width/2 - 40, y: self.frame.height - 203, width: 80, height: 80)
+        friendsButton.frame = CGRect(x: self.frame.width/2 - 40, y: self.superview!.frame.height - 203, width: 80, height: 80)
         // friendsButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
         // round ava
         friendsButton.layer.cornerRadius = friendsButton.frame.size.width / 2
         friendsButton.clipsToBounds = true
+        print ("friends frame \(friendsButton.frame)")
         
         
         
-        
-        dmButton.frame = CGRect(x: self.frame.width*3/5 + 20, y: self.frame.height - 166, width: 80, height: 80)
+        dmButton.frame = CGRect(x: self.frame.width*3/5 + 20, y: self.superview!.frame.height - 166, width: 80, height: 80)
         //  dmButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
         // round ava
         dmButton.layer.cornerRadius = dmButton.frame.size.width / 2
         dmButton.clipsToBounds = true
+        print ("dm frame \(dmButton.frame)")
         
         
-        
-        settingsButton.frame = CGRect(x: self.frame.width - 93, y: self.frame.height - 83, width: 80, height: 80)
+        settingsButton.frame = CGRect(x: self.frame.width*4/5 - 40, y: self.superview!.frame.height - 83, width: 80, height: 80)
         // settingsButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
         // round ava
         settingsButton.layer.cornerRadius = settingsButton.frame.size.width / 2
         settingsButton.clipsToBounds = true
-        
+        print ("settings frame \(settingsButton.frame)")
         
         
         homeProfileButton.frame = CGRect(x: self.frame.width/5 - 20, y: dmButton.frame.minY, width: 80, height: 80)
@@ -86,69 +95,59 @@ class MenuView: UIView {
         // round ava
         homeProfileButton.layer.cornerRadius = homeProfileButton.frame.size.width / 2
         homeProfileButton.clipsToBounds = true
-        //        let curvedHeight = friendsButton.frame.minY - 10
-        //        curvedRect = CGRect(x: 0.0, y: curvedHeight, width: self.frame.width, height: self.frame.height )
-        //        var curvedRect = CGRect(x: 0.0, y: curvedHeight, width: scrollView.frame.width, height: scrollView.frame.height)
-        //        curvedLayer = UIImageView(frame: curvedRect)
-        //        curvedLayer.backgroundColor = gold
-        //
-        //        //round layer
-        //        curvedLayer.layer.cornerRadius = curvedLayer.frame.size.width / 2
-        //        curvedLayer.clipsToBounds = true
+        print("home frame \(homeProfileButton.frame)")
+        
         
         let menuTapped = UITapGestureRecognizer(target: self, action: #selector(tappedMenuButton))
         let menuDragged = UIPanGestureRecognizer(target: self, action: #selector(draggedMenuButton))
         let menuLongPressed = UILongPressGestureRecognizer(target: self, action: #selector(longPressMenuButton))
+        let friendsPressed = UITapGestureRecognizer(target: self, action: #selector(friendsButtonClicked))
+        let homePressed = UITapGestureRecognizer(target: self, action: #selector(homeButtonClicked))
+        let newPostPressed = UITapGestureRecognizer(target: self, action: #selector(newPostButtonClicked))
+
+        menuButton.addGestureRecognizer(menuTapped)
+        menuButton.addGestureRecognizer(menuDragged)
+        menuButton.addGestureRecognizer(menuLongPressed)
         
-        let friendsButtonPressed = UITapGestureRecognizer(target: self, action: #selector(friendsButtonClicked))
-        let newPostButtonPressed = UITapGestureRecognizer(target: self, action: #selector(newPostButtonClicked))
-//        let friendsButtonPressed = UITapGestureRecognizer(target: self, action: #selector(friendsButtonClicked))
+        friendsButton.addGestureRecognizer(friendsPressed)
+        homeProfileButton.addGestureRecognizer(homePressed)
+        newPostButton.addGestureRecognizer(newPostPressed)
         
-        friendsButton.addGestureRecognizer(friendsButtonPressed)
-        newPostButton.addGestureRecognizer(newPostButtonPressed)
-        
-        addPostButton.addGestureRecognizer(menuTapped)
-        addPostButton.addGestureRecognizer(menuDragged)
-        addPostButton.addGestureRecognizer(menuLongPressed)
-        
+        //hide buttons
         newPostButton.isHidden = true
         settingsButton.isHidden = true
         friendsButton.isHidden = true
         dmButton.isHidden = true
         homeProfileButton.isHidden = true
-        //  curvedLayer.isHidden = true
-        
         
         // show add Post button
-        addPostButton.isHidden = false
-        addPostButton.imageView?.image = UIImage(named: "k23")
-        addPostButton.layer.zPosition = 2
+        menuButton.isHidden = false
+        menuButton.imageView?.image = UIImage(named: "k23")
+        menuButton.layer.zPosition = 2
     }
     
     @objc func friendsButtonClicked(_ sender: UIButton) {
-        //      let profileHexGrid =   storyboard?.instantiateViewController(identifier: "ProfileHexGrid") as! BioProfileHexagonGrid2
-        //        profileHexGrid.userData = userData
-        //        self.dismiss(animated: false, completion: nil)
-        //        present(profileHexGrid, animated: false)
-        //self.dismiss(animated: false, completion: nil)
         let viewControllers = tabController!.customizableViewControllers!
         let profileGrid = (viewControllers[3] as! BioProfileHexagonGrid2)
-        //profileGrid.userData = userData
+        profileGrid.userData = userData
         tabController!.viewControllers![3] = profileGrid
-        tabController!.customTabBar.switchTab(from: 2, to: 3)
+        tabController!.customTabBar.switchTab(from: currentTab, to: 3)
     }
     
     @objc func newPostButtonClicked(_ sender: UIButton) {
-        //        let newPostVC =   storyboard?.instantiateViewController(identifier: "newPostVC") as! NewPostOptionsVC
-        //        newPostVC.userData = userData
-        //        self.dismiss(animated: false, completion: nil)
-        //        present(newPostVC, animated: false)
-        //        //self.dismiss(animated: false, completion: nil)
         let viewControllers = tabController!.customizableViewControllers!
         let newPostVC = (viewControllers[4] as! NewPostOptionsVC)
-        //newPostVC.userData = userData
+        newPostVC.userData = userData
         tabController!.viewControllers![4] = newPostVC
-        tabController!.customTabBar.switchTab(from: 2, to: 4)
+        tabController!.customTabBar.switchTab(from: currentTab, to: 4)
+    }
+    
+    @objc func homeButtonClicked(_ sender: Any) {
+        let viewControllers = tabController!.customizableViewControllers!
+        let homeVC = (viewControllers[2] as! HomeHexagonGrid)
+        homeVC.userData = userData
+        tabController!.viewControllers![2] = homeVC
+        tabController!.customTabBar.switchTab(from: currentTab, to: 2)
     }
     
     @objc func tappedMenuButton(sender: UITapGestureRecognizer) {
@@ -162,7 +161,6 @@ class MenuView: UIView {
         }
     }
     
-    
     // TODO: TO DO Redo this for circular border
     func makeAllMenuButtonsBlack() {
         newPostButton.imageView?.makeRounded()
@@ -170,27 +168,7 @@ class MenuView: UIView {
         dmButton.imageView?.makeRounded()
         settingsButton.imageView?.makeRounded()
         friendsButton.imageView?.makeRounded()
-        addPostButton.imageView?.makeRounded()
-        
-        //        newPostButton.layer.borderWidth = 4
-        //        homeProfileButton.layer.borderWidth = 4
-        //        dmButton.layer.borderWidth = 4
-        //        settingsButton.layer.borderWidth = 4
-        //        friendsButton.layer.borderWidth = 4
-        //
-        //
-        //
-        //        newPostButton.layer.borderColor = UIColor.black.cgColor
-        //         homeProfileButton.layer.borderColor = UIColor.black.cgColor
-        //         dmButton.layer.borderColor = UIColor.black.cgColor
-        //         settingsButton.layer.borderColor = UIColor.black.cgColor
-        //         friendsButton.layer.borderColor = UIColor.black.cgColor
-        
-        //        newPostButton.imageView!.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10)
-        //        homeProfileButton.imageView!.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10)
-        //        dmButton.imageView!.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10)
-        //        settingsButton.imageView!.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10)
-        //        friendsButton.imageView!.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10)
+        menuButton.imageView?.makeRounded()
     }
     
     @objc func draggedMenuButton(sender: UIPanGestureRecognizer) {
@@ -220,6 +198,7 @@ class MenuView: UIView {
             //change VC
         }
     }
+    
     func findMenuHexagonButton(hexCenter: CGPoint) -> UIButton? {
         //        print(hexCenter)
         if (distance(hexCenter, newPostButton.center) < 70) {
@@ -238,8 +217,6 @@ class MenuView: UIView {
             return friendsButton
         }
         return nil
-        
-        
     }
     
     @objc func longPressMenuButton(sender: UILongPressGestureRecognizer) {
@@ -252,7 +229,6 @@ class MenuView: UIView {
         }
     }
     
-    
     func showMenuOptions() {
         newPostButton.isHidden = false
         homeProfileButton.isHidden = false
@@ -261,6 +237,7 @@ class MenuView: UIView {
         friendsButton.isHidden = false
         //curvedLayer.isHidden = false
     }
+    
     func hideMenuOptions() {
         newPostButton.isHidden = true
         homeProfileButton.isHidden = true
@@ -275,5 +252,4 @@ class MenuView: UIView {
         let yDist = a.y - b.y
         return CGFloat(sqrt(xDist * xDist + yDist * yDist))
     }
-    
 }
