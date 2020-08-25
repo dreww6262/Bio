@@ -24,7 +24,7 @@ class MenuView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addBehavior()
+        //addBehavior()
     }
     func setTabController(tabController: NavigationMenuBaseController) {
         self.tabController = tabController
@@ -40,32 +40,35 @@ class MenuView: UIView {
     
     func addBehavior() {
         self.isUserInteractionEnabled = false
-        self.superview!.addSubview(menuButton)
-        self.superview!.addSubview(newPostButton)
-        self.superview!.addSubview(friendsButton)
-        self.superview!.addSubview(settingsButton)
-        self.superview!.addSubview(dmButton)
-        self.superview!.addSubview(homeProfileButton)
+        let superView = self.superview!
+        //let thisFrame = self.frame
+        let superFrame = superView.frame
+        superView.addSubview(menuButton)
+        superView.addSubview(newPostButton)
+        superView.addSubview(friendsButton)
+        superView.addSubview(settingsButton)
+        superView.addSubview(dmButton)
+        superView.addSubview(homeProfileButton)
         
         
-        self.backgroundColor = .white
+        //self.backgroundColor = .white
         
-        print("menuFrame \(self.frame)")
+        print("superFrame \(superFrame)")
         
-        menuButton.frame = CGRect(x: self.frame.width/2-40, y: self.superview!.frame.height-120, width: 80, height: 80)
+        menuButton.frame = CGRect(x: superFrame.width/2-40, y: superFrame.height-112, width: 80, height: 80)
         // round ava
         menuButton.layer.cornerRadius = menuButton.frame.size.width / 2
         menuButton.clipsToBounds = true
         print ("menuButton frame \(menuButton.frame)")
         
-        newPostButton.frame = CGRect(x: self.frame.width/5 - 40, y: menuButton.frame.minY, width: 80, height: 80)
+        newPostButton.frame = CGRect(x: superFrame.width/5 - 40, y: menuButton.frame.minY, width: 80, height: 80)
         //  newPostButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
         // round ava
         newPostButton.layer.cornerRadius = newPostButton.frame.size.width / 2
         newPostButton.clipsToBounds = true
         print ("newpost frame \(newPostButton.frame)")
         
-        friendsButton.frame = CGRect(x: self.frame.width/2 - 40, y: self.superview!.frame.height - 203, width: 80, height: 80)
+        friendsButton.frame = CGRect(x: superFrame.width/2 - 40, y: superFrame.height - 223, width: 80, height: 80)
         // friendsButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
         // round ava
         friendsButton.layer.cornerRadius = friendsButton.frame.size.width / 2
@@ -74,7 +77,7 @@ class MenuView: UIView {
         
         
         
-        dmButton.frame = CGRect(x: self.frame.width*3/5 + 20, y: self.superview!.frame.height - 166, width: 80, height: 80)
+        dmButton.frame = CGRect(x: superFrame.width*3/5 + 5, y: superFrame.height - 192, width: 80, height: 80)
         //  dmButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
         // round ava
         dmButton.layer.cornerRadius = dmButton.frame.size.width / 2
@@ -82,7 +85,7 @@ class MenuView: UIView {
         print ("dm frame \(dmButton.frame)")
         
         
-        settingsButton.frame = CGRect(x: self.frame.width*4/5 - 40, y: self.superview!.frame.height - 83, width: 80, height: 80)
+        settingsButton.frame = CGRect(x: superFrame.width*4/5 - 40, y: superFrame.height - 112, width: 80, height: 80)
         // settingsButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
         // round ava
         settingsButton.layer.cornerRadius = settingsButton.frame.size.width / 2
@@ -90,7 +93,7 @@ class MenuView: UIView {
         print ("settings frame \(settingsButton.frame)")
         
         
-        homeProfileButton.frame = CGRect(x: self.frame.width/5 - 20, y: dmButton.frame.minY, width: 80, height: 80)
+        homeProfileButton.frame = CGRect(x: superFrame.width/5 - 10, y: dmButton.frame.minY, width: 80, height: 80)
         // homeProfileButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
         // round ava
         homeProfileButton.layer.cornerRadius = homeProfileButton.frame.size.width / 2
@@ -101,17 +104,22 @@ class MenuView: UIView {
         let menuTapped = UITapGestureRecognizer(target: self, action: #selector(tappedMenuButton))
         let menuDragged = UIPanGestureRecognizer(target: self, action: #selector(draggedMenuButton))
         let menuLongPressed = UILongPressGestureRecognizer(target: self, action: #selector(longPressMenuButton))
-        let friendsPressed = UITapGestureRecognizer(target: self, action: #selector(friendsButtonClicked))
-        let homePressed = UITapGestureRecognizer(target: self, action: #selector(homeButtonClicked))
-        let newPostPressed = UITapGestureRecognizer(target: self, action: #selector(newPostButtonClicked))
+//        let friendsPressed = UITapGestureRecognizer(target: self, action: #selector(friendsButtonClicked))
+//        let homePressed = UITapGestureRecognizer(target: self, action: #selector(homeButtonClicked))
+//        let newPostPressed = UITapGestureRecognizer(target: self, action: #selector(newPostButtonClicked))
 
         menuButton.addGestureRecognizer(menuTapped)
         menuButton.addGestureRecognizer(menuDragged)
         menuButton.addGestureRecognizer(menuLongPressed)
         
-        friendsButton.addGestureRecognizer(friendsPressed)
-        homeProfileButton.addGestureRecognizer(homePressed)
-        newPostButton.addGestureRecognizer(newPostPressed)
+//        friendsButton.addGestureRecognizer(friendsPressed)
+//        homeProfileButton.addGestureRecognizer(homePressed)
+//        newPostButton.addGestureRecognizer(newPostPressed)
+        
+        friendsButton.addTarget(self, action: #selector(friendsButtonClicked), for: .touchUpInside)
+        homeProfileButton.addTarget(self, action: #selector(homeButtonClicked), for: .touchUpInside)
+        newPostButton.addTarget(self, action: #selector(newPostButtonClicked), for: .touchUpInside)
+        
         
         //hide buttons
         newPostButton.isHidden = true
@@ -119,6 +127,21 @@ class MenuView: UIView {
         friendsButton.isHidden = true
         dmButton.isHidden = true
         homeProfileButton.isHidden = true
+        
+        newPostButton.tintColor = .black
+        settingsButton.tintColor = .black
+        friendsButton.tintColor = .black
+        dmButton.tintColor = .black
+        homeProfileButton.tintColor = .black
+        menuButton.tintColor = .black
+        
+        newPostButton.backgroundColor = .black
+        settingsButton.backgroundColor = .black
+        friendsButton.backgroundColor = .black
+        dmButton.backgroundColor = .black
+        homeProfileButton.backgroundColor = .black
+        menuButton.backgroundColor = .black
+
         
         // show add Post button
         menuButton.isHidden = false

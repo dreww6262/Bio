@@ -49,6 +49,8 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     var user = Auth.auth().currentUser
     var userData: UserData? = nil
     
+    let menuView = MenuView()
+    
     @IBOutlet weak var addPostButton: UIButton!
     
     @IBOutlet weak var newPostButton: UIButton!
@@ -154,102 +156,106 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         
     }
     
-    
     func addMenuButtons() {
-        self.view.addSubview(addPostButton)
-        
-        self.view.addSubview(newPostButton)
-        
-        self.view.addSubview(friendsButton)
-        
-        self.view.addSubview(settingsButton)
-        
-        self.view.addSubview(dmButton)
-        
-        self.view.addSubview(homeProfileButton)
-        self.view.addSubview(trashButton)
-         self.view.addSubview(toSearchButton)
-        
-        
-        addPostButton.frame = CGRect(x: self.view.frame.width/2-40, y: self.view.frame.height - 83, width: 80, height: 80)
-        // round ava
-        addPostButton.layer.cornerRadius = addPostButton.frame.size.width / 2
-        addPostButton.clipsToBounds = true
-        
-        
-        trashButton.frame = CGRect(x: self.view.frame.width/2-40, y: self.view.frame.height - 83, width: 80, height: 80)
-        // round ava
-        trashButton.layer.cornerRadius = addPostButton.frame.size.width / 2
-        trashButton.clipsToBounds = true
-        
-        toSearchButton.frame = CGRect(x: self.view.frame.width-60, y: 5, width: 50, height: 50)
-        // round ava
-        toSearchButton.layer.cornerRadius = toSearchButton.frame.size.width / 2
-        toSearchButton.clipsToBounds = true
-        
-        
-        
-        
-        newPostButton.frame = CGRect(x: 13, y: addPostButton.frame.minY, width: 80, height: 80)
-        //  newPostButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
-        // round ava
-        newPostButton.layer.cornerRadius = newPostButton.frame.size.width / 2
-        newPostButton.clipsToBounds = true
-        
-        
-        friendsButton.frame = CGRect(x: self.view.frame.width/2 - 40, y: self.view.frame.height - 203, width: 80, height: 80)
-        // friendsButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
-        // round ava
-        friendsButton.layer.cornerRadius = friendsButton.frame.size.width / 2
-        friendsButton.clipsToBounds = true
-        
-        
-        
-        
-        dmButton.frame = CGRect(x: self.view.frame.width*3/5 + 20, y: self.view.frame.height - 166, width: 80, height: 80)
-        //  dmButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
-        // round ava
-        dmButton.layer.cornerRadius = dmButton.frame.size.width / 2
-        dmButton.clipsToBounds = true
-        
-        
-        
-        settingsButton.frame = CGRect(x: self.view.frame.width - 93, y: self.view.frame.height - 83, width: 80, height: 80)
-        // settingsButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
-        // round ava
-        settingsButton.layer.cornerRadius = settingsButton.frame.size.width / 2
-        settingsButton.clipsToBounds = true
-        
-        
-        
-        homeProfileButton.frame = CGRect(x: self.view.frame.width/5 - 20, y: dmButton.frame.minY, width: 80, height: 80)
-        // homeProfileButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
-        // round ava
-        homeProfileButton.layer.cornerRadius = homeProfileButton.frame.size.width / 2
-        homeProfileButton.clipsToBounds = true
-
-        
-        let menuTapped = UITapGestureRecognizer(target: self, action: #selector(tappedMenuButton))
-        let menuDragged = UIPanGestureRecognizer(target: self, action: #selector(draggedMenuButton))
-        let menuLongPressed = UILongPressGestureRecognizer(target: self, action: #selector(longPressMenuButton))
-        addPostButton.addGestureRecognizer(menuTapped)
-        addPostButton.addGestureRecognizer(menuDragged)
-        addPostButton.addGestureRecognizer(menuLongPressed)
-        
-        //hide buttons
-        trashButton.isHidden = true
-        newPostButton.isHidden = true
-        settingsButton.isHidden = true
-        friendsButton.isHidden = true
-        dmButton.isHidden = true
-        homeProfileButton.isHidden = true
-        toSearchButton.isHidden = false
-        
-        // show add Post button
-        addPostButton.isHidden = false
-        addPostButton.imageView?.image = UIImage(named: "k23")
-        addPostButton.layer.zPosition = 2
+        view.addSubview(menuView)
+        menuView.currentTab = 2
+        menuView.addBehavior()
     }
+//    func addMenuButtons() {
+//        self.view.addSubview(addPostButton)
+//
+//        self.view.addSubview(newPostButton)
+//
+//        self.view.addSubview(friendsButton)
+//
+//        self.view.addSubview(settingsButton)
+//
+//        self.view.addSubview(dmButton)
+//
+//        self.view.addSubview(homeProfileButton)
+//        self.view.addSubview(trashButton)
+//         self.view.addSubview(toSearchButton)
+//
+//
+//        addPostButton.frame = CGRect(x: self.view.frame.width/2-40, y: self.view.frame.height - 83, width: 80, height: 80)
+//        // round ava
+//        addPostButton.layer.cornerRadius = addPostButton.frame.size.width / 2
+//        addPostButton.clipsToBounds = true
+//
+//
+//        trashButton.frame = CGRect(x: self.view.frame.width/2-40, y: self.view.frame.height - 83, width: 80, height: 80)
+//        // round ava
+//        trashButton.layer.cornerRadius = addPostButton.frame.size.width / 2
+//        trashButton.clipsToBounds = true
+//
+//        toSearchButton.frame = CGRect(x: self.view.frame.width-60, y: 5, width: 50, height: 50)
+//        // round ava
+//        toSearchButton.layer.cornerRadius = toSearchButton.frame.size.width / 2
+//        toSearchButton.clipsToBounds = true
+//
+//
+//
+//
+//        newPostButton.frame = CGRect(x: 13, y: addPostButton.frame.minY, width: 80, height: 80)
+//        //  newPostButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
+//        // round ava
+//        newPostButton.layer.cornerRadius = newPostButton.frame.size.width / 2
+//        newPostButton.clipsToBounds = true
+//
+//
+//        friendsButton.frame = CGRect(x: self.view.frame.width/2 - 40, y: self.view.frame.height - 203, width: 80, height: 80)
+//        // friendsButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
+//        // round ava
+//        friendsButton.layer.cornerRadius = friendsButton.frame.size.width / 2
+//        friendsButton.clipsToBounds = true
+//
+//
+//
+//
+//        dmButton.frame = CGRect(x: self.view.frame.width*3/5 + 20, y: self.view.frame.height - 166, width: 80, height: 80)
+//        //  dmButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
+//        // round ava
+//        dmButton.layer.cornerRadius = dmButton.frame.size.width / 2
+//        dmButton.clipsToBounds = true
+//
+//
+//
+//        settingsButton.frame = CGRect(x: self.view.frame.width - 93, y: self.view.frame.height - 83, width: 80, height: 80)
+//        // settingsButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
+//        // round ava
+//        settingsButton.layer.cornerRadius = settingsButton.frame.size.width / 2
+//        settingsButton.clipsToBounds = true
+//
+//
+//
+//        homeProfileButton.frame = CGRect(x: self.view.frame.width/5 - 20, y: dmButton.frame.minY, width: 80, height: 80)
+//        // homeProfileButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
+//        // round ava
+//        homeProfileButton.layer.cornerRadius = homeProfileButton.frame.size.width / 2
+//        homeProfileButton.clipsToBounds = true
+//
+//
+//        let menuTapped = UITapGestureRecognizer(target: self, action: #selector(tappedMenuButton))
+//        let menuDragged = UIPanGestureRecognizer(target: self, action: #selector(draggedMenuButton))
+//        let menuLongPressed = UILongPressGestureRecognizer(target: self, action: #selector(longPressMenuButton))
+//        addPostButton.addGestureRecognizer(menuTapped)
+//        addPostButton.addGestureRecognizer(menuDragged)
+//        addPostButton.addGestureRecognizer(menuLongPressed)
+//
+//        //hide buttons
+//        trashButton.isHidden = true
+//        newPostButton.isHidden = true
+//        settingsButton.isHidden = true
+//        friendsButton.isHidden = true
+//        dmButton.isHidden = true
+//        homeProfileButton.isHidden = true
+//        toSearchButton.isHidden = false
+//
+//        // show add Post button
+//        addPostButton.isHidden = false
+//        addPostButton.imageView?.image = UIImage(named: "k23")
+//        addPostButton.layer.zPosition = 2
+//    }
     
     func setUpScrollView() {
         // Do any additional setup after loading the view.
@@ -276,10 +282,10 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
 //        let bg = UIImageView(frame: CGRect(x: -400, y: -400, width: 3000, height: 3000))
 //        bg.backgroundColor = .black
 //        bg.layer.zPosition = -1
-        scrollView.backgroundColor = .purple
+        scrollView.backgroundColor = .clear
         
         
-        contentView.backgroundColor = .green
+        contentView.backgroundColor = .clear
         contentView.isHidden = false
 
         scrollView.addSubview(contentView)
@@ -607,6 +613,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         super.viewWillAppear(true) // No need for semicolon
         print("search button \(toSearchButton.frame)")
         firstLoad = true
+        menuView.tabController = (tabBarController! as! NavigationMenuBaseController)
         
         
         //createImageViews()
