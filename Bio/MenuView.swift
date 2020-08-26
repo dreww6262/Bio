@@ -128,6 +128,13 @@ class MenuView: UIView {
         dmButton.isHidden = true
         homeProfileButton.isHidden = true
         
+        newPostButton.setImage(UIImage(named: "plusImage"), for: .normal)
+        settingsButton.setImage(UIImage(named: "settingsGear"), for: .normal)
+        friendsButton.setImage(UIImage(named: "boyprofile"), for: .normal)
+        dmButton.setImage(UIImage(named: "mailcircle"), for: .normal)
+        homeProfileButton.setImage(UIImage(named: "stickFigure"), for: .normal)
+        menuButton.setImage(UIImage(named: "plusImage"), for: .normal)
+        
         newPostButton.tintColor = .black
         settingsButton.tintColor = .black
         friendsButton.tintColor = .black

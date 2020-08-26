@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="aXN-pf-xwZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="AGA-wN-m2B">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -2159,45 +2159,6 @@
                                     <action selector="addLinkPressed:" destination="VZv-rN-vbo" eventType="touchUpInside" id="6XN-3g-8kz"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fjk-ai-lFF">
-                                <rect key="frame" x="10" y="460" width="32" height="29"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="plusImage"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fFM-Pt-psZ">
-                                <rect key="frame" x="50" y="458" width="37" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="plusImage"/>
-                                <connections>
-                                    <action selector="newPostButtonClicked:" destination="VZv-rN-vbo" eventType="touchUpInside" id="Mky-4T-9Ej"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BkO-QY-2MM">
-                                <rect key="frame" x="54" y="418" width="20" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="boyprofile"/>
-                                <connections>
-                                    <action selector="friendsButtonClicked:" destination="VZv-rN-vbo" eventType="touchUpInside" id="6VD-8e-sqy"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pqb-Mb-hVT">
-                                <rect key="frame" x="50" y="200" width="20" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="mailcircle"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VZL-s5-6ve">
-                                <rect key="frame" x="100" y="200" width="20" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="settingsGear"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="20g-pa-iQa">
-                                <rect key="frame" x="102" y="447" width="38" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="stickFigure"/>
-                                <connections>
-                                    <action selector="homeButtonClicked:" destination="VZv-rN-vbo" eventType="touchUpInside" id="BdP-Fo-3VL"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Add Link" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G9N-ju-apm">
                                 <rect key="frame" x="53" y="588" width="67" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -2216,21 +2177,15 @@
                         <viewLayoutGuide key="safeArea" id="leC-eH-Aoh"/>
                     </view>
                     <connections>
-                        <outlet property="addPostButton" destination="Fjk-ai-lFF" id="Clc-nt-P7c"/>
-                        <outlet property="dmButton" destination="pqb-Mb-hVT" id="OHY-4U-owf"/>
-                        <outlet property="friendsButton" destination="BkO-QY-2MM" id="OLl-ff-9XQ"/>
                         <outlet property="gradientImage" destination="EN3-oE-wHV" id="Ad2-Jp-eqz"/>
-                        <outlet property="homeProfileButton" destination="20g-pa-iQa" id="bQ5-4R-u3e"/>
                         <outlet property="l1" destination="lye-j9-aOL" id="PhK-wO-JLc"/>
                         <outlet property="l2" destination="WPV-0w-qhr" id="pvD-8V-JmH"/>
                         <outlet property="l3" destination="G9N-ju-apm" id="CPo-cd-3tk"/>
                         <outlet property="l4" destination="KXK-qF-dQr" id="eip-c7-3n8"/>
-                        <outlet property="newPostButton" destination="fFM-Pt-psZ" id="rTa-bn-2WF"/>
                         <outlet property="pic1" destination="iWJ-8H-cA3" id="v6Q-44-ych"/>
                         <outlet property="pic2" destination="xWF-sV-5U1" id="YTa-Ow-hXu"/>
                         <outlet property="pic3" destination="tw1-XV-b4T" id="TX4-Bz-Kzh"/>
                         <outlet property="pic4" destination="ahf-Pk-Wnj" id="JXW-wI-kOa"/>
-                        <outlet property="settingsButton" destination="VZL-s5-6ve" id="how-aX-UTh"/>
                         <outlet property="titleLabel" destination="mzq-00-ZBX" id="gho-SG-CSQ"/>
                     </connections>
                 </viewController>
@@ -3062,51 +3017,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p0I-VH-9XV">
-                                <rect key="frame" x="-15" y="258" width="445" height="380"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button" image="stickFigure"/>
-                                <connections>
-                                    <action selector="homeButtonClicked:" destination="S0c-tb-pNQ" eventType="touchUpInside" id="lHg-lv-XNN"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZBX-c6-iA4">
-                                <rect key="frame" x="167" y="408" width="80" height="80"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="plusImage"/>
-                                <connections>
-                                    <action selector="newPostButtonClicked:" destination="nNT-PQ-yLu" eventType="touchUpInside" id="Sd0-6D-Jkt"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Q9v-wG-egz">
-                                <rect key="frame" x="170" y="411" width="73" height="73"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="plusImage">
-                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
-                                </state>
-                                <connections>
-                                    <action selector="addPostButton:" destination="D7B-CN-SMs" eventType="touchUpInside" id="QgC-1S-eZY"/>
-                                    <action selector="newPostButtonClicked:" destination="S0c-tb-pNQ" eventType="touchUpInside" id="3Sr-he-lgE"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GUZ-hD-ImY">
-                                <rect key="frame" x="167" y="408" width="80" height="80"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="boyprofile"/>
-                                <connections>
-                                    <action selector="friendsButtonClicked:" destination="S0c-tb-pNQ" eventType="touchUpInside" id="DS8-jX-77y"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QdX-89-Ghl">
-                                <rect key="frame" x="167" y="408" width="80" height="80"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button" image="settingsGear"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="gGe-ek-ZmM">
-                                <rect key="frame" x="167" y="408" width="80" height="80"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="mailcircle"/>
-                            </button>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" id="2ZI-MK-Ixu">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -3137,14 +3047,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="Efm-tf-OUw"/>
                     <connections>
-                        <outlet property="addPostButton" destination="ZBX-c6-iA4" id="fjo-Ic-SXY"/>
                         <outlet property="contentView" destination="a6L-dw-uKn" id="uZp-GS-A1C"/>
-                        <outlet property="dmButton" destination="gGe-ek-ZmM" id="eB1-q6-sFc"/>
-                        <outlet property="friendsButton" destination="GUZ-hD-ImY" id="3M2-R5-1Cl"/>
-                        <outlet property="homeProfileButton" destination="p0I-VH-9XV" id="xYh-hz-HMJ"/>
-                        <outlet property="newPostButton" destination="Q9v-wG-egz" id="gE3-ao-3uw"/>
                         <outlet property="scrollView" destination="2ZI-MK-Ixu" id="4Yv-Vv-uNI"/>
-                        <outlet property="settingsButton" destination="QdX-89-Ghl" id="p0g-tR-Wma"/>
                         <outlet property="toSearchButton" destination="XHC-tl-tDm" id="LeM-bD-wsh"/>
                     </connections>
                 </viewController>
@@ -3570,47 +3474,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="5eJ-Gd-XzJ">
-                                <rect key="frame" x="170" y="411" width="73" height="73"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="plusImage">
-                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
-                                </state>
-                                <connections>
-                                    <action selector="addPostButton:" destination="D7B-CN-SMs" eventType="touchUpInside" id="1ex-Kg-sgq"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dhn-NR-iNA">
-                                <rect key="frame" x="167" y="408" width="80" height="80"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="plusImage"/>
-                                <connections>
-                                    <action selector="newPostButtonClicked:" destination="nNT-PQ-yLu" eventType="touchUpInside" id="JXH-D6-JHf"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jn5-9U-wrD">
-                                <rect key="frame" x="167" y="408" width="80" height="80"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="boyprofile"/>
-                                <connections>
-                                    <action selector="friendsButtonClicked:" destination="nNT-PQ-yLu" eventType="touchUpInside" id="v4d-YE-sQX"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P5G-Xj-IMy">
-                                <rect key="frame" x="195" y="410" width="80" height="80"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="stickFigure"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dag-2J-Sw2">
-                                <rect key="frame" x="170" y="410" width="80" height="80"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button" image="mailcircle"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WYY-kF-LD8">
-                                <rect key="frame" x="-49" y="192" width="80" height="80"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="settingsGear"/>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zt4-aN-hYV">
                                 <rect key="frame" x="182" y="423" width="50" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -3645,14 +3508,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="dcd-Qq-xlH"/>
                     <connections>
-                        <outlet property="addPostButton" destination="5eJ-Gd-XzJ" id="Y7n-3y-bSl"/>
                         <outlet property="contentView" destination="iy2-li-0lk" id="PPh-MZ-rrD"/>
-                        <outlet property="dmButton" destination="Dag-2J-Sw2" id="Dqe-Lr-LQK"/>
-                        <outlet property="friendsButton" destination="Jn5-9U-wrD" id="wLw-wQ-6lv"/>
-                        <outlet property="homeProfileButton" destination="P5G-Xj-IMy" id="do8-tv-Xsy"/>
-                        <outlet property="newPostButton" destination="dhn-NR-iNA" id="qBo-09-vjM"/>
                         <outlet property="scrollView" destination="SUT-vw-xXn" id="ney-yJ-emU"/>
-                        <outlet property="settingsButton" destination="WYY-kF-LD8" id="FoG-3Y-NLm"/>
                         <outlet property="toSearchButton" destination="z1n-Q0-Osp" id="xgG-n1-CdF"/>
                         <outlet property="trashButton" destination="zt4-aN-hYV" id="23K-vJ-0NS"/>
                     </connections>
@@ -4406,7 +4263,6 @@
         <image name="linkIcon" width="1300" height="1300"/>
         <image name="list.bullet" catalog="system" width="128" height="88"/>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
-        <image name="mailcircle" width="1000" height="1080"/>
         <image name="minus" catalog="system" width="128" height="24"/>
         <image name="music.note" catalog="system" width="97" height="128"/>
         <image name="pencil" catalog="system" width="128" height="113"/>

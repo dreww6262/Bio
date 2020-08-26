@@ -43,30 +43,19 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     var firstLoad  = true
     // let curvedHeight = friendsButton.frame.minY - 10
     @IBOutlet weak var contentView: UIView!
-
+    
     let storage = Storage.storage().reference()
-
+    
     var user = Auth.auth().currentUser
     var userData: UserData? = nil
     
     let menuView = MenuView()
     
-    @IBOutlet weak var addPostButton: UIButton!
-    
-    @IBOutlet weak var newPostButton: UIButton!
-    @IBOutlet weak var friendsButton: UIButton!
-    
-    @IBOutlet weak var settingsButton: UIButton!
-    
-    @IBOutlet weak var dmButton: UIButton!
-    
-    @IBOutlet weak var homeProfileButton: UIButton!
-    
     @IBOutlet weak var trashButton: UIButton!
     
     @IBOutlet weak var toSearchButton: UIButton!
     
-
+    
     var index = 0
     var index1 = 0
     
@@ -76,7 +65,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     
     
     
-
+    
     
     var reOrderedCoordinateArray: [[CGFloat]] = [[946.8266739736607, 902.5],[1081.7304845413264, 902.5], [1014.2785792574934, 1020.0],   [879.3747686898278,1020.0], [811.9228634059948,902.5], [879.3747686898278,785.0],[1014.2785792574934,785.0],[946.8266739736607, 667.5],[1081.7304845413264, 667.5], [1149.1823898251594, 785.0],  [1216.6342951089923, 902.5],[1149.1823898251594, 1020.0],   [1081.7304845413264, 1137.5], [1081.7304845413264, 1137.5],[946.8266739736607, 1137.5],[811.9228634059948, 1137.5],[744.4709581221618, 1020.0],[677.0190528383291, 902.5],[744.4709581221618, 785.0],  [811.9228634059948, 667.5],[879.3747686898278, 550.0],[1014.2785792574934, 550.0],[1149.1823898251594, 550.0],[1216.6342951089923, 667.5],[1284.0862003928253, 785.0],[1351.5381056766582, 902.5], [1284.0862003928253, 1020.0], [1216.6342951089923, 1137.5],[1149.1823898251594, 1255.0], [1014.2785792574934, 1255.0],[879.3747686898278, 1255.0],  [744.4709581221618, 1255.0],[677.0190528383291, 1137.5],[609.5671475544962, 1020.0],[542.1152422706632, 902.5],[609.5671475544962, 785.0],[677.0190528383291, 667.5],[744.4709581221618, 550.0]] // , /[811.9228634059948, 432.5], [946.8266739736607, 432.5], [1081.7304845413264, 432.5], [1216.6342951089923, 432.5],[1284.0862003928253, 550.0],[1351.5381056766582, 667.5], [1418.990010960491, 785.0],  [1486.441916244324, 902.5], [1418.990010960491, 1020.0],[1351.5381056766582, 1137.5],   [1284.0862003928253, 1255.0],[1216.6342951089923, 1372.5],   [1081.7304845413264, 1372.5],[946.8266739736607, 1372.5],[811.9228634059948, 1372.5],[677.0190528383291, 1372.5], [609.5671475544962, 1255.0],[542.1152422706632, 1137.5],[474.6633369868303, 1020.0],[407.2114317029974, 902.5],[474.6633369868303, 785.0],[542.1152422706632, 667.5],[609.5671475544962, 550.0],[677.0190528383291, 432.5]]
     
@@ -111,7 +100,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         let contentTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleContentViewerTap))
         contentViewer.addGestureRecognizer(contentTapGesture)
         
-        
+        addSearchButton()
         
         
         play(url: "https://p.scdn.co/mp3-preview/18d3b87b0765cd6d8c0a418d6142b3b441c0f8b2?cid=476c620368f349cc8be5b2a29b596eaf")
@@ -123,12 +112,21 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         
     }
     
+    func addSearchButton() {
+        self.view.addSubview(toSearchButton)
+        toSearchButton.frame = CGRect(x: self.view.frame.width-60, y: 5, width: 50, height: 50)
+        // round ava
+        toSearchButton.layer.cornerRadius = toSearchButton.frame.size.width / 2
+        toSearchButton.clipsToBounds = true
+        toSearchButton.isHidden = false
+    }
+    
     func resizeScrollView(numPosts: Int) {
         var rows = 0
         var width = view.frame.width
         var height = view.frame.height
         let additionalRowWidth = ((view.frame.width/3) - 10)*2
-   //     let heightDifference = height - width
+        //     let heightDifference = height - width
         if numPosts < 7 {
             rows = 1
             //self.scrollView.frame.width =
@@ -143,12 +141,12 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             height = height + (additionalRowWidth)
         }
         else if numPosts < 91 {
-        rows = 4
-        width = width + (3*additionalRowWidth)
-        height = height + (2*additionalRowWidth)
-    }
-      //  var addedWidth = 2*(rows-1)*160
-       // var addedHeight =  2 * (rows-1)*160
+            rows = 4
+            width = width + (3*additionalRowWidth)
+            height = height + (2*additionalRowWidth)
+        }
+        //  var addedWidth = 2*(rows-1)*160
+        // var addedHeight =  2 * (rows-1)*160
         self.scrollView.frame = CGRect(x: 0, y: 0, width: width, height:  height)
         self.contentView.frame = CGRect(x: 0, y: 0, width: width, height:  height)
         self.scrollView.contentSize = scrollView.frame.size
@@ -161,101 +159,6 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         menuView.currentTab = 2
         menuView.addBehavior()
     }
-//    func addMenuButtons() {
-//        self.view.addSubview(addPostButton)
-//
-//        self.view.addSubview(newPostButton)
-//
-//        self.view.addSubview(friendsButton)
-//
-//        self.view.addSubview(settingsButton)
-//
-//        self.view.addSubview(dmButton)
-//
-//        self.view.addSubview(homeProfileButton)
-//        self.view.addSubview(trashButton)
-//         self.view.addSubview(toSearchButton)
-//
-//
-//        addPostButton.frame = CGRect(x: self.view.frame.width/2-40, y: self.view.frame.height - 83, width: 80, height: 80)
-//        // round ava
-//        addPostButton.layer.cornerRadius = addPostButton.frame.size.width / 2
-//        addPostButton.clipsToBounds = true
-//
-//
-//        trashButton.frame = CGRect(x: self.view.frame.width/2-40, y: self.view.frame.height - 83, width: 80, height: 80)
-//        // round ava
-//        trashButton.layer.cornerRadius = addPostButton.frame.size.width / 2
-//        trashButton.clipsToBounds = true
-//
-//        toSearchButton.frame = CGRect(x: self.view.frame.width-60, y: 5, width: 50, height: 50)
-//        // round ava
-//        toSearchButton.layer.cornerRadius = toSearchButton.frame.size.width / 2
-//        toSearchButton.clipsToBounds = true
-//
-//
-//
-//
-//        newPostButton.frame = CGRect(x: 13, y: addPostButton.frame.minY, width: 80, height: 80)
-//        //  newPostButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
-//        // round ava
-//        newPostButton.layer.cornerRadius = newPostButton.frame.size.width / 2
-//        newPostButton.clipsToBounds = true
-//
-//
-//        friendsButton.frame = CGRect(x: self.view.frame.width/2 - 40, y: self.view.frame.height - 203, width: 80, height: 80)
-//        // friendsButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
-//        // round ava
-//        friendsButton.layer.cornerRadius = friendsButton.frame.size.width / 2
-//        friendsButton.clipsToBounds = true
-//
-//
-//
-//
-//        dmButton.frame = CGRect(x: self.view.frame.width*3/5 + 20, y: self.view.frame.height - 166, width: 80, height: 80)
-//        //  dmButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
-//        // round ava
-//        dmButton.layer.cornerRadius = dmButton.frame.size.width / 2
-//        dmButton.clipsToBounds = true
-//
-//
-//
-//        settingsButton.frame = CGRect(x: self.view.frame.width - 93, y: self.view.frame.height - 83, width: 80, height: 80)
-//        // settingsButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
-//        // round ava
-//        settingsButton.layer.cornerRadius = settingsButton.frame.size.width / 2
-//        settingsButton.clipsToBounds = true
-//
-//
-//
-//        homeProfileButton.frame = CGRect(x: self.view.frame.width/5 - 20, y: dmButton.frame.minY, width: 80, height: 80)
-//        // homeProfileButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
-//        // round ava
-//        homeProfileButton.layer.cornerRadius = homeProfileButton.frame.size.width / 2
-//        homeProfileButton.clipsToBounds = true
-//
-//
-//        let menuTapped = UITapGestureRecognizer(target: self, action: #selector(tappedMenuButton))
-//        let menuDragged = UIPanGestureRecognizer(target: self, action: #selector(draggedMenuButton))
-//        let menuLongPressed = UILongPressGestureRecognizer(target: self, action: #selector(longPressMenuButton))
-//        addPostButton.addGestureRecognizer(menuTapped)
-//        addPostButton.addGestureRecognizer(menuDragged)
-//        addPostButton.addGestureRecognizer(menuLongPressed)
-//
-//        //hide buttons
-//        trashButton.isHidden = true
-//        newPostButton.isHidden = true
-//        settingsButton.isHidden = true
-//        friendsButton.isHidden = true
-//        dmButton.isHidden = true
-//        homeProfileButton.isHidden = true
-//        toSearchButton.isHidden = false
-//
-//        // show add Post button
-//        addPostButton.isHidden = false
-//        addPostButton.imageView?.image = UIImage(named: "k23")
-//        addPostButton.layer.zPosition = 2
-//    }
     
     func setUpScrollView() {
         // Do any additional setup after loading the view.
@@ -275,19 +178,19 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         
         //scrollViewStuff1
         scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-
+        
         let location = CGPoint(x: reOrderedCoordinateArrayPoints[0].x - self.view.frame.width*2.125, y: reOrderedCoordinateArrayPoints[0].y - self.view.frame.height*1.2)
         self.scrollView.contentOffset = location
         
-//        let bg = UIImageView(frame: CGRect(x: -400, y: -400, width: 3000, height: 3000))
-//        bg.backgroundColor = .black
-//        bg.layer.zPosition = -1
+        //        let bg = UIImageView(frame: CGRect(x: -400, y: -400, width: 3000, height: 3000))
+        //        bg.backgroundColor = .black
+        //        bg.layer.zPosition = -1
         scrollView.backgroundColor = .clear
         
         
         contentView.backgroundColor = .clear
         contentView.isHidden = false
-
+        
         scrollView.addSubview(contentView)
         contentView.frame = CGRect(x: 0, y: 0, width: scrollView.contentSize.width, height: scrollView.contentSize.height)
         scrollView.bringSubviewToFront(contentView)
@@ -306,7 +209,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         
         print("width scale: \(widthScale)")
         print("height scale: \(heightScale)")
-       // scrollView.minimumZoomScale = min(widthScale, heightScale)
+        // scrollView.minimumZoomScale = min(widthScale, heightScale)
         //scrollView.zoomScale = scrollView.minimumZoomScale
         scrollView.maximumZoomScale = 60
         scrollView.minimumZoomScale = 0.5
@@ -321,7 +224,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         let imageViewSize = contentView.frame.size
         let scrollViewSize = scrollView.bounds.size
         let verticalPadding = imageViewSize.height < scrollViewSize.height ? (scrollViewSize.height - imageViewSize.height)/2 : 0
-           let horizontalPadding = imageViewSize.width < scrollViewSize.width ? (scrollViewSize.width - imageViewSize.width)/2 : 0
+        let horizontalPadding = imageViewSize.width < scrollViewSize.width ? (scrollViewSize.width - imageViewSize.width)/2 : 0
         
         scrollView.contentInset = UIEdgeInsets(top: verticalPadding, left: horizontalPadding, bottom: verticalPadding, right: horizontalPadding)
         
@@ -330,10 +233,10 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return contentView
     }
-
+    
     func refresh() {
         //loadView()
-
+        
         if (userData != nil) {
             createImageViews()
         }
@@ -369,165 +272,23 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         
     }
     
-    
-    @IBAction func friendsButtonClicked(_ sender: UIButton) {
-
-        let viewControllers = tabBarController!.customizableViewControllers!
-        let profileGrid = (viewControllers[3] as! BioProfileHexagonGrid2)
-        let tabController = tabBarController! as! NavigationMenuBaseController
-        profileGrid.userData = userData
-        profileGrid.refresh()
-        tabController.viewControllers![3] = profileGrid
-        tabController.customTabBar.switchTab(from: 2, to: 3)
-    }
-    
-    @IBAction func newPostButtonClicked(_ sender: UIButton) {
-
-        let viewControllers = tabBarController!.customizableViewControllers!
-        let newPostVC = (viewControllers[4] as! NewPostOptionsVC)
-        newPostVC.userData = userData
-        let tabController = tabBarController! as! NavigationMenuBaseController
-        tabController.viewControllers![4] = newPostVC
-        tabController.customTabBar.switchTab(from: 2, to: 4)
-    }
-    
-    @objc func tappedMenuButton(sender: UITapGestureRecognizer) {
-        if (dmButton.isHidden == true) {
-            makeAllMenuButtonsBlack()
-            showMenuOptions()
-        }
-            //sleep(3000)
-        else {
-            hideMenuOptions()
-        }
-    }
-    
-    
-    // TODO: TO DO Redo this for circular border
-    func makeAllMenuButtonsBlack() {
-        newPostButton.imageView?.makeRounded()
-        homeProfileButton.imageView?.makeRounded()
-        dmButton.imageView?.makeRounded()
-        settingsButton.imageView?.makeRounded()
-        friendsButton.imageView?.makeRounded()
-        addPostButton.imageView?.makeRounded()
-        
-        //        newPostButton.layer.borderWidth = 4
-        //        homeProfileButton.layer.borderWidth = 4
-        //        dmButton.layer.borderWidth = 4
-        //        settingsButton.layer.borderWidth = 4
-        //        friendsButton.layer.borderWidth = 4
-        //
-        //
-        //
-        //        newPostButton.layer.borderColor = UIColor.black.cgColor
-        //         homeProfileButton.layer.borderColor = UIColor.black.cgColor
-        //         dmButton.layer.borderColor = UIColor.black.cgColor
-        //         settingsButton.layer.borderColor = UIColor.black.cgColor
-        //         friendsButton.layer.borderColor = UIColor.black.cgColor
-        
-        //        newPostButton.imageView!.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10)
-        //        homeProfileButton.imageView!.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10)
-        //        dmButton.imageView!.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10)
-        //        settingsButton.imageView!.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10)
-        //        friendsButton.imageView!.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10)
-    }
-    
-    @objc func draggedMenuButton(sender: UIPanGestureRecognizer) {
-        var point : CGPoint = sender.translation(in: view)
-        point.x += sender.view!.frame.midX
-        point.y += sender.view!.frame.midY
-        //        print(point)
-        if (sender.state == .began) {
-            makeAllMenuButtonsBlack()
-            showMenuOptions()
-        }
-        if (sender.state == .changed) {
-            //showMenuOptions()
-            //            print("changing")
-            makeAllMenuButtonsBlack()
-            let button = findMenuHexagonButton(hexCenter: point)
-            //            print("buttin \(button?.titleLabel)")
-            // button?.imageView?.setupHexagonMask(lineWidth: 10.0, color: red, cornerRadius: 10)
-            button?.imageView?.makeRoundedGold()
-        }
-        if (sender.state == .ended) {
-            //find button
-            let button = findMenuHexagonButton(hexCenter: point)
-            button?.sendActions(for: .touchUpInside)
-            //print("button triggered: \(button?.titleLabel)")
-            hideMenuOptions()
-            //change VC
-        }
-    }
-    func findMenuHexagonButton(hexCenter: CGPoint) -> UIButton? {
-        //        print(hexCenter)
-        if (distance(hexCenter, newPostButton.center) < 70) {
-            return newPostButton
-        }
-        if (distance(hexCenter, homeProfileButton.center) < 70) {
-            return homeProfileButton
-        }
-        if (distance(hexCenter, dmButton.center) < 70) {
-            return dmButton
-        }
-        if (distance(hexCenter, settingsButton.center) < 70) {
-            return settingsButton
-        }
-        if (distance(hexCenter, friendsButton.center) < 70) {
-            return friendsButton
-        }
-        return nil
-        
-        
-    }
-    
-    @objc func longPressMenuButton(sender: UILongPressGestureRecognizer) {
-        if (sender.state == .began) {
-            makeAllMenuButtonsBlack()
-            showMenuOptions()
-        }
-        if (sender.state == .ended) {
-            hideMenuOptions()
-        }
-    }
-    
-    
-    func showMenuOptions() {
-        newPostButton.isHidden = false
-        homeProfileButton.isHidden = false
-        dmButton.isHidden = false
-        settingsButton.isHidden = false
-        friendsButton.isHidden = false
-        curvedLayer.isHidden = false
-    }
-    func hideMenuOptions() {
-        newPostButton.isHidden = true
-        homeProfileButton.isHidden = true
-        dmButton.isHidden = true
-        settingsButton.isHidden = true
-        friendsButton.isHidden = true
-        curvedLayer.isHidden = true
-    }
-    
-    
     func createImageViews() {
         // background
-//        let bg = UIImageView(frame: CGRect(x: -400, y: -400, width: 3000, height: 3000))
-//        bg.image = UIImage(named: "outerspace1")
-//        bg.layer.zPosition = -1
-//        scrollView.addSubview(bg)
+        //        let bg = UIImageView(frame: CGRect(x: -400, y: -400, width: 3000, height: 3000))
+        //        bg.image = UIImage(named: "outerspace1")
+        //        bg.layer.zPosition = -1
+        //        scrollView.addSubview(bg)
         
         print("This is scroll view frame")
         print(self.scrollView.frame)
         print(self.contentView.frame)
-//        zoomView.frame = scrollView.bounds
-//        print(self.zoomView.frame)
+        //        zoomView.frame = scrollView.bounds
+        //        print(self.zoomView.frame)
         let hexaDiameter : CGFloat = 150
         
         
         
-       let numPosts = self.userData?.numPosts ?? 0
+        let numPosts = self.userData?.numPosts ?? 0
         
         //print("userdata \(self.userData)")
         
@@ -582,7 +343,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             for image in imageViewArray {
                 print("added Image")
                 self.contentView.addSubview(image)
-                    print("imageFrame: \(image.frame)")
+                print("imageFrame: \(image.frame)")
                 print("image frame in scrollview\(scrollView.convert(image.frame, from: contentView))")
                 print("zoom view frame in scrollView \(scrollView.convert(contentView.frame, from: contentView))")
                 
@@ -625,10 +386,6 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     
     func loadData(completed: @escaping () -> ()) {
         //        print("in load data funtion")
-        
-        
-        
-        
         let hexQuery = db.collection("Hexagons2").whereField("postingUserID", isEqualTo: userData?.publicID)
         loadDataListener = hexQuery.addSnapshotListener { (querySnapshot, error) in
             guard error == nil else {
@@ -684,10 +441,6 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         
     }
     
-    
-    
-    
-    
     @objc func longTap(_ sender: UIGestureRecognizer){
         print("Long tap")
         print("🎹🎹🎹🎹🎹🎹🎹🎹🎹")
@@ -704,10 +457,6 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             hexIsMovable = true
             currentDraggedHexagonFrame = imageViewArray[currentDraggedHexagonTag].frame
             //dragItem(sender as! UIPanGestureRecognizer)
-            
-            
-            
-            
         }
     }
     
@@ -751,8 +500,6 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         let yDist = a.y - b.y
         return CGFloat(sqrt(xDist * xDist + yDist * yDist))
     }
-    
-    
     
     func populateSocialMedia() {
         imageViewArray[0].image = UIImage(named: "kayserbitmoji")
@@ -808,10 +555,6 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         
         //  URL(string: "spotify:track:1dNIEtp7AY3oDAKCGg2XkH")
     }
-    
-    
-    
-    
     
     func openFacebook(facebookHandle: String) {
         let webURL: NSURL = NSURL(string: "https://www.facebook.com/ID")!
@@ -880,7 +623,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                 image.addGestureRecognizer(dragGesture)
                 //    var gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
                 image.setupHexagonMask(lineWidth: 10.0, color: .darkGray, cornerRadius: 10.0)
-
+                
                 self.contentView.addSubview(image)
                 imageViewArray.append(image)
                 imageViewArray.last!.tag = imageViewArray.count - 1
@@ -921,7 +664,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         
         // if hexagon is in movable mode.
         if (hexIsMovable) {
-            addPostButton.isHidden = true
+            menuView.menuButton.isHidden = true
             trashButton.isHidden = false
             var newIndex: Int = 0
             var currentHexagonCenter = CGPoint(x:0.0, y:0.0)
@@ -968,7 +711,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                 
             }
             else if (sender.state == .ended) {
-               
+                
                 currentHexagonCenter = (sender.view?.center)!
                 let hexCenterInView = scrollView.convert(currentHexagonCenter, to: view)
                 var currentIndex = sender.view!.tag - 1
@@ -988,7 +731,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                     var tempIndex = currentIndex
                     while tempIndex < hexagonStructArray.count {
                         print("temp Index: \(tempIndex), count: \(hexagonStructArray.count)")
-
+                        
                         hexagonStructArray[tempIndex].location -= 1
                         let newtemp = hexagonStructArray[tempIndex]
                         docRef = db.collection("Hexagons2").document(newtemp.docID)
@@ -1003,24 +746,24 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                 }
                 //                print("This is newIndex before \(newIndex)")
                 newIndex = findIntersectingHexagon(hexCenter: currentHexagonCenter)
-                 trashButton.isHidden = true
-                addPostButton.isHidden = false
-//                let imageIndex = sender.view!.tag
-//                if (newIndex == 0 || newIndex == imageIndex) {
-//                    // do nothing
-//                }
-//                else if (newIndex > imageIndex) {
-//                    let temp = hexagonStructArray[newIndex - 1]
-//                    let tempIndex = imageIndex
-//                    hexagonStructArray[newIndex - 1] = hexagonStructArray[imageIndex]
-//                    while (tempIndex < newIndex - 2) {
-//                        hexagonStructArray[tempIndex] = hexagonStructArray[tempIndex + 1]
-//                    }
-//                    hexagonStructArray[newIndex - 2] = temp
-//                }
-//                else {
-//
-//                }
+                trashButton.isHidden = true
+                menuView.menuButton.isHidden = false
+                //                let imageIndex = sender.view!.tag
+                //                if (newIndex == 0 || newIndex == imageIndex) {
+                //                    // do nothing
+                //                }
+                //                else if (newIndex > imageIndex) {
+                //                    let temp = hexagonStructArray[newIndex - 1]
+                //                    let tempIndex = imageIndex
+                //                    hexagonStructArray[newIndex - 1] = hexagonStructArray[imageIndex]
+                //                    while (tempIndex < newIndex - 2) {
+                //                        hexagonStructArray[tempIndex] = hexagonStructArray[tempIndex + 1]
+                //                    }
+                //                    hexagonStructArray[newIndex - 2] = temp
+                //                }
+                //                else {
+                //
+                //                }
                 
                 if (newIndex != 0 && newIndex != currentIndex) {
                     let temp = hexagonStructArray[newIndex]
@@ -1067,9 +810,9 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                 
                 print("This is current newIndex \(newIndex)")
                 hexIsMovable = false
-//                var originalFrame = currentDraggedHexagonFrame
-//                var tempImage1 = imageViewArray[currentDraggedHexagonTag].image
-//                var tempImage2 = imageViewArray[newIndex].image
+                //                var originalFrame = currentDraggedHexagonFrame
+                //                var tempImage1 = imageViewArray[currentDraggedHexagonTag].image
+                //                var tempImage2 = imageViewArray[newIndex].image
                 imageViewArray[currentIndex + 1].frame = CGRect(x: reOrderedCoordinateArrayPointsCentered[newIndex + 1].x - 75, y: reOrderedCoordinateArrayPointsCentered[newIndex + 1].y - 75, width: 150, height: 150)
                 imageViewArray[newIndex + 1].frame = CGRect(x: reOrderedCoordinateArrayPointsCentered[currentIndex + 1].x - 75, y: reOrderedCoordinateArrayPointsCentered[currentIndex + 1].y - 75, width: 150, height: 150)
                 imageViewArray[newIndex + 1].tag = currentIndex + 1
@@ -1077,7 +820,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                 let tempImageView = imageViewArray[newIndex + 1]
                 imageViewArray[newIndex + 1] = imageViewArray[currentIndex + 1]
                 imageViewArray[currentIndex + 1] = tempImageView
-
+                
                 
             }
         }
@@ -1172,40 +915,40 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     func dismissFullscreenImage(view: UIView) {
         self.navigationController?.isNavigationBarHidden = true
         self.tabBarController?.tabBar.isHidden = true
-        addPostButton.isHidden = false 
+        menuView.menuButton.isHidden = false
         view.removeFromSuperview()
     }
     
     
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
         //        print("🎯🎯🎯🎯🎯Hello World")
-            print("🎯🎯🎯🎯🎯🎯🎯I tapped image with tag \(sender.view!.tag)")
+        print("🎯🎯🎯🎯🎯🎯🎯I tapped image with tag \(sender.view!.tag)")
         if sender.view!.tag == 0 {
             print("Tried to click profile pic handle later")
-        
+            
         }
         else if hexagonStructArray[sender.view!.tag-1].type.contains("photo") {
-            addPostButton.isHidden = true 
-        let newImageView = UIImageView(image: UIImage(named: "kbit"))
-        let ref = storage.child(self.hexagonStructArray[sender.view!.tag-1].thumbResource)
-        newImageView.sd_setImage(with: ref)
-        
-        // let newImageView = UIImageView(image: imageViewArray[sender.view!.tag].image)
-    //    let frame = CGRect(x: scrollView.frame.minX + scrollView.contentOffset.x, y: scrollView.frame.minY + scrollView.contentOffset.y, width: scrollView.frame.width, height: scrollView.frame.height)
-        let frame = CGRect(x: scrollView.frame.minX, y: scrollView.frame.minY, width: scrollView.frame.width, height: scrollView.frame.height)
-        
-        newImageView.frame = frame
-        newImageView.backgroundColor = .white
-        
-        newImageView.contentMode = .scaleAspectFit
-        newImageView.isUserInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImageHandler))
-        newImageView.addGestureRecognizer(tap)
-        self.view.addSubview(newImageView)
-        let textView = UITextView()
-        textView.text = "asdfkjlasdfjasdf"
-        textView.textColor = .red
-        
+            menuView.menuButton.isHidden = true
+            let newImageView = UIImageView(image: UIImage(named: "kbit"))
+            let ref = storage.child(self.hexagonStructArray[sender.view!.tag-1].thumbResource)
+            newImageView.sd_setImage(with: ref)
+            
+            // let newImageView = UIImageView(image: imageViewArray[sender.view!.tag].image)
+            //    let frame = CGRect(x: scrollView.frame.minX + scrollView.contentOffset.x, y: scrollView.frame.minY + scrollView.contentOffset.y, width: scrollView.frame.width, height: scrollView.frame.height)
+            let frame = CGRect(x: scrollView.frame.minX, y: scrollView.frame.minY, width: scrollView.frame.width, height: scrollView.frame.height)
+            
+            newImageView.frame = frame
+            newImageView.backgroundColor = .white
+            
+            newImageView.contentMode = .scaleAspectFit
+            newImageView.isUserInteractionEnabled = true
+            let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImageHandler))
+            newImageView.addGestureRecognizer(tap)
+            self.view.addSubview(newImageView)
+            let textView = UITextView()
+            textView.text = "asdfkjlasdfjasdf"
+            textView.textColor = .red
+            
         }
         else if hexagonStructArray[sender.view!.tag-1].type.contains("social") {
             let theType = hexagonStructArray[sender.view!.tag-1].type
@@ -1213,14 +956,14 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                 openInstagram(instagramHandle: hexagonStructArray[sender.view!.tag-1].text)
             }
             if theType.contains("twitter") {
-                    openTwitter(twitterHandle: hexagonStructArray[sender.view!.tag-1].text)
+                openTwitter(twitterHandle: hexagonStructArray[sender.view!.tag-1].text)
             }
             if theType.contains("tik") {
-                          openTikTok(tikTokHandle: hexagonStructArray[sender.view!.tag-1].text)
-                      }
+                openTikTok(tikTokHandle: hexagonStructArray[sender.view!.tag-1].text)
+            }
             if theType.contains("snapchat") {
-                          openSnapchat(snapchatUsername: hexagonStructArray[sender.view!.tag-1].text)
-                      }
+                openSnapchat(snapchatUsername: hexagonStructArray[sender.view!.tag-1].text)
+            }
             
             
             
@@ -1228,45 +971,45 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         }
         
         
-//        if sender.view!.tag == 1 {
-//            dismissFullscreenImage(view: newImageView)
-//            openFacebook(facebookHandle: "")
-//        }
-//
-//        if sender.view!.tag == 2 {
-//            dismissFullscreenImage(view: newImageView)
-//            openInstagram(instagramHandle: "patmcdonough42")
-//        }
-//
-//        if sender.view!.tag == 3 {
-//            dismissFullscreenImage(view: newImageView)
-//            openTwitter(twitterHandle: "kanyewest")
-//        }
-//
-//        if sender.view!.tag == 4 {
-//            dismissFullscreenImage(view: newImageView)
-//            openSpotifySong()
-//        }
-//
-//        if sender.view!.tag == 5 {
-//            dismissFullscreenImage(view: newImageView)
-//            openSnapchat(snapchatUsername: "patmcdonough42")
-//
-//        }
-//
-//        if sender.view!.tag == 6 {
-//            print("im about to play video")
-//            dismissFullscreenImage(view: newImageView)
-//            // openTikTok(tikTokHandle: "https://vm.tiktok.com/JeQCbBR/")
-//            loadVideo(urlString: "https://firebasestorage.googleapis.com/v0/b/hw05-54fe6.appspot.com/o/example-movie.mp4?alt=media&token=4dc2f663-94a1-460a-a05f-a2ce6774ae5b")
-//        }
-//        if sender.view!.tag == 8 {
-//            print("im about to play old spice video")
-//            dismissFullscreenImage(view: newImageView)
-//            // openTikTok(tikTokHandle: "https://vm.tiktok.com/JeQCbBR/")
-//            // scrollView.backgroundColor = .black
-//            loadVideo(urlString: "https://firebasestorage.googleapis.com/v0/b/hw05-54fe6.appspot.com/o/Old%20Spice%20%7C%20The%20Man%20Your%20Man%20Could%20Smell%20Like.mp4?alt=media&token=c465fe00-4e95-485f-bc18-2806076b82f3")
-//        }
+        //        if sender.view!.tag == 1 {
+        //            dismissFullscreenImage(view: newImageView)
+        //            openFacebook(facebookHandle: "")
+        //        }
+        //
+        //        if sender.view!.tag == 2 {
+        //            dismissFullscreenImage(view: newImageView)
+        //            openInstagram(instagramHandle: "patmcdonough42")
+        //        }
+        //
+        //        if sender.view!.tag == 3 {
+        //            dismissFullscreenImage(view: newImageView)
+        //            openTwitter(twitterHandle: "kanyewest")
+        //        }
+        //
+        //        if sender.view!.tag == 4 {
+        //            dismissFullscreenImage(view: newImageView)
+        //            openSpotifySong()
+        //        }
+        //
+        //        if sender.view!.tag == 5 {
+        //            dismissFullscreenImage(view: newImageView)
+        //            openSnapchat(snapchatUsername: "patmcdonough42")
+        //
+        //        }
+        //
+        //        if sender.view!.tag == 6 {
+        //            print("im about to play video")
+        //            dismissFullscreenImage(view: newImageView)
+        //            // openTikTok(tikTokHandle: "https://vm.tiktok.com/JeQCbBR/")
+        //            loadVideo(urlString: "https://firebasestorage.googleapis.com/v0/b/hw05-54fe6.appspot.com/o/example-movie.mp4?alt=media&token=4dc2f663-94a1-460a-a05f-a2ce6774ae5b")
+        //        }
+        //        if sender.view!.tag == 8 {
+        //            print("im about to play old spice video")
+        //            dismissFullscreenImage(view: newImageView)
+        //            // openTikTok(tikTokHandle: "https://vm.tiktok.com/JeQCbBR/")
+        //            // scrollView.backgroundColor = .black
+        //            loadVideo(urlString: "https://firebasestorage.googleapis.com/v0/b/hw05-54fe6.appspot.com/o/Old%20Spice%20%7C%20The%20Man%20Your%20Man%20Could%20Smell%20Like.mp4?alt=media&token=c465fe00-4e95-485f-bc18-2806076b82f3")
+        //        }
         
         
         
@@ -1427,8 +1170,8 @@ extension UIImageView {
         self.layer.cornerRadius = self.frame.height / 2
         self.clipsToBounds = true
     }
-
- func makeRoundedGold() {
+    
+    func makeRoundedGold() {
         
         self.layer.borderWidth = 4
         self.layer.masksToBounds = false
@@ -1436,7 +1179,7 @@ extension UIImageView {
         self.layer.cornerRadius = self.frame.height / 2
         self.clipsToBounds = true
     }
-
+    
 }
 
 extension UIView {

@@ -20,10 +20,11 @@ import FirebaseStorage
 
 
 class BioProfileHexagonGrid2: UIViewController, UISearchBarDelegate, UIScrollViewDelegate {
- 
+    
     
     //var user = PFUser.current()!.username!
     
+    let menuView = MenuView()
     var searchBar = UISearchBar()
     var user = Auth.auth().currentUser
     var storage = Storage.storage().reference()
@@ -37,17 +38,8 @@ class BioProfileHexagonGrid2: UIViewController, UISearchBarDelegate, UIScrollVie
     var userData: UserData?
     var loadUserDataArray: [UserData] = []
     var tableView = UITableView()
-    @IBOutlet weak var addPostButton: UIButton!
     
     @IBOutlet weak var contentView: UIView!
-    @IBOutlet weak var newPostButton: UIButton!
-    @IBOutlet weak var friendsButton: UIButton!
-    
-    @IBOutlet weak var settingsButton: UIButton!
-    
-    @IBOutlet weak var dmButton: UIButton!
-    
-    @IBOutlet weak var homeProfileButton: UIButton!
     
     @IBOutlet weak var toSearchButton: UIButton!
     
@@ -99,13 +91,13 @@ class BioProfileHexagonGrid2: UIViewController, UISearchBarDelegate, UIScrollVie
         setUpScrollView()
         
         view.addSubview(searchBar)
-            searchBar.delegate = self
-               searchBar.sizeToFit()
-               searchBar.tintColor = UIColor.black
-               searchBar.frame.size.width = self.view.frame.size.width
+        searchBar.delegate = self
+        searchBar.sizeToFit()
+        searchBar.tintColor = UIColor.black
+        searchBar.frame.size.width = self.view.frame.size.width
         
-               let searchItem = UIBarButtonItem(customView: searchBar)
-               self.navigationItem.leftBarButtonItem = searchItem
+        let searchItem = UIBarButtonItem(customView: searchBar)
+        self.navigationItem.leftBarButtonItem = searchItem
         searchBar.isHidden = true
         
         
@@ -117,180 +109,111 @@ class BioProfileHexagonGrid2: UIViewController, UISearchBarDelegate, UIScrollVie
         //   downloadFileFromURL(url: URL(string: "https://p.scdn.co/mp3-preview/18d3b87b0765cd6d8c0a418d6142b3b441c0f8b2?cid=476c620368f349cc8be5b2a29b596eaf")!)
         
         // background
-//        let bg = UIImageView(frame: CGRect(x: -400, y: -400, width: 3000, height: 3000))
-//        bg.image = UIImage(named: "outerspace1")
-//        bg.layer.zPosition = -1
-//        self.view.addSubview(bg)
+        //        let bg = UIImageView(frame: CGRect(x: -400, y: -400, width: 3000, height: 3000))
+        //        bg.image = UIImage(named: "outerspace1")
+        //        bg.layer.zPosition = -1
+        //        self.view.addSubview(bg)
         
-//        let bg = UIImageView(frame: CGRect(x: -400, y: -400, width: 3000, height: 3000))
-//               bg.image = UIImage(named: "outerspace1")
-//               bg.layer.zPosition = -1
-//               scrollView.addSubview(bg)
+        //        let bg = UIImageView(frame: CGRect(x: -400, y: -400, width: 3000, height: 3000))
+        //               bg.image = UIImage(named: "outerspace1")
+        //               bg.layer.zPosition = -1
+        //               scrollView.addSubview(bg)
         
-        print("addPostbuttons")
-        self.view.addSubview(addPostButton)
+        addMenuButtons()
         
-        self.view.addSubview(newPostButton)
-        
-        self.view.addSubview(friendsButton)
-        
-        self.view.addSubview(settingsButton)
-        
-        self.view.addSubview(dmButton)
-        
-        self.view.addSubview(homeProfileButton)
-        
-        self.view.addSubview(toSearchButton)
-        
-        addPostButton.frame = CGRect(x: self.view.frame.width/2-40, y: self.view.frame.height - 83, width: 80, height: 80)
-        // round ava
-        addPostButton.layer.cornerRadius = addPostButton.frame.size.width / 2
-        addPostButton.clipsToBounds = true
-        
-        toSearchButton.frame = CGRect(x: self.view.frame.width - 90, y: 5, width: 80, height: 80)
-        // round ava
-        toSearchButton.layer.cornerRadius = addPostButton.frame.size.width / 2
-        toSearchButton.clipsToBounds = true
+        addSearchButton()
         
         
-        
-        newPostButton.frame = CGRect(x: 13, y: addPostButton.frame.minY, width: 80, height: 80)
-        //  newPostButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
-        // round ava
-        newPostButton.layer.cornerRadius = newPostButton.frame.size.width / 2
-        newPostButton.clipsToBounds = true
-        
-        
-        friendsButton.frame = CGRect(x: self.view.frame.width/2 - 40, y: self.view.frame.height - 203, width: 80, height: 80)
-        // friendsButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
-        // round ava
-        friendsButton.layer.cornerRadius = friendsButton.frame.size.width / 2
-        friendsButton.clipsToBounds = true
-        
-        
-        
-        
-        dmButton.frame = CGRect(x: self.view.frame.width*3/5 + 20, y: self.view.frame.height - 166, width: 80, height: 80)
-        //  dmButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
-        // round ava
-        dmButton.layer.cornerRadius = dmButton.frame.size.width / 2
-        dmButton.clipsToBounds = true
-        
-        
-        
-        settingsButton.frame = CGRect(x: self.view.frame.width - 93, y: self.view.frame.height - 83, width: 80, height: 80)
-        // settingsButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
-        // round ava
-        settingsButton.layer.cornerRadius = settingsButton.frame.size.width / 2
-        settingsButton.clipsToBounds = true
-        
-        
-        
-        homeProfileButton.frame = CGRect(x: self.view.frame.width/5 - 20, y: dmButton.frame.minY, width: 80, height: 80)
-        // homeProfileButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
-        // round ava
-        homeProfileButton.layer.cornerRadius = homeProfileButton.frame.size.width / 2
-        homeProfileButton.clipsToBounds = true
-
-        
-        let menuTapped = UITapGestureRecognizer(target: self, action: #selector(tappedMenuButton))
-        let menuDragged = UIPanGestureRecognizer(target: self, action: #selector(draggedMenuButton))
-        let menuLongPressed = UILongPressGestureRecognizer(target: self, action: #selector(longPressMenuButton))
-        addPostButton.addGestureRecognizer(menuTapped)
-        addPostButton.addGestureRecognizer(menuDragged)
-        addPostButton.addGestureRecognizer(menuLongPressed)
-        
-        newPostButton.isHidden = true
-        settingsButton.isHidden = true
-        friendsButton.isHidden = true
-        dmButton.isHidden = true
-        homeProfileButton.isHidden = true
-        //  curvedLayer.isHidden = true
-        
-        
-        // show add Post button
-        addPostButton.isHidden = false
-        addPostButton.imageView?.image = UIImage(named: "k23")
-
-        addPostButton.layer.zPosition = 2
-        
-
-        print("hexagon data array viewdidload 🤽‍♂️🤽‍♂️🤽‍♂️")
     }
     
-     func setUpScrollView() {
-            // Do any additional setup after loading the view.
-            let hexaDiameter : CGFloat = 150
-            let hexaWidth = hexaDiameter * sqrt(3) * 0.5
-            let hexaWidthDelta = (hexaDiameter - hexaWidth) * 0.5
-            let hexaHeightDelta = hexaDiameter * 0.25
-            let spacing : CGFloat = 5
-            
-            let rows = 15
-            let firstRowColumns = 15
-            //scroll view stuff 2
-            print("Bounds of content view: \(contentView.bounds.size)")
-            self.scrollView.contentSize = CGSize(width: spacing + CGFloat(firstRowColumns) * (hexaWidth + spacing), height: spacing + CGFloat(rows) * (hexaDiameter - hexaHeightDelta + spacing) + hexaHeightDelta)
-            print("scrollview content size \(scrollView.contentSize)")
-            
-            
-            //scrollViewStuff1
-            scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-
-            let location = CGPoint(x: reOrderedCoordinateArrayPoints[0].x - self.view.frame.width*2.125, y: reOrderedCoordinateArrayPoints[0].y - self.view.frame.height*1.2)
-            self.scrollView.contentOffset = location
-            
-    //        let bg = UIImageView(frame: CGRect(x: -400, y: -400, width: 3000, height: 3000))
-    //        bg.backgroundColor = .black
-    //        bg.layer.zPosition = -1
-            scrollView.backgroundColor = .black
-            
-            
-            contentView.backgroundColor = .black
-            contentView.isHidden = false
-
-            scrollView.addSubview(contentView)
-            contentView.frame = CGRect(x: 0, y: 0, width: scrollView.contentSize.width, height: scrollView.contentSize.height)
-            scrollView.bringSubviewToFront(contentView)
-            
-            view.addSubview(scrollView)
-            scrollView.delegate = self
-            
-            
-        }
+    func addSearchButton() {
+        self.view.addSubview(toSearchButton)
+        toSearchButton.frame = CGRect(x: self.view.frame.width-60, y: 5, width: 50, height: 50)
+        // round ava
+        toSearchButton.layer.cornerRadius = toSearchButton.frame.size.width / 2
+        toSearchButton.clipsToBounds = true
+        toSearchButton.isHidden = false
+    }
+    
+    func addMenuButtons() {
+        view.addSubview(menuView)
+        menuView.currentTab = 3
+        menuView.addBehavior()
+    }
+    
+    func setUpScrollView() {
+        // Do any additional setup after loading the view.
+        let hexaDiameter : CGFloat = 150
+        let hexaWidth = hexaDiameter * sqrt(3) * 0.5
+        let hexaWidthDelta = (hexaDiameter - hexaWidth) * 0.5
+        let hexaHeightDelta = hexaDiameter * 0.25
+        let spacing : CGFloat = 5
         
-        func setZoomScale() {
-            let imageViewSize = contentView.bounds.size
-            let scrollViewSize = scrollView.bounds.size
-            let widthScale = scrollViewSize.width / imageViewSize.width
-            let heightScale = scrollViewSize.height / imageViewSize.height
-            
-            print("width scale: \(widthScale)")
-            print("height scale: \(heightScale)")
-           // scrollView.minimumZoomScale = min(widthScale, heightScale)
-            //scrollView.zoomScale = scrollView.minimumZoomScale
-            scrollView.maximumZoomScale = 60
-            scrollView.minimumZoomScale = 0.5
-        }
-        
-        override func viewWillLayoutSubviews() {
-            setZoomScale()
-        }
+        let rows = 15
+        let firstRowColumns = 15
+        //scroll view stuff 2
+        print("Bounds of content view: \(contentView.bounds.size)")
+        self.scrollView.contentSize = CGSize(width: spacing + CGFloat(firstRowColumns) * (hexaWidth + spacing), height: spacing + CGFloat(rows) * (hexaDiameter - hexaHeightDelta + spacing) + hexaHeightDelta)
+        print("scrollview content size \(scrollView.contentSize)")
         
         
-        func scrollViewDidZoom(_ scrollView: UIScrollView) {
-            let imageViewSize = contentView.frame.size
-            let scrollViewSize = scrollView.bounds.size
-            let verticalPadding = imageViewSize.height < scrollViewSize.height ? (scrollViewSize.height - imageViewSize.height)/2 : 0
-               let horizontalPadding = imageViewSize.width < scrollViewSize.width ? (scrollViewSize.width - imageViewSize.width)/2 : 0
-            
-            scrollView.contentInset = UIEdgeInsets(top: verticalPadding, left: horizontalPadding, bottom: verticalPadding, right: horizontalPadding)
-            
-        }
+        //scrollViewStuff1
+        scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
-        func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-            return contentView
-        }
+        let location = CGPoint(x: reOrderedCoordinateArrayPoints[0].x - self.view.frame.width*2.125, y: reOrderedCoordinateArrayPoints[0].y - self.view.frame.height*1.2)
+        self.scrollView.contentOffset = location
+        
+        //        let bg = UIImageView(frame: CGRect(x: -400, y: -400, width: 3000, height: 3000))
+        //        bg.backgroundColor = .black
+        //        bg.layer.zPosition = -1
+        scrollView.backgroundColor = .black
+        
+        
+        contentView.backgroundColor = .black
+        contentView.isHidden = false
+        
+        scrollView.addSubview(contentView)
+        contentView.frame = CGRect(x: 0, y: 0, width: scrollView.contentSize.width, height: scrollView.contentSize.height)
+        scrollView.bringSubviewToFront(contentView)
+        
+        view.addSubview(scrollView)
+        scrollView.delegate = self
+        
+        
+    }
+    
+    func setZoomScale() {
+        let imageViewSize = contentView.bounds.size
+        let scrollViewSize = scrollView.bounds.size
+        let widthScale = scrollViewSize.width / imageViewSize.width
+        let heightScale = scrollViewSize.height / imageViewSize.height
+        
+        print("width scale: \(widthScale)")
+        print("height scale: \(heightScale)")
+        // scrollView.minimumZoomScale = min(widthScale, heightScale)
+        //scrollView.zoomScale = scrollView.minimumZoomScale
+        scrollView.maximumZoomScale = 60
+        scrollView.minimumZoomScale = 0.5
+    }
+    
+    override func viewWillLayoutSubviews() {
+        setZoomScale()
+    }
+    
+    
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        let imageViewSize = contentView.frame.size
+        let scrollViewSize = scrollView.bounds.size
+        let verticalPadding = imageViewSize.height < scrollViewSize.height ? (scrollViewSize.height - imageViewSize.height)/2 : 0
+        let horizontalPadding = imageViewSize.width < scrollViewSize.width ? (scrollViewSize.width - imageViewSize.width)/2 : 0
+        
+        scrollView.contentInset = UIEdgeInsets(top: verticalPadding, left: horizontalPadding, bottom: verticalPadding, right: horizontalPadding)
+        
+    }
+    
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return contentView
+    }
     
     
     
@@ -301,131 +224,9 @@ class BioProfileHexagonGrid2: UIViewController, UISearchBarDelegate, UIScrollVie
     
     @IBAction func toSearchButtonClicked(_ sender: UIButton) {
         let userTableVC = storyboard?.instantiateViewController(identifier: "userTableVC")
-                   present(userTableVC!, animated: false)
+        present(userTableVC!, animated: false)
     }
     
-    @IBAction func friendsButtonClicked(_ sender: UIButton) {
-// do nothing....  in current vc
-//        let viewControllers = tabBarController!.customizableViewControllers!
-//        let profileGrid = (viewControllers[3] as! BioProfileHexagonGrid2)
-//        profileGrid.userData = userData
-//        tabController!.viewControllers![3] = profileGrid
-//        tabController!.customTabBar.switchTab(from: 3, to: 3)
-    }
-    
-    @IBAction func homeButtonClicked(_ sender: Any) {
-        let viewControllers = tabBarController!.customizableViewControllers!
-        let homeVC = (viewControllers[2] as! HomeHexagonGrid)
-        homeVC.userData = userData
-        tabController!.viewControllers![2] = homeVC
-        tabController!.customTabBar.switchTab(from: 3, to: 2)
-    }
-    
-    
-    @IBAction func newPostButtonClicked(_ sender: UIButton) {
-        //        let newPostVC =   storyboard?.instantiateViewController(identifier: "newPostVC") as! NewPostOptionsVC
-        //        newPostVC.userData = userData
-        //        self.dismiss(animated: false, completion: nil)
-        //        present(newPostVC, animated: false)
-        //        //self.dismiss(animated: false, completion: nil)
-        let viewControllers = tabBarController!.customizableViewControllers!
-        let newPostVC = (viewControllers[4] as! NewPostOptionsVC)
-        newPostVC.userData = userData
-        tabController!.viewControllers![4] = newPostVC
-        tabController!.customTabBar.switchTab(from: 3, to: 4)
-    }
-    
-    
-    
-    @objc func tappedMenuButton(sender: UITapGestureRecognizer) {
-        if (dmButton.isHidden == true) {
-            makeAllMenuButtonsBlack()
-            showMenuOptions()
-        }
-            //sleep(3000)
-        else {
-            hideMenuOptions()
-        }
-    }
-    
-    
-    // TODO: TO DO Redo this for circular border
-    func makeAllMenuButtonsBlack() {
-        newPostButton.imageView?.makeRounded()
-        homeProfileButton.imageView?.makeRounded()
-        dmButton.imageView?.makeRounded()
-        settingsButton.imageView?.makeRounded()
-        friendsButton.imageView?.makeRounded()
-        addPostButton.imageView?.makeRounded()
-        
-        //        newPostButton.layer.borderWidth = 4
-        //        homeProfileButton.layer.borderWidth = 4
-        //        dmButton.layer.borderWidth = 4
-        //        settingsButton.layer.borderWidth = 4
-        //        friendsButton.layer.borderWidth = 4
-        //
-        //
-        //
-        //        newPostButton.layer.borderColor = UIColor.black.cgColor
-        //         homeProfileButton.layer.borderColor = UIColor.black.cgColor
-        //         dmButton.layer.borderColor = UIColor.black.cgColor
-        //         settingsButton.layer.borderColor = UIColor.black.cgColor
-        //         friendsButton.layer.borderColor = UIColor.black.cgColor
-        
-        //        newPostButton.imageView!.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10)
-        //        homeProfileButton.imageView!.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10)
-        //        dmButton.imageView!.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10)
-        //        settingsButton.imageView!.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10)
-        //        friendsButton.imageView!.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10)
-    }
-    
-    @objc func draggedMenuButton(sender: UIPanGestureRecognizer) {
-        var point : CGPoint = sender.translation(in: view)
-        point.x += sender.view!.frame.midX
-        point.y += sender.view!.frame.midY
-        //        print(point)
-        if (sender.state == .began) {
-            makeAllMenuButtonsBlack()
-            showMenuOptions()
-        }
-        if (sender.state == .changed) {
-            //showMenuOptions()
-            //            print("changing")
-            makeAllMenuButtonsBlack()
-            let button = findMenuHexagonButton(hexCenter: point)
-            //            print("buttin \(button?.titleLabel)")
-            // button?.imageView?.setupHexagonMask(lineWidth: 10.0, color: red, cornerRadius: 10)
-            button?.imageView?.makeRoundedRed()
-        }
-        if (sender.state == .ended) {
-            //find button
-            let button = findMenuHexagonButton(hexCenter: point)
-            button?.sendActions(for: .touchUpInside)
-            //print("button triggered: \(button?.titleLabel)")
-            hideMenuOptions()
-            //change VC
-        }
-    }
-    func findMenuHexagonButton(hexCenter: CGPoint) -> UIButton? {
-        //        print(hexCenter)
-        if (distance(hexCenter, newPostButton.center) < 70) {
-            return newPostButton
-        }
-        if (distance(hexCenter, homeProfileButton.center) < 70) {
-            return homeProfileButton
-        }
-        if (distance(hexCenter, dmButton.center) < 70) {
-            return dmButton
-        }
-        if (distance(hexCenter, settingsButton.center) < 70) {
-            return settingsButton
-        }
-        if (distance(hexCenter, friendsButton.center) < 70) {
-            return friendsButton
-        }
-        return nil
-
-    }
     
     
     func distance(_ a: CGPoint, _ b: CGPoint) -> CGFloat {
@@ -434,34 +235,7 @@ class BioProfileHexagonGrid2: UIViewController, UISearchBarDelegate, UIScrollVie
         return CGFloat(sqrt(xDist * xDist + yDist * yDist))
     }
     
-    @objc func longPressMenuButton(sender: UILongPressGestureRecognizer) {
-        if (sender.state == .began) {
-            makeAllMenuButtonsBlack()
-            showMenuOptions()
-        }
-        if (sender.state == .ended) {
-            hideMenuOptions()
-        }
-    }
     
-    
-    func showMenuOptions() {
-        newPostButton.isHidden = false
-        homeProfileButton.isHidden = false
-        dmButton.isHidden = false
-        settingsButton.isHidden = false
-        friendsButton.isHidden = false
-//        curvedLayer.isHidden = false
-    }
-    
-    func hideMenuOptions() {
-        newPostButton.isHidden = true
-        homeProfileButton.isHidden = true
-        dmButton.isHidden = true
-        settingsButton.isHidden = true
-        friendsButton.isHidden = true
-//        curvedLayer.isHidden = true
-    }
     
     func refresh() {
         print("in refresh")
@@ -496,39 +270,8 @@ class BioProfileHexagonGrid2: UIViewController, UISearchBarDelegate, UIScrollVie
     
     
     override func viewWillAppear(_ animated: Bool) {
-        
-        
-        super.viewWillAppear(true) // No need for semicolon
-//        let menuRect = CGRect(x: 0, y: self.view.frame.height - 150, width: self.view.frame.width, height: 150)
-//        let menuView = MenuView.init(frame: menuRect)
-//        tabController = tabBarController! as! NavigationMenuBaseController
-//        menuView.setTabController(tabController: tabController!)
-//        view.addSubview(menuView)
-//        
-//        print("viewWillAppear -- after addpostButtons")
-//        let rows = 15
-//        let firstRowColumns = 15
-        
-//        let scrollviewWidth: CGFloat = self.spacing + (CGFloat(firstRowColumns) * (CGFloat(self.hexaWidth) + self.spacing))
-//        let scrollviewHeight: CGFloat = self.spacing + (CGFloat(rows) * CGFloat(self.hexaDiameter - CGFloat(self.hexaHeightDelta) + self.spacing)) + CGFloat(self.hexaHeightDelta)
-//
-//        self.scrollView.contentSize = CGSize(width: scrollviewWidth, height: scrollviewHeight)
-        
-//        print("Scrollview content size: \(self.scrollView.contentSize)")
-//        print("View content size: \(self.view.frame.size)")
-//
-//
-        //        self.scrollView.center.x = 946.8266739736607
-        //         self.scrollView.center.y = 902.5
-//        let bg = UIImageView(frame: CGRect(x: -400, y: -400, width: 3000, height: 3000))
-//       // bg.image = UIImage(named: "outerspace1")
-//        bg.backgroundColor = .black
-//        bg.layer.zPosition = -1
-//        scrollView.addSubview(bg)
-//        self.scrollView.backgroundColor = UIColor.black
-//        // scrollView.contentSize = imageView.bounds.size
-//        self.scrollView.autoresizingMask = UIView.AutoresizingMask.flexibleWidth
-//        self.scrollView.autoresizingMask = UIView.AutoresizingMask.flexibleHeight
+        super.viewWillAppear(true)
+        menuView.tabController = (tabBarController! as! NavigationMenuBaseController)
         refresh()
     }
     
@@ -545,7 +288,7 @@ class BioProfileHexagonGrid2: UIViewController, UISearchBarDelegate, UIScrollVie
         // STEP 1. Find people followed by User
         let followCollection = db.collection("Followings")
         let usernameText:String = userData!.publicID
-
+        
         print("usernameText \(usernameText)")
         
         //self.followArray.removeAll(keepingCapacity: false)
@@ -559,9 +302,9 @@ class BioProfileHexagonGrid2: UIViewController, UISearchBarDelegate, UIScrollVie
         }
         
         
-//        self.followingUserDataArray.removeAll(keepingCapacity: false)
-//        self.followingUserDataArray.append(self.userData!)
-
+        //        self.followingUserDataArray.removeAll(keepingCapacity: false)
+        //        self.followingUserDataArray.append(self.userData!)
+        
         let followQuery = followCollection.whereField("follower", isEqualTo: usernameText).addSnapshotListener({ (objects, error) -> Void in
             if error == nil {
                 print("no error")
@@ -590,7 +333,7 @@ class BioProfileHexagonGrid2: UIViewController, UISearchBarDelegate, UIScrollVie
                                 print(error?.localizedDescription)
                                 return
                             }
-
+                            
                             for object in documents {
                                 newUserDataArray.append(UserData(dictionary: object.data()))
                             }
@@ -609,10 +352,10 @@ class BioProfileHexagonGrid2: UIViewController, UISearchBarDelegate, UIScrollVie
                         
                     })
                 }
-//                else {
-//                    self.removeCurrentProfileHexagons()
-//                    self.loadProfileHexagons()
-//                }
+                //                else {
+                //                    self.removeCurrentProfileHexagons()
+                //                    self.loadProfileHexagons()
+                //                }
                 
                 
             } else {
@@ -638,18 +381,18 @@ class BioProfileHexagonGrid2: UIViewController, UISearchBarDelegate, UIScrollVie
         print("Line below is user that you tapped. send to page")
         let tappedUser = self.followArray[sender.view!.tag]
         print("tappedUser: \(tappedUser)")
-//        // let newImage.tag = sender.view!.tag
-//        let newImageView = UIImageView(image: fakeUserTotalProfileArray[sender.view!.tag])
-//        newImageView.frame = UIScreen.main.bounds
-//        newImageView.backgroundColor = .black
-//        newImageView.contentMode = .scaleAspectFit
-//        newImageView.isUserInteractionEnabled = true
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImage))
-//        newImageView.addGestureRecognizer(tap)
-//        self.view.addSubview(newImageView)
-//        self.navigationController?.isNavigationBarHidden = true
-//        self.tabBarController?.tabBar.isHidden = true
-//
+        //        // let newImage.tag = sender.view!.tag
+        //        let newImageView = UIImageView(image: fakeUserTotalProfileArray[sender.view!.tag])
+        //        newImageView.frame = UIScreen.main.bounds
+        //        newImageView.backgroundColor = .black
+        //        newImageView.contentMode = .scaleAspectFit
+        //        newImageView.isUserInteractionEnabled = true
+        //        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImage))
+        //        newImageView.addGestureRecognizer(tap)
+        //        self.view.addSubview(newImageView)
+        //        self.navigationController?.isNavigationBarHidden = true
+        //        self.tabBarController?.tabBar.isHidden = true
+        //
         
         
         
@@ -684,83 +427,83 @@ class BioProfileHexagonGrid2: UIViewController, UISearchBarDelegate, UIScrollVie
     
     
     // search updated
-        func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-            let userTableVC = storyboard?.instantiateViewController(identifier: "userTableVC")
-            present(userTableVC!, animated: false)
-            return true
-        }
-
-
-        // tapped on the searchBar
-//        func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-//            // hide collectionView when started search
-//           // collectionView.isHidden = true
-//            // show cancel button
-//            searchBar.showsCancelButton = true
-//        }
-//
-//
-//        // clicked cancel button
-//        func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-//            // unhide collectionView when tapped cancel button
-//          //  collectionView.isHidden = false
-//            // dismiss keyboard
-//            searchBar.resignFirstResponder()
-//
-//            // hide cancel button
-//            searchBar.showsCancelButton = false
-//
-//            // reset text
-//            searchBar.text = ""
-//
-//            // reset shown users
-//            loadUserDataArray = []
-//
-//            //usernameArray = []
-//        }
-
-     // SEARCHING CODE
-        // load users function
-        func loadUsers() {
-
-//            let usersQuery = PFQuery(className: "_User")
-//            usersQuery.addDescendingOrder("createdAt")
-//            usersQuery.limit = 20
-//            usersQuery.findObjectsInBackground (block: { (objects, error) -> Void in
-//                if error == nil {
-//
-//                    // clean up
-//                    self.usernameArray.removeAll(keepingCapacity: false)
-//                    self.avaArray.removeAll(keepingCapacity: false)
-//
-//                    // found related objects
-//                    for object in objects! {
-//                        self.usernameArray.append(object.value(forKey: "username") as! String)
-//                        self.avaArray.append(object.value(forKey: "ava") as! PFFileObject)
-//                    }
-//
-//                    // reload
-//                    self.tableView.reloadData()
-//
-//                } else {
-//                    print(error!.localizedDescription)
-//                }
-//            })
-
-        }
+    func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let userTableVC = storyboard?.instantiateViewController(identifier: "userTableVC")
+        present(userTableVC!, animated: false)
+        return true
+    }
     
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-           var userTableVC = segue.destination as! UserTableView
-           userTableVC.currentUser = user
-           userTableVC.loadUserDataArray = loadUserDataArray
+    
+    // tapped on the searchBar
+    //        func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+    //            // hide collectionView when started search
+    //           // collectionView.isHidden = true
+    //            // show cancel button
+    //            searchBar.showsCancelButton = true
+    //        }
+    //
+    //
+    //        // clicked cancel button
+    //        func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+    //            // unhide collectionView when tapped cancel button
+    //          //  collectionView.isHidden = false
+    //            // dismiss keyboard
+    //            searchBar.resignFirstResponder()
+    //
+    //            // hide cancel button
+    //            searchBar.showsCancelButton = false
+    //
+    //            // reset text
+    //            searchBar.text = ""
+    //
+    //            // reset shown users
+    //            loadUserDataArray = []
+    //
+    //            //usernameArray = []
+    //        }
+    
+    // SEARCHING CODE
+    // load users function
+    func loadUsers() {
+        
+        //            let usersQuery = PFQuery(className: "_User")
+        //            usersQuery.addDescendingOrder("createdAt")
+        //            usersQuery.limit = 20
+        //            usersQuery.findObjectsInBackground (block: { (objects, error) -> Void in
+        //                if error == nil {
+        //
+        //                    // clean up
+        //                    self.usernameArray.removeAll(keepingCapacity: false)
+        //                    self.avaArray.removeAll(keepingCapacity: false)
+        //
+        //                    // found related objects
+        //                    for object in objects! {
+        //                        self.usernameArray.append(object.value(forKey: "username") as! String)
+        //                        self.avaArray.append(object.value(forKey: "ava") as! PFFileObject)
+        //                    }
+        //
+        //                    // reload
+        //                    self.tableView.reloadData()
+        //
+        //                } else {
+        //                    print(error!.localizedDescription)
+        //                }
+        //            })
+        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        var userTableVC = segue.destination as! UserTableView
+        userTableVC.currentUser = user
+        userTableVC.loadUserDataArray = loadUserDataArray
         userTableVC.searchString = searchBar.text!
         userTableVC.searchBar.text = searchBar.text!
-       }
+    }
     
     
     
     func loadProfileHexagons() {
-
+        
         //adjust coordinates
         
         for point in self.reOrderedCoordinateArrayPoints {
@@ -772,7 +515,7 @@ class BioProfileHexagonGrid2: UIViewController, UISearchBarDelegate, UIScrollVie
         }
         let contentTapGesture = UITapGestureRecognizer(target: self, action: #selector(DraggableHexagonGrid.handleContentViewerTap))
         self.contentViewer.addGestureRecognizer(contentTapGesture)
-    
+        
         //          // Do any additional setup after loading the view.
         let hexaDiameter : CGFloat = 150
         
@@ -819,12 +562,12 @@ class BioProfileHexagonGrid2: UIViewController, UISearchBarDelegate, UIScrollVie
             print("added profile image")
             
         }
-    
+        
         //self.view.frame.origin = imageViewArray[0].frame.origin
         print("imageViewArray: \(imageViewArray)")
-
+        
     }
-
+    
     
 }
 
