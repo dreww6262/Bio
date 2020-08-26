@@ -21,52 +21,41 @@ import SwiftUI
 class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate  {
     
     
-    
+    // Content presentation
     var player = AVAudioPlayer()
+    var contentViewer = UIView()
+    
+    // Firebase stuff
     var loadDataListener: ListenerRegistration?
-    // var webView = WKWebView()
+    var user = Auth.auth().currentUser
+    var userData: UserData? = nil
+    let db = Firestore.firestore()
+    let storage = Storage.storage().reference()
+    
+    // UI stuff
     @objc var panGesture  = UIPanGestureRecognizer()
     @IBOutlet weak var scrollView: UIScrollView!
-    var contentViewer = UIView()
+    @IBOutlet weak var contentView: UIView!
+    @IBOutlet weak var trashButton: UIButton!
+    @IBOutlet weak var toSearchButton: UIButton!
+    let menuView = MenuView()
+    var currentDraggedHexagonFrame = CGRect()
+    var curvedRect = CGRect(x: 0.0, y: 0.0, width: 0.0, height: 0.0)
+    var curvedLayer = UIImageView()
+    
+    // Flags and tags
     var currentDraggedHexagonTag = -1
-    //var currentDraggedHexagonFrame
     var hexIsMovable = false
+    var firstLoad  = true
+    
+    // arrays
+    var homeUserImageArray: [String] = []
+    var targetHexagons: [Int] = []
+    var hexagonStructArray: [HexagonStructData] = []
     var coordinateArray: [[CGFloat]] = []
     var coordinate: [CGFloat] = []
     var imageViewArray: [UIImageView] = []
-    var currentDraggedHexagonFrame = CGRect()
-    var targetHexagons: [Int] = []
-    var hexagonStructArray: [HexagonStructData] = []
-    let db = Firestore.firestore()
-    var curvedRect = CGRect(x: 0.0, y: 0.0, width: 0.0, height: 0.0)
-    var curvedLayer = UIImageView()
-    var firstLoad  = true
-    // let curvedHeight = friendsButton.frame.minY - 10
-    @IBOutlet weak var contentView: UIView!
-    
-    let storage = Storage.storage().reference()
-    
-    var user = Auth.auth().currentUser
-    var userData: UserData? = nil
-    
-    let menuView = MenuView()
-    
-    @IBOutlet weak var trashButton: UIButton!
-    
-    @IBOutlet weak var toSearchButton: UIButton!
-    
-    
-    var index = 0
-    var index1 = 0
-    
-    var homeUserImageArray: [String] = []
-    
     var fakeUserImageArray = [UIImage(named: "kayser1"),UIImage(named: "oldspice"),UIImage(named: "kayser3"),UIImage(named: "k34"),UIImage(named: "kayser5"),UIImage(named: "kayser6"),UIImage(named: "couch"),UIImage(named: "kayser8"),UIImage(named: "teamimpact"),UIImage(named: "k32"),UIImage(named: "bchigh"),UIImage(named: "k11"),UIImage(named: "k50"),UIImage(named: "k13"),UIImage(named: "childrens"),UIImage(named: "k15"),UIImage(named: "k16"),UIImage(named: "k36"),UIImage(named: "shockey"),UIImage(named: "k19"),UIImage(named: "stjude"),UIImage(named: "k21"),UIImage(named: "k22"),UIImage(named: "k23"),UIImage(named: "k33"),UIImage(named: "k25"),UIImage(named: "k26"),UIImage(named: "k27"),UIImage(named: "k35"),UIImage(named: "k99"),UIImage(named: "k30")]
-    
-    
-    
-    
-    
     var reOrderedCoordinateArray: [[CGFloat]] = [[946.8266739736607, 902.5],[1081.7304845413264, 902.5], [1014.2785792574934, 1020.0],   [879.3747686898278,1020.0], [811.9228634059948,902.5], [879.3747686898278,785.0],[1014.2785792574934,785.0],[946.8266739736607, 667.5],[1081.7304845413264, 667.5], [1149.1823898251594, 785.0],  [1216.6342951089923, 902.5],[1149.1823898251594, 1020.0],   [1081.7304845413264, 1137.5], [1081.7304845413264, 1137.5],[946.8266739736607, 1137.5],[811.9228634059948, 1137.5],[744.4709581221618, 1020.0],[677.0190528383291, 902.5],[744.4709581221618, 785.0],  [811.9228634059948, 667.5],[879.3747686898278, 550.0],[1014.2785792574934, 550.0],[1149.1823898251594, 550.0],[1216.6342951089923, 667.5],[1284.0862003928253, 785.0],[1351.5381056766582, 902.5], [1284.0862003928253, 1020.0], [1216.6342951089923, 1137.5],[1149.1823898251594, 1255.0], [1014.2785792574934, 1255.0],[879.3747686898278, 1255.0],  [744.4709581221618, 1255.0],[677.0190528383291, 1137.5],[609.5671475544962, 1020.0],[542.1152422706632, 902.5],[609.5671475544962, 785.0],[677.0190528383291, 667.5],[744.4709581221618, 550.0]] // , /[811.9228634059948, 432.5], [946.8266739736607, 432.5], [1081.7304845413264, 432.5], [1216.6342951089923, 432.5],[1284.0862003928253, 550.0],[1351.5381056766582, 667.5], [1418.990010960491, 785.0],  [1486.441916244324, 902.5], [1418.990010960491, 1020.0],[1351.5381056766582, 1137.5],   [1284.0862003928253, 1255.0],[1216.6342951089923, 1372.5],   [1081.7304845413264, 1372.5],[946.8266739736607, 1372.5],[811.9228634059948, 1372.5],[677.0190528383291, 1372.5], [609.5671475544962, 1255.0],[542.1152422706632, 1137.5],[474.6633369868303, 1020.0],[407.2114317029974, 902.5],[474.6633369868303, 785.0],[542.1152422706632, 667.5],[609.5671475544962, 550.0],[677.0190528383291, 432.5]]
     
     //with 3rd row
@@ -75,91 +64,31 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     var reOrderedCoordinateArrayPoints: [CGPoint] = [CGPoint(x: 946.8266739736607,y: 902.5),CGPoint(x: 1081.7304845413264,y: 902.5),CGPoint(x: 1014.2785792574934,y: 1020.0), CGPoint(x: 879.3747686898278,y: 1020.0),CGPoint(x:811.9228634059948,y: 902.5), CGPoint(x: 879.3747686898278,y: 785.0),CGPoint(x: 1014.2785792574934,y: 785.0),CGPoint(x:946.8266739736607,y: 667.5),CGPoint(x:1081.7304845413264,y:667.5), CGPoint(x:1149.1823898251594,y:785.0),CGPoint(x: 1216.6342951089923,y: 902.5),CGPoint(x:1149.1823898251594,y: 1020.0),   CGPoint(x: 1081.7304845413264,y: 1137.5), CGPoint(x:1081.7304845413264, y: 1137.5),CGPoint(x:946.8266739736607,y: 1137.5),CGPoint(x: 811.9228634059948, y: 1137.5),CGPoint(x: 744.4709581221618, y: 1020.0), CGPoint(x: 677.0190528383291, y: 902.5),CGPoint(x: 744.4709581221618, y: 785.0), CGPoint(x: 811.9228634059948, y: 667.5),CGPoint(x: 879.3747686898278, y: 550.0),CGPoint(x: 1014.2785792574934, y: 550.0),CGPoint(x: 1149.1823898251594,y: 550.0),CGPoint(x:1216.6342951089923,y: 667.5),CGPoint(x:1284.0862003928253, y: 785.0),CGPoint(x:1351.5381056766582,y: 902.5), CGPoint(x:1284.0862003928253, y: 1020.0),CGPoint(x: 1216.6342951089923, y: 1137.5),CGPoint(x: 1149.1823898251594, y: 1255.0), CGPoint(x:1014.2785792574934,y:1255.0),CGPoint(x:879.3747686898278, y:1255.0),CGPoint(x:744.4709581221618, y:1255.0),CGPoint(x:677.0190528383291, y:1137.5),CGPoint(x:609.5671475544962,y: 1020.0),CGPoint(x:542.1152422706632, y: 902.5),CGPoint(x: 609.5671475544962, y: 785.0),CGPoint(x: 677.0190528383291, y: 667.5),CGPoint(x: 744.4709581221618, y: 550.0)]
     
     //,CGPoint(x:811.9228634059948,y: 432.5), CGPoint(x: 946.8266739736607,y: 432.5), CGPoint(x:1081.7304845413264, y: 432.5), CGPoint(x: 1216.6342951089923,y: 432.5),CGPoint(x: 1284.0862003928253,y: 550.0),CGPoint(x:1351.5381056766582, y: 667.5), CGPoint(x:1418.990010960491,y: 785.0),  CGPoint(x: 1486.441916244324,y:902.5), CGPoint(x:1418.990010960491, y: 1020.0),CGPoint(x: 1351.5381056766582, y: 1137.5), CGPoint(x:1284.0862003928253,y: 1255.0),CGPoint(x: 1216.6342951089923,y: 1372.5),   CGPoint(x: 1081.7304845413264,y: 1372.5),CGPoint(x: 946.8266739736607, y: 1372.5),CGPoint(x: 811.9228634059948, y: 1372.5),CGPoint(x: 677.0190528383291,y: 1372.5), CGPoint(x: 609.5671475544962,y: 1255.0),CGPoint(x: 542.1152422706632,y: 1137.5),CGPoint(x: 474.6633369868303,y: 1020.0),CGPoint(x: 407.2114317029974, y: 902.5),CGPoint(x: 474.6633369868303, y: 785.0),CGPoint(x: 542.1152422706632,y: 667.5),CGPoint(x: 609.5671475544962,y: 550.0),CGPoint(x: 677.0190528383291, y: 432.5)]
-    
     var reOrderedCoordinateArrayPointsCentered: [CGPoint] = []
-    
-    
-    
     var fakeUserTotalProfileArray: [UIImage] = []
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setUpScrollView()
-        
-        
+        setZoomScale()
         addMenuButtons()
-        
+        addSearchButton()
+        addTrashButton()
         for point in reOrderedCoordinateArrayPoints {
-            var newPointX = point.x - 604 //680
-            var newPointY = point.y - 493 //570
-            var newPoint = CGPoint(x: newPointX, y: newPointY)
+            let newPointX = point.x - 604 //680
+            let newPointY = point.y - 493 //570
+            let newPoint = CGPoint(x: newPointX, y: newPointY)
             reOrderedCoordinateArrayPointsCentered.append(newPoint)
-            
         }
         let contentTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleContentViewerTap))
         contentViewer.addGestureRecognizer(contentTapGesture)
         
-        addSearchButton()
-        
-        
         play(url: "https://p.scdn.co/mp3-preview/18d3b87b0765cd6d8c0a418d6142b3b441c0f8b2?cid=476c620368f349cc8be5b2a29b596eaf")
-        
-        
-        setZoomScale()
-        
-        print("viewdidLoad")
-        
+        //print("viewdidLoad")
     }
     
-    func addSearchButton() {
-        self.view.addSubview(toSearchButton)
-        toSearchButton.frame = CGRect(x: self.view.frame.width-60, y: 5, width: 50, height: 50)
-        // round ava
-        toSearchButton.layer.cornerRadius = toSearchButton.frame.size.width / 2
-        toSearchButton.clipsToBounds = true
-        toSearchButton.isHidden = false
-    }
-    
-    func resizeScrollView(numPosts: Int) {
-        var rows = 0
-        var width = view.frame.width
-        var height = view.frame.height
-        let additionalRowWidth = ((view.frame.width/3) - 10)*2
-        //     let heightDifference = height - width
-        if numPosts < 7 {
-            rows = 1
-            //self.scrollView.frame.width =
-        }
-        else if numPosts < 19 {
-            rows = 2
-            width = width + additionalRowWidth
-        }
-        else if numPosts  < 43 {
-            rows = 3
-            width = width + (2*additionalRowWidth)
-            height = height + (additionalRowWidth)
-        }
-        else if numPosts < 91 {
-            rows = 4
-            width = width + (3*additionalRowWidth)
-            height = height + (2*additionalRowWidth)
-        }
-        //  var addedWidth = 2*(rows-1)*160
-        // var addedHeight =  2 * (rows-1)*160
-        self.scrollView.frame = CGRect(x: 0, y: 0, width: width, height:  height)
-        self.contentView.frame = CGRect(x: 0, y: 0, width: width, height:  height)
-        self.scrollView.contentSize = scrollView.frame.size
-        
-        
-    }
-    
-    func addMenuButtons() {
-        view.addSubview(menuView)
-        menuView.currentTab = 2
-        menuView.addBehavior()
-    }
-    
+    // viewdidload helper functions
     func setUpScrollView() {
         // Do any additional setup after loading the view.
         let hexaDiameter : CGFloat = 150
@@ -197,22 +126,77 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         
         view.addSubview(scrollView)
         scrollView.delegate = self
-        
-        
     }
     
     func setZoomScale() {
-        let imageViewSize = contentView.bounds.size
-        let scrollViewSize = scrollView.bounds.size
-        let widthScale = scrollViewSize.width / imageViewSize.width
-        let heightScale = scrollViewSize.height / imageViewSize.height
+           let imageViewSize = contentView.bounds.size
+           let scrollViewSize = scrollView.bounds.size
+           let widthScale = scrollViewSize.width / imageViewSize.width
+           let heightScale = scrollViewSize.height / imageViewSize.height
+           
+           print("width scale: \(widthScale)")
+           print("height scale: \(heightScale)")
+           // scrollView.minimumZoomScale = min(widthScale, heightScale)
+           //scrollView.zoomScale = scrollView.minimumZoomScale
+           scrollView.maximumZoomScale = 60
+           scrollView.minimumZoomScale = 0.5
+    }
+    
+    func addMenuButtons() {
+        view.addSubview(menuView)
+        menuView.currentTab = 2
+        menuView.addBehavior()
+    }
+    
+    func addSearchButton() {
+        self.view.addSubview(toSearchButton)
+        toSearchButton.frame = CGRect(x: self.view.frame.width-60, y: 20, width: 50, height: 50)
+        // round ava
+        toSearchButton.layer.cornerRadius = toSearchButton.frame.size.width / 2
+        toSearchButton.clipsToBounds = true
+        toSearchButton.isHidden = false
+    }
+    
+    func addTrashButton() {
+        trashButton.frame = CGRect(x: self.view.frame.width/2-40, y: self.view.frame.height - 83, width: 80, height: 80)
+        // round ava
+        trashButton.layer.cornerRadius = trashButton.frame.size.width / 2
+        trashButton.clipsToBounds = true
+        trashButton.isHidden = true
+    }
+    
+    // Zoom Logic
+    func resizeScrollView(numPosts: Int) {
+        var rows = 0
+        var width = view.frame.width
+        var height = view.frame.height
+        let additionalRowWidth = ((view.frame.width/3) - 10)*2
+        //     let heightDifference = height - width
+        if numPosts < 7 {
+            rows = 1
+            //self.scrollView.frame.width =
+        }
+        else if numPosts < 19 {
+            rows = 2
+            width = width + additionalRowWidth
+        }
+        else if numPosts  < 43 {
+            rows = 3
+            width = width + (2*additionalRowWidth)
+            height = height + (additionalRowWidth)
+        }
+        else if numPosts < 91 {
+            rows = 4
+            width = width + (3*additionalRowWidth)
+            height = height + (2*additionalRowWidth)
+        }
+        //  var addedWidth = 2*(rows-1)*160
+        // var addedHeight =  2 * (rows-1)*160
+        self.scrollView.frame = CGRect(x: 0, y: 0, width: width, height:  height)
+        self.contentView.frame = CGRect(x: 0, y: 0, width: width, height:  height)
+        self.scrollView.contentSize = scrollView.frame.size
         
-        print("width scale: \(widthScale)")
-        print("height scale: \(heightScale)")
-        // scrollView.minimumZoomScale = min(widthScale, heightScale)
-        //scrollView.zoomScale = scrollView.minimumZoomScale
-        scrollView.maximumZoomScale = 60
-        scrollView.minimumZoomScale = 0.5
+        
     }
     
     override func viewWillLayoutSubviews() {
@@ -234,6 +218,8 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         return contentView
     }
     
+    
+    // refresh logic when view will appear
     func refresh() {
         //loadView()
         
@@ -265,6 +251,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         })
     }
     
+    // search button logic
     @IBAction func toSearchButtonClicked(_ sender: UIButton) {
         let userTableVC = storyboard?.instantiateViewController(identifier: "userTableVC")
         present(userTableVC!, animated: false)
@@ -335,10 +322,10 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                 image.removeFromSuperview()
             }
             self.imageViewArray = newImageViewArray
-            if (firstLoad) {
-                resizeScrollView(numPosts: imageViewArray.count - 1)
-                firstLoad = false
-            }
+//            if (firstLoad) {
+//                resizeScrollView(numPosts: imageViewArray.count - 1)
+//                firstLoad = false
+//            }
             
             for image in imageViewArray {
                 print("added Image")

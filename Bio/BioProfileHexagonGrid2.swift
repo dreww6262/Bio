@@ -128,7 +128,7 @@ class BioProfileHexagonGrid2: UIViewController, UISearchBarDelegate, UIScrollVie
     
     func addSearchButton() {
         self.view.addSubview(toSearchButton)
-        toSearchButton.frame = CGRect(x: self.view.frame.width-60, y: 5, width: 50, height: 50)
+        toSearchButton.frame = CGRect(x: self.view.frame.width-60, y: 20, width: 50, height: 50)
         // round ava
         toSearchButton.layer.cornerRadius = toSearchButton.frame.size.width / 2
         toSearchButton.clipsToBounds = true
