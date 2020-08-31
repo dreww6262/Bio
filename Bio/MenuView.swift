@@ -53,27 +53,27 @@ class MenuView: UIView {
         
         //self.backgroundColor = .white
         
-        print("superFrame \(superFrame)")
+//        print("superFrame \(superFrame)")
         
         menuButton.frame = CGRect(x: superFrame.width/2-40, y: superFrame.height-112, width: 80, height: 80)
         // round ava
         menuButton.layer.cornerRadius = menuButton.frame.size.width / 2
         menuButton.clipsToBounds = true
-        print ("menuButton frame \(menuButton.frame)")
+//        print ("menuButton frame \(menuButton.frame)")
         
         newPostButton.frame = CGRect(x: superFrame.width/5 - 40, y: menuButton.frame.minY, width: 80, height: 80)
         //  newPostButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
         // round ava
         newPostButton.layer.cornerRadius = newPostButton.frame.size.width / 2
         newPostButton.clipsToBounds = true
-        print ("newpost frame \(newPostButton.frame)")
+//        print ("newpost frame \(newPostButton.frame)")
         
         friendsButton.frame = CGRect(x: superFrame.width/2 - 40, y: superFrame.height - 223, width: 80, height: 80)
         // friendsButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
         // round ava
         friendsButton.layer.cornerRadius = friendsButton.frame.size.width / 2
         friendsButton.clipsToBounds = true
-        print ("friends frame \(friendsButton.frame)")
+//        print ("friends frame \(friendsButton.frame)")
         
         
         
@@ -82,7 +82,7 @@ class MenuView: UIView {
         // round ava
         dmButton.layer.cornerRadius = dmButton.frame.size.width / 2
         dmButton.clipsToBounds = true
-        print ("dm frame \(dmButton.frame)")
+//        print ("dm frame \(dmButton.frame)")
         
         
         settingsButton.frame = CGRect(x: superFrame.width*4/5 - 40, y: superFrame.height - 112, width: 80, height: 80)
@@ -90,7 +90,7 @@ class MenuView: UIView {
         // round ava
         settingsButton.layer.cornerRadius = settingsButton.frame.size.width / 2
         settingsButton.clipsToBounds = true
-        print ("settings frame \(settingsButton.frame)")
+//        print ("settings frame \(settingsButton.frame)")
         
         
         homeProfileButton.frame = CGRect(x: superFrame.width/5 - 10, y: dmButton.frame.minY, width: 80, height: 80)
@@ -98,7 +98,7 @@ class MenuView: UIView {
         // round ava
         homeProfileButton.layer.cornerRadius = homeProfileButton.frame.size.width / 2
         homeProfileButton.clipsToBounds = true
-        print("home frame \(homeProfileButton.frame)")
+//        print("home frame \(homeProfileButton.frame)")
         
         
         let menuTapped = UITapGestureRecognizer(target: self, action: #selector(tappedMenuButton))

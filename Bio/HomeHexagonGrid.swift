@@ -100,9 +100,9 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         let rows = 15
         let firstRowColumns = 15
         //scroll view stuff 2
-        print("Bounds of zoomview: \(contentView.bounds.size)")
+//        print("Bounds of zoomview: \(contentView.bounds.size)")
         self.scrollView.contentSize = CGSize(width: spacing + CGFloat(firstRowColumns) * (hexaWidth + spacing), height: spacing + CGFloat(rows) * (hexaDiameter - hexaHeightDelta + spacing) + hexaHeightDelta)
-        print("scrollview content size \(scrollView.contentSize)")
+//        print("scrollview content size \(scrollView.contentSize)")
         
         
         //scrollViewStuff1
@@ -134,8 +134,8 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
            let widthScale = scrollViewSize.width / imageViewSize.width
            let heightScale = scrollViewSize.height / imageViewSize.height
            
-           print("width scale: \(widthScale)")
-           print("height scale: \(heightScale)")
+//           print("width scale: \(widthScale)")
+//           print("height scale: \(heightScale)")
            // scrollView.minimumZoomScale = min(widthScale, heightScale)
            //scrollView.zoomScale = scrollView.minimumZoomScale
            scrollView.maximumZoomScale = 60
@@ -234,10 +234,10 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                     if (self.userData == nil || !NSDictionary(dictionary: newData.dictionary).isEqual(to: self.userData!.dictionary)) {
                         self.userData = newData
                         self.createImageViews()
-                        print("created image views")
+//                        print("created image views")
                     }
                     else {
-                        print("nothing changed")
+//                        print("nothing changed")
                     }
                     
                 }
@@ -253,9 +253,10 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     
     // search button logic
     @IBAction func toSearchButtonClicked(_ sender: UIButton) {
-        let userTableVC = storyboard?.instantiateViewController(identifier: "userTableVC")
-        present(userTableVC!, animated: false)
-        print("frame after pressed \(toSearchButton.frame)")
+        let userTableVC = storyboard?.instantiateViewController(identifier: "userTableVC") as! UserTableView
+        userTableVC.myUsername = userData?.publicID
+        present(userTableVC, animated: false)
+//        print("frame after pressed \(toSearchButton.frame)")
         
     }
     
@@ -266,9 +267,9 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         //        bg.layer.zPosition = -1
         //        scrollView.addSubview(bg)
         
-        print("This is scroll view frame")
-        print(self.scrollView.frame)
-        print(self.contentView.frame)
+//        print("This is scroll view frame")
+//        print(self.scrollView.frame)
+//        print(self.contentView.frame)
         //        zoomView.frame = scrollView.bounds
         //        print(self.zoomView.frame)
         let hexaDiameter : CGFloat = 150
@@ -317,7 +318,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         
         if (!newImageViewArray.elementsEqual(self.imageViewArray)) {
             for image in imageViewArray {
-                print("removedImage")
+//                print("removedImage")
                 //                self.scrollView.willRemoveSubview(image)
                 image.removeFromSuperview()
             }
@@ -328,11 +329,11 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
 //            }
             
             for image in imageViewArray {
-                print("added Image")
+//                print("added Image")
                 self.contentView.addSubview(image)
-                print("imageFrame: \(image.frame)")
-                print("image frame in scrollview\(scrollView.convert(image.frame, from: contentView))")
-                print("zoom view frame in scrollView \(scrollView.convert(contentView.frame, from: contentView))")
+//                print("imageFrame: \(image.frame)")
+//                print("image frame in scrollview\(scrollView.convert(image.frame, from: contentView))")
+//                print("zoom view frame in scrollView \(scrollView.convert(contentView.frame, from: contentView))")
                 
                 //self.view.addSubview(image)
                 contentView.bringSubviewToFront(image)
@@ -344,7 +345,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             
             //        print("finished avatar")
             loadData {
-                print("loading data 💡💡💡💡💡💡💡💡💡💡💡💡💡💡💡💡💡💡💡💡")
+//                print("loading data 💡💡💡💡💡💡💡💡💡💡💡💡💡💡💡💡💡💡💡💡")
                 self.populateHexagonGrid2()
                 self.loadDataListener?.remove()
                 //            print("finished hexGrid2")
@@ -359,14 +360,13 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     override func viewWillAppear(_ animated: Bool) {
         //loadView()
         super.viewWillAppear(true) // No need for semicolon
-        print("search button \(toSearchButton.frame)")
+//        print("search button \(toSearchButton.frame)")
         firstLoad = true
         menuView.tabController = (tabBarController! as! NavigationMenuBaseController)
         
         
         //createImageViews()
         refresh()
-        
     }
     
     
@@ -636,7 +636,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     func populateUserAvatar() {
         // to for hexstruct array once algorithm done
         let ref = self.storage.child(userData!.avaRef)
-        print(ref)
+//        print(ref)
         self.imageViewArray[0].sd_setImage(with: ref)
         //        print("This is the imageView.image \(self.imageViewArray[0].image)")
         //        print("This is ref \(0) \(ref)")
@@ -714,10 +714,10 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                             self.db.collection("UserData1").document(self.userData!.privateID).setData(self.userData!.dictionary)
                         }
                     }
-                    print("current Index: \(currentIndex), count: \(hexagonStructArray.count)")
+//                    print("current Index: \(currentIndex), count: \(hexagonStructArray.count)")
                     var tempIndex = currentIndex
                     while tempIndex < hexagonStructArray.count {
-                        print("temp Index: \(tempIndex), count: \(hexagonStructArray.count)")
+//                        print("temp Index: \(tempIndex), count: \(hexagonStructArray.count)")
                         
                         hexagonStructArray[tempIndex].location -= 1
                         let newtemp = hexagonStructArray[tempIndex]
@@ -759,9 +759,9 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                     hexagonStructArray[newIndex].location = newIndex
                     hexagonStructArray[currentIndex].location = currentIndex
                     
-                    print("should repopulate hexagons")
+//                    print("should repopulate hexagons")
                     populateHexagonGrid2()
-                    print("hexagon \(currentIndex) should have went to \(newIndex)")
+//                    print("hexagon \(currentIndex) should have went to \(newIndex)")
                     let listener = db.collection("Hexagons2").whereField("postingUserID", isEqualTo: userData!.publicID).addSnapshotListener({ snap, error in
                         if (error == nil) {
                             guard let docs = snap?.documents else{
@@ -795,7 +795,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                 }
                 
                 
-                print("This is current newIndex \(newIndex)")
+//                print("This is current newIndex \(newIndex)")
                 hexIsMovable = false
                 //                var originalFrame = currentDraggedHexagonFrame
                 //                var tempImage1 = imageViewArray[currentDraggedHexagonTag].image

@@ -350,7 +350,9 @@ class GuestHexagonGridVC: UIViewController, UIGestureRecognizerDelegate, UIScrol
             for document in querySnapshot!.documents {
                 print(document)
                 let newHexagonPost = HexagonStructData(dictionary: document.data())
-                self.hexagonStructArray.append(newHexagonPost)
+                if (!newHexagonPost.isArchived) {
+                    self.hexagonStructArray.append(newHexagonPost)
+                }
                 print("Loaded: \(newHexagonPost)")
             }
             // self.populateHexagonGrid()
