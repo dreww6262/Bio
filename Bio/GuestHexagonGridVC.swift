@@ -759,74 +759,35 @@ class GuestHexagonGridVC: UIViewController, UIGestureRecognizerDelegate, UIScrol
                     UIApplication.shared.openURL(url!)
                 }
             }
-            else {
-                
+        }
+    else if tappedHex.type.contains("photo") {
+                print("🎯🎯🎯🎯🎯🎯🎯I tapped image with tag \(sender.view!.tag)")
+                       if sender.view!.tag == 0 {
+                           print("Tried to click profile pic handle later")
+                       }
+                           //menuView.menuButton.isHidden = true
+                           let newImageView = UIImageView(image: UIImage(named: "kbit"))
+                           let ref = storage.child(self.hexagonStructArray[sender.view!.tag-1].thumbResource)
+                           newImageView.sd_setImage(with: ref)
+                           let frame = CGRect(x: scrollView.frame.minX, y: scrollView.frame.minY, width: scrollView.frame.width, height: scrollView.frame.height)
+                           
+                           newImageView.frame = frame
+                           newImageView.backgroundColor = .white
+                           
+                           newImageView.contentMode = .scaleAspectFit
+                           newImageView.isUserInteractionEnabled = true
+                           let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImageHandler))
+                           newImageView.addGestureRecognizer(tap)
+                           self.view.addSubview(newImageView)
+                           let textView = UITextView()
+                           textView.text = "asdfkjlasdfjasdf"
+                           textView.textColor = .red
+                print("This should have created an image View")
             }
             
         }
-        else {
-            // do other stuff
-        }
-//        let newImageView = UIImageView(image: fakeUserTotalProfileArray[sender.view!.tag])
-//        // let newImageView = UIImageView(image: imageViewArray[sender.view!.tag].image)
-//        let frame = CGRect(x: scrollView.frame.minX + scrollView.contentOffset.x, y: scrollView.frame.minY + scrollView.contentOffset.y, width: scrollView.frame.width, height: scrollView.frame.height)
-//
-//        newImageView.frame = frame
-//        newImageView.backgroundColor = .black
-//        newImageView.contentMode = .scaleAspectFit
-//        newImageView.isUserInteractionEnabled = true
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImageHandler))
-//        newImageView.addGestureRecognizer(tap)
-//        self.view.addSubview(newImageView)
-//        let textView = UITextView()
-//        textView.text = "asdfkjlasdfjasdf"
-//        textView.textColor = .red
-        
-        
-//        if sender.view!.tag == 1 {
-//            dismissFullscreenImage(view: newImageView)
-//            openFacebook(facebookHandle: "")
-//        }
-//
-//        if sender.view!.tag == 2 {
-//            dismissFullscreenImage(view: newImageView)
-//            openInstagram(instagramHandle: "patmcdonough42")
-//        }
-//
-//        if sender.view!.tag == 3 {
-//            dismissFullscreenImage(view: newImageView)
-//            openTwitter(twitterHandle: "kanyewest")
-//        }
-//
-//        if sender.view!.tag == 4 {
-//            dismissFullscreenImage(view: newImageView)
-//            openSpotifySong()
-//        }
-//
-//        if sender.view!.tag == 5 {
-//            dismissFullscreenImage(view: newImageView)
-//            openSnapchat(snapchatUsername: "patmcdonough42")
-//
-//        }
-//
-//        if sender.view!.tag == 6 {
-//            print("im about to play video")
-//            dismissFullscreenImage(view: newImageView)
-//            // openTikTok(tikTokHandle: "https://vm.tiktok.com/JeQCbBR/")
-//            loadVideo(urlString: "https://firebasestorage.googleapis.com/v0/b/hw05-54fe6.appspot.com/o/example-movie.mp4?alt=media&token=4dc2f663-94a1-460a-a05f-a2ce6774ae5b")
-//        }
-//        if sender.view!.tag == 8 {
-//            print("im about to play old spice video")
-//            dismissFullscreenImage(view: newImageView)
-//            // openTikTok(tikTokHandle: "https://vm.tiktok.com/JeQCbBR/")
-//            // scrollView.backgroundColor = .black
-//            loadVideo(urlString: "https://firebasestorage.googleapis.com/v0/b/hw05-54fe6.appspot.com/o/Old%20Spice%20%7C%20The%20Man%20Your%20Man%20Could%20Smell%20Like.mp4?alt=media&token=c465fe00-4e95-485f-bc18-2806076b82f3")
-//        }
-//
-        
-        
-        //}
-    }
+
+
     
     
     
@@ -910,6 +871,7 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
     let ref = storage.child(self.hexagonStructArray[indexPath.item].thumbResource)
                print("ref: \(ref)")
     cell.imageView.sd_setImage(with: ref)
+    cell.imageView.frame = cell.frame
 
  //   cell.imageView.image = imageViewArray[indexPath.item+1].image
 
