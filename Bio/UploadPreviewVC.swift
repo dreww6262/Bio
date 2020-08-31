@@ -146,8 +146,11 @@ extension UploadPreviewVC: UITableViewDelegate, UITableViewDataSource {
          let cell = tableView.dequeueReusableCell(withIdentifier: "uploadPreviewCell", for: indexPath) as! UploadPreviewCell
           print("This is cell \(cell)")
           cell.previewImage.image = photos![indexPath.row]
+        var previewImageWidth = cell.previewImage.frame.width
+        var previewImageHeight = cell.previewImage.frame.height
+        cell.previewImage.frame = CGRect(x: 10, y: cell.frame.height/2 - previewImageHeight/2, width: previewImageWidth, height: previewImageHeight)
           print("This is cell image \(cell.previewImage.image)")
-        cell.previewImage.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
+        cell.previewImage.setupHexagonMask(lineWidth: cell.previewImage.frame.width/15, color: gold, cornerRadius: 10.0)
         cellArray.append(cell)
                return cell
           

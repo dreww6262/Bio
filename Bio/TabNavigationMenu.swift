@@ -114,7 +114,6 @@ class TabNavigationMenu: UIView {
                 //case 0:
                     // settings does not need to refresh
         //            (tabItems![tab].viewController as! HomeHexagonGrid).refresh()
-
                 case 1:
                     print("dm tab")
                     // change to valid DM View Controller
@@ -140,6 +139,9 @@ class TabNavigationMenu: UIView {
                     print("signin tab")
                     // sign in does not need to refresh
                     let phoneVC = (tabItems![tab].viewController as! PhoneSignInVC)
+//                              print("settings tab")
+//                              // sign in does not need to refresh
+//                              let settingsVC = (tabItems![tab].viewController as! SettingsVCGradient)
                     //phoneVC.loadView()
         //            (tabItems![tab].viewController as! HomeHexagonGrid).refresh()
                 default:

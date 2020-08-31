@@ -99,6 +99,8 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         //poshmarkLogo.image = UIImage(named: "poshmarkLogo")
         let gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
         let gray = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+        let orange = #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
+        
         // scrollview frame size
         scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
         scrollView.contentSize.height = self.view.frame.height
@@ -120,23 +122,27 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         
         //cancelBtn.frame = CGRect(x: 5, y: 15, width: 24, height: 24)
         cancelBtn.layer.cornerRadius = cancelBtn.frame.size.width / 20
-        titleText.frame = CGRect(x: 0,y:10, width: self.view.frame.size.width, height: 30)
+        titleText.frame = CGRect(x: 0,y:60, width: self.view.frame.size.width, height: 30)
         subtitleText.frame = CGRect(x:0, y: titleText.frame.origin.y + 30, width: self.view.frame.size.width, height: 30)
         
-        changeCoverLabel.frame = CGRect(x: 10, y: subtitleText.frame.maxY + 20, width: self.view.frame.size.width - 20, height: 30)
+    
         
         
         //         linkHexagonImage.frame = CGRect(x: 10, y: linkTextField.frame.origin.y + 30, width: self.view.frame.size.width - 20, height: 30)
-        linkHexagonImage.frame = CGRect(x:0.0, y: changeCoverLabel.frame.maxY + 10, width: scrollView.frame.width, height: scrollView.frame.width)
+        linkHexagonImage.frame = CGRect(x: 40, y: subtitleText.frame.maxY + 35, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
+        changeCoverLabel.frame = CGRect(x: 10, y: linkHexagonImage.frame.origin.y + scrollView.frame.width/2, width: self.view.frame.size.width - 20, height: 30)
+        
         
         linkTextField.frame = CGRect(x: 10, y: linkHexagonImage.frame.maxY + 20, width: self.view.frame.size.width - 20, height: 30)
+        linkTextField.attributedPlaceholder = NSAttributedString(string: "Paste Link Here",
+        attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: linkTextField.frame.minY, width: 30, height: 30)
         
         continueBtn.frame =  CGRect(x: 10.0, y: linkTextField.frame.maxY + 20, width: self.view.frame.width - 20, height: 24)
         continueBtn.layer.cornerRadius = continueBtn.frame.size.width / 20
         cancelBtn.frame =  CGRect(x: 10.0, y: continueBtn.frame.maxY + 10, width: continueBtn.frame.width, height: 24)
         cancelBtn.layer.cornerRadius = cancelBtn.frame.size.width / 20
-        linkHexagonImage.setupHexagonMask(lineWidth: 15.0, color: gold, cornerRadius: 10.0)
+        linkHexagonImage.setupHexagonMask(lineWidth: 0, color: .black, cornerRadius: 10.0)
         // background
         let bg = UIImageView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height))
         bg.image = UIImage(named: "manaloghourglass")

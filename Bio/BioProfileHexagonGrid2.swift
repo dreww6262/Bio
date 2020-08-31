@@ -321,6 +321,14 @@ class BioProfileHexagonGrid2: UIViewController, UISearchBarDelegate, UIScrollVie
         tabController!.customTabBar.switchTab(from: 3, to: 2)
     }
     
+    @IBAction func settingsButtonClicked(_ sender: UIButton) {
+        let viewControllers = tabController!.customizableViewControllers!
+        let settingsVC = (viewControllers[0] as! SettingsVCGradient)
+        settingsVC.userData = userData
+        tabController!.viewControllers![0] = settingsVC
+        tabController!.customTabBar.switchTab(from: 3, to: 0)
+
+    }
     
     @IBAction func newPostButtonClicked(_ sender: UIButton) {
         //        let newPostVC =   storyboard?.instantiateViewController(identifier: "newPostVC") as! NewPostOptionsVC

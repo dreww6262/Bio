@@ -34,10 +34,10 @@ var viewController: UIViewController {
             newPostVC.viewDidLoad()
             return newPostVC
         case .settings:
-            let homeVC = storyboard.instantiateViewController(identifier: "newPostVC") as! NewPostOptionsVC
-            homeVC.loadView()
-            homeVC.viewDidLoad()
-            return homeVC
+            let settingsVC = storyboard.instantiateViewController(identifier: "settingsVC") as! SettingsVCGradient
+            settingsVC.loadView()
+            settingsVC.viewDidLoad()
+            return settingsVC
         case .dms:
             let homeVC = storyboard.instantiateViewController(identifier: "newPostVC") as! NewPostOptionsVC
             homeVC.loadView()

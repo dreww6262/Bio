@@ -1,37 +1,23 @@
 //
-//  AddSocialMediaVC.swift
+//  OnePostPreview.swift
 //  Bio
 //
-//  Created by Ann McDonough on 6/30/20.
+//  Created by Ann McDonough on 8/28/20.
 //  Copyright © 2020 Patrick McDonough. All rights reserved.
 //
 
 import UIKit
-//import Parse
 import Firebase
 import FirebaseAuth
 import FirebaseStorage
+import FirebaseUI
 import FirebaseFirestore
 
-class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     @IBOutlet weak var titleText: UILabel!
     @IBOutlet weak var subtitleText: UILabel!
     
-    @IBOutlet weak var instagramLogo: UIImageView!
     
-    @IBOutlet weak var snapchatLogo: UIImageView!
-    
-    @IBOutlet weak var twitterLogo: UIImageView!
-    
-    @IBOutlet weak var facebookLogo: UIImageView!
-    
-    @IBOutlet weak var appleMusicLogo: UIImageView!
-    
-    @IBOutlet weak var venmoLogo: UIImageView!
-    
-    @IBOutlet weak var tikTokLogo: UIImageView!
-    
-    @IBOutlet weak var poshmarkLogo: UIImageView!
     
     // scrollView
     @IBOutlet weak var scrollView: UIScrollView!
@@ -39,15 +25,13 @@ class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINav
     // profile image
     
     // textfields
-    @IBOutlet weak var instagramUsernameTxt: UITextField!
-    @IBOutlet weak var snapchatUsernameTxt: UITextField!
-    @IBOutlet weak var twitterHandleTxt: UITextField!
-    @IBOutlet weak var facebookInfoTxt: UITextField!
-    @IBOutlet weak var appleMusicTxt: UITextField!
+    @IBOutlet weak var captionTextField: UITextField!
     
-    @IBOutlet weak var venmoTxt: UITextField!
-    @IBOutlet weak var tikTokText: UITextField!
-    @IBOutlet weak var poshmarkText: UITextField!
+    @IBOutlet weak var locationTextField: UITextField!
+    @IBOutlet weak var tagTextField: UITextField!
+    
+    @IBOutlet weak var previewImage: UIImageView!
+    
     // buttons
     @IBOutlet weak var continueBtn: UIButton!
     @IBOutlet weak var cancelBtn: UIButton!
@@ -56,6 +40,7 @@ class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINav
     var userData: UserData?
     var userDataRef: DocumentReference? = nil
     let db = Firestore.firestore()
+    let storageRef = Storage.storage().reference()
     
     
     // reset default size
@@ -69,8 +54,6 @@ class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINav
     override func viewDidLoad() {
         var alreadySnapped = false
         super.viewDidLoad()
-        
-        
         
         
         
@@ -106,9 +89,18 @@ class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINav
             print("loaded addVC with userdata: \(userData!.publicID) and user \(currentUser!.email)")
         }
         
+       // let linkTap = UITapGestureRecognizer(target: self, action: #selector(AddLinkVCViewController.loadImg(_:)))
+      //  linkTap.numberOfTapsRequired = 1
+      //  previewImage.isUserInteractionEnabled = true
+      //  previewImage.addGestureRecognizer(linkTap)
+        
+        
+        
         //poshmarkLogo.image = UIImage(named: "poshmarkLogo")
         let gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
         let gray = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+        let orange = #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
+        
         // scrollview frame size
         scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
         scrollView.contentSize.height = self.view.frame.height
@@ -130,36 +122,27 @@ class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINav
         
         //cancelBtn.frame = CGRect(x: 5, y: 15, width: 24, height: 24)
         cancelBtn.layer.cornerRadius = cancelBtn.frame.size.width / 20
-        titleText.frame = CGRect(x: 0,y: 10, width: self.view.frame.size.width, height: 30)
-        subtitleText.frame = CGRect(x:0, y: titleText.frame.maxY + 5, width: self.view.frame.size.width, height: 30)
+        titleText.frame = CGRect(x: 0,y:60, width: self.view.frame.size.width, height: 30)
+        subtitleText.frame = CGRect(x:0, y: titleText.frame.origin.y + 30, width: self.view.frame.size.width, height: 30)
         
-        instagramUsernameTxt.frame = CGRect(x: 10, y: subtitleText.frame.maxY + 20, width: self.view.frame.size.width - 20, height: 35)
-        snapchatUsernameTxt.frame = CGRect(x: 10, y: instagramUsernameTxt.frame.maxY + 15, width: self.view.frame.size.width - 20, height: 35)
-        twitterHandleTxt.frame = CGRect(x: 10, y: snapchatUsernameTxt.frame.maxY + 15, width: self.view.frame.size.width - 20, height: 35)
-        facebookInfoTxt.frame = CGRect(x: 10, y: twitterHandleTxt.frame.maxY + 15, width: self.view.frame.size.width - 20, height: 35)
-        appleMusicTxt.frame = CGRect(x: 10, y: facebookInfoTxt.frame.maxY + 15, width: self.view.frame.size.width - 20, height: 35)
-        venmoTxt.frame = CGRect(x: 10, y: appleMusicTxt.frame.maxY + 15, width: self.view.frame.size.width - 20, height: 35)
-        tikTokText.frame = CGRect(x: 10, y: venmoTxt.frame.maxY + 15, width: self.view.frame.size.width - 20, height: 35)
-        poshmarkText.frame = CGRect(x: 10, y: tikTokText.frame.maxY + 15, width: self.view.frame.size.width - 20, height: 35)
-        instagramLogo.frame = CGRect(x: 11, y: instagramUsernameTxt.frame.minY + 2, width: 24, height: 33)
-        snapchatLogo.frame =  CGRect(x: 11, y: snapchatUsernameTxt.frame.minY + 2, width: 24, height: 33)
+    
         
-        twitterLogo.frame = CGRect(x: 11, y: twitterHandleTxt.frame.minY + 2, width: 24, height: 33)
         
-        facebookLogo.frame =  CGRect(x: 11, y: facebookInfoTxt.frame.minY + 2, width: 24, height: 33)
+        //         linkHexagonImage.frame = CGRect(x: 10, y: linkTextField.frame.origin.y + 30, width: self.view.frame.size.width - 20, height: 30)
+        previewImage.frame = CGRect(x: 40, y: titleText.frame.maxY + 15, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
         
-        appleMusicLogo.frame =  CGRect(x: 11, y: appleMusicTxt.frame.minY + 2, width: 24, height: 33)
         
-        venmoLogo.frame =  CGRect(x: 11, y: venmoTxt.frame.minY + 2, width: 24, height: 33)
+        captionTextField.frame = CGRect(x: 10, y: previewImage.frame.maxY + 20, width: self.view.frame.size.width - 20, height: 30)
+         locationTextField.frame = CGRect(x: 10, y: captionTextField.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
+ tagTextField.frame = CGRect(x: 10, y: locationTextField.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
+//        captionTextField.attributedPlaceholder = NSAttributedString(string: "Caption",
+//        attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         
-        tikTokLogo.frame =  CGRect(x: 11, y: tikTokText.frame.minY + 2, width: 24, height: 33)
-        poshmarkLogo.frame =  CGRect(x: 11, y: poshmarkText.frame.minY + 2, width: 24, height: 33)
-        
-        continueBtn.frame =  CGRect(x: 10.0, y: poshmarkText.frame.maxY + 15, width: facebookInfoTxt.frame.width, height: 30)
-       continueBtn.layer.cornerRadius = continueBtn.frame.size.width / 20
-        cancelBtn.frame =  CGRect(x: 10.0, y: continueBtn.frame.maxY + 10, width: continueBtn.frame.width, height: 30)
-       //cancelBtn.layer.cornerRadius = cancelBtn.frame.size.width / 20
-        
+        continueBtn.frame =  CGRect(x: 10.0, y: tagTextField.frame.maxY + 10, width: self.view.frame.width - 20, height: 24)
+        continueBtn.layer.cornerRadius = continueBtn.frame.size.width / 20
+        cancelBtn.frame =  CGRect(x: 10.0, y: continueBtn.frame.maxY + 10, width: continueBtn.frame.width, height: 24)
+        cancelBtn.layer.cornerRadius = cancelBtn.frame.size.width / 20
+        previewImage.setupHexagonMask(lineWidth: previewImage.frame.width/15, color: orange, cornerRadius: 10.0)
         // background
         let bg = UIImageView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height))
         bg.image = UIImage(named: "manaloghourglass")
@@ -222,19 +205,16 @@ class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINav
         var hexCopy = HexagonStructData(dictionary: hexData.dictionary)
         hexCopy.docID = hexDoc.documentID
         hexDoc.setData(hexCopy.dictionary){ error in
+            //     group.leave()
             if error == nil {
+                print("added hex: \(hexData)")
                 completion(true)
             }
             else {
+                print("failed to add hex \(hexData)")
                 completion(false)
             }
         }
-        
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        var phoneVC = segue.destination as! PhoneSignInVC
-        phoneVC.userData = userData
     }
     
     
@@ -246,7 +226,7 @@ class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINav
         self.view.endEditing(true)
         
         // if fields are empty
-        if (instagramUsernameTxt.text!.isEmpty && snapchatUsernameTxt.text!.isEmpty && twitterHandleTxt.text!.isEmpty && facebookInfoTxt.text!.isEmpty && appleMusicTxt.text!.isEmpty && venmoTxt.text!.isEmpty && tikTokText.text!.isEmpty && poshmarkText.text!.isEmpty) {
+        if (captionTextField.text!.isEmpty) {
             
             // alert message
             let alert = UIAlertController(title: "Hold up", message: "Fill in a field or hit \(cancelBtn.titleLabel?.text)", preferredStyle: UIAlertController.Style.alert)
@@ -264,95 +244,79 @@ class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINav
         
         
         //let group = DispatchGroup()
-        if (!instagramUsernameTxt.text!.isEmpty) {
+        if (!captionTextField.text!.isEmpty) {
+            let timestamp = Timestamp.init().seconds
+            let imageFileName = "\(username)_\(timestamp)_link.png"
+            let refText = "userFiles/\(username)/\(imageFileName)"
+            let imageRef = storageRef.child(refText)
             numPosts += 1
-            let instaHex = HexagonStructData(resource: "https://instagram.com/\(instagramUsernameTxt.text!)", type: "socialmedia_instagram", location: numPosts, thumbResource: "icons/instagramLogo.png", createdAt: TimeInterval.init(), postingUserID: username, text: "\(instagramUsernameTxt.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
-            addHex(hexData: instaHex, completion: { bool in
+            let linkHex = HexagonStructData(resource: captionTextField.text!, type: "link", location: numPosts, thumbResource: refText, createdAt: TimeInterval.init(), postingUserID: username, text: "\(captionTextField.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            
+            
+            addHex(hexData: linkHex, completion: { bool in
                 success = success && bool
                 
             })
-        }
-        
-        if (!snapchatUsernameTxt.text!.isEmpty) {
-            numPosts += 1
-            let snapHex = HexagonStructData(resource: "snapchat://add/\(snapchatUsernameTxt.text!)", type: "socialmedia_snapchat", location: numPosts, thumbResource: "icons/snapchatlogo.jpg", createdAt: TimeInterval.init(), postingUserID: username, text: "\(snapchatUsernameTxt.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
-            addHex(hexData: snapHex, completion: {bool in
-                success = success && bool
-                
-            })
-        }
-        
-        if (!twitterHandleTxt.text!.isEmpty) {
-            numPosts += 1
-            let twitterHex = HexagonStructData(resource: "https://twitter.com/\(twitterHandleTxt.text!)", type: "socialmedia_twitter", location: numPosts, thumbResource: "icons/twitter.png", createdAt: TimeInterval.init(), postingUserID: username, text: "\(twitterHandleTxt.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
-            addHex(hexData: twitterHex, completion: {bool in
-                success = success && bool
-                
-            })
-        }
-        
-        if (!facebookInfoTxt.text!.isEmpty) {
-            numPosts += 1
-            let facebookHex = HexagonStructData(resource: facebookInfoTxt.text!, type: "socialmedia_facebook", location: numPosts, thumbResource: "icons/facebooklogo.png", createdAt: TimeInterval.init(), postingUserID: username, text: "\(facebookInfoTxt.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
-            addHex(hexData: facebookHex, completion: {bool in
-                success = success && bool
-                
-            })
-        }
-        
-        if (!appleMusicTxt.text!.isEmpty) {
-            numPosts += 1
-            let appleHex = HexagonStructData(resource: "https://applemusic.com/\(appleMusicTxt.text!)", type: "socialmedia_appleMusic", location: numPosts, thumbResource: "icons/appleMusicLogo.jpg", createdAt: TimeInterval.init(), postingUserID: username, text: "\(appleMusicTxt.text!)", views: 0,isArchived: false, docID: "WillBeSetLater")
-            addHex(hexData: appleHex, completion: {bool in
-                success = success && bool
-                
-            })
-        }
-        
-        if (!venmoTxt.text!.isEmpty) {
-            numPosts += 1
-            let venmoHex = HexagonStructData(resource: "https://venmo.com/\(venmoTxt.text!)", type: "socialmedia_venmo", location: numPosts, thumbResource: "icons/venmologo.png", createdAt: TimeInterval.init(), postingUserID: username, text: "\(venmoTxt.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
-            addHex(hexData: venmoHex, completion: {bool in
-                success = success && bool
-                
-            })
-        }
-        
-        if (!tikTokText.text!.isEmpty) {
-            numPosts += 1
-            let tikTokHex = HexagonStructData(resource: "https://www.tiktok.com/\(tikTokText.text!)/", type: "socialmedia_tiktok", location: numPosts, thumbResource: "icons/tiktokLogo.jpg", createdAt: TimeInterval.init(), postingUserID: username, text: "\(tikTokText.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
-            addHex(hexData: tikTokHex, completion: {bool in
-                success = success && bool
-                
-            })
-        }
-        
-        if (!poshmarkText.text!.isEmpty) {
-            numPosts += 1
-            let poshmarkHex = HexagonStructData(resource: "https://poshmark.com/closet/\(poshmarkText.text!)", type: "socialmedia_poshmark", location: numPosts, thumbResource: "icons/poshmarkLogo.png", createdAt: TimeInterval.init(), postingUserID: username, text: "\(poshmarkText.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
-            addHex(hexData: poshmarkHex, completion: {bool in
-                success = success && bool
-                
-            })
-        }
-        
-        print("passed wait for social media tiles")
-        userData?.numPosts = numPosts
-        db.collection("UserData1").document(currentUser!.uid).setData(self.userData!.dictionary, completion: { error in
-            if error == nil {
-                //present Home View Controller Segue
-                print("present home hex grid")
-                self.performSegue(withIdentifier: "rewindToFront", sender: nil)
-            }
-            else {
-                print("userData not saved \(error?.localizedDescription)")
+            print("passed wait for social media tiles")
+            
+            imageRef.putData(previewImage.image!.pngData()!, metadata: nil){ data, error in
+                if (error == nil) {
+                    print ("upload successful")
+                }
+                else {
+                    print ("upload failed")
+                }
             }
             
-        })
-        
+            
+            userData?.numPosts = numPosts
+            db.collection("UserData1").document(currentUser!.uid).setData(self.userData!.dictionary, completion: { error in
+                if error == nil {
+                    //present Home View Controller Segue
+                    print("present home hex grid")
+                    let homeGrid = self.storyboard?.instantiateViewController(identifier: "homeHexGrid420") as! HomeHexagonGrid
+                    homeGrid.userData = self.userData
+                    self.present(homeGrid, animated: true, completion: nil)
+                    print("should have presented home hex grid")
+                    
+                }
+                else {
+                    print("userData not saved \(error?.localizedDescription)")
+                }
+                
+            })
+            
+            
+        }
         
     }
-
+    
+    
+    // call picker to select image
+    @objc func loadImg(_ recognizer:UITapGestureRecognizer) {
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        picker.sourceType = .photoLibrary
+        picker.allowsEditing = true
+        present(picker, animated: true, completion: nil)
+    }
+    
+    
+    // connect selected image to our ImageView
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        // Local variable inserted by Swift 4.2 migrator.
+        let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+        previewImage.image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
+        //        if let imageURL = info[UIImagePickerController.InfoKey.referenceURL.rawValue] as? URL {
+        //            let result = PHAsset.fetchAssets(withALAssetURLs: [imageURL], options: nil)
+        //            avaImageExtension = String((result.firstObject?.value(forKey: "filename") as! String).split(separator: ".")[1])
+        //            print("extension \(avaImageExtension)")
+        //        }
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    
+    
     
     // clicked cancel
     @IBAction func cancelBtn_click(_ sender: AnyObject) {
@@ -361,17 +325,12 @@ class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINav
         // hide keyboard when pressed cancel
         self.view.endEditing(true)
         if (cancelBtn.titleLabel?.text! == "Skip") {
-//            print("present home hex grid")
-//            //self.performSegue(withIdentifier: "toHomeHexGrid", sender: nil)
-//            let hexGrid = (storyboard?.instantiateViewController(identifier: "homeHexGrid420"))! as HomeHexagonGrid
-//            hexGrid.userData = userData
-//            show(hexGrid, sender: nil)
-//            print("should have presented home hex grid")
-//            let tabBar = tabBarController!
-//            let homeHexGrid = (tabBar.viewControllers![2] as! HomeHexagonGrid)
-//            homeHexGrid.userData = self.userData
-//            tabBar.selectedViewController = homeHexGrid
-            performSegue(withIdentifier: "rewindToFront", sender: nil)
+            print("present home hex grid")
+            //self.performSegue(withIdentifier: "toHomeHexGrid", sender: nil)
+            let hexGrid = (storyboard?.instantiateViewController(identifier: "homeHexGrid420"))! as HomeHexagonGrid
+            hexGrid.userData = userData
+            show(hexGrid, sender: nil)
+            print("should have presented home hex grid")
         }
         else {
             print("should dismiss vc")
@@ -380,7 +339,10 @@ class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINav
     }
     
     
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+           var homeHexGrid = segue.destination as! HomeHexagonGrid
+           homeHexGrid.userData = userData
+       }
     
     
     func openInstagram(instagramHandle: String) {
@@ -457,6 +419,15 @@ class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINav
             
         }
     }
- 
+    
 }
 
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
+    return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
+    return input.rawValue
+}
