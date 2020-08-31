@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:/Users/annmcdonough/Documents/Bio/Bio/ImageHelper.swift">
+   </FileRef>
+   <FileRef
       location = "group:Bio.xcodeproj">
    </FileRef>
    <FileRef
