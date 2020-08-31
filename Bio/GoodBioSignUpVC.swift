@@ -53,7 +53,6 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         avaImg.image = UIImage(named: "boyprofile")
         let gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
         let gray = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
-        avaImg.setupHexagonMask(lineWidth: 7.5, color: gray, cornerRadius: 10.0)
         // scrollview frame size
         scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
         scrollView.contentSize.height = self.view.frame.height
@@ -72,8 +71,7 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         // round ava
         //  avaImg.layer.cornerRadius = avaImg.frame.size.width / 2
         //hexagonAva
-        HexagonView.setupHexagonImageView(imageView: avaImg)
-        avaImg.clipsToBounds = true
+
         
         // declare select image tap
         let avaTap = UITapGestureRecognizer(target: self, action: #selector(GoodBioSignUpVC.loadImg(_:)))
@@ -82,16 +80,19 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         avaImg.addGestureRecognizer(avaTap)
         
         // alignment
-        avaImg.frame = CGRect(x: self.view.frame.size.width / 2 - 40, y: 40, width: 80, height: 80)
-        emailTxt.frame = CGRect(x: 10, y: avaImg.frame.origin.y + 90, width: self.view.frame.size.width - 20, height: 30)
-        usernameTxt.frame = CGRect(x: 10, y: emailTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
-        displayNameTxt.frame = CGRect(x: 10, y: usernameTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
-        passwordTxt.frame = CGRect(x: 10, y: displayNameTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
-        repeatPassword.frame = CGRect(x: 10, y: passwordTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
+        avaImg.frame = CGRect(x: self.view.frame.size.width / 2 - 60, y: 80, width: 120, height: 120)
+        avaImg.setupHexagonMask(lineWidth: 7.5, color: gray, cornerRadius: 10.0)
+     //   HexagonView.setupHexagonImageView(imageView: avaImg)
+              avaImg.clipsToBounds = true
+        emailTxt.frame = CGRect(x: 10, y: avaImg.frame.maxY + 20, width: self.view.frame.size.width - 20, height: 30)
+        usernameTxt.frame = CGRect(x: 10, y: emailTxt.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
+        displayNameTxt.frame = CGRect(x: 10, y: usernameTxt.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
+        passwordTxt.frame = CGRect(x: 10, y: displayNameTxt.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
+        repeatPassword.frame = CGRect(x: 10, y: passwordTxt.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
         
-        signUpBtn.frame = CGRect(x: 10, y: repeatPassword.frame.origin.y + 50, width: self.view.frame.size.width - 20, height: 30)
+        signUpBtn.frame = CGRect(x: 10, y: repeatPassword.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
         signUpBtn.layer.cornerRadius = signUpBtn.frame.size.width / 20
-        cancelBtn.frame = CGRect(x: 5, y: 15, width: 24, height: 23)
+        cancelBtn.frame = CGRect(x: 5, y: 40, width: 24, height: 23)
         cancelBtn.layer.cornerRadius = cancelBtn.frame.size.width / 20
         
         // background

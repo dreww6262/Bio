@@ -121,8 +121,8 @@ class NewPostOptionsVC: UIViewController, FMPhotoPickerViewControllerDelegate {
         titleLabel.frame = CGRect(x: 0, y: 10.0, width: self.view.frame.width, height: 66.0)
         pic1.frame = CGRect(x: (self.view.frame.width/12), y: (self.view.frame.height/3) - (self.view.frame.width/6) - 20 , width: self.view.frame.width/3, height: self.view.frame.width/3)
         l1.frame = CGRect(x: self.view.frame.width/12, y: pic1.frame.maxY + 30.0, width: self.view.frame.width/3, height: 33.0)
-        l1.text = "Add Photo"
-         l2.text = "Add Video"
+        l1.text = "Add Photos/Videos"
+         l2.text = "Add Music"
          l3.text = "Add Link"
          l4.text = "Add Social Media"
         

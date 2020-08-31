@@ -10,6 +10,11 @@ import UIKit
 
 class SettingsCell: UITableViewCell {
 
+    
+    @IBOutlet weak var titleLabel: UILabel!
+    
+    @IBOutlet weak var userDataLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

@@ -119,6 +119,7 @@ class MenuView: UIView {
         friendsButton.addTarget(self, action: #selector(friendsButtonClicked), for: .touchUpInside)
         homeProfileButton.addTarget(self, action: #selector(homeButtonClicked), for: .touchUpInside)
         newPostButton.addTarget(self, action: #selector(newPostButtonClicked), for: .touchUpInside)
+          settingsButton.addTarget(self, action: #selector(settingsButtonClicked), for: .touchUpInside)
         
         
         //hide buttons
@@ -139,15 +140,20 @@ class MenuView: UIView {
         settingsButton.tintColor = .black
         friendsButton.tintColor = .black
         dmButton.tintColor = .black
-        homeProfileButton.tintColor = .black
+        homeProfileButton.tintColor = .white
         menuButton.tintColor = .black
         
         newPostButton.backgroundColor = .black
         settingsButton.backgroundColor = .black
-        friendsButton.backgroundColor = .black
+        friendsButton.backgroundColor = .white
         dmButton.backgroundColor = .black
         homeProfileButton.backgroundColor = .black
         menuButton.backgroundColor = .black
+        newPostButton.imageView!.image = UIImage(named: "plus")
+        settingsButton.imageView!.image = UIImage(named: "gear")
+        friendsButton.imageView!.image = UIImage(named: "community2")
+        dmButton.imageView!.image = UIImage(named: "plus")
+        homeProfileButton.imageView!.image = UIImage(named: "home2")
 
         
         // show add Post button
@@ -170,6 +176,14 @@ class MenuView: UIView {
         newPostVC.userData = userData
         tabController!.viewControllers![4] = newPostVC
         tabController!.customTabBar.switchTab(from: currentTab, to: 4)
+    }
+    
+    @objc func settingsButtonClicked(_ sender: UIButton) {
+        let viewControllers = tabController!.customizableViewControllers!
+        let settingsVC = (viewControllers[0] as! SettingsVCGradient)
+        settingsVC.userData = userData
+        tabController!.viewControllers![0] = settingsVC
+        tabController!.customTabBar.switchTab(from: currentTab, to: 0)
     }
     
     @objc func homeButtonClicked(_ sender: Any) {

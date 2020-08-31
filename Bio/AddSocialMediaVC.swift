@@ -130,35 +130,35 @@ class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINav
         
         //cancelBtn.frame = CGRect(x: 5, y: 15, width: 24, height: 24)
         cancelBtn.layer.cornerRadius = cancelBtn.frame.size.width / 20
-        titleText.frame = CGRect(x: 0,y:60, width: self.view.frame.size.width, height: 30)
-        subtitleText.frame = CGRect(x:0, y: titleText.frame.origin.y + 30, width: self.view.frame.size.width, height: 30)
+        titleText.frame = CGRect(x: 0,y: 10, width: self.view.frame.size.width, height: 30)
+        subtitleText.frame = CGRect(x:0, y: titleText.frame.maxY + 5, width: self.view.frame.size.width, height: 30)
         
-        instagramUsernameTxt.frame = CGRect(x: 10, y: subtitleText.frame.origin.y + 50, width: self.view.frame.size.width - 20, height: 30)
-        snapchatUsernameTxt.frame = CGRect(x: 10, y: instagramUsernameTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
-        twitterHandleTxt.frame = CGRect(x: 10, y: snapchatUsernameTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
-        facebookInfoTxt.frame = CGRect(x: 10, y: twitterHandleTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
-        appleMusicTxt.frame = CGRect(x: 10, y: facebookInfoTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
-        venmoTxt.frame = CGRect(x: 10, y: appleMusicTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
-        tikTokText.frame = CGRect(x: 10, y: venmoTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
-        poshmarkText.frame = CGRect(x: 10, y: tikTokText.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
-        instagramLogo.frame = CGRect(x: self.view.frame.size.width - 37, y: instagramUsernameTxt.frame.origin.y + 3, width: 24, height: 24)
-        snapchatLogo.frame =  CGRect(x: self.view.frame.size.width - 37, y: instagramUsernameTxt.frame.origin.y + 43, width: 24, height: 24)
+        instagramUsernameTxt.frame = CGRect(x: 10, y: subtitleText.frame.maxY + 20, width: self.view.frame.size.width - 20, height: 35)
+        snapchatUsernameTxt.frame = CGRect(x: 10, y: instagramUsernameTxt.frame.maxY + 15, width: self.view.frame.size.width - 20, height: 35)
+        twitterHandleTxt.frame = CGRect(x: 10, y: snapchatUsernameTxt.frame.maxY + 15, width: self.view.frame.size.width - 20, height: 35)
+        facebookInfoTxt.frame = CGRect(x: 10, y: twitterHandleTxt.frame.maxY + 15, width: self.view.frame.size.width - 20, height: 35)
+        appleMusicTxt.frame = CGRect(x: 10, y: facebookInfoTxt.frame.maxY + 15, width: self.view.frame.size.width - 20, height: 35)
+        venmoTxt.frame = CGRect(x: 10, y: appleMusicTxt.frame.maxY + 15, width: self.view.frame.size.width - 20, height: 35)
+        tikTokText.frame = CGRect(x: 10, y: venmoTxt.frame.maxY + 15, width: self.view.frame.size.width - 20, height: 35)
+        poshmarkText.frame = CGRect(x: 10, y: tikTokText.frame.maxY + 15, width: self.view.frame.size.width - 20, height: 35)
+        instagramLogo.frame = CGRect(x: 11, y: instagramUsernameTxt.frame.minY + 2, width: 24, height: 33)
+        snapchatLogo.frame =  CGRect(x: 11, y: snapchatUsernameTxt.frame.minY + 2, width: 24, height: 33)
         
-        twitterLogo.frame =  CGRect(x: self.view.frame.size.width - 37, y: snapchatUsernameTxt.frame.origin.y + 43, width: 24, height: 24)
+        twitterLogo.frame = CGRect(x: 11, y: twitterHandleTxt.frame.minY + 2, width: 24, height: 33)
         
-        facebookLogo.frame =  CGRect(x: self.view.frame.size.width - 37, y: twitterHandleTxt.frame.origin.y + 43, width: 24, height: 24)
+        facebookLogo.frame =  CGRect(x: 11, y: facebookInfoTxt.frame.minY + 2, width: 24, height: 33)
         
-        appleMusicLogo.frame =  CGRect(x: self.view.frame.size.width - 37, y: facebookInfoTxt.frame.origin.y + 43, width: 24, height: 24)
+        appleMusicLogo.frame =  CGRect(x: 11, y: appleMusicTxt.frame.minY + 2, width: 24, height: 33)
         
-        venmoLogo.frame =  CGRect(x: self.view.frame.size.width - 37, y: appleMusicTxt.frame.origin.y + 43, width: 24, height: 24)
+        venmoLogo.frame =  CGRect(x: 11, y: venmoTxt.frame.minY + 2, width: 24, height: 33)
         
-        tikTokLogo.frame =  CGRect(x: self.view.frame.size.width - 37, y: venmoTxt.frame.origin.y + 43, width: 24, height: 24)
-        poshmarkLogo.frame =  CGRect(x: self.view.frame.size.width - 37, y: tikTokText.frame.origin.y + 43, width: 24, height: 24)
+        tikTokLogo.frame =  CGRect(x: 11, y: tikTokText.frame.minY + 2, width: 24, height: 33)
+        poshmarkLogo.frame =  CGRect(x: 11, y: poshmarkText.frame.minY + 2, width: 24, height: 33)
         
-        continueBtn.frame =  CGRect(x: 10.0, y: poshmarkText.frame.origin.y + 43, width: facebookInfoTxt.frame.width, height: 24)
-        continueBtn.layer.cornerRadius = continueBtn.frame.size.width / 20
-        cancelBtn.frame =  CGRect(x: 10.0, y: continueBtn.frame.origin.y + 43, width: continueBtn.frame.width, height: 24)
-        cancelBtn.layer.cornerRadius = cancelBtn.frame.size.width / 20
+        continueBtn.frame =  CGRect(x: 10.0, y: poshmarkText.frame.maxY + 15, width: facebookInfoTxt.frame.width, height: 30)
+       continueBtn.layer.cornerRadius = continueBtn.frame.size.width / 20
+        cancelBtn.frame =  CGRect(x: 10.0, y: continueBtn.frame.maxY + 10, width: continueBtn.frame.width, height: 30)
+       //cancelBtn.layer.cornerRadius = cancelBtn.frame.size.width / 20
         
         // background
         let bg = UIImageView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height))

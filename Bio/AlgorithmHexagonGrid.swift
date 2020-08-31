@@ -380,6 +380,17 @@ class AlgorithmHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRec
         tabController.customTabBar.switchTab(from: 2, to: 3)
     }
     
+    @IBAction func settingsButtonClicked(_ sender: UIButton) {
+        
+        let viewControllers = tabBarController!.customizableViewControllers!
+        let settingsVC = (viewControllers[6] as! SettingsVCGradient)
+        let tabController = tabBarController! as! NavigationMenuBaseController
+        settingsVC.userData = userData
+        //settingsVC.refresh()
+        tabController.viewControllers![6] = settingsVC
+        tabController.customTabBar.switchTab(from: 2, to: 6)
+    }
+    
     @IBAction func newPostButtonClicked(_ sender: UIButton) {
         
         let viewControllers = tabBarController!.customizableViewControllers!

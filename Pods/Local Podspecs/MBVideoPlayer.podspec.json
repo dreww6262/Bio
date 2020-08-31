@@ -1,0 +1,24 @@
+{
+  "name": "MBVideoPlayer",
+  "version": "0.1.1",
+  "summary": "A video player on top of AVQueuePlayer.",
+  "description": "A video player on top of AVQueuePlayer with custom header, playlist items, play, pause, seek to slider, time, resize to fullscreen, forward, backward horizontal, vertical capabilities.",
+  "homepage": "https://github.com/mwaqasbhati/MBVideoPlayer",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "mwaqasbhati": "m.waqas.bhati@hotmail.com"
+  },
+  "source": {
+    "git": "https://github.com/mwaqasbhati/MBVideoPlayer.git",
+    "tag": "0.1.1"
+  },
+  "platforms": {
+    "ios": "13.0"
+  },
+  "swift_versions": "5.0",
+  "source_files": "MBVideoPlayer/Classes/**/*",
+  "swift_version": "5.0"
+}

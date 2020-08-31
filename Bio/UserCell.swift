@@ -31,7 +31,8 @@ class UserCell: UITableViewCell {
             avaImg.setupHexagonMask(lineWidth: 10.0, color: gold, cornerRadius: 10.0)
             usernameLbl.frame = CGRect(x: avaImg.frame.size.width + 20, y: self.frame.height/2, width: width / 3.2, height: 30)
             displayNameLabel.frame = CGRect(x: usernameLbl.frame.size.width + 20, y: usernameLbl.frame.height+10, width: width / 3.2, height: 30)
-            followBtn.frame = CGRect(x: width - width / 3.5 - 10, y: 30, width: width / 3.5, height: 30)
+           // followBtn.frame = CGRect(x: width - width / 3.5 - 40, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
+             followBtn.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
             followBtn.layer.cornerRadius = followBtn.frame.size.width / 20
     
             // round ava
