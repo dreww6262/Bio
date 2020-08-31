@@ -22,6 +22,7 @@ import SDWebImage
 import SwiftUI
 class GuestHexagonGridVC: UIViewController, UIGestureRecognizerDelegate, UIScrollViewDelegate  { //, //UIScrollViewDelegate {
     
+    @IBOutlet weak var hexagonCollectionView: UICollectionView!
     
     
     var player = AVAudioPlayer()
@@ -89,7 +90,8 @@ class GuestHexagonGridVC: UIViewController, UIGestureRecognizerDelegate, UIScrol
         super.viewDidLoad()
         
         setUpScrollView()
-        
+        hexagonCollectionView.delegate = self
+        hexagonCollectionView.dataSource = self
         
 //        returnButton.frame = CGRect(x:5, y: 5, width: 50, height: 50)
 //        returnButton.imageView?.image = UIImage(systemName: "arrow.turn.up.left")
@@ -102,7 +104,7 @@ class GuestHexagonGridVC: UIViewController, UIGestureRecognizerDelegate, UIScrol
         returnButton.layer.cornerRadius = returnButton.frame.size.width / 2
         returnButton.clipsToBounds = true
         view.addSubview(returnButton)
-        
+        view.addSubview(hexagonCollectionView)
         
         //   downloadFileFromURL(url: URL(string: "https://p.scdn.co/mp3-preview/18d3b87b0765cd6d8c0a418d6142b3b441c0f8b2?cid=476c620368f349cc8be5b2a29b596eaf")!)
 
@@ -175,6 +177,12 @@ class GuestHexagonGridVC: UIViewController, UIGestureRecognizerDelegate, UIScrol
         // populateSocialMedia()
         // populateFakeUserPhotos()
         //populateHexagonGrid()
+        
+        
+        
+        
+        hexagonCollectionView.reloadData()
+        
         
     }
     
@@ -889,8 +897,26 @@ class GuestHexagonGridVC: UIViewController, UIGestureRecognizerDelegate, UIScrol
     
 }
 
+extension GuestHexagonGridVC: UICollectionViewDelegate, UICollectionViewDataSource {
 
+func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    print("This is hexagonStructArray.count \(hexagonStructArray.count)")
+    return hexagonStructArray.count
+}
 
+func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    let cell = hexagonCollectionView.dequeueReusableCell(withReuseIdentifier: "hexCell", for: indexPath) as! HexCollectionViewCell
+    
+    let ref = storage.child(self.hexagonStructArray[indexPath.item].thumbResource)
+               print("ref: \(ref)")
+    cell.imageView.sd_setImage(with: ref)
+
+ //   cell.imageView.image = imageViewArray[indexPath.item+1].image
+
+    return cell
+}
+
+}
 
 
 

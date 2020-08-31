@@ -99,6 +99,7 @@
 		49C205D92499A0770022EE53 /* DrawingBoardVC2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205D82499A0770022EE53 /* DrawingBoardVC2.swift */; };
 		49C205DB2499AF730022EE53 /* MusicPlayerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205DA2499AF730022EE53 /* MusicPlayerVC.swift */; };
 		49E5D22A24F9C6570081200E /* OnePostPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E5D22924F9C6570081200E /* OnePostPreview.swift */; };
+		49EB971224FD95AB001D0A48 /* HexCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EB971124FD95AB001D0A48 /* HexCollectionViewCell.swift */; };
 		49EEDC6E24C0AA1D003C8378 /* PhoneSignInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EEDC6D24C0AA1D003C8378 /* PhoneSignInVC.swift */; };
 		F8E01B31E01681020139180B /* Pods_Bio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863D25901B2498D1508F481F /* Pods_Bio.framework */; };
 /* End PBXBuildFile section */
@@ -234,6 +235,7 @@
 		49C205D82499A0770022EE53 /* DrawingBoardVC2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingBoardVC2.swift; sourceTree = "<group>"; };
 		49C205DA2499AF730022EE53 /* MusicPlayerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayerVC.swift; sourceTree = "<group>"; };
 		49E5D22924F9C6570081200E /* OnePostPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnePostPreview.swift; sourceTree = "<group>"; };
+		49EB971124FD95AB001D0A48 /* HexCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexCollectionViewCell.swift; sourceTree = "<group>"; };
 		49EEDC6D24C0AA1D003C8378 /* PhoneSignInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneSignInVC.swift; sourceTree = "<group>"; };
 		6A3D10DE50F0AEB6F29494BF /* Pods-Bio.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bio.release.xcconfig"; path = "Target Support Files/Pods-Bio/Pods-Bio.release.xcconfig"; sourceTree = "<group>"; };
 		863D25901B2498D1508F481F /* Pods_Bio.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bio.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -331,6 +333,7 @@
 				491BC46224C7882F00C751B6 /* BioProfileHexagonGrid2.swift */,
 				4920A45524D30F4400F06551 /* HomeHexagonGrid.swift */,
 				494C403B24DB85E000A47788 /* GuestHexagonGridVC.swift */,
+				49EB971124FD95AB001D0A48 /* HexCollectionViewCell.swift */,
 				491ADB7824971B2500B62C5A /* Main.storyboard */,
 				49E5D22924F9C6570081200E /* OnePostPreview.swift */,
 				493E95BA24E9EA55002E9380 /* UserTableView.swift */,
@@ -649,6 +652,7 @@
 				497ACC5124A90C0F002333A6 /* HexagonClass.swift in Sources */,
 				491BC46324C7882F00C751B6 /* BioProfileHexagonGrid2.swift in Sources */,
 				491ADBB1249723FC00B62C5A /* PublicityTableVC.swift in Sources */,
+				49EB971224FD95AB001D0A48 /* HexCollectionViewCell.swift in Sources */,
 				494C409024E4BFFE00A47788 /* TabItem.swift in Sources */,
 				494C403C24DB85E000A47788 /* GuestHexagonGridVC.swift in Sources */,
 				4944D7A024AD6A1B00AD3955 /* UserData.swift in Sources */,
