@@ -114,10 +114,10 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         //        let bg = UIImageView(frame: CGRect(x: -400, y: -400, width: 3000, height: 3000))
         //        bg.backgroundColor = .black
         //        bg.layer.zPosition = -1
-        scrollView.backgroundColor = .clear
+        scrollView.backgroundColor = .black
         
         
-        contentView.backgroundColor = .clear
+        contentView.backgroundColor = .black
         contentView.isHidden = false
         
         scrollView.addSubview(contentView)
@@ -919,19 +919,20 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             let newImageView = UIImageView(image: UIImage(named: "kbit"))
             let ref = storage.child(self.hexagonStructArray[sender.view!.tag-1].thumbResource)
             newImageView.sd_setImage(with: ref)
+            self.view.addSubview(newImageView)
             
             // let newImageView = UIImageView(image: imageViewArray[sender.view!.tag].image)
             //    let frame = CGRect(x: scrollView.frame.minX + scrollView.contentOffset.x, y: scrollView.frame.minY + scrollView.contentOffset.y, width: scrollView.frame.width, height: scrollView.frame.height)
-            let frame = CGRect(x: scrollView.frame.minX, y: scrollView.frame.minY, width: scrollView.frame.width, height: scrollView.frame.height)
+            let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
             
             newImageView.frame = frame
-            newImageView.backgroundColor = .white
+            newImageView.backgroundColor = .black
             
             newImageView.contentMode = .scaleAspectFit
             newImageView.isUserInteractionEnabled = true
             let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImageHandler))
             newImageView.addGestureRecognizer(tap)
-            self.view.addSubview(newImageView)
+            
             let textView = UITextView()
             textView.text = "asdfkjlasdfjasdf"
             textView.textColor = .red

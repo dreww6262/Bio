@@ -67,7 +67,7 @@ class DrawingBoard3: UIViewController, UIGestureRecognizerDelegate, UIImagePicke
         
     newTextView.text = "New Text Field"
         newTextView.textAlignment = .center
-        newTextView.centerVertically()
+//        newTextView.centerVertically()
         newTextView.contentMode = .scaleToFill
               newTextView.isUserInteractionEnabled = true
 

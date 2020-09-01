@@ -8,26 +8,10 @@
 
 import UIKit
 import FMPhotoPicker
+import YPImagePicker
 
-class NewPostOptionsVC: UIViewController, FMPhotoPickerViewControllerDelegate {
-    func fmPhotoPickerController(_ picker: FMPhotoPickerViewController, didFinishPickingPhotoWith photos: [UIImage]) {
-        if photos.isEmpty {
-            self.dismiss(animated: true, completion: nil)
-        }
-        else {
-
-            // TODO: Learn how to implement video
-            let uploadPreviewVC = storyboard?.instantiateViewController(identifier: "uploadPreviewVC") as! UploadPreviewVC
-            print(photos)
-            uploadPreviewVC.userData = userData
-            uploadPreviewVC.photos = photos
-            self.dismiss(animated: false, completion: nil)
-            self.present(uploadPreviewVC, animated: false, completion: nil)
-           // uploadPreviewVC.modalPresentationStyle = .fullScreen
-            uploadPreviewVC.modalPresentationStyle = .overFullScreen
-            
-        }
-    }
+class NewPostOptionsVC: UIViewController { //, FMPhotoPickerViewControllerDelegate {
+    
     
     @IBOutlet weak var titleLabel: UILabel!
     
@@ -59,21 +43,21 @@ class NewPostOptionsVC: UIViewController, FMPhotoPickerViewControllerDelegate {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = true
         addMenuButtons()
-  
+        
         pic1.layer.cornerRadius = pic1.frame.size.width / 2
-            pic1.clipsToBounds = true
+        pic1.clipsToBounds = true
         
         pic2.layer.cornerRadius = pic2.frame.size.width / 2
-                  pic2.clipsToBounds = true
+        pic2.clipsToBounds = true
         
         pic3.layer.cornerRadius = pic3.frame.size.width / 2
-                  pic3.clipsToBounds = true
+        pic3.clipsToBounds = true
         
         pic4.layer.cornerRadius = pic4.frame.size.width / 2
-                  pic4.clipsToBounds = true
+        pic4.clipsToBounds = true
         
         formatPicturesAndLabels()
-
+        
         // Do any additional setup after loading the view.
     }
     
@@ -82,6 +66,7 @@ class NewPostOptionsVC: UIViewController, FMPhotoPickerViewControllerDelegate {
         menuView.tabController = (tabBarController! as! NavigationMenuBaseController)
     }
     
+    
     func addMenuButtons() {
         view.addSubview(menuView)
         menuView.currentTab = 4
@@ -89,10 +74,33 @@ class NewPostOptionsVC: UIViewController, FMPhotoPickerViewControllerDelegate {
     }
     
     @IBAction func addPhotoPressed(_ sender: UIButton) {
-      //  sender.sendActions(for: .touchUpInside)
-        let picker = FMPhotoPickerViewController(config: config)
-        picker.delegate = self
-        self.present(picker, animated: true)
+        var config = YPImagePickerConfiguration()
+        config.screens = [.library, .photo, .video]
+        config.library.mediaType = .photoAndVideo
+        config.library.maxNumberOfItems = 10
+        config.video.trimmerMaxDuration = 60.0
+        config.video.recordingTimeLimit = 60.0
+        config.video.automaticTrimToTrimmerMaxDuration = true
+        let picker = YPImagePicker(configuration: config)
+        picker.didFinishPicking { [unowned picker] items, cancelled in
+//            for item in items {
+//                switch item {
+//                case .photo(let photo):
+//                    print(photo)
+//                case .video(let video):
+//                    print(video)
+//                }
+//            }
+            picker.dismiss(animated: true, completion: nil)
+            let uploadPreviewVC = self.storyboard?.instantiateViewController(identifier: "uploadPreviewVC") as! UploadPreviewVC
+            //print(photos)
+            uploadPreviewVC.userData = self.userData
+            uploadPreviewVC.items = items
+            self.present(uploadPreviewVC, animated: false, completion: nil)
+            uploadPreviewVC.modalPresentationStyle = .fullScreen
+        }
+        present(picker, animated: false)
+        modalPresentationStyle = .fullScreen
     }
     
     @IBAction func addLinkPressed(_ sender: UIButton) {
@@ -104,17 +112,17 @@ class NewPostOptionsVC: UIViewController, FMPhotoPickerViewControllerDelegate {
     
     @IBAction func addSocialMediaPressed(_ sender: UIButton) {
         let addSocialMediaVC = storyboard?.instantiateViewController(identifier: "addSocialMediaVC") as! AddSocialMediaVC
-           addSocialMediaVC.userData = userData
-       // addSocialMediaVC.publicID = userData?.publicID
-           show(addSocialMediaVC, sender: nil)
-           addSocialMediaVC.modalPresentationStyle = .fullScreen
+        addSocialMediaVC.userData = userData
+        // addSocialMediaVC.publicID = userData?.publicID
+        show(addSocialMediaVC, sender: nil)
+        addSocialMediaVC.modalPresentationStyle = .fullScreen
     }
     
     func distance(_ a: CGPoint, _ b: CGPoint) -> CGFloat {
-          let xDist = a.x - b.x
-          let yDist = a.y - b.y
-          return CGFloat(sqrt(xDist * xDist + yDist * yDist))
-      }
+        let xDist = a.x - b.x
+        let yDist = a.y - b.y
+        return CGFloat(sqrt(xDist * xDist + yDist * yDist))
+    }
     
     
     func formatPicturesAndLabels(){
@@ -122,17 +130,17 @@ class NewPostOptionsVC: UIViewController, FMPhotoPickerViewControllerDelegate {
         pic1.frame = CGRect(x: (self.view.frame.width/12), y: (self.view.frame.height/3) - (self.view.frame.width/6) - 20 , width: self.view.frame.width/3, height: self.view.frame.width/3)
         l1.frame = CGRect(x: self.view.frame.width/12, y: pic1.frame.maxY + 30.0, width: self.view.frame.width/3, height: 33.0)
         l1.text = "Add Photos/Videos"
-         l2.text = "Add Music"
-         l3.text = "Add Link"
-         l4.text = "Add Social Media"
+        l2.text = "Add Music"
+        l3.text = "Add Link"
+        l4.text = "Add Social Media"
         
         pic2.frame = CGRect(x: (self.view.frame.width*7/12), y: (self.view.frame.height/3) - (self.view.frame.width/6)-20, width: self.view.frame.width/3, height: self.view.frame.width/3)
         l2.frame = CGRect(x: (self.view.frame.width*7/12), y: pic1.frame.maxY + 30.0, width: self.view.frame.width/3, height: 33.0)
         
-            pic3.frame = CGRect(x: self.view.frame.width/12, y: (self.view.frame.height*2/3) - (self.view.frame.width/6) - 20, width: self.view.frame.width/3, height: self.view.frame.width/3)
-          pic4.frame = CGRect(x: (self.view.frame.width*7/12), y: (self.view.frame.height*2/3) - (self.view.frame.width/6) - 20, width: self.view.frame.width/3, height: self.view.frame.width/3)
-       
-            l3.frame = CGRect(x: self.view.frame.width/12, y: pic3.frame.maxY + 30.0, width: self.view.frame.width/3, height: 33.0)
+        pic3.frame = CGRect(x: self.view.frame.width/12, y: (self.view.frame.height*2/3) - (self.view.frame.width/6) - 20, width: self.view.frame.width/3, height: self.view.frame.width/3)
+        pic4.frame = CGRect(x: (self.view.frame.width*7/12), y: (self.view.frame.height*2/3) - (self.view.frame.width/6) - 20, width: self.view.frame.width/3, height: self.view.frame.width/3)
+        
+        l3.frame = CGRect(x: self.view.frame.width/12, y: pic3.frame.maxY + 30.0, width: self.view.frame.width/3, height: 33.0)
         
         l4.frame = CGRect(x: self.view.frame.width*7/12, y: pic4.frame.maxY + 30.0, width: self.view.frame.width/3, height: 33.0)
     }

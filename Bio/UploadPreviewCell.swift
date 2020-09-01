@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YPImagePicker
 
 class UploadPreviewCell: UITableViewCell {
 
@@ -17,6 +18,8 @@ class UploadPreviewCell: UITableViewCell {
     @IBOutlet weak var tagField: UITextField!
     
     @IBOutlet weak var locationField: UITextField!
+    
+    var item: YPMediaItem? 
     
     
     override func awakeFromNib() {
