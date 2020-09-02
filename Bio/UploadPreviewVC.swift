@@ -150,18 +150,28 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
     func uploadVideo(reference: String, video: YPMediaVideo, completion: @escaping (Bool) -> Void) {
         
         let videoRef = storageRef.child(reference)
-        uploadVideoToFirebase(content: video.asset!, reference: videoRef)
-        completion(true)
+        uploadVideoToFirebase(content: video.asset!, reference: videoRef, completion: { bool in
+            completion(bool)
+        })
+        
         
     }
     
-    func uploadVideoToFirebase(content: PHAsset, reference: StorageReference){
+    func uploadVideoToFirebase(content: PHAsset, reference: StorageReference, completion: @escaping (Bool) -> Void){
         let options = PHVideoRequestOptions()
         options.isNetworkAccessAllowed = true
         PHImageManager.default().requestAVAsset(forVideo: content, options: options) { (asset, mix, args) in
             if let asset = asset as? AVURLAsset {
                 let url = asset.url
-                reference.putFile(from: url)
+                reference.putFile(from: url, metadata: nil, completion: { data, error in
+                    if error == nil {
+                        completion(true)
+                    }
+                    else {
+                        print(error?.localizedDescription)
+                        completion(false)
+                    }
+                })
                 // URL OF THE VIDEO IS GOT HERE
             } else {
                 guard let asset = asset else {return}
@@ -169,9 +179,19 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
                 self.saveVideoInDocumentsDirectory(withAsset: asset, completion: { (url, error) in
                     if let error = error {
                         print(error.localizedDescription)
+                        completion(false)
                     }
                     if let url = url {
-                        reference.putFile(from: url)
+                        reference.putFile(from: url, metadata: nil, completion: { data, error in
+                            if error == nil {
+                                completion(true)
+                            }
+                            else {
+                                print(error?.localizedDescription)
+                                completion(false)
+                            }
+                        })
+                        
                     }
                 })
             }
