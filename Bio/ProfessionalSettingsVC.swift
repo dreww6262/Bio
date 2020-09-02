@@ -76,7 +76,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
                         NavigationRow(text: "Privacy Policy", detailText: .value2(".value2")),
                         NavigationRow(text: "Terms of Service", detailText: .value1(".value1"), icon: .named("time"), action: { _ in }),
                         NavigationRow(text: "Report User", detailText: .value2(".value2"))]),
-                Section(title: "Log Out", rows: [
+                Section(title: "Account Actions", rows: [
                     NavigationRow(text: "Log Out", detailText: .none, icon: .named("gear"))])
         ]
         
@@ -84,7 +84,12 @@ class ProfessionalSettingsVC: QuickTableViewController {
         }
 
         
-        
+        override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+          let cell = super.tableView(tableView, cellForRowAt: indexPath)
+          // Alter the cells created by QuickTableViewController
+          return cell
+        }
+
         
         
         
