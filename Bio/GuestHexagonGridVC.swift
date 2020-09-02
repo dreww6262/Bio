@@ -751,7 +751,9 @@ class GuestHexagonGridVC: UIViewController, UIGestureRecognizerDelegate, UIScrol
         
         //if hex is for other app link
         if tappedHex.type.split(separator: "_")[0] == "socialmedia" {
+            print("This is tappedHex.resource \(tappedHex.resource)")
             let url = URL(string: tappedHex.resource)
+            print("This is url for tapped Hex \(tappedHex)")
             if UIApplication.shared.canOpenURL(url!) {
                 if #available(iOS 10.0, *) {
                     UIApplication.shared.open(url!, options: [:], completionHandler: nil)

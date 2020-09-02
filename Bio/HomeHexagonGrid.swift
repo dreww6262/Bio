@@ -570,6 +570,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     
     func openSnapchat(snapchatUsername: String) {
         let username = snapchatUsername
+        print("This us username for openSnapchat \(username)")
         let appURL = URL(string: "snapchat://add/\(username)")!
         let application = UIApplication.shared
         
@@ -914,6 +915,13 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             print("Tried to click profile pic handle later")
             
         }
+            
+    //TO DO: Tap to Play Video
+    else if hexagonStructArray[sender.view!.tag-1].type.contains("video") {
+       //TO DO: play a video here!!
+        }
+            
+            
         else if hexagonStructArray[sender.view!.tag-1].type.contains("photo") {
             menuView.menuButton.isHidden = true
             let newImageView = UIImageView(image: UIImage(named: "kbit"))

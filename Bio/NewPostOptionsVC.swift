@@ -44,17 +44,17 @@ class NewPostOptionsVC: UIViewController { //, FMPhotoPickerViewControllerDelega
         navigationController?.navigationBar.isHidden = true
         addMenuButtons()
         
-        pic1.layer.cornerRadius = pic1.frame.size.width / 2
-        pic1.clipsToBounds = true
-        
-        pic2.layer.cornerRadius = pic2.frame.size.width / 2
-        pic2.clipsToBounds = true
-        
-        pic3.layer.cornerRadius = pic3.frame.size.width / 2
-        pic3.clipsToBounds = true
-        
-        pic4.layer.cornerRadius = pic4.frame.size.width / 2
-        pic4.clipsToBounds = true
+//        pic1.layer.cornerRadius = pic1.frame.size.width / 2
+//        pic1.clipsToBounds = true
+//        
+//        pic2.layer.cornerRadius = pic2.frame.size.width / 2
+//        pic2.clipsToBounds = true
+//        
+//        pic3.layer.cornerRadius = pic3.frame.size.width / 2
+//        pic3.clipsToBounds = true
+//        
+//        pic4.layer.cornerRadius = pic4.frame.size.width / 2
+//        pic4.clipsToBounds = true
         
         formatPicturesAndLabels()
         
@@ -113,6 +113,8 @@ class NewPostOptionsVC: UIViewController { //, FMPhotoPickerViewControllerDelega
     @IBAction func addSocialMediaPressed(_ sender: UIButton) {
         let addSocialMediaVC = storyboard?.instantiateViewController(identifier: "addSocialMediaVC") as! AddSocialMediaVC
         addSocialMediaVC.userData = userData
+        print("This is addSocialMedia.userData \(addSocialMediaVC.userData)")
+        print("2 This is userData from NewPostOptionsVC \(userData)")
         // addSocialMediaVC.publicID = userData?.publicID
         show(addSocialMediaVC, sender: nil)
         addSocialMediaVC.modalPresentationStyle = .fullScreen
