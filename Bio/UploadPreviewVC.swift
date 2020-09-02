@@ -205,7 +205,12 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
     
     
     func convertVideo(toMPEG4FormatForVideo inputURL: URL, outputURL: URL, handler: @escaping (AVAssetExportSession) -> Void) {
-        try! FileManager.default.removeItem(at: outputURL as URL)
+        do{
+            try FileManager.default.removeItem(at: outputURL as URL)
+        }
+        catch {
+            print("bade")
+        }
         let asset = AVURLAsset(url: inputURL as URL, options: nil)
 
         let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetHighestQuality)!

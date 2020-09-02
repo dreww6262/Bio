@@ -916,9 +916,11 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             
         }
             
-    //TO DO: Tap to Play Video
-    else if hexagonStructArray[sender.view!.tag-1].type.contains("video") {
-       //TO DO: play a video here!!
+            //TO DO: Tap to Play Video
+        else if hexagonStructArray[sender.view!.tag-1].type.contains("video") {
+            //TO DO: play a video here!!
+            menuView.menuButton.isHidden = true
+            
         }
             
             
