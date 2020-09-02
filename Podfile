@@ -18,4 +18,5 @@ pod 'FirebaseUI/Storage'
 pod 'FMPhotoPicker', '~> 1.1.0'
 pod 'Gallery'
 pod 'YPImagePicker'
+pod 'QuickTableViewController'
 end

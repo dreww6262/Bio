@@ -98,6 +98,7 @@
 		49C205D7249833E80022EE53 /* CreativeToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205D6249833E80022EE53 /* CreativeToolBar.swift */; };
 		49C205D92499A0770022EE53 /* DrawingBoardVC2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205D82499A0770022EE53 /* DrawingBoardVC2.swift */; };
 		49C205DB2499AF730022EE53 /* MusicPlayerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C205DA2499AF730022EE53 /* MusicPlayerVC.swift */; };
+		49D0A9A424FFFC310036B32C /* ProfessionalSettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D0A9A324FFFC310036B32C /* ProfessionalSettingsVC.swift */; };
 		49E5D22A24F9C6570081200E /* OnePostPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E5D22924F9C6570081200E /* OnePostPreview.swift */; };
 		49EB971224FD95AB001D0A48 /* HexCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EB971124FD95AB001D0A48 /* HexCollectionViewCell.swift */; };
 		49EEDC6E24C0AA1D003C8378 /* PhoneSignInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EEDC6D24C0AA1D003C8378 /* PhoneSignInVC.swift */; };
@@ -234,6 +235,7 @@
 		49C205D6249833E80022EE53 /* CreativeToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreativeToolBar.swift; sourceTree = "<group>"; };
 		49C205D82499A0770022EE53 /* DrawingBoardVC2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingBoardVC2.swift; sourceTree = "<group>"; };
 		49C205DA2499AF730022EE53 /* MusicPlayerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayerVC.swift; sourceTree = "<group>"; };
+		49D0A9A324FFFC310036B32C /* ProfessionalSettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfessionalSettingsVC.swift; sourceTree = "<group>"; };
 		49E5D22924F9C6570081200E /* OnePostPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnePostPreview.swift; sourceTree = "<group>"; };
 		49EB971124FD95AB001D0A48 /* HexCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexCollectionViewCell.swift; sourceTree = "<group>"; };
 		49EEDC6D24C0AA1D003C8378 /* PhoneSignInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneSignInVC.swift; sourceTree = "<group>"; };
@@ -356,6 +358,8 @@
 				494C404B24DC9D7A00A47788 /* UploadPreviewCell.swift */,
 				493E95BC24E9FAEC002E9380 /* UserListTableVC.swift */,
 				494C404924DC9CC400A47788 /* UploadPreviewVC.swift */,
+				49D0A9A324FFFC310036B32C /* ProfessionalSettingsVC.swift */,
+				493E95BE24EED5E3002E9380 /* SettingsVCGradient.swift */,
 				4920A45724D32B9300F06551 /* uploadFromCameraRollVC.swift */,
 				492E245D24B664C2005745D1 /* SubscribersCell.swift */,
 				497ACC5024A90C0F002333A6 /* HexagonClass.swift */,
@@ -391,7 +395,6 @@
 				491ADBB0249723FC00B62C5A /* PublicityTableVC.swift */,
 				49C205CE249804790022EE53 /* PrivacyCell.swift */,
 				491ADB7B24971B2D00B62C5A /* Assets.xcassets */,
-				493E95BE24EED5E3002E9380 /* SettingsVCGradient.swift */,
 				49A3743B24A3CD38007A48E0 /* HexagonView.swift */,
 				491ADB7D24971B2D00B62C5A /* LaunchScreen.storyboard */,
 				491ADB8024971B2D00B62C5A /* Info.plist */,
@@ -631,6 +634,7 @@
 				493E95B924E9E8BD002E9380 /* UserCell.swift in Sources */,
 				49C205D7249833E80022EE53 /* CreativeToolBar.swift in Sources */,
 				494C93EA24E6FD25004EA9AA /* SignInVC.swift in Sources */,
+				49D0A9A424FFFC310036B32C /* ProfessionalSettingsVC.swift in Sources */,
 				491ADB7324971B2500B62C5A /* AppDelegate.swift in Sources */,
 				492E245E24B664C2005745D1 /* SubscribersCell.swift in Sources */,
 				494C409224E4C26E00A47788 /* NavigationMenuBaseController.swift in Sources */,

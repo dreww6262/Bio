@@ -359,6 +359,7 @@ PODS:
   - nanopb/encode (1.30905.0)
   - PromisesObjC (1.2.10)
   - PryntTrimmerView (4.0.0)
+  - QuickTableViewController (1.2.4)
   - SDWebImage (5.8.4):
     - SDWebImage/Core (= 5.8.4)
   - SDWebImage/Core (5.8.4)
@@ -378,6 +379,7 @@ DEPENDENCIES:
   - Gallery
   - GoogleUtilities
   - MBVideoPlayer (from `https://github.com/mwaqasbhati/MBVideoPlayer.git`)
+  - QuickTableViewController
   - YPImagePicker
 
 SPEC REPOS:
@@ -405,6 +407,7 @@ SPEC REPOS:
     - nanopb
     - PromisesObjC
     - PryntTrimmerView
+    - QuickTableViewController
     - SDWebImage
     - SteviaLayout
     - YPImagePicker
@@ -443,10 +446,11 @@ SPEC CHECKSUMS:
   nanopb: c43f40fadfe79e8b8db116583945847910cbabc9
   PromisesObjC: b14b1c6b68e306650688599de8a45e49fae81151
   PryntTrimmerView: 67e67573ffd4c073f1308effa66aefd0cfa667a0
+  QuickTableViewController: 92005c22d3ef77e5b264aee0d8027de0f63cabbf
   SDWebImage: cf6922231e95550934da2ada0f20f2becf2ceba9
   SteviaLayout: c2ecdcff57d44e38fd2f65e54ad52aeae28ca0c4
   YPImagePicker: 08bbb809ed62bf4149fc015c97249eb4b9463ff9
 
-PODFILE CHECKSUM: 11863bdd3e477d0997127fa658e272a7d7eaed6f
+PODFILE CHECKSUM: ded1bf3c46689349977e5e1e7156bc90ecd6883f
 
 COCOAPODS: 1.9.3
