@@ -150,96 +150,70 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
     func uploadVideo(reference: String, video: YPMediaVideo, completion: @escaping (Bool) -> Void) {
         
         let videoRef = storageRef.child(reference)
-        uploadVideoToFirebase(content: video.asset!, reference: videoRef, completion: { bool in
+        uploadTOFireBaseVideo(url: video.url, storageRef: videoRef, completion: { bool in
             completion(bool)
         })
         
         
     }
     
-    func uploadVideoToFirebase(content: PHAsset, reference: StorageReference, completion: @escaping (Bool) -> Void){
-        let options = PHVideoRequestOptions()
-        options.isNetworkAccessAllowed = true
-        PHImageManager.default().requestAVAsset(forVideo: content, options: options) { (asset, mix, args) in
-            if let asset = asset as? AVURLAsset {
-                let url = asset.url
-                reference.putFile(from: url, metadata: nil, completion: { data, error in
-                    if error == nil {
-                        completion(true)
-                    }
-                    else {
-                        print(error?.localizedDescription)
-                        completion(false)
-                    }
-                })
-                // URL OF THE VIDEO IS GOT HERE
-            } else {
-                guard let asset = asset else {return}
-                //self.startAnimating(message: "Processing.")
-                self.saveVideoInDocumentsDirectory(withAsset: asset, completion: { (url, error) in
+    func uploadTOFireBaseVideo(url: URL, storageRef: StorageReference,
+                                      completion : @escaping (Bool) -> Void) {
+
+        let name = "\(Int(Date().timeIntervalSince1970)).mp4"
+        let path = NSTemporaryDirectory() + name
+
+        let dispatchgroup = DispatchGroup()
+
+        dispatchgroup.enter()
+
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let outputurl = documentsURL.appendingPathComponent(name)
+        var ur = outputurl
+        self.convertVideo(toMPEG4FormatForVideo: url as URL, outputURL: outputurl) { (session) in
+
+            ur = session.outputURL!
+            dispatchgroup.leave()
+
+        }
+        dispatchgroup.wait()
+
+        let data = NSData(contentsOf: ur as URL)
+
+        do {
+
+            try data?.write(to: URL(fileURLWithPath: path), options: .atomic)
+
+        } catch {
+
+            print(error)
+        }
+
+        if let uploadData = data as Data? {
+            storageRef.putData(uploadData, metadata: nil
+                , completion: { (metadata, error) in
                     if let error = error {
                         print(error.localizedDescription)
                         completion(false)
+                    }else{
+                        //let strPic:String = (metadata?.downloadURL()?.absoluteString)!
+                        completion(true)
                     }
-                    if let url = url {
-                        reference.putFile(from: url, metadata: nil, completion: { data, error in
-                            if error == nil {
-                                completion(true)
-                            }
-                            else {
-                                print(error?.localizedDescription)
-                                completion(false)
-                            }
-                        })
-                        
-                    }
-                })
-            }
+            })
+        }
+    }
+    
+    
+    func convertVideo(toMPEG4FormatForVideo inputURL: URL, outputURL: URL, handler: @escaping (AVAssetExportSession) -> Void) {
+        try! FileManager.default.removeItem(at: outputURL as URL)
+        let asset = AVURLAsset(url: inputURL as URL, options: nil)
 
-        }
-        
-    }
-    
-    
-    func saveVideoInDocumentsDirectory(withAsset asset: AVAsset, completion: @escaping (_ url: URL?,_ error: Error?) -> Void) {
-        let manager = FileManager.default
-        guard let documentDirectory = try? manager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true) else {return}
-        var outputURL = documentDirectory.appendingPathComponent("output")
-        do {
-            try manager.createDirectory(at: outputURL, withIntermediateDirectories: true, attributes: nil)
-            let name = NSUUID().uuidString
-            outputURL = outputURL.appendingPathComponent("\(name).mp4")
-        }catch let error {
-            print(error.localizedDescription)
-        }
-        //Remove existing file
-        _ = try? manager.removeItem(at: outputURL)
-        guard let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetMediumQuality) else {return}
+        let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetHighestQuality)!
         exportSession.outputURL = outputURL
-        exportSession.outputFileType = AVFileType.mp4
-        exportSession.exportAsynchronously {
-            switch exportSession.status {
-            case .completed:
-                print("exported at \(outputURL)")
-                completion(outputURL, exportSession.error)
-            case .failed:
-                print("failed \(exportSession.error?.localizedDescription ?? "")")
-                completion(nil, exportSession.error)
-            case .cancelled:
-                print("cancelled \(exportSession.error?.localizedDescription ?? "")")
-                completion(nil, exportSession.error)
-            default: break
-            }
-        }
-    }
-    
-    
-    func clearDocumentsDirectory() {
-        let manager = FileManager.default
-        guard let documentDirectory = try? manager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true) else {return}
-        let outputURL = documentDirectory.appendingPathComponent("output")
-        //Remove existing file
-        _ = try? manager.removeItem(at: outputURL)
+        exportSession.outputFileType = .mp4
+        exportSession.exportAsynchronously(completionHandler: {
+            handler(exportSession)
+        })
     }
     
     @IBAction func cancelPost(_ sender: UIButton) {
