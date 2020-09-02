@@ -105,7 +105,8 @@ class GuestHexagonGridVC: UIViewController, UIGestureRecognizerDelegate, UIScrol
         returnButton.clipsToBounds = true
         view.addSubview(returnButton)
         view.addSubview(hexagonCollectionView)
-        
+        hexagonCollectionView.backgroundColor = .blue
+        hexagonCollectionView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/8)
         //   downloadFileFromURL(url: URL(string: "https://p.scdn.co/mp3-preview/18d3b87b0765cd6d8c0a418d6142b3b441c0f8b2?cid=476c620368f349cc8be5b2a29b596eaf")!)
 
         
@@ -339,7 +340,7 @@ class GuestHexagonGridVC: UIViewController, UIGestureRecognizerDelegate, UIScrol
     override func viewWillAppear(_ animated: Bool) {
         
         super.viewWillAppear(true) // No need for semicolon
-     
+        hexagonCollectionView.reloadData()
     }
     
     
@@ -879,6 +880,65 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
 
     return cell
 }
+    
+ //   var selectedIndexPath: IndexPath?
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath)
+        
+        print("🎯🎯🎯🎯🎯Hello World")
+        print("🎯🎯🎯🎯🎯🎯🎯I tapped image with indexPath.item \(indexPath.item)")
+             //if sender.view!.tag == 0 {
+             
+        let tappedHex = hexagonStructArray[indexPath.item - 1]
+             
+             //if hex is for other app link
+             if tappedHex.type.split(separator: "_")[0] == "socialmedia" {
+                 print("This is tappedHex.resource \(tappedHex.resource)")
+                 let url = URL(string: tappedHex.resource)
+                 print("This is url for tapped Hex \(tappedHex)")
+                 if UIApplication.shared.canOpenURL(url!) {
+                     if #available(iOS 10.0, *) {
+                         UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+                     } else {
+                         UIApplication.shared.openURL(url!)
+                     }
+                 }
+             }
+         else if tappedHex.type.contains("photo") {
+                print("🎯🎯🎯🎯🎯🎯🎯I tapped image with indexPath.item \(indexPath.item)")
+                if indexPath.item == 0 {
+                                print("Tried to click profile pic handle later")
+                            }
+                                //menuView.menuButton.isHidden = true
+                                let newImageView = UIImageView(image: UIImage(named: "kbit"))
+                let ref = storage.child(self.hexagonStructArray[indexPath.item-1].thumbResource)
+                                newImageView.sd_setImage(with: ref)
+                                let frame = CGRect(x: scrollView.frame.minX, y: scrollView.frame.minY, width: scrollView.frame.width, height: scrollView.frame.height)
+                                
+                                newImageView.frame = frame
+                                newImageView.backgroundColor = .white
+                                
+                                newImageView.contentMode = .scaleAspectFit
+                                newImageView.isUserInteractionEnabled = true
+                                let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImageHandler))
+                                newImageView.addGestureRecognizer(tap)
+                                self.view.addSubview(newImageView)
+                                let textView = UITextView()
+                                textView.text = "asdfkjlasdfjasdf"
+                                textView.textColor = .red
+                     print("This should have created an image View")
+                 }
+
+    //   cell.layer.backgroundColor = UIColor.black
+      //  self.selectedIndexPath = indexPath
+        
+        
+    }
+    
+    
+    
+    
 
 }
 

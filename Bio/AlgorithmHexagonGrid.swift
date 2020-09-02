@@ -383,7 +383,7 @@ class AlgorithmHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRec
     @IBAction func settingsButtonClicked(_ sender: UIButton) {
         
         let viewControllers = tabBarController!.customizableViewControllers!
-        let settingsVC = (viewControllers[6] as! SettingsVCGradient)
+        let settingsVC = (viewControllers[6] as! ProfessionalSettingsVC)
         let tabController = tabBarController! as! NavigationMenuBaseController
         settingsVC.userData = userData
         //settingsVC.refresh()

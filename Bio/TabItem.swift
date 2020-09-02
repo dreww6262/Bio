@@ -34,7 +34,7 @@ var viewController: UIViewController {
             newPostVC.viewDidLoad()
             return newPostVC
         case .settings:
-            let settingsVC = storyboard.instantiateViewController(identifier: "settingsVC") as! SettingsVCGradient
+            let settingsVC = storyboard.instantiateViewController(identifier: "settingsVC") as! ProfessionalSettingsVC
             settingsVC.loadView()
             settingsVC.viewDidLoad()
             return settingsVC

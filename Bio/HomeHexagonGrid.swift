@@ -920,6 +920,10 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         else if hexagonStructArray[sender.view!.tag-1].type.contains("video") {
             //TO DO: play a video here!!
             menuView.menuButton.isHidden = true
+            var playString = hexagonStructArray[sender.view!.tag].resource
+           // play(url: hexagonStructArray[sender.view!.tag].resource)
+            print("This is url string \(playString)")
+            loadVideo(urlString: playString)
             
         }
             
@@ -1044,7 +1048,8 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         let asset = AVAsset(url: url!)
         let item = AVPlayerItem(asset: asset)
         let rect = CGRect(x: scrollView.contentOffset.x, y: scrollView.contentOffset.y, width: self.view.frame.width, height: self.view.frame.height)
-        contentViewer.frame = rect
+        let contentRect = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+        contentViewer.frame = contentRect
         contentViewer.backgroundColor = .red
         avPlayer = AVPlayer(playerItem: item)
         let playerLayer = AVPlayerLayer(player: avPlayer)

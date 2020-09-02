@@ -180,8 +180,8 @@ class MenuView: UIView {
     
     @objc func settingsButtonClicked(_ sender: UIButton) {
         let viewControllers = tabController!.customizableViewControllers!
-        let settingsVC = (viewControllers[0] as! SettingsVCGradient)
-        settingsVC.userData = userData
+        let settingsVC = (viewControllers[0] as! ProfessionalSettingsVC)
+   //     settingsVC.userData = userData
         tabController!.viewControllers![0] = settingsVC
         tabController!.customTabBar.switchTab(from: currentTab, to: 0)
     }

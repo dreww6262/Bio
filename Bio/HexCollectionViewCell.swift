@@ -20,9 +20,12 @@ class HexCollectionViewCell: UICollectionViewCell {
         // alignment
         let width = UIScreen.main.bounds.width
         let cellHeight = self.frame.height
+        let cellWidth = self.frame.width
+        print("This is cellHeight \(cellHeight)")
+        print("This is cellWidth \(cellWidth)")
         
         imageView.frame = CGRect(x: 0, y: 0, width: cellHeight, height: cellHeight)
-        imageView.setupHexagonMask(lineWidth: imageView.frame.height/15, color: gold, cornerRadius: imageView.frame.height/15)
+        //imageView.setupHexagonMask(lineWidth: imageView.frame.height/15, color: gold, cornerRadius: imageView.frame.height/15)
     }
     
     

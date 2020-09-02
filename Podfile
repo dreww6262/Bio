@@ -19,4 +19,5 @@ pod 'FMPhotoPicker', '~> 1.1.0'
 pod 'Gallery'
 pod 'YPImagePicker'
 pod 'QuickTableViewController'
+pod 'MessageKit', '~> 3.0.0'
 end

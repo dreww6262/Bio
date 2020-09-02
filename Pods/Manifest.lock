@@ -350,8 +350,11 @@ PODS:
     - gRPC-Core/Interface (= 1.28.2)
   - gRPC-Core/Interface (1.28.2)
   - GTMSessionFetcher/Core (1.4.0)
+  - InputBarAccessoryView (4.2.2)
   - leveldb-library (1.22)
   - MBVideoPlayer (0.1.1)
+  - MessageKit (3.0.0):
+    - InputBarAccessoryView (~> 4.2.2)
   - nanopb (1.30905.0):
     - nanopb/decode (= 1.30905.0)
     - nanopb/encode (= 1.30905.0)
@@ -379,6 +382,7 @@ DEPENDENCIES:
   - Gallery
   - GoogleUtilities
   - MBVideoPlayer (from `https://github.com/mwaqasbhati/MBVideoPlayer.git`)
+  - MessageKit (~> 3.0.0)
   - QuickTableViewController
   - YPImagePicker
 
@@ -403,7 +407,9 @@ SPEC REPOS:
     - "gRPC-C++"
     - gRPC-Core
     - GTMSessionFetcher
+    - InputBarAccessoryView
     - leveldb-library
+    - MessageKit
     - nanopb
     - PromisesObjC
     - PryntTrimmerView
@@ -441,8 +447,10 @@ SPEC CHECKSUMS:
   "gRPC-C++": 13d8ccef97d5c3c441b7e3c529ef28ebee86fad2
   gRPC-Core: 4afa11bfbedf7cdecd04de535a9e046893404ed5
   GTMSessionFetcher: 6f5c8abbab8a9bce4bb3f057e317728ec6182b10
+  InputBarAccessoryView: 2b937602598e2fab3149f37f51dd7ad795653812
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   MBVideoPlayer: 521a2a0c83bf7b1bb913d189b1c151f338c35054
+  MessageKit: e892a9ca49ebe6d82684d3a93ad84021fa23e2c6
   nanopb: c43f40fadfe79e8b8db116583945847910cbabc9
   PromisesObjC: b14b1c6b68e306650688599de8a45e49fae81151
   PryntTrimmerView: 67e67573ffd4c073f1308effa66aefd0cfa667a0
@@ -451,6 +459,6 @@ SPEC CHECKSUMS:
   SteviaLayout: c2ecdcff57d44e38fd2f65e54ad52aeae28ca0c4
   YPImagePicker: 08bbb809ed62bf4149fc015c97249eb4b9463ff9
 
-PODFILE CHECKSUM: ded1bf3c46689349977e5e1e7156bc90ecd6883f
+PODFILE CHECKSUM: 64c06426ec583c38746aa6e0ee31d76b31cd34f9
 
 COCOAPODS: 1.9.3
