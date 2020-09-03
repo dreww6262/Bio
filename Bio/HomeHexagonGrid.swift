@@ -38,6 +38,8 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var trashButton: UIButton!
     @IBOutlet weak var toSearchButton: UIButton!
+    
+    @IBOutlet weak var toSettingsButton: UIButton!
     let menuView = MenuView()
     var currentDraggedHexagonFrame = CGRect()
     var curvedRect = CGRect(x: 0.0, y: 0.0, width: 0.0, height: 0.0)
@@ -74,6 +76,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         setZoomScale()
         addMenuButtons()
         addSearchButton()
+        addSettingsButton()
         addTrashButton()
         for point in reOrderedCoordinateArrayPoints {
             let newPointX = point.x - 604 //680
@@ -156,6 +159,15 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         toSearchButton.clipsToBounds = true
         toSearchButton.isHidden = false
     }
+    
+    func addSettingsButton() {
+           self.view.addSubview(toSettingsButton)
+           toSettingsButton.frame = CGRect(x: 10, y: 20, width: 50, height: 50)
+           // round ava
+           toSettingsButton.layer.cornerRadius = toSettingsButton.frame.size.width / 2
+           toSettingsButton.clipsToBounds = true
+           toSettingsButton.isHidden = false
+       }
     
     func addTrashButton() {
         trashButton.frame = CGRect(x: self.view.frame.width/2-40, y: self.view.frame.height - 83, width: 80, height: 80)
@@ -259,6 +271,21 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
 //        print("frame after pressed \(toSearchButton.frame)")
         
     }
+    
+    @IBAction func toSettingsButtonClicked(_ sender: UIButton) {
+        var currentTab = 2
+        menuView.settingsButtonClicked(sender)
+//        let viewControllers = tabController!.customizableViewControllers!
+//             let settingsVC = (viewControllers[0] as! ProfessionalSettingsVC)
+//        //     settingsVC.userData = userData
+//             tabController!.viewControllers![0] = settingsVC
+//             tabController!.customTabBar.switchTab(from: currentTab, to: 0)
+//
+    }
+    
+    
+    
+    
     
     func createImageViews() {
         // background

@@ -2546,9 +2546,22 @@
                     <view key="view" contentMode="scaleToFill" id="0Yh-IY-cSu">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pbK-qr-1Q2">
+                                <rect key="frame" x="26" y="44" width="34" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Back"/>
+                                <connections>
+                                    <action selector="backButtonClicked:" destination="9x8-kV-4Yg" eventType="touchUpInside" id="0RA-C4-bYf"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="86a-rK-jzW"/>
                     </view>
+                    <connections>
+                        <outlet property="backButton" destination="pbK-qr-1Q2" id="cnd-nF-B1T"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hzI-q3-Rp0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -3617,6 +3630,14 @@
                                     <action selector="toSearchButtonClicked:" destination="nNT-PQ-yLu" eventType="touchUpInside" id="3T6-wj-SQu"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gfM-se-ay6">
+                                <rect key="frame" x="10" y="30" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="settingsGear"/>
+                                <connections>
+                                    <action selector="toSettingsButtonClicked:" destination="nNT-PQ-yLu" eventType="touchUpInside" id="85T-p2-vk9"/>
+                                </connections>
+                            </button>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" id="SUT-vw-xXn">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -3641,6 +3662,7 @@
                         <outlet property="contentView" destination="iy2-li-0lk" id="PPh-MZ-rrD"/>
                         <outlet property="scrollView" destination="SUT-vw-xXn" id="ney-yJ-emU"/>
                         <outlet property="toSearchButton" destination="z1n-Q0-Osp" id="xgG-n1-CdF"/>
+                        <outlet property="toSettingsButton" destination="gfM-se-ay6" id="MMp-pw-V04"/>
                         <outlet property="trashButton" destination="zt4-aN-hYV" id="23K-vJ-0NS"/>
                     </connections>
                 </viewController>
@@ -4112,6 +4134,11 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ybl-2V-Xho">
+                                <rect key="frame" x="182" y="423" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="addFriend"/>
+                            </button>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" id="ipO-jT-G31">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -4145,6 +4172,7 @@
                     <navigationItem key="navigationItem" id="efv-AD-eMI"/>
                     <connections>
                         <outlet property="contentView" destination="nwD-Lo-mE0" id="2cF-vy-9xg"/>
+                        <outlet property="followButton" destination="ybl-2V-Xho" id="RHl-21-kJK"/>
                         <outlet property="hexagonCollectionView" destination="1cE-me-grY" id="7pP-Ez-RDC"/>
                         <outlet property="returnButton" destination="s1R-Xw-ZLB" id="Scy-lP-y5i"/>
                         <outlet property="scrollView" destination="ipO-jT-G31" id="ysa-VJ-DAV"/>

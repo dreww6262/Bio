@@ -54,7 +54,8 @@ class UserCell: UITableViewCell {
         
         // Configure the view for the selected state
     }
-    @IBAction func followPressed(_ sender: Any) {
+    @IBAction func followPressed(_ sender: UIButton) {
+        let width = UIScreen.main.bounds.width
         let cell = self
         let button = self.followBtn
         let username = cell.usernameLbl.text!
@@ -64,6 +65,16 @@ class UserCell: UITableViewCell {
                 db.collection("Followings").addDocument(data: newFollow as [String : Any])
                 button?.imageView?.image = UIImage(named: "friendCheck")
                 button?.tag = 1
+                print("It's supposed to change to check")
+                button?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
+                button?.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)            
+//
+//                sender.imageView?.image = UIImage(named: "friendCheck")
+//                        button?.tag = 1
+//                        print("It's supposed to change to check")
+//                sender.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
+//                        sender.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
+                
             }
             else {
                 db.collection("Followings").whereField("follower", isEqualTo: myUsername!).whereField("following", isEqualTo: username).addSnapshotListener({ objects, error in
@@ -77,8 +88,12 @@ class UserCell: UITableViewCell {
                     }
                     })
                 button?.imageView?.image = UIImage(named: "addFriend")
+                button?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
+                button?.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
                 button?.tag = 0
             }
+          button?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
+                         button?.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
         }
     }
     
