@@ -84,7 +84,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         let contentTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleContentViewerTap))
         contentViewer.addGestureRecognizer(contentTapGesture)
         
-        play(url: "https://p.scdn.co/mp3-preview/18d3b87b0765cd6d8c0a418d6142b3b441c0f8b2?cid=476c620368f349cc8be5b2a29b596eaf")
+        //play(url: "https://p.scdn.co/mp3-preview/18d3b87b0765cd6d8c0a418d6142b3b441c0f8b2?cid=476c620368f349cc8be5b2a29b596eaf")
         //print("viewdidLoad")
     }
     
@@ -919,12 +919,11 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             //TO DO: Tap to Play Video
         else if hexagonStructArray[sender.view!.tag-1].type.contains("video") {
             //TO DO: play a video here!!
-            menuView.menuButton.isHidden = true
-            var playString = hexagonStructArray[sender.view!.tag].resource
+            let playString = hexagonStructArray[sender.view!.tag - 1].resource
            // play(url: hexagonStructArray[sender.view!.tag].resource)
             print("This is url string \(playString)")
             loadVideo(urlString: playString)
-            
+            menuView.menuButton.isHidden = true
         }
             
             
@@ -1020,53 +1019,54 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     
     
     
-    func play(url: String) {
-        
-        do {
-            var urlStringTurnURL = URL(string: url)
-            //player = try AVAudioPlayer(contentsOf: url)
-            player = try AVAudioPlayer(contentsOf: urlStringTurnURL!)
-            player.prepareToPlay()
-            player.play()
-            
-        }
-        catch{
-            print(error)
-        }
-        
-        
-    }
+//    func play(url: String) {
+//
+//        do {
+//            var urlStringTurnURL = URL(string: url)
+//            //player = try AVAudioPlayer(contentsOf: url)
+//            player = try AVAudioPlayer(contentsOf: urlStringTurnURL!)
+//            player.prepareToPlay()
+//            player.play()
+//
+//        }
+//        catch{
+//            print(error)
+//        }
+//
+//
+//    }
     var avPlayer: AVPlayer? = nil
     // loads video into new avplayer and overlays on current VC
     
-    
-    
-    
     func loadVideo(urlString: String) {
         print("im in loadVideo")
-        let url =  URL(string: urlString)
-        let asset = AVAsset(url: url!)
-        let item = AVPlayerItem(asset: asset)
-        let rect = CGRect(x: scrollView.contentOffset.x, y: scrollView.contentOffset.y, width: self.view.frame.width, height: self.view.frame.height)
-        let contentRect = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
-        contentViewer.frame = contentRect
-        contentViewer.backgroundColor = .red
-        avPlayer = AVPlayer(playerItem: item)
-        let playerLayer = AVPlayerLayer(player: avPlayer)
-        playerLayer.frame = self.contentViewer.bounds //bounds of the view in which AVPlayer should be displayed
-        playerLayer.videoGravity = .resizeAspect
-        self.contentViewer.layer.addSublayer(playerLayer)
-        self.view.addSubview(contentViewer)
-        playVideo()
-        
+        let vidRef = storage.child(urlString)
+        vidRef.downloadURL(completion: { url, error in
+            if error == nil {
+                let asset = AVAsset(url: url!)
+                let item = AVPlayerItem(asset: asset)
+                self.view.addSubview(self.contentViewer)
+                let contentRect = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+                self.contentViewer.frame = contentRect
+                self.contentViewer.backgroundColor = .black
+                self.avPlayer = AVPlayer(playerItem: item)
+                let playerLayer = AVPlayerLayer(player: self.avPlayer)
+                playerLayer.frame = self.contentViewer.bounds //bounds of the view in which AVPlayer should be displayed
+                playerLayer.videoGravity = .resizeAspect
+                self.contentViewer.layer.addSublayer(playerLayer)
+                self.playVideo()
+            }
+        })
+                
     }
     
     @objc func handleContentViewerTap(sender: UITapGestureRecognizer) {
         dismissContent(view: sender.view!)
+        
     }
     func dismissContent(view: UIView){
-        self.navigationController?.isNavigationBarHidden = false
-        self.tabBarController?.tabBar.isHidden = false
+        //self.navigationController?.isNavigationBarHidden = false
+       // self.tabBarController?.tabBar.isHidden = false
         pauseVideo()
         //        for v in view.subviews {
         //            v.removeFromSuperview()
@@ -1074,6 +1074,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         //        for layer in view.layer.sublayers {
         //        }
         view.removeFromSuperview()
+        menuView.menuButton.isHidden = false
         
     }
     
