@@ -24,6 +24,7 @@ class GuestHexagonGridVC: UIViewController, UIGestureRecognizerDelegate, UIScrol
     
     @IBOutlet weak var hexagonCollectionView: UICollectionView!
     
+    @IBOutlet weak var followButton: UIButton!
     
     var player = AVAudioPlayer()
     // var webView = WKWebView()
@@ -90,6 +91,7 @@ class GuestHexagonGridVC: UIViewController, UIGestureRecognizerDelegate, UIScrol
         super.viewDidLoad()
         
         setUpScrollView()
+        addFollowButton()
         hexagonCollectionView.delegate = self
         hexagonCollectionView.dataSource = self
         
@@ -108,6 +110,7 @@ class GuestHexagonGridVC: UIViewController, UIGestureRecognizerDelegate, UIScrol
         hexagonCollectionView.backgroundColor = .blue
         hexagonCollectionView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/8)
         //   downloadFileFromURL(url: URL(string: "https://p.scdn.co/mp3-preview/18d3b87b0765cd6d8c0a418d6142b3b441c0f8b2?cid=476c620368f349cc8be5b2a29b596eaf")!)
+        hexagonCollectionView.isHidden = true
 
         
 
@@ -343,6 +346,15 @@ class GuestHexagonGridVC: UIViewController, UIGestureRecognizerDelegate, UIScrol
         hexagonCollectionView.reloadData()
     }
     
+    func addFollowButton() {
+         self.view.addSubview(followButton)
+         followButton.frame = CGRect(x: self.view.frame.width-60, y: 100, width: 50, height: 50)
+         // round ava
+         followButton.layer.cornerRadius = followButton.frame.size.width / 2
+        followButton.backgroundColor = .white
+         followButton.clipsToBounds = true
+         followButton.isHidden = false
+     }
     
     
     func loadData(completed: @escaping () -> ()) {

@@ -12,8 +12,11 @@ import QuickTableViewController
 
 class ProfessionalSettingsVC: QuickTableViewController {
     
-var userData: UserData? = nil
-    
+
+    @IBOutlet weak var backButton: UIButton!
+   //var tabController = NavigationMenuBaseController()
+    var userData: UserData? = nil
+    var menuView = MenuView()
  var myAccountArray = ["Name",
  "Username",
  "Birthday",
@@ -61,7 +64,8 @@ var userData: UserData? = nil
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        
+        addBackButton()
+        menuView.isHidden = true
         tableContents = [
             Section(title: "My Account", rows: [
                                  NavigationRow(text: "Name", detailText: .value1(name)!, icon: .named("gear")),
@@ -94,8 +98,18 @@ var userData: UserData? = nil
         }
 
         
-        
-        
+    @IBAction func backButtonClicked(_ sender: UIButton) {
+        menuView.homeButtonClicked(sender)
+    }
+    
+    func addBackButton() {
+        self.view.addSubview(backButton)
+        backButton.frame = CGRect(x: 10, y: 20, width: 50, height: 50)
+        // round ava
+        backButton.clipsToBounds = true
+        backButton.isHidden = false
+        backButton.titleLabel?.text = "Back"
+    }
         
         
         

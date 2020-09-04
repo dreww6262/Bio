@@ -319,7 +319,7 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
     
     
     // clicked cancel
-    @IBAction func cancelBtn_click(_ sender: AnyObject) {
+    @IBAction func cancelBtn_click(_ sender: AnyObject) { 
         
         print("hit cancel button")
         // hide keyboard when pressed cancel
