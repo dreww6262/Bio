@@ -49,13 +49,10 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     var firstLoad  = true
     
     // arrays
-    var homeUserImageArray: [String] = []
     var targetHexagons: [Int] = []
-    var hexagonStructArray: [HexagonStructData] = []
-    var coordinateArray: [[CGFloat]] = []
-    var coordinate: [CGFloat] = []
+    //var hexagonStructArray: [HexagonStructData] = []
     var imageViewArray: [PostImageView] = []
-    var fakeUserImageArray = [UIImage(named: "kayser1"),UIImage(named: "oldspice"),UIImage(named: "kayser3"),UIImage(named: "k34"),UIImage(named: "kayser5"),UIImage(named: "kayser6"),UIImage(named: "couch"),UIImage(named: "kayser8"),UIImage(named: "teamimpact"),UIImage(named: "k32"),UIImage(named: "bchigh"),UIImage(named: "k11"),UIImage(named: "k50"),UIImage(named: "k13"),UIImage(named: "childrens"),UIImage(named: "k15"),UIImage(named: "k16"),UIImage(named: "k36"),UIImage(named: "shockey"),UIImage(named: "k19"),UIImage(named: "stjude"),UIImage(named: "k21"),UIImage(named: "k22"),UIImage(named: "k23"),UIImage(named: "k33"),UIImage(named: "k25"),UIImage(named: "k26"),UIImage(named: "k27"),UIImage(named: "k35"),UIImage(named: "k99"),UIImage(named: "k30")]
+
     var reOrderedCoordinateArray: [[CGFloat]] = [[946.8266739736607, 902.5],[1081.7304845413264, 902.5], [1014.2785792574934, 1020.0],   [879.3747686898278,1020.0], [811.9228634059948,902.5], [879.3747686898278,785.0],[1014.2785792574934,785.0],[946.8266739736607, 667.5],[1081.7304845413264, 667.5], [1149.1823898251594, 785.0],  [1216.6342951089923, 902.5],[1149.1823898251594, 1020.0],   [1081.7304845413264, 1137.5], [1081.7304845413264, 1137.5],[946.8266739736607, 1137.5],[811.9228634059948, 1137.5],[744.4709581221618, 1020.0],[677.0190528383291, 902.5],[744.4709581221618, 785.0],  [811.9228634059948, 667.5],[879.3747686898278, 550.0],[1014.2785792574934, 550.0],[1149.1823898251594, 550.0],[1216.6342951089923, 667.5],[1284.0862003928253, 785.0],[1351.5381056766582, 902.5], [1284.0862003928253, 1020.0], [1216.6342951089923, 1137.5],[1149.1823898251594, 1255.0], [1014.2785792574934, 1255.0],[879.3747686898278, 1255.0],  [744.4709581221618, 1255.0],[677.0190528383291, 1137.5],[609.5671475544962, 1020.0],[542.1152422706632, 902.5],[609.5671475544962, 785.0],[677.0190528383291, 667.5],[744.4709581221618, 550.0]] // , /[811.9228634059948, 432.5], [946.8266739736607, 432.5], [1081.7304845413264, 432.5], [1216.6342951089923, 432.5],[1284.0862003928253, 550.0],[1351.5381056766582, 667.5], [1418.990010960491, 785.0],  [1486.441916244324, 902.5], [1418.990010960491, 1020.0],[1351.5381056766582, 1137.5],   [1284.0862003928253, 1255.0],[1216.6342951089923, 1372.5],   [1081.7304845413264, 1372.5],[946.8266739736607, 1372.5],[811.9228634059948, 1372.5],[677.0190528383291, 1372.5], [609.5671475544962, 1255.0],[542.1152422706632, 1137.5],[474.6633369868303, 1020.0],[407.2114317029974, 902.5],[474.6633369868303, 785.0],[542.1152422706632, 667.5],[609.5671475544962, 550.0],[677.0190528383291, 432.5]]
     
     //with 3rd row
@@ -111,9 +108,6 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                 })
             }
         }
-        
-        //play(url: "https://p.scdn.co/mp3-preview/18d3b87b0765cd6d8c0a418d6142b3b441c0f8b2?cid=476c620368f349cc8be5b2a29b596eaf")
-        //print("viewdidLoad")
     }
     
     // viewdidload helper functions
@@ -261,6 +255,8 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         //loadView()
         
         if (userData != nil) {
+            populateUserAvatar()
+            menuView.userData = userData
             createImageViews()
             return
         }
@@ -314,10 +310,6 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
 //
     }
     
-    
-    
-    
-    
     func createImageViews() {
         var newPostImageArray = [PostImageView]()
         db.collection("Hexagons2").whereField("postingUserID", isEqualTo: userData!.publicID).addSnapshotListener({ objects, error in
@@ -364,15 +356,13 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         image.contentMode = .scaleAspectFill
         image.image = UIImage()
         image.hexData = hexData
+        image.tag = hexData.location
         
         image.addGestureRecognizer(longGesture)
         image.addGestureRecognizer(tapGesture)
         image.isUserInteractionEnabled = true
         //    var gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
         image.setupHexagonMask(lineWidth: 10.0, color: .darkGray, cornerRadius: 10.0)
-        if hexData.location == 0 {
-            image.setupHexagonMask(lineWidth: 10.0, color: .white, cornerRadius: 10.0)
-        }
         let ref = storage.child(hexData.thumbResource)
         image.sd_setImage(with: ref)
         return image
@@ -385,12 +375,29 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         firstLoad = true
         menuView.tabController = (tabBarController! as! NavigationMenuBaseController)
         
-        menuView.userData = userData
-        
-        
-        refresh()
+        if (userData == nil) {
+            user = Auth.auth().currentUser
+            if (user != nil) {
+                db.collection("UserData1").whereField("email", isEqualTo: user!.email!).addSnapshotListener({ objects, error in
+                    if (error == nil) {
+                        if (objects!.documents.capacity > 0) {
+                            let newData = UserData(dictionary: objects!.documents[0].data())
+                            self.menuView.userData = newData
+                            self.userData = newData
+                            self.refresh()
+                        }
+                    }
+                })
+            }
+        }
+        else {
+            menuView.userData = userData
+            refresh()
+        }
     }
     
+    
+    var dragView : PostImageView? = nil
     @objc func longTap(_ sender: UIGestureRecognizer){
         print("Long tap")
         print("🎹🎹🎹🎹🎹🎹🎹🎹🎹")
@@ -418,10 +425,30 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                     }
                 }
                 refresh()
-                return
             }
-            //                print("This is newIndex before \(newIndex)")
-            let newIndex = findIntersectingHexagon(hexCenter: currentHexagonCenter)
+            else {
+                let intersectingHex = findIntersectingHexagon(hexView: dragView!)
+                if (intersectingHex != nil) {
+                    let tempLoc = intersectingHex!.hexData!.location
+                    intersectingHex!.hexData!.location = dragView!.hexData!.location
+                    dragView!.hexData!.location = tempLoc
+                    print(dragView!.hexData!)
+                    print(intersectingHex!.hexData!)
+                    db.collection("Hexagons2").document(intersectingHex!.hexData!.docID).setData(intersectingHex!.hexData!.dictionary) { error in
+                        if error == nil {
+                            self.db.collection("Hexagons2").document(self.dragView!.hexData!.docID).setData(self.dragView!.hexData!.dictionary) { error in
+                                self.refresh()
+                            }
+                        }
+                    }
+                }
+                intersectingHex?.frame = CGRect(x: self.reOrderedCoordinateArray[intersectingHex!.hexData!.location][0]-680,
+                                                y: self.reOrderedCoordinateArray[intersectingHex!.hexData!.location][1]-570, width: hexaDiameter, height: hexaDiameter)
+                dragView?.frame = CGRect(x: self.reOrderedCoordinateArray[dragView!.hexData!.location][0]-680,
+                                         y: self.reOrderedCoordinateArray[dragView!.hexData!.location][1]-570, width: hexaDiameter, height: hexaDiameter)
+                
+                
+            }
             trashButton.isHidden = true
             menuView.menuButton.isHidden = false
 
@@ -446,11 +473,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             //                print("This is newIndex before \(newIndex)")
             currentHexagonCenter = (sender.view?.center)!
             let hexCenterInView = contentView.convert(currentHexagonCenter, to: view)
-            let newIndex = findIntersectingHexagon(hexCenter: currentHexagonCenter)
-            //                print("This is current newIndex \(newIndex)")
-            // if this center < radius/150 distance from any point in coordinate array,
-            //                print("just before finding newIndex")
-            //                print("This is currentCenter \(currentHexagonCenter)")
+            let _ = findIntersectingHexagon(hexView: dragView!)
             
             print(distance(hexCenterInView, trashButton.center))
             if (distance(hexCenterInView, trashButton.center) < 70) {
@@ -463,39 +486,27 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         }
     }
     
-    func findIntersectingHexagon(hexCenter: CGPoint) -> Int {
+    func findIntersectingHexagon(hexView: PostImageView) -> PostImageView? {
         //find coordinates of final location for hexagon
-        var thisIndex = 0
+        let hexCenter = hexView.center
+        let red = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+        let gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
         for hex in self.imageViewArray {
-            
-            if distance(hexCenter, reOrderedCoordinateArrayPointsCentered[thisIndex]) < 110.0 {
-                //                print("This is the coordinates it belongs to \(coordinate)")
-                //                print("This is the location in the reOrderedCoordinatePointArray \(thisIndex)")
-                var red = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
-                var gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
-                targetHexagons.append(thisIndex)
-                self.imageViewArray[thisIndex].setupHexagonMask(lineWidth: 10.0, color: red, cornerRadius: 10.0)
-                
-                for target in targetHexagons {
-                    if target != thisIndex {
-                        self.imageViewArray[target].setupHexagonMask(lineWidth: 10.0, color: gold, cornerRadius: 10.0)
-                        targetHexagons.remove(at: 0)
-                        //                        print("This is target hexagons \(targetHexagons)")
-                    }
-                }
-                //                print("🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮")
-                return thisIndex - 1
+            if (hex.hexData!.isArchived) {
+                continue
             }
-            
-            //            print("Thiis is coordinate for hexCenter \(hexCenter) and for testHexagonIndex \(thisIndex): \(coordinate)")
-            //            print(" This is the distance between hexcenter and coordinate for \(thisIndex), \(distance(hexCenter, coordinate))")
-            
-            thisIndex = thisIndex + 1
-            
+            else if hexView == hex {
+                continue
+            }
+            else if distance(hexCenter, reOrderedCoordinateArrayPointsCentered[hex.hexData!.location]) < 110.0 {
+                hex.setupHexagonMask(lineWidth: 10.0, color: red, cornerRadius: 10.0)
+                return hex
+            }
+            else {
+                hex.setupHexagonMask(lineWidth: 10.0, color: gold, cornerRadius: 10.0)
+            }
         }
-        return thisIndex
-        
-        
+        return nil
     }
     
     func distance(_ a: CGPoint, _ b: CGPoint) -> CGFloat {
@@ -586,104 +597,20 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     
     func populateUserAvatar() {
         // to for hexstruct array once algorithm done
+        if avaImage != nil {
+            avaImage?.removeFromSuperview()
+        }
         avaImage = UIImageView(frame: CGRect(x: self.reOrderedCoordinateArray[0][0]-680, y: self.reOrderedCoordinateArray[0][1]-570, width: hexaDiameter, height: hexaDiameter))
+        avaImage?.contentMode = .scaleAspectFill
+        avaImage?.image = UIImage()
+        avaImage?.tag = 0
         contentView.addSubview(avaImage!)
         avaImage?.isHidden = false
         contentView.bringSubviewToFront(avaImage!)
         let ref = self.storage.child(userData!.avaRef)
-//        print(ref)
         avaImage!.setupHexagonMask(lineWidth: 10.0, color: .white, cornerRadius: 10.0)
         avaImage!.sd_setImage(with: ref)
-        //        print("This is the imageView.image \(self.imageViewArray[0].image)")
-        //        print("This is ref \(0) \(ref)")
     }
-    
-    
-    var dragView : PostImageView? = nil
-    var ogPosition: CGPoint = CGPoint(x: 0.0, y:
-        0.0)
-    @objc func dragged(sender : UIPanGestureRecognizer) {
-        let hexImage = sender.view as! PostImageView
-        
-        // if hexagon is in movable mode.
-            menuView.menuButton.isHidden = true
-            trashButton.isHidden = false
-            var currentHexagonCenter = CGPoint(x:0.0, y:0.0)
-            
-            
-            //            print("I am movable")
-            //if the state has begun, store dragview for first time and center, bring scrollview subview to front
-            if (sender.state == .began) {
-                
-                dragView = (sender.view as! PostImageView)
-                dragView?.center = sender.location(in: scrollView)
-                contentView.bringSubviewToFront(dragView!)
-                trashButton.isHidden = false
-            }
-                
-                // if sender state is changed, store deltas and check if srollview needs to pan
-            else if (sender.state == .changed) {
-                let xDelta = dragView!.center.x - sender.location(in: scrollView).x
-                let yDelta = dragView!.center.y - sender.location(in: scrollView).y
-                dragView?.center = sender.location(in: scrollView)
-                
-                self.scrollIfNeeded(location: sender.location(in: scrollView.superview), xDelta: xDelta, yDelta: yDelta)
-                //                print("This is newIndex before \(newIndex)")
-                currentHexagonCenter = (sender.view?.center)!
-                let hexCenterInView = contentView.convert(currentHexagonCenter, to: view)
-                let newIndex = findIntersectingHexagon(hexCenter: currentHexagonCenter)
-                //                print("This is current newIndex \(newIndex)")
-                // if this center < radius/150 distance from any point in coordinate array,
-                //                print("just before finding newIndex")
-                //                print("This is currentCenter \(currentHexagonCenter)")
-                
-                print(distance(hexCenterInView, trashButton.center))
-                if (distance(hexCenterInView, trashButton.center) < 70) {
-                    trashButton.imageView!.makeRoundedGold()
-                    print("It should be gold")
-                } else {
-                    trashButton.imageView!.makeRounded()
-                    print("This is outside 70")
-                }
-            }
-            else if (sender.state == .ended) {
-                
-                currentHexagonCenter = (sender.view?.center)!
-                let hexCenterInView = scrollView.convert(currentHexagonCenter, to: view)
-                if (distance(hexCenterInView, trashButton.center) < 70) {
-                    // trash current hexagon
-                    hexImage.hexData!.isArchived = true
-                    // push update to server
-                    let docRef = db.collection("Hexagons2").document(hexImage.hexData!.docID)
-                    docRef.setData(hexImage.hexData!.dictionary) { error in
-                        if error == nil {
-                            self.userData!.numPosts -= 1
-                            self.db.collection("UserData1").document(self.userData!.privateID).setData(self.userData!.dictionary)
-                        }
-                    }
-                    for hex in imageViewArray {
-                        if (hex.hexData!.location > hexImage.hexData!.location) {
-                            hex.hexData!.location -= 1
-                            db.collection("Hexagons2").document(hex.hexData!.docID).setData(hex.hexData!.dictionary)
-                        }
-                    }
-                    refresh()
-                    return
-                }
-                //                print("This is newIndex before \(newIndex)")
-                let newIndex = findIntersectingHexagon(hexCenter: currentHexagonCenter)
-                trashButton.isHidden = true
-                menuView.menuButton.isHidden = false
-
-            }
-                
-            
-        
-
-        
-    }
-    
-    
     
     func scrollIfNeeded(location: CGPoint, xDelta: CGFloat, yDelta: CGFloat) {
         //        print("im in scrollifneeded")
@@ -743,8 +670,6 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         dragView!.center = center
     }
     
-    
-    
     @objc func dismissFullscreenImageHandler(_ sender: UITapGestureRecognizer) {
         dismissFullscreenImage(view: sender.view!)
     }
@@ -761,7 +686,8 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         //        print("🎯🎯🎯🎯🎯Hello World")
         print("🎯🎯🎯🎯🎯🎯🎯I tapped image with tag \(sender.view!.tag)")
         
-        let hexItem = hexagonStructArray[sender.view!.tag - 1]
+        let postImage = sender.view as! PostImageView
+        let hexItem = postImage.hexData!
         
         if sender.view!.tag == 0 {
             print("Tried to click profile pic handle later")
@@ -822,11 +748,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                 openSnapchat(snapchatUsername: hexItem.text)
             }
             
-            
-            
-            
         }
-        
         
         //        if sender.view!.tag == 1 {
         //            dismissFullscreenImage(view: newImageView)
@@ -847,50 +769,9 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         //            dismissFullscreenImage(view: newImageView)
         //            openSpotifySong()
         //        }
-        //
-        //        if sender.view!.tag == 5 {
-        //            dismissFullscreenImage(view: newImageView)
-        //            openSnapchat(snapchatUsername: "patmcdonough42")
-        //
-        //        }
-        //
-        //        if sender.view!.tag == 6 {
-        //            print("im about to play video")
-        //            dismissFullscreenImage(view: newImageView)
-        //            // openTikTok(tikTokHandle: "https://vm.tiktok.com/JeQCbBR/")
-        //            loadVideo(urlString: "https://firebasestorage.googleapis.com/v0/b/hw05-54fe6.appspot.com/o/example-movie.mp4?alt=media&token=4dc2f663-94a1-460a-a05f-a2ce6774ae5b")
-        //        }
-        //        if sender.view!.tag == 8 {
-        //            print("im about to play old spice video")
-        //            dismissFullscreenImage(view: newImageView)
-        //            // openTikTok(tikTokHandle: "https://vm.tiktok.com/JeQCbBR/")
-        //            // scrollView.backgroundColor = .black
-        //            loadVideo(urlString: "https://firebasestorage.googleapis.com/v0/b/hw05-54fe6.appspot.com/o/Old%20Spice%20%7C%20The%20Man%20Your%20Man%20Could%20Smell%20Like.mp4?alt=media&token=c465fe00-4e95-485f-bc18-2806076b82f3")
-        //        }
-        
-        
-        
-        //}
+
     }
     
-    
-    
-//    func play(url: String) {
-//
-//        do {
-//            var urlStringTurnURL = URL(string: url)
-//            //player = try AVAudioPlayer(contentsOf: url)
-//            player = try AVAudioPlayer(contentsOf: urlStringTurnURL!)
-//            player.prepareToPlay()
-//            player.play()
-//
-//        }
-//        catch{
-//            print(error)
-//        }
-//
-//
-//    }
     
     var webView: WKWebView?
     func openLink(link: String) {
@@ -959,17 +840,6 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     }
     
 }
-
-
-
-
-
-
-
-
-
-
-
 
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -1083,5 +953,4 @@ extension UIView {
     func stopShimmering(){
         self.layer.mask = nil
     }
-    
 }
