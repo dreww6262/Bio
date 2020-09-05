@@ -54,35 +54,34 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
         var success = true
         var count = 0
         for cell in cellArray {
+            // get count for current post of batch
             count += 1
+            // get timestamp for unique location name
             let timestamp = Timestamp.init()
-            print("addinghex")
+            //print("addinghex")
             switch (cell.item) {
             case .photo(let photo):
-                print(photo)
+                //print(photo)
                 let photoLocation = "userFiles/\(userData!.publicID)/\(count)_\(timestamp.dateValue()).png"
                 uploadPhoto(reference: photoLocation, image: photo, completion: { upComplete in
                     if (upComplete) {
                         print("uploaded shid")
+                        let photoHex = HexagonStructData(resource: photoLocation, type: "photo", location: self.userData!.numPosts + count, thumbResource: photoLocation, createdAt: TimeInterval.init(), postingUserID: self.userData!.publicID, text: "\(cell.captionField!.text!)", views: 0, isArchived: false, docID: "willBeSetLater")
+                        print("should be adding \(photoHex)")
+                        self.addHex(hexData: photoHex, completion: {    bool in
+                            success = success && bool
+                            if (bool) {
+                                print("hex successfully added")
+                            }
+                            else {
+                                print("hex failed")
+                            }
+                        })
                     }
                     else {
                         print("didnt upload shid")
                     }
                 })
-                let photoHex = HexagonStructData(resource: photoLocation, type: "photo", location: self.userData!.numPosts + count, thumbResource: photoLocation, createdAt: TimeInterval.init(), postingUserID: self.userData!.publicID, text: "\(cell.captionField!.text!)", views: 0, isArchived: false, docID: "willBeSetLater")
-                print("should be adding \(photoHex)")
-                self.addHex(hexData: photoHex, completion: {    bool in
-                    success = success && bool
-                    
-                    if (bool) {
-                        print("hex successfully added")
-                    }
-                    else {
-                        print("hex failed")
-                    }
-                })
-                
-                
             case .video(let video):
                 print(video)
                 let videoLocation = "userFiles/\(userData!.publicID)/\(count)_\(timestamp.dateValue()).mov"
@@ -90,28 +89,28 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
                 uploadVideo(reference: videoLocation, video: video, completion: { upComplete in
                     if (upComplete) {
                         print("uploaded shid")
+                        self.uploadPhoto(reference: thumbLocation, image: YPMediaPhoto(image: video.thumbnail), completion: { upComplete in
+                            if (upComplete) {
+                                print("uploaded thumb")
+                                let videoHex = HexagonStructData(resource: videoLocation, type: "video", location: self.userData!.numPosts + count, thumbResource: thumbLocation, createdAt: TimeInterval.init(), postingUserID: self.userData!.publicID, text: "\(cell.captionField!.text!)", views: 0, isArchived: false, docID: "willBeSetLater")
+                                self.addHex(hexData: videoHex, completion: {    bool in
+                                    success = success && bool
+                                    
+                                    if (bool) {
+                                        print("hex successfully added")
+                                    }
+                                    else {
+                                        print("hex failed")
+                                    }
+                                })
+                            }
+                            else {
+                                print("didnt upload thumb")
+                            }
+                        })
                     }
                     else {
                         print("didnt upload shid")
-                    }
-                })
-                uploadPhoto(reference: thumbLocation, image: YPMediaPhoto(image: video.thumbnail), completion: { upComplete in
-                    if (upComplete) {
-                        print("uploaded thumb")
-                    }
-                    else {
-                        print("didnt upload thumb")
-                    }
-                })
-                let videoHex = HexagonStructData(resource: videoLocation, type: "video", location: self.userData!.numPosts + count, thumbResource: thumbLocation, createdAt: TimeInterval.init(), postingUserID: self.userData!.publicID, text: "\(cell.captionField!.text!)", views: 0, isArchived: false, docID: "willBeSetLater")
-                self.addHex(hexData: videoHex, completion: {    bool in
-                    success = success && bool
-                    
-                    if (bool) {
-                        print("hex successfully added")
-                    }
-                    else {
-                        print("hex failed")
                     }
                 })
                 
@@ -119,8 +118,6 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
                 print("bad item")
                 // shouldnt happen.  Items should be one of the above
             }
-            
-            
         }
         self.userData!.numPosts += count
         self.db.collection("UserData1").document(Auth.auth().currentUser!.uid).setData(self.userData!.dictionary, completion: { error in

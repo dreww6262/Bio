@@ -282,6 +282,7 @@ class BioProfileHexagonGrid2: UIViewController, UISearchBarDelegate, UIScrollVie
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         menuView.tabController = (tabBarController! as! NavigationMenuBaseController)
+        menuView.userData = userData
         refresh()
     }
     

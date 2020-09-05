@@ -13,7 +13,7 @@ import FirebaseAuth
 import FirebaseStorage
 import FirebaseFirestore
 
-class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class AddSocialMediaVC: UIViewController {
     @IBOutlet weak var titleText: UILabel!
     @IBOutlet weak var subtitleText: UILabel!
     
@@ -56,6 +56,7 @@ class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINav
     var userData: UserData?
     var userDataRef: DocumentReference? = nil
     let db = Firestore.firestore()
+    var cancelLbl: String?
     
     
     // reset default size
@@ -67,37 +68,7 @@ class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINav
     
     // default func
     override func viewDidLoad() {
-        var alreadySnapped = false
         super.viewDidLoad()
-        
-        
-        
-        
-        
-        //        let group = DispatchGroup()
-        //
-        //
-        //        DispatchQueue.global().async {
-        //            group.enter()
-        //            self.db.collection("UserData").whereField("email", isEqualTo: "zetully@gmail.com").addSnapshotListener({objects,error in
-        //                if (!alreadySnapped) {
-        //                    alreadySnapped = true
-        //                    print("Currently in snapshot listener 2")
-        //                    if (error == nil) {
-        //                        self.userData = UserData(dictionary: objects!.documents[0].data())
-        //                        self.userDataRef = objects!.documents[0].reference
-        //                        print("got user \(self.userData!.publicID)")
-        //
-        //                    }
-        //                    else {
-        //                        print("user data not loaded bc of error: \(error?.localizedDescription)")
-        //                    }
-        //                    group.leave()
-        //                }
-        //            })
-        //        }
-        //group.wait()
-        //print("passed wait 1")
         
         if (userData == nil) {
             print("userdata is nil")
@@ -188,6 +159,12 @@ class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINav
     //    }
     
     
+    override func viewWillAppear(_ animated: Bool) {
+        if (cancelLbl != nil) {
+            cancelBtn.text(cancelLbl!)
+        }
+    }
+    
     // hide keyboard if tapped
     @objc func hideKeyboardTap(_ recoginizer:UITapGestureRecognizer) {
         self.view.endEditing(true)
@@ -232,11 +209,6 @@ class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINav
         
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        var phoneVC = segue.destination as! PhoneSignInVC
-        phoneVC.userData = userData
-    }
-    
     
     // clicked sign up
     @IBAction func continueClicked(_ sender: AnyObject) {
@@ -249,7 +221,7 @@ class AddSocialMediaVC: UIViewController, UIImagePickerControllerDelegate, UINav
         if (instagramUsernameTxt.text!.isEmpty && snapchatUsernameTxt.text!.isEmpty && twitterHandleTxt.text!.isEmpty && facebookInfoTxt.text!.isEmpty && appleMusicTxt.text!.isEmpty && venmoTxt.text!.isEmpty && tikTokText.text!.isEmpty && poshmarkText.text!.isEmpty) {
             
             // alert message
-            let alert = UIAlertController(title: "Hold up", message: "Fill in a field or hit \(cancelBtn.titleLabel?.text)", preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: "Hold up", message: "Fill in a field or hit \(cancelBtn.titleLabel!.text!)", preferredStyle: UIAlertController.Style.alert)
             let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
             alert.addAction(ok)
             self.present(alert, animated: true, completion: nil)

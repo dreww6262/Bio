@@ -96,7 +96,7 @@ class PhoneSignInVC: UIViewController {
     }
     
     
-    var _user: User? = nil
+    var _user: User?
     func fakeUserSignIn() {
       //  let phoneNumber = "+17817333496"
         let phoneNumber = "+16177807235"
