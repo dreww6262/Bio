@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import FirebaseAuth
+import FirebaseFirestore
 
 class MenuView: UIView {
     
@@ -16,8 +18,10 @@ class MenuView: UIView {
     var settingsButton: UIButton = UIButton()
     var dmButton: UIButton = UIButton()
     var homeProfileButton: UIButton =  UIButton()
-    var tabController: NavigationMenuBaseController? = nil
-    var userData: UserData? = nil
+    var tabController: NavigationMenuBaseController?
+    var userData: UserData?
+    var db = Firestore.firestore()
+    var user = Auth.auth().currentUser
     
     var currentTab: Int = 0
     
@@ -39,6 +43,32 @@ class MenuView: UIView {
     }
     
     func addBehavior() {
+        
+        if userData == nil {
+            user = Auth.auth().currentUser
+            db.collection("UserData1").whereField("email", isEqualTo: user!.email!).addSnapshotListener({ objects, error in
+                if error == nil {
+                    guard let docs = objects?.documents
+                        else{
+                            print("bad docs")
+                            return
+                    }
+                    
+                    if docs.count == 0 {
+                        print("no userdata found.... fix this")
+                    }
+                    else if docs.count > 1 {
+                        print("multiple user data.... fix this")
+                    }
+                    else {
+                        self.userData = UserData(dictionary: docs[0].data())
+                    }
+                }
+                
+            })
+        }
+        
+        
         self.isUserInteractionEnabled = false
         let superView = self.superview!
         //let thisFrame = self.frame
@@ -181,7 +211,7 @@ class MenuView: UIView {
     @objc func settingsButtonClicked(_ sender: UIButton) {
         let viewControllers = tabController!.customizableViewControllers!
         let settingsVC = (viewControllers[0] as! ProfessionalSettingsVC)
-   //     settingsVC.userData = userData
+        settingsVC.userData = userData
         tabController!.viewControllers![0] = settingsVC
         tabController!.customTabBar.switchTab(from: currentTab, to: 0)
     }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="AGA-wN-m2B">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="AGA-wN-m2B">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -4068,7 +4068,7 @@
                         <outlet property="twitterLogo" destination="Byh-xG-iXI" id="UfF-Yo-hOf"/>
                         <outlet property="venmoLogo" destination="vNf-do-VER" id="xVC-7U-ewe"/>
                         <outlet property="venmoTxt" destination="kBG-0W-mSN" id="Ez3-Aw-BKu"/>
-                        <segue destination="6Rj-0S-CwK" kind="unwind" identifier="rewindToFront" unwindAction="unvindSegueToMenuWithSegue:" id="Vvq-Up-GSh"/>
+                        <segue destination="6Rj-0S-CwK" kind="unwind" identifier="rewindToFront" unwindAction="unvindSegueFromAddToHomeWithSegue:" id="Vvq-Up-GSh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="t1D-kF-aMX" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -4310,9 +4310,11 @@
                         <outlet property="scrollView" destination="x6G-YF-XgT" id="IJv-on-EZB"/>
                         <outlet property="subtitleText" destination="KXq-GF-Gy4" id="9Xy-3a-5RD"/>
                         <outlet property="titleText" destination="Qdv-pR-Ykm" id="EIp-UD-CRy"/>
+                        <segue destination="YgN-C3-alh" kind="unwind" identifier="unwindFromLinkToHome" unwindAction="unvindSegueFromAddToHomeWithSegue:" id="iS6-wJ-SfR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="muU-wZ-jtK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="YgN-C3-alh" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="77" y="-3605"/>
         </scene>

@@ -55,33 +55,6 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         var alreadySnapped = false
         super.viewDidLoad()
         
-        
-        
-        //        let group = DispatchGroup()
-        //
-        //
-        //        DispatchQueue.global().async {
-        //            group.enter()
-        //            self.db.collection("UserData").whereField("email", isEqualTo: "zetully@gmail.com").addSnapshotListener({objects,error in
-        //                if (!alreadySnapped) {
-        //                    alreadySnapped = true
-        //                    print("Currently in snapshot listener 2")
-        //                    if (error == nil) {
-        //                        self.userData = UserData(dictionary: objects!.documents[0].data())
-        //                        self.userDataRef = objects!.documents[0].reference
-        //                        print("got user \(self.userData!.publicID)")
-        //
-        //                    }
-        //                    else {
-        //                        print("user data not loaded bc of error: \(error?.localizedDescription)")
-        //                    }
-        //                    group.leave()
-        //                }
-        //            })
-        //        }
-        //group.wait()
-        //print("passed wait 1")
-        
         if (userData == nil) {
             print("userdata is nil")
         }
@@ -125,7 +98,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         titleText.frame = CGRect(x: 0,y:60, width: self.view.frame.size.width, height: 30)
         subtitleText.frame = CGRect(x:0, y: titleText.frame.origin.y + 30, width: self.view.frame.size.width, height: 30)
         
-    
+        
         
         
         //         linkHexagonImage.frame = CGRect(x: 10, y: linkTextField.frame.origin.y + 30, width: self.view.frame.size.width - 20, height: 30)
@@ -135,7 +108,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         
         linkTextField.frame = CGRect(x: 10, y: linkHexagonImage.frame.maxY + 20, width: self.view.frame.size.width - 20, height: 30)
         linkTextField.attributedPlaceholder = NSAttributedString(string: "Paste Link Here",
-        attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: linkTextField.frame.minY, width: 30, height: 30)
         
         continueBtn.frame =  CGRect(x: 10.0, y: linkTextField.frame.maxY + 20, width: self.view.frame.width - 20, height: 24)
@@ -150,26 +123,9 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         self.view.addSubview(bg)
     }
     
-    //
-    //    // call picker to select image
-    //    @objc func loadImg(_ recognizer:UITapGestureRecognizer) {
-    //        let picker = UIImagePickerController()
-    //        picker.delegate = self
-    //        picker.sourceType = .photoLibrary
-    //        picker.allowsEditing = true
-    //        present(picker, animated: true, completion: nil)
-    //    }
-    //
-    //
-    //    // connect selected image to our ImageView
-    //    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-    //        // Local variable inserted by Swift 4.2 migrator.
-    //        let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
-    //
-    //        //    avaImg.image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
-    //        self.dismiss(animated: true, completion: nil)
-    //    }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        print("userData, view will appear: \(userData)")
+    }
     
     // hide keyboard if tapped
     @objc func hideKeyboardTap(_ recoginizer:UITapGestureRecognizer) {
@@ -229,7 +185,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         if (linkTextField.text!.isEmpty) {
             
             // alert message
-            let alert = UIAlertController(title: "Hold up", message: "Fill in a field or hit \(cancelBtn.titleLabel?.text)", preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: "Hold up", message: "Fill in a field or hit Cancel", preferredStyle: UIAlertController.Style.alert)
             let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
             alert.addAction(ok)
             self.present(alert, animated: true, completion: nil)
@@ -239,7 +195,6 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         
         let username = userData!.publicID
         var numPosts = userData!.numPosts
-        var success = true
         
         
         
@@ -253,15 +208,19 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
             let linkHex = HexagonStructData(resource: linkTextField.text!, type: "link", location: numPosts, thumbResource: refText, createdAt: TimeInterval.init(), postingUserID: username, text: "\(linkTextField.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
             
             
-            addHex(hexData: linkHex, completion: { bool in
-                success = success && bool
-                
-            })
-            print("passed wait for social media tiles")
+            
             
             imageRef.putData(linkHexagonImage.image!.pngData()!, metadata: nil){ data, error in
                 if (error == nil) {
                     print ("upload successful")
+                    self.addHex(hexData: linkHex, completion: { bool in
+                        if (bool) {
+                            print("Add hex successful")
+                        }
+                        else {
+                            print("didnt add hex")
+                        }
+                    })
                 }
                 else {
                     print ("upload failed")
@@ -272,22 +231,16 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
             userData?.numPosts = numPosts
             db.collection("UserData1").document(currentUser!.uid).setData(self.userData!.dictionary, completion: { error in
                 if error == nil {
-                    //present Home View Controller Segue
-                    print("present home hex grid")
-                    let homeGrid = self.storyboard?.instantiateViewController(identifier: "homeHexGrid420") as! HomeHexagonGrid
-                    homeGrid.userData = self.userData
-                    self.present(homeGrid, animated: true, completion: nil)
-                    print("should have presented home hex grid")
-                    
+                    print("userdata updated successfully")
+                    self.performSegue(withIdentifier: "unwindFromLinkToHome", sender: nil)
                 }
                 else {
                     print("userData not saved \(error?.localizedDescription)")
                 }
                 
             })
-            
-            
         }
+        
         
     }
     
@@ -320,106 +273,8 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     
     // clicked cancel
     @IBAction func cancelBtn_click(_ sender: AnyObject) {
-        
-        print("hit cancel button")
-        // hide keyboard when pressed cancel
-        self.view.endEditing(true)
-        if (cancelBtn.titleLabel?.text! == "Skip") {
-            print("present home hex grid")
-            //self.performSegue(withIdentifier: "toHomeHexGrid", sender: nil)
-            let hexGrid = (storyboard?.instantiateViewController(identifier: "homeHexGrid420"))! as HomeHexagonGrid
-            hexGrid.userData = userData
-            show(hexGrid, sender: nil)
-            print("should have presented home hex grid")
-        }
-        else {
-            print("should dismiss vc")
-            self.dismiss(animated: true, completion: nil)
-        }
+        self.dismiss(animated: true, completion: nil)
     }
-    
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-           var homeHexGrid = segue.destination as! HomeHexagonGrid
-           homeHexGrid.userData = userData
-       }
-    
-    
-    func openInstagram(instagramHandle: String) {
-        guard let url = URL(string: "https://instagram.com/\(instagramHandle)")  else { return }
-        if UIApplication.shared.canOpenURL(url) {
-            if #available(iOS 10.0, *) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            } else {
-                UIApplication.shared.openURL(url)
-            }
-        }
-    }
-    
-    func openTikTok(tikTokHandle: String) {
-        guard let url = URL(string: tikTokHandle)  else { return }
-        if UIApplication.shared.canOpenURL(url) {
-            if #available(iOS 10.0, *) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            } else {
-                UIApplication.shared.openURL(url)
-            }
-        }
-    }
-    
-    func openSpotifySong() {
-        //  UIApplication.shared.open(URL(string: "spotify:artist:4gzpq5DPGxSnKTe4SA8HAU")!, options: [:], completionHandler: nil)
-        // UIApplication.shared.openURL(URL(string: "spotify:track:1dNIEtp7AY3oDAKCGg2XkH")!)
-        //   UIApplication.shared.open(URL(string: "spotify:track:1dNIEtp7AY3oDAKCGg2XkH")!, options: [:], completionHandler: nil)
-        UIApplication.shared.open(URL(string: "https://p.scdn.co/mp3-preview/18d3b87b0765cd6d8c0a418d6142b3b441c0f8b2?cid=476c620368f349cc8be5b2a29b596eaf" )!, options: [:], completionHandler: nil)
-        
-    }
-    
-    
-    
-    
-    
-    func openFacebook(facebookHandle: String) {
-        let webURL: NSURL = NSURL(string: "https://www.facebook.com/ID")!
-        let IdURL: NSURL = NSURL(string: "fb://profile/ID")!
-        
-        if(UIApplication.shared.canOpenURL(IdURL as URL)){
-            // FB installed
-            UIApplication.shared.open(webURL as URL, options: [:], completionHandler: nil)
-        } else {
-            // FB is not installed, open in safari
-            UIApplication.shared.open(webURL as URL, options: [:], completionHandler: nil)
-        }
-        
-    }
-    
-    func openTwitter(twitterHandle: String) {
-        guard let url = URL(string: "https://twitter.com/\(twitterHandle)")  else { return }
-        if UIApplication.shared.canOpenURL(url) {
-            if #available(iOS 10.0, *) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            } else {
-                UIApplication.shared.openURL(url)
-            }
-        }
-    }
-    
-    func openSnapchat(snapchatUsername: String) {
-        let username = snapchatUsername
-        let appURL = URL(string: "snapchat://add/\(username)")!
-        let application = UIApplication.shared
-        
-        if application.canOpenURL(appURL) {
-            application.open(appURL)
-            
-        } else {
-            // if Snapchat app is not installed, open URL inside Safari
-            let webURL = URL(string: "https://www.snapchat.com/add/\(username)")!
-            application.open(webURL)
-            
-        }
-    }
-    
 }
 
 // Helper function inserted by Swift 4.2 migrator.

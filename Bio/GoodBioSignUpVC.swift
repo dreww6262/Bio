@@ -208,7 +208,7 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         let username = usernameTxt.text!
         let email = emailTxt.text!
         let password = passwordTxt.text!
-        var signedInUser: User? = nil
+        var signedInUser: User?
         
         print("about to create new user")
         

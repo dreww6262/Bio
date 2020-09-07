@@ -64,6 +64,7 @@ class NewPostOptionsVC: UIViewController { //, FMPhotoPickerViewControllerDelega
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         menuView.tabController = (tabBarController! as! NavigationMenuBaseController)
+        menuView.userData = userData
     }
     
     
@@ -92,12 +93,14 @@ class NewPostOptionsVC: UIViewController { //, FMPhotoPickerViewControllerDelega
 //                }
 //            }
             picker.dismiss(animated: true, completion: nil)
-            let uploadPreviewVC = self.storyboard?.instantiateViewController(identifier: "uploadPreviewVC") as! UploadPreviewVC
-            //print(photos)
-            uploadPreviewVC.userData = self.userData
-            uploadPreviewVC.items = items
-            self.present(uploadPreviewVC, animated: false, completion: nil)
-            uploadPreviewVC.modalPresentationStyle = .fullScreen
+            if (items.count > 0) {
+                let uploadPreviewVC = self.storyboard?.instantiateViewController(identifier: "uploadPreviewVC") as! UploadPreviewVC
+                //print(photos)
+                uploadPreviewVC.userData = self.userData
+                uploadPreviewVC.items = items
+                self.present(uploadPreviewVC, animated: false, completion: nil)
+                uploadPreviewVC.modalPresentationStyle = .fullScreen
+            }
         }
         present(picker, animated: false)
         modalPresentationStyle = .fullScreen
@@ -106,18 +109,19 @@ class NewPostOptionsVC: UIViewController { //, FMPhotoPickerViewControllerDelega
     @IBAction func addLinkPressed(_ sender: UIButton) {
         let linkVC = storyboard?.instantiateViewController(identifier: "linkVC") as! AddLinkVCViewController
         linkVC.userData = userData
-        show(linkVC, sender: nil)
-        linkVC.modalPresentationStyle = .fullScreen
+        present(linkVC, animated: false)
+        modalPresentationStyle = .fullScreen
     }
     
     @IBAction func addSocialMediaPressed(_ sender: UIButton) {
         let addSocialMediaVC = storyboard?.instantiateViewController(identifier: "addSocialMediaVC") as! AddSocialMediaVC
         addSocialMediaVC.userData = userData
+        addSocialMediaVC.cancelLbl = "Cancel"
         print("This is addSocialMedia.userData \(addSocialMediaVC.userData)")
         print("2 This is userData from NewPostOptionsVC \(userData)")
         // addSocialMediaVC.publicID = userData?.publicID
-        show(addSocialMediaVC, sender: nil)
-        addSocialMediaVC.modalPresentationStyle = .fullScreen
+        present(addSocialMediaVC, animated: false)
+        modalPresentationStyle = .fullScreen
     }
     
     func distance(_ a: CGPoint, _ b: CGPoint) -> CGFloat {

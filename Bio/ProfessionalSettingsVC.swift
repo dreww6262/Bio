@@ -94,6 +94,10 @@ class ProfessionalSettingsVC: QuickTableViewController {
         
         
         }
+    override func viewWillAppear(_ animated: Bool) {
+        menuView.tabController = tabBarController as! NavigationMenuBaseController
+        menuView.userData = userData
+    }
 
         
         override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
