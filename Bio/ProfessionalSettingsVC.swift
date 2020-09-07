@@ -60,11 +60,6 @@ class ProfessionalSettingsVC: QuickTableViewController {
  var userDataCombinedArray: [String] = []
     
     
-    override func viewWillAppear(_ animated: Bool) {
-            super.viewWillAppear(true)
-                   menuView.tabController = (tabBarController! as! NavigationMenuBaseController)
-       }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -95,6 +90,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
         
         }
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
         menuView.tabController = tabBarController as! NavigationMenuBaseController
         menuView.userData = userData
     }

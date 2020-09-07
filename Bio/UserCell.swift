@@ -67,7 +67,24 @@ class UserCell: UITableViewCell {
                 button?.tag = 1
                 print("It's supposed to change to check")
                 button?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
-                button?.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)            
+                button?.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
+                
+                //SEND A NOTIFICATION FOR FOLLOWING! SWITCH FROM PARSE TO FIREBASE
+//                if self.usernameBtn.titleLabel?.text != PFUser.current()?.username {
+//                                 let newsObj = PFObject(className: "News")
+//                                 newsObj["by"] = PFUser.current()?.username
+//                                 newsObj["ava"] = PFUser.current()?.object(forKey: "ava") as! PFFile
+//                                 newsObj["to"] = self.usernameBtn.titleLabel!.text
+//                                 newsObj["owner"] = self.usernameBtn.titleLabel!.text
+//                                 newsObj["uuid"] = self.uuidLbl.text
+//                                 newsObj["type"] = "like"
+//                                 newsObj["checked"] = "no"
+//                                 newsObj.saveEventually()
+//                             }
+                
+                
+                
+                
 //
 //                sender.imageView?.image = UIImage(named: "friendCheck")
 //                        button?.tag = 1
