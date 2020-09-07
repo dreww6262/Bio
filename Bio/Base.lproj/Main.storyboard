@@ -278,6 +278,30 @@
             </objects>
             <point key="canvasLocation" x="-739" y="440"/>
         </scene>
+        <!--Loading Animation View1-->
+        <scene sceneID="Mlg-yB-k6S">
+            <objects>
+                <viewController storyboardIdentifier="loading" id="fLb-CG-SyH" customClass="LoadingAnimationView1" customModule="Bio" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="jrb-UL-BfR">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="biosquarelogo" translatesAutoresizingMaskIntoConstraints="NO" id="7Pg-Is-0XJ" customClass="bio">
+                                <rect key="frame" x="67" y="259" width="175" height="175"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="FVN-ul-cvo"/>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="7Pg-Is-0XJ" id="WR4-hb-33B"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3d5-Qf-p13" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="93" y="405"/>
+        </scene>
         <!--TabbarVC-->
         <scene sceneID="AvX-is-QFP">
             <objects>

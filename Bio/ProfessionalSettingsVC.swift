@@ -60,6 +60,11 @@ class ProfessionalSettingsVC: QuickTableViewController {
  var userDataCombinedArray: [String] = []
     
     
+    override func viewWillAppear(_ animated: Bool) {
+            super.viewWillAppear(true)
+                   menuView.tabController = (tabBarController! as! NavigationMenuBaseController)
+       }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -100,11 +105,12 @@ class ProfessionalSettingsVC: QuickTableViewController {
         
     @IBAction func backButtonClicked(_ sender: UIButton) {
         menuView.homeButtonClicked(sender)
+       // dismiss(animated: false, completion: nil)
     }
     
     func addBackButton() {
         self.view.addSubview(backButton)
-        backButton.frame = CGRect(x: 10, y: 20, width: 50, height: 50)
+        backButton.frame = CGRect(x: 5, y: 5, width: 50, height: 50)
         // round ava
         backButton.clipsToBounds = true
         backButton.isHidden = false
