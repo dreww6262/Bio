@@ -69,6 +69,29 @@ class UserCell: UITableViewCell {
                 button?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
                 button?.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
                 
+                let notificationObject = NewsObject(dictionary: <#[String : Any]#>)
+                let notificationObjectref = db.collection("News")
+                   let notificationDoc = notificationObjectref.document()
+                   var notificationCopy = NewsObject(dictionary: notificationObject.dictionary)
+                notificationCopy.notificationID = notificationObject.notificationID
+                notificationCopy.createdAt = Date()
+                   notificationDoc.setData(notificationCopy.dictionary){ error in
+                       //     group.leave()
+                       if error == nil {
+                           print("added notification: \(notificationObject)")
+                           completion(true)
+                       }
+                       else {
+                           print("failed to add notification \(notificationObject)")
+                           completion(false)
+                       }
+                   }
+                
+                
+                
+                
+                
+                
                 //SEND A NOTIFICATION FOR FOLLOWING! SWITCH FROM PARSE TO FIREBASE
 //                if self.usernameBtn.titleLabel?.text != PFUser.current()?.username {
 //                                 let newsObj = PFObject(className: "News")
@@ -113,6 +136,27 @@ class UserCell: UITableViewCell {
                          button?.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
         }
     }
+    
+    
+//    func addNotificationObject(notificationObject: NewsObject, completion: @escaping (Bool) -> Void) {
+//           let notificationObjectref = db.collection("News")
+//           let notificationDoc = notificationObjectref.document()
+//           var notificationCopy = NewsObject(dictionary: notificationObject.dictionary)
+//        notificationCopy.notificationID = notificationObject.notificationID
+//        notificationCopy.createdAt = Date()
+//        notificationCopy.
+//           notificationDoc.setData(notificationCopy.dictionary){ error in
+//               //     group.leave()
+//               if error == nil {
+//                   print("added notification: \(notificationObject)")
+//                   completion(true)
+//               }
+//               else {
+//                   print("failed to add notification \(notificationObject)")
+//                   completion(false)
+//               }
+//           }
+//       }
     
     
 }
