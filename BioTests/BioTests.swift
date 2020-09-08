@@ -8,7 +8,7 @@
 
 import XCTest
 @testable import Bio
-
+import Firebase
 class BioTests: XCTestCase {
 
     override func setUpWithError() throws {

@@ -12,10 +12,10 @@ import UIKit
 import Firebase
 import FirebaseAuth
 import FirebaseFirestore
-
+//import FirebaseFirestore
 
 class NotificationsVC: UITableViewController {
-    
+     let storage = Storage.storage().reference()
     var db = Firestore.firestore()
      var userData: UserData?
     
@@ -32,6 +32,7 @@ class NotificationsVC: UITableViewController {
     
     // defualt func
     override func viewDidLoad() {
+        print("This is current user email \(Auth.auth().currentUser?.email)")
         super.viewDidLoad()
         
         // dynamic tableView height - dynamic cell
@@ -47,50 +48,19 @@ class NotificationsVC: UITableViewController {
         }
         self.tableView.reloadData()
         
-        
-//old Parse Stuff
-//        let query = PFQuery(className: "news")
-//        query.whereKey("to", equalTo: PFUser.current()!.username!)
-//        query.limit = 30
-//        query.findObjectsInBackground (block: { (objects, error) -> Void in
-//            if error == nil {
-//
-//                // clean up
-//                self.usernameArray.removeAll(keepingCapacity: false)
-//                self.avaArray.removeAll(keepingCapacity: false)
-//                self.typeArray.removeAll(keepingCapacity: false)
-//                self.dateArray.removeAll(keepingCapacity: false)
-//                self.uuidArray.removeAll(keepingCapacity: false)
-//                self.ownerArray.removeAll(keepingCapacity: false)
-//
-//                // found related objects
-//                for object in objects! {
-//                    self.usernameArray.append(object.object(forKey: "by") as! String)
-//                    self.avaArray.append(object.object(forKey: "ava") as! PFFile)
-//                    self.typeArray.append(object.object(forKey: "type") as! String)
-//                    self.dateArray.append(object.createdAt)
-//                    self.uuidArray.append(object.object(forKey: "uuid") as! String)
-//                    self.ownerArray.append(object.object(forKey: "owner") as! String)
-//
-//                    // save notifications as checked
-//                    object["checked"] = "yes"
-//                    object.saveEventually()
-//                }
-//
-//                // reload tableView to show received data
-//                self.tableView.reloadData()
-//            }
-//        })
-        
     }
+
     
-    
+
+       
     
     
     func loadData(completed: @escaping () -> ()) {
         print("in load notifications funtion")
-        let hexQuery = db.collection("News").whereField("currentUser", isEqualTo: userData?.publicID)
-        hexQuery.addSnapshotListener { (querySnapshot, error) in
+        //let notificationsQuery = db.collection("News").whereField("currentUser", isEqualTo: userData?.publicID)
+        let notificationsQuery = db.collection("News")
+        print("This is notification query \(notificationsQuery)")
+        notificationsQuery.addSnapshotListener { (querySnapshot, error) in
             guard error == nil else {
                 print("error loading home photos: \n \(error!.localizedDescription)")
                 return completed()
@@ -99,11 +69,23 @@ class NotificationsVC: UITableViewController {
             //there are querySnapshot!.documents.count docments in the spots snapshot
             
             for document in querySnapshot!.documents {
-                print(document)
-                let newNotification = NewsObject(dictionary: document.data())
+                print("doc: \(document)")
+                var newNotification = NewsObject(dictionary: document.data())
                 self.notificationArray.append(newNotification)
                 print("Loaded: \(newNotification)")
+//                var success = true
+//                 self.addNotificationObject(notificationObject: newNotification, completion: {    bool in
+//                                           success = success && bool
+//                                           if (bool) {
+//                                               print("notification successfully added!")
+//                                           }
+//                                           else {
+//                                               print("notificatoin failed to add :(")
+//                                           }
+//                                       })
             }
+            
+            self.tableView.reloadData()
         
             
             
@@ -121,31 +103,34 @@ class NotificationsVC: UITableViewController {
     
     // cell numb
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print("This is notificationArray count \(notificationArray.count)")
         return notificationArray.count
     }
     
     
     // cell config
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         // declare cell
         let cell = tableView.dequeueReusableCell(withIdentifier: "newsCell") as! newsCell
-
         // connect cell objects with received data from server
-        cell.usernameBtn.setTitle(usernameArray[indexPath.row], for: UIControl.State())
-        avaArray[indexPath.row].getDataInBackground { (data, error) -> Void in
-            if error == nil {
-                cell.avaImg.image = UIImage(data: data!)
-            } else {
-                print(error!.localizedDescription)
-            }
-        }
+        cell.usernameBtn.setTitle(notificationArray[indexPath.row].notifyingUser, for: UIControl.State())
+        
+        let ref = storage.child(notificationArray[indexPath.row].thumbResource)
+        cell.avaImg.sd_setImage(with: ref)
+        
+//        avaArray[indexPath.row].getDataInBackground { (data, error) -> Void in
+//            if error == nil {
+//                cell.avaImg.image = UIImage(data: data!)
+//            } else {
+//                print(error!.localizedDescription)
+//            }
+//        }
         
         // calculate post date
-        let from = dateArray[indexPath.row]
+        let from = notificationArray[indexPath.row].createdAt
         let now = Date()
         let components : NSCalendar.Unit = [.second, .minute, .hour, .day, .weekOfMonth]
-        let difference = (Calendar.current as NSCalendar).components(components, from: from!, to: now, options: [])
+        let difference = (Calendar.current as NSCalendar).components(components, from: from, to: now, options: [])
         
         // logic what to show: seconds, minuts, hours, days or weeks
         if difference.second! <= 0 {
@@ -168,16 +153,17 @@ class NotificationsVC: UITableViewController {
         }
         
         // define info text
-        if typeArray[indexPath.row] == "mention" {
+        if notificationArray[indexPath.row].type == "mention" {
             cell.infoLbl.text = "has mentioned you."
         }
-        if typeArray[indexPath.row] == "comment" {
+        if notificationArray[indexPath.row].type == "comment" {
             cell.infoLbl.text = "has commented your post."
         }
-        if typeArray[indexPath.row] == "follow" {
+        if notificationArray[indexPath.row].type == "follow" {
             cell.infoLbl.text = "now following you."
+            print("its a follow")
         }
-        if typeArray[indexPath.row] == "like" {
+        if notificationArray[indexPath.row].type == "like" {
             cell.infoLbl.text = "likes your post."
         }
         
@@ -199,12 +185,12 @@ class NotificationsVC: UITableViewController {
         let cell = tableView.cellForRow(at: i) as! newsCell
         
         // if user tapped on himself go home, else go guest
-        if cell.usernameBtn.titleLabel?.text == PFUser.current()?.username {
-            let home = self.storyboard?.instantiateViewController(withIdentifier: "homeVC") as! homeVC
+        if cell.usernameBtn.titleLabel?.text == Auth.auth().currentUser?.displayName {
+            let home = self.storyboard?.instantiateViewController(withIdentifier: "homeVC") as! HomeHexagonGrid
             self.navigationController?.pushViewController(home, animated: true)
         } else {
-            guestname.append(cell.usernameBtn.titleLabel!.text!)
-            let guest = self.storyboard?.instantiateViewController(withIdentifier: "guestVC") as! guestVC
+        //    guestname.append(cell.usernameBtn.titleLabel!.text!)
+            let guest = self.storyboard?.instantiateViewController(withIdentifier: "guestVC") as! GuestHexagonGridVC
             self.navigationController?.pushViewController(guest, animated: true)
         }
     }
@@ -221,12 +207,12 @@ class NotificationsVC: UITableViewController {
         if cell.infoLbl.text == "has mentioned you." {
             
             // send related data to gloval variable
-            commentuuid.append(uuidArray[indexPath.row])
-            commentowner.append(ownerArray[indexPath.row])
-            
-            // go comments
-            let comment = self.storyboard?.instantiateViewController(withIdentifier: "commentVC") as! commentVC
-            self.navigationController?.pushViewController(comment, animated: true)
+//            commentuuid.append(uuidArray[indexPath.row])
+//            commentowner.append(ownerArray[indexPath.row])
+//
+//            // go comments
+//            let comment = self.storyboard?.instantiateViewController(withIdentifier: "commentVC") as! commentVC
+//            self.navigationController?.pushViewController(comment, animated: true)
         }
         
         
@@ -234,12 +220,12 @@ class NotificationsVC: UITableViewController {
         if cell.infoLbl.text == "has commented your post." {
             
             // send related data to gloval variable
-            commentuuid.append(uuidArray[indexPath.row])
-            commentowner.append(ownerArray[indexPath.row])
-            
-            // go comments
-            let comment = self.storyboard?.instantiateViewController(withIdentifier: "commentVC") as! commentVC
-            self.navigationController?.pushViewController(comment, animated: true)
+//            commentuuid.append(uuidArray[indexPath.row])
+//            commentowner.append(ownerArray[indexPath.row])
+//
+//            // go comments
+//            let comment = self.storyboard?.instantiateViewController(withIdentifier: "commentVC") as! commentVC
+//            self.navigationController?.pushViewController(comment, animated: true)
         }
         
         
@@ -247,10 +233,10 @@ class NotificationsVC: UITableViewController {
         if cell.infoLbl.text == "now following you." {
             
             // take guestname
-            guestname.append(cell.usernameBtn.titleLabel!.text!)
+        //    guestname.append(cell.usernameBtn.titleLabel!.text!)
             
             // go guest
-            let guest = self.storyboard?.instantiateViewController(withIdentifier: "guestVC") as! guestVC
+            let guest = self.storyboard?.instantiateViewController(withIdentifier: "guestVC") as! GuestHexagonGridVC
             self.navigationController?.pushViewController(guest, animated: true)
         }
         
@@ -259,11 +245,11 @@ class NotificationsVC: UITableViewController {
         if cell.infoLbl.text == "likes your post." {
             
             // take post uuid
-            postuuid.append(uuidArray[indexPath.row])
-            
-            // go post
-            let post = self.storyboard?.instantiateViewController(withIdentifier: "postVC") as! postVC
-            self.navigationController?.pushViewController(post, animated: true)
+//            postuuid.append(uuidArray[indexPath.row])
+//            
+//            // go post
+//            let post = self.storyboard?.instantiateViewController(withIdentifier: "postVC") as! postVC
+//            self.navigationController?.pushViewController(post, animated: true)
         }
         
     }
