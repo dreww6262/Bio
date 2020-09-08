@@ -41,10 +41,14 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
     override func viewWillAppear(_ animated: Bool) {
         if (userData == nil) {
             print("userdata did not get passed through")
-            let userEmail = Auth.auth().currentUser?.email
-            db.collection("UserData1").whereField("email", isEqualTo: userEmail!).addSnapshotListener({ objects, error in
-                if (error == nil && objects?.documents.count ?? 0 > 0) {
-                    self.userData = UserData(dictionary: objects!.documents[0].data())
+            let privateID = Auth.auth().currentUser?.uid
+            db.collection("UserData1").document(privateID ?? "").getDocument(completion: { doc, error in
+                if error == nil {
+                    guard let data = doc?.data() else {
+                        print("Could not get userdata")
+                        return
+                    }
+                    self.userData = UserData(dictionary: data)
                 }
             })
         }
@@ -53,6 +57,7 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
     @IBAction func donePressed(_ sender: UIButton) {
         var success = true
         var count = 0
+        let numPosts = self.userData!.numPosts
         for cell in cellArray {
             // get count for current post of batch
             count += 1
@@ -63,10 +68,10 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
             case .photo(let photo):
                 //print(photo)
                 let photoLocation = "userFiles/\(userData!.publicID)/\(count)_\(timestamp.dateValue()).png"
+                let photoHex = HexagonStructData(resource: photoLocation, type: "photo", location: numPosts + count, thumbResource: photoLocation, createdAt: TimeInterval.init(), postingUserID: self.userData!.publicID, text: "\(cell.captionField!.text!)", views: 0, isArchived: false, docID: "willBeSetLater")
                 uploadPhoto(reference: photoLocation, image: photo, completion: { upComplete in
                     if (upComplete) {
                         print("uploaded shid")
-                        let photoHex = HexagonStructData(resource: photoLocation, type: "photo", location: self.userData!.numPosts + count, thumbResource: photoLocation, createdAt: TimeInterval.init(), postingUserID: self.userData!.publicID, text: "\(cell.captionField!.text!)", views: 0, isArchived: false, docID: "willBeSetLater")
                         print("should be adding \(photoHex)")
                         self.addHex(hexData: photoHex, completion: {    bool in
                             success = success && bool
@@ -86,13 +91,13 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
                 print(video)
                 let videoLocation = "userFiles/\(userData!.publicID)/\(count)_\(timestamp.dateValue()).mov"
                 let thumbLocation = "userFiles/\(userData!.publicID)/\(count)_\(timestamp.dateValue())_thumb.png"
+                let videoHex = HexagonStructData(resource: videoLocation, type: "video", location: numPosts + count, thumbResource: thumbLocation, createdAt: TimeInterval.init(), postingUserID: self.userData!.publicID, text: "\(cell.captionField!.text!)", views: 0, isArchived: false, docID: "willBeSetLater")
                 uploadVideo(reference: videoLocation, video: video, completion: { upComplete in
                     if (upComplete) {
                         print("uploaded shid")
                         self.uploadPhoto(reference: thumbLocation, image: YPMediaPhoto(image: video.thumbnail), completion: { upComplete in
                             if (upComplete) {
                                 print("uploaded thumb")
-                                let videoHex = HexagonStructData(resource: videoLocation, type: "video", location: self.userData!.numPosts + count, thumbResource: thumbLocation, createdAt: TimeInterval.init(), postingUserID: self.userData!.publicID, text: "\(cell.captionField!.text!)", views: 0, isArchived: false, docID: "willBeSetLater")
                                 self.addHex(hexData: videoHex, completion: {    bool in
                                     success = success && bool
                                     
@@ -226,7 +231,8 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
     func addHex(hexData: HexagonStructData, completion: @escaping (Bool) -> Void) {
         let hexCollectionRef = db.collection("Hexagons2")
         let docRef = hexCollectionRef.document()
-        let hexCopy = HexagonStructData(dictionary: hexData.dictionary)
+        var hexCopy = HexagonStructData(dictionary: hexData.dictionary)
+        hexCopy.docID = docRef.documentID
         docRef.setData(hexCopy.dictionary) { error in
             if error == nil {
                 print("added hex: \(hexCopy)")

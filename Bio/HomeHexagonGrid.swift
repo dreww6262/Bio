@@ -446,8 +446,9 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                                                 y: self.reOrderedCoordinateArray[intersectingHex!.hexData!.location][1]-570, width: hexaDiameter, height: hexaDiameter)
                 dragView?.frame = CGRect(x: self.reOrderedCoordinateArray[dragView!.hexData!.location][0]-680,
                                          y: self.reOrderedCoordinateArray[dragView!.hexData!.location][1]-570, width: hexaDiameter, height: hexaDiameter)
-                
-                
+            }
+            for hex in imageViewArray {
+                hex.setupHexagonMask(lineWidth: 10.0, color: .darkGray, cornerRadius: 10.0)
             }
             trashButton.isHidden = true
             menuView.menuButton.isHidden = false
