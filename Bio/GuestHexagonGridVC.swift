@@ -348,7 +348,7 @@ class GuestHexagonGridVC: UIViewController, UIGestureRecognizerDelegate, UIScrol
     
     func addFollowButton() {
          self.view.addSubview(followButton)
-         followButton.frame = CGRect(x: self.view.frame.width-60, y: 100, width: 50, height: 50)
+         followButton.frame = CGRect(x: self.view.frame.width-60, y: 10, width: 50, height: 50)
          // round ava
          followButton.layer.cornerRadius = followButton.frame.size.width / 2
         followButton.backgroundColor = .white
