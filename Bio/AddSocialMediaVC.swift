@@ -52,6 +52,24 @@ class AddSocialMediaVC: UIViewController {
     @IBOutlet weak var continueBtn: UIButton!
     @IBOutlet weak var cancelBtn: UIButton!
     
+    //interactive TextFields
+    
+    @IBOutlet weak var interactiveInstagramTxt: UITextField!
+    
+    @IBOutlet weak var interactiveSnapchatUsernameTxt: UITextField!
+    @IBOutlet weak var interactiveTwitterHandleTxt: UITextField!
+    
+    @IBOutlet weak var interactiveFacebookInfoTxt: UITextField!
+    
+    @IBOutlet weak var interactiveAppleMusicTxt: UITextField!
+
+    
+    @IBOutlet weak var interactiveVenmoTxt: UITextField!
+    
+    @IBOutlet weak var interactiveTikTokText: UITextField!
+
+    @IBOutlet weak var interactivePoshmarkTxt: UITextField!
+    
     var currentUser: User? = Auth.auth().currentUser
     var userData: UserData?
     var userDataRef: DocumentReference? = nil
@@ -105,6 +123,7 @@ class AddSocialMediaVC: UIViewController {
         subtitleText.frame = CGRect(x:0, y: titleText.frame.maxY + 5, width: self.view.frame.size.width, height: 30)
         
         instagramUsernameTxt.frame = CGRect(x: 10, y: subtitleText.frame.maxY + 20, width: self.view.frame.size.width - 20, height: 35)
+        
         snapchatUsernameTxt.frame = CGRect(x: 10, y: instagramUsernameTxt.frame.maxY + 15, width: self.view.frame.size.width - 20, height: 35)
         twitterHandleTxt.frame = CGRect(x: 10, y: snapchatUsernameTxt.frame.maxY + 15, width: self.view.frame.size.width - 20, height: 35)
         facebookInfoTxt.frame = CGRect(x: 10, y: twitterHandleTxt.frame.maxY + 15, width: self.view.frame.size.width - 20, height: 35)
@@ -113,18 +132,29 @@ class AddSocialMediaVC: UIViewController {
         tikTokText.frame = CGRect(x: 10, y: venmoTxt.frame.maxY + 15, width: self.view.frame.size.width - 20, height: 35)
         poshmarkText.frame = CGRect(x: 10, y: tikTokText.frame.maxY + 15, width: self.view.frame.size.width - 20, height: 35)
         instagramLogo.frame = CGRect(x: 11, y: instagramUsernameTxt.frame.minY + 2, width: 24, height: 33)
+        interactiveInstagramTxt.frame = CGRect(x: instagramLogo.frame.maxX + 3, y: instagramUsernameTxt.frame.minY, width: self.view.frame.size.width - instagramLogo.frame.maxX - 5, height: 35)
         snapchatLogo.frame =  CGRect(x: 11, y: snapchatUsernameTxt.frame.minY + 2, width: 24, height: 33)
-        
+          interactiveSnapchatUsernameTxt.frame = CGRect(x: snapchatLogo.frame.maxX + 3, y: snapchatUsernameTxt.frame.minY, width: self.view.frame.size.width - snapchatLogo.frame.maxX - 5, height: 35)
         twitterLogo.frame = CGRect(x: 11, y: twitterHandleTxt.frame.minY + 2, width: 24, height: 33)
+          interactiveTwitterHandleTxt.frame = CGRect(x: twitterLogo.frame.maxX + 3, y: twitterHandleTxt.frame.minY, width: self.view.frame.size.width - twitterLogo.frame.maxX - 5, height: 35)
         
         facebookLogo.frame =  CGRect(x: 11, y: facebookInfoTxt.frame.minY + 2, width: 24, height: 33)
         
+          interactiveFacebookInfoTxt.frame = CGRect(x: facebookLogo.frame.maxX + 3, y: facebookInfoTxt.frame.minY, width: self.view.frame.size.width - facebookLogo.frame.maxX - 5, height: 35)
+        
         appleMusicLogo.frame =  CGRect(x: 11, y: appleMusicTxt.frame.minY + 2, width: 24, height: 33)
+        
+          interactiveAppleMusicTxt.frame = CGRect(x: appleMusicLogo.frame.maxX + 3, y: appleMusicTxt.frame.minY, width: self.view.frame.size.width - appleMusicLogo.frame.maxX - 5, height: 35)
         
         venmoLogo.frame =  CGRect(x: 11, y: venmoTxt.frame.minY + 2, width: 24, height: 33)
         
+          interactiveVenmoTxt.frame = CGRect(x: venmoLogo.frame.maxX + 3, y: venmoTxt.frame.minY, width: self.view.frame.size.width - venmoLogo.frame.maxX - 5, height: 35)
+        
         tikTokLogo.frame =  CGRect(x: 11, y: tikTokText.frame.minY + 2, width: 24, height: 33)
+          interactiveTikTokText.frame = CGRect(x: tikTokLogo.frame.maxX + 3, y: tikTokText.frame.minY, width: self.view.frame.size.width - tikTokLogo.frame.maxX - 5, height: 35)
+        
         poshmarkLogo.frame =  CGRect(x: 11, y: poshmarkText.frame.minY + 2, width: 24, height: 33)
+          interactivePoshmarkTxt.frame = CGRect(x: poshmarkLogo.frame.maxX + 3, y: poshmarkText.frame.minY, width: self.view.frame.size.width - poshmarkLogo.frame.maxX - 5, height: 35)
         
         continueBtn.frame =  CGRect(x: 10.0, y: poshmarkText.frame.maxY + 15, width: facebookInfoTxt.frame.width, height: 30)
        continueBtn.layer.cornerRadius = continueBtn.frame.size.width / 20
@@ -136,6 +166,21 @@ class AddSocialMediaVC: UIViewController {
         bg.image = UIImage(named: "manaloghourglass")
         bg.layer.zPosition = -1
         self.view.addSubview(bg)
+        
+        //remove borders of interactive textfileds
+        interactiveInstagramTxt.borderStyle = .none
+        interactiveSnapchatUsernameTxt.borderStyle = .none
+        interactiveTwitterHandleTxt.borderStyle = .none
+        interactiveFacebookInfoTxt.borderStyle = .none
+        interactiveAppleMusicTxt.borderStyle = .none
+        interactiveVenmoTxt.borderStyle = .none
+        interactiveTikTokText.borderStyle = .none
+        interactivePoshmarkTxt.borderStyle = .none
+        
+        
+        
+        
+        
     }
     
     //
@@ -218,7 +263,7 @@ class AddSocialMediaVC: UIViewController {
         self.view.endEditing(true)
         
         // if fields are empty
-        if (instagramUsernameTxt.text!.isEmpty && snapchatUsernameTxt.text!.isEmpty && twitterHandleTxt.text!.isEmpty && facebookInfoTxt.text!.isEmpty && appleMusicTxt.text!.isEmpty && venmoTxt.text!.isEmpty && tikTokText.text!.isEmpty && poshmarkText.text!.isEmpty) {
+        if (interactiveInstagramTxt.text!.isEmpty && interactiveSnapchatUsernameTxt.text!.isEmpty && interactiveTwitterHandleTxt.text!.isEmpty && interactiveFacebookInfoTxt.text!.isEmpty && interactiveAppleMusicTxt.text!.isEmpty && interactiveVenmoTxt.text!.isEmpty && interactiveTikTokText.text!.isEmpty && interactivePoshmarkTxt.text!.isEmpty) {
             
             // alert message
             let alert = UIAlertController(title: "Hold up", message: "Fill in a field or hit \(cancelBtn.titleLabel!.text!)", preferredStyle: UIAlertController.Style.alert)
@@ -236,72 +281,72 @@ class AddSocialMediaVC: UIViewController {
         
         
         //let group = DispatchGroup()
-        if (!instagramUsernameTxt.text!.isEmpty) {
+        if (!interactiveInstagramTxt.text!.isEmpty) {
             numPosts += 1
-            let instaHex = HexagonStructData(resource: "https://instagram.com/\(instagramUsernameTxt.text!)", type: "socialmedia_instagram", location: numPosts, thumbResource: "icons/instagramLogo.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(instagramUsernameTxt.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            let instaHex = HexagonStructData(resource: "https://instagram.com/\(interactiveInstagramTxt.text!)", type: "socialmedia_instagram", location: numPosts, thumbResource: "icons/instagramLogo.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(interactiveInstagramTxt.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: instaHex, completion: { bool in
                 success = success && bool
                 
             })
         }
         
-        if (!snapchatUsernameTxt.text!.isEmpty) {
+        if (!interactiveSnapchatUsernameTxt.text!.isEmpty) {
             numPosts += 1
-            let snapHex = HexagonStructData(resource: "snapchat://add/\(snapchatUsernameTxt.text!)", type: "socialmedia_snapchat", location: numPosts, thumbResource: "icons/snapchatlogo.jpg", createdAt: NSDate.now.description, postingUserID: username, text: "\(snapchatUsernameTxt.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            let snapHex = HexagonStructData(resource: "snapchat://add/\(interactiveSnapchatUsernameTxt.text!)", type: "socialmedia_snapchat", location: numPosts, thumbResource: "icons/snapchatlogo.jpg", createdAt: NSDate.now.description, postingUserID: username, text: "\(interactiveSnapchatUsernameTxt.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: snapHex, completion: {bool in
                 success = success && bool
                 
             })
         }
         
-        if (!twitterHandleTxt.text!.isEmpty) {
+        if (!interactiveTwitterHandleTxt.text!.isEmpty) {
             numPosts += 1
-            let twitterHex = HexagonStructData(resource: "https://twitter.com/\(twitterHandleTxt.text!)", type: "socialmedia_twitter", location: numPosts, thumbResource: "icons/twitter.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(twitterHandleTxt.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            let twitterHex = HexagonStructData(resource: "https://twitter.com/\(interactiveTwitterHandleTxt.text!)", type: "socialmedia_twitter", location: numPosts, thumbResource: "icons/twitter.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(interactiveTwitterHandleTxt.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: twitterHex, completion: {bool in
                 success = success && bool
                 
             })
         }
         
-        if (!facebookInfoTxt.text!.isEmpty) {
+        if (!interactiveFacebookInfoTxt.text!.isEmpty) {
             numPosts += 1
-            let facebookHex = HexagonStructData(resource: facebookInfoTxt.text!, type: "socialmedia_facebook", location: numPosts, thumbResource: "icons/facebooklogo.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(facebookInfoTxt.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            let facebookHex = HexagonStructData(resource: interactiveFacebookInfoTxt.text!, type: "socialmedia_facebook", location: numPosts, thumbResource: "icons/facebooklogo.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(interactiveFacebookInfoTxt.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: facebookHex, completion: {bool in
                 success = success && bool
                 
             })
         }
         
-        if (!appleMusicTxt.text!.isEmpty) {
+        if (!interactiveAppleMusicTxt.text!.isEmpty) {
             numPosts += 1
-            let appleHex = HexagonStructData(resource: "https://applemusic.com/\(appleMusicTxt.text!)", type: "socialmedia_appleMusic", location: numPosts, thumbResource: "icons/appleMusicLogo.jpg", createdAt: NSDate.now.description, postingUserID: username, text: "\(appleMusicTxt.text!)", views: 0,isArchived: false, docID: "WillBeSetLater")
+            let appleHex = HexagonStructData(resource: "https://applemusic.com/\(interactiveAppleMusicTxt.text!)", type: "socialmedia_appleMusic", location: numPosts, thumbResource: "icons/appleMusicLogo.jpg", createdAt: NSDate.now.description, postingUserID: username, text: "\(interactiveAppleMusicTxt.text!)", views: 0,isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: appleHex, completion: {bool in
                 success = success && bool
                 
             })
         }
         
-        if (!venmoTxt.text!.isEmpty) {
+        if (!interactiveVenmoTxt.text!.isEmpty) {
             numPosts += 1
-            let venmoHex = HexagonStructData(resource: "https://venmo.com/\(venmoTxt.text!)", type: "socialmedia_venmo", location: numPosts, thumbResource: "icons/venmologo.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(venmoTxt.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            let venmoHex = HexagonStructData(resource: "https://venmo.com/\(interactiveVenmoTxt.text!)", type: "socialmedia_venmo", location: numPosts, thumbResource: "icons/venmologo.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(interactiveVenmoTxt.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: venmoHex, completion: {bool in
                 success = success && bool
                 
             })
         }
         
-        if (!tikTokText.text!.isEmpty) {
+        if (!interactiveTikTokText.text!.isEmpty) {
             numPosts += 1
-            let tikTokHex = HexagonStructData(resource: "https://www.tiktok.com/\(tikTokText.text!)/", type: "socialmedia_tiktok", location: numPosts, thumbResource: "icons/tiktokLogo.jpg", createdAt: NSDate.now.description, postingUserID: username, text: "\(tikTokText.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            let tikTokHex = HexagonStructData(resource: "https://www.tiktok.com/\(interactiveTikTokText.text!)/", type: "socialmedia_tiktok", location: numPosts, thumbResource: "icons/tiktokLogo.jpg", createdAt: NSDate.now.description, postingUserID: username, text: "\(interactiveTikTokText.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: tikTokHex, completion: {bool in
                 success = success && bool
                 
             })
         }
         
-        if (!poshmarkText.text!.isEmpty) {
+        if (!interactivePoshmarkTxt.text!.isEmpty) {
             numPosts += 1
-            let poshmarkHex = HexagonStructData(resource: "https://poshmark.com/closet/\(poshmarkText.text!)", type: "socialmedia_poshmark", location: numPosts, thumbResource: "icons/poshmarkLogo.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(poshmarkText.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            let poshmarkHex = HexagonStructData(resource: "https://poshmark.com/closet/\(interactivePoshmarkTxt.text!)", type: "socialmedia_poshmark", location: numPosts, thumbResource: "icons/poshmarkLogo.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(interactivePoshmarkTxt.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: poshmarkHex, completion: {bool in
                 success = success && bool
                 

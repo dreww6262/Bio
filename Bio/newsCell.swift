@@ -48,7 +48,7 @@ class newsCell: UITableViewCell {
             options: [], metrics: nil, views: ["date":dateLbl as Any]))
         
         // round ava
-        avaImg.layer.cornerRadius = avaImg.frame.size.width / 2
+       // avaImg.layer.cornerRadius = avaImg.frame.size.width / 2
         avaImg.clipsToBounds = true
     }
 
