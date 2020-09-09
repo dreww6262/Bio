@@ -15,7 +15,7 @@ class MenuView: UIView {
     var menuButton: UIButton = UIButton()
     var newPostButton: UIButton = UIButton()
     var friendsButton: UIButton = UIButton()
-    var settingsButton: UIButton = UIButton()
+    var notificationsButton: UIButton = UIButton()
     var dmButton: UIButton = UIButton()
     var homeProfileButton: UIButton =  UIButton()
     var tabController: NavigationMenuBaseController?
@@ -76,7 +76,7 @@ class MenuView: UIView {
         superView.addSubview(menuButton)
         superView.addSubview(newPostButton)
         superView.addSubview(friendsButton)
-        superView.addSubview(settingsButton)
+        superView.addSubview(notificationsButton)
         superView.addSubview(dmButton)
         superView.addSubview(homeProfileButton)
         
@@ -115,11 +115,11 @@ class MenuView: UIView {
 //        print ("dm frame \(dmButton.frame)")
         
         
-        settingsButton.frame = CGRect(x: superFrame.width*4/5 - 40, y: superFrame.height - 112, width: 80, height: 80)
+        notificationsButton.frame = CGRect(x: superFrame.width*4/5 - 40, y: superFrame.height - 112, width: 80, height: 80)
         // settingsButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
         // round ava
-        settingsButton.layer.cornerRadius = settingsButton.frame.size.width / 2
-        settingsButton.clipsToBounds = true
+        notificationsButton.layer.cornerRadius = notificationsButton.frame.size.width / 2
+        notificationsButton.clipsToBounds = true
 //        print ("settings frame \(settingsButton.frame)")
         
         
@@ -149,38 +149,38 @@ class MenuView: UIView {
         friendsButton.addTarget(self, action: #selector(friendsButtonClicked), for: .touchUpInside)
         homeProfileButton.addTarget(self, action: #selector(homeButtonClicked), for: .touchUpInside)
         newPostButton.addTarget(self, action: #selector(newPostButtonClicked), for: .touchUpInside)
-          settingsButton.addTarget(self, action: #selector(settingsButtonClicked), for: .touchUpInside)
+          notificationsButton.addTarget(self, action: #selector(notificationsButtonClicked), for: .touchUpInside)
         
         
         //hide buttons
         newPostButton.isHidden = true
-        settingsButton.isHidden = true
+        notificationsButton.isHidden = true
         friendsButton.isHidden = true
         dmButton.isHidden = true
         homeProfileButton.isHidden = true
         
         newPostButton.setImage(UIImage(named: "plusImage"), for: .normal)
-        settingsButton.setImage(UIImage(named: "settingsGear"), for: .normal)
+        notificationsButton.setImage(UIImage(named: "settingsGear"), for: .normal)
         friendsButton.setImage(UIImage(named: "boyprofile"), for: .normal)
         dmButton.setImage(UIImage(named: "mailcircle"), for: .normal)
         homeProfileButton.setImage(UIImage(named: "stickFigure"), for: .normal)
         menuButton.setImage(UIImage(named: "plusImage"), for: .normal)
         
         newPostButton.tintColor = .black
-        settingsButton.tintColor = .black
+        notificationsButton.tintColor = .black
         friendsButton.tintColor = .black
         dmButton.tintColor = .black
         homeProfileButton.tintColor = .white
         menuButton.tintColor = .black
         
         newPostButton.backgroundColor = .black
-        settingsButton.backgroundColor = .black
+        notificationsButton.backgroundColor = .black
         friendsButton.backgroundColor = .white
         dmButton.backgroundColor = .black
         homeProfileButton.backgroundColor = .black
         menuButton.backgroundColor = .black
         newPostButton.imageView!.image = UIImage(named: "plus")
-        settingsButton.imageView!.image = UIImage(named: "gear")
+        notificationsButton.imageView!.image = UIImage(named: "gear")
         friendsButton.imageView!.image = UIImage(named: "community2")
         dmButton.imageView!.image = UIImage(named: "plus")
         homeProfileButton.imageView!.image = UIImage(named: "home2")
@@ -208,11 +208,11 @@ class MenuView: UIView {
         tabController!.customTabBar.switchTab(from: currentTab, to: 4)
     }
     
-    @objc func settingsButtonClicked(_ sender: UIButton) {
+    @objc func notificationsButtonClicked(_ sender: UIButton) {
         let viewControllers = tabController!.customizableViewControllers!
-        let settingsVC = (viewControllers[0] as! ProfessionalSettingsVC)
-        settingsVC.userData = userData
-        tabController!.viewControllers![0] = settingsVC
+        let notificationsVC = (viewControllers[0] as! NotificationsVC)
+        notificationsVC.userData = userData
+        tabController!.viewControllers![0] = notificationsVC
         tabController!.customTabBar.switchTab(from: currentTab, to: 0)
     }
     
@@ -240,7 +240,7 @@ class MenuView: UIView {
         newPostButton.imageView?.makeRounded()
         homeProfileButton.imageView?.makeRounded()
         dmButton.imageView?.makeRounded()
-        settingsButton.imageView?.makeRounded()
+        notificationsButton.imageView?.makeRounded()
         friendsButton.imageView?.makeRounded()
         menuButton.imageView?.makeRounded()
     }
@@ -284,8 +284,8 @@ class MenuView: UIView {
         if (distance(hexCenter, dmButton.center) < 70) {
             return dmButton
         }
-        if (distance(hexCenter, settingsButton.center) < 70) {
-            return settingsButton
+        if (distance(hexCenter, notificationsButton.center) < 70) {
+            return notificationsButton
         }
         if (distance(hexCenter, friendsButton.center) < 70) {
             return friendsButton
@@ -307,7 +307,7 @@ class MenuView: UIView {
         newPostButton.isHidden = false
         homeProfileButton.isHidden = false
         dmButton.isHidden = false
-        settingsButton.isHidden = false
+        notificationsButton.isHidden = false
         friendsButton.isHidden = false
         //curvedLayer.isHidden = false
     }
@@ -316,7 +316,7 @@ class MenuView: UIView {
         newPostButton.isHidden = true
         homeProfileButton.isHidden = true
         dmButton.isHidden = true
-        settingsButton.isHidden = true
+        notificationsButton.isHidden = true
         friendsButton.isHidden = true
         //curvedLayer.isHidden = true
     }

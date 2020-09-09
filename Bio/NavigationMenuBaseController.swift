@@ -28,7 +28,7 @@ class NavigationMenuBaseController: UITabBarController, UINavigationControllerDe
     //override func viewWillAppear(_ animated: Bool) {}
     
     func loadTabBar() {
-        let tabItems: [TabItem] = [.settings, .dms, .home, .friends, .addPost, .signIn]
+        let tabItems: [TabItem] = [.notifications, .dms, .home, .friends, .addPost, .signIn]
         self.setupCustomTabMenu(tabItems) { (controllers) in
             self.viewControllers = controllers
         }

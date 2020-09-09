@@ -11,7 +11,7 @@ enum TabItem: String, CaseIterable {
     case home = "Home"
     case friends = "Friends"
     case addPost = "Add Post"
-    case settings = "Settings"
+    case notifications = "Notifications"
     case dms = "DMs"
     case signIn
 var viewController: UIViewController {
@@ -33,11 +33,11 @@ var viewController: UIViewController {
             newPostVC.loadView()
             newPostVC.viewDidLoad()
             return newPostVC
-        case .settings:
-            let settingsVC = storyboard.instantiateViewController(identifier: "settingsVC") as! ProfessionalSettingsVC
-            settingsVC.loadView()
-            settingsVC.viewDidLoad()
-            return settingsVC
+        case .notifications:
+            let notifications = storyboard.instantiateViewController(identifier: "newsVC") as! NotificationsVC
+            notifications.loadView()
+            notifications.viewDidLoad()
+            return notifications
         case .dms:
             let homeVC = storyboard.instantiateViewController(identifier: "newPostVC") as! NewPostOptionsVC
             homeVC.loadView()
@@ -60,7 +60,7 @@ var viewController: UIViewController {
             return UIImage(named: "poshmarkLogo")!
         case .addPost:
             return UIImage(named: "snapchatlogo")!
-        case .settings:
+        case .notifications:
             return UIImage(named: "spotifylogo")!
         case .dms:
             return UIImage(named: "twitterlogo")!

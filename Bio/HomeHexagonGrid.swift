@@ -301,7 +301,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     @IBAction func toSettingsButtonClicked(_ sender: UIButton) {
         let currentTab = 2
         menuView.currentTab = currentTab
-        menuView.settingsButtonClicked(sender)
+        menuView.notificationsButtonClicked(sender)
 //        let viewControllers = tabController!.customizableViewControllers!
 //             let settingsVC = (viewControllers[0] as! ProfessionalSettingsVC)
 //        //     settingsVC.userData = userData
