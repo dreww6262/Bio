@@ -126,6 +126,12 @@ class NotificationsVC: UITableViewController {
         
         let ref = storage.child(notificationArray[indexPath.row].thumbResource)
         cell.avaImg.sd_setImage(with: ref)
+        cell.avaImg.frame = CGRect(x: 5, y: 5, width: cell.frame.height-10, height: cell.frame.height-10)
+        cell.avaImg.setupHexagonMask(lineWidth: cell.avaImg.frame.width/15, color: gold, cornerRadius: cell.avaImg.frame.width/15)
+        cell.infoLbl.frame = CGRect(x: cell.avaImg.frame.maxX + 5, y: 5, width: 140, height: 30)
+         cell.dateLbl.frame = CGRect(x: cell.infoLbl.frame.maxX + 5, y: 5, width: 50
+            , height: 30)
+        
         
 //        avaArray[indexPath.row].getDataInBackground { (data, error) -> Void in
 //            if error == nil {
@@ -169,7 +175,7 @@ class NotificationsVC: UITableViewController {
             cell.infoLbl.text = "has commented your post."
         }
         if notificationArray[indexPath.row].type == "follow" {
-            cell.infoLbl.text = "now following you."
+            cell.infoLbl.text = "is now following you."
             print("its a follow")
         }
         if notificationArray[indexPath.row].type == "like" {
@@ -190,25 +196,77 @@ class NotificationsVC: UITableViewController {
     }
     
     
+    @objc func cellTapped(_ sender : UITapGestureRecognizer) {
+        let cell  = sender.view as! UserCell
+        let username = cell.usernameLbl.text!
+        db.collection("UserData1").whereField("publicID", isEqualTo: username).addSnapshotListener({ objects, error in
+            if error == nil {
+                guard let docs = objects?.documents else{
+                    print("no docs?")
+                    return
+                }
+                if docs.count > 1 {
+                    print("Too many docs \(docs)")
+                }
+                else if (docs.count == 0) {
+                    print("no username")
+                }
+                else {
+                    let userdata = UserData(dictionary: docs[0].data())
+                    let guestVC = self.storyboard!.instantiateViewController(identifier: "guestGridVC") as! GuestHexagonGridVC
+                    guestVC.userData = userdata
+                    self.present(guestVC, animated: false)
+                    self.modalPresentationStyle = .fullScreen
+                }
+            }
+            else {
+                print("pulling up guest vc userdata failed")
+            }
+        })
+    }
+    
+    
     // clicked username button
     @IBAction func usernameBtn_click(_ sender: AnyObject) {
+print("UserName Clicked")
+    // call index of button
+    let i = sender.layer.value(forKey: "index") as! IndexPath
+    print("This is i: \(i)")
+
+    // call cell to call further cell data
+    let cell = tableView.cellForRow(at: i) as! newsCell
+        let username = cell.usernameBtn.titleLabel?.text!
+    print("This is cell.usernabeButton.title \(username)")
         
-        // call index of button
-        let i = sender.layer.value(forKey: "index") as! IndexPath
-        
-        // call cell to call further cell data
-        let cell = tableView.cellForRow(at: i) as! newsCell
-        
-        // if user tapped on himself go home, else go guest
-        if cell.usernameBtn.titleLabel?.text == Auth.auth().currentUser?.displayName {
-            let home = self.storyboard?.instantiateViewController(withIdentifier: "homeVC") as! HomeHexagonGrid
-            self.navigationController?.pushViewController(home, animated: true)
-        } else {
-        //    guestname.append(cell.usernameBtn.titleLabel!.text!)
-            let guest = self.storyboard?.instantiateViewController(withIdentifier: "guestVC") as! GuestHexagonGridVC
-            self.navigationController?.pushViewController(guest, animated: true)
-        }
+        db.collection("UserData1").whereField("publicID", isEqualTo: username).addSnapshotListener({ objects, error in
+                   if error == nil {
+                       guard let docs = objects?.documents else{
+                           print("no docs?")
+                           return
+                       }
+                       if docs.count > 1 {
+                           print("Too many docs \(docs)")
+                       }
+                       else if (docs.count == 0) {
+                           print("no username")
+                       }
+                       else {
+                           let userdata = UserData(dictionary: docs[0].data())
+                           let guestVC = self.storyboard!.instantiateViewController(identifier: "guestGridVC") as! GuestHexagonGridVC
+                           guestVC.userData = userdata
+                           self.present(guestVC, animated: false)
+                           self.modalPresentationStyle = .fullScreen
+                       }
+                   }
+                   else {
+                       print("pulling up guest vc userdata failed")
+                   }
+               })
     }
+    
+        override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+            return self.view.frame.size.height/10
+        }
     
     
     // clicked cell

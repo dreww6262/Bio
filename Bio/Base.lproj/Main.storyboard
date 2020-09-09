@@ -4529,7 +4529,7 @@
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <state key="normal" title="usernameBtn"/>
                                             <connections>
-                                                <action selector="usernameBtn_click:" destination="gjE-Ph-xAl" eventType="touchUpInside" id="Djw-ev-ili"/>
+                                                <action selector="usernameBtn_click:" destination="gjE-Ph-xAl" eventType="touchUpInside" id="uWj-ai-B5L"/>
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="infoLbl" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hiD-dP-8wB">
