@@ -158,8 +158,8 @@
             filePath = "Bio/HomeHexagonGrid.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "469"
-            endingLineNumber = "469"
+            startingLineNumber = "477"
+            endingLineNumber = "477"
             landmarkName = "longTap(_:)"
             landmarkType = "7">
          </BreakpointContent>

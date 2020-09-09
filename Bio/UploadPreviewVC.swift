@@ -19,6 +19,7 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
     var items: [YPMediaItem]?
     let db = Firestore.firestore()
     let storageRef = Storage.storage().reference()
+    let filterSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ1234567890/_-."
     
     
     @IBOutlet weak var tableView: UITableView!
@@ -67,7 +68,8 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
             switch (cell.item) {
             case .photo(let photo):
                 //print(photo)
-                let photoLocation = "userFiles/\(userData!.publicID)/\(count)_\(timestamp.dateValue()).png"
+                let rawPhotoLocation = "userFiles/\(userData!.publicID)/\(count)_\(timestamp.dateValue()).png"
+                let photoLocation = rawPhotoLocation.filter{filterSet.contains($0)}
                 let photoHex = HexagonStructData(resource: photoLocation, type: "photo", location: numPosts + count, thumbResource: photoLocation, createdAt: NSDate.now.description, postingUserID: self.userData!.publicID, text: "\(cell.captionField!.text!)", views: 0, isArchived: false, docID: "willBeSetLater")
                 uploadPhoto(reference: photoLocation, image: photo, completion: { upComplete in
                     if (upComplete) {
@@ -89,8 +91,10 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
                 })
             case .video(let video):
                 print(video)
-                let videoLocation = "userFiles/\(userData!.publicID)/\(count)_\(timestamp.dateValue()).mov"
-                let thumbLocation = "userFiles/\(userData!.publicID)/\(count)_\(timestamp.dateValue())_thumb.png"
+                let rawVideoLocation = "userFiles/\(userData!.publicID)/\(count)_\(timestamp.dateValue()).mov"
+                let rawThumbLocation = "userFiles/\(userData!.publicID)/\(count)_\(timestamp.dateValue())_thumb.png"
+                let videoLocation = rawVideoLocation.filter{filterSet.contains($0)}
+                let thumbLocation = rawThumbLocation.filter{filterSet.contains($0)}
                 let videoHex = HexagonStructData(resource: videoLocation, type: "video", location: numPosts + count, thumbResource: thumbLocation, createdAt: NSDate.now.description, postingUserID: self.userData!.publicID, text: "\(cell.captionField!.text!)", views: 0, isArchived: false, docID: "willBeSetLater")
                 uploadVideo(reference: videoLocation, video: video, completion: { upComplete in
                     if (upComplete) {
