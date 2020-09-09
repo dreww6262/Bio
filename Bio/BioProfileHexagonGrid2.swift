@@ -233,7 +233,7 @@ class BioProfileHexagonGrid2: UIViewController, UISearchBarDelegate, UIScrollVie
     
     @IBAction func toSearchButtonClicked(_ sender: UIButton) {
         let userTableVC = storyboard?.instantiateViewController(identifier: "userTableVC") as! UserTableView
-        userTableVC.myUsername = userData?.publicID
+        userTableVC.userData = userData
         present(userTableVC, animated: false)
     }
     

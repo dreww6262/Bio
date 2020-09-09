@@ -292,7 +292,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     // search button logic
     @IBAction func toSearchButtonClicked(_ sender: UIButton) {
         let userTableVC = storyboard?.instantiateViewController(identifier: "userTableVC") as! UserTableView
-        userTableVC.myUsername = userData?.publicID
+        userTableVC.userData = userData
         present(userTableVC, animated: false)
 //        print("frame after pressed \(toSearchButton.frame)")
         

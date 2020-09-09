@@ -24,7 +24,7 @@ class UserTableView: UIViewController, UISearchBarDelegate {
     var currentUser: User?
     var loadUserDataArray: [UserData] = []
     var searchString: String?
-    var myUsername: String?
+    var userData: UserData?
     
     var followList = [String]()
     var followListener: ListenerRegistration?
@@ -65,7 +65,7 @@ class UserTableView: UIViewController, UISearchBarDelegate {
     }
     
     func loadFollows(completion: @escaping() -> ()) {
-        followListener = db.collection("Followings").whereField("follower", isEqualTo: myUsername!).addSnapshotListener({ objects, error in
+        followListener = db.collection("Followings").whereField("follower", isEqualTo: userData!.publicID).addSnapshotListener({ objects, error in
             if error == nil {
                 self.followList.removeAll(keepingCapacity: true)
                 guard let docs = objects?.documents else {
@@ -249,7 +249,7 @@ extension UserTableView: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "userCell", for: indexPath) as! UserCell
         let cellTappedRecognizer = UITapGestureRecognizer(target: self, action: #selector(cellTapped))
         cell.addGestureRecognizer(cellTappedRecognizer)
-        cell.myUsername = myUsername
+        cell.userData = userData
         //  Configure the cell...
         print("This is cell \(cell)")
         cell.avaImg.sd_setImage(with: storageRef.child(loadUserDataArray[indexPath.row].avaRef))

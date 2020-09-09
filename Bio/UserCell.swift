@@ -18,7 +18,7 @@ class UserCell: UITableViewCell {
     @IBOutlet weak var displayNameLabel: UILabel!
     @IBOutlet weak var followBtn: UIButton!
     
-    var myUsername: String?
+    var userData: UserData?
     
     let db = Firestore.firestore()
     
@@ -54,14 +54,14 @@ class UserCell: UITableViewCell {
         
         // Configure the view for the selected state
     }
-    @IBAction func followPressed(_ sender: UIButton) {
+    @IBAction func followPressed(_ sender: UIButton, completion: @escaping (Bool) -> Void) {
         let width = UIScreen.main.bounds.width
         let cell = self
         let button = self.followBtn
         let username = cell.usernameLbl.text!
-        if myUsername != nil {
+        if userData != nil {
             if button!.tag == 0 {
-                let newFollow = ["follower": myUsername, "following": username]
+                let newFollow = ["follower": userData!.publicID, "following": username]
                 db.collection("Followings").addDocument(data: newFollow as [String : Any])
                 button?.imageView?.image = UIImage(named: "friendCheck")
                 button?.tag = 1
@@ -69,13 +69,11 @@ class UserCell: UITableViewCell {
                 button?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
                 button?.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
                 
-                let notificationObject = NewsObject(dictionary: <#[String : Any]#>)
+                
                 let notificationObjectref = db.collection("News")
                    let notificationDoc = notificationObjectref.document()
-                   var notificationCopy = NewsObject(dictionary: notificationObject.dictionary)
-                notificationCopy.notificationID = notificationObject.notificationID
-                notificationCopy.createdAt = Date()
-                   notificationDoc.setData(notificationCopy.dictionary){ error in
+                let notificationObject = NewsObject(ava: userData!.avaRef, type: "follow", currentUser: userData!.publicID, notifyingUser: userData!.publicID, thumbResource: userData!.avaRef, createdAt: Timestamp.init().dateValue(), checked: false, notificationID: notificationDoc.documentID)
+                   notificationDoc.setData(notificationObject.dictionary){ error in
                        //     group.leave()
                        if error == nil {
                            print("added notification: \(notificationObject)")
@@ -117,7 +115,7 @@ class UserCell: UITableViewCell {
                 
             }
             else {
-                db.collection("Followings").whereField("follower", isEqualTo: myUsername!).whereField("following", isEqualTo: username).addSnapshotListener({ objects, error in
+                db.collection("Followings").whereField("follower", isEqualTo: userData!.publicID).whereField("following", isEqualTo: username).addSnapshotListener({ objects, error in
                     if error == nil {
                         guard let docs = objects?.documents else {
                             return
