@@ -249,8 +249,9 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
             let imageFileName = "\(username)_\(timestamp)_link.png"
             let refText = "userFiles/\(username)/\(imageFileName)"
             let imageRef = storageRef.child(refText)
+            let date = NSDate.now
             numPosts += 1
-            let linkHex = HexagonStructData(resource: captionTextField.text!, type: "link", location: numPosts, thumbResource: refText, createdAt: Date(), postingUserID: username, text: "\(captionTextField.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            let linkHex = HexagonStructData(resource: captionTextField.text!, type: "link", location: numPosts, thumbResource: refText, createdAt: date.description, postingUserID: username, text: "\(captionTextField.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
             
             
             addHex(hexData: linkHex, completion: { bool in

@@ -18,7 +18,7 @@ struct NewsObject {  // : Codable { //Codable {
     var currentUser: String
     var notifyingUser: String
     var thumbResource: String
-    var createdAt: Date
+    var createdAt: String
     var checked: Bool
     var notificationID: String
     
@@ -40,7 +40,7 @@ var dictionary: [String: Any] {
    }
    
    
-    init(ava: String, type: String, currentUser: String, notifyingUser: String, thumbResource: String, createdAt: Date, checked: Bool, notificationID: String)  {
+    init(ava: String, type: String, currentUser: String, notifyingUser: String, thumbResource: String, createdAt: String, checked: Bool, notificationID: String)  {
        self.ava = ava
        self.type = type
        self.currentUser = currentUser
@@ -58,7 +58,7 @@ var dictionary: [String: Any] {
        let currentUser = dictionary["currentUser"] as! String? ?? ""
        let notifyingUser = dictionary["notifyingUser"] as! String? ?? ""
     let thumbResource = dictionary["thumbResource"] as! String? ?? ""
-       let createdAt = dictionary["createdAt"] as! Date? ?? Date()
+       let createdAt = dictionary["createdAt"] as! String? ?? ""
        let checked = dictionary["checked"] as! Bool? ?? false
         let notificationID = dictionary["notificationID"] as! String? ?? ""
        

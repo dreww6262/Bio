@@ -142,10 +142,11 @@ class NotificationsVC: UITableViewController {
 //        }
         
         // calculate post date
-        let from = notificationArray[indexPath.row].createdAt
+        let fromString = notificationArray[indexPath.row].createdAt
+        let from = DateFormatter.init().date(from: fromString)
         let now = Date()
         let components : NSCalendar.Unit = [.second, .minute, .hour, .day, .weekOfMonth]
-        let difference = (Calendar.current as NSCalendar).components(components, from: from, to: now, options: [])
+        let difference = (Calendar.current as NSCalendar).components(components, from: from ?? Date(), to: now, options: [])
         
         // logic what to show: seconds, minuts, hours, days or weeks
         if difference.second! <= 0 {

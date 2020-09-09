@@ -205,7 +205,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
             let refText = "userFiles/\(username)/\(imageFileName)"
             let imageRef = storageRef.child(refText)
             numPosts += 1
-            let linkHex = HexagonStructData(resource: linkTextField.text!, type: "link", location: numPosts, thumbResource: refText, createdAt: Date(), postingUserID: username, text: "\(linkTextField.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            let linkHex = HexagonStructData(resource: linkTextField.text!, type: "link", location: numPosts, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: "\(linkTextField.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
             
             
             

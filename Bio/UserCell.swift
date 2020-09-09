@@ -72,7 +72,7 @@ class UserCell: UITableViewCell {
                 
                 let notificationObjectref = db.collection("News2")
                    let notificationDoc = notificationObjectref.document()
-                let notificationObject = NewsObject(ava: userData!.avaRef, type: "follow", currentUser: userData!.publicID, notifyingUser: userData!.publicID, thumbResource: userData!.avaRef, createdAt: Date(), checked: false, notificationID: notificationDoc.documentID)
+                let notificationObject = NewsObject(ava: userData!.avaRef, type: "follow", currentUser: userData!.publicID, notifyingUser: userData!.publicID, thumbResource: userData!.avaRef, createdAt: NSDate.now.description, checked: false, notificationID: notificationDoc.documentID)
                    notificationDoc.setData(notificationObject.dictionary){ error in
                        //     group.leave()
                        if error == nil {
