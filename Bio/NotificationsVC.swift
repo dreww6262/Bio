@@ -16,7 +16,8 @@ import FirebaseStorage
 //import FirebaseFirestore
 
 class NotificationsVC: UITableViewController {
-     let storage = Storage.storage().reference()
+     let menuView = MenuView()
+    let storage = Storage.storage().reference()
     var db = Firestore.firestore()
      var userData: UserData?
     
@@ -30,9 +31,16 @@ class NotificationsVC: UITableViewController {
     
     var notificationArray: [NewsObject] = []
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+          menuView.tabController = (tabBarController! as! NavigationMenuBaseController)
+    }
+    
+    
     
     // defualt func
     override func viewDidLoad() {
+        addMenuButtons()
         print("This is current user email \(Auth.auth().currentUser?.email)")
         super.viewDidLoad()
         
@@ -175,6 +183,12 @@ class NotificationsVC: UITableViewController {
         return cell
     }
 
+    func addMenuButtons() {
+        view.addSubview(menuView)
+        menuView.currentTab = 0
+        menuView.addBehavior()
+    }
+    
     
     // clicked username button
     @IBAction func usernameBtn_click(_ sender: AnyObject) {
