@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="AGA-wN-m2B">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="AGA-wN-m2B">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -3133,7 +3133,6 @@
                                                     <state key="normal" title="Add" image="addFriend"/>
                                                     <connections>
                                                         <action selector="followPressed:" destination="K0e-wj-fQv" eventType="touchUpInside" id="IU3-fk-jdm"/>
-                                                        <action selector="followPressed:completion:" destination="K0e-wj-fQv" eventType="touchUpInside" id="3Mx-bU-BDP"/>
                                                     </connections>
                                                 </button>
                                             </subviews>

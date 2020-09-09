@@ -54,7 +54,7 @@ class UserCell: UITableViewCell {
         
         // Configure the view for the selected state
     }
-    @IBAction func followPressed(_ sender: UIButton, completion: @escaping (Bool) -> Void) {
+    @IBAction func followPressed(_ sender: UIButton) {
         let width = UIScreen.main.bounds.width
         let cell = self
         let button = self.followBtn
@@ -70,18 +70,18 @@ class UserCell: UITableViewCell {
                 button?.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
                 
                 
-                let notificationObjectref = db.collection("News")
+                let notificationObjectref = db.collection("News1")
                    let notificationDoc = notificationObjectref.document()
-                let notificationObject = NewsObject(ava: userData!.avaRef, type: "follow", currentUser: userData!.publicID, notifyingUser: userData!.publicID, thumbResource: userData!.avaRef, createdAt: Timestamp.init().dateValue(), checked: false, notificationID: notificationDoc.documentID)
+                let notificationObject = NewsObject(ava: userData!.avaRef, type: "follow", currentUser: userData!.publicID, notifyingUser: userData!.publicID, thumbResource: userData!.avaRef, createdAt: Date(), checked: false, notificationID: notificationDoc.documentID)
                    notificationDoc.setData(notificationObject.dictionary){ error in
                        //     group.leave()
                        if error == nil {
                            print("added notification: \(notificationObject)")
-                           completion(true)
+                           
                        }
                        else {
                            print("failed to add notification \(notificationObject)")
-                           completion(false)
+                           
                        }
                    }
                 
