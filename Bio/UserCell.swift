@@ -70,7 +70,7 @@ class UserCell: UITableViewCell {
                 button?.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
                 
                 
-                let notificationObjectref = db.collection("News1")
+                let notificationObjectref = db.collection("News2")
                    let notificationDoc = notificationObjectref.document()
                 let notificationObject = NewsObject(ava: userData!.avaRef, type: "follow", currentUser: userData!.publicID, notifyingUser: userData!.publicID, thumbResource: userData!.avaRef, createdAt: Date(), checked: false, notificationID: notificationDoc.documentID)
                    notificationDoc.setData(notificationObject.dictionary){ error in

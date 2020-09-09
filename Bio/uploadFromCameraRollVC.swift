@@ -207,7 +207,7 @@ class uploadFromCameraRollVC: UIViewController, UIImagePickerControllerDelegate,
                         userData = UserData(dictionary: objects!.documents[0].data())
                         userDataRef = objects!.documents[0].reference
                         let hexDoc = hexCollection.document()
-                        let hexData = HexagonStructData(resource: resourceString, type: "Photo", location: userData!.numPosts + 1, thumbResource: resourceString, createdAt: NSTimeIntervalSince1970, postingUserID: usernameString, text: self.titleTxt.text, views: 0, isArchived: false, docID: hexDoc.documentID)
+                        let hexData = HexagonStructData(resource: resourceString, type: "Photo", location: userData!.numPosts + 1, thumbResource: resourceString, createdAt: Date(), postingUserID: usernameString, text: self.titleTxt.text, views: 0, isArchived: false, docID: hexDoc.documentID)
                         userData?.numPosts += 1
                         userDataRef?.updateData(userData!.dictionary)
                         hexDoc.setData(hexData.dictionary)

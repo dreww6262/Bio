@@ -15,7 +15,7 @@ struct HexagonStructData {  // : Codable { //Codable {
     var type: String
     var location: Int
     var thumbResource: String
-    var createdAt: TimeInterval
+    var createdAt: Date
     var postingUserID: String
     var text: String
     var views: Int
@@ -52,7 +52,7 @@ var dictionary: [String: Any] {
    }
    
    
-    init(resource: String, type: String, location: Int, thumbResource: String, createdAt: TimeInterval, postingUserID: String, text: String, views: Int, isArchived: Bool, docID: String)  {
+    init(resource: String, type: String, location: Int, thumbResource: String, createdAt: Date, postingUserID: String, text: String, views: Int, isArchived: Bool, docID: String)  {
        self.resource = resource
        self.type = type
        self.location = location
@@ -71,7 +71,7 @@ var dictionary: [String: Any] {
        let type = dictionary["type"] as! String? ?? ""
        let location = dictionary["location"] as! Int? ?? -1
        let thumbResource = dictionary["thumbResource"] as! String? ?? ""
-    let createdAt = dictionary["createdAt"] as! TimeInterval? ?? 0.0
+    let createdAt = dictionary["createdAt"] as! Date? ?? Date()
        let postingUserID = dictionary["postingUserID"] as! String? ?? ""
        let text = dictionary["text"] as! String? ?? ""
         let views = dictionary["views"] as! Int? ?? 0
