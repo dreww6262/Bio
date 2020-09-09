@@ -16,6 +16,21 @@ import FirebaseUI
 import FirebaseFirestore
 
 class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    var lowTitleTextFrame = CGRect()
+            var lowSubtitleTextFrame = CGRect()
+             var lowLinkLogoFrame = CGRect()
+             var lowLinkTextfieldFrame = CGRect()
+             var lowLinkHexagonImageFrame = CGRect()
+             var lowContinueButtonFrame = CGRect()
+             var lowCancelButtonFrame = CGRect()
+          var highTitleTextFrame = CGRect()
+          var highSubtitleTextFrame = CGRect()
+        var highLinkLogoFrame = CGRect()
+        var highLinkTextfieldFrame = CGRect()
+          var highLinkHexagonImageFrame = CGRect()
+        var highContinueButtonFrame = CGRect()
+        var highCancelButtonFrame = CGRect()
+    
     @IBOutlet weak var titleText: UILabel!
     @IBOutlet weak var subtitleText: UILabel!
     
@@ -52,6 +67,11 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     
     // default func
     override func viewDidLoad() {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboard(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboard(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+                NotificationCenter.default.addObserver(self, selector: #selector(self.keyboard(notification:)), name:UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        
+        
         var alreadySnapped = false
         super.viewDidLoad()
         
@@ -121,6 +141,22 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         bg.image = UIImage(named: "manaloghourglass")
         bg.layer.zPosition = -1
         self.view.addSubview(bg)
+        var lowTitleTextFrame = titleText.frame
+          var lowSubtitleTextFrame = subtitleText.frame
+           var lowLinkLogoFrame = linkLogo.frame
+           var lowLinkTextfieldFrame = linkTextField.frame
+           var lowLinkHexagonImageFrame = linkHexagonImage.frame
+           var lowContinueButtonFrame = continueBtn.frame
+           var lowCancelButtonFrame = cancelBtn.frame
+        
+        var highTitleTextFrame = CGRect(x: titleText.frame.minX, y: lowTitleTextFrame.minY - 70, width: titleText.frame.width, height: titleText.frame.height)
+        var highSubtitleTextFrame = CGRect(x: subtitleText.frame.minX, y: lowSubtitleTextFrame.minY - 70, width: lowSubtitleTextFrame.width, height: lowSubtitleTextFrame.height)
+                  var highLinkLogoFrame = CGRect(x: linkLogo.frame.minX, y: lowTitleTextFrame.minY - 70, width: linkLogo.frame.width, height: titleText.frame.height)
+                  var highLinkTextfieldFrame = CGRect(x: linkTextField.frame.minX, y: lowLinkTextfieldFrame.minY - 70, width: linkTextField.frame.width, height: linkTextField.frame.height)
+        var highLinkHexagonImageFrame = CGRect(x: linkHexagonImage.frame.minX, y: lowLinkHexagonImageFrame.minY - 70, width: linkHexagonImage.frame.width, height: linkHexagonImage.frame.height)
+                  var highContinueButtonFrame = CGRect(x: continueBtn.frame.minX, y: lowContinueButtonFrame.minY - 70, width: continueBtn.frame.width, height: continueBtn.frame.height)
+                  var highCancelButtonFrame = CGRect(x: cancelBtn.frame.minX, y: lowCancelButtonFrame.minY - 70, width: cancelBtn.frame.width, height: cancelBtn.frame.height)
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -129,30 +165,118 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     
     // hide keyboard if tapped
     @objc func hideKeyboardTap(_ recoginizer:UITapGestureRecognizer) {
+     //   pushEverythingDown()
         self.view.endEditing(true)
     }
     
+    func pushEverythingUp() {
+        titleText.frame = CGRect(x: 0,y:60, width: self.view.frame.size.width, height: 30)
+               subtitleText.frame = CGRect(x:0, y: titleText.frame.origin.y + 30, width: self.view.frame.size.width, height: 30)
+               linkHexagonImage.frame = CGRect(x: 40, y: subtitleText.frame.maxY + 35, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
+               changeCoverLabel.frame = CGRect(x: 10, y: linkHexagonImage.frame.origin.y + scrollView.frame.width/2, width: self.view.frame.size.width - 20, height: 30)
+               linkTextField.frame = CGRect(x: 10, y: linkHexagonImage.frame.maxY + 20, width: self.view.frame.size.width - 20, height: 30)
+               linkTextField.attributedPlaceholder = NSAttributedString(string: "Paste Link Here",
+                                                                        attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+               linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: linkTextField.frame.minY, width: 30, height: 30)
+               continueBtn.frame =  CGRect(x: 10.0, y: linkTextField.frame.maxY + 20, width: self.view.frame.width - 20, height: 24)
+               continueBtn.layer.cornerRadius = continueBtn.frame.size.width / 20
+               cancelBtn.frame =  CGRect(x: 10.0, y: continueBtn.frame.maxY + 10, width: continueBtn.frame.width, height: 24)
+        
+        
+        highTitleTextFrame = CGRect(x: titleText.frame.minX, y: lowTitleTextFrame.minY - 70, width: titleText.frame.width, height: titleText.frame.height)
+        highSubtitleTextFrame = CGRect(x: subtitleText.frame.minX, y: lowSubtitleTextFrame.minY - 70, width: lowSubtitleTextFrame.width, height: lowSubtitleTextFrame.height)
+            highLinkLogoFrame = CGRect(x: linkLogo.frame.minX, y: lowTitleTextFrame.minY - 70, width: linkLogo.frame.width, height: titleText.frame.height)
+                highLinkTextfieldFrame = CGRect(x: linkTextField.frame.minX, y: lowLinkTextfieldFrame.minY - 70, width: linkTextField.frame.width, height: linkTextField.frame.height)
+         highLinkHexagonImageFrame = CGRect(x: linkHexagonImage.frame.minX, y: lowLinkHexagonImageFrame.minY - 70, width: linkHexagonImage.frame.width, height: linkHexagonImage.frame.height)
+                highContinueButtonFrame = CGRect(x: continueBtn.frame.minX, y: lowContinueButtonFrame.minY - 70, width: continueBtn.frame.width, height: continueBtn.frame.height)
+                highCancelButtonFrame = CGRect(x: cancelBtn.frame.minX, y: lowCancelButtonFrame.minY - 70, width: cancelBtn.frame.width, height: cancelBtn.frame.height)
+        
+        titleText.frame = highTitleTextFrame
+        subtitleText.frame = highSubtitleTextFrame
+        linkLogo.frame = highLinkLogoFrame
+        linkTextField.frame = highLinkTextfieldFrame
+        linkHexagonImage.frame = highLinkHexagonImageFrame
+        continueBtn.frame = highContinueButtonFrame
+        cancelBtn.frame = highCancelButtonFrame
+        print("New Frames")
+        print(titleText.frame)
+        print(subtitleText.frame)
+        print(linkLogo.frame)
+        print(linkTextField.frame)
+        print(linkHexagonImage.frame)
+        print(continueBtn.frame)
+        print(cancelBtn.frame)
+        
+        
+    }
+    
+    @objc func keyboard(notification:Notification) {
+        guard let keyboardReact = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else{
+            return
+        }
+
+        if notification.name == UIResponder.keyboardWillShowNotification ||  notification.name == UIResponder.keyboardWillChangeFrameNotification {
+            self.view.frame.origin.y = -keyboardReact.height
+        }else{
+            self.view.frame.origin.y = 0
+        }
+
+    }
+    
+    
+    
+    
+    func pushEverythingDown() {
+        lowTitleTextFrame = CGRect(x: titleText.frame.minX, y: titleText.frame.minY + 70, width: titleText.frame.width, height: titleText.frame.height)
+        lowSubtitleTextFrame = CGRect(x: subtitleText.frame.minX, y: subtitleText.frame.minY + 70, width: subtitleText.frame.width, height: subtitleText.frame.height)
+        lowLinkLogoFrame = CGRect(x: linkLogo.frame.minX, y: linkLogo.frame.minY + 70, width: linkLogo.frame.width, height: linkLogo.frame.height)
+        lowLinkTextfieldFrame = CGRect(x: linkTextField.frame.minX, y: linkTextField.frame.minY + 70, width: linkTextField.frame.width, height: linkTextField.frame.height)
+        lowLinkHexagonImageFrame = CGRect(x: linkHexagonImage.frame.minX, y: linkHexagonImage.frame.minY + 70, width: linkHexagonImage.frame.width, height: linkHexagonImage.frame.height)
+        lowContinueButtonFrame = CGRect(x: continueBtn.frame.minX, y: continueBtn.frame.minY + 70, width: continueBtn.frame.width, height: continueBtn.frame.height)
+        cancelBtn.frame = CGRect(x: cancelBtn.frame.minX, y: cancelBtn.frame.minY + 70, width: cancelBtn.frame.width, height: cancelBtn.frame.height)
+                 
+                 titleText.frame = lowTitleTextFrame
+                 subtitleText.frame = lowSubtitleTextFrame
+                 linkLogo.frame = lowLinkLogoFrame
+                 linkTextField.frame = lowLinkTextfieldFrame
+                 linkHexagonImage.frame = lowLinkHexagonImageFrame
+                 continueBtn.frame = lowContinueButtonFrame
+                 cancelBtn.frame = lowCancelButtonFrame
+                 print("New Frames")
+                 print(titleText.frame)
+                 print(subtitleText.frame)
+                 print(linkLogo.frame)
+                 print(linkTextField.frame)
+                 print(linkHexagonImage.frame)
+                 print(continueBtn.frame)
+                 print(cancelBtn.frame)
+      }
     
     // show keyboard
     @objc func showKeyboard(_ notification:Notification) {
+       // pushEverythingUp()
+        
+        
         
         // define keyboard size
         keyboard = ((notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]! as AnyObject).cgRectValue)!
         
         // move up UI
-        UIView.animate(withDuration: 0.4, animations: { () -> Void in
-            self.scrollView.frame.size.height = self.scrollViewHeight - self.keyboard.height
-        })
+//        UIView.animate(withDuration: 0.4, animations: { () -> Void in
+//            self.scrollView.frame.size.height = self.scrollViewHeight - self.keyboard.height
+//        })
+    
+        
     }
     
     
     // hide keyboard func
     @objc func hideKeybard(_ notification:Notification) {
-        
+    //    pushEverythingDown()
         // move down UI
-        UIView.animate(withDuration: 0.4, animations: { () -> Void in
-            self.scrollView.frame.size.height = self.view.frame.height
-        })
+//        UIView.animate(withDuration: 0.4, animations: { () -> Void in
+//            self.scrollView.frame.size.height = self.view.frame.height
+//        })
     }
     
     func addHex(hexData: HexagonStructData, completion: @escaping (Bool) -> Void) {

@@ -299,15 +299,29 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     }
     
     @IBAction func toSettingsButtonClicked(_ sender: UIButton) {
-        let currentTab = 2
-        menuView.currentTab = currentTab
-        menuView.notificationsButtonClicked(sender)
-//        let viewControllers = tabController!.customizableViewControllers!
+     
+        let userdata = self.userData
+                         let settingsVC = self.storyboard!.instantiateViewController(identifier: "settingsVC") as! ProfessionalSettingsVC
+                         settingsVC.userData = userdata
+        settingsVC.menuView.tabController = tabBarController as! NavigationMenuBaseController
+        settingsVC.menuView.userData = userData
+                         self.present(settingsVC, animated: false)
+                         self.modalPresentationStyle = .fullScreen
+        
+//        let currentTab = 2
+//        menuView.currentTab = currentTab
+//        menuView.notificationsButtonClicked(sender)
+////        let viewControllers = tabController!.customizableViewControllers!
 //             let settingsVC = (viewControllers[0] as! ProfessionalSettingsVC)
 //        //     settingsVC.userData = userData
 //             tabController!.viewControllers![0] = settingsVC
 //             tabController!.customTabBar.switchTab(from: currentTab, to: 0)
 //
+        
+        
+        
+        
+        
     }
     
     func createImageViews() {

@@ -91,8 +91,8 @@ class ProfessionalSettingsVC: QuickTableViewController {
         }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        menuView.tabController = tabBarController as! NavigationMenuBaseController
-        menuView.userData = userData
+//        menuView.tabController = tabBarController as! NavigationMenuBaseController
+//        menuView.userData = userData
     }
 
         
@@ -104,8 +104,8 @@ class ProfessionalSettingsVC: QuickTableViewController {
 
         
     @IBAction func backButtonClicked(_ sender: UIButton) {
-        menuView.homeButtonClicked(sender)
-       // dismiss(animated: false, completion: nil)
+//        menuView.homeButtonClicked(sender)
+    dismiss(animated: false, completion: nil)
     }
     
     func addBackButton() {
