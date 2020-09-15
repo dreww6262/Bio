@@ -160,35 +160,37 @@ class MenuView: UIView {
         homeProfileButton.isHidden = true
         
         newPostButton.setImage(UIImage(named: "plusImage"), for: .normal)
-        notificationsButton.setImage(UIImage(named: "settingsGear"), for: .normal)
+        notificationsButton.setImage(UIImage(named: "notificationIcon"), for: .normal)
         friendsButton.setImage(UIImage(named: "boyprofile"), for: .normal)
         dmButton.setImage(UIImage(named: "mailcircle"), for: .normal)
-        homeProfileButton.setImage(UIImage(named: "stickFigure"), for: .normal)
-        menuButton.setImage(UIImage(named: "plusImage"), for: .normal)
+        homeProfileButton.setImage(UIImage(named: "homeIcon"), for: .normal)
+        menuButton.imageView!.image = nil
         
         newPostButton.tintColor = .black
-        notificationsButton.tintColor = .black
+        notificationsButton.tintColor = .white
         friendsButton.tintColor = .black
         dmButton.tintColor = .black
         homeProfileButton.tintColor = .white
-        menuButton.tintColor = .black
+        menuButton.tintColor = .clear
+        menuButton.layer.borderColor = white.cgColor
+        menuButton.layer.borderWidth = menuButton.frame.width/10
         
         newPostButton.backgroundColor = .black
-        notificationsButton.backgroundColor = .black
+        notificationsButton.backgroundColor = .white
         friendsButton.backgroundColor = .white
         dmButton.backgroundColor = .black
-        homeProfileButton.backgroundColor = .black
-        menuButton.backgroundColor = .black
+        homeProfileButton.backgroundColor = .white
+        menuButton.backgroundColor = .clear
         newPostButton.imageView!.image = UIImage(named: "plus")
-        notificationsButton.imageView!.image = UIImage(named: "gear")
+        notificationsButton.imageView!.image = UIImage(named: "notificationIcon")
         friendsButton.imageView!.image = UIImage(named: "community2")
         dmButton.imageView!.image = UIImage(named: "plus")
-        homeProfileButton.imageView!.image = UIImage(named: "home2")
+        homeProfileButton.imageView!.image = UIImage(named: "homeIcon")
 
         
         // show add Post button
         menuButton.isHidden = false
-        menuButton.imageView?.image = UIImage(named: "k23")
+        //menuButton.imageView?.image = UIImage(named: "k23")
         menuButton.layer.zPosition = 2
     }
     
@@ -237,12 +239,12 @@ class MenuView: UIView {
     
     // TODO: TO DO Redo this for circular border
     func makeAllMenuButtonsBlack() {
-        newPostButton.imageView?.makeRounded()
-        homeProfileButton.imageView?.makeRounded()
-        dmButton.imageView?.makeRounded()
-        notificationsButton.imageView?.makeRounded()
-        friendsButton.imageView?.makeRounded()
-        menuButton.imageView?.makeRounded()
+        newPostButton.imageView?.makeRoundedBlack()
+        homeProfileButton.imageView?.makeRoundedBlack()
+        dmButton.imageView?.makeRoundedBlack()
+        notificationsButton.imageView?.makeRoundedBlack()
+        friendsButton.imageView?.makeRoundedBlack()
+        menuButton.imageView?.makeRoundedBlack()
     }
     
     @objc func draggedMenuButton(sender: UIPanGestureRecognizer) {

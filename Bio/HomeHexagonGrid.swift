@@ -189,7 +189,10 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
        }
     
     func addTrashButton() {
-        trashButton.frame = CGRect(x: self.view.frame.width/2-40, y: self.view.frame.height - 83, width: 80, height: 80)
+        view.addSubview(trashButton)
+       trashButton.frame = CGRect(x: 5, y: self.view.frame.height - 83, width: 80, height: 80)
+    //    trashButton.frame = CGRect(x: 5,y: 35, width: 80, height: 80)
+        trashButton.imageView?.image = UIImage(named: "trashCircle")
         // round ava
         trashButton.layer.cornerRadius = trashButton.frame.size.width / 2
         trashButton.clipsToBounds = true
@@ -379,8 +382,11 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         image.setupHexagonMask(lineWidth: 10.0, color: .darkGray, cornerRadius: 10.0)
         let ref = storage.child(hexData.thumbResource)
         let cleanRef = hexData.thumbResource.replacingOccurrences(of: "/", with: "%2F")
+        print("This is clean ref \(cleanRef)")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
-        print(url!.absoluteString)
+        print("This is url: \(url)")
+        print("i unforced url because it was crashing on me -- Patrick")
+        print(url?.absoluteString)
         //image.sd_setImage(with: ref)
         image.sd_setImage(with: url!, completed: {_, error, _, _ in
             if error != nil {
@@ -480,10 +486,12 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             print("UIGestureRecognizerStateBegan.")
             let tappedImage = sender.view as! PostImageView
             currentHexagonCenter = tappedImage.center
-            tappedImage.setupHexagonMask(lineWidth: 10.0, color: .red, cornerRadius: 10.0)
+            print("yo: This is tapped image.center \(tappedImage.center)")
+            tappedImage.setupHexagonMask(lineWidth: 10.0, color: .blue, cornerRadius: 10.0)
             //dragItem(sender as! UIPanGestureRecognizer)
             dragView = (sender.view as! PostImageView)
             dragView?.center = sender.location(in: scrollView)
+            print("yo: this is dragView.center before \(dragView?.center)")
             contentView.bringSubviewToFront(dragView!)
             trashButton.isHidden = false
         }
@@ -491,19 +499,21 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             let xDelta = dragView!.center.x - sender.location(in: scrollView).x
             let yDelta = dragView!.center.y - sender.location(in: scrollView).y
             dragView?.center = sender.location(in: scrollView)
+            print("yo: this is dragView.center changed \(dragView?.center)")
             
             self.scrollIfNeeded(location: sender.location(in: scrollView.superview), xDelta: xDelta, yDelta: yDelta)
             //                print("This is newIndex before \(newIndex)")
             currentHexagonCenter = (sender.view?.center)!
+            print("This is currentHexagon center changed: \(currentHexagonCenter)")
             let hexCenterInView = contentView.convert(currentHexagonCenter, to: view)
             let _ = findIntersectingHexagon(hexView: dragView!)
             
             print(distance(hexCenterInView, trashButton.center))
             if (distance(hexCenterInView, trashButton.center) < 70) {
-                trashButton.imageView!.makeRoundedGold()
+                trashButton.imageView!.makeRoundedRed()
                 print("It should be gold")
             } else {
-                trashButton.imageView!.makeRounded()
+                trashButton.imageView!.makeRoundedBlack()
                 print("This is outside 70")
             }
         }
@@ -922,7 +932,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
 
 extension UIImageView {
     
-    func makeRounded() {
+    func makeRoundedBlack() {
         
         self.layer.borderWidth = 1
         self.layer.masksToBounds = false

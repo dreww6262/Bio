@@ -1,11 +1,10 @@
 //
-//  AddLinkVCViewController.swift
+//  AddMusicVC.swift
 //  Bio
 //
-//  Created by Ann McDonough on 8/12/20.
+//  Created by Ann McDonough on 9/14/20.
 //  Copyright © 2020 Patrick McDonough. All rights reserved.
 //
-
 
 import UIKit
 //import Parse
@@ -15,13 +14,18 @@ import FirebaseStorage
 import FirebaseUI
 import FirebaseFirestore
 
-class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    var badMusicLink = false
     var hasChosenThumbnailImage = false
+    var artistText = ""
+    var songText = ""
     var lowTitleTextFrame = CGRect()
-   var validURL = false
             var lowSubtitleTextFrame = CGRect()
-             var lowLinkLogoFrame = CGRect()
+    @IBOutlet weak var songNameTextField: UITextField!
+    var musicLink = ""
+    var lowLinkLogoFrame = CGRect()
              var lowLinkTextfieldFrame = CGRect()
+            var lowSongTextFieldFram = CGRect()
              var lowLinkHexagonImageFrame = CGRect()
              var lowContinueButtonFrame = CGRect()
              var lowCancelButtonFrame = CGRect()
@@ -32,17 +36,19 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
           var highLinkHexagonImageFrame = CGRect()
         var highContinueButtonFrame = CGRect()
         var highCancelButtonFrame = CGRect()
+    var highSongTextFieldFrame = CGRect()
+    
+
+    @IBOutlet weak var confirmLinkButton: UIButton!
     
     @IBOutlet weak var titleText: UILabel!
+    
     @IBOutlet weak var subtitleText: UILabel!
     
     @IBOutlet weak var linkLogo: UIImageView!
     
-    
     // scrollView
     @IBOutlet weak var scrollView: UIScrollView!
-    
-    // profile image
     
     // textfields
     @IBOutlet weak var linkTextField: UITextField!
@@ -69,9 +75,11 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     
     // default func
     override func viewDidLoad() {
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboard(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboard(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-                NotificationCenter.default.addObserver(self, selector: #selector(self.keyboard(notification:)), name:UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        continueBtn.isHidden = true
+        cancelBtn.isHidden = false
+//        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboard(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboard(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+//                NotificationCenter.default.addObserver(self, selector: #selector(self.keyboard(notification:)), name:UIResponder.keyboardWillChangeFrameNotification, object: nil)
         
         
         var alreadySnapped = false
@@ -124,18 +132,29 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         
         
         //         linkHexagonImage.frame = CGRect(x: 10, y: linkTextField.frame.origin.y + 30, width: self.view.frame.size.width - 20, height: 30)
-        linkHexagonImage.frame = CGRect(x: 40, y: subtitleText.frame.maxY + 35, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
-        changeCoverLabel.frame = CGRect(x: 10, y: linkHexagonImage.frame.origin.y + scrollView.frame.width/2, width: self.view.frame.size.width - 20, height: 30)
+    
         
         
-        linkTextField.frame = CGRect(x: 10, y: linkHexagonImage.frame.maxY + 20, width: self.view.frame.size.width - 20, height: 30)
-        linkTextField.attributedPlaceholder = NSAttributedString(string: "Paste Link Here",
+        linkTextField.frame = CGRect(x: 10, y: subtitleText.frame.maxY + 20, width: self.view.frame.size.width - 20, height: 30)
+        linkTextField.attributedPlaceholder = NSAttributedString(string: "Artist",
                                                                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: linkTextField.frame.minY, width: 30, height: 30)
         
-        continueBtn.frame =  CGRect(x: 10.0, y: linkTextField.frame.maxY + 20, width: self.view.frame.width - 20, height: 24)
+        songNameTextField.frame = CGRect(x: 10, y: linkTextField.frame.maxY + 5, width: self.view.frame.size.width - 20, height: 30)
+               songNameTextField.attributedPlaceholder = NSAttributedString(string: "Song/Album Name",
+                                                                        attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+//               linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: linkTextField.frame.minY, width: 30, height: 30)
+//
+//    changeCoverLabel.frame = CGRect(x: 10, y: songNameTextField.frame.origin.y + 10, width: self.view.frame.size.width - 20, height: 30)
+            linkHexagonImage.frame = CGRect(x: 40, y: changeCoverLabel.frame.maxY + 15, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
+    
+        confirmLinkButton.frame =  CGRect(x: 10.0, y: songNameTextField.frame.maxY + 10, width: self.view.frame.width - 20, height: 24)
+        confirmLinkButton.layer.cornerRadius = continueBtn.frame.size.width / 20
+        
+        
+        continueBtn.frame =  CGRect(x: 10.0, y: confirmLinkButton.frame.maxY + 5, width: self.view.frame.width - 20, height: 24)
         continueBtn.layer.cornerRadius = continueBtn.frame.size.width / 20
-        cancelBtn.frame =  CGRect(x: 10.0, y: continueBtn.frame.maxY + 10, width: continueBtn.frame.width, height: 24)
+        cancelBtn.frame =  continueBtn.frame
         cancelBtn.layer.cornerRadius = cancelBtn.frame.size.width / 20
         linkHexagonImage.setupHexagonMask(lineWidth: linkHexagonImage.frame.width/15, color: orange, cornerRadius: linkHexagonImage.frame.width/15)
         // background
@@ -158,12 +177,13 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         var highLinkHexagonImageFrame = CGRect(x: linkHexagonImage.frame.minX, y: lowLinkHexagonImageFrame.minY - 70, width: linkHexagonImage.frame.width, height: linkHexagonImage.frame.height)
                   var highContinueButtonFrame = CGRect(x: continueBtn.frame.minX, y: lowContinueButtonFrame.minY - 70, width: continueBtn.frame.width, height: continueBtn.frame.height)
                   var highCancelButtonFrame = CGRect(x: cancelBtn.frame.minX, y: lowCancelButtonFrame.minY - 70, width: cancelBtn.frame.width, height: cancelBtn.frame.height)
+        
 
     }
     
     override func viewWillAppear(_ animated: Bool) {
         print("userData, view will appear: \(userData)")
-        hasChosenThumbnailImage = false 
+        hasChosenThumbnailImage = false
     }
     
     // hide keyboard if tapped
@@ -213,18 +233,18 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         
     }
     
-    @objc func keyboard(notification:Notification) {
-        guard let keyboardReact = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else{
-            return
-        }
-
-        if notification.name == UIResponder.keyboardWillShowNotification ||  notification.name == UIResponder.keyboardWillChangeFrameNotification {
-            self.view.frame.origin.y = -keyboardReact.height
-        }else{
-            self.view.frame.origin.y = 0
-        }
-
-    }
+//    @objc func keyboard(notification:Notification) {
+//        guard let keyboardReact = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else{
+//            return
+//        }
+//
+//        if notification.name == UIResponder.keyboardWillShowNotification ||  notification.name == UIResponder.keyboardWillChangeFrameNotification {
+//            self.view.frame.origin.y = -keyboardReact.height
+//        }else{
+//            self.view.frame.origin.y = 0
+//        }
+//
+//    }
     
     
     
@@ -258,18 +278,18 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     // show keyboard
     @objc func showKeyboard(_ notification:Notification) {
        // pushEverythingUp()
-        
-        
-        
+
+
+
         // define keyboard size
         keyboard = ((notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]! as AnyObject).cgRectValue)!
-        
+
         // move up UI
 //        UIView.animate(withDuration: 0.4, animations: { () -> Void in
 //            self.scrollView.frame.size.height = self.scrollViewHeight - self.keyboard.height
 //        })
-    
-        
+
+
     }
     
     
@@ -301,61 +321,95 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     }
     
     
+    func pushCancelButtonDown() {
+        self.cancelBtn.frame = CGRect(x: self.cancelBtn.frame.minX, y: self.continueBtn.frame.maxY + 5, width: self.cancelBtn.frame.width, height: self.cancelBtn.frame.height)
+    }
+    
+    @IBAction func confirmButtonClicked(_ sender: UIButton) {
+    createMusicLink()
+    pushCancelButtonDown()
+        continueBtn.isHidden = false
+        linkHexagonImage.isHidden = false
+        linkHexagonImage.frame = CGRect(x: linkHexagonImage.frame.minX, y: cancelBtn.frame.maxY + 10, width: linkHexagonImage.frame.width, height: linkHexagonImage.frame.height)
+    }
+    
+    func createMusicLink() {
+        var artistTextBefore = linkTextField.text?.replacingOccurrences(of: "'", with: "")
+        artistText = artistTextBefore?.replacingOccurrences(of: " ", with: "-") as! String
+          var songTextBad = songNameTextField.text?.replacingOccurrences(of: " ", with: "-")
+        songText = songTextBad?.replacingOccurrences(of: "'", with: "") as! String
+        while songText.contains("'") {
+            songText.remove(at: songText.firstIndex(of: "'")!)
+        }
+        while artistText.contains("'") {
+            artistText.remove(at: artistText.firstIndex(of: "'")!)
+              }
+        while songText.contains(" ") {
+            songText.remove(at: songText.firstIndex(of: " ")!)
+              }
+              while artistText.contains(" ") {
+                        artistText.remove(at: artistText.firstIndex(of: " ")!)
+                    }
+        
+        musicLink = "https://songwhip.com/\(artistText)/\(songText)"
+        print("This is music Link. Try it yourself! \(musicLink)")
+        if artistText == "" {
+            badMusicLink = true
+        }
+        
+    }
+    
+    
     // clicked sign up
     @IBAction func continueClicked(_ sender: AnyObject) {
         print("continue button pressed")
-        
+
         if hasChosenThumbnailImage == false {
             loadImg(UITapGestureRecognizer())
         }
         else {
-        
+
         // dismiss keyboard
         self.view.endEditing(true)
-        
+
         // if fields are empty
-        if (linkTextField.text!.isEmpty) {
-            
+            if (linkTextField.text!.isEmpty) {
+
             // alert message
             let alert = UIAlertController(title: "Hold up", message: "Fill in a field or hit Cancel", preferredStyle: UIAlertController.Style.alert)
             let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
             alert.addAction(ok)
             self.present(alert, animated: true, completion: nil)
-            
+
             return
         }
-        
+
         let username = userData!.publicID
         var numPosts = userData!.numPosts
-        
-        var linkString = "\(linkTextField.text!)"
-            if linkString.isValidURL {
-                print("linkString is valid URL")
-                validURL = true
-            }
-            else {
-                print("linkString is not valid URL \(linkString)")
-                validURL = false
-            }
-            
-        
-        
+
+
+
         //let group = DispatchGroup()
-        if (!linkTextField.text!.isEmpty && validURL) {
+        if (!linkTextField.text!.isEmpty) {
             let timestamp = Timestamp.init().seconds
             let imageFileName = "\(username)_\(timestamp)_link.png"
             let refText = "userFiles/\(username)/\(imageFileName)"
             let imageRef = storageRef.child(refText)
             numPosts += 1
-            let linkHex = HexagonStructData(resource: linkTextField.text!, type: "link", location: numPosts, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: "\(linkTextField.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
-            
-            
-            
-            
+            print("music link before \(musicLink)")
+            musicLink = musicLink.replacingOccurrences(of: " ", with: "-")
+            musicLink = musicLink.replacingOccurrences(of: "'", with: "")
+            musicLink.trimmingCharacters(in: ["'", "!", "?"])
+            print("music Link after \(musicLink)")
+            let musicHex = HexagonStructData(resource: musicLink, type: "link", location: numPosts, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: musicLink, views: 0, isArchived: false, docID: "WillBeSetLater")
+
+
+
+
             imageRef.putData(linkHexagonImage.image!.pngData()!, metadata: nil){ data, error in
                 if (error == nil) {
                     print ("upload successful")
-                    self.addHex(hexData: linkHex, completion: { bool in
+                    self.addHex(hexData: musicHex, completion: { bool in
                         if (bool) {
                             print("Add hex successful")
                         }
@@ -368,8 +422,8 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
                     print ("upload failed")
                 }
             }
-            
-            
+
+
             userData?.numPosts = numPosts
             db.collection("UserData1").document(currentUser!.uid).setData(self.userData!.dictionary, completion: { error in
                 if error == nil {
@@ -379,13 +433,13 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
                 else {
                     print("userData not saved \(error?.localizedDescription)")
                 }
-                
+
             })
         }
-        
+
         }
     }
-    
+
     
     // call picker to select image
     @objc func loadImg(_ recognizer:UITapGestureRecognizer) {
@@ -428,5 +482,16 @@ fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [U
 // Helper function inserted by Swift 4.2 migrator.
 fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
     return input.rawValue
-} 
+}
 
+extension String {
+    var isValidURL: Bool {
+        let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
+        if let match = detector.firstMatch(in: self, options: [], range: NSRange(location: 0, length: self.utf16.count)) {
+            // it is a link, if the match covers the whole string
+            return match.range.length == self.utf16.count
+        } else {
+            return false
+        }
+    }
+}

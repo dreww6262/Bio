@@ -415,12 +415,12 @@ class AlgorithmHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRec
     
     // TODO: TO DO Redo this for circular border
     func makeAllMenuButtonsBlack() {
-        newPostButton.imageView?.makeRounded()
-        homeProfileButton.imageView?.makeRounded()
-        dmButton.imageView?.makeRounded()
-        settingsButton.imageView?.makeRounded()
-        friendsButton.imageView?.makeRounded()
-        addPostButton.imageView?.makeRounded()
+        newPostButton.imageView?.makeRoundedBlack()
+        homeProfileButton.imageView?.makeRoundedBlack()
+        dmButton.imageView?.makeRoundedBlack()
+        settingsButton.imageView?.makeRoundedBlack()
+        friendsButton.imageView?.makeRoundedBlack()
+        addPostButton.imageView?.makeRoundedBlack()
         
         //        newPostButton.layer.borderWidth = 4
         //        homeProfileButton.layer.borderWidth = 4
@@ -1035,7 +1035,7 @@ class AlgorithmHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRec
                     trashButton.imageView!.makeRoundedGold()
                     print("It should be gold")
                 } else {
-                    trashButton.imageView!.makeRounded()
+                    trashButton.imageView!.makeRoundedBlack()
                     print("This is outside 70")
                     
                 }

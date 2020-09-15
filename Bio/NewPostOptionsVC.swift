@@ -113,6 +113,14 @@ class NewPostOptionsVC: UIViewController { //, FMPhotoPickerViewControllerDelega
         modalPresentationStyle = .fullScreen
     }
     
+    @IBAction func addMusicPressed(_ sender: UIButton) {
+        let musicVC = storyboard?.instantiateViewController(identifier: "addMusicVC") as! AddMusicVC
+             musicVC.userData = userData
+             present(musicVC, animated: false)
+             modalPresentationStyle = .fullScreen
+    }
+    
+    
     @IBAction func addSocialMediaPressed(_ sender: UIButton) {
         let addSocialMediaVC = storyboard?.instantiateViewController(identifier: "addSocialMediaVC") as! AddSocialMediaVC
         addSocialMediaVC.userData = userData

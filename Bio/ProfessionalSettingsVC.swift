@@ -110,7 +110,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
     
     func addBackButton() {
         self.view.addSubview(backButton)
-        backButton.frame = CGRect(x: 5, y: 5, width: 50, height: 50)
+        backButton.frame = CGRect(x: 1, y: 1, width: 50, height: 50)
         // round ava
         backButton.clipsToBounds = true
         backButton.isHidden = false

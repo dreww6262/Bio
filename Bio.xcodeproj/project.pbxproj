@@ -35,6 +35,9 @@
 		491BC46324C7882F00C751B6 /* BioProfileHexagonGrid2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491BC46224C7882F00C751B6 /* BioProfileHexagonGrid2.swift */; };
 		4920A45624D30F4400F06551 /* HomeHexagonGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4920A45524D30F4400F06551 /* HomeHexagonGrid.swift */; };
 		4920A45824D32B9300F06551 /* uploadFromCameraRollVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4920A45724D32B9300F06551 /* uploadFromCameraRollVC.swift */; };
+		49284F0A25106970008990A1 /* AddMusicVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49284F0925106970008990A1 /* AddMusicVC.swift */; };
+		49284F0C25106A72008990A1 /* AddLinkVCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49284F0B25106A72008990A1 /* AddLinkVCViewController.swift */; };
+		49284F0E2510776E008990A1 /* AddLinkVCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49284F0D2510776D008990A1 /* AddLinkVCViewController.swift */; };
 		492E245A24B65D4B005745D1 /* CalltoUserBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492E245924B65D4B005745D1 /* CalltoUserBackend.swift */; };
 		492E245E24B664C2005745D1 /* SubscribersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492E245D24B664C2005745D1 /* SubscribersCell.swift */; };
 		493E95B924E9E8BD002E9380 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493E95B824E9E8BD002E9380 /* UserCell.swift */; };
@@ -54,7 +57,6 @@
 		494C404824DC82F000A47788 /* FMPickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C404724DC82F000A47788 /* FMPickerVC.swift */; };
 		494C404A24DC9CC400A47788 /* UploadPreviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C404924DC9CC400A47788 /* UploadPreviewVC.swift */; };
 		494C404C24DC9D7A00A47788 /* UploadPreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C404B24DC9D7A00A47788 /* UploadPreviewCell.swift */; };
-		494C408E24E4830D00A47788 /* AddLinkVCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C408D24E4830D00A47788 /* AddLinkVCViewController.swift */; };
 		494C409024E4BFFE00A47788 /* TabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C408F24E4BFFD00A47788 /* TabItem.swift */; };
 		494C409224E4C26E00A47788 /* NavigationMenuBaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C409124E4C26E00A47788 /* NavigationMenuBaseController.swift */; };
 		494C409424E4C34A00A47788 /* TabNavigationMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C409324E4C34A00A47788 /* TabNavigationMenu.swift */; };
@@ -176,6 +178,9 @@
 		491BC46224C7882F00C751B6 /* BioProfileHexagonGrid2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BioProfileHexagonGrid2.swift; sourceTree = "<group>"; };
 		4920A45524D30F4400F06551 /* HomeHexagonGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHexagonGrid.swift; sourceTree = "<group>"; };
 		4920A45724D32B9300F06551 /* uploadFromCameraRollVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = uploadFromCameraRollVC.swift; sourceTree = "<group>"; };
+		49284F0925106970008990A1 /* AddMusicVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMusicVC.swift; sourceTree = "<group>"; };
+		49284F0B25106A72008990A1 /* AddLinkVCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AddLinkVCViewController.swift; path = /Users/annmcdonough/Documents/Bio/Bio/AddLinkVCViewController.swift; sourceTree = "<absolute>"; };
+		49284F0D2510776D008990A1 /* AddLinkVCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AddLinkVCViewController.swift; path = /Users/annmcdonough/Documents/Bio/Bio/AddLinkVCViewController.swift; sourceTree = "<absolute>"; };
 		492E245924B65D4B005745D1 /* CalltoUserBackend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalltoUserBackend.swift; sourceTree = "<group>"; };
 		492E245D24B664C2005745D1 /* SubscribersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscribersCell.swift; sourceTree = "<group>"; };
 		493E95B824E9E8BD002E9380 /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
@@ -195,7 +200,7 @@
 		494C404724DC82F000A47788 /* FMPickerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMPickerVC.swift; sourceTree = "<group>"; };
 		494C404924DC9CC400A47788 /* UploadPreviewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadPreviewVC.swift; sourceTree = "<group>"; };
 		494C404B24DC9D7A00A47788 /* UploadPreviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadPreviewCell.swift; sourceTree = "<group>"; };
-		494C408D24E4830D00A47788 /* AddLinkVCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLinkVCViewController.swift; sourceTree = "<group>"; };
+		494C408D24E4830D00A47788 /* AddLinkVCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AddLinkVCViewController.swift; path = ../AddLinkVCViewController.swift; sourceTree = "<group>"; };
 		494C408F24E4BFFD00A47788 /* TabItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabItem.swift; sourceTree = "<group>"; };
 		494C409124E4C26E00A47788 /* NavigationMenuBaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationMenuBaseController.swift; sourceTree = "<group>"; };
 		494C409324E4C34A00A47788 /* TabNavigationMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabNavigationMenu.swift; sourceTree = "<group>"; };
@@ -338,6 +343,7 @@
 				494D1EAD2506AE5F000F1B9E /* NewsObject.swift */,
 				494D1EAB2506AC7C000F1B9E /* NotificationsVC.swift */,
 				49C205BC2497DDCE0022EE53 /* followersVC.swift */,
+				49284F0D2510776D008990A1 /* AddLinkVCViewController.swift */,
 				494C404724DC82F000A47788 /* FMPickerVC.swift */,
 				49EEDC6D24C0AA1D003C8378 /* PhoneSignInVC.swift */,
 				494C93EB24E6FF45004EA9AA /* MenuView.swift */,
@@ -346,8 +352,10 @@
 				4920A45524D30F4400F06551 /* HomeHexagonGrid.swift */,
 				5B0B9AF0250313DB00D1FD6B /* PostImageView.swift */,
 				494C403B24DB85E000A47788 /* GuestHexagonGridVC.swift */,
+				49284F0B25106A72008990A1 /* AddLinkVCViewController.swift */,
 				49EB971124FD95AB001D0A48 /* HexCollectionViewCell.swift */,
 				491ADB7824971B2500B62C5A /* Main.storyboard */,
+				49284F0925106970008990A1 /* AddMusicVC.swift */,
 				49E8A9692503008400ECB760 /* LoadingAnimationView1.swift */,
 				49E5D22924F9C6570081200E /* OnePostPreview.swift */,
 				493E95BA24E9EA55002E9380 /* UserTableView.swift */,
@@ -685,6 +693,7 @@
 				49C205BB2497DDBD0022EE53 /* pictureCell.swift in Sources */,
 				49C205D524981AC80022EE53 /* segue1.swift in Sources */,
 				4907D154249FB00600B66093 /* DrawingBoard3.swift in Sources */,
+				49284F0A25106970008990A1 /* AddMusicVC.swift in Sources */,
 				491ADB7524971B2500B62C5A /* SceneDelegate.swift in Sources */,
 				493E95BF24EED5E3002E9380 /* SettingsVCGradient.swift in Sources */,
 				49755DC324BC1B0F000E75FC /* DraggableHexagonGrid.swift in Sources */,
@@ -697,9 +706,10 @@
 				49C205A32497DCBC0022EE53 /* followersCell.swift in Sources */,
 				493E95C124EED9ED002E9380 /* SettingsCell.swift in Sources */,
 				4944D79C24ABD2E700AD3955 /* AddSocialMediaVC.swift in Sources */,
+				49284F0E2510776E008990A1 /* AddLinkVCViewController.swift in Sources */,
+				49284F0C25106A72008990A1 /* AddLinkVCViewController.swift in Sources */,
 				49A3743E24A3E4D4007A48E0 /* HexagonGrid2.swift in Sources */,
 				491ADBB5249729A400B62C5A /* DiscoverVC.swift in Sources */,
-				494C408E24E4830D00A47788 /* AddLinkVCViewController.swift in Sources */,
 				4959E04D24A3111E00264DB7 /* YoutubeTableViewController.swift in Sources */,
 				494C404C24DC9D7A00A47788 /* UploadPreviewCell.swift in Sources */,
 				49C2059F2497DB4D0022EE53 /* DrawingBoardVC.swift in Sources */,
