@@ -16,7 +16,6 @@ import FirebaseAuth
 //import PopupDialog
 
 class PhoneSignInVC: UIViewController {
-    @IBOutlet weak var label: UILabel!
     @IBOutlet weak var mottoLabel: UILabel!
     @IBOutlet weak var signUpButton: UIButton!
     
@@ -68,7 +67,6 @@ class PhoneSignInVC: UIViewController {
         
         
         //popUpView.isHidden = true
-        label.frame = CGRect(x: 0, y: self.view.frame.height/4, width: self.view.frame.size.width, height: 300)
        
 //        mottoLabel.layer.borderColor = UIColor.white.cgColor
         signUpButton.frame = CGRect(x: (self.view.frame.width-224)/2 , y: self.view.frame.height*3/4, width: 224, height: 44)
