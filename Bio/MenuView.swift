@@ -19,7 +19,17 @@ class MenuView: UIView {
     var dmButton: UIButton = UIButton()
     var homeProfileButton: UIButton =  UIButton()
     var tabController: NavigationMenuBaseController?
-    var userData: UserData?
+    var userData: UserData? {
+        didSet {
+            if (tabController != nil) {
+                let viewControllers = tabController!.customizableViewControllers!
+                (viewControllers[0] as! NotificationsVC).userData = userData
+                (viewControllers[2] as! HomeHexagonGrid).userData = userData
+                (viewControllers[3] as! BioProfileHexagonGrid2).userData = userData
+                (viewControllers[4] as! NewPostOptionsVC).userData = userData
+            }
+        }
+    }
     var db = Firestore.firestore()
     var user = Auth.auth().currentUser
     
@@ -46,26 +56,27 @@ class MenuView: UIView {
         
         if userData == nil {
             user = Auth.auth().currentUser
-            db.collection("UserData1").whereField("email", isEqualTo: user!.email!).addSnapshotListener({ objects, error in
-                if error == nil {
-                    guard let docs = objects?.documents
-                        else{
-                            print("bad docs")
-                            return
+            if user != nil {
+                db.collection("UserData1").whereField("email", isEqualTo: user!.email!).addSnapshotListener({ objects, error in
+                    if error == nil {
+                        guard let docs = objects?.documents
+                            else{
+                                print("bad docs")
+                                return
+                        }
+                        
+                        if docs.count == 0 {
+                            print("no userdata found.... fix this")
+                        }
+                        else if docs.count > 1 {
+                            print("multiple user data.... fix this")
+                        }
+                        else {
+                            self.userData = UserData(dictionary: docs[0].data())
+                        }
                     }
-                    
-                    if docs.count == 0 {
-                        print("no userdata found.... fix this")
-                    }
-                    else if docs.count > 1 {
-                        print("multiple user data.... fix this")
-                    }
-                    else {
-                        self.userData = UserData(dictionary: docs[0].data())
-                    }
-                }
-                
-            })
+                })
+            }
         }
         
         
