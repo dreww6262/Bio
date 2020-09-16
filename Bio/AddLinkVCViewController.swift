@@ -329,9 +329,29 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         var numPosts = userData!.numPosts
         
         var linkString = "\(linkTextField.text!)"
+        print("This is linkString \(linkString)")
+        let url = URL(string: linkString)
             if linkString.isValidURL {
                 print("linkString is valid URL")
                 validURL = true
+print("This is url \(url)")
+////                let url = URL(string: linkString)
+////                let session = URLSession.shared
+////                let task = session.downloadTask(with:url as! URL) { loc, resp, err in
+////                    let status = (resp as! HTTPURLResponse).statusCode
+////                    print("response status: \(status)")
+////                }
+////                task.resume()
+//            let task = URLSession.shared.dataTask(with: url!) { _, response, _ in
+//                if let httpResponse = response as? HTTPURLResponse {
+//                    print(httpResponse.statusCode)
+//                }
+//            }
+//
+//            task.resume()
+                
+                
+                
             }
             else {
                 print("linkString is not valid URL \(linkString)")

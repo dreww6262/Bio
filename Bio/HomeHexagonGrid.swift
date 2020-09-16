@@ -370,6 +370,8 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         
         let image = PostImageView(frame: CGRect(x: self.reOrderedCoordinateArray[hexData.location][0]-680,
                                               y: self.reOrderedCoordinateArray[hexData.location][1]-570, width: hexaDiameter, height: hexaDiameter))
+        print("This is contentView.center \(contentView.center)")
+        print("This is profile Pic Center \(self.reOrderedCoordinateArray[0][0]-680), \(self.reOrderedCoordinateArray[0][1]-570)")
         image.contentMode = .scaleAspectFill
         image.image = UIImage()
         image.hexData = hexData

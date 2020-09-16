@@ -34,6 +34,9 @@ class PhoneSignInVC: UIViewController {
     
     
     override func viewWillAppear(_ animated: Bool) {
+        view.backgroundColor = backgroundBlue
+       setGradientBackground()
+        super.viewWillAppear(true)
         //     self.view.addSubview(popUpView)
         
     }
@@ -44,22 +47,34 @@ class PhoneSignInVC: UIViewController {
         //  popUpView.frame = CGRect(x: 0, y: self.view.frame.height-400, width: 400, height: 400)
     }
     
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = backgroundBlue
+        setGradientBackground()
         navigationController?.navigationBar.isHidden = true
         //loginButton = FBLoginButton() // TODO: Change button from FB to custom layout
         
         // loginButton.center = signUpButton.frame.or signInButton.center +
         //self.view.addSubview(loginButton)
+//        let gradientLayer = CAGradientLayer()
+//        gradientLayer.frame = self.view.bounds
+//        gradientLayer.colors = [backgroundBlue?.cgColor,lightPink?.cgColor]
+//        self.view.layer.insertSublayer(gradientLayer, at: 0)
+
+        
+        
         
         
         //popUpView.isHidden = true
         label.frame = CGRect(x: 0, y: self.view.frame.height/4, width: self.view.frame.size.width, height: 300)
-        mottoLabel.frame = CGRect(x: 0, y: (0.5)*(label.frame.maxY + label.frame.minY) + 40, width: self.view.frame.size.width, height: 50)
+       
 //        mottoLabel.layer.borderColor = UIColor.white.cgColor
         signUpButton.frame = CGRect(x: (self.view.frame.width-224)/2 , y: self.view.frame.height*3/4, width: 224, height: 44)
         signUpButton.layer.borderColor = UIColor.white.cgColor
         signIn.frame = CGRect(x: (self.view.frame.size.width-224)/2, y: signUpButton.frame.maxY + 20, width: 224, height: 44)
+        mottoLabel.frame = CGRect(x: 0, y: signUpButton.frame.minY - 60, width: self.view.frame.size.width, height: 50)
         
         //loginButton.frame = CGRect(x: (self.view.frame.size.width-224)/2, y: signInButton.frame.maxY + 20, width: 224, height: 44)
         
@@ -85,6 +100,19 @@ class PhoneSignInVC: UIViewController {
                //signUpVC.userData = userData
                self.present(signUpVC, animated: false)
                signUpVC.modalPresentationStyle = .fullScreen
+    }
+    
+    func setGradientBackground() {
+        let colorTop =  backgroundBlue?.cgColor
+        let colorBottom = lightPink?.cgColor
+                    
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.colors = [colorTop, colorBottom]
+        gradientLayer.locations = [0.0, 1.0]
+        gradientLayer.frame = self.view.bounds
+        gradientLayer.shouldRasterize = true
+        self.view.layer.insertSublayer(gradientLayer, at:0)
+        print("gradient should be set!")
     }
     
     @IBAction func unvindSegueToMenu(segue:UIStoryboardSegue) {
@@ -133,6 +161,13 @@ class PhoneSignInVC: UIViewController {
         self.view.endEditing(true)
     }
 }
+
+
+
+
+
+
+
 
 
 

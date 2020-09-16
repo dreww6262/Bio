@@ -160,7 +160,7 @@ class MenuView: UIView {
         homeProfileButton.isHidden = true
         
         newPostButton.setImage(UIImage(named: "plusImage"), for: .normal)
-        notificationsButton.setImage(UIImage(named: "notificationIcon"), for: .normal)
+        notificationsButton.setImage(UIImage(named: "notificationBlack2"), for: .normal)
         friendsButton.setImage(UIImage(named: "boyprofile"), for: .normal)
         dmButton.setImage(UIImage(named: "mailcircle"), for: .normal)
         homeProfileButton.setImage(UIImage(named: "homeIcon"), for: .normal)
@@ -182,7 +182,7 @@ class MenuView: UIView {
         homeProfileButton.backgroundColor = .white
         menuButton.backgroundColor = .clear
         newPostButton.imageView!.image = UIImage(named: "plus")
-        notificationsButton.imageView!.image = UIImage(named: "notificationIcon")
+        notificationsButton.imageView!.image = UIImage(named: "notificationBlack2")
         friendsButton.imageView!.image = UIImage(named: "community2")
         dmButton.imageView!.image = UIImage(named: "plus")
         homeProfileButton.imageView!.image = UIImage(named: "homeIcon")
