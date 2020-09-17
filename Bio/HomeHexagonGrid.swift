@@ -190,8 +190,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     
     func addTrashButton() {
         view.addSubview(trashButton)
-       trashButton.frame = CGRect(x: 5, y: self.view.frame.height - 83, width: 80, height: 80)
-    //    trashButton.frame = CGRect(x: 5,y: 35, width: 80, height: 80)
+        trashButton.frame = menuView.menuButton.frame
         trashButton.imageView?.image = UIImage(named: "trashCircle")
         // round ava
         trashButton.layer.cornerRadius = trashButton.frame.size.width / 2
@@ -363,6 +362,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                     print("get hex failed")
                     return
                 }
+                
                 for doc in docs {
                     let hexData = HexagonStructData(dictionary: doc.data())
                     if (hexData.isArchived == true) {
@@ -372,24 +372,32 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                     newPostImageArray.append(hexImage)
                 }
                 self.resizeScrollView(numPosts: newPostImageArray.count) // clears out all content
+                
                 print("populates after resizescrollview")
                 self.populateUserAvatar()
                 //if newPostImageArray != self.imageViewArray {
                     //for image in self.imageViewArray {
                         //image.removeFromSuperview()
                     //}
-                    self.imageViewArray = newPostImageArray
-                    for image in self.imageViewArray {
-                        self.contentView.addSubview(image)
-                        self.contentView.bringSubviewToFront(image)
-                        image.isHidden = false
-                    }
+                self.imageViewArray = newPostImageArray
+                self.changePostImageCoordinates()
+                for image in self.imageViewArray {
+                    self.contentView.addSubview(image)
+                    self.contentView.bringSubviewToFront(image)
+                    image.isHidden = false
+                }
                 //}
             }
         })
     }
         
-    
+    func changePostImageCoordinates() {
+        for image in imageViewArray {
+            image.frame = CGRect(x: self.reOrderedCoordinateArrayPoints[image.hexData!.location].x,
+                                 y: self.reOrderedCoordinateArrayPoints[image.hexData!.location].y, width: hexaDiameter, height: hexaDiameter)
+            image.setupHexagonMask(lineWidth: 10.0, color: .darkGray, cornerRadius: 10.0)
+        }
+    }
     
     func createPostImage(hexData: HexagonStructData) -> PostImageView {
         let hexaDiameter : CGFloat = 150
@@ -527,6 +535,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             print("yo: this is dragView.center before \(dragView?.center)")
             contentView.bringSubviewToFront(dragView!)
             trashButton.isHidden = false
+            menuView.menuButton.isHidden = true
         }
         else if (sender.state == .changed) {
             let xDelta = dragView!.center.x - sender.location(in: scrollView).x

@@ -275,18 +275,25 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
                     //for image in self.imageViewArray {
                         //image.removeFromSuperview()
                     //}
-                    self.imageViewArray = newPostImageArray
-                    for image in self.imageViewArray {
-                        self.contentView.addSubview(image)
-                        self.contentView.bringSubviewToFront(image)
-                        image.isHidden = false
-                    }
+                self.imageViewArray = newPostImageArray
+                self.changePostImageCoordinates()
+                for image in self.imageViewArray {
+                    self.contentView.addSubview(image)
+                    self.contentView.bringSubviewToFront(image)
+                    image.isHidden = false
+                }
                 //}
             }
         })
     }
         
-    
+    func changePostImageCoordinates() {
+        for image in imageViewArray {
+            image.frame = CGRect(x: self.reOrderedCoordinateArrayPoints[image.hexData!.location].x,
+                                 y: self.reOrderedCoordinateArrayPoints[image.hexData!.location].y, width: hexaDiameter, height: hexaDiameter)
+            image.setupHexagonMask(lineWidth: 10.0, color: .darkGray, cornerRadius: 10.0)
+        }
+    }
     
     func createPostImage(hexData: HexagonStructData) -> PostImageView {
         
