@@ -103,6 +103,8 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
         scrollView.delegate = self
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
+        scrollView.alwaysBounceVertical = true
+        scrollView.alwaysBounceHorizontal = true
         scrollView.backgroundColor = .black
         contentView.backgroundColor = .black
         contentView.isHidden = false
