@@ -110,7 +110,10 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     // viewdidload helper functions
     func setUpScrollView() {
+        scrollView.frame = view.frame
         scrollView.delegate = self
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsHorizontalScrollIndicator = false
         scrollView.backgroundColor = .black
         contentView.backgroundColor = .black
         contentView.isHidden = false
@@ -132,28 +135,29 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     // Zoom Logic
     func resizeScrollView(numPosts: Int) {
         print("Contentviewframebeforeresize \(contentView.frame)")
-        var rows = 0
+        //var rows = 0
         var width = view.frame.width
         var height = view.frame.height
         let additionalRowWidth: CGFloat = 340.0
         //     let heightDifference = height - width
         if numPosts < 7 {
-            rows = 1
+            //rows = 1
             //self.scrollView.frame.width =
         }
         else if numPosts < 19 {
-            rows = 2
+            //rows = 2
             width += additionalRowWidth
+            height += additionalRowWidth
         }
         else if numPosts  < 43 {
-            rows = 3
+            //rows = 3
             width += (2*additionalRowWidth)
-            height = height + (additionalRowWidth)
+            height += (2*additionalRowWidth)
         }
         else if numPosts < 91 {
-            rows = 4
+            //rows = 4
             width += (3*additionalRowWidth)
-            height += (2*additionalRowWidth)
+            height += (3*additionalRowWidth)
         }
         //  var addedWidth = 2*(rows-1)*160
         // var addedHeight =  2 * (rows-1)*160

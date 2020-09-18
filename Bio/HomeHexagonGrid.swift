@@ -52,11 +52,6 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     var targetHexagons: [Int] = []
     //var hexagonStructArray: [HexagonStructData] = []
     var imageViewArray: [PostImageView] = []
-
-    //var reOrderedCoordinateArray: [[CGFloat]] = [[946.8266739736607, 902.5],[1081.7304845413264, 902.5], [1014.2785792574934, 1020.0],   [879.3747686898278,1020.0], [811.9228634059948,902.5], [879.3747686898278,785.0],[1014.2785792574934,785.0],[946.8266739736607, 667.5],[1081.7304845413264, 667.5], [1149.1823898251594, 785.0],  [1216.6342951089923, 902.5],[1149.1823898251594, 1020.0],  /* [1081.7304845413264, 1137.5],*/ [1081.7304845413264, 1137.5],[946.8266739736607, 1137.5],[811.9228634059948, 1137.5],[744.4709581221618, 1020.0],[677.0190528383291, 902.5],[744.4709581221618, 785.0],  [811.9228634059948, 667.5],[879.3747686898278, 550.0],[1014.2785792574934, 550.0],[1149.1823898251594, 550.0],[1216.6342951089923, 667.5],[1284.0862003928253, 785.0],[1351.5381056766582, 902.5], [1284.0862003928253, 1020.0], [1216.6342951089923, 1137.5],[1149.1823898251594, 1255.0], [1014.2785792574934, 1255.0],[879.3747686898278, 1255.0],  [744.4709581221618, 1255.0],[677.0190528383291, 1137.5],[609.5671475544962, 1020.0],[542.1152422706632, 902.5],[609.5671475544962, 785.0],[677.0190528383291, 667.5],[744.4709581221618, 550.0]] // , /[811.9228634059948, 432.5], [946.8266739736607, 432.5], [1081.7304845413264, 432.5], [1216.6342951089923, 432.5],[1284.0862003928253, 550.0],[1351.5381056766582, 667.5], [1418.990010960491, 785.0],  [1486.441916244324, 902.5], [1418.990010960491, 1020.0],[1351.5381056766582, 1137.5],   [1284.0862003928253, 1255.0],[1216.6342951089923, 1372.5],   [1081.7304845413264, 1372.5],[946.8266739736607, 1372.5],[811.9228634059948, 1372.5],[677.0190528383291, 1372.5], [609.5671475544962, 1255.0],[542.1152422706632, 1137.5],[474.6633369868303, 1020.0],[407.2114317029974, 902.5],[474.6633369868303, 785.0],[542.1152422706632, 667.5],[609.5671475544962, 550.0],[677.0190528383291, 432.5]]
-    
-    //with 3rd row
-    //    var reOrderedCoordinateArrayPoints: [CGPoint] = [CGPoint(x: 946.8266739736607,y: 902.5),CGPoint(x: 1081.7304845413264,y: 902.5),CGPoint(x: 1014.2785792574934,y: 1020.0), CGPoint(x: 879.3747686898278,y: 1020.0),CGPoint(x:811.9228634059948,y: 902.5), CGPoint(x: 879.3747686898278,y: 785.0),CGPoint(x: 1014.2785792574934,y: 785.0),CGPoint(x:946.8266739736607,y: 667.5),CGPoint(x:1081.7304845413264,y:667.5), CGPoint(x:1149.1823898251594,y:785.0),CGPoint(x: 1216.6342951089923,y: 902.5),CGPoint(x:1149.1823898251594,y: 1020.0),   CGPoint(x: 1081.7304845413264,y: 1137.5), CGPoint(x:1081.7304845413264, y: 1137.5),CGPoint(x:946.8266739736607,y: 1137.5),CGPoint(x: 811.9228634059948, y: 1137.5),CGPoint(x: 744.4709581221618, y: 1020.0), CGPoint(x: 677.0190528383291, y: 902.5),CGPoint(x: 744.4709581221618, y: 785.0), CGPoint(x: 811.9228634059948, y: 667.5),CGPoint(x: 879.3747686898278, y: 550.0),CGPoint(x: 1014.2785792574934, y: 550.0),CGPoint(x: 1149.1823898251594,y: 550.0),CGPoint(x:1216.6342951089923,y: 667.5),CGPoint(x:1284.0862003928253, y: 785.0),CGPoint(x:1351.5381056766582,y: 902.5), CGPoint(x:1284.0862003928253, y: 1020.0),CGPoint(x: 1216.6342951089923, y: 1137.5),CGPoint(x: 1149.1823898251594, y: 1255.0), CGPoint(x:1014.2785792574934,y:1255.0),CGPoint(x:879.3747686898278, y:1255.0),CGPoint(x:744.4709581221618, y:1255.0),CGPoint(x:677.0190528383291, y:1137.5),CGPoint(x:609.5671475544962,y: 1020.0),CGPoint(x:542.1152422706632, y: 902.5),CGPoint(x: 609.5671475544962, y: 785.0),CGPoint(x: 677.0190528383291, y: 667.5),CGPoint(x: 744.4709581221618, y: 550.0),CGPoint(x:811.9228634059948,y: 432.5), CGPoint(x: 946.8266739736607,y: 432.5), CGPoint(x:1081.7304845413264, y: 432.5), CGPoint(x: 1216.6342951089923,y: 432.5),CGPoint(x: 1284.0862003928253,y: 550.0),CGPoint(x:1351.5381056766582, y: 667.5), CGPoint(x:1418.990010960491,y: 785.0),  CGPoint(x: 1486.441916244324,y:902.5), CGPoint(x:1418.990010960491, y: 1020.0),CGPoint(x: 1351.5381056766582, y: 1137.5), CGPoint(x:1284.0862003928253,y: 1255.0),CGPoint(x: 1216.6342951089923,y: 1372.5),   CGPoint(x: 1081.7304845413264,y: 1372.5),CGPoint(x: 946.8266739736607, y: 1372.5),CGPoint(x: 811.9228634059948, y: 1372.5),CGPoint(x: 677.0190528383291,y: 1372.5), CGPoint(x: 609.5671475544962,y: 1255.0),CGPoint(x: 542.1152422706632,y: 1137.5),CGPoint(x: 474.6633369868303,y: 1020.0),CGPoint(x: 407.2114317029974, y: 902.5),CGPoint(x: 474.6633369868303, y: 785.0),CGPoint(x: 542.1152422706632,y: 667.5),CGPoint(x: 609.5671475544962,y: 550.0),CGPoint(x: 677.0190528383291, y: 432.5)]
     
     var reOrderedCoordinateArrayPoints: [CGPoint] = [CGPoint(x: 946.8266739736607,y: 902.5),CGPoint(x: 1081.7304845413264,y: 902.5),CGPoint(x: 1014.2785792574934,y: 1020.0), CGPoint(x: 879.3747686898278,y: 1020.0),CGPoint(x:811.9228634059948,y: 902.5), CGPoint(x: 879.3747686898278,y: 785.0),CGPoint(x: 1014.2785792574934,y: 785.0),CGPoint(x:946.8266739736607,y: 667.5),CGPoint(x:1081.7304845413264,y:667.5), CGPoint(x:1149.1823898251594,y:785.0),CGPoint(x: 1216.6342951089923,y: 902.5),CGPoint(x:1149.1823898251594,y: 1020.0),   CGPoint(x: 1081.7304845413264,y: 1137.5), CGPoint(x:1081.7304845413264, y: 1137.5),CGPoint(x:946.8266739736607,y: 1137.5),CGPoint(x: 811.9228634059948, y: 1137.5),CGPoint(x: 744.4709581221618, y: 1020.0), CGPoint(x: 677.0190528383291, y: 902.5),CGPoint(x: 744.4709581221618, y: 785.0), CGPoint(x: 811.9228634059948, y: 667.5),CGPoint(x: 879.3747686898278, y: 550.0),CGPoint(x: 1014.2785792574934, y: 550.0),CGPoint(x: 1149.1823898251594,y: 550.0),CGPoint(x:1216.6342951089923,y: 667.5),CGPoint(x:1284.0862003928253, y: 785.0),CGPoint(x:1351.5381056766582,y: 902.5), CGPoint(x:1284.0862003928253, y: 1020.0),CGPoint(x: 1216.6342951089923, y: 1137.5),CGPoint(x: 1149.1823898251594, y: 1255.0), CGPoint(x:1014.2785792574934,y:1255.0),CGPoint(x:879.3747686898278, y:1255.0),CGPoint(x:744.4709581221618, y:1255.0),CGPoint(x:677.0190528383291, y:1137.5),CGPoint(x:609.5671475544962,y: 1020.0),CGPoint(x:542.1152422706632, y: 902.5),CGPoint(x: 609.5671475544962, y: 785.0),CGPoint(x: 677.0190528383291, y: 667.5),CGPoint(x: 744.4709581221618, y: 550.0)]
     
@@ -74,12 +69,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         addSearchButton()
         addSettingsButton()
         addTrashButton()
-//        for point in reOrderedCoordinateArrayPoints {
-//            let newPointX = point.x - 604 //680
-//            let newPointY = point.y - 493 //570
-//            let newPoint = CGPoint(x: newPointX, y: newPointY)
-//            reOrderedCoordinateArrayPointsCentered.append(newPoint)
-//        }
+
         let contentTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleContentViewerTap))
         contentViewer.addGestureRecognizer(contentTapGesture)
         
@@ -112,42 +102,15 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     
     // viewdidload helper functions
     func setUpScrollView() {
-//        // Do any additional setup after loading the view.
-//        let hexaDiameter : CGFloat = 150
-//        let hexaWidth = hexaDiameter * sqrt(3) * 0.5
-//        //let hexaWidthDelta = (hexaDiameter - hexaWidth) * 0.5
-//        let hexaHeightDelta = hexaDiameter * 0.25
-//        let spacing : CGFloat = 5
-//
-//        let rows = 15
-//        let firstRowColumns = 15
-//        //scroll view stuff 2
-////        print("Bounds of zoomview: \(contentView.bounds.size)")
-//        self.scrollView.contentSize = CGSize(width: spacing + CGFloat(firstRowColumns) * (hexaWidth + spacing), height: spacing + CGFloat(rows) * (hexaDiameter - hexaHeightDelta + spacing) + hexaHeightDelta)
-//        print("scrollview content size \(scrollView.contentSize)")
-        
-        
-        //scrollViewStuff1
-        //scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        
-        //let location = CGPoint(x: reOrderedCoordinateArrayPoints[0].x - self.view.frame.width*2.125, y: reOrderedCoordinateArrayPoints[0].y - self.view.frame.height*1.2)
-        //self.scrollView.contentOffset = location
-        
-        //        let bg = UIImageView(frame: CGRect(x: -400, y: -400, width: 3000, height: 3000))
-        //        bg.backgroundColor = .black
-        //        bg.layer.zPosition = -1
+        scrollView.frame = view.frame
         scrollView.delegate = self
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsHorizontalScrollIndicator = false
         scrollView.backgroundColor = .black
         contentView.backgroundColor = .black
         contentView.isHidden = false
+        scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         resizeScrollView(numPosts: 0)
-        //scrollView.addSubview(contentView)
-//        contentView.frame = CGRect(x: 0, y: 0, width: scrollView.contentSize.width, height: scrollView.contentSize.height)
-        //scrollView.bringSubviewToFront(contentView)
-        
-        
-        //view.addSubview(scrollView)
-        
     }
     
     func setZoomScale() {
@@ -201,28 +164,29 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     // Zoom Logic
     func resizeScrollView(numPosts: Int) {
         print("Contentviewframebeforeresize \(contentView.frame)")
-        var rows = 0
+        //var rows = 0
         var width = view.frame.width
         var height = view.frame.height
         let additionalRowWidth: CGFloat = 340.0
         //     let heightDifference = height - width
         if numPosts < 7 {
-            rows = 1
+            //rows = 1
             //self.scrollView.frame.width =
         }
         else if numPosts < 19 {
-            rows = 2
+            //rows = 2
             width += additionalRowWidth
+            height += (additionalRowWidth)
         }
         else if numPosts  < 43 {
-            rows = 3
+            //rows = 3
             width += (2*additionalRowWidth)
-            height = height + (additionalRowWidth)
+            height += (2*additionalRowWidth)
         }
         else if numPosts < 91 {
-            rows = 4
+            //rows = 4
             width += (3*additionalRowWidth)
-            height += (2*additionalRowWidth)
+            height += (3*additionalRowWidth)
         }
         //  var addedWidth = 2*(rows-1)*160
         // var addedHeight =  2 * (rows-1)*160
@@ -232,12 +196,20 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         }
         
         contentView.frame = CGRect(x: 0,y: 0,width: width, height: height)
-        scrollView.contentSize = contentView.frame.size
+        //scrollView.frame = contentView.frame
+        //scrollView.isScrollEnabled = true
+        scrollView.contentSize = CGSize(width: width, height: height)
         print("contentviewframe: \(contentView.frame)")
         resetCoordinatePoints()
         let contentOffset = CGPoint(x: contentView.frame.width/2 - view.frame.width/2, y: contentView.frame.height/2 - view.frame.height/2)
         print(contentOffset)
         scrollView.contentOffset = contentOffset
+        //scrollView.frame = contentView.frame
+        //scrollView.bounds = contentView.frame
+        print("content view frame: \(contentView.frame) \(contentView.frame.size)")
+        print("scrollview content size: \(scrollView.contentSize)")
+        print("scrollview frame: \(scrollView.frame)")
+        print("view frame: \(view.frame)")
     }
     
     func resetCoordinatePoints() {
@@ -333,25 +305,10 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         let userdata = self.userData
                          let settingsVC = self.storyboard!.instantiateViewController(identifier: "settingsVC") as! ProfessionalSettingsVC
                          settingsVC.userData = userdata
-        settingsVC.menuView.tabController = tabBarController as! NavigationMenuBaseController
+        settingsVC.menuView.tabController = (tabBarController as! NavigationMenuBaseController)
         settingsVC.menuView.userData = userData
                          self.present(settingsVC, animated: false)
                          self.modalPresentationStyle = .fullScreen
-        
-//        let currentTab = 2
-//        menuView.currentTab = currentTab
-//        menuView.notificationsButtonClicked(sender)
-////        let viewControllers = tabController!.customizableViewControllers!
-//             let settingsVC = (viewControllers[0] as! ProfessionalSettingsVC)
-//        //     settingsVC.userData = userData
-//             tabController!.viewControllers![0] = settingsVC
-//             tabController!.customTabBar.switchTab(from: currentTab, to: 0)
-//
-        
-        
-        
-        
-        
     }
     
     func createImageViews() {
@@ -375,10 +332,6 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                 
                 print("populates after resizescrollview")
                 self.populateUserAvatar()
-                //if newPostImageArray != self.imageViewArray {
-                    //for image in self.imageViewArray {
-                        //image.removeFromSuperview()
-                    //}
                 self.imageViewArray = newPostImageArray
                 self.changePostImageCoordinates()
                 for image in self.imageViewArray {
@@ -386,7 +339,6 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                     self.contentView.bringSubviewToFront(image)
                     image.isHidden = false
                 }
-                //}
             }
         })
     }
@@ -409,8 +361,8 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         
         let image = PostImageView(frame: CGRect(x: self.reOrderedCoordinateArrayPoints[hexData.location].x,
                                                 y: self.reOrderedCoordinateArrayPoints[hexData.location].y, width: hexaDiameter, height: hexaDiameter))
-        print("This is contentView.center \(contentView.center)")
-        print("This is profile Pic Center \(self.reOrderedCoordinateArrayPoints[0].x), \(self.reOrderedCoordinateArrayPoints[0].y)")
+        //print("This is contentView.center \(contentView.center)")
+        //print("This is profile Pic Center \(self.reOrderedCoordinateArrayPoints[0].x), \(self.reOrderedCoordinateArrayPoints[0].y)")
         image.contentMode = .scaleAspectFill
         image.image = UIImage()
         image.hexData = hexData
@@ -421,26 +373,24 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         image.isUserInteractionEnabled = true
         //    var gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
         image.setupHexagonMask(lineWidth: 10.0, color: .darkGray, cornerRadius: 10.0)
-        let ref = storage.child(hexData.thumbResource)
+        //let ref = storage.child(hexData.thumbResource)
         let cleanRef = hexData.thumbResource.replacingOccurrences(of: "/", with: "%2F")
-        print("This is clean ref \(cleanRef)")
+        //print("This is clean ref \(cleanRef)")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
-        print("This is url: \(url)")
-        print("i unforced url because it was crashing on me -- Patrick")
-        print(url?.absoluteString)
+        //print("This is url: \(url)")
+        //print("i unforced url because it was crashing on me -- Patrick")
+        //print(url?.absoluteString)
         //image.sd_setImage(with: ref)
         image.sd_setImage(with: url!, completed: {_, error, _, _ in
             if error != nil {
-                print(error?.localizedDescription)
+                print(error!.localizedDescription)
             }
         })
         return image
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        //loadView()
-        super.viewWillAppear(true) // No need for semicolon
-//        print("search button \(toSearchButton.frame)")
+        super.viewWillAppear(true)
         firstLoad = true
         menuView.tabController = (tabBarController! as! NavigationMenuBaseController)
         
@@ -532,7 +482,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             //dragItem(sender as! UIPanGestureRecognizer)
             dragView = (sender.view as! PostImageView)
             dragView?.center = sender.location(in: scrollView)
-            print("yo: this is dragView.center before \(dragView?.center)")
+            print("yo: this is dragView.center before \(dragView!.center)")
             contentView.bringSubviewToFront(dragView!)
             trashButton.isHidden = false
             menuView.menuButton.isHidden = true
@@ -541,7 +491,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             let xDelta = dragView!.center.x - sender.location(in: scrollView).x
             let yDelta = dragView!.center.y - sender.location(in: scrollView).y
             dragView?.center = sender.location(in: scrollView)
-            print("yo: this is dragView.center changed \(dragView?.center)")
+            print("yo: this is dragView.center changed \(dragView!.center)")
             
             self.scrollIfNeeded(location: sender.location(in: scrollView.superview), xDelta: xDelta, yDelta: yDelta)
             //                print("This is newIndex before \(newIndex)")
@@ -685,7 +635,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         let ref = self.storage.child(userData!.avaRef)
         avaImage!.setupHexagonMask(lineWidth: 10.0, color: .white, cornerRadius: 10.0)
         avaImage!.sd_setImage(with: ref)
-        print("avaFrame: \(avaImage?.frame)")
+        print("avaFrame: \(avaImage!.frame)")
     }
     
     func scrollIfNeeded(location: CGPoint, xDelta: CGFloat, yDelta: CGFloat) {
