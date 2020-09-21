@@ -638,9 +638,17 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         contentView.addSubview(avaImage!)
         avaImage?.isHidden = false
         contentView.bringSubviewToFront(avaImage!)
-        let ref = self.storage.child(userData!.avaRef)
+        //let ref = self.storage.child(userData!.avaRef)
         avaImage!.setupHexagonMask(lineWidth: 10.0, color: .white, cornerRadius: 10.0)
-        avaImage!.sd_setImage(with: ref)
+        //avaImage!.sd_setImage(with: ref)
+        let cleanRef = userData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
+        //print("This is clean ref \(cleanRef)")
+        let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
+        avaImage?.sd_setImage(with: url!, completed: {_, error, _, _ in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+        })
         print("avaFrame: \(avaImage!.frame)")
     }
     
@@ -740,8 +748,16 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         else if hexItem.type.contains("photo") {
             menuView.menuButton.isHidden = true
             let newImageView = UIImageView(image: UIImage(named: "kbit"))
-            let ref = storage.child(hexItem.thumbResource)
-            newImageView.sd_setImage(with: ref)
+            //let ref = storage.child(hexItem.thumbResource)
+            //newImageView.sd_setImage(with: ref)
+            let cleanRef = hexItem.thumbResource.replacingOccurrences(of: "/", with: "%2F")
+            //print("This is clean ref \(cleanRef)")
+            let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
+            newImageView.sd_setImage(with: url!, completed: {_, error, _, _ in
+                if error != nil {
+                    print(error!.localizedDescription)
+                }
+            })
             self.view.addSubview(newImageView)
             
             // let newImageView = UIImageView(image: imageViewArray[sender.view!.tag].image)

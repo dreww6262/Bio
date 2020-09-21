@@ -403,20 +403,18 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
             print("follower username \(data.publicID)")
             
             
-            let currentAvaRef = storage.child(data.avaRef)
-            
-            let currentAva = UIImageView()
-            currentAva.sd_setImage(with: currentAvaRef)
-            let defaultProfileImage = UIImage(named: "boyprofile")
-            let newThumb = currentAva.image ?? defaultProfileImage
-            
-            
-            let image = UIImageView(frame: CGRect(x: reOrderedCoordinateArrayPoints[thisIndex].x,
-                                                  y: reOrderedCoordinateArrayPoints[thisIndex].y,
-                                                  width: hexaDiameter,
-                                                  height: hexaDiameter))
+            //let currentAvaRef = storage.child(data.avaRef)
+            let cleanRef = data.avaRef.replacingOccurrences(of: "/", with: "%2F")
+            //print("This is clean ref \(cleanRef)")
+            let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
+            let image = UIImageView(frame: CGRect(x: reOrderedCoordinateArrayPoints[thisIndex].x, y: reOrderedCoordinateArrayPoints[thisIndex].y, width: hexaDiameter, height: hexaDiameter))
+            image.sd_setImage(with: url!, completed: {_, error, _, _ in
+                if error != nil {
+                    print(error!.localizedDescription)
+                    image.image = UIImage(named: "boyprofile")
+                }
+            })
             image.contentMode = .scaleAspectFill
-            image.image = newThumb ?? defaultProfileImage
             image.tag = thisIndex
             
             
