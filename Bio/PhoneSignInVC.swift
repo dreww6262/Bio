@@ -33,8 +33,8 @@ class PhoneSignInVC: UIViewController {
     
     
     override func viewWillAppear(_ animated: Bool) {
-        view.backgroundColor = backgroundBlue
-       setGradientBackground()
+    //    view.backgroundColor = backgroundBlue
+     //  setGradientBackground()
         super.viewWillAppear(true)
         //     self.view.addSubview(popUpView)
         
@@ -50,8 +50,8 @@ class PhoneSignInVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = backgroundBlue
-        setGradientBackground()
+ //       view.backgroundColor = backgroundBlue
+  //      setGradientBackground()
         navigationController?.navigationBar.isHidden = true
         //loginButton = FBLoginButton() // TODO: Change button from FB to custom layout
         
@@ -100,18 +100,18 @@ class PhoneSignInVC: UIViewController {
                signUpVC.modalPresentationStyle = .fullScreen
     }
     
-    func setGradientBackground() {
-        let colorTop =  backgroundBlue?.cgColor
-        let colorBottom = lightPink?.cgColor
-                    
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.colors = [colorTop, colorBottom]
-        gradientLayer.locations = [0.0, 1.0]
-        gradientLayer.frame = self.view.bounds
-        gradientLayer.shouldRasterize = true
-        self.view.layer.insertSublayer(gradientLayer, at:0)
-        print("gradient should be set!")
-    }
+//    func setGradientBackground() {
+//    //    let colorTop =  backgroundBlue?.cgColor
+//    //    let colorBottom = lightPink?.cgColor
+//
+//        let gradientLayer = CAGradientLayer()
+//        gradientLayer.colors = [colorTop, colorBottom]
+//        gradientLayer.locations = [0.0, 1.0]
+//        gradientLayer.frame = self.view.bounds
+//        gradientLayer.shouldRasterize = true
+//        self.view.layer.insertSublayer(gradientLayer, at:0)
+//        print("gradient should be set!")
+//    }
     
     @IBAction func unvindSegueToMenu(segue:UIStoryboardSegue) {
         let tabBar = self.tabBarController! as! NavigationMenuBaseController
