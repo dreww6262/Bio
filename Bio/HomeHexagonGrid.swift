@@ -165,6 +165,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     
     // Zoom Logic
     func resizeScrollView(numPosts: Int) {
+        print("Content numposts: \(numPosts)")
         print("Contentviewframebeforeresize \(contentView.frame)")
         //var rows = 0
         var width = view.frame.width
@@ -208,10 +209,10 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         scrollView.contentOffset = contentOffset
         //scrollView.frame = contentView.frame
         //scrollView.bounds = contentView.frame
-        print("content view frame: \(contentView.frame) \(contentView.frame.size)")
+        //print("content view frame: \(contentView.frame) \(contentView.frame.size)")
         print("scrollview content size: \(scrollView.contentSize)")
-        print("scrollview frame: \(scrollView.frame)")
-        print("view frame: \(view.frame)")
+        //print("scrollview frame: \(scrollView.frame)")
+        //print("view frame: \(view.frame)")
     }
     
     func resetCoordinatePoints() {
@@ -398,7 +399,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         super.viewWillAppear(true)
         firstLoad = true
         menuView.tabController = (tabBarController! as! NavigationMenuBaseController)
-        
+        scrollView.zoomScale = 1
         if (userData == nil) {
             user = Auth.auth().currentUser
             if (user != nil) {
