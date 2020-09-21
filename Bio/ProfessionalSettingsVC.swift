@@ -12,9 +12,10 @@ import QuickTableViewController
 
 class ProfessionalSettingsVC: QuickTableViewController {
     
-
-    @IBOutlet weak var backButton: UIButton!
-   //var tabController = NavigationMenuBaseController()
+    @IBOutlet weak var navBar: UINavigationBar!
+    
+    @IBOutlet weak var backButton: UIBarButtonItem!
+    //var tabController = NavigationMenuBaseController()
     var userData: UserData? = nil
     var menuView = MenuView()
  var myAccountArray = ["Name",
@@ -62,9 +63,21 @@ class ProfessionalSettingsVC: QuickTableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        
+        navBar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 100)
+        tableView.frame = CGRect(x: 0, y: 33, width: self.view.frame.width, height: self.view.frame.height)
+        navBar.setTitleVerticalPositionAdjustment(-10, for: UIBarMetrics.default)
+//        backButton.setBackButtonBackgroundVerticalPositionAdjustment(-10, for: UIBarMetrics.default)
+        
+       // backButton.imageInsets = UIEdgeInsets(top: 0, left: 0, bottom: 12, right: 0)
+   //     navigationItem.leftBarButtonItem?.setBackgroundVerticalPositionAdjustment(-10, for: UIBarMetrics.default)
+      
+       
+        
+        
         // Do any additional setup after loading the view.
-        addBackButton()
+       
         menuView.isHidden = true
         tableContents = [
             Section(title: "My Account", rows: [
@@ -103,21 +116,11 @@ class ProfessionalSettingsVC: QuickTableViewController {
         }
 
         
-    @IBAction func backButtonClicked(_ sender: UIButton) {
+    @IBAction func backButtonClicked(_ sender: UIBarButtonItem) {
 //        menuView.homeButtonClicked(sender)
     dismiss(animated: false, completion: nil)
     }
     
-    func addBackButton() {
-        self.view.addSubview(backButton)
-        backButton.frame = CGRect(x: 1, y: 1, width: 50, height: 50)
-        // round ava
-        backButton.clipsToBounds = true
-        backButton.isHidden = false
-        backButton.titleLabel?.text = "Back"
-    }
-        
-        
         
         
     

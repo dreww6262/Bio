@@ -307,10 +307,13 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         let userdata = self.userData
                          let settingsVC = self.storyboard!.instantiateViewController(identifier: "settingsVC") as! ProfessionalSettingsVC
                          settingsVC.userData = userdata
+       
         settingsVC.menuView.tabController = (tabBarController as! NavigationMenuBaseController)
         settingsVC.menuView.userData = userData
-                         self.present(settingsVC, animated: false)
-                         self.modalPresentationStyle = .fullScreen
+        self.modalPresentationStyle = .overFullScreen
+            self.present(settingsVC, animated: false)
+        self.modalPresentationStyle = .overFullScreen
+                    
     }
     
     func createImageViews() {
