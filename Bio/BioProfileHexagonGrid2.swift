@@ -127,16 +127,17 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
         else if numFollowers < 19 {
             rows = 2
             width += additionalRowWidth
+            height += additionalRowWidth
         }
         else if numFollowers  < 43 {
             rows = 3
             width += (2*additionalRowWidth)
-            height = height + (additionalRowWidth)
+            height += (2*additionalRowWidth)
         }
         else if numFollowers < 91 {
             rows = 4
             width += (3*additionalRowWidth)
-            height += (2*additionalRowWidth)
+            height += (3*additionalRowWidth)
         }
         //  var addedWidth = 2*(rows-1)*160
         // var addedHeight =  2 * (rows-1)*160
@@ -299,7 +300,15 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
                             }
                             
                             for object in documents {
-                                newUserDataArray.append(UserData(dictionary: object.data()))
+                                let newUserData = UserData(dictionary: object.data())
+                                if (newUserDataArray.contains(where: { u in
+                                    return u.publicID != newUserData.publicID
+                                })) {
+                                    newUserDataArray.append(newUserData)
+                                }
+                                else {
+                                    print("duplicate follow \(newUserData)")
+                                }
                             }
                             self.followingUserDataArray = newUserDataArray
                             newUserDataArray.forEach({ doc in
@@ -378,6 +387,8 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
 //            reorderedCoordinateArrayPointsCentered.append(newPoint)
 //
 //        }
+        
+        resizeScrollView(numFollowers: followingUserDataArray.count)
         let contentTapGesture = UITapGestureRecognizer(target: self, action: #selector(DraggableHexagonGrid.handleContentViewerTap))
         self.contentViewer.addGestureRecognizer(contentTapGesture)
         
