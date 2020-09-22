@@ -125,7 +125,7 @@ var titleLabel1 = UILabel()
         self.navBarView.addBehavior()
         
         // tap to dismissSettings
-let dismissTap = UITapGestureRecognizer(target: backButton1, action: #selector(self.backButtonpressed))
+let dismissTap = UITapGestureRecognizer(target: self, action: #selector(self.backButtonpressed))
         dismissTap.numberOfTapsRequired = 1
         self.backButton1.isUserInteractionEnabled = true
         self.backButton1.addGestureRecognizer(dismissTap)
