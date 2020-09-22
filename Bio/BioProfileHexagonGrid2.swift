@@ -400,22 +400,25 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
             
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
             print("follower username \(data.publicID)")
-            
-            
-            let currentAvaRef = storage.child(data.avaRef)
-            
-            let currentAva = UIImageView()
-            currentAva.sd_setImage(with: currentAvaRef)
             let defaultProfileImage = UIImage(named: "boyprofile")
-            let newThumb = currentAva.image ?? defaultProfileImage
-            
-            
             let image = UIImageView(frame: CGRect(x: reOrderedCoordinateArrayPoints[thisIndex].x,
                                                   y: reOrderedCoordinateArrayPoints[thisIndex].y,
                                                   width: hexaDiameter,
                                                   height: hexaDiameter))
             image.contentMode = .scaleAspectFill
-            image.image = newThumb ?? defaultProfileImage
+            let cleanRef = data.avaRef.replacingOccurrences(of: "/", with: "%2F")
+            let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
+            if (url != nil) {
+                image.sd_setImage(with: url!, completed: {_, error, _, _ in
+                    if error != nil {
+                        print(error!.localizedDescription)
+                        image.image = defaultProfileImage
+                    }
+                })
+            }
+            else {
+                image.image = UIImage(named: "boyprofile")
+            }
             image.tag = thisIndex
             
             
