@@ -119,7 +119,6 @@ var titleLabel1 = UILabel()
         }
     
     func setUpNavBarView() {
-      
         self.view.addSubview(navBarView)
         self.navBarView.addSubview(titleLabel1)
         self.navBarView.addSubview(backButton1)
