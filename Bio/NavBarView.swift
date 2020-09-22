@@ -14,30 +14,12 @@ class NavBarView: UIView {
     
     var backButton = UIButton()
     var titleLabel = UILabel()
-    var tabController: NavigationMenuBaseController?
-    var userData: UserData? {
-        didSet {
-            if (tabController != nil) {
-                let viewControllers = tabController!.customizableViewControllers!
-                (viewControllers[0] as! NotificationsVC).userData = userData
-                (viewControllers[2] as! HomeHexagonGrid).userData = userData
-                (viewControllers[3] as! BioProfileHexagonGrid2).userData = userData
-                (viewControllers[4] as! NewPostColorfulVC).userData = userData
-            }
-        }
-    }
-    var db = Firestore.firestore()
     var user = Auth.auth().currentUser
-    
-    var currentTab: Int = 0
-    
+        
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         //addBehavior()
-    }
-    func setTabController(tabController: NavigationMenuBaseController) {
-        self.tabController = tabController
     }
     
     convenience init() {
@@ -50,37 +32,9 @@ class NavBarView: UIView {
     
     func addBehavior() {
         
-        if userData == nil {
-            user = Auth.auth().currentUser
-            if user != nil {
-                db.collection("UserData1").whereField("email", isEqualTo: user!.email!).addSnapshotListener({ objects, error in
-                    if error == nil {
-                        guard let docs = objects?.documents
-                            else{
-                                print("bad docs")
-                                return
-                        }
-                        
-                        if docs.count == 0 {
-                            print("no userdata found.... fix this")
-                        }
-                        else if docs.count > 1 {
-                            print("multiple user data.... fix this")
-                        }
-                        else {
-                            self.userData = UserData(dictionary: docs[0].data())
-                        }
-                    }
-                })
-            }
-        }
-        
-        
-        self.isUserInteractionEnabled = false
+        self.isUserInteractionEnabled = true
         let superView = self.superview!
-        //let thisFrame = self.frame
         let superFrame = superView.frame
-    
         self.addSubview(backButton)
             
         backButton.frame = CGRect(x: 5, y: 5, width: 44, height: self.frame.height)
@@ -88,21 +42,16 @@ class NavBarView: UIView {
         self.addSubview(titleLabel)
         titleLabel.frame = CGRect(x: self.frame.midX - 30, y: self.frame.height/4, width: 60, height: self.frame.height/2)
         titleLabel.text = "Settings"
-           
-        
-        let backTap = UITapGestureRecognizer(target: self, action: #selector(backButtonTapped))
-       
-
-
-        backButton.addGestureRecognizer(backTap)
+        //let backTap = UITapGestureRecognizer(target: self, action: #selector(backButtonTapped))
+        //backButton.addGestureRecognizer(backTap)
 
 
     }
     
-    @objc func backButtonTapped(sender: UITapGestureRecognizer) {
-        //dismiss(animated: false, completion: nil)
-        print("Tapped back button. should dismiss!")
-    }
+//    @objc func backButtonTapped(sender: UITapGestureRecognizer) {
+//        //dismiss(animated: false, completion: nil)
+//        print("Tapped back button. should dismiss!")
+//    }
     
     
     
