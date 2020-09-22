@@ -22,7 +22,8 @@ class NotificationsVC: UIViewController {
      var userData: UserData?
     @IBOutlet weak var tableView: UITableView!
     
-    @IBOutlet weak var navBar: UINavigationBar!
+    var navBarView = NavBarView()
+    var titleLabel1 = UILabel()
     
     // arrays to hold data from server
     var usernameArray = [String]()
@@ -37,10 +38,10 @@ class NotificationsVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
           menuView.tabController = (tabBarController! as! NavigationMenuBaseController)
-        var navBarHeight = CGFloat(50)
-        var navBarBounds = self.navBar.bounds
-        navBar.frame = CGRect(x: 0, y: 0, width: navBarBounds.width, height: navBarBounds.height + navBarHeight)
-        tableView.frame = CGRect(x: 0, y: navBarHeight + 20, width: self.view.frame.width, height: self.view.frame.height - navBarHeight)
+//        var navBarHeight = CGFloat(50)
+//        var navBarBounds = self.navBar.bounds
+//        navBar.frame = CGRect(x: 0, y: 0, width: navBarBounds.width, height: navBarBounds.height + navBarHeight)
+        //tableView.frame = CGRect(x: 0, y: navBarHeight + 20, width: self.view.frame.width, height: self.view.frame.height - navBarHeight)
         
         
     }
@@ -52,6 +53,7 @@ class NotificationsVC: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         addMenuButtons()
+        setUpNavBarView()
         print("This is current user email \(Auth.auth().currentUser?.email)")
         super.viewDidLoad()
 //        var navBarHeight = CGFloat(66.0)
@@ -213,6 +215,25 @@ class NotificationsVC: UIViewController {
         menuView.addBehavior()
     }
     
+    func setUpNavBarView() {
+        self.view.addSubview(navBarView)
+        self.navBarView.addSubview(titleLabel1)
+        self.navBarView.addBehavior()
+        
+
+       
+        self.titleLabel1.text = "Notifications"
+        self.navBarView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/12)
+        self.tableView.frame = CGRect(x: 0, y: self.view.frame.height/12, width: self.view.frame.width, height: self.view.frame.height*(11/12))
+        self.titleLabel1.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/12)
+        self.titleLabel1.textAlignment = .center
+       
+        self.titleLabel1.font = UIFont(name: "DINAlternate-Bold", size: 25)
+        self.titleLabel1.textColor = .white
+        self.navBarView.backgroundColor = .black
+    }
+    
+
     
     @objc func cellTapped(_ sender : UITapGestureRecognizer) {
         print("I am within cellTapped")

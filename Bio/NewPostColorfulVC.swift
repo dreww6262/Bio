@@ -18,7 +18,8 @@ import YPImagePicker
 
 
 class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDelegate {
-    
+    var navBarView = NavBarView()
+    var titleLabel1 = UILabel()
     
     @IBOutlet weak var titleLabel: UILabel!
     
@@ -60,7 +61,7 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = true
         addMenuButtons()
-        
+        setUpNavBarView()
 //        pic1.layer.cornerRadius = pic1.frame.size.width / 2
 //        pic1.clipsToBounds = true
 //
@@ -84,6 +85,22 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         menuView.userData = userData
     }
     
+    func setUpNavBarView() {
+        self.view.addSubview(navBarView)
+        self.navBarView.addSubview(titleLabel1)
+        self.navBarView.addBehavior()
+       
+        self.titleLabel1.text = "Add Content"
+        self.navBarView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/12)
+       // self.tableView.frame = CGRect(x: 0, y: self.view.frame.height/12, width: self.view.frame.width, height: self.view.frame.height*(11/12))
+        self.titleLabel1.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/12)
+        self.titleLabel1.textAlignment = .center
+       
+        self.titleLabel1.font = UIFont(name: "DINAlternate-Bold", size: 25)
+        self.titleLabel1.textColor = .white
+        self.navBarView.backgroundColor = .black
+    }
+  
     
     func addMenuButtons() {
         view.addSubview(menuView)

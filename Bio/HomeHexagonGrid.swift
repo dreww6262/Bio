@@ -315,9 +315,9 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
        
         settingsVC.menuView.tabController = (tabBarController as! NavigationMenuBaseController)
         settingsVC.menuView.userData = userData
-        self.modalPresentationStyle = .overFullScreen
+//        settingsVC.modalPresentationStyle = .fullScreen
             self.present(settingsVC, animated: false)
-        self.modalPresentationStyle = .overFullScreen
+        settingsVC.modalPresentationStyle = .fullScreen
                     
     }
     
