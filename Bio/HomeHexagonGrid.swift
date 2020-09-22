@@ -18,6 +18,12 @@ import SDWebImage
 import WebKit
 
 import SwiftUI
+var myBlueGreen = #colorLiteral(red: 0, green: 0.8249644637, blue: 0.8317442536, alpha: 1)
+var myPink = #colorLiteral(red: 0.9756818414, green: 0.5529372692, blue: 0.920709908, alpha: 1)
+var myOrange = #colorLiteral(red: 1, green: 0.8000468612, blue: 0.4002942443, alpha: 1)
+var myCoolBlue = #colorLiteral(red: 0.2413757304, green: 0.5994680342, blue: 0.9716603538, alpha: 1)
+var myDarkBlue = #colorLiteral(red: 0.07005525896, green: 0.2447893395, blue: 0.4398794416, alpha: 1)
+
 
 class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, WKUIDelegate  {
     
@@ -137,18 +143,17 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     
     func addSearchButton() {
         self.view.addSubview(toSearchButton)
-        toSearchButton.frame = CGRect(x: self.view.frame.width-60, y: 20, width: 50, height: 50)
+        toSearchButton.frame = CGRect(x: self.view.frame.width-40, y: 20, width: 40, height: 40)
         // round ava
-        toSearchButton.layer.cornerRadius = toSearchButton.frame.size.width / 2
+//        toSearchButton.layer.cornerRadius = toSearchButton.frame.size.width / 2
         toSearchButton.clipsToBounds = true
         toSearchButton.isHidden = false
     }
     
     func addSettingsButton() {
            self.view.addSubview(toSettingsButton)
-           toSettingsButton.frame = CGRect(x: 10, y: 20, width: 50, height: 50)
+           toSettingsButton.frame = CGRect(x: 0, y: 20, width: 40, height: 40)
            // round ava
-           toSettingsButton.layer.cornerRadius = toSettingsButton.frame.size.width / 2
            toSettingsButton.clipsToBounds = true
            toSettingsButton.isHidden = false
        }
@@ -483,7 +488,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             let tappedImage = sender.view as! PostImageView
             currentHexagonCenter = tappedImage.center
             print("yo: This is tapped image.center \(tappedImage.center)")
-            tappedImage.setupHexagonMask(lineWidth: 10.0, color: .blue, cornerRadius: 10.0)
+            tappedImage.setupHexagonMask(lineWidth: 10.0, color: .red, cornerRadius: 10.0)
             //dragItem(sender as! UIPanGestureRecognizer)
             dragView = (sender.view as! PostImageView)
             dragView?.center = sender.location(in: scrollView)
@@ -533,7 +538,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                 return hex
             }
             else {
-                hex.setupHexagonMask(lineWidth: 10.0, color: gold, cornerRadius: 10.0)
+                hex.setupHexagonMask(lineWidth: 10.0, color: .darkGray, cornerRadius: 10.0)
             }
         }
         return nil
@@ -638,7 +643,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         avaImage?.isHidden = false
         contentView.bringSubviewToFront(avaImage!)
         let ref = self.storage.child(userData!.avaRef)
-        avaImage!.setupHexagonMask(lineWidth: 10.0, color: .white, cornerRadius: 10.0)
+        avaImage!.setupHexagonMask(lineWidth: 10.0, color: myOrange, cornerRadius: 10.0)
         avaImage!.sd_setImage(with: ref)
         print("avaFrame: \(avaImage!.frame)")
     }
@@ -938,6 +943,26 @@ extension UIImageView {
         self.layer.cornerRadius = self.frame.height / 2
         self.clipsToBounds = true
     }
+
+    func makeSquareClear() {
+        
+        self.layer.borderWidth = 1
+        self.layer.masksToBounds = false
+        self.layer.borderColor = UIColor.clear.cgColor
+        self.layer.cornerRadius = 0.0
+        self.clipsToBounds = true
+    }
+
+    
+    
+    func makeRoundedPurple() {
+        
+        self.layer.borderWidth = 1
+        self.layer.masksToBounds = false
+        self.layer.borderColor = UIColor.purple.cgColor
+        self.layer.cornerRadius = self.frame.height / 2
+        self.clipsToBounds = true
+    }
     
     func makeRoundedRed() {
         
@@ -947,6 +972,43 @@ extension UIImageView {
         self.layer.cornerRadius = self.frame.height / 2
         self.clipsToBounds = true
     }
+    
+    func makeRoundedMyCoolBlue() {
+        
+        self.layer.borderWidth = 4
+        self.layer.masksToBounds = false
+        self.layer.borderColor = myCoolBlue.cgColor
+        self.layer.cornerRadius = self.frame.height / 2
+        self.clipsToBounds = true
+    }
+    
+    func makeRoundedMyBlueGreen() {
+        
+        self.layer.borderWidth = 4
+        self.layer.masksToBounds = false
+        self.layer.borderColor = myBlueGreen.cgColor
+        self.layer.cornerRadius = self.frame.height / 2
+        self.clipsToBounds = true
+    }
+    
+    func makeRoundedMyPink() {
+        self.layer.borderWidth = 4
+        self.layer.masksToBounds = false
+        self.layer.borderColor = myPink.cgColor
+        self.layer.cornerRadius = self.frame.height / 2
+        self.clipsToBounds = true
+    }
+    
+    func makeRoundedMyOrange() {
+        
+        self.layer.borderWidth = 4
+        self.layer.masksToBounds = false
+        self.layer.borderColor = myOrange.cgColor
+        self.layer.cornerRadius = self.frame.height / 2
+        self.clipsToBounds = true
+    }
+    
+    
     
     func makeRoundedGold() {
         

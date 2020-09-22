@@ -22,6 +22,8 @@ class NotificationsVC: UIViewController {
      var userData: UserData?
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var navBar: UINavigationBar!
+    
     // arrays to hold data from server
     var usernameArray = [String]()
     var avaArray = [String]()
@@ -35,6 +37,12 @@ class NotificationsVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
           menuView.tabController = (tabBarController! as! NavigationMenuBaseController)
+        var navBarHeight = CGFloat(50)
+        var navBarBounds = self.navBar.bounds
+        navBar.frame = CGRect(x: 0, y: 0, width: navBarBounds.width, height: navBarBounds.height + navBarHeight)
+        tableView.frame = CGRect(x: 0, y: navBarHeight + 20, width: self.view.frame.width, height: self.view.frame.height - navBarHeight)
+        
+        
     }
     
     
@@ -46,6 +54,11 @@ class NotificationsVC: UIViewController {
         addMenuButtons()
         print("This is current user email \(Auth.auth().currentUser?.email)")
         super.viewDidLoad()
+//        var navBarHeight = CGFloat(66.0)
+//        navBar.backgroundColor = .black
+//        navBar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: navBarHeight)
+     
+        
         
         // dynamic tableView height - dynamic cell
 //        tableView.rowHeight = UITableView.automaticDimension
@@ -402,7 +415,7 @@ print("UserName Clicked")
     }
         
  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-                    return self.view.frame.size.height/10
+                    return self.view.frame.size.height/14
                 }
             
             

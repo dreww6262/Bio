@@ -91,6 +91,8 @@ class MenuView: UIView {
         superView.addSubview(dmButton)
         superView.addSubview(homeProfileButton)
         
+        let buttonWidth = CGFloat(60)
+        let halfButtonWidth = CGFloat(30)
         
         //self.backgroundColor = .white
         
@@ -102,44 +104,99 @@ class MenuView: UIView {
         menuButton.clipsToBounds = true
 //        print ("menuButton frame \(menuButton.frame)")
         
-        newPostButton.frame = CGRect(x: superFrame.width/5 - 40, y: menuButton.frame.minY, width: 80, height: 80)
+        //newPostButton.frame = CGRect(x: superFrame.width/5 - halfButtonWidth, y: menuButton.frame.minY, width: buttonWidth, height: buttonWidth)
+    
+        notificationsButton.frame = CGRect(x: menuButton.center.x - 130.2829 - halfButtonWidth, y: menuButton.frame.minY + 10, width: buttonWidth, height: buttonWidth)
+
         //  newPostButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
         // round ava
-        newPostButton.layer.cornerRadius = newPostButton.frame.size.width / 2
+       // newPostButton.layer.cornerRadius = newPostButton.frame.size.width / 2
         newPostButton.clipsToBounds = true
 //        print ("newpost frame \(newPostButton.frame)")
         
-        friendsButton.frame = CGRect(x: superFrame.width/2 - 40, y: superFrame.height - 223, width: 80, height: 80)
+//        friendsButton.frame = CGRect(x: superFrame.width/2 - halfButtonWidth, y: superFrame.height - 223, width: buttonWidth, height: buttonWidth)
+//
+        homeProfileButton.frame = CGRect(x: superFrame.width/2 - halfButtonWidth, y: superFrame.height - 223, width: buttonWidth, height: buttonWidth)
+        
         // friendsButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
         // round ava
-        friendsButton.layer.cornerRadius = friendsButton.frame.size.width / 2
-        friendsButton.clipsToBounds = true
+       // friendsButton.layer.cornerRadius = friendsButton.frame.size.width / 2
+        //friendsButton.clipsToBounds = true
 //        print ("friends frame \(friendsButton.frame)")
         
+
         
-        
-        dmButton.frame = CGRect(x: superFrame.width*3/5 + 5, y: superFrame.height - 192, width: 80, height: 80)
-        //  dmButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
-        // round ava
-        dmButton.layer.cornerRadius = dmButton.frame.size.width / 2
-        dmButton.clipsToBounds = true
+        friendsButton.frame = CGRect(x: menuButton.center.x + 64.2 - 5, y: superFrame.height - 192 + 10, width: buttonWidth, height: buttonWidth)
+    
+        friendsButton.clipsToBounds = true
 //        print ("dm frame \(dmButton.frame)")
         
         
-        notificationsButton.frame = CGRect(x: superFrame.width*4/5 - 40, y: superFrame.height - 112, width: 80, height: 80)
+//        notificationsButton.frame = CGRect(x: superFrame.width*4/5 - halfButtonWidth, y: superFrame.height - 112, width: buttonWidth, height: buttonWidth)
+        newPostButton.frame = CGRect(x: menuButton.center.x + 130.2829 - halfButtonWidth, y: superFrame.height - 112 + 10, width: buttonWidth, height: buttonWidth)
         // settingsButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
         // round ava
-        notificationsButton.layer.cornerRadius = notificationsButton.frame.size.width / 2
+      //  notificationsButton.layer.cornerRadius = notificationsButton.frame.size.width / 2
         notificationsButton.clipsToBounds = true
 //        print ("settings frame \(settingsButton.frame)")
         
         
-        homeProfileButton.frame = CGRect(x: superFrame.width/5 - 10, y: dmButton.frame.minY, width: 80, height: 80)
-        // homeProfileButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
-        // round ava
-        homeProfileButton.layer.cornerRadius = homeProfileButton.frame.size.width / 2
+        dmButton.frame = CGRect(x: superFrame.width/5 + 5, y: friendsButton.frame.minY, width: buttonWidth, height: buttonWidth)
+        dmButton.clipsToBounds = true
         homeProfileButton.clipsToBounds = true
 //        print("home frame \(homeProfileButton.frame)")
+        
+        var xDistanceFromHomeToMenuCenter = menuButton.center.x - homeProfileButton.frame.maxX
+        print("This is xDistance \(xDistanceFromHomeToMenuCenter)")
+        
+        
+        
+    // below is old 80x80 menu
+        
+//        menuButton.frame = CGRect(x: superFrame.width/2-40, y: superFrame.height-112, width: 80, height: 80)
+//        // round ava
+//        menuButton.layer.cornerRadius = menuButton.frame.size.width / 2
+//        menuButton.clipsToBounds = true
+////        print ("menuButton frame \(menuButton.frame)")
+//
+//        newPostButton.frame = CGRect(x: superFrame.width/5 - 40, y: menuButton.frame.minY, width: 80, height: 80)
+//        //  newPostButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
+//        // round ava
+//        newPostButton.layer.cornerRadius = newPostButton.frame.size.width / 2
+//        newPostButton.clipsToBounds = true
+////        print ("newpost frame \(newPostButton.frame)")
+//
+//        friendsButton.frame = CGRect(x: superFrame.width/2 - 40, y: superFrame.height - 223, width: 80, height: 80)
+//        // friendsButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
+//        // round ava
+//        friendsButton.layer.cornerRadius = friendsButton.frame.size.width / 2
+//        friendsButton.clipsToBounds = true
+////        print ("friends frame \(friendsButton.frame)")
+//
+//
+//
+//        dmButton.frame = CGRect(x: superFrame.width*3/5 + 5, y: superFrame.height - 192, width: 80, height: 80)
+//        //  dmButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
+//        // round ava
+//        dmButton.layer.cornerRadius = dmButton.frame.size.width / 2
+//        dmButton.clipsToBounds = true
+////        print ("dm frame \(dmButton.frame)")
+//
+//
+//        notificationsButton.frame = CGRect(x: superFrame.width*4/5 - 40, y: superFrame.height - 112, width: 80, height: 80)
+//        // settingsButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
+//        // round ava
+//        notificationsButton.layer.cornerRadius = notificationsButton.frame.size.width / 2
+//        notificationsButton.clipsToBounds = true
+////        print ("settings frame \(settingsButton.frame)")
+//
+//
+//        homeProfileButton.frame = CGRect(x: superFrame.width/5 - 10, y: dmButton.frame.minY, width: 80, height: 80)
+//        // homeProfileButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
+//        // round ava
+//        homeProfileButton.layer.cornerRadius = homeProfileButton.frame.size.width / 2
+//        homeProfileButton.clipsToBounds = true
+////        print("home frame \(homeProfileButton.frame)")
         
         
         let menuTapped = UITapGestureRecognizer(target: self, action: #selector(tappedMenuButton))
@@ -170,34 +227,40 @@ class MenuView: UIView {
         dmButton.isHidden = true
         homeProfileButton.isHidden = true
         
-        newPostButton.setImage(UIImage(named: "plusImage"), for: .normal)
-        notificationsButton.setImage(UIImage(named: "notificationBlack2"), for: .normal)
-        friendsButton.setImage(UIImage(named: "boyprofile"), for: .normal)
-        dmButton.setImage(UIImage(named: "mailcircle"), for: .normal)
-        homeProfileButton.setImage(UIImage(named: "homeIcon"), for: .normal)
+        newPostButton.setImage(UIImage(named: "addCircle"), for: .normal)
+        notificationsButton.setImage(UIImage(named: "bell1"), for: .normal)
+        friendsButton.setImage(UIImage(named: "twoFriendsFlipped"), for: .normal)
+        dmButton.setImage(UIImage(named: "email1"), for: .normal)
+        homeProfileButton.setImage(UIImage(named: "clearHouse"), for: .normal)
         menuButton.imageView!.image = nil
         
         newPostButton.tintColor = .black
         notificationsButton.tintColor = .white
         friendsButton.tintColor = .black
         dmButton.tintColor = .black
-        homeProfileButton.tintColor = .white
+        homeProfileButton.tintColor = .black
         menuButton.tintColor = .clear
         menuButton.layer.borderColor = white.cgColor
         menuButton.layer.borderWidth = menuButton.frame.width/10
         
-        newPostButton.backgroundColor = .black
-        notificationsButton.backgroundColor = .white
-        friendsButton.backgroundColor = .white
-        dmButton.backgroundColor = .black
-        homeProfileButton.backgroundColor = .white
+        newPostButton.backgroundColor = .clear
+        notificationsButton.backgroundColor = .clear
+        friendsButton.backgroundColor = .clear
+        dmButton.backgroundColor = .clear
+        homeProfileButton.backgroundColor = .clear
         menuButton.backgroundColor = .clear
-        newPostButton.imageView!.image = UIImage(named: "plus")
-        notificationsButton.imageView!.image = UIImage(named: "notificationBlack2")
-        friendsButton.imageView!.image = UIImage(named: "community2")
-        dmButton.imageView!.image = UIImage(named: "plus")
-        homeProfileButton.imageView!.image = UIImage(named: "homeIcon")
+        newPostButton.imageView!.image = UIImage(named: "addCircle")
+        notificationsButton.imageView!.image = UIImage(named: "bell1")
+        friendsButton.imageView!.image = UIImage(named: "twoFriendsFlipped")
+        dmButton.imageView!.image = UIImage(named: "email1")
+        homeProfileButton.imageView!.image = UIImage(named: "clearHouse")
 
+        
+        print("This is distance \(distance(homeProfileButton.center, menuButton.center))")
+        print("This is distance 2 \(distance(dmButton.center, menuButton.center))")
+        print("This is homeProfileButton.frame \(homeProfileButton.frame)")
+        print("This is dmButton.frame \(dmButton.frame)")
+        print("This is menuButton.center \(menuButton.center)")
         
         // show add Post button
         menuButton.isHidden = false
@@ -239,7 +302,8 @@ class MenuView: UIView {
     
     @objc func tappedMenuButton(sender: UITapGestureRecognizer) {
         if (dmButton.isHidden == true) {
-            makeAllMenuButtonsBlack()
+            //makeAllMenuButtonsBlack()
+            makeAllMenuButtonsClear()
             showMenuOptions()
         }
             //sleep(3000)
@@ -258,23 +322,34 @@ class MenuView: UIView {
         menuButton.imageView?.makeRoundedBlack()
     }
     
+    func makeAllMenuButtonsClear() {
+        newPostButton.imageView?.makeSquareClear()
+        homeProfileButton.imageView?.makeSquareClear()
+        dmButton.imageView?.makeSquareClear()
+        notificationsButton.imageView?.makeSquareClear()
+        friendsButton.imageView?.makeSquareClear()
+        menuButton.imageView?.makeSquareClear()
+    }
+    
     @objc func draggedMenuButton(sender: UIPanGestureRecognizer) {
         var point : CGPoint = sender.translation(in: self)
         point.x += sender.view!.frame.midX
         point.y += sender.view!.frame.midY
         //        print(point)
         if (sender.state == .began) {
-            makeAllMenuButtonsBlack()
+           // makeAllMenuButtonsBlack()
+            makeAllMenuButtonsClear()
             showMenuOptions()
         }
         if (sender.state == .changed) {
             //showMenuOptions()
             //            print("changing")
-            makeAllMenuButtonsBlack()
+            //makeAllMenuButtonsBlack()
+            makeAllMenuButtonsClear()
             let button = findMenuHexagonButton(hexCenter: point)
             //            print("buttin \(button?.titleLabel)")
             // button?.imageView?.setupHexagonMask(lineWidth: 10.0, color: red, cornerRadius: 10)
-            button?.imageView?.makeRoundedGold()
+            button?.imageView?.makeRoundedMyCoolBlue()
         }
         if (sender.state == .ended) {
             //find button
@@ -308,7 +383,8 @@ class MenuView: UIView {
     
     @objc func longPressMenuButton(sender: UILongPressGestureRecognizer) {
         if (sender.state == .began) {
-            makeAllMenuButtonsBlack()
+           // makeAllMenuButtonsBlack()
+            makeAllMenuButtonsClear()
             showMenuOptions()
         }
         if (sender.state == .ended) {

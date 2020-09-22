@@ -86,6 +86,65 @@ class AddSocialMediaVC: UIViewController {
     
     // default func
     override func viewDidLoad() {
+        tikTokText.borderStyle = .roundedRect
+        venmoTxt.borderStyle = .roundedRect
+        appleMusicTxt.borderStyle = .roundedRect
+        facebookInfoTxt.borderStyle = .roundedRect
+        instagramUsernameTxt.borderStyle = .roundedRect
+        poshmarkText.borderStyle = .roundedRect
+        snapchatUsernameTxt.borderStyle = .roundedRect
+        twitterHandleTxt.borderStyle = .roundedRect
+        
+        tikTokText.layer.borderWidth = 1.0
+        instagramUsernameTxt.layer.borderWidth = 1.0
+        snapchatUsernameTxt.layer.borderWidth = 1.0
+        twitterHandleTxt.layer.borderWidth = 1.0
+        appleMusicTxt.layer.borderWidth = 1.0
+        venmoTxt.layer.borderWidth = 1.0
+        poshmarkText.layer.borderWidth = 1.0
+        facebookInfoTxt.layer.borderWidth = 1.0
+        
+        tikTokText.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
+        venmoTxt.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
+        appleMusicTxt.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
+        facebookInfoTxt.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
+        instagramUsernameTxt.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
+        poshmarkText.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
+        snapchatUsernameTxt.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
+        twitterHandleTxt.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
+        
+        tikTokText.backgroundColor = .black
+        venmoTxt.backgroundColor = .black
+        appleMusicTxt.backgroundColor = .black
+        facebookInfoTxt.backgroundColor = .black
+        instagramUsernameTxt.backgroundColor = .black
+        poshmarkText.backgroundColor = .black
+        snapchatUsernameTxt.backgroundColor = .black
+        twitterHandleTxt.backgroundColor = .black
+        
+        interactiveVenmoTxt.attributedPlaceholder = NSAttributedString(string: "Venmo Username",
+                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+        interactivePoshmarkTxt.attributedPlaceholder = NSAttributedString(string: "Poshmark Username",
+                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+        
+        interactiveInstagramTxt.attributedPlaceholder = NSAttributedString(string: "Instagram Username",
+                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+        
+        interactiveTikTokText.attributedPlaceholder = NSAttributedString(string: "Tik Tok Username",
+                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+        
+        interactiveAppleMusicTxt.attributedPlaceholder = NSAttributedString(string: "Apple Music Info",
+                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+        
+        interactiveFacebookInfoTxt.attributedPlaceholder = NSAttributedString(string: "Facebook Info",
+                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+        
+        interactiveTwitterHandleTxt.attributedPlaceholder = NSAttributedString(string: "Twitter Handle",
+                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+        interactiveSnapchatUsernameTxt.attributedPlaceholder = NSAttributedString(string: "Snapchat Username",
+                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+        
+        
         super.viewDidLoad()
         
         if (userData == nil) {

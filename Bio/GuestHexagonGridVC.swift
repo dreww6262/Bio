@@ -68,6 +68,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     
     override func viewDidLoad() {
+        addFollowButton()
         super.viewDidLoad()
         setUpScrollView()
         setZoomScale()
@@ -125,6 +126,16 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func setZoomScale() {
            scrollView.maximumZoomScale = 60
            scrollView.minimumZoomScale = 0.5
+    }
+    
+    func addFollowButton(){
+        view.addSubview(followButton)
+        followButton.frame = CGRect(x: view.frame.width - 40, y: 25, width: 40, height: 40)
+        followButton.imageView?.image = UIImage(named: "addFriend")
+        followButton.layer.cornerRadius =  followButton.frame.size.width / 2
+        followButton.clipsToBounds = true
+        followButton.imageView?.backgroundColor = .systemGray4
+        
     }
     
     func addReturnButton() {
