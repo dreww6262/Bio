@@ -26,7 +26,7 @@ class MenuView: UIView {
                 (viewControllers[0] as! NotificationsVC).userData = userData
                 (viewControllers[2] as! HomeHexagonGrid).userData = userData
                 (viewControllers[3] as! BioProfileHexagonGrid2).userData = userData
-                (viewControllers[4] as! NewPostOptionsVC).userData = userData
+                (viewControllers[4] as! NewPostColorfulVC).userData = userData
             }
         }
     }
@@ -215,7 +215,7 @@ class MenuView: UIView {
     
     @objc func newPostButtonClicked(_ sender: UIButton) {
         let viewControllers = tabController!.customizableViewControllers!
-        let newPostVC = (viewControllers[4] as! NewPostOptionsVC)
+        let newPostVC = (viewControllers[4] as! NewPostColorfulVC)
         newPostVC.userData = userData
         tabController!.viewControllers![4] = newPostVC
         tabController!.customTabBar.switchTab(from: currentTab, to: 4)

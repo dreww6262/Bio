@@ -80,7 +80,7 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-      //  menuView.tabController = (tabBarController! as! NavigationMenuBaseController)
+        menuView.tabController = (tabBarController! as! NavigationMenuBaseController)
         menuView.userData = userData
     }
     

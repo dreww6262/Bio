@@ -394,7 +394,7 @@ class AlgorithmHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRec
     @IBAction func newPostButtonClicked(_ sender: UIButton) {
         
         let viewControllers = tabBarController!.customizableViewControllers!
-        let newPostVC = (viewControllers[4] as! NewPostOptionsVC)
+        let newPostVC = (viewControllers[4] as! NewPostColorfulVC)
         newPostVC.userData = userData
         let tabController = tabBarController! as! NavigationMenuBaseController
         tabController.viewControllers![4] = newPostVC

@@ -36,6 +36,9 @@ class UserTableView: UIViewController, UISearchBarDelegate {
         searchBar.delegate = self
         searchBar.sizeToFit()
         searchBar.tintColor = UIColor.black
+        searchBar.backgroundColor = UIColor.black
+  //      searchBar.isTranslucent = true
+        searchBar.barStyle = .blackOpaque
         searchBar.frame.size.width = self.view.frame.size.width
         searchBar.frame = CGRect(x: 0, y: 20, width: searchBar.frame.width, height: searchBar.frame.height)
         
@@ -240,13 +243,17 @@ extension UserTableView: UITableViewDelegate, UITableViewDataSource {
     
     // cell height
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 150
+     //   print("This is height for row at: \(self.view.frame.height/8)")
+    //    return self.view.frame.height/8
+    return 80
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         print("loadUserDataArray: \(loadUserDataArray.count)")
         let cell = tableView.dequeueReusableCell(withIdentifier: "userCell", for: indexPath) as! UserCell
+       // cell.frame.height = self.view.frame.height/10
+        cell.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/8)
         let cellTappedRecognizer = UITapGestureRecognizer(target: self, action: #selector(cellTapped))
         cell.addGestureRecognizer(cellTappedRecognizer)
         cell.userData = userData
@@ -257,12 +264,14 @@ extension UserTableView: UITableViewDelegate, UITableViewDataSource {
         cell.usernameLbl.text = loadUserDataArray[indexPath.row].publicID
         
         if (followList.contains(cell.usernameLbl.text!)) {
-            cell.followBtn.imageView?.image = UIImage(named: "friendCheck")
-            cell.followBtn.tag = 1
+           // cell.followBtn.imageView?.image = UIImage(named: "friendCheck")
+            cell.followView.isHidden = true
+            cell.followView.tag = 1
         }
         else {
-            cell.followBtn.imageView?.image = UIImage(named: "addFriend")
-            cell.followBtn.tag = 0
+            cell.followView.isHidden = false
+            cell.followImage?.image = UIImage(named: "addFriend")
+            cell.followView.tag = 0
         }
         
         

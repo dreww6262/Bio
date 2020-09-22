@@ -130,7 +130,7 @@ class TabNavigationMenu: UIView {
                     //friendsGrid.refresh()
                 case 4:
                     print("add Post tab")
-                    let newPostVC = (tabItems![tab].viewController as! NewPostOptionsVC)
+                    let newPostVC = (tabItems![tab].viewController as! NewPostColorfulVC)
                     //newPostVC.loadView()
                     //newPostVC.refresh()
                     // add post does not need to refresh

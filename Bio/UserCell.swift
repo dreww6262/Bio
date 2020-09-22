@@ -9,15 +9,22 @@
 import UIKit
 import Firebase
 import FirebaseFirestore
+import AVFoundation
 
 class UserCell: UITableViewCell {
+    
+    @IBOutlet weak var followView: UIView!
+    
+    @IBOutlet weak var followLabel: UILabel!
+    
+    @IBOutlet weak var followImage: UIImageView!
     
     //  UI objects
     @IBOutlet weak var avaImg: UIImageView!
     @IBOutlet weak var usernameLbl: UILabel!
     @IBOutlet weak var displayNameLabel: UILabel!
     @IBOutlet weak var followBtn: UIButton!
-    
+    var cellHeight = CGFloat()
     var userData: UserData?
     
     let db = Firestore.firestore()
@@ -30,15 +37,29 @@ class UserCell: UITableViewCell {
         
         // alignment
         let width = UIScreen.main.bounds.width
-        let cellHeight = self.frame.height
+       // cellHeight =  self.frame.height
+        cellHeight = 80
+        print("This is cellHeight \(cellHeight)")
         
-        avaImg.frame = CGRect(x: 10, y: 10, width: cellHeight - 20, height: cellHeight - 20)
-        avaImg.setupHexagonMask(lineWidth: 10.0, color: gold, cornerRadius: 10.0)
-        usernameLbl.frame = CGRect(x: avaImg.frame.size.width + 20, y: self.frame.height/2, width: width / 3.2, height: 30)
-        displayNameLabel.frame = CGRect(x: usernameLbl.frame.size.width + 20, y: usernameLbl.frame.height+10, width: width / 3.2, height: 30)
+        avaImg.frame = CGRect(x: self.frame.width*(3/48), y: self.frame.height*(3/48), width: cellHeight*(42/48), height: cellHeight*(42/48))
+        avaImg.setupHexagonMask(lineWidth: avaImg.frame.height/15, color: gold, cornerRadius: avaImg.frame.height/15)
+        displayNameLabel.frame = CGRect(x: avaImg.frame.maxX + (self.frame.width/24), y: self.frame.height/3, width: width - avaImg.frame.maxX, height: self.frame.height*(1/4))
+        
+        usernameLbl.frame = CGRect(x: avaImg.frame.maxX + (self.frame.width/24), y: displayNameLabel.frame.maxY+(self.frame.height*(1/72)), width: width - avaImg.frame.maxX, height: self.frame.height/4)
+        print("This is usernameLabel.frame \(usernameLbl.frame)")
+        print("This is displayNameLabel.frame \(displayNameLabel.frame)")
         // followBtn.frame = CGRect(x: width - width / 3.5 - 40, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
-        followBtn.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
-        followBtn.layer.cornerRadius = followBtn.frame.size.width / 20
+       // followBtn.frame = CGRect(x: width - (width/3), y: avaImg.frame.minY, width: width / 3.5, height: width/3.5)
+        followView.frame = CGRect(x: width - (width/4.5), y: usernameLbl.frame.minY - (self.frame.height/8), width: width/7, height: displayNameLabel.frame.height)
+        followView.layer.cornerRadius = followView.frame.size.width / 20
+        followView.addSubview(followImage)
+        followView.addSubview(followLabel)
+        followImage.frame = CGRect(x: 0, y: 0, width: followView.frame.height, height: followView.frame.height)
+        followLabel.frame = CGRect(x: followImage.frame.maxX + (followView.frame.width/20), y: followImage.frame.minY - (followView.frame.height/5), width: 44, height: 20)
+         followView.layer.cornerRadius = followView.frame.size.width/10
+        print("THis is followView.frame \(followView.frame)")
+        print("This is followimage.frame \(followImage.frame)")
+        print("This is follow label.frame \(followLabel.frame)")
         
         // round ava
         avaImg.layer.cornerRadius = avaImg.frame.size.width / 2
@@ -63,10 +84,12 @@ class UserCell: UITableViewCell {
             if button!.tag == 0 {
                 let newFollow = ["follower": userData!.publicID, "following": username]
                 db.collection("Followings").addDocument(data: newFollow as [String : Any])
-                button?.imageView?.image = UIImage(named: "friendCheck")
+                UIDevice.vibrate()
+                button?.imageView?.image = UIImage(named: "checkmark32x32")
+                sender.imageView?.image = UIImage(named: "checkmark32x32")
                 button?.tag = 1
                 print("It's supposed to change to check")
-                button?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
+                button?.frame = CGRect(x: width - width / 4.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
                 button?.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
                 
                 
@@ -157,4 +180,10 @@ class UserCell: UITableViewCell {
 //       }
     
     
+}
+
+extension UIDevice {
+    static func vibrate() {
+        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+    }
 }
