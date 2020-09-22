@@ -403,6 +403,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         super.viewWillAppear(true)
         firstLoad = true
         menuView.tabController = (tabBarController! as! NavigationMenuBaseController)
+        scrollView.zoomScale = 1
         
         if (userData == nil) {
             user = Auth.auth().currentUser
