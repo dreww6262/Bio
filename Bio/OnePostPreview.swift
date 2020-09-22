@@ -142,7 +142,7 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
         continueBtn.layer.cornerRadius = continueBtn.frame.size.width / 20
         cancelBtn.frame =  CGRect(x: 10.0, y: continueBtn.frame.maxY + 10, width: continueBtn.frame.width, height: 24)
         cancelBtn.layer.cornerRadius = cancelBtn.frame.size.width / 20
-        previewImage.setupHexagonMask(lineWidth: previewImage.frame.width/15, color: orange, cornerRadius: 10.0)
+        previewImage.setupHexagonMask(lineWidth: previewImage.frame.width/15, color: myOrange, cornerRadius: 10.0)
         // background
         let bg = UIImageView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height))
         bg.image = UIImage(named: "manaloghourglass")

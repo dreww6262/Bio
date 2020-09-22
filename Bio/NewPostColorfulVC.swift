@@ -193,20 +193,38 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         pic1.frame = CGRect(x: self.view1.frame.width/4, y: self.view1.frame.height/12, width: self.view1.frame.width/2, height: self.view1.frame.width/2)
         l1.frame =  CGRect(x: self.view1.frame.width/12, y: self.pic1.frame.maxY + 10, width: self.view1.frame.width*(10/12), height: 44)
         
+        var piclabelHeight = l1.frame.maxY - pic1.frame.minY
+        
+        pic1.frame = CGRect(x: pic1.frame.minX, y: (frame1.height-piclabelHeight)/2, width: pic1.frame.width, height: pic1.frame.height)
+        
+        l1.frame = CGRect(x: l1.frame.minX, y: pic1.frame.maxY + 10, width: l1.frame.width, height: l1.frame.height)
+        
+        
         view2.addSubview(pic2)
         pic2.frame = CGRect(x: self.view2.frame.width/4, y: self.view2.frame.height/12, width: self.view2.frame.width/2, height: self.view2.frame.width/2)
         
         l2.frame =  CGRect(x: self.view2.frame.width/12, y: self.pic2.frame.maxY + 10, width: self.view2.frame.width*(10/12), height: 44)
         
+        pic2.frame = CGRect(x: pic2.frame.minX, y: (frame1.height-piclabelHeight)/2, width: pic2.frame.width, height: pic2.frame.height)
         
+        l2.frame = CGRect(x: l2.frame.minX, y: pic1.frame.maxY + 10, width: l2.frame.width, height: l2.frame.height)
         
         view3.addSubview(pic3)
         pic3.frame = CGRect(x: view3.frame.width/4, y: self.view3.frame.height/12, width: self.view3.frame.width/2, height: view3.frame.width/2)
         l3.frame =  CGRect(x: self.view3.frame.width/12, y: self.pic3.frame.maxY + 10, width: self.view3.frame.width*(10/12), height: 44)
         
+        pic3.frame = CGRect(x: pic3.frame.minX, y: (frame1.height-piclabelHeight)/2, width: pic3.frame.width, height: pic3.frame.height)
+        
+        l3.frame = CGRect(x: l3.frame.minX, y: pic3.frame.maxY + 10, width: l3.frame.width, height: l3.frame.height)
+        
+        
         view4.addSubview(pic4)
         pic4.frame = CGRect(x: view4.frame.width/4, y: view4.frame.height/12, width: view4.frame.width/2, height: view4.frame.width/2)
         l4.frame =  CGRect(x: self.view4.frame.width/12, y: self.pic4.frame.maxY + 10, width: self.view4.frame.width*(10/12), height: 44)
+        
+        pic4.frame = CGRect(x: pic4.frame.minX, y: (frame4.height-piclabelHeight)/2, width: pic4.frame.width, height: pic4.frame.height)
+        
+        l4.frame = CGRect(x: l4.frame.minX, y: pic4.frame.maxY + 10, width: l4.frame.width, height: l4.frame.height)
         
         //rounded views
         view1.layer.cornerRadius = 25.0

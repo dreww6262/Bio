@@ -525,6 +525,9 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         avaImage?.image = UIImage()
         avaImage?.tag = 0
         contentView.addSubview(avaImage!)
+        avaImage?.isUserInteractionEnabled = true
+        let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(handleProfilePicTap))
+        avaImage?.addGestureRecognizer(tapGesture1)
         avaImage?.isHidden = false
         contentView.bringSubviewToFront(avaImage!)
         avaImage!.setupHexagonMask(lineWidth: 10.0, color: .white, cornerRadius: 10.0)
@@ -557,13 +560,13 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         let postImage = sender.view as! PostImageView
         let hexItem = postImage.hexData!
         
-        if sender.view!.tag == 0 {
-            print("Tried to click profile pic handle later")
-            
-        }
+//        if sender.view!.tag == 0 {
+//            print("Tried to click profile pic handle later")
+//
+//        }
             
             //TO DO: Tap to Play Video
-        else if hexItem.type.contains("video") {
+        if hexItem.type.contains("video") {
             //TO DO: play a video here!!
             let playString = hexItem.resource
            // play(url: hexagonStructArray[sender.view!.tag].resource)
@@ -685,6 +688,36 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         })
                 
     }
+    
+    @objc func handleProfilePicTap(_ sender: UITapGestureRecognizer) {
+            print("Tried to click profile pic handle later")
+          //  menuView.menuButton.isHidden = true
+            let newImageView = UIImageView(image: UIImage(named: "kbit"))
+            let cleanRef = userData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
+            let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
+            newImageView.sd_setImage(with: url!, completed: {_, error, _, _ in
+                if error != nil {
+                    print(error!.localizedDescription)
+                }
+            })
+            
+            self.view.addSubview(newImageView)
+
+            let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
+            
+            newImageView.frame = frame
+            newImageView.backgroundColor = .black
+            
+            newImageView.contentMode = .scaleAspectFit
+            newImageView.isUserInteractionEnabled = true
+            let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImageHandler))
+            newImageView.addGestureRecognizer(tap)
+            
+            let textView = UITextView()
+            textView.text = "asdfkjlasdfjasdf"
+            textView.textColor = .red
+    }
+    
     
     @objc func handleContentViewerTap(sender: UITapGestureRecognizer) {
         dismissContent(view: sender.view!)
