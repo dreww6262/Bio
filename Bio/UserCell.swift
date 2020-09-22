@@ -55,6 +55,8 @@ class UserCell: UITableViewCell {
         followView.addSubview(followImage)
         followView.addSubview(followLabel)
         followImage.frame = CGRect(x: 0, y: 0, width: followView.frame.height, height: followView.frame.height)
+        let followTap = UITapGestureRecognizer(target: self, action: #selector(followPressed))
+        followView.addGestureRecognizer(followTap)
         followLabel.frame = CGRect(x: followImage.frame.maxX + (followView.frame.width/20), y: followImage.frame.minY - (followView.frame.height/5), width: 44, height: 20)
          followView.layer.cornerRadius = followView.frame.size.width/10
         print("THis is followView.frame \(followView.frame)")
@@ -75,22 +77,24 @@ class UserCell: UITableViewCell {
         
         // Configure the view for the selected state
     }
-    @IBAction func followPressed(_ sender: UIButton) {
-        let width = UIScreen.main.bounds.width
+    @objc func followPressed(_ sender: UIButton) {
+        //let width = UIScreen.main.bounds.width
         let cell = self
-        let button = self.followBtn
+        let button = self.followView
         let username = cell.usernameLbl.text!
         if userData != nil {
             if button!.tag == 0 {
                 let newFollow = ["follower": userData!.publicID, "following": username]
                 db.collection("Followings").addDocument(data: newFollow as [String : Any])
                 UIDevice.vibrate()
-                button?.imageView?.image = UIImage(named: "checkmark32x32")
-                sender.imageView?.image = UIImage(named: "checkmark32x32")
+                button?.isHidden = true
+//                button?.imageView?.image = UIImage(named: "checkmark32x32")
+//                sender.imageView?.image = UIImage(named: "checkmark32x32")
                 button?.tag = 1
-                print("It's supposed to change to check")
-                button?.frame = CGRect(x: width - width / 4.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
-                button?.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
+//                print("It's supposed to change to check")
+//                button?.frame = CGRect(x: width - width / 4.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
+//                button?.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
+                
                 
                 
                 let notificationObjectref = db.collection("News2")
@@ -148,13 +152,13 @@ class UserCell: UITableViewCell {
                         }
                     }
                     })
-                button?.imageView?.image = UIImage(named: "addFriend")
-                button?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
-                button?.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
+//                button?.imageView?.image = UIImage(named: "addFriend")
+//                button?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
+//                button?.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
                 button?.tag = 0
             }
-          button?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
-                         button?.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
+//          button?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
+//                         button?.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
         }
     }
     

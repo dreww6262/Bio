@@ -371,7 +371,7 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         var userTableVC = segue.destination as! UserTableView
         userTableVC.currentUser = user
-        userTableVC.loadUserDataArray = loadUserDataArray
+        userTableVC.loadUserDataArray.setArray(array: followingUserDataArray.readOnlyArray())
     }
     
     

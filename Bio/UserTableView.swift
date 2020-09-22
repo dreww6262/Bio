@@ -22,8 +22,8 @@ class UserTableView: UIViewController, UISearchBarDelegate {
     let storageRef = Storage.storage().reference()
     
     var currentUser: User?
-    var loadUserDataArray: [UserData] = []
-    var searchString: String?
+    var loadUserDataArray = ThreadSafeArray<UserData>()
+    var searchString: String = ""
     var userData: UserData?
     
     var followList = [String]()
@@ -46,6 +46,7 @@ class UserTableView: UIViewController, UISearchBarDelegate {
         self.navigationItem.leftBarButtonItem = searchItem
         searchBar.showsCancelButton = true
         searchBar.becomeFirstResponder()
+        searchBar.autocapitalizationType = UITextAutocapitalizationType.none
         tableView.delegate = self
         tableView.dataSource = self
         tableView.frame = CGRect(x: 0, y: searchBar.frame.height + 20, width: view.frame.width, height: view.frame.height - searchBar.frame.height)
@@ -60,11 +61,85 @@ class UserTableView: UIViewController, UISearchBarDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        if (loadUserDataArray.isEmpty()) {
+            startWithFollowers()
+        }
+        else {
+            doneLoading()
+        }
+    }
+    
+    func startWithFollowers() {
         loadFollows(completion: {
+            
+            // loads follower list to start
+            
             self.followListener?.remove()
+            self.loadUserDataArray.removeAll()
+            //self.loadUserDataArray.append(newElement: self.userData!)
+            let chunks = self.followList.chunked(into: 5)
+            let group = DispatchGroup()
+            for chunk in chunks {
+                group.enter()
+                self.loadUpToTenUserDatas(usernames: chunk, completion: {
+                    //print("loadFollowings: loaded followers \(self.followingUserDataArray)")
+                    group.leave()
+                })
+            }
+            group.notify(queue: .main) {
+                //print("loadFollowings: done loading followers \(self.followingUserDataArray)")
+                self.doneLoading()
+            }
             self.tableView.reloadData()
         })
-        
+    }
+    
+    func loadUpToTenUserDatas(usernames: [String], completion: @escaping () -> ()) {
+        let userDataCollection = self.db.collection("UserData1")
+        let userDataQuery = userDataCollection.whereField("publicID", in: usernames)
+        userDataQuery.addSnapshotListener( { (objects, error) -> Void in
+            if error == nil {
+                guard let documents = objects?.documents else {
+                    print("could not get documents from objects?.documents")
+                    print(error!.localizedDescription)
+                    return
+                }
+                
+                for object in documents {
+                    let newUserData = UserData(dictionary: object.data())
+                    let readOnlyArray = self.loadUserDataArray.readOnlyArray()
+                    
+                    // TODO: Very inefficient.  Use database operations to make sure data is clean.  Followers shouldnt be too many.  < 100 elements
+                    
+                    if (!readOnlyArray.contains(where: { data in
+                        data.publicID == newUserData.publicID
+                    })) {
+                        self.loadUserDataArray.append(newElement: newUserData)
+                    }
+                }
+            } else {
+                print("could not get userdata for followings")
+                print(error!.localizedDescription)
+            }
+            completion()
+            
+        })
+    }
+    
+    func doneLoading() {
+        sortUserDataArray()
+        self.tableView.reloadData()
+    }
+    
+    func sortUserDataArray() {
+        var sorted = self.loadUserDataArray.readOnlyArray()
+        sorted.sort(by: { x, y in
+            x.publicID < y.publicID
+        })
+        loadUserDataArray.removeAll()
+        sorted.forEach({ item in
+            self.loadUserDataArray.append(newElement: item)
+        })
     }
     
     func loadFollows(completion: @escaping() -> ()) {
@@ -85,9 +160,16 @@ class UserTableView: UIViewController, UISearchBarDelegate {
     
     // search updated
     func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "" && searchString != "" {
+            let _ = searchString.popLast()
+        }
+        else {
+            searchString += text
+        }
         loadUserData()
         return true
     }
+    
     
     
     // tapped on the searchBar
@@ -113,7 +195,7 @@ class UserTableView: UIViewController, UISearchBarDelegate {
         searchBar.text = ""
         
         // reset shown users
-        loadUserDataArray = []
+        loadUserDataArray.removeAll()
         self.dismiss(animated: false, completion: nil)
         
         //usernameArray = []
@@ -122,24 +204,29 @@ class UserTableView: UIViewController, UISearchBarDelegate {
     
     
     func loadUserData() {
-        loadUserDataArray = []
+        loadUserDataArray.removeAll()
+        //searchString = searchBar.text
+        if searchString == "" {
+            startWithFollowers()
+            return
+        }
         // find by username
-        var success = true
-        let usernameQuery = db.collection("UserData1")
+        //var success = true
+        let usernameQuery = db.collection("UserData1").whereField("publicID", isGreaterThanOrEqualTo: searchString).whereField("publicID", isLessThan: searchString+"\u{F8FF}")
         usernameQuery.addSnapshotListener({snapshots,error in
             if (error != nil) {
                 print("god damnit")
-                success = false
+                //success = false
                 return
             }
             print("success, search bar pulled data")
             for doc in snapshots!.documents {
                 //self.usernameArray.append(doc.value(forKey: "publicID") as! String)
                 print(doc.data())
-                self.loadUserDataArray.append(UserData(dictionary: doc.data()))
+                self.loadUserDataArray.append(newElement: UserData(dictionary: doc.data()))
                 
             }
-            //self.loadUsers()
+            self.sortUserDataArray()
             self.tableView.reloadData()
         })
     }

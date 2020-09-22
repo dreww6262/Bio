@@ -86,4 +86,10 @@ public class ThreadSafeArray<T> {
             array.removeAll()
         }
     }
+    
+    public func setArray(array: [T]) {
+        self.accessQueue.sync {
+            self.array = array
+        }
+    }
 }
