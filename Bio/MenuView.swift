@@ -11,7 +11,7 @@ import FirebaseAuth
 import FirebaseFirestore
 
 class MenuView: UIView {
-    
+    var blurEffectViewArray: [UIView] = []
     var menuButton: UIButton = UIButton()
     var newPostButton: UIButton = UIButton()
     var friendsButton: UIButton = UIButton()
@@ -336,10 +336,40 @@ class MenuView: UIView {
         point.x += sender.view!.frame.midX
         point.y += sender.view!.frame.midY
         //        print(point)
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
         if (sender.state == .began) {
            // makeAllMenuButtonsBlack()
             makeAllMenuButtonsClear()
+            
+            //blur the screen
+         
+           // blurEffectView.frame = (tabController?.customizableViewControllers![currentTab].view.bounds)!
+          //  blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            
+            //if currentTab == 2 {
+                //let homeVCBlur = tabController?.customizableViewControllers![currentTab] as! HomeHexagonGrid
+                //blurEffectView.frame = homeVCBlur.contentView.frame
+                //blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+                //homeVCBlur.contentView.addSubview(blurEffectView)
+            //}
+            blurEffectViewArray.append(blurEffectView)
+            superview!.addSubview(blurEffectView)
+            blurEffectView.frame = superview!.frame
+            superview!.bringSubviewToFront(homeProfileButton)
+            superview!.bringSubviewToFront(notificationsButton)
+            superview!.bringSubviewToFront(dmButton)
+            superview!.bringSubviewToFront(friendsButton)
+            superview!.bringSubviewToFront(newPostButton)
+            superview!.bringSubviewToFront(menuButton)
+            
+            
+            
+            
+            
             showMenuOptions()
+            
+    
         }
         if (sender.state == .changed) {
             //showMenuOptions()
@@ -354,9 +384,15 @@ class MenuView: UIView {
         if (sender.state == .ended) {
             //find button
             let button = findMenuHexagonButton(hexCenter: point)
+            hideMenuOptions()
+            for blurview in blurEffectViewArray {
+            blurview.removeFromSuperview()
+            }
             button?.sendActions(for: .touchUpInside)
             //print("button triggered: \(button?.titleLabel)")
-            hideMenuOptions()
+           
+            
+            
             //change VC
         }
     }
