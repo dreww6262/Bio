@@ -30,6 +30,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var loadDataListener: ListenerRegistration?
     var user = Auth.auth().currentUser
     var userData: UserData?
+    var username: String?
     let db = Firestore.firestore()
     let storage = Storage.storage().reference()
     
@@ -136,6 +137,88 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         followButton.clipsToBounds = true
         followButton.imageView?.backgroundColor = .systemGray4
         
+        let tapped = UITapGestureRecognizer(target: self, action: #selector(followTapped))
+        followButton.addGestureRecognizer(tapped)
+        
+    }
+    
+    @objc func followTapped(_ sender: UITapGestureRecognizer) {
+        if userData != nil {
+            if followButton!.tag == 0 {
+                let newFollow = ["follower": username, "following": userData!.publicID]
+                db.collection("Followings").addDocument(data: newFollow as [String : Any])
+                UIDevice.vibrate()
+//                button?.imageView?.image = UIImage(named: "checkmark32x32")
+//                sender.imageView?.image = UIImage(named: "checkmark32x32")
+                followButton?.tag = 1
+                print("It's supposed to change to check")
+//                button?.frame = CGRect(x: width - width / 4.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
+//                button?.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
+                
+                
+                let notificationObjectref = db.collection("News2")
+                   let notificationDoc = notificationObjectref.document()
+                let notificationObject = NewsObject(ava: userData!.avaRef, type: "follow", currentUser: userData!.publicID, notifyingUser: userData!.publicID, thumbResource: userData!.avaRef, createdAt: NSDate.now.description, checked: false, notificationID: notificationDoc.documentID)
+                   notificationDoc.setData(notificationObject.dictionary){ error in
+                       //     group.leave()
+                       if error == nil {
+                           print("added notification: \(notificationObject)")
+                           
+                       }
+                       else {
+                           print("failed to add notification \(notificationObject)")
+                           
+                       }
+                   }
+                
+                
+                
+                
+                
+                
+                //SEND A NOTIFICATION FOR FOLLOWING! SWITCH FROM PARSE TO FIREBASE
+//                if self.usernameBtn.titleLabel?.text != PFUser.current()?.username {
+//                                 let newsObj = PFObject(className: "News")
+//                                 newsObj["by"] = PFUser.current()?.username
+//                                 newsObj["ava"] = PFUser.current()?.object(forKey: "ava") as! PFFile
+//                                 newsObj["to"] = self.usernameBtn.titleLabel!.text
+//                                 newsObj["owner"] = self.usernameBtn.titleLabel!.text
+//                                 newsObj["uuid"] = self.uuidLbl.text
+//                                 newsObj["type"] = "like"
+//                                 newsObj["checked"] = "no"
+//                                 newsObj.saveEventually()
+//                             }
+                
+                
+                
+                
+//
+//                sender.imageView?.image = UIImage(named: "friendCheck")
+//                        button?.tag = 1
+//                        print("It's supposed to change to check")
+//                sender.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
+//                        sender.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
+                
+            }
+            else {
+                db.collection("Followings").whereField("follower", isEqualTo: userData!.publicID).whereField("following", isEqualTo: username).addSnapshotListener({ objects, error in
+                    if error == nil {
+                        guard let docs = objects?.documents else {
+                            return
+                        }
+                        for doc in docs {
+                            doc.reference.delete()
+                        }
+                    }
+                    })
+//                button?.imageView?.image = UIImage(named: "addFriend")
+//                button?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
+//                button?.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
+                followButton?.tag = 0
+            }
+//          button?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
+//                         button?.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
+        }
     }
     
     func addReturnButton() {

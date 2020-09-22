@@ -27,7 +27,7 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
     //     var avaArray = [PFFileObject]()
     // array showing who we follow
     var followArray = [String]()
-    var followingUserDataArray = [UserData]()
+    var followingUserDataArray = ThreadSafeArray<UserData>()
     let db = Firestore.firestore()
     var userData: UserData?
     var loadUserDataArray: [UserData] = []
@@ -246,31 +246,77 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
         refresh()
     }
     
+    func loadUpToTenFollowers(followers: [String], completion: @escaping () -> ()) {
+        let userDataCollection = self.db.collection("UserData1")
+        let userDataQuery = userDataCollection.whereField("publicID", in: followers)
+        userDataQuery.addSnapshotListener( { (objects, error) -> Void in
+            if error == nil {
+                guard let documents = objects?.documents else {
+                    print("could not get documents from objects?.documents")
+                    print(error!.localizedDescription)
+                    return
+                }
+                
+                for object in documents {
+                    let newUserData = UserData(dictionary: object.data())
+                    let readOnlyArray = self.followingUserDataArray.readOnlyArray()
+                    
+                    // TODO: Very inefficient.  Use database operations to make sure data is clean.  Followers shouldnt be too many.  < 100 elements
+                    
+                    if (!readOnlyArray.contains(where: { data in
+                        data.publicID == newUserData.publicID
+                    })) {
+                        self.followingUserDataArray.append(newElement: newUserData)
+                    }
+                }
+            } else {
+                print("could not get userdata for followings")
+                print(error!.localizedDescription)
+            }
+            completion()
+            
+        })
+    }
+    
+    func doneLoading() {
+        self.removeCurrentProfileHexagons()
+        self.loadProfileHexagons()
+    }
+    
     // loading followings
     func loadFollowings() {
-       // print("starting load followings")
-        //print("This is user \(user)")
-        // STEP 1. Find people followed by User
-        let followCollection = db.collection("Followings")
-        let usernameText:String = userData!.publicID
-        
-        //print("usernameText \(usernameText)")
-        
-        //self.followArray.removeAll(keepingCapacity: false)
-        
-        var newFollowArray: [String] = []
-        var newUserDataArray: [UserData] = [userData!]
-        
-        if (self.followingUserDataArray.isEmpty) {
-            self.followingUserDataArray = newUserDataArray
+        if (self.followingUserDataArray.isEmpty()) {
+            self.followingUserDataArray.append(newElement: userData!)
             loadProfileHexagons()
         }
-        
-        
-        //        self.followingUserDataArray.removeAll(keepingCapacity: false)
-        //        self.followingUserDataArray.append(self.userData!)
-        
-        let followQuery = followCollection.whereField("follower", isEqualTo: usernameText).addSnapshotListener({ (objects, error) -> Void in
+        createFollowArray(completion: { newFollowArray in
+            print("loadFollowings: new follow array: \(newFollowArray)")
+            if newFollowArray.count > 0 {
+                // using 5 for efficiency and less possibility of timeout
+                self.followingUserDataArray.removeAll()
+                self.followingUserDataArray.append(newElement: self.userData!)
+                let chunks = newFollowArray.chunked(into: 5)
+                let group = DispatchGroup()
+                for chunk in chunks {
+                    group.enter()
+                    self.loadUpToTenFollowers(followers: chunk, completion: {
+                        print("loadFollowings: loaded followers \(self.followingUserDataArray)")
+                        group.leave()
+                    })
+                }
+                group.notify(queue: .main) {
+                    print("loadFollowings: done loading followers \(self.followingUserDataArray)")
+                    self.doneLoading()
+                }
+            }
+        })
+    }
+    
+    func createFollowArray(completion: @escaping ([String]) -> ()) {
+        let followCollection = db.collection("Followings")
+        let usernameText:String = userData!.publicID
+        var newFollowArray: [String] = []
+        let _ = followCollection.whereField("follower", isEqualTo: usernameText).addSnapshotListener({ (objects, error) -> Void in
             if error == nil {
                 print("no error")
                 
@@ -284,51 +330,12 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
                     }
                     print("Now this is followArray \(self.followArray)")
                 }
-                
-                // STEP 3. Basing on followArray information (inside users) show infromation from User class of Parse
-                // find users followeb by user
-                if (!newFollowArray.isEmpty && !newFollowArray.elementsEqual(self.followArray)) {
-                    let userDataCollection = self.db.collection("UserData1")
-                    let userDataQuery = userDataCollection.whereField("publicID", in: newFollowArray)
-                    self.followArray = newFollowArray
-                    userDataQuery.addSnapshotListener( { (objects, error) -> Void in
-                        if error == nil {
-                            guard let documents = objects?.documents else {
-                                print("could not get documents from objects?.documents")
-                                print(error?.localizedDescription)
-                                return
-                            }
-                            
-                            for object in documents {
-                                newUserDataArray.append(UserData(dictionary: object.data()))
-                            }
-                            self.followingUserDataArray = newUserDataArray
-                            newUserDataArray.forEach({ doc in
-                                print("username: \(doc.publicID)")
-                            })
-                            print("new user data array: \(newUserDataArray)")
-                            self.removeCurrentProfileHexagons()
-                            self.loadProfileHexagons()
-                            
-                        } else {
-                            print("could not get userdata for followings")
-                            print(error!.localizedDescription)
-                        }
-                        
-                    })
-                }
-                //                else {
-                //                    self.removeCurrentProfileHexagons()
-                //                    self.loadProfileHexagons()
-                //                }
-                
-                
-            } else {
-                print("could not get followings")
-                print(error!.localizedDescription)
+                completion(newFollowArray)
             }
-            
-            
+            else {
+                print(error!.localizedDescription)
+                completion([String]())
+            }
         })
     }
     
@@ -353,6 +360,7 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
         print("🎯🎯🎯🎯🎯🎯🎯 I tapped image with associated username: \(username)")
         let guestVC = storyboard?.instantiateViewController(identifier: "guestGridVC") as! GuestHexagonGridVC
         //guestVC.user = user
+        guestVC.username = userData!.publicID
         guestVC.userData = followingUserDataArray[sender.view!.tag]
         show(guestVC, sender: nil)
         // TODO: use tag to get index of userdata to go to new hex grid as guest.
@@ -387,7 +395,7 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
         
         var thisIndex = 0
         print ("following data count \(followingUserDataArray.count)")
-        for data in followingUserDataArray {
+        for data in followingUserDataArray.readOnlyArray() {
             //print(coordinates)
             
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
@@ -435,5 +443,13 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
     }
     
     
+}
+
+extension Array {
+    func chunked(into size: Int) -> [[Element]] {
+        return stride(from: 0, to: count, by: size).map {
+            Array(self[$0 ..< Swift.min($0 + size, count)])
+        }
+    }
 }
 

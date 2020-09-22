@@ -163,6 +163,7 @@ class UserTableView: UIViewController, UISearchBarDelegate {
                     let userdata = UserData(dictionary: docs[0].data())
                     let guestVC = self.storyboard!.instantiateViewController(identifier: "guestGridVC") as! GuestHexagonGridVC
                     guestVC.userData = userdata
+                    guestVC.username = self.userData!.publicID
                     self.present(guestVC, animated: false)
                     self.modalPresentationStyle = .fullScreen
                 }

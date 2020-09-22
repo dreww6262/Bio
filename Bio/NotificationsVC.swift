@@ -233,6 +233,7 @@ class NotificationsVC: UIViewController {
                 else {
                     let userdata = UserData(dictionary: docs[0].data())
                     let guestVC = self.storyboard!.instantiateViewController(identifier: "guestGridVC") as! GuestHexagonGridVC
+                    guestVC.username = self.userData!.publicID
                     guestVC.userData = userdata
                     self.present(guestVC, animated: false)
                     self.modalPresentationStyle = .fullScreen
@@ -273,6 +274,7 @@ print("UserName Clicked")
                            let userdata = UserData(dictionary: docs[0].data())
                            let guestVC = self.storyboard!.instantiateViewController(identifier: "guestGridVC") as! GuestHexagonGridVC
                            guestVC.userData = userdata
+                        guestVC.username = self.userData!.publicID
                            self.present(guestVC, animated: false)
                            self.modalPresentationStyle = .fullScreen
                        }
@@ -445,6 +447,8 @@ print("UserName Clicked")
                     
                     // go guest
                     let guest = self.storyboard?.instantiateViewController(withIdentifier: "guestVC") as! GuestHexagonGridVC
+                    // SET USERDATA
+                    guest.username = userData!.publicID
                     self.navigationController?.pushViewController(guest, animated: true)
                 }
                 
