@@ -75,7 +75,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         addSearchButton()
         addSettingsButton()
         addTrashButton()
-
+        
         let contentTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleContentViewerTap))
         contentViewer.addGestureRecognizer(contentTapGesture)
         
@@ -85,9 +85,9 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                 db.collection("UserData1").whereField("email", isEqualTo: user!.email!).addSnapshotListener({ objects, error in
                     if error == nil {
                         guard let docs = objects?.documents
-                            else{
-                                print("bad docs")
-                                return
+                        else{
+                            print("bad docs")
+                            return
                         }
                         
                         if docs.count == 0 {
@@ -122,17 +122,17 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     }
     
     func setZoomScale() {
-           //let imageViewSize = contentView.bounds.size
-           //let scrollViewSize = scrollView.bounds.size
-           //let widthScale = scrollViewSize.width / imageViewSize.width
-           //let heightScale = scrollViewSize.height / imageViewSize.height
-           
-//           print("width scale: \(widthScale)")
-//           print("height scale: \(heightScale)")
-           // scrollView.minimumZoomScale = min(widthScale, heightScale)
-           //scrollView.zoomScale = scrollView.minimumZoomScale
-           scrollView.maximumZoomScale = 60
-           scrollView.minimumZoomScale = 0.5
+        //let imageViewSize = contentView.bounds.size
+        //let scrollViewSize = scrollView.bounds.size
+        //let widthScale = scrollViewSize.width / imageViewSize.width
+        //let heightScale = scrollViewSize.height / imageViewSize.height
+        
+        //           print("width scale: \(widthScale)")
+        //           print("height scale: \(heightScale)")
+        // scrollView.minimumZoomScale = min(widthScale, heightScale)
+        //scrollView.zoomScale = scrollView.minimumZoomScale
+        scrollView.maximumZoomScale = 60
+        scrollView.minimumZoomScale = 0.5
     }
     
     func addMenuButtons() {
@@ -145,19 +145,19 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         self.view.addSubview(toSearchButton)
         toSearchButton.frame = CGRect(x: self.view.frame.width-30, y: 20, width: 30, height: 30)
         // round ava
-//        toSearchButton.layer.cornerRadius = toSearchButton.frame.size.width / 2
+        //        toSearchButton.layer.cornerRadius = toSearchButton.frame.size.width / 2
         toSearchButton.clipsToBounds = true
         toSearchButton.isHidden = false
     }
     
     func addSettingsButton() {
-           self.view.addSubview(toSettingsButton)
-           toSettingsButton.frame = CGRect(x: 0, y: 20, width: 30, height: 30)
-           // round ava
-           toSettingsButton.clipsToBounds = true
-           toSettingsButton.isHidden = false
-    
-       }
+        self.view.addSubview(toSettingsButton)
+        toSettingsButton.frame = CGRect(x: 0, y: 20, width: 30, height: 30)
+        // round ava
+        toSettingsButton.clipsToBounds = true
+        toSettingsButton.isHidden = false
+        
+    }
     
     func addTrashButton() {
         view.addSubview(trashButton)
@@ -281,10 +281,10 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                             self.populateUserAvatar()
                             self.menuView.userData = newData
                             self.createImageViews()
-    //                        print("created image views")
+                            //                        print("created image views")
                         }
                         else {
-    //                        print("nothing changed")
+                            //                        print("nothing changed")
                         }
                         
                     }
@@ -304,22 +304,22 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         let userTableVC = storyboard?.instantiateViewController(identifier: "userTableVC") as! UserTableView
         userTableVC.userData = userData
         present(userTableVC, animated: false)
-//        print("frame after pressed \(toSearchButton.frame)")
+        //        print("frame after pressed \(toSearchButton.frame)")
         
     }
     
     @IBAction func toSettingsButtonClicked(_ sender: UIButton) {
-     
+        
         let userdata = self.userData
-                         let settingsVC = self.storyboard!.instantiateViewController(identifier: "settingsVC") as! ProfessionalSettingsVC
-                         settingsVC.userData = userdata
-       
-        settingsVC.menuView.tabController = (tabBarController as! NavigationMenuBaseController)
-        settingsVC.menuView.userData = userData
-//        settingsVC.modalPresentationStyle = .fullScreen
-            self.present(settingsVC, animated: false)
+        let settingsVC = self.storyboard!.instantiateViewController(identifier: "settingsVC") as! ProfessionalSettingsVC
+        settingsVC.userData = userdata
+        
+        //settingsVC.menuView.tabController = (tabBarController as! NavigationMenuBaseController)
+        //settingsVC.menuView.userData = userData
+        //        settingsVC.modalPresentationStyle = .fullScreen
+        self.present(settingsVC, animated: false)
         settingsVC.modalPresentationStyle = .fullScreen
-                    
+        
     }
     
     func createImageViews() {
@@ -353,13 +353,13 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             }
         })
     }
-        
+    
     func changePostImageCoordinates() {
         for image in imageViewArray {
             image.frame = CGRect(x: self.reOrderedCoordinateArrayPoints[image.hexData!.location].x,
                                  y: self.reOrderedCoordinateArrayPoints[image.hexData!.location].y, width: hexaDiameter, height: hexaDiameter)
             //image.setupHexagonMask(lineWidth: 10.0, color: myBlueGreen, cornerRadius: 10.0)
-           // createHexagonMaskWithCorrespondingColor(imageView: image, type: <#T##String#>)
+            // createHexagonMaskWithCorrespondingColor(imageView: image, type: <#T##String#>)
         }
     }
     
@@ -386,7 +386,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         //    var gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
         print("This is the type of hexagon: \(hexData.type)")
         var myType = hexData.type
-       // image.setupHexagonMask(lineWidth: 10.0, color: myBlueGreen, cornerRadius: 10.0)
+        // image.setupHexagonMask(lineWidth: 10.0, color: myBlueGreen, cornerRadius: 10.0)
         createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
         //let ref = storage.child(hexData.thumbResource)
         let cleanRef = hexData.thumbResource.replacingOccurrences(of: "/", with: "%2F")
@@ -482,7 +482,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             }
             trashButton.isHidden = true
             menuView.menuButton.isHidden = false
-
+            
         }
         else if sender.state == .began {
             print("UIGestureRecognizerStateBegan.")
@@ -649,7 +649,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             
         }
     }
- 
+    
     
     func populateUserAvatar() {
         // to for hexstruct array once algorithm done
@@ -747,32 +747,32 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     }
     
     @objc func handleProfilePicTap(_ sender: UITapGestureRecognizer) {
-            print("Tried to click profile pic handle later")
-            menuView.menuButton.isHidden = true
-            let newImageView = UIImageView(image: UIImage(named: "kbit"))
-            let cleanRef = userData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
-            let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
-            newImageView.sd_setImage(with: url!, completed: {_, error, _, _ in
-                if error != nil {
-                    print(error!.localizedDescription)
-                }
-            })
-            
-            self.view.addSubview(newImageView)
-
-            let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
-            
-            newImageView.frame = frame
-            newImageView.backgroundColor = .black
-            
-            newImageView.contentMode = .scaleAspectFit
-            newImageView.isUserInteractionEnabled = true
-            let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImageHandler))
-            newImageView.addGestureRecognizer(tap)
-            
-            let textView = UITextView()
-            textView.text = "asdfkjlasdfjasdf"
-            textView.textColor = .red
+        print("Tried to click profile pic handle later")
+        menuView.menuButton.isHidden = true
+        let newImageView = UIImageView(image: UIImage(named: "kbit"))
+        let cleanRef = userData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
+        let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
+        newImageView.sd_setImage(with: url!, completed: {_, error, _, _ in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+        })
+        
+        self.view.addSubview(newImageView)
+        
+        let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
+        
+        newImageView.frame = frame
+        newImageView.backgroundColor = .black
+        
+        newImageView.contentMode = .scaleAspectFit
+        newImageView.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImageHandler))
+        newImageView.addGestureRecognizer(tap)
+        
+        let textView = UITextView()
+        textView.text = "asdfkjlasdfjasdf"
+        textView.textColor = .red
     }
     
     
@@ -783,19 +783,19 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         let postImage = sender.view as! PostImageView
         let hexItem = postImage.hexData!
         
-      
-            
-            //TO DO: Tap to Play Video
+        
+        
+        //TO DO: Tap to Play Video
         if hexItem.type.contains("video") {
             //TO DO: play a video here!!
             let playString = hexItem.resource
-           // play(url: hexagonStructArray[sender.view!.tag].resource)
+            // play(url: hexagonStructArray[sender.view!.tag].resource)
             print("This is url string \(playString)")
             loadVideo(urlString: playString)
             menuView.menuButton.isHidden = true
         }
-            
-            
+        
+        
         else if hexItem.type.contains("photo") {
             menuView.menuButton.isHidden = true
             let newImageView = UIImageView(image: UIImage(named: "kbit"))
@@ -807,7 +807,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                 }
             })
             self.view.addSubview(newImageView)
-
+            
             let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
             
             newImageView.frame = frame
@@ -826,7 +826,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         else if hexItem.type.contains("link") {
             openLink(link: hexItem.resource)
         }
-            
+        
         else if hexItem.type.contains("social") {
             let theType = hexItem.type
             if theType.contains("instagram") {
@@ -863,7 +863,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         //            dismissFullscreenImage(view: newImageView)
         //            openSpotifySong()
         //        }
-
+        
     }
     
     
@@ -904,7 +904,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                 self.playVideo()
             }
         })
-                
+        
     }
     
     @objc func handleContentViewerTap(sender: UITapGestureRecognizer) {
@@ -913,7 +913,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     }
     func dismissContent(view: UIView){
         //self.navigationController?.isNavigationBarHidden = false
-       // self.tabBarController?.tabBar.isHidden = false
+        // self.tabBarController?.tabBar.isHidden = false
         pauseVideo()
         //        for v in view.subviews {
         //            v.removeFromSuperview()
@@ -931,6 +931,17 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     
     public func pauseVideo() {
         avPlayer?.pause()
+    }
+    
+    @IBAction func unvindSegueSignOut(segue: UIStoryboardSegue) {
+        menuView.userData = nil
+        do {
+            try Auth.auth().signOut()
+        }
+        catch {
+            print("could not sign out")
+        }
+        menuView.tabController?.customTabBar.switchTab(from: 2, to: 5)
     }
     
 }
@@ -1001,7 +1012,7 @@ extension UIImageView {
         self.layer.cornerRadius = self.frame.height / 2
         self.clipsToBounds = true
     }
-
+    
     func makeSquareClear() {
         
         self.layer.borderWidth = 1
@@ -1010,7 +1021,7 @@ extension UIImageView {
         self.layer.cornerRadius = 0.0
         self.clipsToBounds = true
     }
-
+    
     
     
     func makeRoundedPurple() {
@@ -1104,4 +1115,5 @@ extension UIView {
     func stopShimmering(){
         self.layer.mask = nil
     }
+    
 }

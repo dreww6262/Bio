@@ -36,6 +36,7 @@ class PhoneSignInVC: UIViewController {
     //    view.backgroundColor = backgroundBlue
      //  setGradientBackground()
         super.viewWillAppear(true)
+        navigationController?.navigationBar.isHidden = true
         //     self.view.addSubview(popUpView)
         
     }

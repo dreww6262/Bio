@@ -2577,8 +2577,12 @@
                         <viewLayoutGuide key="safeArea" id="86a-rK-jzW"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <connections>
+                        <segue destination="5qp-Ny-zog" kind="unwind" identifier="rewindSignOut" unwindAction="unvindSegueSignOutWithSegue:" id="Klj-Yg-k2S"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hzI-q3-Rp0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="5qp-Ny-zog" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-3330.434782608696" y="-4801.3392857142853"/>
         </scene>

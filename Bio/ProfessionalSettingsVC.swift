@@ -17,7 +17,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
     
     //var tabController = NavigationMenuBaseController()
     var userData: UserData? = nil
-    var menuView = MenuView()
+    //var menuView = MenuView()
  var myAccountArray = ["Name",
  "Username",
  "Birthday",
@@ -93,7 +93,7 @@ var titleLabel1 = UILabel()
         
         // Do any additional setup after loading the view.
        
-        menuView.isHidden = true
+        //menuView.isHidden = true
         tableContents = [
             Section(title: "My Account", rows: [
                                  NavigationRow(text: "Name", detailText: .value1(name)!, icon: .named("gear")),
@@ -112,7 +112,7 @@ var titleLabel1 = UILabel()
                         NavigationRow(text: "Terms of Service", detailText: .none, icon: .named("time"), action: { _ in }),
                         NavigationRow(text: "Report User", detailText: .none)]),
                 Section(title: "Account Actions", rows: [
-                    NavigationRow(text: "Log Out", detailText: .none, icon: .named("gear"))])
+                    NavigationRow(text: "Log Out", detailText: .none, icon: .named("gear"), action: didToggleSelection())])
         ]
         
         
@@ -187,16 +187,26 @@ let dismissTap = UITapGestureRecognizer(target: self, action: #selector(self.bac
 
      private func didToggleSelection() -> (Row) -> Void {
        return { [weak self] row in
+        if row.text == "Log Out" {
+            let alert = UIAlertController(title: "Are You Sure?", message: "We will miss you <3", preferredStyle: UIAlertController.Style.alert)
+            let ok = UIAlertAction(title: "Yeah :/", style: UIAlertAction.Style.cancel, handler: {_ in
+                self?.performSignout()
+            })
+            let nah = UIAlertAction(title: "I'll Stay", style: UIAlertAction.Style.default, handler: nil)
+            alert.addAction(ok)
+            alert.addAction(nah)
+            self!.present(alert, animated: true, completion: nil)
+        }
          // ...
        }
      }
+    
+    @objc func performSignout() {
+        self.performSegue(withIdentifier: "rewindSignOut", sender: self)
+    }
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        //empty for now.  Used for signout
+    }
    
-
-
-
-
-
-
-
 }

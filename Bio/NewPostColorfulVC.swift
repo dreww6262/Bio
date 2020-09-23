@@ -83,6 +83,7 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         super.viewWillAppear(animated)
         menuView.tabController = (tabBarController! as! NavigationMenuBaseController)
         menuView.userData = userData
+        navigationController?.navigationBar.isHidden = true
     }
     
     func setUpNavBarView() {
