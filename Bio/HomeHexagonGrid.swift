@@ -154,6 +154,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         self.followView.addSubview(followLabel)
         self.followImage.frame = CGRect(x: 5, y: 0, width: followView.frame.height, height: followView.frame.height)
         self.followView.layer.cornerRadius = followView.frame.size.width/10
+        //self.followView.clipsToBounds()
         self.followImage.image = UIImage(named: "eye")
         self.followLabel.frame = CGRect(x: followImage.frame.maxX + 5, y: 0.0, width: followView.frame.width - 10, height: followView.frame.height)
         self.followLabel.text = "1568"
@@ -260,6 +261,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         
         toSettingsButton.isHidden = false
         toSearchButton.isHidden = false
+        followView.isHidden = false
     }
     
     func resetCoordinatePoints() {
@@ -491,6 +493,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         }
         toSearchButton.isHidden = false
         toSettingsButton.isHidden = false
+        followView.isHidden = false
     }
     
     
@@ -957,6 +960,27 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             if theType.contains("snapchat") {
                 openSnapchat(snapchatUsername: hexItem.text)
             }
+            if theType.contains("youtube") {
+                openLink(link: hexItem.text)
+            }
+            if theType.contains("hudl") {
+                openLink(link: hexItem.text)
+            }
+            if theType.contains("venmo") {
+                openLink(link: hexItem.text)
+            }
+            if theType.contains("sound") {
+                openLink(link: hexItem.text)
+            }
+            if theType.contains("linked") {
+                openLink(link: hexItem.text)
+            }
+            if theType.contains("posh") {
+                openLink(link: hexItem.text)
+            }
+          
+            
+            
             
         }
         
