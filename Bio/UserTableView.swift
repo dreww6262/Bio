@@ -58,9 +58,27 @@ class UserTableView: UIViewController, UISearchBarDelegate {
         let glassIconView = textField.leftView as! UIImageView
         glassIconView.image = glassIconView.image?.withRenderingMode(.alwaysTemplate)
         glassIconView.tintColor = .white
+        textField.textColor = .white
         let clearButton = textField.value(forKey: "clearButton") as! UIButton
         clearButton.setImage(clearButton.imageView?.image?.withRenderingMode(.alwaysTemplate), for: .normal)
         clearButton.tintColor = .white
+        
+        //let textField2 = searchBar.value(forKey: "cancelButton") as! UITextField
+//        let cancelButton = searchBar.value(forKey: "cancelButton") as! UIButton
+//        cancelButton.titleLabel?.textColor = .white
+//        clearButton.tintColor = .white
+        
+        //cancel button white
+//        if let cancelButton = searchBar.value(forKey: "cancelButton") as? UIButton {
+//            print("Cancel button exists!")
+//            cancelButton.setTitle("Cancel", for: .normal)
+//            cancelButton.setTitleColor(.white, for: .normal)
+//           // cancelButton.setAttributedTitle(<your_nsattributedstring>, for: .normal)
+//        }
+        
+        if let buttonItem = searchBar.subviews.first?.subviews.last as? UIButton {
+            buttonItem.setTitleColor(UIColor.white, for: .normal)
+        }
         
         
         let searchItem = UIBarButtonItem(customView: searchBar)
