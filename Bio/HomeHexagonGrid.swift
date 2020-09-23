@@ -143,7 +143,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     
     func addSearchButton() {
         self.view.addSubview(toSearchButton)
-        toSearchButton.frame = CGRect(x: self.view.frame.width-40, y: 20, width: 40, height: 40)
+        toSearchButton.frame = CGRect(x: self.view.frame.width-30, y: 20, width: 30, height: 30)
         // round ava
 //        toSearchButton.layer.cornerRadius = toSearchButton.frame.size.width / 2
         toSearchButton.clipsToBounds = true
@@ -152,7 +152,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     
     func addSettingsButton() {
            self.view.addSubview(toSettingsButton)
-           toSettingsButton.frame = CGRect(x: 0, y: 20, width: 40, height: 40)
+           toSettingsButton.frame = CGRect(x: 0, y: 20, width: 30, height: 30)
            // round ava
            toSettingsButton.clipsToBounds = true
            toSettingsButton.isHidden = false
