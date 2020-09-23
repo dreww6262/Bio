@@ -122,7 +122,7 @@ class UserTableView: UIViewController, UISearchBarDelegate {
                 group.enter()
                 self.loadUpToTenUserDatas(usernames: chunk, completion: {
                     //print("loadFollowings: loaded followers \(self.followingUserDataArray)")
-                    group.leave()
+                    defer{group.leave()}
                 })
             }
             group.notify(queue: .main) {
@@ -136,7 +136,7 @@ class UserTableView: UIViewController, UISearchBarDelegate {
     func loadUpToTenUserDatas(usernames: [String], completion: @escaping () -> ()) {
         let userDataCollection = self.db.collection("UserData1")
         let userDataQuery = userDataCollection.whereField("publicID", in: usernames)
-        userDataQuery.addSnapshotListener( { (objects, error) -> Void in
+        let listener = userDataQuery.addSnapshotListener( { (objects, error) -> Void in
             if error == nil {
                 guard let documents = objects?.documents else {
                     print("could not get documents from objects?.documents")
@@ -163,9 +163,16 @@ class UserTableView: UIViewController, UISearchBarDelegate {
             completion()
             
         })
+        listenerList?.append(listener)
     }
     
+    var listenerList: [ListenerRegistration]?
+    
     func doneLoading() {
+        listenerList?.forEach({ listener in
+            listener.remove()
+        })
+        listenerList = nil
         sortUserDataArray()
         self.tableView.reloadData()
     }

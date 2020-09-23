@@ -335,7 +335,7 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
                     self.loadUpToTenFollowers(followers: chunk, completion: {
 //                        print("loadFollowings: loaded followers \(self.followingUserDataArray)")
                         
-                        group.leave()
+                        defer {group.leave()}
                     })
                 }
                 group.notify(queue: .main) {
