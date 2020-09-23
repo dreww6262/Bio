@@ -156,6 +156,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
            // round ava
            toSettingsButton.clipsToBounds = true
            toSettingsButton.isHidden = false
+    
        }
     
     func addTrashButton() {
@@ -357,7 +358,8 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         for image in imageViewArray {
             image.frame = CGRect(x: self.reOrderedCoordinateArrayPoints[image.hexData!.location].x,
                                  y: self.reOrderedCoordinateArrayPoints[image.hexData!.location].y, width: hexaDiameter, height: hexaDiameter)
-            image.setupHexagonMask(lineWidth: 10.0, color: .darkGray, cornerRadius: 10.0)
+            //image.setupHexagonMask(lineWidth: 10.0, color: myBlueGreen, cornerRadius: 10.0)
+           // createHexagonMaskWithCorrespondingColor(imageView: image, type: <#T##String#>)
         }
     }
     
@@ -382,7 +384,10 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         image.addGestureRecognizer(tapGesture)
         image.isUserInteractionEnabled = true
         //    var gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
-        image.setupHexagonMask(lineWidth: 10.0, color: .darkGray, cornerRadius: 10.0)
+        print("This is the type of hexagon: \(hexData.type)")
+        var myType = hexData.type
+       // image.setupHexagonMask(lineWidth: 10.0, color: myBlueGreen, cornerRadius: 10.0)
+        createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
         //let ref = storage.child(hexData.thumbResource)
         let cleanRef = hexData.thumbResource.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
@@ -473,7 +478,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                                          y: self.reOrderedCoordinateArrayPoints[dragView!.hexData!.location].y, width: hexaDiameter, height: hexaDiameter)
             }
             for hex in imageViewArray {
-                hex.setupHexagonMask(lineWidth: 10.0, color: .darkGray, cornerRadius: 10.0)
+                hex.setupHexagonMask(lineWidth: 10.0, color: myBlueGreen, cornerRadius: 10.0)
             }
             trashButton.isHidden = true
             menuView.menuButton.isHidden = false
@@ -516,6 +521,26 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             }
         }
     }
+    
+    func createHexagonMaskWithCorrespondingColor(imageView: UIImageView, type: String) {
+        if type == "photo" {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myOrange, cornerRadius: imageView.frame.width/15)
+        }
+        else if type == "music" {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myBlueGreen, cornerRadius: imageView.frame.width/15)
+        }
+        else if type == "link" {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myCoolBlue, cornerRadius: imageView.frame.width/15)
+        }
+        else if type.contains("social") {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myPink, cornerRadius: imageView.frame.width/15)
+        }
+        else {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: white, cornerRadius: imageView.frame.width/15)
+        }
+        
+    }
+    
     
     func findIntersectingHexagon(hexView: PostImageView) -> PostImageView? {
         //find coordinates of final location for hexagon
@@ -641,7 +666,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         avaImage?.addGestureRecognizer(tapGesture1)
         avaImage?.isHidden = false
         contentView.bringSubviewToFront(avaImage!)
-        avaImage!.setupHexagonMask(lineWidth: 10.0, color: myOrange, cornerRadius: 10.0)
+        avaImage!.setupHexagonMask(lineWidth: 10.0, color: white, cornerRadius: 10.0)
         let cleanRef = userData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
         avaImage!.sd_setImage(with: url!, completed: {_, error, _, _ in

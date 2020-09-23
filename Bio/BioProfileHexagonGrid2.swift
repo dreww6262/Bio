@@ -427,9 +427,9 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
             image.isUserInteractionEnabled = true
             //   image.addGestureRecognizer(dragGesture)
             //    var gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
-            image.setupHexagonMask(lineWidth: 10.0, color: gold, cornerRadius: 10.0)
+            image.setupHexagonMask(lineWidth: 10.0, color: .darkGray, cornerRadius: 10.0)
             if thisIndex == 0 {
-                image.setupHexagonMask(lineWidth: 10.0, color: purple, cornerRadius: 10.0)
+                image.setupHexagonMask(lineWidth: 10.0, color: white, cornerRadius: 10.0)
             }
             contentView.addSubview(image)
             image.isHidden = false
