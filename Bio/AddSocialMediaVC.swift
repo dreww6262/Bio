@@ -386,8 +386,8 @@ class AddSocialMediaVC: UIViewController {
         
         if (!interactiveSoundCloudText.text!.isEmpty) {
             numPosts += 1
-            let facebookHex = HexagonStructData(resource: interactiveSoundCloudText.text!, type: "socialmedia_facebook", location: numPosts, thumbResource: "icons/facebooklogo.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(interactiveSoundCloudText.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
-            addHex(hexData: facebookHex, completion: {bool in
+            let soundCloudHex = HexagonStructData(resource: interactiveSoundCloudText.text!, type: "socialmedia_soundCloud", location: numPosts, thumbResource: "icons/soundCloudLogo.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(interactiveSoundCloudText.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            addHex(hexData: soundCloudHex, completion: {bool in
                 success = success && bool
                 
             })
@@ -395,8 +395,8 @@ class AddSocialMediaVC: UIViewController {
         
         if (!interactiveLinkedInText.text!.isEmpty) {
             numPosts += 1
-            let appleHex = HexagonStructData(resource: "https://applemusic.com/\(interactiveLinkedInText.text!)", type: "socialmedia_appleMusic", location: numPosts, thumbResource: "icons/appleMusicLogo.jpg", createdAt: NSDate.now.description, postingUserID: username, text: "\(interactiveLinkedInText.text!)", views: 0,isArchived: false, docID: "WillBeSetLater")
-            addHex(hexData: appleHex, completion: {bool in
+            let linkedInHex = HexagonStructData(resource: "\(interactiveLinkedInText.text!)", type: "socialmedia_linkedIn", location: numPosts, thumbResource: "icons/linkedInLogo.jpg", createdAt: NSDate.now.description, postingUserID: username, text: "\(interactiveLinkedInText.text!)", views: 0,isArchived: false, docID: "WillBeSetLater")
+            addHex(hexData: linkedInHex, completion: {bool in
                 success = success && bool
                 
             })

@@ -557,7 +557,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         if type == "photo" {
             imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myOrange, cornerRadius: imageView.frame.width/15)
         }
-        else if type == "photo" {
+        else if type == "video" {
             imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myOrange, cornerRadius: imageView.frame.width/15)
         }
         else if type == "music" {
@@ -567,6 +567,12 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myCoolBlue, cornerRadius: imageView.frame.width/15)
         }
         else if type.contains("social") {
+       // chooseSpecificSocialMedia(type: type, imageView: imageView)
+            //clear border
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: .clear, cornerRadius: imageView.frame.width/15)
+        
+        }
+        else if type.contains("youtube") {
        // chooseSpecificSocialMedia(type: type, imageView: imageView)
             //clear border
             imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: .clear, cornerRadius: imageView.frame.width/15)
