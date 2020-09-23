@@ -48,12 +48,12 @@ class ProfessionalSettingsVC: QuickTableViewController {
  "Terms of Service",
  "Report User", "Log Out"]
  
- var user = "\(Auth.auth().currentUser?.email)"
- var name = "\(Auth.auth().currentUser?.displayName)"
+    var user = "\(Auth.auth().currentUser?.email ?? "")"
+ var name = "\(Auth.auth().currentUser?.displayName ?? "")"
  var birthday = "1/1/2020"
  var country = "USA"
  var phoneNumber = "xxx-xxx-xxxx"
- var email = "\(Auth.auth().currentUser?.email)"
+ var email = "\(Auth.auth().currentUser?.email ?? "")"
  var password = "xxxxxxxxxxxxxx"
  var twoFactorAuth = "false"
  var myAccountUserData: [String] = []
