@@ -62,6 +62,32 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         navigationController?.navigationBar.isHidden = true
         addMenuButtons()
         setUpNavBarView()
+        
+        let addPhotoTapped = UITapGestureRecognizer(target: self, action: #selector(tappedPhotoView))
+        let addMusicTapped = UITapGestureRecognizer(target: self, action: #selector(tappedMusicView))
+        let addLinkTapped = UITapGestureRecognizer(target: self, action: #selector(tappedlinkView))
+        let addSocialMediaTapped = UITapGestureRecognizer(target: self, action: #selector(tappedSocialMediaView))
+        
+        view1.addGestureRecognizer(addPhotoTapped)
+        view2.addGestureRecognizer(addSocialMediaTapped)
+        view3.addGestureRecognizer(addLinkTapped)
+        view4.addGestureRecognizer(addMusicTapped)
+        
+        pic1.isUserInteractionEnabled = false
+        pic2.isUserInteractionEnabled = false
+        pic3.isUserInteractionEnabled = false
+        pic4.isUserInteractionEnabled = false
+        l1.isUserInteractionEnabled = false
+        l2.isUserInteractionEnabled = false
+        l3.isUserInteractionEnabled = false
+        l4.isUserInteractionEnabled = false
+        
+//        l1.addGestureRecognizer(addPhotoTapped)
+//        l2.addGestureRecognizer(addSocialMediaTapped)
+//        l3.addGestureRecognizer(addLinkTapped)
+//        l4.addGestureRecognizer(addMusicTapped)
+        
+        
 //        pic1.layer.cornerRadius = pic1.frame.size.width / 2
 //        pic1.clipsToBounds = true
 //
@@ -136,12 +162,12 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
     
     
 
-    @objc func tappedMusicView(sender: UITapGestureRecognizer) {
+    @objc func tappedSocialMediaView(sender: UITapGestureRecognizer) {
         let addSocialMediaVC = storyboard?.instantiateViewController(identifier: "addSocialMediaVC") as! AddSocialMediaVC
         addSocialMediaVC.userData = userData
         addSocialMediaVC.cancelLbl = "Cancel"
-        print("This is addSocialMedia.userData \(addSocialMediaVC.userData)")
-        print("2 This is userData from NewPostOptionsVC \(userData)")
+        //print("This is addSocialMedia.userData \(addSocialMediaVC.userData)")
+       // print("2 This is userData from NewPostOptionsVC \(userData)")
         // addSocialMediaVC.publicID = userData?.publicID
         present(addSocialMediaVC, animated: false)
         modalPresentationStyle = .fullScreen
@@ -154,8 +180,8 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         modalPresentationStyle = .fullScreen
     }
     
-    @objc func tappedSocialMediaView(sender: UITapGestureRecognizer) {
-        print("add music pressed want to switch to social media ")
+    @objc func tappedMusicView(sender: UITapGestureRecognizer) {
+      //  print("add music pressed want to switch to social media ")
             let musicVC = storyboard?.instantiateViewController(identifier: "addMusicVC") as! AddMusicVC
             musicVC.userData = userData
             present(musicVC, animated: false)

@@ -413,8 +413,17 @@ class AddSocialMediaVC: UIViewController {
         
         if (!interactiveTikTokText.text!.isEmpty) {
             numPosts += 1
-            let tikTokHex = HexagonStructData(resource: "https://www.tiktok.com/\(interactiveTikTokText.text!)/", type: "socialmedia_tiktok", location: numPosts, thumbResource: "icons/tiktokLogo.jpg", createdAt: NSDate.now.description, postingUserID: username, text: "\(interactiveTikTokText.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            let tikTokHex = HexagonStructData(resource: "https://www.tiktok.com/\(interactiveTikTokText.text!)/", type: "socialmedia_tiktok", location: numPosts, thumbResource: "icons/tiktoklogo.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(interactiveTikTokText.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: tikTokHex, completion: {bool in
+                success = success && bool
+                
+            })
+        }
+        
+        if (!interactiveHudlText.text!.isEmpty) {
+            numPosts += 1
+            let hudlHex = HexagonStructData(resource: "\(interactiveHudlText.text!)/", type: "socialmedia_hudl", location: numPosts, thumbResource: "icons/hudl.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(interactiveHudlText.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            addHex(hexData: hudlHex, completion: {bool in
                 success = success && bool
                 
             })

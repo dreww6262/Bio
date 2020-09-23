@@ -137,7 +137,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         continueBtn.layer.cornerRadius = continueBtn.frame.size.width / 20
         cancelBtn.frame =  CGRect(x: 10.0, y: continueBtn.frame.maxY + 10, width: continueBtn.frame.width, height: 24)
         cancelBtn.layer.cornerRadius = cancelBtn.frame.size.width / 20
-        linkHexagonImage.setupHexagonMask(lineWidth: linkHexagonImage.frame.width/15, color: myPink, cornerRadius: linkHexagonImage.frame.width/15)
+        linkHexagonImage.setupHexagonMask(lineWidth: linkHexagonImage.frame.width/15, color: myCoolBlue, cornerRadius: linkHexagonImage.frame.width/15)
         // background
         let bg = UIImageView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height))
         bg.image = UIImage(named: "manaloghourglass")
