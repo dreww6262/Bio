@@ -172,7 +172,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     
     // Zoom Logic
     func resizeScrollView(numPosts: Int) {
-        print("Contentviewframebeforeresize \(contentView.frame)")
+//        print("Contentviewframebeforeresize \(contentView.frame)")
         //var rows = 0
         var width = view.frame.width
         var height = view.frame.height
@@ -277,7 +277,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         //loadView()
         
         if (userData != nil) {
-            print("populates without getting userdata")
+//            print("populates without getting userdata")
             populateUserAvatar()
             menuView.userData = userData
             createImageViews()
@@ -291,7 +291,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                         let newData = UserData(dictionary: objects!.documents[0].data())
                         if (self.userData == nil || !NSDictionary(dictionary: newData.dictionary).isEqual(to: self.userData!.dictionary)) {
                             self.userData = newData
-                            print("populates after getting userdata")
+//                            print("populates after getting userdata")
                             self.populateUserAvatar()
                             self.menuView.userData = newData
                             self.createImageViews()
@@ -355,7 +355,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                 }
                 self.resizeScrollView(numPosts: newPostImageArray.count) // clears out all content
                 
-                print("populates after resizescrollview")
+//                print("populates after resizescrollview")
                 self.populateUserAvatar()
                 self.imageViewArray = newPostImageArray
                 self.changePostImageCoordinates()
@@ -398,7 +398,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         image.addGestureRecognizer(tapGesture)
         image.isUserInteractionEnabled = true
         //    var gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
-        print("This is the type of hexagon: \(hexData.type)")
+//        print("This is the type of hexagon: \(hexData.type)")
         var myType = hexData.type
         // image.setupHexagonMask(lineWidth: 10.0, color: myBlueGreen, cornerRadius: 10.0)
         createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
@@ -501,15 +501,15 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             
         }
         else if sender.state == .began {
-            print("UIGestureRecognizerStateBegan.")
+//            print("UIGestureRecognizerStateBegan.")
             let tappedImage = sender.view as! PostImageView
             currentHexagonCenter = tappedImage.center
-            print("yo: This is tapped image.center \(tappedImage.center)")
+//            print("yo: This is tapped image.center \(tappedImage.center)")
             tappedImage.setupHexagonMask(lineWidth: 10.0, color: .red, cornerRadius: 10.0)
             //dragItem(sender as! UIPanGestureRecognizer)
             dragView = (sender.view as! PostImageView)
             dragView?.center = sender.location(in: scrollView)
-            print("yo: this is dragView.center before \(dragView!.center)")
+//            print("yo: this is dragView.center before \(dragView!.center)")
             contentView.bringSubviewToFront(dragView!)
             trashButton.isHidden = false
             menuView.menuButton.isHidden = true
@@ -518,22 +518,22 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             let xDelta = dragView!.center.x - sender.location(in: scrollView).x
             let yDelta = dragView!.center.y - sender.location(in: scrollView).y
             dragView?.center = sender.location(in: scrollView)
-            print("yo: this is dragView.center changed \(dragView!.center)")
+//            print("yo: this is dragView.center changed \(dragView!.center)")
             
             self.scrollIfNeeded(location: sender.location(in: scrollView.superview), xDelta: xDelta, yDelta: yDelta)
             //                print("This is newIndex before \(newIndex)")
             currentHexagonCenter = (sender.view?.center)!
-            print("This is currentHexagon center changed: \(currentHexagonCenter)")
+//            print("This is currentHexagon center changed: \(currentHexagonCenter)")
             let hexCenterInView = contentView.convert(currentHexagonCenter, to: view)
             let _ = findIntersectingHexagon(hexView: dragView!)
             
             print(distance(hexCenterInView, trashButton.center))
             if (distance(hexCenterInView, trashButton.center) < 70) {
                 trashButton.imageView!.makeRoundedRed()
-                print("It should be gold")
+//                print("It should be gold")
             } else {
                 trashButton.imageView!.makeRoundedBlack()
-                print("This is outside 70")
+//                print("This is outside 70")
             }
         }
     }
@@ -763,7 +763,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     }
     
     @objc func handleProfilePicTap(_ sender: UITapGestureRecognizer) {
-        print("Tried to click profile pic handle later")
+//        print("Tried to click profile pic handle later")
         menuView.menuButton.isHidden = true
         let newImageView = UIImageView(image: UIImage(named: "kbit"))
         let cleanRef = userData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
@@ -794,7 +794,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
         //        print("🎯🎯🎯🎯🎯Hello World")
-        print("🎯🎯🎯🎯🎯🎯🎯I tapped image with tag \(sender.view!.tag)")
+//        print("🎯🎯🎯🎯🎯🎯🎯I tapped image with tag \(sender.view!.tag)")
         
         let postImage = sender.view as! PostImageView
         let hexItem = postImage.hexData!
@@ -806,7 +806,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             //TO DO: play a video here!!
             let playString = hexItem.resource
             // play(url: hexagonStructArray[sender.view!.tag].resource)
-            print("This is url string \(playString)")
+//            print("This is url string \(playString)")
             loadVideo(urlString: playString)
             menuView.menuButton.isHidden = true
         }
@@ -945,7 +945,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     // loads video into new avplayer and overlays on current VC
     
     func loadVideo(urlString: String) {
-        print("im in loadVideo")
+//        print("im in loadVideo")
         let vidRef = storage.child(urlString)
         vidRef.downloadURL(completion: { url, error in
             if error == nil {

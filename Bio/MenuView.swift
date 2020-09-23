@@ -147,7 +147,7 @@ class MenuView: UIView {
 //        print("home frame \(homeProfileButton.frame)")
         
         var xDistanceFromHomeToMenuCenter = menuButton.center.x - homeProfileButton.frame.maxX
-        print("This is xDistance \(xDistanceFromHomeToMenuCenter)")
+//        print("This is xDistance \(xDistanceFromHomeToMenuCenter)")
         
         
         
@@ -256,11 +256,11 @@ class MenuView: UIView {
         homeProfileButton.imageView!.image = UIImage(named: "clearHouse")
 
         
-        print("This is distance \(distance(homeProfileButton.center, menuButton.center))")
-        print("This is distance 2 \(distance(dmButton.center, menuButton.center))")
-        print("This is homeProfileButton.frame \(homeProfileButton.frame)")
-        print("This is dmButton.frame \(dmButton.frame)")
-        print("This is menuButton.center \(menuButton.center)")
+//        print("This is distance \(distance(homeProfileButton.center, menuButton.center))")
+//        print("This is distance 2 \(distance(dmButton.center, menuButton.center))")
+//        print("This is homeProfileButton.frame \(homeProfileButton.frame)")
+//        print("This is dmButton.frame \(dmButton.frame)")
+//        print("This is menuButton.center \(menuButton.center)")
         
         // show add Post button
         menuButton.isHidden = false

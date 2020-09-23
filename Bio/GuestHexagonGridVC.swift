@@ -151,7 +151,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
 //                button?.imageView?.image = UIImage(named: "checkmark32x32")
 //                sender.imageView?.image = UIImage(named: "checkmark32x32")
                 followButton?.tag = 1
-                print("It's supposed to change to check")
+//                print("It's supposed to change to check")
 //                button?.frame = CGRect(x: width - width / 4.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
 //                button?.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
                 
@@ -162,7 +162,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
                    notificationDoc.setData(notificationObject.dictionary){ error in
                        //     group.leave()
                        if error == nil {
-                           print("added notification: \(notificationObject)")
+//                           print("added notification: \(notificationObject)")
                            
                        }
                        else {
@@ -230,7 +230,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     // Zoom Logic
     func resizeScrollView(numPosts: Int) {
-        print("Contentviewframebeforeresize \(contentView.frame)")
+//        print("Contentviewframebeforeresize \(contentView.frame)")
         //var rows = 0
         var width = view.frame.width
         var height = view.frame.height
@@ -369,7 +369,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
                     newPostImageArray.append(hexImage)
                 }
                 self.resizeScrollView(numPosts: newPostImageArray.count) // clears out all content
-                print("populates after resizescrollview")
+//                print("populates after resizescrollview")
                 self.populateUserAvatar()
                 //if newPostImageArray != self.imageViewArray {
                     //for image in self.imageViewArray {
@@ -401,8 +401,8 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
         let image = PostImageView(frame: CGRect(x: self.reOrderedCoordinateArrayPoints[hexData.location].x,
                                                 y: self.reOrderedCoordinateArrayPoints[hexData.location].y, width: hexaDiameter, height: hexaDiameter))
-        print("This is contentView.center \(contentView.center)")
-        print("This is profile Pic Center \(self.reOrderedCoordinateArrayPoints[0].x), \(self.reOrderedCoordinateArrayPoints[0].y)")
+//        print("This is contentView.center \(contentView.center)")
+//        print("This is profile Pic Center \(self.reOrderedCoordinateArrayPoints[0].x), \(self.reOrderedCoordinateArrayPoints[0].y)")
         image.contentMode = .scaleAspectFill
         image.image = UIImage()
         image.hexData = hexData
@@ -499,7 +499,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func openSnapchat(snapchatUsername: String) {
         let username = snapchatUsername
-        print("This us username for openSnapchat \(username)")
+//        print("This us username for openSnapchat \(username)")
         let appURL = URL(string: "snapchat://add/\(username)")!
         let application = UIApplication.shared
         
@@ -570,7 +570,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
             //TO DO: play a video here!!
             let playString = hexItem.resource
            // play(url: hexagonStructArray[sender.view!.tag].resource)
-            print("This is url string \(playString)")
+//            print("This is url string \(playString)")
             loadVideo(urlString: playString)
             returnButton.isHidden = true
         }
@@ -668,7 +668,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     // loads video into new avplayer and overlays on current VC
     
     func loadVideo(urlString: String) {
-        print("im in loadVideo")
+//        print("im in loadVideo")
         let vidRef = storage.child(urlString)
         vidRef.downloadURL(completion: { url, error in
             if error == nil {
@@ -690,7 +690,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     @objc func handleProfilePicTap(_ sender: UITapGestureRecognizer) {
-            print("Tried to click profile pic handle later")
+//            print("Tried to click profile pic handle later")
           //  menuView.menuButton.isHidden = true
             let newImageView = UIImageView(image: UIImage(named: "kbit"))
             let cleanRef = userData!.avaRef.replacingOccurrences(of: "/", with: "%2F")

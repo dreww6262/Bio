@@ -111,7 +111,8 @@ class TabNavigationMenu: UIView {
     
     func prepareForeSwitch(tab: Int) {
         switch tab {
-                //case 0:
+                case 0:
+                    print("notifications tab")
                     // settings does not need to refresh
         //            (tabItems![tab].viewController as! HomeHexagonGrid).refresh()
                 case 1:
@@ -120,17 +121,17 @@ class TabNavigationMenu: UIView {
                     //(tabItems![tab].viewController as! dms).refresh()
                 case 2:
                     print("home tab")
-                    let homeGrid = (tabItems![tab].viewController as! HomeHexagonGrid)
+//                    let homeGrid = (tabItems![tab].viewController as! HomeHexagonGrid)
                     //homeGrid.loadView()
                     //homeGrid.refresh()
                 case 3:
                     print("friends tab")
-                    let friendsGrid = (tabItems![tab].viewController as! BioProfileHexagonGrid2)
+//                    let friendsGrid = (tabItems![tab].viewController as! BioProfileHexagonGrid2)
                     //friendsGrid.loadView()
                     //friendsGrid.refresh()
                 case 4:
                     print("add Post tab")
-                    let newPostVC = (tabItems![tab].viewController as! NewPostColorfulVC)
+//                    let newPostVC = (tabItems![tab].viewController as! NewPostColorfulVC)
                     //newPostVC.loadView()
                     //newPostVC.refresh()
                     // add post does not need to refresh
@@ -138,7 +139,7 @@ class TabNavigationMenu: UIView {
                 case 5:
                     print("signin tab")
                     // sign in does not need to refresh
-                    let phoneVC = (tabItems![tab].viewController as! PhoneSignInVC)
+//                    let phoneVC = (tabItems![tab].viewController as! PhoneSignInVC)
 //                              print("settings tab")
 //                              // sign in does not need to refresh
 //                              let settingsVC = (tabItems![tab].viewController as! SettingsVCGradient)

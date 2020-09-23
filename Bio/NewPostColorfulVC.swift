@@ -21,7 +21,7 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
     var navBarView = NavBarView()
     var titleLabel1 = UILabel()
     
-    @IBOutlet weak var titleLabel: UILabel!
+//    @IBOutlet weak var titleLabel: UILabel!
     
     @IBOutlet weak var view1: UIView!
     
@@ -248,7 +248,7 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
     
     func formatPicturesAndLabels(){
         view1.frame = CGRect(x: (self.view.frame.width/12), y: (self.view.frame.height/3) - (self.view.frame.width/6) - 20 , width: self.view.frame.width/3, height: self.view.frame.width/3)
-        titleLabel.frame = CGRect(x: 0, y: 10.0, width: self.view.frame.width, height: 66.0)
+//        titleLabel.frame = CGRect(x: 0, y: 10.0, width: self.view.frame.width, height: 66.0)
         
         pic1.frame = view1.frame
 //        pic1.frame = CGRect(x: (self.view.frame.width/12), y: (self.view.frame.height/3) - (self.view.frame.width/6) - 20 , width: self.view.frame.width/3, height: self.view.frame.width/3)

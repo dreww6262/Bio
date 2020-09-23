@@ -4872,12 +4872,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Content" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xYa-Pf-jiv">
-                                <rect key="frame" x="0.0" y="64" width="414" height="33"/>
-                                <fontDescription key="fontDescription" name="DINAlternate-Bold" family="DIN Alternate" pointSize="28"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="twa-Dg-dF4">
                                 <rect key="frame" x="20" y="105" width="162" height="128"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -4974,11 +4968,6 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="9eL-kr-APH"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="xYa-Pf-jiv" firstAttribute="top" secondItem="9eL-kr-APH" secondAttribute="top" constant="20" id="7RW-79-Ysu"/>
-                            <constraint firstItem="xYa-Pf-jiv" firstAttribute="trailing" secondItem="9eL-kr-APH" secondAttribute="trailing" id="Eqa-uO-ZeJ"/>
-                            <constraint firstItem="xYa-Pf-jiv" firstAttribute="leading" secondItem="9eL-kr-APH" secondAttribute="leading" id="p6Q-0g-h3e"/>
-                        </constraints>
                     </view>
                     <connections>
                         <outlet property="l1" destination="wGl-iR-Wa7" id="heW-4R-lbe"/>
@@ -4989,7 +4978,6 @@
                         <outlet property="pic2" destination="8ov-fh-KM6" id="IbM-dW-KWs"/>
                         <outlet property="pic3" destination="yNN-GV-ANz" id="nND-sb-ri2"/>
                         <outlet property="pic4" destination="zaJ-S2-RpR" id="Dw8-G7-MFl"/>
-                        <outlet property="titleLabel" destination="xYa-Pf-jiv" id="iEs-Pb-bqS"/>
                         <outlet property="view1" destination="twa-Dg-dF4" id="xIn-nX-2HZ"/>
                         <outlet property="view2" destination="Vjb-CM-wxc" id="fxt-3K-sry"/>
                         <outlet property="view3" destination="tzY-w2-QX3" id="dgf-ZS-rwI"/>

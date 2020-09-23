@@ -38,7 +38,7 @@ class NavigationMenuBaseController: UITabBarController, UINavigationControllerDe
         else {
             self.selectedIndex = 2
         }
-        print("selectedIndex of FirstVC: \(self.selectedIndex)")
+//        print("selectedIndex of FirstVC: \(self.selectedIndex)")
         
     }
     func setupCustomTabMenu(_ menuItems: [TabItem], completion: @escaping ([UIViewController]) -> Void) {
@@ -71,7 +71,7 @@ class NavigationMenuBaseController: UITabBarController, UINavigationControllerDe
     func changeTab(tab: Int) {
         //self.customTabBar.switchTab(from: selectedIndex, to: tab)
         self.selectedIndex = tab
-        print("selectedIndex: \(selectedIndex)")
+//        print("selectedIndex: \(selectedIndex)")
         
     }
 }

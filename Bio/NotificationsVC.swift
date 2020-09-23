@@ -43,7 +43,10 @@ class NotificationsVC: UIViewController {
         //        navBar.frame = CGRect(x: 0, y: 0, width: navBarBounds.width, height: navBarBounds.height + navBarHeight)
         //tableView.frame = CGRect(x: 0, y: navBarHeight + 20, width: self.view.frame.width, height: self.view.frame.height - navBarHeight)
         
-        
+        loadData {
+//            print("Should be loading notifications!!")
+        }
+        self.tableView.reloadData()
     }
     
     
@@ -54,7 +57,7 @@ class NotificationsVC: UIViewController {
         tableView.dataSource = self
         addMenuButtons()
         setUpNavBarView()
-        print("This is current user email \(Auth.auth().currentUser?.email)")
+//        print("This is current user email \(Auth.auth().currentUser?.email)")
         super.viewDidLoad()
         //        var navBarHeight = CGFloat(66.0)
         //        navBar.backgroundColor = .black
@@ -70,10 +73,6 @@ class NotificationsVC: UIViewController {
         self.navigationItem.title = "NOTIFICATIONS"
         
         // request notifications
-        loadData {
-            print("Should be loading notifications!!")
-        }
-        self.tableView.reloadData()
         
     }
     
@@ -83,10 +82,10 @@ class NotificationsVC: UIViewController {
     
     
     func loadData(completed: @escaping () -> ()) {
-        print("in load notifications funtion")
+//        print("in load notifications funtion")
         //let notificationsQuery = db.collection("News").whereField("currentUser", isEqualTo: userData?.publicID)
-        let notificationsQuery = db.collection("News2")
-        print("This is notification query \(notificationsQuery)")
+        let notificationsQuery = db.collection("News2").whereField("currentUser", isEqualTo: userData!.publicID)
+//        print("This is notification query \(notificationsQuery)")
         notificationsQuery.addSnapshotListener { (querySnapshot, error) in
             guard error == nil else {
                 print("error loading home photos: \n \(error!.localizedDescription)")
@@ -96,10 +95,10 @@ class NotificationsVC: UIViewController {
             //there are querySnapshot!.documents.count docments in the spots snapshot
             
             for document in querySnapshot!.documents {
-                print("doc: \(document)")
+//                print("doc: \(document)")
                 var newNotification = NewsObject(dictionary: document.data())
                 self.notificationArray.append(newNotification)
-                print("Loaded: \(newNotification)")
+//                print("Loaded: \(newNotification)")
                 //                var success = true
                 //                 self.addNotificationObject(notificationObject: newNotification, completion: {    bool in
                 //                                           success = success && bool
@@ -226,8 +225,8 @@ class NotificationsVC: UIViewController {
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
         let yOffset = navBarView.frame.maxY
         self.tableView.frame = CGRect(x: 0, y: yOffset, width: self.view.frame.width, height: self.view.frame.height - yOffset)
-        print("notifications, navBarHeight: \(navBarView.frame)")
-        print("notifications, tableViewHeight: \(tableView.frame)")
+//        print("notifications, navBarHeight: \(navBarView.frame)")
+//        print("notifications, tableViewHeight: \(tableView.frame)")
         self.titleLabel1.frame = CGRect(x: 0, y: 5, width: self.view.frame.width, height: self.view.frame.height/12)
         self.titleLabel1.textAlignment = .center
         
@@ -241,7 +240,7 @@ class NotificationsVC: UIViewController {
     
     
     @objc func cellTapped(_ sender : UITapGestureRecognizer) {
-        print("I am within cellTapped")
+//        print("I am within cellTapped")
         let cell  = sender.view as! UserCell
         let username = cell.usernameLbl.text!
         db.collection("UserData1").whereField("publicID", isEqualTo: username).addSnapshotListener({ objects, error in
@@ -274,15 +273,15 @@ class NotificationsVC: UIViewController {
     
     // clicked username button
     @IBAction func usernameBtn_click(_ sender: AnyObject) {
-        print("UserName Clicked")
+//        print("UserName Clicked")
         // call index of button
         let i = sender.layer.value(forKey: "index") as! IndexPath
-        print("This is i: \(i)")
+//        print("This is i: \(i)")
         
         // call cell to call further cell data
         let cell = tableView.cellForRow(at: i) as! newsCell
         let username = cell.usernameBtn.titleLabel?.text!
-        print("This is cell.usernabeButton.title \(username)")
+//        print("This is cell.usernabeButton.title \(username)")
         
         db.collection("UserData1").whereField("publicID", isEqualTo: username).addSnapshotListener({ objects, error in
             if error == nil {
@@ -364,7 +363,7 @@ class NotificationsVC: UIViewController {
 extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
     // cell numb
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("This is notificationArray count \(notificationArray.count)")
+//        print("This is notificationArray count \(notificationArray.count)")
         return notificationArray.count
     }
     
@@ -398,7 +397,9 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
         // calculate post date
         let fromString = notificationArray[indexPath.row].createdAt
         let from = DateFormatter.init().date(from: fromString)
+        print("from: \(from)")
         let now = Date()
+        print("now: \(now)")
         let components : NSCalendar.Unit = [.second, .minute, .hour, .day, .weekOfMonth]
         let difference = (Calendar.current as NSCalendar).components(components, from: from ?? Date(), to: now, options: [])
         
