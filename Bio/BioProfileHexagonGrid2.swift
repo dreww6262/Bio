@@ -270,10 +270,12 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
         toSearchButton.isHidden = false
     }
     
+    var listenerList: [ListenerRegistration]?
+    
     func loadUpToTenFollowers(followers: [String], completion: @escaping () -> ()) {
         let userDataCollection = self.db.collection("UserData1")
         let userDataQuery = userDataCollection.whereField("publicID", in: followers)
-        userDataQuery.addSnapshotListener( { (objects, error) -> Void in
+        let listener = userDataQuery.addSnapshotListener( { (objects, error) -> Void in
             if error == nil {
                 guard let documents = objects?.documents else {
                     print("could not get documents from objects?.documents")
@@ -300,9 +302,15 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
             completion()
             
         })
+        listenerList?.append(listener)
     }
     
+    
     func doneLoading() {
+        listenerList?.forEach({ listener in
+            listener.remove()
+        })
+        listenerList = nil
         self.removeCurrentProfileHexagons()
         self.loadProfileHexagons()
     }
@@ -321,10 +329,12 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
                 self.followingUserDataArray.append(newElement: self.userData!)
                 let chunks = newFollowArray.chunked(into: 5)
                 let group = DispatchGroup()
+                self.listenerList = [ListenerRegistration]()
                 for chunk in chunks {
                     group.enter()
                     self.loadUpToTenFollowers(followers: chunk, completion: {
 //                        print("loadFollowings: loaded followers \(self.followingUserDataArray)")
+                        
                         group.leave()
                     })
                 }

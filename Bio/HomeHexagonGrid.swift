@@ -495,8 +495,8 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     
     var dragView : PostImageView? = nil
     @objc func longTap(_ sender: UIGestureRecognizer){
-        print("Long tap")
-        print("🎹🎹🎹🎹🎹🎹🎹🎹🎹")
+//        print("Long tap")
+//        print("🎹🎹🎹🎹🎹🎹🎹🎹🎹")
         var currentHexagonCenter = CGPoint(x:0.0, y:0.0)
         let hexImage = sender.view! as! PostImageView
         if (sender.state == .ended) {
@@ -528,8 +528,8 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                     let tempLoc = intersectingHex!.hexData!.location
                     intersectingHex!.hexData!.location = dragView!.hexData!.location
                     dragView!.hexData!.location = tempLoc
-                    print(dragView!.hexData!)
-                    print(intersectingHex!.hexData!)
+//                    print(dragView!.hexData!)
+//                    print(intersectingHex!.hexData!)
                     db.collection("Hexagons2").document(intersectingHex!.hexData!.docID).setData(intersectingHex!.hexData!.dictionary) { error in
                         if error == nil {
                             self.db.collection("Hexagons2").document(self.dragView!.hexData!.docID).setData(self.dragView!.hexData!.dictionary) { error in
@@ -577,7 +577,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             let hexCenterInView = contentView.convert(currentHexagonCenter, to: view)
             let _ = findIntersectingHexagon(hexView: dragView!)
             
-            print(distance(hexCenterInView, trashButton.center))
+//            print(distance(hexCenterInView, trashButton.center))
             if (distance(hexCenterInView, trashButton.center) < 70) {
                 trashButton.imageView!.makeRoundedRed()
 //                print("It should be gold")
