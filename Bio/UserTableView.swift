@@ -53,6 +53,16 @@ class UserTableView: UIViewController, UISearchBarDelegate {
 //            cancelButton.setAttributedTitle(NSAttributedString(), for: .normal)
 //        }
         
+        //change magnigying glass image
+        let textField = searchBar.value(forKey: "searchField") as! UITextField
+        let glassIconView = textField.leftView as! UIImageView
+        glassIconView.image = glassIconView.image?.withRenderingMode(.alwaysTemplate)
+        glassIconView.tintColor = .white
+        let clearButton = textField.value(forKey: "clearButton") as! UIButton
+        clearButton.setImage(clearButton.imageView?.image?.withRenderingMode(.alwaysTemplate), for: .normal)
+        clearButton.tintColor = .white
+        
+        
         let searchItem = UIBarButtonItem(customView: searchBar)
         self.navigationItem.leftBarButtonItem = searchItem
         searchBar.showsCancelButton = true

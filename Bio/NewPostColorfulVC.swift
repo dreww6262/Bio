@@ -21,7 +21,7 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
     var navBarView = NavBarView()
     var titleLabel1 = UILabel()
     
-    @IBOutlet weak var titleLabel: UILabel!
+ 
     
     @IBOutlet weak var view1: UIView!
     
@@ -109,7 +109,60 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         menuView.addBehavior()
     }
     
-    @IBAction func addPhotoPressed(_ sender: UIButton) {
+//    @IBAction func addPhotoPressed(_ sender: UIButton) {
+//        var config = YPImagePickerConfiguration()
+//        config.screens = [.library, .photo, .video]
+//        config.library.mediaType = .photoAndVideo
+//        config.library.maxNumberOfItems = 10
+//        config.video.trimmerMaxDuration = 60.0
+//        config.video.recordingTimeLimit = 60.0
+//        config.video.automaticTrimToTrimmerMaxDuration = true
+//        let picker = YPImagePicker(configuration: config)
+//        picker.didFinishPicking { [unowned picker] items, cancelled in
+//            picker.dismiss(animated: true, completion: nil)
+//            if (items.count > 0) {
+//                let uploadPreviewVC = self.storyboard?.instantiateViewController(identifier: "uploadPreviewVC") as! UploadPreviewVC
+//                //print(photos)
+//                uploadPreviewVC.userData = self.userData
+//                uploadPreviewVC.items = items
+//                self.present(uploadPreviewVC, animated: false, completion: nil)
+//                uploadPreviewVC.modalPresentationStyle = .fullScreen
+//            }
+//        }
+//        present(picker, animated: false)
+//        modalPresentationStyle = .fullScreen
+//    }
+    
+    
+    
+
+    @objc func tappedMusicView(sender: UITapGestureRecognizer) {
+        let addSocialMediaVC = storyboard?.instantiateViewController(identifier: "addSocialMediaVC") as! AddSocialMediaVC
+        addSocialMediaVC.userData = userData
+        addSocialMediaVC.cancelLbl = "Cancel"
+        print("This is addSocialMedia.userData \(addSocialMediaVC.userData)")
+        print("2 This is userData from NewPostOptionsVC \(userData)")
+        // addSocialMediaVC.publicID = userData?.publicID
+        present(addSocialMediaVC, animated: false)
+        modalPresentationStyle = .fullScreen
+    }
+    
+    @objc func tappedlinkView(sender: UITapGestureRecognizer) {
+        let linkVC = storyboard?.instantiateViewController(identifier: "linkVC") as! AddLinkVCViewController
+        linkVC.userData = userData
+        present(linkVC, animated: false)
+        modalPresentationStyle = .fullScreen
+    }
+    
+    @objc func tappedSocialMediaView(sender: UITapGestureRecognizer) {
+        print("add music pressed want to switch to social media ")
+            let musicVC = storyboard?.instantiateViewController(identifier: "addMusicVC") as! AddMusicVC
+            musicVC.userData = userData
+            present(musicVC, animated: false)
+            modalPresentationStyle = .fullScreen
+    }
+    
+    @objc func tappedPhotoView(sender: UITapGestureRecognizer) {
         var config = YPImagePickerConfiguration()
         config.screens = [.library, .photo, .video]
         config.library.mediaType = .photoAndVideo
@@ -119,14 +172,6 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         config.video.automaticTrimToTrimmerMaxDuration = true
         let picker = YPImagePicker(configuration: config)
         picker.didFinishPicking { [unowned picker] items, cancelled in
-//            for item in items {
-//                switch item {
-//                case .photo(let photo):
-//                    print(photo)
-//                case .video(let video):
-//                    print(video)
-//                }
-//            }
             picker.dismiss(animated: true, completion: nil)
             if (items.count > 0) {
                 let uploadPreviewVC = self.storyboard?.instantiateViewController(identifier: "uploadPreviewVC") as! UploadPreviewVC
@@ -143,36 +188,15 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
     
     
     
-    
-    @IBAction func addLinkPressed(_ sender: UIButton) {
-        print("add link pressed and its good ")
-        let linkVC = storyboard?.instantiateViewController(identifier: "linkVC") as! AddLinkVCViewController
-        linkVC.userData = userData
-        present(linkVC, animated: false)
-        modalPresentationStyle = .fullScreen
-    }
-    
-    @IBAction func addMusicPressed(_ sender: UIButton) {
-        print("add music pressed want to switch to social media ")
-        let musicVC = storyboard?.instantiateViewController(identifier: "addMusicVC") as! AddMusicVC
-             musicVC.userData = userData
-             present(musicVC, animated: false)
-             modalPresentationStyle = .fullScreen
-    }
-    
-    
-    @IBAction func addSocialMediaPressed(_ sender: UIButton) {
-        print("add social pressed want to switch to music")
-        let addSocialMediaVC = storyboard?.instantiateViewController(identifier: "addSocialMediaVC") as! AddSocialMediaVC
-        addSocialMediaVC.userData = userData
-        addSocialMediaVC.cancelLbl = "Cancel"
-        print("This is addSocialMedia.userData \(addSocialMediaVC.userData)")
-        print("2 This is userData from NewPostOptionsVC \(userData)")
-        // addSocialMediaVC.publicID = userData?.publicID
-        present(addSocialMediaVC, animated: false)
-        modalPresentationStyle = .fullScreen
-    }
-    
+//
+//    @IBAction func addSocialMediaPressed(_ sender: UIButton) {
+//    print("add music pressed want to switch to social media ")
+//        let musicVC = storyboard?.instantiateViewController(identifier: "addMusicVC") as! AddMusicVC
+//        musicVC.userData = userData
+//        present(musicVC, animated: false)
+//        modalPresentationStyle = .fullScreen
+//    }
+//
     func distance(_ a: CGPoint, _ b: CGPoint) -> CGFloat {
         let xDist = a.x - b.x
         let yDist = a.y - b.y
@@ -238,7 +262,26 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         view2.layer.cornerRadius = 25.0
         view3.layer.cornerRadius = 25.0
         view4.layer.cornerRadius = 25.0
-    
+        
+        
+        //reformat
+//        var totalHeight = menuView.menuButton.frame.minY - navBarView.titleLabel.frame.maxY
+//        var gridHeight = view3.frame.maxY - view1.frame.minY
+//        var correctSpacing = (totalHeight - gridHeight)/2
+//        var newView1Frame = CGRect(x: view1.frame.minX, y: navBarView.titleLabel.frame.maxY + correctSpacing, width: view1.frame.width, height: view1.frame.height)
+//        var oldView1Frame = view1.frame
+//        var adjustedHeight = newView1Frame.minX - oldView1Frame.minX
+//        view1.frame = newView1Frame
+//        
+//        var newView2Frame = CGRect(x: view2.frame.minX, y: navBarView.titleLabel.frame.maxY + correctSpacing, width: view2.frame.width, height: view2.frame.height)
+//        view2.frame = newView2Frame
+//        
+//        var newView3Frame = CGRect(x: view3.frame.minX, y: view3.frame.minY + adjustedHeight, width: view3.frame.width, height: view3.frame.height)
+//        view3.frame = newView3Frame
+//    
+//        var newView4Frame = CGRect(x: view4.frame.minX, y: view4.frame.minY + adjustedHeight, width: view4.frame.width, height: view4.frame.height)
+//        view4.frame = newView4Frame
+//    
         
     }
     
@@ -248,7 +291,7 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
     
     func formatPicturesAndLabels(){
         view1.frame = CGRect(x: (self.view.frame.width/12), y: (self.view.frame.height/3) - (self.view.frame.width/6) - 20 , width: self.view.frame.width/3, height: self.view.frame.width/3)
-        titleLabel.frame = CGRect(x: 0, y: 10.0, width: self.view.frame.width, height: 66.0)
+        //titleLabel.frame = CGRect(x: 0, y: 10.0, width: self.view.frame.width, height: 66.0)
         
         pic1.frame = view1.frame
 //        pic1.frame = CGRect(x: (self.view.frame.width/12), y: (self.view.frame.height/3) - (self.view.frame.width/6) - 20 , width: self.view.frame.width/3, height: self.view.frame.width/3)

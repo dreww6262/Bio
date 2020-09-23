@@ -23,6 +23,21 @@ var myPink = #colorLiteral(red: 0.9756818414, green: 0.5529372692, blue: 0.92070
 var myOrange = #colorLiteral(red: 1, green: 0.8000468612, blue: 0.4002942443, alpha: 1)
 var myCoolBlue = #colorLiteral(red: 0.2413757304, green: 0.5994680342, blue: 0.9716603538, alpha: 1)
 var myDarkBlue = #colorLiteral(red: 0.07005525896, green: 0.2447893395, blue: 0.4398794416, alpha: 1)
+var myVenmoBlue = #colorLiteral(red: 0.2392156863, green: 0.5843137255, blue: 0.8078431373, alpha: 1)
+var myTwitterBlue = #colorLiteral(red: 0, green: 0.6745098039, blue: 0.9333333333, alpha: 1)
+var myInstaPurple = #colorLiteral(red: 0.5411764706, green: 0.2274509804, blue: 0.7254901961, alpha: 1)
+var mySnapChatYellow = #colorLiteral(red: 1, green: 0.9882352941, blue: 0, alpha: 1)
+var mySoundCloudOrange = #colorLiteral(red: 1, green: 0.4666666667, blue: 0, alpha: 1)
+var myYoutubeRed = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
+var myPoshmarkMaroon = #colorLiteral(red: 0.5019607843, green: 0, blue: 0, alpha: 1)
+var myHudlOrange = #colorLiteral(red: 1, green: 0.3882352941, blue: 0, alpha: 1)
+var myTikTokWhite = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+var myTikTokBlack = #colorLiteral(red: 0.003921568627, green: 0.003921568627, blue: 0.003921568627, alpha: 1)
+var myLinkedInBlue = #colorLiteral(red: 0, green: 0.4470588235, blue: 0.6941176471, alpha: 1)
+
+
+
+
 
 
 class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, WKUIDelegate  {
@@ -526,6 +541,9 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         if type == "photo" {
             imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myOrange, cornerRadius: imageView.frame.width/15)
         }
+        else if type == "photo" {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myOrange, cornerRadius: imageView.frame.width/15)
+        }
         else if type == "music" {
             imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myBlueGreen, cornerRadius: imageView.frame.width/15)
         }
@@ -533,7 +551,10 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myCoolBlue, cornerRadius: imageView.frame.width/15)
         }
         else if type.contains("social") {
-            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myPink, cornerRadius: imageView.frame.width/15)
+       // chooseSpecificSocialMedia(type: type, imageView: imageView)
+            //clear border
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: .clear, cornerRadius: imageView.frame.width/15)
+        
         }
         else {
             imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: white, cornerRadius: imageView.frame.width/15)
@@ -541,6 +562,39 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         
     }
     
+    func chooseSpecificSocialMedia(type: String, imageView: UIImageView) {
+        if type.contains("insta") {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myInstaPurple, cornerRadius: imageView.frame.width/15)
+        }
+        else if type.contains("twitter") {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myTwitterBlue, cornerRadius: imageView.frame.width/15)
+        }
+        else if type.contains("tik") {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myTikTokBlack, cornerRadius: imageView.frame.width/15)
+        }
+        else if type.contains("hudl") {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myHudlOrange, cornerRadius: imageView.frame.width/15)
+        }
+        else if type.contains("sound") {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: mySoundCloudOrange, cornerRadius: imageView.frame.width/15)
+        }
+        else if type.contains("snap") {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: mySnapChatYellow, cornerRadius: imageView.frame.width/15)
+        }
+        else if type.contains("posh") {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myPoshmarkMaroon, cornerRadius: imageView.frame.width/15)
+        }
+        else if type.contains("linked") {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myLinkedInBlue, cornerRadius: imageView.frame.width/15)
+        }
+        else if type.contains("venmo") {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myVenmoBlue, cornerRadius: imageView.frame.width/15)
+        }
+        else {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myPink, cornerRadius: imageView.frame.width/15)
+        }
+
+    }
     
     func findIntersectingHexagon(hexView: PostImageView) -> PostImageView? {
         //find coordinates of final location for hexagon
@@ -796,6 +850,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         }
         
         
+        
         else if hexItem.type.contains("photo") {
             menuView.menuButton.isHidden = true
             let newImageView = UIImageView(image: UIImage(named: "kbit"))
@@ -824,6 +879,9 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             
         }
         else if hexItem.type.contains("link") {
+            openLink(link: hexItem.resource)
+        }
+        else if hexItem.type.contains("music") {
             openLink(link: hexItem.resource)
         }
         
