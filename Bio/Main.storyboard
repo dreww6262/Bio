@@ -3947,7 +3947,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sKT-2c-Kq3">
                                         <rect key="frame" x="8" y="461" width="304" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" red="0.0" green="0.82496446369999998" blue="0.83174425360000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" red="0.97568184140000003" green="0.55293726919999997" blue="0.92070990799999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Continue">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -3988,14 +3988,14 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Apple Music Info?" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="GJu-rF-2CJ">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="LinkedIn Link" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="GJu-rF-2CJ">
                                         <rect key="frame" x="8" y="716" width="304" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="appleMusicLogo" translatesAutoresizingMaskIntoConstraints="NO" id="SzS-vD-nIh">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="linkedInLogo" translatesAutoresizingMaskIntoConstraints="NO" id="SzS-vD-nIh">
                                         <rect key="frame" x="291" y="312" width="15" height="15"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
@@ -4013,7 +4013,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Facebook Profile Link" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="xZU-59-ewF">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="SoundCloud Link" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="xZU-59-ewF">
                                         <rect key="frame" x="8" y="674" width="304" height="34"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <accessibility key="accessibilityConfiguration" hint="Found At Bottom Of Profile Settings In Facebook App">
@@ -4045,7 +4045,7 @@
                                         <rect key="frame" x="291" y="236" width="15" height="15"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="facebooklogo" translatesAutoresizingMaskIntoConstraints="NO" id="MEX-fL-jm1">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="soundCloudLogo" translatesAutoresizingMaskIntoConstraints="NO" id="MEX-fL-jm1">
                                         <rect key="frame" x="291" y="274" width="15" height="15"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
@@ -4132,6 +4132,26 @@
                                             <action selector="cancelBtn_click:" destination="5zq-EU-6dT" eventType="touchUpInside" id="48K-4B-5ex"/>
                                         </connections>
                                     </button>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" id="d7M-7t-9ly">
+                                        <rect key="frame" x="55" y="433" width="304" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" systemColor="systemGray4Color"/>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" notEnabled="YES"/>
+                                        </accessibility>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Hudl Link" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="L0a-do-JAJ">
+                                        <rect key="frame" x="18" y="684" width="304" height="34"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <accessibility key="accessibilityConfiguration" hint="Found At Bottom Of Profile Settings In Facebook App">
+                                            <accessibilityTraits key="traits" none="YES"/>
+                                        </accessibility>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
                                     <textField clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Poshmark Username" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="w8n-cg-uwR">
                                         <rect key="frame" x="8" y="830" width="304" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -4140,6 +4160,11 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="hudl" translatesAutoresizingMaskIntoConstraints="NO" id="Y6x-nP-a42">
+                                        <rect key="frame" x="301" y="436" width="15" height="15"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </scrollView>
@@ -4149,27 +4174,30 @@
                     </view>
                     <navigationItem key="navigationItem" id="SjN-EB-b5k"/>
                     <connections>
-                        <outlet property="appleMusicLogo" destination="SzS-vD-nIh" id="cNM-e0-jkK"/>
-                        <outlet property="appleMusicTxt" destination="i10-fm-78d" id="79C-yr-gv1"/>
                         <outlet property="cancelBtn" destination="DEO-Cu-4WS" id="aVO-MF-m6A"/>
                         <outlet property="continueBtn" destination="sKT-2c-Kq3" id="VZC-jJ-KG2"/>
-                        <outlet property="facebookInfoTxt" destination="sEF-ST-khg" id="HIe-FO-nD2"/>
-                        <outlet property="facebookLogo" destination="MEX-fL-jm1" id="FUb-vy-MdW"/>
+                        <outlet property="hudlLogo" destination="Y6x-nP-a42" id="0cd-q1-u0d"/>
+                        <outlet property="hudlText" destination="d7M-7t-9ly" id="7ej-34-WIl"/>
                         <outlet property="instagramLogo" destination="JGc-5T-qaG" id="Ay2-3G-rzk"/>
                         <outlet property="instagramUsernameTxt" destination="uVq-8J-hQF" id="Hta-fu-SsV"/>
-                        <outlet property="interactiveAppleMusicTxt" destination="GJu-rF-2CJ" id="QlI-EK-nnC"/>
-                        <outlet property="interactiveFacebookInfoTxt" destination="xZU-59-ewF" id="UHC-B8-FgS"/>
+                        <outlet property="interactiveHudlText" destination="L0a-do-JAJ" id="tUV-bT-9Wh"/>
                         <outlet property="interactiveInstagramTxt" destination="oCD-i3-QYw" id="fm9-f0-bfh"/>
+                        <outlet property="interactiveLinkedInText" destination="GJu-rF-2CJ" id="QlI-EK-nnC"/>
                         <outlet property="interactivePoshmarkTxt" destination="w8n-cg-uwR" id="IIb-UF-3ZE"/>
                         <outlet property="interactiveSnapchatUsernameTxt" destination="JQ4-Kx-B8d" id="92b-Tn-Auu"/>
+                        <outlet property="interactiveSoundCloudText" destination="xZU-59-ewF" id="UHC-B8-FgS"/>
                         <outlet property="interactiveTikTokText" destination="SZA-B7-Ei3" id="Bqt-tV-7J3"/>
                         <outlet property="interactiveTwitterHandleTxt" destination="IfA-me-aqe" id="9bD-61-vyL"/>
                         <outlet property="interactiveVenmoTxt" destination="JFy-wT-ebI" id="qvA-mr-9kO"/>
+                        <outlet property="linkedInLogo" destination="SzS-vD-nIh" id="IuT-M7-3Xo"/>
+                        <outlet property="linkedInText" destination="i10-fm-78d" id="79C-yr-gv1"/>
                         <outlet property="poshmarkLogo" destination="Ate-Xx-QA3" id="R1f-qF-n0Q"/>
                         <outlet property="poshmarkText" destination="0RF-cH-mNq" id="yrd-5i-bHP"/>
                         <outlet property="scrollView" destination="94Z-Ud-YjS" id="8zM-mJ-7hx"/>
                         <outlet property="snapchatLogo" destination="3gs-c2-OH2" id="oWz-8c-ymV"/>
                         <outlet property="snapchatUsernameTxt" destination="KD0-UJ-Mpf" id="gIP-ZP-mSx"/>
+                        <outlet property="soundCloudLogo" destination="MEX-fL-jm1" id="FUb-vy-MdW"/>
+                        <outlet property="soundCloudText" destination="sEF-ST-khg" id="HIe-FO-nD2"/>
                         <outlet property="subtitleText" destination="fwN-lF-kbD" id="hoe-Ee-m6M"/>
                         <outlet property="tikTokLogo" destination="QAW-QF-cJn" id="BIA-5E-7Eh"/>
                         <outlet property="tikTokText" destination="qrG-Xb-gbj" id="Re8-yA-7ia"/>
@@ -4278,7 +4306,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mVo-aU-smI">
                                         <rect key="frame" x="16" y="550" width="304" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" red="0.97568184140000003" green="0.55293726919999997" blue="0.92070990799999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" red="0.24137573039999999" green="0.59946803420000006" blue="0.97166035380000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Continue">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -4335,7 +4363,7 @@
                                         <rect key="frame" x="0.0" y="190" width="414" height="35"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="ChalkboardSE-Regular" family="Chalkboard SE" pointSize="23"/>
-                                        <color key="textColor" red="0.97568184140000003" green="0.55293726919999997" blue="0.92070990799999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="textColor" red="0.24137573039999999" green="0.59946803420000006" blue="0.97166035380000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="highlightedColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="shadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </label>
@@ -4717,7 +4745,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hmY-lh-MYi">
                                         <rect key="frame" x="26" y="598" width="304" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" red="0.24137573039999999" green="0.59946803420000006" blue="0.97166035380000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" red="0.0" green="0.82496446369999998" blue="0.83174425360000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Continue">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -4782,14 +4810,14 @@
                                         <rect key="frame" x="-1" y="226" width="414" height="35"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="ChalkboardSE-Regular" family="Chalkboard SE" pointSize="23"/>
-                                        <color key="textColor" red="0.24137573039999999" green="0.59946803420000006" blue="0.97166035380000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="textColor" red="0.0" green="0.82496446369999998" blue="0.83174425360000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="highlightedColor" systemColor="systemBlueColor"/>
                                         <color key="shadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DRg-sr-Oku">
                                         <rect key="frame" x="26" y="560" width="304" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" red="0.24137573039999999" green="0.59946803420000006" blue="0.97166035380000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" red="0.0" green="0.82496446369999998" blue="0.83174425360000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Confirm">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -4830,7 +4858,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zLf-VF-U1a" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="M24-pm-a7L" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-677" y="-3599"/>
+            <point key="canvasLocation" x="-678.26086956521749" y="-3599.3303571428569"/>
         </scene>
         <!--New Post ColorfulVC-->
         <scene sceneID="45G-FZ-m7g">
@@ -4991,7 +5019,6 @@
         <image name="Yellow" width="53" height="332"/>
         <image name="addCover" width="1242" height="2208"/>
         <image name="addFriend" width="512" height="512"/>
-        <image name="appleMusicLogo" width="512" height="512"/>
         <image name="arrow.right" catalog="system" width="128" height="98"/>
         <image name="arrow.turn.up.left" catalog="system" width="128" height="99"/>
         <image name="arrow.up.and.down" catalog="system" width="100" height="128"/>
@@ -5011,9 +5038,11 @@
         <image name="heart" catalog="system" width="128" height="109"/>
         <image name="hexagon" catalog="system" width="128" height="124"/>
         <image name="house" catalog="system" width="128" height="106"/>
+        <image name="hudl" width="2400" height="1260"/>
         <image name="instagramLogo" width="250" height="250"/>
         <image name="link.circle.fill" catalog="system" width="128" height="121"/>
         <image name="linkClear" width="512" height="512"/>
+        <image name="linkedInLogo" width="1000" height="1000"/>
         <image name="list.bullet" catalog="system" width="128" height="88"/>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
         <image name="minus" catalog="system" width="128" height="24"/>
@@ -5028,6 +5057,7 @@
         <image name="redx" width="260" height="280"/>
         <image name="snapchatlogo" width="2100" height="2100"/>
         <image name="socialMediaIcon" width="512" height="512"/>
+        <image name="soundCloudLogo" width="225" height="225"/>
         <image name="spotifylogo" width="386" height="386"/>
         <image name="square" catalog="system" width="128" height="114"/>
         <image name="square.and.arrow.up.fill" catalog="system" width="115" height="128"/>
