@@ -98,6 +98,10 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         insertFakeViewCounter()
         addTrashButton()
         
+        followView.isHidden = false
+        toSearchButton.isHidden = false
+        toSettingsButton.isHidden = false
+        
         let contentTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleContentViewerTap))
         contentViewer.addGestureRecognizer(contentTapGesture)
         
@@ -972,29 +976,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             }
           
             
-            
-            
         }
-        
-        //        if sender.view!.tag == 1 {
-        //            dismissFullscreenImage(view: newImageView)
-        //            openFacebook(facebookHandle: "")
-        //        }
-        //
-        //        if sender.view!.tag == 2 {
-        //            dismissFullscreenImage(view: newImageView)
-        //            openInstagram(instagramHandle: "patmcdonough42")
-        //        }
-        //
-        //        if sender.view!.tag == 3 {
-        //            dismissFullscreenImage(view: newImageView)
-        //            openTwitter(twitterHandle: "kanyewest")
-        //        }
-        //
-        //        if sender.view!.tag == 4 {
-        //            dismissFullscreenImage(view: newImageView)
-        //            openSpotifySong()
-        //        }
         
     }
     

@@ -25,6 +25,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     // Content presentation
     var player = AVAudioPlayer()
     var contentViewer = UIView()
+    let menuView = MenuView()
     
     // Firebase stuff
     var loadDataListener: ListenerRegistration?
@@ -396,33 +397,33 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func createPostImage(hexData: HexagonStructData) -> PostImageView {
+        let hexaDiameter : CGFloat = 150
         
+     
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
         
         let image = PostImageView(frame: CGRect(x: self.reOrderedCoordinateArrayPoints[hexData.location].x,
                                                 y: self.reOrderedCoordinateArrayPoints[hexData.location].y, width: hexaDiameter, height: hexaDiameter))
-//        print("This is contentView.center \(contentView.center)")
-//        print("This is profile Pic Center \(self.reOrderedCoordinateArrayPoints[0].x), \(self.reOrderedCoordinateArrayPoints[0].y)")
+        //print("This is contentView.center \(contentView.center)")
+        //print("This is profile Pic Center \(self.reOrderedCoordinateArrayPoints[0].x), \(self.reOrderedCoordinateArrayPoints[0].y)")
         image.contentMode = .scaleAspectFill
         image.image = UIImage()
         image.hexData = hexData
-        image.tag = hexData.location
+        image.tag = hexData.location ?? 0
         
         image.addGestureRecognizer(tapGesture)
         image.isUserInteractionEnabled = true
         //    var gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
-        image.setupHexagonMask(lineWidth: 10.0, color: .darkGray, cornerRadius: 10.0)
+//        print("This is the type of hexagon: \(hexData.type)")
+        var myType = hexData.type
+        // image.setupHexagonMask(lineWidth: 10.0, color: myBlueGreen, cornerRadius: 10.0)
+        createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
         //let ref = storage.child(hexData.thumbResource)
         let cleanRef = hexData.thumbResource.replacingOccurrences(of: "/", with: "%2F")
-        //print("This is clean ref \(cleanRef)")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
-        //print("This is url: \(url)")
-        //print("i unforced url because it was crashing on me -- Patrick")
-        print(url?.absoluteString)
-        //image.sd_setImage(with: ref)
         image.sd_setImage(with: url!, completed: {_, error, _, _ in
             if error != nil {
-                print(error?.localizedDescription)
+                print(error!.localizedDescription)
             }
         })
         return image
@@ -553,31 +554,123 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     
+//    @objc func handleTap(_ sender: UITapGestureRecognizer) {
+//        //        print("🎯🎯🎯🎯🎯Hello World")
+//        print("🎯🎯🎯🎯🎯🎯🎯I tapped image with tag \(sender.view!.tag)")
+//
+//        let postImage = sender.view as! PostImageView
+//        let hexItem = postImage.hexData!
+//
+////        if sender.view!.tag == 0 {
+////            print("Tried to click profile pic handle later")
+////
+////        }
+//
+//            //TO DO: Tap to Play Video
+//        if hexItem.type.contains("video") {
+//            //TO DO: play a video here!!
+//            let playString = hexItem.resource
+//           // play(url: hexagonStructArray[sender.view!.tag].resource)
+////            print("This is url string \(playString)")
+//            loadVideo(urlString: playString)
+//            returnButton.isHidden = true
+//        }
+//
+//
+//        else if hexItem.type.contains("photo") {
+//            returnButton.isHidden = true
+//            let newImageView = UIImageView(image: UIImage(named: "kbit"))
+//            let cleanRef = hexItem.thumbResource.replacingOccurrences(of: "/", with: "%2F")
+//            let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
+//            newImageView.sd_setImage(with: url!, completed: {_, error, _, _ in
+//                if error != nil {
+//                    print(error!.localizedDescription)
+//                }
+//            })
+//            self.view.addSubview(newImageView)
+//
+//            // let newImageView = UIImageView(image: imageViewArray[sender.view!.tag].image)
+//            //    let frame = CGRect(x: scrollView.frame.minX + scrollView.contentOffset.x, y: scrollView.frame.minY + scrollView.contentOffset.y, width: scrollView.frame.width, height: scrollView.frame.height)
+//            let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
+//
+//            newImageView.frame = frame
+//            newImageView.backgroundColor = .black
+//
+//            newImageView.contentMode = .scaleAspectFit
+//            newImageView.isUserInteractionEnabled = true
+//            let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImageHandler))
+//            newImageView.addGestureRecognizer(tap)
+//
+//            let textView = UITextView()
+//            textView.text = "asdfkjlasdfjasdf"
+//            textView.textColor = .red
+//
+//        }
+//        else if hexItem.type.contains("link") {
+//            openLink(link: hexItem.resource)
+//        }
+//
+//        else if hexItem.type.contains("social") {
+//            let theType = hexItem.type
+//            if theType.contains("instagram") {
+//                openInstagram(instagramHandle: hexItem.text)
+//            }
+//            if theType.contains("twitter") {
+//                openTwitter(twitterHandle: hexItem.text)
+//            }
+//            if theType.contains("tik") {
+//                openTikTok(tikTokHandle: hexItem.text)
+//            }
+//            if theType.contains("snapchat") {
+//                openSnapchat(snapchatUsername: hexItem.text)
+//            }
+//
+//        }
+//
+//        //        if sender.view!.tag == 1 {
+//        //            dismissFullscreenImage(view: newImageView)
+//        //            openFacebook(facebookHandle: "")
+//        //        }
+//        //
+//        //        if sender.view!.tag == 2 {
+//        //            dismissFullscreenImage(view: newImageView)
+//        //            openInstagram(instagramHandle: "patmcdonough42")
+//        //        }
+//        //
+//        //        if sender.view!.tag == 3 {
+//        //            dismissFullscreenImage(view: newImageView)
+//        //            openTwitter(twitterHandle: "kanyewest")
+//        //        }
+//        //
+//        //        if sender.view!.tag == 4 {
+//        //            dismissFullscreenImage(view: newImageView)
+//        //            openSpotifySong()
+//        //        }
+//
+//    }
+    
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
-        //        print("🎯🎯🎯🎯🎯Hello World")
-        print("🎯🎯🎯🎯🎯🎯🎯I tapped image with tag \(sender.view!.tag)")
+
         
         let postImage = sender.view as! PostImageView
         let hexItem = postImage.hexData!
         
-//        if sender.view!.tag == 0 {
-//            print("Tried to click profile pic handle later")
-//
-//        }
-            
-            //TO DO: Tap to Play Video
+        
+        
+        //TO DO: Tap to Play Video
         if hexItem.type.contains("video") {
             //TO DO: play a video here!!
             let playString = hexItem.resource
-           // play(url: hexagonStructArray[sender.view!.tag].resource)
+            // play(url: hexagonStructArray[sender.view!.tag].resource)
 //            print("This is url string \(playString)")
             loadVideo(urlString: playString)
-            returnButton.isHidden = true
+            self.menuView.menuButton.isHidden = true
         }
-            
-            
+        
+        
+        
         else if hexItem.type.contains("photo") {
-            returnButton.isHidden = true
+            self.menuView.menuButton.isHidden = true
             let newImageView = UIImageView(image: UIImage(named: "kbit"))
             let cleanRef = hexItem.thumbResource.replacingOccurrences(of: "/", with: "%2F")
             let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
@@ -588,8 +681,6 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
             })
             self.view.addSubview(newImageView)
             
-            // let newImageView = UIImageView(image: imageViewArray[sender.view!.tag].image)
-            //    let frame = CGRect(x: scrollView.frame.minX + scrollView.contentOffset.x, y: scrollView.frame.minY + scrollView.contentOffset.y, width: scrollView.frame.width, height: scrollView.frame.height)
             let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
             
             newImageView.frame = frame
@@ -608,7 +699,10 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         else if hexItem.type.contains("link") {
             openLink(link: hexItem.resource)
         }
-            
+        else if hexItem.type.contains("music") {
+            openLink(link: hexItem.resource)
+        }
+        
         else if hexItem.type.contains("social") {
             let theType = hexItem.type
             if theType.contains("instagram") {
@@ -623,34 +717,104 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
             if theType.contains("snapchat") {
                 openSnapchat(snapchatUsername: hexItem.text)
             }
+            if theType.contains("youtube") {
+                openLink(link: hexItem.text)
+            }
+            if theType.contains("hudl") {
+                openLink(link: hexItem.text)
+            }
+            if theType.contains("venmo") {
+                openLink(link: hexItem.text)
+            }
+            if theType.contains("sound") {
+                openLink(link: hexItem.text)
+            }
+            if theType.contains("linked") {
+                openLink(link: hexItem.text)
+            }
+            if theType.contains("posh") {
+                openLink(link: hexItem.text)
+            }
+          
             
         }
         
-        //        if sender.view!.tag == 1 {
-        //            dismissFullscreenImage(view: newImageView)
-        //            openFacebook(facebookHandle: "")
-        //        }
-        //
-        //        if sender.view!.tag == 2 {
-        //            dismissFullscreenImage(view: newImageView)
-        //            openInstagram(instagramHandle: "patmcdonough42")
-        //        }
-        //
-        //        if sender.view!.tag == 3 {
-        //            dismissFullscreenImage(view: newImageView)
-        //            openTwitter(twitterHandle: "kanyewest")
-        //        }
-        //
-        //        if sender.view!.tag == 4 {
-        //            dismissFullscreenImage(view: newImageView)
-        //            openSpotifySong()
-        //        }
-
     }
+    
+    
+    
+    
     
     
     var navBarView: NavBarView?
     var webView: WKWebView?
+    
+    
+    func createHexagonMaskWithCorrespondingColor(imageView: UIImageView, type: String) {
+        if type == "photo" {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myOrange, cornerRadius: imageView.frame.width/15)
+        }
+        else if type == "video" {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myOrange, cornerRadius: imageView.frame.width/15)
+        }
+        else if type == "music" {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myBlueGreen, cornerRadius: imageView.frame.width/15)
+        }
+        else if type == "link" {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myCoolBlue, cornerRadius: imageView.frame.width/15)
+        }
+        else if type.contains("social") {
+       // chooseSpecificSocialMedia(type: type, imageView: imageView)
+            //clear border
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: .clear, cornerRadius: imageView.frame.width/15)
+        
+        }
+        else if type.contains("youtube") {
+       // chooseSpecificSocialMedia(type: type, imageView: imageView)
+            //clear border
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: .clear, cornerRadius: imageView.frame.width/15)
+        
+        }
+        else {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: white, cornerRadius: imageView.frame.width/15)
+        }
+        
+    }
+    
+    func chooseSpecificSocialMedia(type: String, imageView: UIImageView) {
+        if type.contains("insta") {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myInstaPurple, cornerRadius: imageView.frame.width/15)
+        }
+        else if type.contains("twitter") {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myTwitterBlue, cornerRadius: imageView.frame.width/15)
+        }
+        else if type.contains("tik") {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myTikTokBlack, cornerRadius: imageView.frame.width/15)
+        }
+        else if type.contains("hudl") {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myHudlOrange, cornerRadius: imageView.frame.width/15)
+        }
+        else if type.contains("sound") {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: mySoundCloudOrange, cornerRadius: imageView.frame.width/15)
+        }
+        else if type.contains("snap") {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: mySnapChatYellow, cornerRadius: imageView.frame.width/15)
+        }
+        else if type.contains("posh") {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myPoshmarkMaroon, cornerRadius: imageView.frame.width/15)
+        }
+        else if type.contains("linked") {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myLinkedInBlue, cornerRadius: imageView.frame.width/15)
+        }
+        else if type.contains("venmo") {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myVenmoBlue, cornerRadius: imageView.frame.width/15)
+        }
+        else {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myPink, cornerRadius: imageView.frame.width/15)
+        }
+
+    }
+    
     
     func openLink(link: String) {
         let backButton1 = UIButton()
