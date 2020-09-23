@@ -140,7 +140,11 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         modalPresentationStyle = .fullScreen
     }
     
+    
+    
+    
     @IBAction func addLinkPressed(_ sender: UIButton) {
+        print("add link pressed and its good ")
         let linkVC = storyboard?.instantiateViewController(identifier: "linkVC") as! AddLinkVCViewController
         linkVC.userData = userData
         present(linkVC, animated: false)
@@ -148,6 +152,7 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
     }
     
     @IBAction func addMusicPressed(_ sender: UIButton) {
+        print("add music pressed want to switch to social media ")
         let musicVC = storyboard?.instantiateViewController(identifier: "addMusicVC") as! AddMusicVC
              musicVC.userData = userData
              present(musicVC, animated: false)
@@ -156,6 +161,7 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
     
     
     @IBAction func addSocialMediaPressed(_ sender: UIButton) {
+        print("add social pressed want to switch to music")
         let addSocialMediaVC = storyboard?.instantiateViewController(identifier: "addSocialMediaVC") as! AddSocialMediaVC
         addSocialMediaVC.userData = userData
         addSocialMediaVC.cancelLbl = "Cancel"

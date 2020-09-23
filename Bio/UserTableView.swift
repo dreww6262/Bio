@@ -41,6 +41,17 @@ class UserTableView: UIViewController, UISearchBarDelegate {
         searchBar.barStyle = .blackOpaque
         searchBar.frame.size.width = self.view.frame.size.width
         searchBar.frame = CGRect(x: 0, y: 20, width: searchBar.frame.width, height: searchBar.frame.height)
+//        let attributes:[NSAttributedString.Key: Any] = [
+//            .foregroundColor: UIColor.black,
+//            .font: UIFont.systemFont(ofSize: 17)
+//        ]
+//        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes(attributes, for: .normal)
+        
+//        if let cancelButton = searchBar.value(forKey: "cancelButton") as? UIButton {
+//            cancelButton.setTitle("cancel", for: .normal)
+//            cancelButton.setTitleColor(.white, for: .normal)
+//            cancelButton.setAttributedTitle(NSAttributedString(), for: .normal)
+//        }
         
         let searchItem = UIBarButtonItem(customView: searchBar)
         self.navigationItem.leftBarButtonItem = searchItem
