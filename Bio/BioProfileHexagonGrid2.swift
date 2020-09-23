@@ -130,6 +130,9 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
     func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
         toSearchButton.isHidden = false
     }
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        toSearchButton.isHidden = false
+    }
     
     // Zoom Logic
     func resizeScrollView(numFollowers: Int) {
@@ -172,6 +175,7 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
         let contentOffset = CGPoint(x: contentView.frame.width/2 - view.frame.width/2, y: contentView.frame.height/2 - view.frame.height/2)
 //        print(contentOffset)
         scrollView.contentOffset = contentOffset
+        toSearchButton.isHidden = false
     }
     
     func resetCoordinatePoints() {

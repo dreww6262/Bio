@@ -286,6 +286,15 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         return contentView
     }
     
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        toSearchButton.isHidden = false
+        toSettingsButton.isHidden = false
+    }
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        toSearchButton.isHidden = false
+        toSettingsButton.isHidden = false
+    }
+    
     
     // refresh logic when view will appear
     func refresh() {
