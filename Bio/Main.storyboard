@@ -2525,7 +2525,7 @@
             <objects>
                 <viewController id="p9a-AL-6nt" customClass="VideoViewController" customModule="Bio" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="104-Hf-6rh">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J2O-Zj-R2c">
@@ -4884,9 +4884,6 @@
                                         <state key="normal" image="clearCam">
                                             <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
-                                        <connections>
-                                            <action selector="addPhotoPressed:" destination="NnI-dh-3bo" eventType="touchUpInside" id="DC5-LC-MwD"/>
-                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Photos &amp; Videos" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wGl-iR-Wa7">
                                         <rect key="frame" x="12" y="107" width="130" height="21"/>
@@ -4913,9 +4910,6 @@
                                         <rect key="frame" x="23" y="-9" width="100" height="100"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="socialMediaIcon"/>
-                                        <connections>
-                                            <action selector="addMusicPressed:" destination="NnI-dh-3bo" eventType="touchUpInside" id="Aam-5i-nPK"/>
-                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.97568184140000003" green="0.55293726919999997" blue="0.92070990799999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -4929,9 +4923,6 @@
                                         <rect key="frame" x="36" y="-2" width="100" height="100"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="linkClear"/>
-                                        <connections>
-                                            <action selector="addLinkPressed:" destination="NnI-dh-3bo" eventType="touchUpInside" id="1vF-4v-5Ec"/>
-                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Links" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ndr-BX-0mA">
                                         <rect key="frame" x="67" y="106" width="40" height="21"/>
@@ -4958,9 +4949,6 @@
                                         <rect key="frame" x="26" y="-1" width="100" height="100"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="clearMusic"/>
-                                        <connections>
-                                            <action selector="addSocialMediaPressed:" destination="NnI-dh-3bo" eventType="touchUpInside" id="Ol1-9V-PZb"/>
-                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.82496446369999998" blue="0.83174425360000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
