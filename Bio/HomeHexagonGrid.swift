@@ -40,6 +40,7 @@ var myLinkedInBlue = #colorLiteral(red: 0, green: 0.4470588235, blue: 0.69411764
 
 
 
+
 class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, WKUIDelegate  {
     
     
@@ -69,6 +70,11 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     // Flags and tags
     var firstLoad  = true
     
+    var followView = UIView()
+    var followImage = UIImageView()
+    var followLabel = UILabel()
+    
+    
     // arrays
     var targetHexagons: [Int] = []
     //var hexagonStructArray: [HexagonStructData] = []
@@ -89,6 +95,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         addMenuButtons()
         addSearchButton()
         addSettingsButton()
+        insertFakeViewCounter()
         addTrashButton()
         
         let contentTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleContentViewerTap))
@@ -137,6 +144,22 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         
     }
     
+    
+    func insertFakeViewCounter() {
+        self.view.addSubview(followView)
+        self.followView.backgroundColor = .white
+        self.followView.frame = CGRect(x: self.view.frame.midX - 45, y: 25, width: 90, height: 30)
+        self.followView.layer.cornerRadius = followView.frame.size.width / 20
+        self.followView.addSubview(followImage)
+        self.followView.addSubview(followLabel)
+        self.followImage.frame = CGRect(x: 5, y: 0, width: followView.frame.height, height: followView.frame.height)
+        self.followView.layer.cornerRadius = followView.frame.size.width/10
+        self.followImage.image = UIImage(named: "eye")
+        self.followLabel.frame = CGRect(x: followImage.frame.maxX + 5, y: 0.0, width: followView.frame.width - 10, height: followView.frame.height)
+        self.followLabel.text = "1568"
+        self.followLabel.textColor = .black
+        
+    }
     
     func setZoomScale() {
         //let imageViewSize = contentView.bounds.size
@@ -275,11 +298,13 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         toSearchButton.isHidden = true
         toSettingsButton.isHidden = true
+        followView.isHidden = true
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         toSearchButton.isHidden = false
         toSettingsButton.isHidden = false
+        followView.isHidden = false
     }
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
@@ -289,10 +314,12 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         toSearchButton.isHidden = false
         toSettingsButton.isHidden = false
+        followView.isHidden = false
     }
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         toSearchButton.isHidden = false
         toSettingsButton.isHidden = false
+        followView.isHidden = false
     }
     
     
