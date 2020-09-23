@@ -163,15 +163,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     }
     
     func setZoomScale() {
-        //let imageViewSize = contentView.bounds.size
-        //let scrollViewSize = scrollView.bounds.size
-        //let widthScale = scrollViewSize.width / imageViewSize.width
-        //let heightScale = scrollViewSize.height / imageViewSize.height
-        
-        //           print("width scale: \(widthScale)")
-        //           print("height scale: \(heightScale)")
-        // scrollView.minimumZoomScale = min(widthScale, heightScale)
-        //scrollView.zoomScale = scrollView.minimumZoomScale
+
         scrollView.maximumZoomScale = 60
         scrollView.minimumZoomScale = 0.5
     }
