@@ -23,9 +23,9 @@ class AddSocialMediaVC: UIViewController {
     
     @IBOutlet weak var twitterLogo: UIImageView!
     
-    @IBOutlet weak var facebookLogo: UIImageView!
+    @IBOutlet weak var soundCloudLogo: UIImageView!
     
-    @IBOutlet weak var appleMusicLogo: UIImageView!
+    @IBOutlet weak var linkedInLogo: UIImageView!
     
     @IBOutlet weak var venmoLogo: UIImageView!
     
@@ -36,14 +36,17 @@ class AddSocialMediaVC: UIViewController {
     // scrollView
     @IBOutlet weak var scrollView: UIScrollView!
     
+    @IBOutlet weak var hudlLogo: UIImageView!
     // profile image
+    @IBOutlet var hudlText: UITextField!
     
+    @IBOutlet weak var interactiveHudlText: UITextField!
     // textfields
     @IBOutlet weak var instagramUsernameTxt: UITextField!
     @IBOutlet weak var snapchatUsernameTxt: UITextField!
     @IBOutlet weak var twitterHandleTxt: UITextField!
-    @IBOutlet weak var facebookInfoTxt: UITextField!
-    @IBOutlet weak var appleMusicTxt: UITextField!
+    @IBOutlet weak var soundCloudText: UITextField!
+    @IBOutlet weak var linkedInText: UITextField!
     
     @IBOutlet weak var venmoTxt: UITextField!
     @IBOutlet weak var tikTokText: UITextField!
@@ -59,9 +62,9 @@ class AddSocialMediaVC: UIViewController {
     @IBOutlet weak var interactiveSnapchatUsernameTxt: UITextField!
     @IBOutlet weak var interactiveTwitterHandleTxt: UITextField!
     
-    @IBOutlet weak var interactiveFacebookInfoTxt: UITextField!
+    @IBOutlet weak var interactiveSoundCloudText: UITextField!
     
-    @IBOutlet weak var interactiveAppleMusicTxt: UITextField!
+    @IBOutlet weak var interactiveLinkedInText: UITextField!
 
     
     @IBOutlet weak var interactiveVenmoTxt: UITextField!
@@ -88,39 +91,44 @@ class AddSocialMediaVC: UIViewController {
     override func viewDidLoad() {
         tikTokText.borderStyle = .roundedRect
         venmoTxt.borderStyle = .roundedRect
-        appleMusicTxt.borderStyle = .roundedRect
-        facebookInfoTxt.borderStyle = .roundedRect
+        linkedInText.borderStyle = .roundedRect
+        soundCloudText.borderStyle = .roundedRect
         instagramUsernameTxt.borderStyle = .roundedRect
         poshmarkText.borderStyle = .roundedRect
         snapchatUsernameTxt.borderStyle = .roundedRect
         twitterHandleTxt.borderStyle = .roundedRect
+        hudlText.borderStyle = .roundedRect
         
         tikTokText.layer.borderWidth = 1.0
         instagramUsernameTxt.layer.borderWidth = 1.0
         snapchatUsernameTxt.layer.borderWidth = 1.0
         twitterHandleTxt.layer.borderWidth = 1.0
-        appleMusicTxt.layer.borderWidth = 1.0
+        linkedInText.layer.borderWidth = 1.0
         venmoTxt.layer.borderWidth = 1.0
         poshmarkText.layer.borderWidth = 1.0
-        facebookInfoTxt.layer.borderWidth = 1.0
+        soundCloudText.layer.borderWidth = 1.0
+        hudlText.layer.borderWidth = 1.0
         
         tikTokText.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
         venmoTxt.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
-        appleMusicTxt.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
-        facebookInfoTxt.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
+        linkedInText.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
+        soundCloudText.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
         instagramUsernameTxt.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
         poshmarkText.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
         snapchatUsernameTxt.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
         twitterHandleTxt.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
+        hudlText.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
         
         tikTokText.backgroundColor = .black
         venmoTxt.backgroundColor = .black
-        appleMusicTxt.backgroundColor = .black
-        facebookInfoTxt.backgroundColor = .black
+        linkedInText.backgroundColor = .black
+        soundCloudText.backgroundColor = .black
         instagramUsernameTxt.backgroundColor = .black
         poshmarkText.backgroundColor = .black
         snapchatUsernameTxt.backgroundColor = .black
         twitterHandleTxt.backgroundColor = .black
+        hudlText.backgroundColor = .black
+        
         
         interactiveVenmoTxt.attributedPlaceholder = NSAttributedString(string: "Venmo Username",
                                      attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
@@ -133,15 +141,17 @@ class AddSocialMediaVC: UIViewController {
         interactiveTikTokText.attributedPlaceholder = NSAttributedString(string: "Tik Tok Username",
                                      attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
         
-        interactiveAppleMusicTxt.attributedPlaceholder = NSAttributedString(string: "Apple Music Info",
+        interactiveLinkedInText.attributedPlaceholder = NSAttributedString(string: "LinkedIn Link",
                                      attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
         
-        interactiveFacebookInfoTxt.attributedPlaceholder = NSAttributedString(string: "Facebook Info",
+        interactiveSoundCloudText.attributedPlaceholder = NSAttributedString(string: "SoundCloud Link",
                                      attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
         
         interactiveTwitterHandleTxt.attributedPlaceholder = NSAttributedString(string: "Twitter Handle",
                                      attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
         interactiveSnapchatUsernameTxt.attributedPlaceholder = NSAttributedString(string: "Snapchat Username",
+                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+        interactiveHudlText.attributedPlaceholder = NSAttributedString(string: "Hudl Link",
                                      attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
         
         
@@ -185,11 +195,14 @@ class AddSocialMediaVC: UIViewController {
         
         snapchatUsernameTxt.frame = CGRect(x: 10, y: instagramUsernameTxt.frame.maxY + 15, width: self.view.frame.size.width - 20, height: 35)
         twitterHandleTxt.frame = CGRect(x: 10, y: snapchatUsernameTxt.frame.maxY + 15, width: self.view.frame.size.width - 20, height: 35)
-        facebookInfoTxt.frame = CGRect(x: 10, y: twitterHandleTxt.frame.maxY + 15, width: self.view.frame.size.width - 20, height: 35)
-        appleMusicTxt.frame = CGRect(x: 10, y: facebookInfoTxt.frame.maxY + 15, width: self.view.frame.size.width - 20, height: 35)
-        venmoTxt.frame = CGRect(x: 10, y: appleMusicTxt.frame.maxY + 15, width: self.view.frame.size.width - 20, height: 35)
+        soundCloudText.frame = CGRect(x: 10, y: twitterHandleTxt.frame.maxY + 15, width: self.view.frame.size.width - 20, height: 35)
+        linkedInText.frame = CGRect(x: 10, y: soundCloudText.frame.maxY + 15, width: self.view.frame.size.width - 20, height: 35)
+        venmoTxt.frame = CGRect(x: 10, y: linkedInText.frame.maxY + 15, width: self.view.frame.size.width - 20, height: 35)
         tikTokText.frame = CGRect(x: 10, y: venmoTxt.frame.maxY + 15, width: self.view.frame.size.width - 20, height: 35)
         poshmarkText.frame = CGRect(x: 10, y: tikTokText.frame.maxY + 15, width: self.view.frame.size.width - 20, height: 35)
+        
+        hudlText.frame = CGRect(x: 10, y: poshmarkText.frame.maxY + 15, width: self.view.frame.size.width - 20, height: 35)
+        
         instagramLogo.frame = CGRect(x: 11, y: instagramUsernameTxt.frame.minY + 2, width: 24, height: 33)
         interactiveInstagramTxt.frame = CGRect(x: instagramLogo.frame.maxX + 3, y: instagramUsernameTxt.frame.minY, width: self.view.frame.size.width - instagramLogo.frame.maxX - 5, height: 35)
         snapchatLogo.frame =  CGRect(x: 11, y: snapchatUsernameTxt.frame.minY + 2, width: 24, height: 33)
@@ -197,13 +210,15 @@ class AddSocialMediaVC: UIViewController {
         twitterLogo.frame = CGRect(x: 11, y: twitterHandleTxt.frame.minY + 2, width: 24, height: 33)
           interactiveTwitterHandleTxt.frame = CGRect(x: twitterLogo.frame.maxX + 3, y: twitterHandleTxt.frame.minY, width: self.view.frame.size.width - twitterLogo.frame.maxX - 5, height: 35)
         
-        facebookLogo.frame =  CGRect(x: 11, y: facebookInfoTxt.frame.minY + 2, width: 24, height: 33)
+        soundCloudLogo.frame =  CGRect(x: 11, y: soundCloudText.frame.minY + 2, width: 24, height: 33)
         
-          interactiveFacebookInfoTxt.frame = CGRect(x: facebookLogo.frame.maxX + 3, y: facebookInfoTxt.frame.minY, width: self.view.frame.size.width - facebookLogo.frame.maxX - 5, height: 35)
+          interactiveSoundCloudText.frame = CGRect(x: soundCloudLogo.frame.maxX + 3, y: soundCloudText.frame.minY, width: self.view.frame.size.width - soundCloudLogo.frame.maxX - 5, height: 35)
         
-        appleMusicLogo.frame =  CGRect(x: 11, y: appleMusicTxt.frame.minY + 2, width: 24, height: 33)
+        linkedInLogo.frame =  CGRect(x: 11, y: linkedInText.frame.minY + 2, width: 24, height: 33)
         
-          interactiveAppleMusicTxt.frame = CGRect(x: appleMusicLogo.frame.maxX + 3, y: appleMusicTxt.frame.minY, width: self.view.frame.size.width - appleMusicLogo.frame.maxX - 5, height: 35)
+        hudlLogo.frame =  CGRect(x: 11, y: hudlText.frame.minY + 2, width: 24, height: 33)
+        
+          interactiveLinkedInText.frame = CGRect(x: linkedInLogo.frame.maxX + 3, y: linkedInText.frame.minY, width: self.view.frame.size.width - linkedInLogo.frame.maxX - 5, height: 35)
         
         venmoLogo.frame =  CGRect(x: 11, y: venmoTxt.frame.minY + 2, width: 24, height: 33)
         
@@ -215,7 +230,9 @@ class AddSocialMediaVC: UIViewController {
         poshmarkLogo.frame =  CGRect(x: 11, y: poshmarkText.frame.minY + 2, width: 24, height: 33)
           interactivePoshmarkTxt.frame = CGRect(x: poshmarkLogo.frame.maxX + 3, y: poshmarkText.frame.minY, width: self.view.frame.size.width - poshmarkLogo.frame.maxX - 5, height: 35)
         
-        continueBtn.frame =  CGRect(x: 10.0, y: poshmarkText.frame.maxY + 15, width: facebookInfoTxt.frame.width, height: 30)
+        interactiveHudlText.frame = CGRect(x: hudlLogo.frame.maxX + 3, y: hudlText.frame.minY, width: self.view.frame.size.width - hudlLogo.frame.maxX - 5, height: 35)
+        
+        continueBtn.frame =  CGRect(x: 10.0, y: hudlText.frame.maxY + 15, width: hudlText.frame.width, height: 30)
        continueBtn.layer.cornerRadius = continueBtn.frame.size.width / 20
         cancelBtn.frame =  CGRect(x: 10.0, y: continueBtn.frame.maxY + 10, width: continueBtn.frame.width, height: 30)
        //cancelBtn.layer.cornerRadius = cancelBtn.frame.size.width / 20
@@ -230,15 +247,15 @@ class AddSocialMediaVC: UIViewController {
         interactiveInstagramTxt.borderStyle = .none
         interactiveSnapchatUsernameTxt.borderStyle = .none
         interactiveTwitterHandleTxt.borderStyle = .none
-        interactiveFacebookInfoTxt.borderStyle = .none
-        interactiveAppleMusicTxt.borderStyle = .none
+        interactiveSoundCloudText.borderStyle = .none
+        interactiveLinkedInText.borderStyle = .none
         interactiveVenmoTxt.borderStyle = .none
         interactiveTikTokText.borderStyle = .none
         interactivePoshmarkTxt.borderStyle = .none
+        interactiveHudlText.borderStyle = .none
         
         
-        
-        
+
         
     }
     
@@ -322,7 +339,7 @@ class AddSocialMediaVC: UIViewController {
         self.view.endEditing(true)
         
         // if fields are empty
-        if (interactiveInstagramTxt.text!.isEmpty && interactiveSnapchatUsernameTxt.text!.isEmpty && interactiveTwitterHandleTxt.text!.isEmpty && interactiveFacebookInfoTxt.text!.isEmpty && interactiveAppleMusicTxt.text!.isEmpty && interactiveVenmoTxt.text!.isEmpty && interactiveTikTokText.text!.isEmpty && interactivePoshmarkTxt.text!.isEmpty) {
+        if (interactiveInstagramTxt.text!.isEmpty && interactiveSnapchatUsernameTxt.text!.isEmpty && interactiveTwitterHandleTxt.text!.isEmpty && interactiveSoundCloudText.text!.isEmpty && interactiveLinkedInText.text!.isEmpty && interactiveVenmoTxt.text!.isEmpty && interactiveTikTokText.text!.isEmpty && interactivePoshmarkTxt.text!.isEmpty) {
             
             // alert message
             let alert = UIAlertController(title: "Hold up", message: "Fill in a field or hit \(cancelBtn.titleLabel!.text!)", preferredStyle: UIAlertController.Style.alert)
@@ -367,18 +384,18 @@ class AddSocialMediaVC: UIViewController {
             })
         }
         
-        if (!interactiveFacebookInfoTxt.text!.isEmpty) {
+        if (!interactiveSoundCloudText.text!.isEmpty) {
             numPosts += 1
-            let facebookHex = HexagonStructData(resource: interactiveFacebookInfoTxt.text!, type: "socialmedia_facebook", location: numPosts, thumbResource: "icons/facebooklogo.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(interactiveFacebookInfoTxt.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            let facebookHex = HexagonStructData(resource: interactiveSoundCloudText.text!, type: "socialmedia_facebook", location: numPosts, thumbResource: "icons/facebooklogo.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(interactiveSoundCloudText.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: facebookHex, completion: {bool in
                 success = success && bool
                 
             })
         }
         
-        if (!interactiveAppleMusicTxt.text!.isEmpty) {
+        if (!interactiveLinkedInText.text!.isEmpty) {
             numPosts += 1
-            let appleHex = HexagonStructData(resource: "https://applemusic.com/\(interactiveAppleMusicTxt.text!)", type: "socialmedia_appleMusic", location: numPosts, thumbResource: "icons/appleMusicLogo.jpg", createdAt: NSDate.now.description, postingUserID: username, text: "\(interactiveAppleMusicTxt.text!)", views: 0,isArchived: false, docID: "WillBeSetLater")
+            let appleHex = HexagonStructData(resource: "https://applemusic.com/\(interactiveLinkedInText.text!)", type: "socialmedia_appleMusic", location: numPosts, thumbResource: "icons/appleMusicLogo.jpg", createdAt: NSDate.now.description, postingUserID: username, text: "\(interactiveLinkedInText.text!)", views: 0,isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: appleHex, completion: {bool in
                 success = success && bool
                 
