@@ -375,11 +375,14 @@ class MenuView: UIView {
             //showMenuOptions()
             //            print("changing")
             //makeAllMenuButtonsBlack()
-            makeAllMenuButtonsClear()
+            changeBackToWhiteIcons()
             let button = findMenuHexagonButton(hexCenter: point)
             //            print("buttin \(button?.titleLabel)")
             // button?.imageView?.setupHexagonMask(lineWidth: 10.0, color: red, cornerRadius: 10)
-            button?.imageView?.makeRoundedMyCoolBlue()
+            //button?.imageView?.makeRoundedMyCoolBlue()
+            if button != nil {
+            makeTheIconTeal(iconButton: button!)
+            }
         }
         if (sender.state == .ended) {
             //find button
@@ -396,6 +399,40 @@ class MenuView: UIView {
             //change VC
         }
     }
+    
+    func changeBackToWhiteIcons() {
+        homeProfileButton.imageView?.image = UIImage(named: "clearHouse")
+        dmButton.imageView?.image = UIImage(named: "email1")
+        friendsButton.imageView?.image = UIImage(named: "twoFriendsFlipped")
+        newPostButton.imageView?.image = UIImage(named: "addCircle")
+        notificationsButton.imageView?.image = UIImage(named: "bell1")
+    }
+    
+    func makeTheIconTeal(iconButton: UIButton) {
+        if iconButton == newPostButton {
+          //  changeBackToWhiteIcons()
+            newPostButton.imageView?.image = UIImage(named: "newPostTeal100")
+        }
+        else if iconButton == friendsButton {
+          //  changeBackToWhiteIcons()
+            friendsButton.imageView?.image = UIImage(named: "friendsTeal100")
+        }
+        else if iconButton == homeProfileButton {
+         //   changeBackToWhiteIcons()
+            homeProfileButton.imageView?.image = UIImage(named: "houseTeal100")
+        }
+        else if iconButton == dmButton {
+      //      changeBackToWhiteIcons()
+            dmButton.imageView?.image = UIImage(named: "dmTeal100")
+        }
+        else if iconButton == notificationsButton {
+        //    changeBackToWhiteIcons()
+            notificationsButton.imageView?.image = UIImage(named: "bellTeal100")
+        }
+    }
+    
+    
+    
     
     func findMenuHexagonButton(hexCenter: CGPoint) -> UIButton? {
         //        print(hexCenter)

@@ -140,7 +140,7 @@ let dismissTap = UITapGestureRecognizer(target: self, action: #selector(self.bac
         self.backButton1.frame = CGRect(x: 0, y: 0, width: navBarView.frame.width/8, height: titleLabel1.frame.height)
         self.titleLabel1.textAlignment = .center
         self.backButton1.titleLabel?.textAlignment = .left
-        self.titleLabel1.font = UIFont(name: "DINAlternate-Bold", size: 25)
+        self.titleLabel1.font = UIFont(name: "DINAlternate-Bold", size: 20)
         self.navBarView.backgroundColor = .systemGray6
     }
     

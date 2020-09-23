@@ -223,14 +223,16 @@ class NotificationsVC: UIViewController {
 
        
         self.titleLabel1.text = "Notifications"
-        self.navBarView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/12)
+        self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
         self.tableView.frame = CGRect(x: 0, y: self.view.frame.height/12, width: self.view.frame.width, height: self.view.frame.height*(11/12))
-        self.titleLabel1.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/12)
+        self.titleLabel1.frame = CGRect(x: 0, y: 5, width: self.view.frame.width, height: self.view.frame.height/12)
         self.titleLabel1.textAlignment = .center
        
-        self.titleLabel1.font = UIFont(name: "DINAlternate-Bold", size: 25)
+        self.titleLabel1.font = UIFont(name: "DINAlternate-Bold", size: 20)
         self.titleLabel1.textColor = .white
-        self.navBarView.backgroundColor = .black
+        self.navBarView.backgroundColor = UIColor(cgColor: CGColor(gray: 0.05, alpha: 1.0))
+        self.navBarView.layer.borderWidth = 0.25
+        self.navBarView.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
     }
     
 
