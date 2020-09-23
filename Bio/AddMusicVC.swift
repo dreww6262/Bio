@@ -401,7 +401,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
             musicLink = musicLink.replacingOccurrences(of: "'", with: "")
             musicLink.trimmingCharacters(in: ["'", "!", "?"])
             print("music Link after \(musicLink)")
-            let musicHex = HexagonStructData(resource: musicLink, type: "link", location: numPosts, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: musicLink, views: 0, isArchived: false, docID: "WillBeSetLater")
+            let musicHex = HexagonStructData(resource: musicLink, type: "music", location: numPosts, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: musicLink, views: 0, isArchived: false, docID: "WillBeSetLater")
 
 
 

@@ -69,7 +69,7 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
     let rows = 15
     let firstRowColumns = 15
     
-    
+    var firstLoad = true
     
     
     override func viewDidLoad() {
@@ -111,10 +111,29 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
         resizeScrollView(numFollowers: 0)
         
     }
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if (firstLoad) {
+            firstLoad = false
+            return
+        }
+        toSearchButton.isHidden = true
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        toSearchButton.isHidden = false
+    }
+    
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        toSearchButton.isHidden = false
+    }
+    
+    func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
+        toSearchButton.isHidden = false
+    }
     
     // Zoom Logic
     func resizeScrollView(numFollowers: Int) {
-        print("Contentviewframebeforeresize \(contentView.frame)")
+//        print("Contentviewframebeforeresize \(contentView.frame)")
         var rows = 0
         var width = view.frame.width
         var height = view.frame.height
@@ -148,7 +167,7 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
         
         contentView.frame = CGRect(x: 0,y: 0,width: width, height: height)
         scrollView.contentSize = contentView.frame.size
-        print("contentviewframe: \(contentView.frame)")
+//        print("contentviewframe: \(contentView.frame)")
         resetCoordinatePoints()
         let contentOffset = CGPoint(x: contentView.frame.width/2 - view.frame.width/2, y: contentView.frame.height/2 - view.frame.height/2)
         print(contentOffset)
@@ -179,8 +198,8 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
         let widthScale = scrollViewSize.width / imageViewSize.width
         let heightScale = scrollViewSize.height / imageViewSize.height
         
-        print("width scale: \(widthScale)")
-        print("height scale: \(heightScale)")
+//        print("width scale: \(widthScale)")
+//        print("height scale: \(heightScale)")
          scrollView.minimumZoomScale = min(widthScale, heightScale)
         //scrollView.zoomScale = scrollView.minimumZoomScale
         scrollView.maximumZoomScale = 60
@@ -199,7 +218,7 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
         let horizontalPadding = imageViewSize.width < scrollViewSize.width ? (scrollViewSize.width - imageViewSize.width)/2 : 0
         
         scrollView.contentInset = UIEdgeInsets(top: verticalPadding, left: horizontalPadding, bottom: verticalPadding, right: horizontalPadding)
-        
+        scrollView.isHidden = true
     }
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
@@ -215,14 +234,14 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
     func refresh() {
         //print("in refresh")
         user = Auth.auth().currentUser
-        print("current user: \(user)")
+//        print("current user: \(user)")
         if (user != nil) {
             if (userData == nil || userData?.email != user?.email) {
                 db.collection("UserData1").document(user!.uid).getDocument(completion: {obj,error in
                     if (error == nil) {
                         self.userData = UserData(dictionary: obj!.data()!)
                         self.menuView.userData = self.userData
-                        print("should load followings, userdata was found: \(self.userData?.email)")
+//                        print("should load followings, userdata was found: \(self.userData?.email)")
                         self.loadFollowings()
                     }
                     else {
@@ -232,7 +251,7 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
                 })
             }
             else {
-                print("userData wasnt nil \(userData?.email)")
+//                print("userData wasnt nil \(userData?.email)")
                 loadFollowings()
             }
         }
@@ -244,6 +263,7 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
         menuView.tabController = (tabBarController! as! NavigationMenuBaseController)
         menuView.userData = userData
         refresh()
+        toSearchButton.isHidden = false
     }
     
     func loadUpToTenFollowers(followers: [String], completion: @escaping () -> ()) {
@@ -290,7 +310,7 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
             loadProfileHexagons()
         }
         createFollowArray(completion: { newFollowArray in
-            print("loadFollowings: new follow array: \(newFollowArray)")
+//            print("loadFollowings: new follow array: \(newFollowArray)")
             if newFollowArray.count > 0 {
                 // using 5 for efficiency and less possibility of timeout
                 self.followingUserDataArray.removeAll()
@@ -300,12 +320,12 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
                 for chunk in chunks {
                     group.enter()
                     self.loadUpToTenFollowers(followers: chunk, completion: {
-                        print("loadFollowings: loaded followers \(self.followingUserDataArray)")
+//                        print("loadFollowings: loaded followers \(self.followingUserDataArray)")
                         group.leave()
                     })
                 }
                 group.notify(queue: .main) {
-                    print("loadFollowings: done loading followers \(self.followingUserDataArray)")
+//                    print("loadFollowings: done loading followers \(self.followingUserDataArray)")
                     self.doneLoading()
                 }
             }
@@ -318,7 +338,7 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
         var newFollowArray: [String] = []
         let _ = followCollection.whereField("follower", isEqualTo: usernameText).addSnapshotListener({ (objects, error) -> Void in
             if error == nil {
-                print("no error")
+//                print("no error")
                 
                 // STEP 2. Hold received data in followArray
                 // find related objects in "follow" class of Parse
@@ -328,7 +348,7 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
                     if followerString != nil  && !newFollowArray.contains(followerString as! String){
                         newFollowArray.append(followerString as! String)
                     }
-                    print("Now this is followArray \(self.followArray)")
+//                    print("Now this is followArray \(self.followArray)")
                 }
                 completion(newFollowArray)
             }
@@ -354,10 +374,10 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
 
     
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
-        print("🎯🎯🎯🎯🎯Hello World")
-        print("🎯🎯🎯🎯🎯🎯🎯I tapped image with tag \(sender.view!.tag)")
+//        print("🎯🎯🎯🎯🎯Hello World")
+//        print("🎯🎯🎯🎯🎯🎯🎯I tapped image with tag \(sender.view!.tag)")
         let username = followingUserDataArray[sender.view!.tag].publicID
-        print("🎯🎯🎯🎯🎯🎯🎯 I tapped image with associated username: \(username)")
+//        print("🎯🎯🎯🎯🎯🎯🎯 I tapped image with associated username: \(username)")
         let guestVC = storyboard?.instantiateViewController(identifier: "guestGridVC") as! GuestHexagonGridVC
         //guestVC.user = user
         guestVC.username = userData!.publicID
@@ -394,12 +414,12 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
         //          // Do any additional setup after loading the view.
         
         var thisIndex = 0
-        print ("following data count \(followingUserDataArray.count)")
+//        print ("following data count \(followingUserDataArray.count)")
         for data in followingUserDataArray.readOnlyArray() {
             //print(coordinates)
             
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-            print("follower username \(data.publicID)")
+//            print("follower username \(data.publicID)")
             let defaultProfileImage = UIImage(named: "boyprofile")
             let image = UIImageView(frame: CGRect(x: reOrderedCoordinateArrayPoints[thisIndex].x,
                                                   y: reOrderedCoordinateArrayPoints[thisIndex].y,
@@ -436,13 +456,12 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
             imageViewArray.append(image)
             imageViewArray[thisIndex].tag = thisIndex
             thisIndex = thisIndex+1
-            print("added profile image")
+//            print("added profile image")
             
         }
         
         //self.view.frame.origin = imageViewArray[0].frame.origin
-        print("imageViewArray: \(imageViewArray)")
-        
+//        print("imageViewArray: \(imageViewArray)")
     }
     
     
