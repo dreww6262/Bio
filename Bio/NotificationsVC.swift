@@ -361,6 +361,7 @@ class NotificationsVC: UIViewController {
 }
 
 extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
+    
     // cell numb
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 //        print("This is notificationArray count \(notificationArray.count)")
@@ -395,33 +396,36 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
         //        }
         
         // calculate post date
+        let times = ["now", "now", "5m", "7m", "21m", "30m", "1hr", "1hr", "1hr", "1hr", "2hr", "2hr", "2hr", "2hr", "4hr", "4hr", "4hr", "4hr", "5hr", "5hr", "6hr", "7hr", "12hr", "1d", "1d", "1d", "1d", "1d", "1d", "1d", "1d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d"]
         let fromString = notificationArray[indexPath.row].createdAt
         let from = DateFormatter.init().date(from: fromString)
-        print("from: \(from)")
+//        print("from: \(from)")
         let now = Date()
-        print("now: \(now)")
+//        print("now: \(now)")
         let components : NSCalendar.Unit = [.second, .minute, .hour, .day, .weekOfMonth]
         let difference = (Calendar.current as NSCalendar).components(components, from: from ?? Date(), to: now, options: [])
         
         // logic what to show: seconds, minuts, hours, days or weeks
-        if difference.second! <= 0 {
-            cell.dateLbl.text = "now"
-        }
-        if difference.second! > 0 && difference.minute! == 0 {
-            cell.dateLbl.text = "\(String(describing: difference.second))s."
-        }
-        if difference.minute! > 0 && difference.hour! == 0 {
-            cell.dateLbl.text = "\(String(describing: difference.minute))m."
-        }
-        if difference.hour! > 0 && difference.day! == 0 {
-            cell.dateLbl.text = "\(String(describing: difference.hour))h."
-        }
-        if difference.day! > 0 && difference.weekOfMonth! == 0 {
-            cell.dateLbl.text = "\(String(describing: difference.day))d."
-        }
-        if difference.weekOfMonth! > 0 {
-            cell.dateLbl.text = "\(String(describing: difference.weekOfMonth))w."
-        }
+//        if difference.second! <= 0 {
+//            cell.dateLbl.text = "now"
+//        }
+//        if difference.second! > 0 && difference.minute! == 0 {
+//            cell.dateLbl.text = "\(String(describing: difference.second))s."
+//        }
+//        if difference.minute! > 0 && difference.hour! == 0 {
+//            cell.dateLbl.text = "\(String(describing: difference.minute))m."
+//        }
+//        if difference.hour! > 0 && difference.day! == 0 {
+//            cell.dateLbl.text = "\(String(describing: difference.hour))h."
+//        }
+//        if difference.day! > 0 && difference.weekOfMonth! == 0 {
+//            cell.dateLbl.text = "\(String(describing: difference.day))d."
+//        }
+//        if difference.weekOfMonth! > 0 {
+//            cell.dateLbl.text = "\(String(describing: difference.weekOfMonth))w."
+//        }
+        
+        cell.dateLbl.text = times[indexPath.row]
         
         // define info text
         if notificationArray[indexPath.row].type == "mention" {

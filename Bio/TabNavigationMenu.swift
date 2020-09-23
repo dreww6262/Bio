@@ -110,34 +110,34 @@ class TabNavigationMenu: UIView {
     }
     
     func prepareForeSwitch(tab: Int) {
-        switch tab {
-                case 0:
-                    print("notifications tab")
+//        switch tab {
+//                case 0:
+//                    print("notifications tab")
                     // settings does not need to refresh
         //            (tabItems![tab].viewController as! HomeHexagonGrid).refresh()
-                case 1:
-                    print("dm tab")
+//                case 1:
+//                    print("dm tab")
                     // change to valid DM View Controller
                     //(tabItems![tab].viewController as! dms).refresh()
-                case 2:
-                    print("home tab")
+//                case 2:
+//                    print("home tab")
 //                    let homeGrid = (tabItems![tab].viewController as! HomeHexagonGrid)
                     //homeGrid.loadView()
                     //homeGrid.refresh()
-                case 3:
-                    print("friends tab")
+//                case 3:
+//                    print("friends tab")
 //                    let friendsGrid = (tabItems![tab].viewController as! BioProfileHexagonGrid2)
                     //friendsGrid.loadView()
                     //friendsGrid.refresh()
-                case 4:
-                    print("add Post tab")
+//                case 4:
+//                    print("add Post tab")
 //                    let newPostVC = (tabItems![tab].viewController as! NewPostColorfulVC)
                     //newPostVC.loadView()
                     //newPostVC.refresh()
                     // add post does not need to refresh
         //            .refresh()
-                case 5:
-                    print("signin tab")
+//                case 5:
+//                    print("signin tab")
                     // sign in does not need to refresh
 //                    let phoneVC = (tabItems![tab].viewController as! PhoneSignInVC)
 //                              print("settings tab")
@@ -145,9 +145,9 @@ class TabNavigationMenu: UIView {
 //                              let settingsVC = (tabItems![tab].viewController as! SettingsVCGradient)
                     //phoneVC.loadView()
         //            (tabItems![tab].viewController as! HomeHexagonGrid).refresh()
-                default:
-                    print("not possible... not a valid tab")
-                }
+//                default:
+//                    print("not possible... not a valid tab")
+//                }
     }
     
     func deactivateTab(tab: Int) {

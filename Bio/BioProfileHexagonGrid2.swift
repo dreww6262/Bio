@@ -170,7 +170,7 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
 //        print("contentviewframe: \(contentView.frame)")
         resetCoordinatePoints()
         let contentOffset = CGPoint(x: contentView.frame.width/2 - view.frame.width/2, y: contentView.frame.height/2 - view.frame.height/2)
-        print(contentOffset)
+//        print(contentOffset)
         scrollView.contentOffset = contentOffset
     }
     
