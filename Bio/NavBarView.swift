@@ -33,15 +33,15 @@ class NavBarView: UIView {
     func addBehavior() {
         
         self.isUserInteractionEnabled = true
-        let superView = self.superview!
-        let superFrame = superView.frame
-        self.addSubview(backButton)
+        //let superView = self.superview!
+        //let superFrame = superView.frame
+        //self.addSubview(backButton)
             
-        backButton.frame = CGRect(x: 5, y: 5, width: 44, height: self.frame.height)
+        //backButton.frame = CGRect(x: 5, y: 5, width: 44, height: self.frame.height)
         
-        self.addSubview(titleLabel)
-        titleLabel.frame = CGRect(x: self.frame.midX - 30, y: self.frame.height/4, width: 60, height: self.frame.height/2)
-        titleLabel.text = "Settings"
+        //self.addSubview(titleLabel)
+        //titleLabel.frame = CGRect(x: self.frame.midX - 30, y: self.frame.height/4, width: 60, height: self.frame.height/2)
+        //titleLabel.text = "Settings"
         //let backTap = UITapGestureRecognizer(target: self, action: #selector(backButtonTapped))
         //backButton.addGestureRecognizer(backTap)
 
