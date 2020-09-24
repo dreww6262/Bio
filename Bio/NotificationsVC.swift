@@ -83,7 +83,7 @@ class NotificationsVC: UIViewController {
     
     func loadData(completed: @escaping () -> ()) {
 //        print("in load notifications funtion")
-        //let notificationsQuery = db.collection("News").whereField("currentUser", isEqualTo: userData?.publicID)
+        //le;t notificationsQuery = db.collection("News").whereField("currentUser", isEqualTo: userData?.publicID)
         let notificationsQuery = db.collection("News2").whereField("currentUser", isEqualTo: userData!.publicID)
 //        print("This is notification query \(notificationsQuery)")
         notificationsQuery.addSnapshotListener { (querySnapshot, error) in
