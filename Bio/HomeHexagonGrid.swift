@@ -399,8 +399,10 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                     if (hexData.isArchived == true) {
                         continue
                     }
-                    let hexImage = self.createPostImage(hexData: hexData)
-                    newPostImageArray.append(hexImage)
+                    if (newPostImageArray.count < 38 && hexData.location > 0) {
+                        let hexImage = self.createPostImage(hexData: hexData)
+                        newPostImageArray.append(hexImage)
+                    }
                 }
                 self.resizeScrollView(numPosts: newPostImageArray.count) // clears out all content
                 

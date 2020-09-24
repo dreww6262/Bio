@@ -197,17 +197,17 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
     }
     
     func setZoomScale() {
-        let imageViewSize = contentView.bounds.size
-        let scrollViewSize = scrollView.bounds.size
-        let widthScale = scrollViewSize.width / imageViewSize.width
-        let heightScale = scrollViewSize.height / imageViewSize.height
-        
+//        let imageViewSize = contentView.bounds.size
+//        let scrollViewSize = scrollView.bounds.size
+//        let widthScale = scrollViewSize.width / imageViewSize.width
+//        let heightScale = scrollViewSize.height / imageViewSize.height
+//
 //        print("width scale: \(widthScale)")
 //        print("height scale: \(heightScale)")
-         scrollView.minimumZoomScale = min(widthScale, heightScale)
+//         scrollView.minimumZoomScale = min(widthScale, heightScale)
         //scrollView.zoomScale = scrollView.minimumZoomScale
         scrollView.maximumZoomScale = 60
-        //scrollView.minimumZoomScale = 0.5
+        scrollView.minimumZoomScale = 1
     }
     
     override func viewWillLayoutSubviews() {
@@ -264,6 +264,7 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        scrollView.zoomScale = 1
         menuView.tabController = (tabBarController! as! NavigationMenuBaseController)
         menuView.userData = userData
         refresh()
