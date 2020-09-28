@@ -37,6 +37,7 @@ class PhoneSignInVC: UIViewController {
      //  setGradientBackground()
         super.viewWillAppear(true)
         navigationController?.navigationBar.isHidden = true
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         //     self.view.addSubview(popUpView)
         
     }

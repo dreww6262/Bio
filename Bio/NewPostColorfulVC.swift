@@ -106,6 +106,7 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         super.viewWillAppear(animated)
         menuView.tabController = (tabBarController! as! NavigationMenuBaseController)
         menuView.userData = userData

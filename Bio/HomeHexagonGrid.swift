@@ -415,6 +415,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                     self.contentView.bringSubviewToFront(image)
                     image.isHidden = false
                 }
+                self.contentView.bringSubviewToFront(self.avaImage!)
             }
         })
     }
