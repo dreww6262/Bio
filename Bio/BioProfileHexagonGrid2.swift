@@ -108,6 +108,7 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
         scrollView.backgroundColor = .black
         contentView.backgroundColor = .black
         contentView.isHidden = false
+        scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         resizeScrollView(numFollowers: 0)
         
     }
@@ -137,27 +138,27 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
     // Zoom Logic
     func resizeScrollView(numFollowers: Int) {
 //        print("Contentviewframebeforeresize \(contentView.frame)")
-        var rows = 0
+        //var rows = 0
         var width = view.frame.width
         var height = view.frame.height
         let additionalRowWidth: CGFloat = 340.0
         //     let heightDifference = height - width
         if numFollowers < 7 {
-            rows = 1
+            //rows = 1
             //self.scrollView.frame.width =
         }
         else if numFollowers < 19 {
-            rows = 2
+            //rows = 2
             height += additionalRowWidth
             width += additionalRowWidth
         }
         else if numFollowers  < 43 {
-            rows = 3
+            //rows = 3
             width += (2*additionalRowWidth)
             height = (2*additionalRowWidth)
         }
         else if numFollowers < 91 {
-            rows = 4
+            //rows = 4
             width += (3*additionalRowWidth)
             height += (3*additionalRowWidth)
         }
@@ -169,7 +170,7 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
         }
         
         contentView.frame = CGRect(x: 0,y: 0,width: width, height: height)
-        scrollView.contentSize = contentView.frame.size
+        scrollView.contentSize = CGSize(width: width, height: height)
 //        print("contentviewframe: \(contentView.frame)")
         resetCoordinatePoints()
         let contentOffset = CGPoint(x: contentView.frame.width/2 - view.frame.width/2, y: contentView.frame.height/2 - view.frame.height/2)
@@ -222,7 +223,6 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
         let horizontalPadding = imageViewSize.width < scrollViewSize.width ? (scrollViewSize.width - imageViewSize.width)/2 : 0
         
         scrollView.contentInset = UIEdgeInsets(top: verticalPadding, left: horizontalPadding, bottom: verticalPadding, right: horizontalPadding)
-        scrollView.isHidden = true
     }
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
