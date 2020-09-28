@@ -66,7 +66,16 @@ class MenuView: UIView {
                         }
                         
                         if docs.count == 0 {
-                            print("no userdata found.... fix this")
+                            print("no userdata found for this user.  Return to sign in")
+                            do {
+                                try Auth.auth().signOut()
+                            }
+                            catch {
+                                print("could not sign out from firebase")
+                            }
+                            self.user = nil
+                            self.userData = nil
+                            self.tabController?.customTabBar.switchTab(from: self.currentTab, to: 5)
                         }
                         else if docs.count > 1 {
                             print("multiple user data.... fix this")
@@ -76,6 +85,12 @@ class MenuView: UIView {
                         }
                     }
                 })
+            }
+            else {
+                print("no user signed in.  Transitioning to sign in")
+                self.user = nil
+                self.userData = nil
+                self.tabController?.customTabBar.switchTab(from: self.currentTab, to: 5)
             }
         }
         

@@ -243,10 +243,16 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
             if (userData == nil || userData?.email != user?.email) {
                 db.collection("UserData1").document(user!.uid).getDocument(completion: {obj,error in
                     if (error == nil) {
-                        self.userData = UserData(dictionary: obj!.data()!)
-                        self.menuView.userData = self.userData
-//                        print("should load followings, userdata was found: \(self.userData?.email)")
-                        self.loadFollowings()
+                        let data = obj?.data()
+                        if data != nil {
+                            self.userData = UserData(dictionary: obj!.data()!)
+                            self.menuView.userData = self.userData
+    //                        print("should load followings, userdata was found: \(self.userData?.email)")
+                            self.loadFollowings()
+                        }
+                        else {
+                            print("Userdata data was nil")
+                        }
                     }
                     else {
                         print("could not load userdata from \(self.user?.email)")
