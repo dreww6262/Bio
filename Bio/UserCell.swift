@@ -91,15 +91,11 @@ class UserCell: UITableViewCell {
 //                button?.imageView?.image = UIImage(named: "checkmark32x32")
 //                sender.imageView?.image = UIImage(named: "checkmark32x32")
                 button?.tag = 1
-//                print("It's supposed to change to check")
-//                button?.frame = CGRect(x: width - width / 4.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
-//                button?.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
-                
                 
                 
                 let notificationObjectref = db.collection("News2")
                    let notificationDoc = notificationObjectref.document()
-                let notificationObject = NewsObject(ava: userData!.avaRef, type: "follow", currentUser: userData!.publicID, notifyingUser: userData!.publicID, thumbResource: userData!.avaRef, createdAt: NSDate.now.description, checked: false, notificationID: notificationDoc.documentID)
+                let notificationObject = NewsObject(ava: userData!.avaRef, type: "follow", currentUser: userData!.publicID, notifyingUser: cell.usernameLbl.text!, thumbResource: userData!.avaRef, createdAt: NSDate.now.description, checked: false, notificationID: notificationDoc.documentID)
                    notificationDoc.setData(notificationObject.dictionary){ error in
                        //     group.leave()
                        if error == nil {

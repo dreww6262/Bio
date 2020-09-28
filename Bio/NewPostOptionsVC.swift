@@ -163,7 +163,7 @@ class NewPostOptionsVC: UIViewController { //, FMPhotoPickerViewControllerDelega
         
         l3.frame = CGRect(x: self.view.frame.width/12, y: pic3.frame.maxY + 30.0, width: self.view.frame.width/3, height: 33.0)
         
-        l4.frame = CGRect(x: self.view.frame.width*7/12, y: pic4.frame.maxY + 30.0, width: self.view.frame.width/3, height: 33.0)
+       // l4.frame = CGRect(x: self.view.view4.frame.minX, y: pic4.frame.maxY + 30.0, width: self.view.view4.frame.width, height: 33.0)
     }
 }
 

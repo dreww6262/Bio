@@ -767,6 +767,28 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         }
     }
     
+    func textToImage(drawText text: String, inImage image: UIImage, atPoint point: CGPoint) -> UIImage {
+       let textColor = UIColor.white
+       let textFont = UIFont(name: "DINAternate-Bold", size: 12)
+
+       let scale = UIScreen.main.scale
+       UIGraphicsBeginImageContextWithOptions(image.size, false, scale)
+
+       let textFontAttributes = [
+        NSAttributedString.Key.font: textFont as Any,
+        NSAttributedString.Key.foregroundColor: textColor,
+       ] as [NSAttributedString.Key : Any]
+       image.draw(in: CGRect(origin: CGPoint.zero, size: image.size))
+
+       let rect = CGRect(origin: point, size: image.size)
+       text.draw(in: rect, withAttributes: textFontAttributes)
+
+       let newImage = UIGraphicsGetImageFromCurrentImageContext()
+       UIGraphicsEndImageContext()
+
+       return newImage!
+    }
+    
     
     func populateUserAvatar() {
         // to for hexstruct array once algorithm done
@@ -783,14 +805,25 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         avaImage?.addGestureRecognizer(tapGesture1)
         avaImage?.isHidden = false
         contentView.bringSubviewToFront(avaImage!)
-        avaImage!.setupHexagonMask(lineWidth: 10.0, color: white, cornerRadius: 10.0)
+      //  avaImage!.setupHexagonMask(lineWidth: 10.0, color: white, cornerRadius: 10.0)
+        avaImage?.layer.cornerRadius = (avaImage?.frame.size.width)! / 2
+         avaImage?.clipsToBounds = true
+        avaImage?.layer.borderColor = UIColor.white.cgColor
+        //avaImage?.layer.borderWidth = 0 (avaImage?.frame.width)!/30
+        avaImage?.layer.borderWidth = (avaImage?.frame.width)!/30
+        var myCenter = avaImage?.center
+       // var mySize = avaImage?.bounds*
+        
         let cleanRef = userData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
         avaImage!.sd_setImage(with: url!, completed: {_, error, _, _ in
             if error != nil {
                 print(error!.localizedDescription)
             }
+          // self.textToImage(drawText: "Caye", inImage: (self.avaImage?.image)!, atPoint: CGPoint(x: 5, y: 5))
         })
+   
+        
         //print("avaFrame: \(avaImage!.frame)")
     }
     
