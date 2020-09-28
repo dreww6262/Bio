@@ -18,10 +18,10 @@ import FirebaseAuth
 class PhoneSignInVC: UIViewController {
     @IBOutlet weak var mottoLabel: UILabel!
     @IBOutlet weak var signUpButton: UIButton!
-    
-    @IBOutlet weak var gradientImage: UILabel!
+
     @IBOutlet weak var signIn: UIButton!
     
+    @IBOutlet weak var logo: UIImageView!
     @IBOutlet weak var popUpView: SignUpPopUpView!
     
     @IBOutlet weak var signUpLabel: UILabel!
@@ -74,10 +74,24 @@ class PhoneSignInVC: UIViewController {
         signUpButton.layer.borderColor = UIColor.white.cgColor
         signIn.frame = CGRect(x: (self.view.frame.size.width-224)/2, y: signUpButton.frame.maxY + 20, width: 224, height: 44)
         mottoLabel.frame = CGRect(x: 0, y: signUpButton.frame.minY - 60, width: self.view.frame.size.width, height: 50)
-        
+        mottoLabel.text = "Get Discovered"
+  //      signUpButton.layer.borderWidth = 0.5
+       // signUpButton.layer.borderColor = white.cgColor
+   //    signUpMottoLabel.text = "Get Discovered."
         //loginButton.frame = CGRect(x: (self.view.frame.size.width-224)/2, y: signInButton.frame.maxY + 20, width: 224, height: 44)
         
+        logo.setupHexagonMask(lineWidth: logo.frame.width/15, color: myBlueGreen, cornerRadius: logo.frame.width/15)
+        logo.frame = CGRect(x: 0, y: view.frame.height/16, width: view.frame.width, height: view.frame.width)
         
+        
+        signUpButton.layer.borderColor = white.cgColor
+        signUpButton.layer.borderWidth = 1.0
+        signUpButton.layer.cornerRadius = signUpButton.frame.size.width / 20
+        signIn.layer.cornerRadius = signIn.frame.size.width / 20
+        
+    //    logo.pulse(withIntensity: 1.2, withDuration: ,loop: true)
+        
+        signUpButton.layer.cornerRadius = signUpButton.layer.frame.width / 20
         
         // tap to hide keyboard
         let hideTap = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard(_:)))
@@ -93,7 +107,13 @@ class PhoneSignInVC: UIViewController {
         
     }
     
-
+    @IBAction func signInPressed(_ sender: UIButton) {
+        let signInVC = storyboard?.instantiateViewController(identifier: "signInVC") as! SignInVC
+               //signUpVC.userData = userData
+               self.present(signInVC, animated: false)
+               signInVC.modalPresentationStyle = .fullScreen
+    }
+    
     @IBAction func createAccountPressed(_ sender: UIButton) {
         let signUpVC = storyboard?.instantiateViewController(identifier: "signUpID") as! GoodBioSignUpVC
                //signUpVC.userData = userData

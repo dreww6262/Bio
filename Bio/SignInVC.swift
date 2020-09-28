@@ -22,15 +22,19 @@ class SignInVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        signInButton.layer.cornerRadius = signInButton.frame.width/20
         // Do any additional setup after loading the view.
+       var rect1 = signInButton.frame
+        signInButton.frame = CGRect(x: rect1.minX, y: rect1.minY, width: rect1.width, height: rect1
+                                        .height*(5/4))
     }
     
  func formatStuff() {
     emailText.frame = CGRect(x: self.view.frame.width/2 - 50, y: self.view.frame.height-66, width: 100, height: 44)
     passwordText.frame = CGRect(x: emailText.frame.minX, y: emailText.frame.maxY + 10, width: 100, height: 44)
-    signInButton.frame = CGRect(x: passwordText.frame.minX, y: passwordText.frame.maxY + 10, width: 100, height: 44)
+    signInButton.frame = CGRect(x: passwordText.frame.minX, y: passwordText.frame.maxY + 10, width: 100, height: 66)
     cancelButton.frame = CGRect(x: signInButton.frame.minX, y: signInButton.frame.maxY + 10, width: 100, height: 44)
+    signInButton.layer.cornerRadius = signInButton.frame.width/20
     }
     
     
@@ -50,7 +54,12 @@ class SignInVC: UIViewController {
     }
     
     @IBAction func cancelButtonClicked(_ sender: Any) {
-        self.dismiss(animated: false, completion: nil)
+       
+            
+            // hide keyboard when pressed cancel
+            self.view.endEditing(true)
+            
+            self.dismiss(animated: true, completion: nil)
     }
     /*
     // MARK: - Navigation

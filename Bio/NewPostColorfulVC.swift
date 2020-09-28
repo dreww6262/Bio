@@ -248,7 +248,7 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         view4.frame = frame4
         view1.addSubview(pic1)
         pic1.frame = CGRect(x: self.view1.frame.width/4, y: self.view1.frame.height/12, width: self.view1.frame.width/2, height: self.view1.frame.width/2)
-        l1.frame =  CGRect(x: self.view1.frame.width/12, y: self.pic1.frame.maxY + 10, width: self.view1.frame.width*(10/12), height: 44)
+        l1.frame =  CGRect(x: 0, y: self.pic1.frame.maxY + 10, width: self.view1.frame.width, height: 44)
         
         var piclabelHeight = l1.frame.maxY - pic1.frame.minY
         
@@ -260,7 +260,7 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         view2.addSubview(pic2)
         pic2.frame = CGRect(x: self.view2.frame.width/4, y: self.view2.frame.height/12, width: self.view2.frame.width/2, height: self.view2.frame.width/2)
         
-        l2.frame =  CGRect(x: self.view2.frame.width/12, y: self.pic2.frame.maxY + 10, width: self.view2.frame.width*(10/12), height: 44)
+        l2.frame =  CGRect(x: 0, y: self.pic2.frame.maxY + 10, width: self.view2.frame.width, height: 44)
         
         pic2.frame = CGRect(x: pic2.frame.minX, y: (frame1.height-piclabelHeight)/2, width: pic2.frame.width, height: pic2.frame.height)
         
@@ -268,7 +268,7 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         
         view3.addSubview(pic3)
         pic3.frame = CGRect(x: view3.frame.width/4, y: self.view3.frame.height/12, width: self.view3.frame.width/2, height: view3.frame.width/2)
-        l3.frame =  CGRect(x: self.view3.frame.width/12, y: self.pic3.frame.maxY + 10, width: self.view3.frame.width*(10/12), height: 44)
+        l3.frame =  CGRect(x: 0, y: self.pic3.frame.maxY + 10, width: self.view3.frame.width, height: 44)
         
         pic3.frame = CGRect(x: pic3.frame.minX, y: (frame1.height-piclabelHeight)/2, width: pic3.frame.width, height: pic3.frame.height)
         
@@ -277,7 +277,7 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         
         view4.addSubview(pic4)
         pic4.frame = CGRect(x: view4.frame.width/4, y: view4.frame.height/12, width: view4.frame.width/2, height: view4.frame.width/2)
-        l4.frame =  CGRect(x: self.view4.frame.width/12, y: self.pic4.frame.maxY + 10, width: self.view4.frame.width*(10/12), height: 44)
+        l4.frame =  CGRect(x: 0, y: self.pic4.frame.maxY + 10, width: self.view4.frame.width, height: 44)
         
         pic4.frame = CGRect(x: pic4.frame.minX, y: (frame4.height-piclabelHeight)/2, width: pic4.frame.width, height: pic4.frame.height)
         

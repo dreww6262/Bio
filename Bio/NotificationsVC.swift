@@ -84,7 +84,7 @@ class NotificationsVC: UIViewController {
     func loadData(completed: @escaping () -> ()) {
 //        print("in load notifications funtion")
         //le;t notificationsQuery = db.collection("News").whereField("currentUser", isEqualTo: userData?.publicID)
-        let notificationsQuery = db.collection("News2").whereField("currentUser", isEqualTo: userData!.publicID)
+        let notificationsQuery = db.collection("News2").whereField("notifyingUser", isEqualTo: userData!.publicID)
 //        print("This is notification query \(notificationsQuery)")
         notificationsQuery.addSnapshotListener { (querySnapshot, error) in
             guard error == nil else {
@@ -270,6 +270,48 @@ class NotificationsVC: UIViewController {
         })
     }
     
+
+    // clicked photo button
+    @IBAction func photo_click(_ sender: UIImageView) {
+//        print("UserName Clicked")
+        // call index of button
+        let i = sender.layer.value(forKey: "index") as! IndexPath
+//        print("This is i: \(i)")
+        
+        // call cell to call further cell data
+        let cell = tableView.cellForRow(at: i) as! newsCell
+        let username = cell.usernameBtn.titleLabel?.text!
+//        print("This is cell.usernabeButton.title \(username)")
+        
+        db.collection("UserData1").whereField("publicID", isEqualTo: username).addSnapshotListener({ objects, error in
+            if error == nil {
+                guard let docs = objects?.documents else{
+                    print("no docs?")
+                    return
+                }
+                if docs.count > 1 {
+                    print("Too many docs \(docs)")
+                }
+                else if (docs.count == 0) {
+                    print("no username")
+                }
+                else {
+                    let userdata = UserData(dictionary: docs[0].data())
+                    let guestVC = self.storyboard!.instantiateViewController(identifier: "guestGridVC") as! GuestHexagonGridVC
+                    guestVC.userData = userdata
+                    guestVC.username = self.userData!.publicID
+                    self.present(guestVC, animated: false)
+                    self.modalPresentationStyle = .fullScreen
+                }
+            }
+            else {
+                print("pulling up guest vc userdata failed")
+            }
+        })
+    }
+    
+    
+    
     
     // clicked username button
     @IBAction func usernameBtn_click(_ sender: AnyObject) {
@@ -310,53 +352,6 @@ class NotificationsVC: UIViewController {
         })
     }
     
-    //        override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    //            return self.view.frame.size.height/10
-    //        }
-    //
-    //
-    //    // clicked cell
-    //    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    //
-    //        // call cell for calling cell data
-    //        let cell = tableView.cellForRow(at: indexPath) as! newsCell
-    //
-    //
-    //        // going to @menionted comments
-    //        if cell.infoLbl.text == "has mentioned you." {
-    //
-    //        }
-    //
-    //
-    //        // going to own comments
-    //        if cell.infoLbl.text == "has commented your post." {
-    //
-    //        }
-    //
-    //
-    //        // going to user followed current user
-    //        if cell.infoLbl.text == "now following you." {
-    //            // take guestname
-    //        //    guestname.append(cell.usernameBtn.titleLabel!.text!)
-    //
-    //            // go guest
-    //            let guest = self.storyboard?.instantiateViewController(withIdentifier: "guestVC") as! GuestHexagonGridVC
-    //            self.navigationController?.pushViewController(guest, animated: true)
-    //        }
-    //
-    //
-    //        // going to liked post
-    //        if cell.infoLbl.text == "likes your post." {
-    //
-    //            // take post uuid
-    ////            postuuid.append(uuidArray[indexPath.row])
-    ////
-    ////            // go post
-    ////            let post = self.storyboard?.instantiateViewController(withIdentifier: "postVC") as! postVC
-    ////            self.navigationController?.pushViewController(post, animated: true)
-    //        }
-    //
-    //    }
     
 }
 
@@ -375,7 +370,7 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "newsCell") as! newsCell
         cell.frame = CGRect(x: cell.frame.minX, y: cell.frame.minY, width: view.frame.width, height: 43.5)
         // connect cell objects with received data from server
-        cell.usernameBtn.setTitle(notificationArray[indexPath.row].notifyingUser, for: UIControl.State())
+        cell.usernameBtn.setTitle(notificationArray[indexPath.row].currentUser, for: UIControl.State())
         //print("cell frame: \(cell.frame)")
         let ref = storage.child(notificationArray[indexPath.row].thumbResource)
         cell.avaImg.sd_setImage(with: ref)
@@ -387,13 +382,6 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
                                     , height: 30)
         
         
-        //        avaArray[indexPath.row].getDataInBackground { (data, error) -> Void in
-        //            if error == nil {
-        //                cell.avaImg.image = UIImage(data: data!)
-        //            } else {
-        //                print(error!.localizedDescription)
-        //            }
-        //        }
         
         // calculate post date
         let times = ["now", "now", "5m", "7m", "21m", "30m", "1hr", "1hr", "1hr", "1hr", "2hr", "2hr", "2hr", "2hr", "4hr", "4hr", "4hr", "4hr", "5hr", "5hr", "6hr", "7hr", "12hr", "1d", "1d", "1d", "1d", "1d", "1d", "1d", "1d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d"]
