@@ -288,6 +288,31 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         setZoomScale()
     }
     
+    func shrinkImage(imageView: UIImageView) {
+        var shrinkFactor = CGFloat(0.0666666666667) // 1/15
+        var currentImageViewFrame = imageView.frame
+        print("This is currentImageViewFrame \(currentImageViewFrame)")
+        var shrunkFrame = CGRect(x: currentImageViewFrame.minX, y: currentImageViewFrame.minY, width: imageView.frame.width*(14/15), height: imageView.frame.height*(14/15))
+        print("This is shrunkFrame \(shrunkFrame)")
+       
+        print("This is shrinkFactor \(shrinkFactor)")
+        print("shrunk frame min x = \(shrunkFrame.minX)")
+        print("shrunk frame min y = \(shrunkFrame.minY)")
+        print("shrunk frame width = \(shrunkFrame.width)")
+        var product = shrinkFactor*(shrunkFrame.width)
+        print("This is product \(product)")
+        shrunkFrame = CGRect(x: shrunkFrame.minX + (shrunkFrame.width*shrinkFactor/2), y: shrunkFrame.minY + (shrunkFrame.height*shrinkFactor/2), width: shrunkFrame.width, height: shrunkFrame.height)
+        print("This is shrunk Frame moved \(shrunkFrame)")
+        imageView.frame = shrunkFrame
+        imageView.layer.cornerRadius = (imageView.frame.width)/2
+        imageView.layer.borderWidth = imageView.frame.width/15
+        imageView.layer.borderColor = white.cgColor
+   imageView.clipsToBounds = true
+        imageView.layer.masksToBounds = true
+        
+        
+    }
+    
     
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
         let imageViewSize = contentView.frame.size
@@ -433,6 +458,16 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                                  y: self.reOrderedCoordinateArrayPoints[image.hexData!.location].y, width: hexaDiameter, height: hexaDiameter)
             //image.setupHexagonMask(lineWidth: 10.0, color: myBlueGreen, cornerRadius: 10.0)
             // createHexagonMaskWithCorrespondingColor(imageView: image, type: <#T##String#>)
+            
+//            if image == imageViewArray[0] {
+//                shrinkImage(imageView: image)
+//                image.layer.cornerRadius = (image.frame.size.width)/2
+//                image.clipsToBounds = true
+//                print("This happens!")
+//                print("This is image.frame \(image.frame)")
+//                print("This is corner radius \(image.layer.cornerRadius)")
+//            }
+            
         }
     }
     
@@ -831,13 +866,19 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         avaImage?.addGestureRecognizer(tapGesture1)
         avaImage?.isHidden = false
         contentView.bringSubviewToFront(avaImage!)
-      //  avaImage!.setupHexagonMask(lineWidth: 10.0, color: white, cornerRadius: 10.0)
-        avaImage?.layer.cornerRadius = (avaImage?.frame.size.width)! / 2
-         avaImage?.clipsToBounds = true
+      //  avaImage!.setupHexagonMask(lineWidth: avaImage!.frame.width/15, color: white, cornerRadius: avaImage!.frame.width/15)
+        var scaleFactor = CGFloat(0.10)
+        var widthShavedOff = scaleFactor*CGFloat(avaImage!.frame.width)
+        var smallerFrame = CGRect(x: avaImage!.frame.minX, y: avaImage!.frame.minY, width: avaImage!.frame.width*CGFloat(0.90), height: avaImage!.frame.height*CGFloat(0.90))
+        avaImage!.frame = smallerFrame
+        avaImage!.frame = CGRect(x: smallerFrame.minX + (widthShavedOff/2), y: smallerFrame.minY + (widthShavedOff/2), width: smallerFrame.width, height: smallerFrame.height)
+        avaImage!.layer.cornerRadius = (avaImage!.frame.size.width)/2
+        avaImage?.clipsToBounds = true
+        avaImage?.layer.masksToBounds = true
         avaImage?.layer.borderColor = UIColor.white.cgColor
-        //avaImage?.layer.borderWidth = 0 (avaImage?.frame.width)!/30
         avaImage?.layer.borderWidth = (avaImage?.frame.width)!/30
         var myCenter = avaImage?.center
+//        shrinkImage(imageView: avaImage!)
        // var mySize = avaImage?.bounds*
         
         let cleanRef = userData!.avaRef.replacingOccurrences(of: "/", with: "%2F")

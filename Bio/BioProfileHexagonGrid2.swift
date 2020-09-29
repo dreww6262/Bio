@@ -470,10 +470,20 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
             //    var gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
        
             if thisIndex == 0 {
-                image.layer.cornerRadius = image.frame.size.width / 2
-                image.layer.borderWidth = image.frame.width/30
-                image.layer.borderColor = white.cgColor
+//                image.layer.cornerRadius = image.frame.size.width / 2
+//                image.layer.borderWidth = image.frame.width/30
+//                image.layer.borderColor = white.cgColor
+//                image.clipsToBounds = true
+                var scaleFactor = CGFloat(0.10)
+                var widthShavedOff = scaleFactor*CGFloat(image.frame.width)
+                var smallerFrame = CGRect(x: image.frame.minX, y: image.frame.minY, width: image.frame.width*CGFloat(0.90), height: image.frame.height*CGFloat(0.90))
+                image.frame = smallerFrame
+                image.frame = CGRect(x: smallerFrame.minX + (widthShavedOff/2), y: smallerFrame.minY + (widthShavedOff/2), width: smallerFrame.width, height: smallerFrame.height)
+                image.layer.cornerRadius = (image.frame.size.width)/2
                 image.clipsToBounds = true
+                image.layer.masksToBounds = true
+                image.layer.borderColor = UIColor.white.cgColor
+                image.layer.borderWidth = (image.frame.width)/30
             }
             else {
                 image.setupHexagonMask(lineWidth: image.frame.width/15, color: .darkGray, cornerRadius: image.frame.width/15)
