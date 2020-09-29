@@ -385,35 +385,51 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
         
         // calculate post date
         let times = ["now", "now", "5m", "7m", "21m", "30m", "1hr", "1hr", "1hr", "1hr", "2hr", "2hr", "2hr", "2hr", "4hr", "4hr", "4hr", "4hr", "5hr", "5hr", "6hr", "7hr", "12hr", "1d", "1d", "1d", "1d", "1d", "1d", "1d", "1d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d"]
-        let fromString = notificationArray[indexPath.row].createdAt
-        let from = DateFormatter.init().date(from: fromString)
+        
+     //   let times = ["now", "5m", "7m", "21m", "30m", "1hr", "2hr", "4hr", "5hr", "6hr", "7hr", "12hr", "1d", "2d", "3d","4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d"]
+        
+      //  let isoDate = "2016-04-14T10:44:00+0000"
+
+       // let dateFormatter = ISO8601DateFormatter()
+        let dateFormatter = DateFormatter()
+       // dateFormatter.dateFormat = "yyyy-MM-dd' 'HH:mm:ssZ"
+        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss" //"yyyy-MM-dd hh:mm:ss.SSSSxxx"  //"yyyy-MM-dd HH:mm:ss.SSSZ" // "yyyy-MM-dd HH:mm:ss"
+        
+        var fromString = notificationArray[indexPath.row].createdAt
+        var fromString1 = fromString.dropLast(6)
+        fromString = "\(fromString1)"
+       let from = dateFormatter.date(from: fromString)
+//    let from = dateFormatter.date(from: fromString)
+        print("This is from: \(from) and fromString: \(fromString)")
 //        print("from: \(from)")
         let now = Date()
+        print("This is now: \(now)")
 //        print("now: \(now)")
         let components : NSCalendar.Unit = [.second, .minute, .hour, .day, .weekOfMonth]
         let difference = (Calendar.current as NSCalendar).components(components, from: from ?? Date(), to: now, options: [])
+        print("This is difference: \(difference)")
         
         // logic what to show: seconds, minuts, hours, days or weeks
-//        if difference.second! <= 0 {
-//            cell.dateLbl.text = "now"
-//        }
-//        if difference.second! > 0 && difference.minute! == 0 {
-//            cell.dateLbl.text = "\(String(describing: difference.second))s."
-//        }
-//        if difference.minute! > 0 && difference.hour! == 0 {
-//            cell.dateLbl.text = "\(String(describing: difference.minute))m."
-//        }
-//        if difference.hour! > 0 && difference.day! == 0 {
-//            cell.dateLbl.text = "\(String(describing: difference.hour))h."
-//        }
-//        if difference.day! > 0 && difference.weekOfMonth! == 0 {
-//            cell.dateLbl.text = "\(String(describing: difference.day))d."
-//        }
-//        if difference.weekOfMonth! > 0 {
-//            cell.dateLbl.text = "\(String(describing: difference.weekOfMonth))w."
-//        }
+        if difference.second! <= 0 {
+            cell.dateLbl.text = "now"
+        }
+        if difference.second! > 0 && difference.minute! == 0 {
+            cell.dateLbl.text = "\(String(describing: difference.second!))s."
+        }
+        if difference.minute! > 0 && difference.hour! == 0 {
+            cell.dateLbl.text = "\(String(describing: difference.minute!))m."
+        }
+        if difference.hour! > 0 && difference.day! == 0 {
+            cell.dateLbl.text = "\(String(describing: difference.hour!))h."
+        }
+        if difference.day! > 0 && difference.weekOfMonth! == 0 {
+            cell.dateLbl.text = "\(String(describing: difference.day!))d."
+        }
+        if difference.weekOfMonth! > 0 {
+            cell.dateLbl.text = "\(String(describing: difference.weekOfMonth!))w."
+        }
         
-        cell.dateLbl.text = times[indexPath.row]
+        //cell.dateLbl.text = times[indexPath.row]
         
         // define info text
         if notificationArray[indexPath.row].type == "mention" {

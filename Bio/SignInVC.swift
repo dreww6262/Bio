@@ -19,6 +19,8 @@ class SignInVC: UIViewController {
     
     @IBOutlet weak var cancelButton: UIButton!
     let auth = Auth.auth()
+    var navBarView = NavBarView()
+    var titleLabel1 = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +29,7 @@ class SignInVC: UIViewController {
        var rect1 = signInButton.frame
         signInButton.frame = CGRect(x: rect1.minX, y: rect1.minY, width: rect1.width, height: rect1
                                         .height*(5/4))
+        setUpNavBarView()
     }
     
  func formatStuff() {
@@ -35,6 +38,23 @@ class SignInVC: UIViewController {
     signInButton.frame = CGRect(x: passwordText.frame.minX, y: passwordText.frame.maxY + 10, width: 100, height: 66)
     cancelButton.frame = CGRect(x: signInButton.frame.minX, y: signInButton.frame.maxY + 10, width: 100, height: 44)
     signInButton.layer.cornerRadius = signInButton.frame.width/20
+    }
+    
+    func setUpNavBarView() {
+        self.view.addSubview(self.navBarView)
+        self.navBarView.addSubview(self.titleLabel1)
+        self.navBarView.addBehavior()
+       
+        self.titleLabel1.text = "Log In"
+        self.navBarView.frame = CGRect(x: 0, y: self.cancelButton.frame.minY/2, width: self.view.frame.width, height: self.view.frame.height/12)
+       // self.tableView.frame = CGRect(x: 0, y: self.view.frame.height/12, width: self.view.frame.width, height: self.view.frame.height*(11/12))
+        self.titleLabel1.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/12)
+        self.titleLabel1.textAlignment = .center
+       
+        self.titleLabel1.font = UIFont(name: "DINAlternate-Bold", size: 25)
+        self.titleLabel1.textColor = .white
+        self.navBarView.backgroundColor = .clear
+        self.navBarView.isUserInteractionEnabled = false
     }
     
     

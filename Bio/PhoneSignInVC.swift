@@ -52,6 +52,8 @@ class PhoneSignInVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        formatLogo()
+        formatLabelAndButtons()
  //       view.backgroundColor = backgroundBlue
   //      setGradientBackground()
         navigationController?.navigationBar.isHidden = true
@@ -71,18 +73,18 @@ class PhoneSignInVC: UIViewController {
         //popUpView.isHidden = true
        
 //        mottoLabel.layer.borderColor = UIColor.white.cgColor
-        signUpButton.frame = CGRect(x: (self.view.frame.width-224)/2 , y: self.view.frame.height*3/4, width: 224, height: 44)
-        signUpButton.layer.borderColor = UIColor.white.cgColor
-        signIn.frame = CGRect(x: (self.view.frame.size.width-224)/2, y: signUpButton.frame.maxY + 20, width: 224, height: 44)
-        mottoLabel.frame = CGRect(x: 0, y: signUpButton.frame.minY - 60, width: self.view.frame.size.width, height: 50)
-        mottoLabel.text = "Get Discovered"
+//        signUpButton.frame = CGRect(x: (self.view.frame.width-224)/2 , y: self.view.frame.height*3/4, width: 224, height: 44)
+//        signUpButton.layer.borderColor = UIColor.white.cgColor
+//        signIn.frame = CGRect(x: (self.view.frame.size.width-224)/2, y: signUpButton.frame.maxY + 20, width: 224, height: 44)
+//        mottoLabel.frame = CGRect(x: 0, y: signUpButton.frame.minY - 60, width: self.view.frame.size.width, height: 50)
+//        mottoLabel.text = "Get Discovered"
   //      signUpButton.layer.borderWidth = 0.5
        // signUpButton.layer.borderColor = white.cgColor
    //    signUpMottoLabel.text = "Get Discovered."
         //loginButton.frame = CGRect(x: (self.view.frame.size.width-224)/2, y: signInButton.frame.maxY + 20, width: 224, height: 44)
         
-        logo.setupHexagonMask(lineWidth: logo.frame.width/15, color: myBlueGreen, cornerRadius: logo.frame.width/15)
-        logo.frame = CGRect(x: 0, y: view.frame.height/16, width: view.frame.width, height: view.frame.width)
+        //logo.setupHexagonMask(lineWidth: logo.frame.width/15, color: myBlueGreen, cornerRadius: logo.frame.width/15)
+      //  logo.frame = CGRect(x: 0, y: view.frame.height/16, width: view.frame.width, height: view.frame.width)
         
         
         signUpButton.layer.borderColor = white.cgColor
@@ -107,6 +109,37 @@ class PhoneSignInVC: UIViewController {
         
         
     }
+    
+    func formatLogo() {
+        let screenWidth = self.view.frame.width
+        let screenHeight = self.view.frame.height
+        self.logo.frame = CGRect(x: screenWidth/32, y: screenHeight/9, width: screenWidth*(30/32), height: screenWidth*(30/32))
+        self.logo.setupHexagonMask(lineWidth: self.logo.frame.width/15, color: myBlueGreen, cornerRadius: self.logo.frame.width/15)
+    }
+    
+   func formatLabelAndButtons() {
+        let screenWidth = self.view.frame.width
+        let screenHeight = self.view.frame.height
+        let logoFrame = logo.frame
+    let logoMaxY = logo.frame.maxY
+    let heightRemaining = screenHeight - logoFrame.maxY
+        //mottoLabel.frame = CGRect(x: <#T##CGFloat#>, y: <#T##CGFloat#>, width: <#T##CGFloat#>, height: <#T##CGFloat#>)
+    let heightOf3ThingsAndSpacing = CGFloat(178)
+    var spaceBelowLogo = (heightRemaining - heightOf3ThingsAndSpacing)/3
+    
+    mottoLabel.frame = CGRect(x: 0, y: logoMaxY + spaceBelowLogo , width: screenWidth, height: 50)
+    
+    
+    signUpButton.frame = CGRect(x: (self.view.frame.width-224)/2 , y: mottoLabel.frame.maxY + 20, width: 224, height: 44)
+    signUpButton.layer.borderColor = UIColor.white.cgColor
+    signIn.frame = CGRect(x: (self.view.frame.size.width-224)/2, y: signUpButton.frame.maxY + 20, width: 224, height: 44)
+ //   mottoLabel.frame = CGRect(x: 0, y: signUpButton.frame.minY - 60, width: self.view.frame.size.width, height: 50)
+    mottoLabel.text = "Get Discovered"
+    
+    
+    
+    }
+    
     
     @IBAction func signInPressed(_ sender: UIButton) {
         let signInVC = storyboard?.instantiateViewController(identifier: "signInVC") as! SignInVC

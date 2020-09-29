@@ -35,6 +35,7 @@ var myTikTokWhite = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
 var myTikTokBlack = #colorLiteral(red: 0.003921568627, green: 0.003921568627, blue: 0.003921568627, alpha: 1)
 var myLinkedInBlue = #colorLiteral(red: 0, green: 0.4470588235, blue: 0.6941176471, alpha: 1)
 
+var shakebleImages : [PostImageView] = []
 
 
 
@@ -176,6 +177,11 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         view.addSubview(menuView)
         menuView.currentTab = 2
         menuView.addBehavior()
+        menuView.dmButton.isHidden = true
+        menuView.homeProfileButton.isHidden = true
+        menuView.friendsButton.isHidden = true
+        menuView.notificationsButton.isHidden = true
+        menuView.newPostButton.isHidden = true
     }
     
     func addSearchButton() {
@@ -412,6 +418,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                 self.changePostImageCoordinates()
                 for image in self.imageViewArray {
                     self.contentView.addSubview(image)
+                    shakebleImages.append(image)
                     self.contentView.bringSubviewToFront(image)
                     image.isHidden = false
                 }
@@ -502,8 +509,62 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
 //        print("🎹🎹🎹🎹🎹🎹🎹🎹🎹")
         var currentHexagonCenter = CGPoint(x:0.0, y:0.0)
         let hexImage = sender.view! as! PostImageView
-        if (sender.state == .ended) {
+       
+        var removedImageView = PostImageView()
+        var removedImageLocation = Int()
+         if sender.state == .began {
+//            print("UIGestureRecognizerStateBegan.")
+            let tappedImage = sender.view as! PostImageView
+            currentHexagonCenter = tappedImage.center
+//            print("yo: This is tapped image.center \(tappedImage.center)")
+            tappedImage.setupHexagonMask(lineWidth: 10.0, color: .red, cornerRadius: 10.0)
+            print("This is the view that is being removed from shake array : \(sender.view?.tag)")
+            removedImageView = shakebleImages[sender.view!.tag]
+            removedImageLocation = sender.view!.tag
+            shakebleImages.remove(at: sender.view!.tag)
+            for shakeyImage in shakebleImages {
+                shakeyImage.shake()
+            }
             
+            //dragItem(sender as! UIPanGestureRecognizer)
+            dragView = (sender.view as! PostImageView)
+            dragView?.center = sender.location(in: scrollView)
+//            print("yo: this is dragView.center before \(dragView!.center)")
+            contentView.bringSubviewToFront(dragView!)
+            trashButton.isHidden = false
+            menuView.menuButton.isHidden = true
+        }
+        else if (sender.state == .changed) {
+            let xDelta = dragView!.center.x - sender.location(in: scrollView).x
+            let yDelta = dragView!.center.y - sender.location(in: scrollView).y
+            dragView?.center = sender.location(in: scrollView)
+//            print("yo: this is dragView.center changed \(dragView!.center)")
+            
+            self.scrollIfNeeded(location: sender.location(in: scrollView.superview), xDelta: xDelta, yDelta: yDelta)
+            //                print("This is newIndex before \(newIndex)")
+            currentHexagonCenter = (sender.view?.center)!
+//            print("This is currentHexagon center changed: \(currentHexagonCenter)")
+            
+            // shake Images
+            for shakeyImage in shakebleImages {
+                shakeyImage.shake()
+            }
+            
+            
+            let hexCenterInView = contentView.convert(currentHexagonCenter, to: view)
+            let _ = findIntersectingHexagon(hexView: dragView!)
+            
+//            print(distance(hexCenterInView, trashButton.center))
+            if (distance(hexCenterInView, trashButton.center) < 70) {
+                trashButton.imageView!.makeRoundedRed()
+//                print("It should be gold")
+            } else {
+                trashButton.imageView!.makeRoundedBlack()
+//                print("This is outside 70")
+            }
+        }
+       else if (sender.state == .ended) {
+            shakebleImages.insert(removedImageView, at: removedImageLocation)
             currentHexagonCenter = (sender.view?.center)!
             let hexCenterInView = scrollView.convert(currentHexagonCenter, to: view)
             if (distance(hexCenterInView, trashButton.center) < 70) {
@@ -552,42 +613,6 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             trashButton.isHidden = true
             menuView.menuButton.isHidden = false
             
-        }
-        else if sender.state == .began {
-//            print("UIGestureRecognizerStateBegan.")
-            let tappedImage = sender.view as! PostImageView
-            currentHexagonCenter = tappedImage.center
-//            print("yo: This is tapped image.center \(tappedImage.center)")
-            tappedImage.setupHexagonMask(lineWidth: 10.0, color: .red, cornerRadius: 10.0)
-            //dragItem(sender as! UIPanGestureRecognizer)
-            dragView = (sender.view as! PostImageView)
-            dragView?.center = sender.location(in: scrollView)
-//            print("yo: this is dragView.center before \(dragView!.center)")
-            contentView.bringSubviewToFront(dragView!)
-            trashButton.isHidden = false
-            menuView.menuButton.isHidden = true
-        }
-        else if (sender.state == .changed) {
-            let xDelta = dragView!.center.x - sender.location(in: scrollView).x
-            let yDelta = dragView!.center.y - sender.location(in: scrollView).y
-            dragView?.center = sender.location(in: scrollView)
-//            print("yo: this is dragView.center changed \(dragView!.center)")
-            
-            self.scrollIfNeeded(location: sender.location(in: scrollView.superview), xDelta: xDelta, yDelta: yDelta)
-            //                print("This is newIndex before \(newIndex)")
-            currentHexagonCenter = (sender.view?.center)!
-//            print("This is currentHexagon center changed: \(currentHexagonCenter)")
-            let hexCenterInView = contentView.convert(currentHexagonCenter, to: view)
-            let _ = findIntersectingHexagon(hexView: dragView!)
-            
-//            print(distance(hexCenterInView, trashButton.center))
-            if (distance(hexCenterInView, trashButton.center) < 70) {
-                trashButton.imageView!.makeRoundedRed()
-//                print("It should be gold")
-            } else {
-                trashButton.imageView!.makeRoundedBlack()
-//                print("This is outside 70")
-            }
         }
     }
     
@@ -1313,4 +1338,17 @@ extension UIView {
         self.layer.mask = nil
     }
     
+}
+extension UIView {
+  
+  func shake() {
+    let animation = CABasicAnimation(keyPath: "position")
+    animation.duration = 0.07
+    animation.repeatCount = 3
+    animation.autoreverses = true
+    animation.fromValue = NSValue(cgPoint: CGPoint(x: self.center.x - 10, y: self.center.y))
+    animation.toValue = NSValue(cgPoint: CGPoint(x: self.center.x + 10, y: self.center.y))
+    self.layer.add(animation, forKey: "position")
+  }
+
 }

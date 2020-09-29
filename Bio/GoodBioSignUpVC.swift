@@ -32,6 +32,7 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     // buttons
     @IBOutlet weak var signUpBtn: UIButton!
     @IBOutlet weak var cancelBtn: UIButton!
+    var profileImageLabel = UILabel()
     
     var user: User?
     var userData: UserData?
@@ -44,12 +45,14 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     
     // keyboard frame size
     var keyboard = CGRect()
+    var navBarView = NavBarView()
+    var titleLabel1 = UILabel()
         
     
     // default func
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+       
         avaImg.image = UIImage(named: "boyprofile")
         let gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
         let gray = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
@@ -94,12 +97,13 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         signUpBtn.layer.cornerRadius = signUpBtn.frame.size.width / 20
         cancelBtn.frame = CGRect(x: 5, y: 40, width: 24, height: 23)
         cancelBtn.layer.cornerRadius = cancelBtn.frame.size.width / 20
-        
+        setUpNavBarView()
         // background
         let bg = UIImageView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height))
         bg.image = UIImage(named: "manaloghourglass")
         bg.layer.zPosition = -1
         self.view.addSubview(bg)
+        formatPhotoLabel()
     }
     
     
@@ -143,6 +147,15 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         UIView.animate(withDuration: 0.4, animations: { () -> Void in
             self.scrollView.frame.size.height = self.scrollViewHeight - self.keyboard.height
         })
+    }
+    
+    func formatPhotoLabel() {
+        self.view.addSubview(self.profileImageLabel)
+        var photoFrame = self.avaImg.frame
+        self.profileImageLabel.frame = CGRect(x: self.view.frame.width/32, y: photoFrame.minY, width: (self.view.frame.width/2) - self.view.frame.width/16, height: 44)
+        self.profileImageLabel.text = "Choose A Profile Picture:"
+        self.profileImageLabel.font = UIFont(name: "DINAlternate-Bold", size: 13)
+        self.profileImageLabel.textColor = .white
     }
     
     
@@ -261,6 +274,22 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         self.dismiss(animated: true, completion: nil)
     }
     
+    func setUpNavBarView() {
+        self.view.addSubview(self.navBarView)
+        self.navBarView.addSubview(self.titleLabel1)
+        self.navBarView.addBehavior()
+       
+        self.titleLabel1.text = "Create An Account"
+        self.navBarView.frame = CGRect(x: 0, y: self.cancelBtn.frame.minY/2, width: self.view.frame.width, height: self.view.frame.height/12)
+       // self.tableView.frame = CGRect(x: 0, y: self.view.frame.height/12, width: self.view.frame.width, height: self.view.frame.height*(11/12))
+        self.titleLabel1.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/12)
+        self.titleLabel1.textAlignment = .center
+       
+        self.titleLabel1.font = UIFont(name: "DINAlternate-Bold", size: 25)
+        self.titleLabel1.textColor = .white
+        self.navBarView.backgroundColor = .clear
+        self.navBarView.isUserInteractionEnabled = false
+    }
     
     
     
