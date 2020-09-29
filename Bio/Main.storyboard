@@ -2290,7 +2290,7 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Upload These Photos?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rwc-ZV-FbL">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New Post" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rwc-ZV-FbL">
                                 <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="vch-4E-zvh"/>
@@ -4007,9 +4007,10 @@
                                         <rect key="frame" x="291" y="312" width="15" height="15"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="venmologo" translatesAutoresizingMaskIntoConstraints="NO" id="vNf-do-VER">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="venmo2" translatesAutoresizingMaskIntoConstraints="NO" id="vNf-do-VER">
                                         <rect key="frame" x="291" y="350" width="15" height="15"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </imageView>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="sEF-ST-khg">
                                         <rect key="frame" x="8" y="267" width="304" height="34"/>
@@ -4049,11 +4050,11 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="twitter" translatesAutoresizingMaskIntoConstraints="NO" id="Byh-xG-iXI">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="twitterapp" translatesAutoresizingMaskIntoConstraints="NO" id="Byh-xG-iXI">
                                         <rect key="frame" x="291" y="236" width="15" height="15"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="soundCloudLogo" translatesAutoresizingMaskIntoConstraints="NO" id="MEX-fL-jm1">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="soundcloud" translatesAutoresizingMaskIntoConstraints="NO" id="MEX-fL-jm1">
                                         <rect key="frame" x="291" y="274" width="15" height="15"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
@@ -4095,7 +4096,7 @@
                                         <rect key="frame" x="291" y="160" width="15" height="15"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="snapchatlogo" translatesAutoresizingMaskIntoConstraints="NO" id="3gs-c2-OH2">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="snapapp" translatesAutoresizingMaskIntoConstraints="NO" id="3gs-c2-OH2">
                                         <rect key="frame" x="291" y="198" width="15" height="15"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
@@ -4168,10 +4169,10 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="hudl" translatesAutoresizingMaskIntoConstraints="NO" id="Y6x-nP-a42">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="hudlapp" translatesAutoresizingMaskIntoConstraints="NO" id="Y6x-nP-a42">
                                         <rect key="frame" x="301" y="436" width="15" height="15"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -5022,7 +5023,7 @@
         <image name="heart" catalog="system" width="128" height="109"/>
         <image name="hexagon" catalog="system" width="128" height="124"/>
         <image name="house" catalog="system" width="128" height="106"/>
-        <image name="hudl" width="2400" height="1260"/>
+        <image name="hudlapp" width="921" height="921"/>
         <image name="instagramLogo" width="250" height="250"/>
         <image name="link.circle.fill" catalog="system" width="128" height="121"/>
         <image name="linkClear" width="512" height="512"/>
@@ -5039,9 +5040,10 @@
         <image name="pp.jpg" width="128" height="128"/>
         <image name="redOrangeGradient2" width="675" height="1080"/>
         <image name="redx" width="260" height="280"/>
+        <image name="snapapp" width="480" height="480"/>
         <image name="snapchatlogo" width="2100" height="2100"/>
         <image name="socialMediaIcon" width="512" height="512"/>
-        <image name="soundCloudLogo" width="225" height="225"/>
+        <image name="soundcloud" width="280" height="280"/>
         <image name="spotifylogo" width="386" height="386"/>
         <image name="square" catalog="system" width="128" height="114"/>
         <image name="square.and.arrow.up.fill" catalog="system" width="115" height="128"/>
@@ -5053,8 +5055,9 @@
         <image name="trashCircle" width="512" height="512"/>
         <image name="triangle" catalog="system" width="128" height="112"/>
         <image name="triangle.fill" catalog="system" width="128" height="112"/>
-        <image name="twitter" width="400" height="325"/>
+        <image name="twitterapp" width="1201" height="1201"/>
         <image name="twitterlogo" width="300" height="244"/>
+        <image name="venmo2" width="511" height="512"/>
         <image name="venmologo" width="225" height="225"/>
         <image name="whiteGearFinal" width="64" height="64"/>
         <image name="whiteMag" width="48" height="48"/>
