@@ -18,9 +18,17 @@ class ContentLinkVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        var newSafeArea = UIEdgeInsets()
+        newSafeArea.bottom = 10
+        newSafeArea.top = 50
+        newSafeArea.right = 0
+        newSafeArea.left = 0
+        self.additionalSafeAreaInsets = newSafeArea
+        
         let webConfig = WKWebViewConfiguration()
 
-        webView = WKWebView(frame: view.bounds, configuration: webConfig)
+        let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - 65)
+        webView = WKWebView(frame: frame, configuration: webConfig)
         webView?.uiDelegate = self
         webView?.navigationDelegate = self
         webView?.allowsBackForwardNavigationGestures = false

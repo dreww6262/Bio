@@ -49,7 +49,7 @@ class ContentVideoVC: UIViewController {
                 let asset = AVAsset(url: url!)
                 let item = AVPlayerItem(asset: asset)
                 self.view.addSubview(self.contentViewer)
-                let contentRect = self.view.bounds
+                let contentRect = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height - 65)
                 self.contentViewer.frame = contentRect
                 self.contentViewer.backgroundColor = .black
                 self.player = AVPlayer(playerItem: item)

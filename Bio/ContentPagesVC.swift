@@ -131,6 +131,7 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         backButton.frame = CGRect(x: 5, y: (topBar.frame.height - backButton.frame.height) / 2 + 10, width: backButton.frame.width, height: backButton.frame.height)
         
         pageView.view.frame = CGRect(x: 0, y: topBar.frame.maxY, width: view.frame.width, height: view.frame.height - topBar.frame.height)
+
         addChild(pageView)
         view.addSubview(pageView.view)
         pageView.didMove(toParent: self)
@@ -160,6 +161,16 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         }
         //print("currentVC \(currentIndex) \(currentVC)")
     }
+    
+//    override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
+//        var newSafeArea = UIEdgeInsets()
+//        newSafeArea.bottom = pageView.view.bounds.height
+//        newSafeArea.top = 0
+//        newSafeArea.right = view.frame.width
+//        newSafeArea.left = 0
+//        pageView.additionalSafeAreaInsets = newSafeArea
+//    }
     
     @objc func backTapped(_ sender: UITapGestureRecognizer) {
         for v in view.subviews {
