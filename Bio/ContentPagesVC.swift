@@ -58,7 +58,9 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         
-        let previousIndex  = currentIndex - 1
+        guard let vcIndex = viewControllers.firstIndex(of: viewController) else {return nil}
+        
+        let previousIndex  = vcIndex - 1
         
 //        guard previousIndex >= 0 else {
 //            print("0 > previndex = \(previousIndex)")
@@ -69,7 +71,10 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
 //            print("bad viewcontrollers.count <= previndex = \(previousIndex)")
 //            return nil
 //        }
-        if previousIndex == -1 {
+        if previousIndex < 0 {
+            return nil
+        }
+        if previousIndex >= viewControllers.count {
             return nil
         }
         
@@ -80,7 +85,9 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         
-        let nextIndex  = currentIndex + 1
+        guard let vcIndex = viewControllers.firstIndex(of: viewController) else {return nil}
+        
+        let nextIndex  = vcIndex + 1
         
 //        guard viewControllers.count != nextIndex else {
 //            print("viewcontrollers.count = nextindex = \(nextIndex)")
@@ -91,7 +98,10 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
 //            print(" bad viewcontrollers.count <= nextIndex = \(nextIndex)")
 //            return nil
 //        }
-        if nextIndex == viewControllers.count {
+        if nextIndex >= viewControllers.count {
+            return nil
+        }
+        if nextIndex < 0 {
             return nil
         }
         
@@ -114,16 +124,15 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         view.addSubview(backButton)
         backButton.setTitle("Back", for: .normal)
         backButton.setTitleColor(.white, for: .normal)
-        backButton.backgroundColor = .darkGray
+        backButton.backgroundColor = .clear
         let backTap = UITapGestureRecognizer(target: self, action: #selector(backTapped))
         backButton.addGestureRecognizer(backTap)
         backButton.sizeToFit()
         backButton.frame = CGRect(x: 5, y: (topBar.frame.height - backButton.frame.height) / 2 + 10, width: backButton.frame.width, height: backButton.frame.height)
         
+        pageView.view.frame = CGRect(x: 0, y: topBar.frame.maxY, width: view.frame.width, height: view.frame.height - topBar.frame.height)
         addChild(pageView)
         view.addSubview(pageView.view)
-        pageView.view.frame = CGRect(x: 0, y: topBar.frame.maxY, width: view.frame.width, height: view.frame.height - topBar.frame.height)
-        
         pageView.didMove(toParent: self)
         
         pageView.dataSource = self

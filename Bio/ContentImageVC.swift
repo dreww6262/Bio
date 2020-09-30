@@ -25,7 +25,7 @@ class ContentImageVC: UIViewController {
         })
         self.view.addSubview(newImageView)
         
-        let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
+        let frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height)
         
         newImageView.frame = frame
         newImageView.backgroundColor = .black

@@ -20,17 +20,12 @@ class ContentLinkVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
         
         let webConfig = WKWebViewConfiguration()
 
-        webView = WKWebView(frame: view.frame, configuration: webConfig)
+        webView = WKWebView(frame: view.bounds, configuration: webConfig)
         webView?.uiDelegate = self
         webView?.navigationDelegate = self
         webView?.allowsBackForwardNavigationGestures = false
         view.addSubview(webView!)
         
-        // Do any additional setup after loading the view.
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         
         let link = webHex!.resource
         let myUrl = URL(string: link)
@@ -38,7 +33,9 @@ class ContentLinkVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
             let myRequest = URLRequest(url: myUrl!)
             webView?.load(myRequest)
         }
+        // Do any additional setup after loading the view.
     }
+    
 
 
     /*
