@@ -325,7 +325,9 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
 //            print("populates without getting userdata")
             populateUserAvatar()
             menuView.userData = userData
-            createImageViews()
+            createImageViews(completion: {
+                self.loadDataListener?.remove()
+            })
             return
         }
         user = Auth.auth().currentUser
@@ -339,7 +341,9 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
 //                            print("populates after getting userdata")
                             self.populateUserAvatar()
                             self.menuView.userData = newData
-                            self.createImageViews()
+                            self.createImageViews(completion: {
+                                self.loadDataListener?.remove()
+                            })
                             //                        print("created image views")
                         }
                         else {
@@ -381,9 +385,9 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         
     }
     
-    func createImageViews() {
+    func createImageViews(completion: @escaping () -> ()) {
         var newPostImageArray = [PostImageView]()
-        db.collection("Hexagons2").whereField("postingUserID", isEqualTo: userData!.publicID).addSnapshotListener({ objects, error in
+        loadDataListener = db.collection("Hexagons2").whereField("postingUserID", isEqualTo: userData!.publicID).addSnapshotListener({ objects, error in
             if error == nil {
                 guard let docs = objects?.documents else {
                     print("get hex failed")
@@ -415,6 +419,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                 }
                 self.contentView.bringSubviewToFront(self.avaImage!)
             }
+            completion()
         })
     }
     
@@ -422,29 +427,51 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         var hexDatas = [HexagonStructData?](repeating: nil, count: posts.count)
         var repeats = [HexagonStructData]()
         for post in posts {
-            if (post.hexData!.location >= hexDatas.count) {
+            if (post.hexData!.location - 1 >= hexDatas.count) {
+                print("location >= count \(post.hexData!.location) \(hexDatas.count)")
                 repeats.append(post.hexData!)
             }
             else if (hexDatas[post.hexData!.location - 1] == nil) {
                 hexDatas[post.hexData!.location - 1] = post.hexData
             }
             else {
+                print("was already an item here \(post.hexData!.location - 1)")
                 repeats.append(post.hexData!)
             }
         }
+        var c = 0
+        var count = 0
         for re in repeats {
-            var count = 0
-            for hex in hexDatas {
-                if (hex == nil) {
+            print("repeat \(c)")
+            while count < hexDatas.count {
+                if (hexDatas[count] == nil) {
                     hexDatas[count] = re
                     hexDatas[count]!.location = count + 1
-                    db.collection("Hexagons2").document(hexDatas[count]!.docID).setData(hexDatas[count]!.dictionary)
+                    repeats[c].location = hexDatas[count]!.location
+                    count += 1
                     break
                 }
                 count += 1
             }
+            c += 1
         }
         contentPages.hexData = hexDatas
+        
+        DispatchQueue.global().async {
+            let dispatchGroup = DispatchGroup()
+            for re in repeats {
+                dispatchGroup.enter()
+                self.db.collection("Hexagons2").document(re.docID).setData(re.dictionary) { _ in
+                    dispatchGroup.leave()
+                }
+            }
+            if (repeats.count > 0) {
+                dispatchGroup.notify(queue: .main) {
+                    self.userData?.numPosts = posts.count
+                    self.db.collection("UserData1").document(self.user!.uid).setData(self.userData!.dictionary)
+                }
+            }
+        }
     }
     
     func changePostImageCoordinates() {
@@ -504,6 +531,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                 db.collection("UserData1").whereField("email", isEqualTo: user!.email!).addSnapshotListener({ objects, error in
                     if (error == nil) {
                         if (objects!.documents.capacity > 0) {
+                            print("got userdata")
                             let newData = UserData(dictionary: objects!.documents[0].data())
                             self.menuView.userData = newData
                             self.userData = newData

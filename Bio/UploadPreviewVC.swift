@@ -59,7 +59,13 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
         var success = true
         var count = 0
         let numPosts = self.userData!.numPosts
+        
+        var hexesToUpload = ThreadSafeArray<HexagonStructData>()
+        
+        let dispatchGroup = DispatchGroup()
+        
         for cell in cellArray {
+            dispatchGroup.enter()
             // get count for current post of batch
             count += 1
             // get timestamp for unique location name
@@ -70,22 +76,25 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
                 //print(photo)
                 let rawPhotoLocation = "userFiles/\(userData!.publicID)/\(count)_\(timestamp.dateValue()).png"
                 let photoLocation = rawPhotoLocation.filter{filterSet.contains($0)}
-                let photoHex = HexagonStructData(resource: photoLocation, type: "photo", location: numPosts + count, thumbResource: photoLocation, createdAt: NSDate.now.description, postingUserID: self.userData!.publicID, text: "\(cell.captionField!.text!)", views: 0, isArchived: false, docID: "willBeSetLater")
+                var photoHex = HexagonStructData(resource: photoLocation, type: "photo", location: numPosts + count, thumbResource: photoLocation, createdAt: NSDate.now.description, postingUserID: self.userData!.publicID, text: "\(cell.captionField!.text!)", views: 0, isArchived: false, docID: "willBeSetLater")
                 uploadPhoto(reference: photoLocation, image: photo, completion: { upComplete in
                     if (upComplete) {
                         print("uploaded shid")
                         print("should be adding \(photoHex)")
-                        self.addHex(hexData: photoHex, completion: {    bool in
-                            success = success && bool
-                            if (bool) {
-                                print("hex successfully added")
-                            }
-                            else {
-                                print("hex failed")
-                            }
-                        })
+                        hexesToUpload.append(newElement: photoHex)
+                        dispatchGroup.leave()
+//                        self.addHex(hexData: photoHex, completion: {    bool in
+//                            success = success && bool
+//                            if (bool) {
+//                                print("hex successfully added")
+//                            }
+//                            else {
+//                                print("hex failed")
+//                            }
+//                        })
                     }
                     else {
+                        dispatchGroup.leave()
                         print("didnt upload shid")
                     }
                 })
@@ -102,41 +111,79 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
                         self.uploadPhoto(reference: thumbLocation, image: YPMediaPhoto(image: video.thumbnail), completion: { upComplete in
                             if (upComplete) {
                                 print("uploaded thumb")
-                                self.addHex(hexData: videoHex, completion: {    bool in
-                                    success = success && bool
-                                    
-                                    if (bool) {
-                                        print("hex successfully added")
-                                    }
-                                    else {
-                                        print("hex failed")
-                                    }
-                                })
+                                hexesToUpload.append(newElement: videoHex)
+                                dispatchGroup.leave()
+//                                self.addHex(hexData: videoHex, completion: {    bool in
+//                                    success = success && bool
+//
+//                                    if (bool) {
+//                                        print("hex successfully added")
+//                                    }
+//                                    else {
+//                                        print("hex failed")
+//                                    }
+//                                })
                             }
                             else {
                                 print("didnt upload thumb")
+                                dispatchGroup.leave()
                             }
                         })
                     }
                     else {
                         print("didnt upload shid")
+                        dispatchGroup.leave()
                     }
                 })
                 
             default:
                 print("bad item")
+                dispatchGroup.leave()
                 // shouldnt happen.  Items should be one of the above
             }
         }
-        self.userData!.numPosts += count
+        dispatchGroup.notify(queue: .main) {
+            self.uploadHexagons(hexes: hexesToUpload)
+        }
+    }
+    
+    func uploadHexagons(hexes: ThreadSafeArray<HexagonStructData>) {
+        
+        if (userData != nil && userData!.numPosts + hexes.count > 38) {
+            // add alert for too many posts.
+            // should then return
+            print("too many posts")
+        }
+        
+        var readHexes = hexes.readOnlyArray()
+        var failedHexes = [HexagonStructData]()
+        readHexes.sort(by: { a, b in
+            return a.location < b.location
+        })
+        let sem = DispatchSemaphore(value: 1)
+        
+        DispatchQueue.global().async {
+            for var hex in readHexes {
+                sem.wait()
+                hex.location -= failedHexes.count
+                self.addHex(hexData: hex, completion: { bool in
+                    if (!bool) {
+                        failedHexes.append(hex)
+                    }
+                    sem.signal()
+                })
+            }
+        }
+        
+        self.userData!.numPosts += (hexes.count - failedHexes.count)
         self.db.collection("UserData1").document(Auth.auth().currentUser!.uid).setData(self.userData!.dictionary, completion: { error in
             if error == nil {
                 print("should navigate to homehexgrid")
                 self.performSegue(withIdentifier: "unwindFromUpload", sender: nil)
             }
         })
-        
     }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // prepare if needed
     }
