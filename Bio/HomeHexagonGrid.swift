@@ -1090,6 +1090,12 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     var webView: WKWebView?
     var navBarView: NavBarView?
     
+    func openLinkVC(hex: HexagonStructData) {
+        let linkVC = ContentLinkVC()
+        linkVC.webHex = hex
+        present(linkVC, animated: false, completion: nil)
+    }
+    
     
     func openLink(link: String) {
         let backButton1 = UIButton()
@@ -1145,59 +1151,60 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         menuView.menuButton.isHidden = false
     }
     
-    var avPlayer: AVPlayer? = nil
+    //var avPlayer: AVPlayer? = nil
     // loads video into new avplayer and overlays on current VC
     
-    func loadVideo(urlString: String) {
-//        print("im in loadVideo")
-        let vidRef = storage.child(urlString)
-        vidRef.downloadURL(completion: { url, error in
-            if error == nil {
-                let asset = AVAsset(url: url!)
-                let item = AVPlayerItem(asset: asset)
-                self.view.addSubview(self.contentViewer)
-                let contentRect = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
-                self.contentViewer.frame = contentRect
-                self.contentViewer.backgroundColor = .black
-                self.avPlayer = AVPlayer(playerItem: item)
-                let playerLayer = AVPlayerLayer(player: self.avPlayer)
-                playerLayer.frame = self.contentViewer.bounds //bounds of the view in which AVPlayer should be displayed
-                playerLayer.videoGravity = .resizeAspect
-                self.contentViewer.layer.addSublayer(playerLayer)
-                self.playVideo()
-            }
-        })
-        
-    }
+//    func loadVideo(urlString: String) {
+////        print("im in loadVideo")
+//        let vidRef = storage.child(urlString)
+//        vidRef.downloadURL(completion: { url, error in
+//            if error == nil {
+//                let asset = AVAsset(url: url!)
+//                let item = AVPlayerItem(asset: asset)
+//                self.view.addSubview(self.contentViewer)
+//                let contentRect = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+//                self.contentViewer.frame = contentRect
+//                self.contentViewer.backgroundColor = .black
+//                self.avPlayer = AVPlayer(playerItem: item)
+//                let playerLayer = AVPlayerLayer(player: self.avPlayer)
+//                playerLayer.frame = self.contentViewer.bounds //bounds of the view in which AVPlayer should be displayed
+//                playerLayer.videoGravity = .resizeAspect
+//                self.contentViewer.layer.addSublayer(playerLayer)
+//                self.playVideo()
+//            }
+//        })
+//
+//    }
+//
+//    @objc func handleContentViewerTap(sender: UITapGestureRecognizer) {
+//        dismissContent(view: sender.view!)
+//
+//    }
+//    func dismissContent(view: UIView){
+//        //self.navigationController?.isNavigationBarHidden = false
+//        // self.tabBarController?.tabBar.isHidden = false
+//        pauseVideo()
+//        //        for v in view.subviews {
+//        //            v.removeFromSuperview()
+//        //        }
+//        //        for layer in view.layer.sublayers {
+//        //        }
+//        view.removeFromSuperview()
+//        menuView.menuButton.isHidden = false
+//
+//    }
     
-    @objc func handleContentViewerTap(sender: UITapGestureRecognizer) {
-        dismissContent(view: sender.view!)
-        
-    }
-    func dismissContent(view: UIView){
-        //self.navigationController?.isNavigationBarHidden = false
-        // self.tabBarController?.tabBar.isHidden = false
-        pauseVideo()
-        //        for v in view.subviews {
-        //            v.removeFromSuperview()
-        //        }
-        //        for layer in view.layer.sublayers {
-        //        }
-        view.removeFromSuperview()
-        menuView.menuButton.isHidden = false
-        
-    }
-    
-    public func playVideo() {
-        avPlayer?.play()
-    }
-    
-    public func pauseVideo() {
-        avPlayer?.pause()
-    }
+//    public func playVideo() {
+//        avPlayer?.play()
+//    }
+//
+//    public func pauseVideo() {
+//        avPlayer?.pause()
+//    }
     
     @IBAction func unvindSegueSignOut(segue: UIStoryboardSegue) {
         menuView.userData = nil
+        user = nil
         do {
             try Auth.auth().signOut()
         }
