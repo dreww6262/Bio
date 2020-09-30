@@ -51,6 +51,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     var userData: UserData?
     let db = Firestore.firestore()
     let storage = Storage.storage().reference()
+    let contentPages = ContentPagesVC()
     
     // UI stuff
     @objc var panGesture  = UIPanGestureRecognizer()
@@ -399,6 +400,8 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                         newPostImageArray.append(hexImage)
                     }
                 }
+                self.updatePages(posts: newPostImageArray)
+                
                 self.resizeScrollView(numPosts: newPostImageArray.count) // clears out all content
                 
 //                print("populates after resizescrollview")
@@ -413,6 +416,35 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                 self.contentView.bringSubviewToFront(self.avaImage!)
             }
         })
+    }
+    
+    func updatePages(posts: [PostImageView]) {
+        var hexDatas = [HexagonStructData?](repeating: nil, count: posts.count)
+        var repeats = [HexagonStructData]()
+        for post in posts {
+            if (post.hexData!.location >= hexDatas.count) {
+                repeats.append(post.hexData!)
+            }
+            else if (hexDatas[post.hexData!.location - 1] == nil) {
+                hexDatas[post.hexData!.location - 1] = post.hexData
+            }
+            else {
+                repeats.append(post.hexData!)
+            }
+        }
+        for re in repeats {
+            var count = 0
+            for hex in hexDatas {
+                if (hex == nil) {
+                    hexDatas[count] = re
+                    hexDatas[count]!.location = count + 1
+                    db.collection("Hexagons2").document(hexDatas[count]!.docID).setData(hexDatas[count]!.dictionary)
+                    break
+                }
+                count += 1
+            }
+        }
+        contentPages.hexData = hexDatas
     }
     
     func changePostImageCoordinates() {
@@ -943,52 +975,63 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         
         
         else if hexItem.type.contains("photo") {
-            let contentImageVC = ContentImageVC()
-            contentImageVC.photoHex = hexItem
-            present(contentImageVC, animated: false, completion: nil)
+//            let contentImageVC = ContentImageVC()
+//            contentImageVC.photoHex = hexItem
+//            present(contentImageVC, animated: false, completion: nil)
+            contentPages.currentIndex = hexItem.location - 1
+            contentPages.modalPresentationStyle = .fullScreen
+            self.present(contentPages, animated: false, completion: nil)
             
         }
         else if hexItem.type.contains("link") {
-            openLinkVC(hex: hexItem)
+//            openLinkVC(hex: hexItem)
+            contentPages.currentIndex = hexItem.location - 1
+            contentPages.modalPresentationStyle = .fullScreen
+            self.present(contentPages, animated: false, completion: nil)
         }
         else if hexItem.type.contains("music") {
-            openLinkVC(hex: hexItem)
+//            openLinkVC(hex: hexItem)
+            contentPages.currentIndex = hexItem.location - 1
+            contentPages.modalPresentationStyle = .fullScreen
+            self.present(contentPages, animated: false, completion: nil)
         }
         
-        else if hexItem.type.contains("social") {
-            let theType = hexItem.type
-            if theType.contains("instagram") {
-                openInstagram(instagramHandle: hexItem.text)
-            }
-            if theType.contains("twitter") {
-                openTwitter(twitterHandle: hexItem.text)
-            }
-            if theType.contains("tik") {
-                openTikTok(tikTokHandle: hexItem.text)
-            }
-            if theType.contains("snapchat") {
-                openSnapchat(snapchatUsername: hexItem.text)
-            }
-            if theType.contains("youtube") {
-                openLink(link: hexItem.text)
-            }
-            if theType.contains("hudl") {
-                openLink(link: hexItem.text)
-            }
-            if theType.contains("venmo") {
-                openLink(link: hexItem.text)
-            }
-            if theType.contains("sound") {
-                openLink(link: hexItem.text)
-            }
-            if theType.contains("linked") {
-                openLink(link: hexItem.text)
-            }
-            if theType.contains("posh") {
-                openLink(link: hexItem.text)
-            }
-          
-            
+//        else if hexItem.type.contains("social") {
+//            let theType = hexItem.type
+//            if theType.contains("instagram") {
+//                openInstagram(instagramHandle: hexItem.text)
+//            }
+//            if theType.contains("twitter") {
+//                openTwitter(twitterHandle: hexItem.text)
+//            }
+//            if theType.contains("tik") {
+//                openTikTok(tikTokHandle: hexItem.text)
+//            }
+//            if theType.contains("snapchat") {
+//                openSnapchat(snapchatUsername: hexItem.text)
+//            }
+//            if theType.contains("youtube") {
+//                openLink(link: hexItem.text)
+//            }
+//            if theType.contains("hudl") {
+//                openLink(link: hexItem.text)
+//            }
+//            if theType.contains("venmo") {
+//                openLink(link: hexItem.text)
+//            }
+//            if theType.contains("sound") {
+//                openLink(link: hexItem.text)
+//            }
+//            if theType.contains("linked") {
+//                openLink(link: hexItem.text)
+//            }
+//            if theType.contains("posh") {
+//                openLink(link: hexItem.text)
+//            }
+        else {
+            contentPages.currentIndex = hexItem.location - 1
+            contentPages.modalPresentationStyle = .fullScreen
+            self.present(contentPages, animated: false, completion: nil)
         }
         
     }
@@ -1111,6 +1154,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     
     @IBAction func unvindSegueSignOut(segue: UIStoryboardSegue) {
         menuView.userData = nil
+        user = nil
         do {
             try Auth.auth().signOut()
         }

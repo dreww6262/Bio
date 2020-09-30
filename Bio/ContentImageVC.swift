@@ -32,8 +32,8 @@ class ContentImageVC: UIViewController {
         
         newImageView.contentMode = .scaleAspectFit
         newImageView.isUserInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-        newImageView.addGestureRecognizer(tap)
+        //let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        //newImageView.addGestureRecognizer(tap)
         
         let textView = UITextView()
         textView.text = "asdfkjlasdfjasdf"
@@ -41,12 +41,12 @@ class ContentImageVC: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    @objc func handleTap(_ sender: UITapGestureRecognizer) {
-        for view in view.subviews {
-            view.removeFromSuperview()
-        }
-        self.dismiss(animated: false, completion: nil)
-    }
+//    @objc func handleTap(_ sender: UITapGestureRecognizer) {
+//        for view in view.subviews {
+//            view.removeFromSuperview()
+//        }
+//        self.dismiss(animated: false, completion: nil)
+//    }
     
 
     /*

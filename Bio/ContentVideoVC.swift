@@ -58,13 +58,18 @@ class ContentVideoVC: UIViewController {
                 playerLayer.videoGravity = .resizeAspect
                 self.contentViewer.layer.addSublayer(playerLayer)
 //                placeholderImage.removeFromSuperview()
-                self.playVideo()
+                
             }
         })
         
-        let videoTap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-        contentViewer.addGestureRecognizer(videoTap)
-        // Do any additional setup after loading the view.
+//        let videoTap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+//        contentViewer.addGestureRecognizer(videoTap)
+//        // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.playVideo()
     }
     
     public func playVideo() {
@@ -75,14 +80,18 @@ class ContentVideoVC: UIViewController {
         player.pause()
     }
     
-    @objc func handleTap(_ sender: UITapGestureRecognizer) {
-        player.pause()
-        for view in contentViewer.subviews {
-            view.removeFromSuperview()
-        }
-        contentViewer.removeFromSuperview()
-        self.dismiss(animated: false, completion: nil)
+    override func viewWillDisappear(_ animated: Bool) {
+        pauseVideo()
     }
+    
+//    @objc func handleTap(_ sender: UITapGestureRecognizer) {
+//        player.pause()
+//        for view in contentViewer.subviews {
+//            view.removeFromSuperview()
+//        }
+//        contentViewer.removeFromSuperview()
+//        self.dismiss(animated: false, completion: nil)
+//    }
     
 
     /*
