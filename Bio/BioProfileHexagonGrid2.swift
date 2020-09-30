@@ -16,7 +16,8 @@ import FirebaseStorage
 
 class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
     
-    
+    var followView = UIView()
+    var newFollowArray: [String] = []
     //var user = PFUser.current()!.username!
     
     let menuView = MenuView()
@@ -32,11 +33,19 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
     var userData: UserData?
     var loadUserDataArray: [UserData] = []
     var tableView = UITableView()
+    var followImage = UIImageView()
+    var followImage2 = UIImageView()
+    var followImage3 = UIImageView()
+//    var profileImage = UIImage()
+    var myProfileImage = UIImage()
+    
+    var followLabel = UILabel()
     
     @IBOutlet weak var contentView: UIView!
     
     @IBOutlet weak var toSearchButton: UIButton!
     
+    @IBOutlet weak var toSettingsButton: UIButton!
     
     //var hexagonDataArray = [HexagonStructData]()
     
@@ -79,23 +88,80 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
         setZoomScale()
         addMenuButtons()
         addSearchButton()
+        addSettingsButton()
+        insertFollowView()
         
-        
+        toSettingsButton.isHidden = false
+        toSearchButton.isHidden = false
+        followView.isHidden = false
     }
     
     func addSearchButton() {
         self.view.addSubview(toSearchButton)
-        toSearchButton.frame = CGRect(x: self.view.frame.width-60, y: 20, width: 50, height: 50)
+        toSearchButton.frame = CGRect(x: self.view.frame.width-45, y: 20, width: 30, height: 30)
         // round ava
         toSearchButton.layer.cornerRadius = toSearchButton.frame.size.width / 2
         toSearchButton.clipsToBounds = true
         toSearchButton.isHidden = false
+        followView.isHidden = false
+        toSettingsButton.isHidden = false
+    }
+    
+    func insertFollowView() {
+        self.view.addSubview(followView)
+        self.followView.backgroundColor = .white
+        self.followView.frame = CGRect(x: self.view.frame.midX - 55, y: 25, width: 110, height: 30)
+        self.followView.layer.cornerRadius = followView.frame.size.width / 20
+        self.followView.addSubview(followImage)
+        self.followView.addSubview(followImage2)
+        self.followView.addSubview(followImage3)
+        self.followView.addSubview(followLabel)
+        self.followView.isHidden = false
+        var widthRemaining = self.followView.frame.width - (3*self.followView.frame.height)
+        var spacingWidth = widthRemaining/4
+        self.followImage.frame = CGRect(x: spacingWidth, y: 0, width: followView.frame.height, height: followView.frame.height)
+       
+        self.followImage2.frame = CGRect(x: (2*spacingWidth) + followView.frame.height, y: 0, width: followView.frame.height, height: followView.frame.height)
+        self.followImage3.frame = CGRect(x:(2*followView.frame.height)+(3*spacingWidth), y: 0, width: followView.frame.height, height: followView.frame.height)
+        self.followView.layer.cornerRadius = followView.frame.size.width/10
+        //self.followView.clipsToBounds()
+        
+     //   let cleanRef = userData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
+       // let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
+//        self.followImage.sd_setImage(with: url!, completed: {_, error, _, _ in
+//            if error != nil {
+//                print(error!.localizedDescription)
+//            }
+//        })
+        self.followImage.image = myProfileImage
+        
+        self.followImage.setupHexagonMask(lineWidth: self.followImage.frame.width/15, color: .darkGray, cornerRadius: self.followImage.frame.width/15)
+        //self.followImage.image = UIImage(named: "twoFriendsFlipped")
+        self.followImage2.image = UIImage(named: "fire1")
+        self.followImage3.image = UIImage(named: "earth")
+        print("This is follow view frame \(self.followView.frame)")
+        print("This is follow image1.frame \(self.followImage.frame)")
+        print("This is follow image2.frame \(self.followImage2.frame)")
+        print("This is follow image3.frame \(self.followImage3.frame)")
+        self.followLabel.frame = CGRect(x: followImage.frame.maxX + 5, y: 0.0, width: followView.frame.width - 10, height: followView.frame.height)
+        self.followLabel.isHidden = true
+        self.followLabel.text = "Community"
+        self.followLabel.textColor = .black
+        
     }
     
     func addMenuButtons() {
         view.addSubview(menuView)
         menuView.currentTab = 3
         menuView.addBehavior()
+    }
+    
+    func addSettingsButton() {
+        self.view.addSubview(toSettingsButton)
+        toSettingsButton.frame = CGRect(x: 15, y: 25, width: 30, height: 30)
+        // round ava
+        toSettingsButton.clipsToBounds = true
+        toSettingsButton.isHidden = false
     }
     
     func setUpScrollView() {
@@ -118,21 +184,31 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
             return
         }
         toSearchButton.isHidden = true
+        toSettingsButton.isHidden = true
+        followView.isHidden = true
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         toSearchButton.isHidden = false
+        toSettingsButton.isHidden = false
+        followView.isHidden = false
     }
     
     func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         toSearchButton.isHidden = false
+        toSettingsButton.isHidden = false
+        followView.isHidden = false
     }
     
     func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
         toSearchButton.isHidden = false
+        toSettingsButton.isHidden = false
+        followView.isHidden = false
     }
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         toSearchButton.isHidden = false
+        toSettingsButton.isHidden = false
+        followView.isHidden = false
     }
     
     // Zoom Logic
@@ -177,6 +253,8 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
 //        print(contentOffset)
         scrollView.contentOffset = contentOffset
         toSearchButton.isHidden = false
+        toSettingsButton.isHidden = false
+        followView.isHidden = false
     }
     
     func resetCoordinatePoints() {
@@ -235,6 +313,13 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
         present(userTableVC, animated: false)
     }
     
+    @IBAction func toSettingsButtonClicked(_ sender: UIButton) {
+        let settingsVC = storyboard?.instantiateViewController(identifier: "settingsVC") as! ProfessionalSettingsVC
+        settingsVC.userData = userData
+        present(settingsVC, animated: false)
+    }
+    
+    
     func refresh() {
         //print("in refresh")
         user = Auth.auth().currentUser
@@ -275,6 +360,8 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
         menuView.userData = userData
         refresh()
         toSearchButton.isHidden = false
+        toSettingsButton.isHidden = false
+        followView.isHidden = false
     }
     
     var listenerList: [ListenerRegistration]?
@@ -356,7 +443,7 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
     func createFollowArray(completion: @escaping ([String]) -> ()) {
         let followCollection = db.collection("Followings")
         let usernameText:String = userData!.publicID
-        var newFollowArray: [String] = []
+         newFollowArray = []
         let _ = followCollection.whereField("follower", isEqualTo: usernameText).addSnapshotListener({ (objects, error) -> Void in
             if error == nil {
 //                print("no error")
@@ -366,12 +453,12 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
                 for object in objects!.documents {
                     print (object.data())
                     let followerString = object.get("following")
-                    if followerString != nil  && !newFollowArray.contains(followerString as! String){
-                        newFollowArray.append(followerString as! String)
+                    if followerString != nil  && !self.newFollowArray.contains(followerString as! String){
+                        self.newFollowArray.append(followerString as! String)
                     }
 //                    print("Now this is followArray \(self.followArray)")
                 }
-                completion(newFollowArray)
+                completion(self.newFollowArray)
             }
             else {
                 print(error!.localizedDescription)
@@ -402,7 +489,10 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
         let guestVC = storyboard?.instantiateViewController(identifier: "guestGridVC") as! GuestHexagonGridVC
         //guestVC.user = user
         guestVC.username = userData!.publicID
+        guestVC.followList = self.newFollowArray
+        //guestVC.profileImage = self.
         guestVC.userData = followingUserDataArray[sender.view!.tag]
+        guestVC.isFollowing = true
         show(guestVC, sender: nil)
         // TODO: use tag to get index of userdata to go to new hex grid as guest.
         
@@ -484,6 +574,8 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
                 image.layer.masksToBounds = true
                 image.layer.borderColor = UIColor.white.cgColor
                 image.layer.borderWidth = (image.frame.width)/30
+                self.myProfileImage = image.image ?? UIImage(named: "boyProfile") as! UIImage
+                self.followImage.image = self.myProfileImage
             }
             else {
                 image.setupHexagonMask(lineWidth: image.frame.width/15, color: .darkGray, cornerRadius: image.frame.width/15)

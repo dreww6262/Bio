@@ -21,11 +21,17 @@ import SwiftUI
 
 class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, WKUIDelegate  {
     
+    var isFollowing = false
+    var profileImage = UIImage()
+    var followList = [String]()
+    var followListener: ListenerRegistration?
     
     // Content presentation
     var player = AVAudioPlayer()
     var contentViewer = UIView()
     let menuView = MenuView()
+    @IBOutlet weak var toSearchButton: UIButton!
+    var followView = UIView()
     
     // Firebase stuff
     var loadDataListener: ListenerRegistration?
@@ -42,9 +48,11 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
    
     @IBOutlet weak var returnButton: UIButton!
     
-    @IBOutlet weak var followButton: UIButton!
+    @IBOutlet weak var toSettingsButton: UIButton!
     
-    
+    var followImage = UIImageView()
+    var followLabel = UILabel()
+
     var curvedRect = CGRect(x: 0.0, y: 0.0, width: 0.0, height: 0.0)
     var curvedLayer = UIImageView()
     
@@ -55,60 +63,28 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var targetHexagons: [Int] = []
     //var hexagonStructArray: [HexagonStructData] = []
     var imageViewArray: [PostImageView] = []
-
-    //var reOrderedCoordinateArray: [[CGFloat]] = [[946.8266739736607, 902.5],[1081.7304845413264, 902.5], [1014.2785792574934, 1020.0],   [879.3747686898278,1020.0], [811.9228634059948,902.5], [879.3747686898278,785.0],[1014.2785792574934,785.0],[946.8266739736607, 667.5],[1081.7304845413264, 667.5], [1149.1823898251594, 785.0],  [1216.6342951089923, 902.5],[1149.1823898251594, 1020.0],  /* [1081.7304845413264, 1137.5],*/ [1081.7304845413264, 1137.5],[946.8266739736607, 1137.5],[811.9228634059948, 1137.5],[744.4709581221618, 1020.0],[677.0190528383291, 902.5],[744.4709581221618, 785.0],  [811.9228634059948, 667.5],[879.3747686898278, 550.0],[1014.2785792574934, 550.0],[1149.1823898251594, 550.0],[1216.6342951089923, 667.5],[1284.0862003928253, 785.0],[1351.5381056766582, 902.5], [1284.0862003928253, 1020.0], [1216.6342951089923, 1137.5],[1149.1823898251594, 1255.0], [1014.2785792574934, 1255.0],[879.3747686898278, 1255.0],  [744.4709581221618, 1255.0],[677.0190528383291, 1137.5],[609.5671475544962, 1020.0],[542.1152422706632, 902.5],[609.5671475544962, 785.0],[677.0190528383291, 667.5],[744.4709581221618, 550.0]] // , /[811.9228634059948, 432.5], [946.8266739736607, 432.5], [1081.7304845413264, 432.5], [1216.6342951089923, 432.5],[1284.0862003928253, 550.0],[1351.5381056766582, 667.5], [1418.990010960491, 785.0],  [1486.441916244324, 902.5], [1418.990010960491, 1020.0],[1351.5381056766582, 1137.5],   [1284.0862003928253, 1255.0],[1216.6342951089923, 1372.5],   [1081.7304845413264, 1372.5],[946.8266739736607, 1372.5],[811.9228634059948, 1372.5],[677.0190528383291, 1372.5], [609.5671475544962, 1255.0],[542.1152422706632, 1137.5],[474.6633369868303, 1020.0],[407.2114317029974, 902.5],[474.6633369868303, 785.0],[542.1152422706632, 667.5],[609.5671475544962, 550.0],[677.0190528383291, 432.5]]
-    
-    //with 3rd row
-    //    var reOrderedCoordinateArrayPoints: [CGPoint] = [CGPoint(x: 946.8266739736607,y: 902.5),CGPoint(x: 1081.7304845413264,y: 902.5),CGPoint(x: 1014.2785792574934,y: 1020.0), CGPoint(x: 879.3747686898278,y: 1020.0),CGPoint(x:811.9228634059948,y: 902.5), CGPoint(x: 879.3747686898278,y: 785.0),CGPoint(x: 1014.2785792574934,y: 785.0),CGPoint(x:946.8266739736607,y: 667.5),CGPoint(x:1081.7304845413264,y:667.5), CGPoint(x:1149.1823898251594,y:785.0),CGPoint(x: 1216.6342951089923,y: 902.5),CGPoint(x:1149.1823898251594,y: 1020.0),   CGPoint(x: 1081.7304845413264,y: 1137.5), CGPoint(x:1081.7304845413264, y: 1137.5),CGPoint(x:946.8266739736607,y: 1137.5),CGPoint(x: 811.9228634059948, y: 1137.5),CGPoint(x: 744.4709581221618, y: 1020.0), CGPoint(x: 677.0190528383291, y: 902.5),CGPoint(x: 744.4709581221618, y: 785.0), CGPoint(x: 811.9228634059948, y: 667.5),CGPoint(x: 879.3747686898278, y: 550.0),CGPoint(x: 1014.2785792574934, y: 550.0),CGPoint(x: 1149.1823898251594,y: 550.0),CGPoint(x:1216.6342951089923,y: 667.5),CGPoint(x:1284.0862003928253, y: 785.0),CGPoint(x:1351.5381056766582,y: 902.5), CGPoint(x:1284.0862003928253, y: 1020.0),CGPoint(x: 1216.6342951089923, y: 1137.5),CGPoint(x: 1149.1823898251594, y: 1255.0), CGPoint(x:1014.2785792574934,y:1255.0),CGPoint(x:879.3747686898278, y:1255.0),CGPoint(x:744.4709581221618, y:1255.0),CGPoint(x:677.0190528383291, y:1137.5),CGPoint(x:609.5671475544962,y: 1020.0),CGPoint(x:542.1152422706632, y: 902.5),CGPoint(x: 609.5671475544962, y: 785.0),CGPoint(x: 677.0190528383291, y: 667.5),CGPoint(x: 744.4709581221618, y: 550.0),CGPoint(x:811.9228634059948,y: 432.5), CGPoint(x: 946.8266739736607,y: 432.5), CGPoint(x:1081.7304845413264, y: 432.5), CGPoint(x: 1216.6342951089923,y: 432.5),CGPoint(x: 1284.0862003928253,y: 550.0),CGPoint(x:1351.5381056766582, y: 667.5), CGPoint(x:1418.990010960491,y: 785.0),  CGPoint(x: 1486.441916244324,y:902.5), CGPoint(x:1418.990010960491, y: 1020.0),CGPoint(x: 1351.5381056766582, y: 1137.5), CGPoint(x:1284.0862003928253,y: 1255.0),CGPoint(x: 1216.6342951089923,y: 1372.5),   CGPoint(x: 1081.7304845413264,y: 1372.5),CGPoint(x: 946.8266739736607, y: 1372.5),CGPoint(x: 811.9228634059948, y: 1372.5),CGPoint(x: 677.0190528383291,y: 1372.5), CGPoint(x: 609.5671475544962,y: 1255.0),CGPoint(x: 542.1152422706632,y: 1137.5),CGPoint(x: 474.6633369868303,y: 1020.0),CGPoint(x: 407.2114317029974, y: 902.5),CGPoint(x: 474.6633369868303, y: 785.0),CGPoint(x: 542.1152422706632,y: 667.5),CGPoint(x: 609.5671475544962,y: 550.0),CGPoint(x: 677.0190528383291, y: 432.5)]
     
     var reOrderedCoordinateArrayPoints: [CGPoint] = [CGPoint(x: 946.8266739736607,y: 902.5),CGPoint(x: 1081.7304845413264,y: 902.5),CGPoint(x: 1014.2785792574934,y: 1020.0), CGPoint(x: 879.3747686898278,y: 1020.0),CGPoint(x:811.9228634059948,y: 902.5), CGPoint(x: 879.3747686898278,y: 785.0),CGPoint(x: 1014.2785792574934,y: 785.0),CGPoint(x:946.8266739736607,y: 667.5),CGPoint(x:1081.7304845413264,y:667.5), CGPoint(x:1149.1823898251594,y:785.0),CGPoint(x: 1216.6342951089923,y: 902.5),CGPoint(x:1149.1823898251594,y: 1020.0),   CGPoint(x: 1081.7304845413264,y: 1137.5), CGPoint(x:1081.7304845413264, y: 1137.5),CGPoint(x:946.8266739736607,y: 1137.5),CGPoint(x: 811.9228634059948, y: 1137.5),CGPoint(x: 744.4709581221618, y: 1020.0), CGPoint(x: 677.0190528383291, y: 902.5),CGPoint(x: 744.4709581221618, y: 785.0), CGPoint(x: 811.9228634059948, y: 667.5),CGPoint(x: 879.3747686898278, y: 550.0),CGPoint(x: 1014.2785792574934, y: 550.0),CGPoint(x: 1149.1823898251594,y: 550.0),CGPoint(x:1216.6342951089923,y: 667.5),CGPoint(x:1284.0862003928253, y: 785.0),CGPoint(x:1351.5381056766582,y: 902.5), CGPoint(x:1284.0862003928253, y: 1020.0),CGPoint(x: 1216.6342951089923, y: 1137.5),CGPoint(x: 1149.1823898251594, y: 1255.0), CGPoint(x:1014.2785792574934,y:1255.0),CGPoint(x:879.3747686898278, y:1255.0),CGPoint(x:744.4709581221618, y:1255.0),CGPoint(x:677.0190528383291, y:1137.5),CGPoint(x:609.5671475544962,y: 1020.0),CGPoint(x:542.1152422706632, y: 902.5),CGPoint(x: 609.5671475544962, y: 785.0),CGPoint(x: 677.0190528383291, y: 667.5),CGPoint(x: 744.4709581221618, y: 550.0)]
     
-    //,CGPoint(x:811.9228634059948,y: 432.5), CGPoint(x: 946.8266739736607,y: 432.5), CGPoint(x:1081.7304845413264, y: 432.5), CGPoint(x: 1216.6342951089923,y: 432.5),CGPoint(x: 1284.0862003928253,y: 550.0),CGPoint(x:1351.5381056766582, y: 667.5), CGPoint(x:1418.990010960491,y: 785.0),  CGPoint(x: 1486.441916244324,y:902.5), CGPoint(x:1418.990010960491, y: 1020.0),CGPoint(x: 1351.5381056766582, y: 1137.5), CGPoint(x:1284.0862003928253,y: 1255.0),CGPoint(x: 1216.6342951089923,y: 1372.5),   CGPoint(x: 1081.7304845413264,y: 1372.5),CGPoint(x: 946.8266739736607, y: 1372.5),CGPoint(x: 811.9228634059948, y: 1372.5),CGPoint(x: 677.0190528383291,y: 1372.5), CGPoint(x: 609.5671475544962,y: 1255.0),CGPoint(x: 542.1152422706632,y: 1137.5),CGPoint(x: 474.6633369868303,y: 1020.0),CGPoint(x: 407.2114317029974, y: 902.5),CGPoint(x: 474.6633369868303, y: 785.0),CGPoint(x: 542.1152422706632,y: 667.5),CGPoint(x: 609.5671475544962,y: 550.0),CGPoint(x: 677.0190528383291, y: 432.5)]
     var reOrderedCoordinateArrayPointsCentered: [CGPoint] = []
     let hexaDiameter : CGFloat = 150
     var avaImage: UIImageView?
     
     
     override func viewDidLoad() {
-        addFollowButton()
         super.viewDidLoad()
+        addSettingsButton()
+        addSearchButton()
+        toSettingsButton.isHidden = false
+        toSearchButton.isHidden = false
         setUpScrollView()
         setZoomScale()
         addReturnButton()
-//        for point in reOrderedCoordinateArrayPoints {
-//            let newPointX = point.x - 604 //680
-//            let newPointY = point.y - 493 //570
-//            let newPoint = CGPoint(x: newPointX, y: newPointY)
-//            reOrderedCoordinateArrayPointsCentered.append(newPoint)
-//        }
+        insertFollowButton()
+        followView.isHidden = false
         let contentTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleContentViewerTap))
         contentViewer.addGestureRecognizer(contentTapGesture)
         
-//        if userData == nil {
-//            user = Auth.auth().currentUser
-//            if (user != nil) {
-//                db.collection("UserData1").whereField("email", isEqualTo: user!.email!).addSnapshotListener({ objects, error in
-//                    if error == nil {
-//                        guard let docs = objects?.documents
-//                            else{
-//                                print("bad docs")
-//                                return
-//                        }
-//
-//                        if docs.count == 0 {
-//                            print("no userdata found.... fix this")
-//                        }
-//                        else if docs.count > 1 {
-//                            print("multiple user data.... fix this")
-//                        }
-//                        else {
-//                            self.userData = UserData(dictionary: docs[0].data())
-//                        }
-//                    }
-//
-//                })
-//            }
-//        }
     }
     
     // viewdidload helper functions
@@ -125,37 +101,77 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         resizeScrollView(numPosts: 0)
     }
     
+    func addSearchButton() {
+       // self.view.addSubview(toSearchButton)
+        toSearchButton.frame = CGRect(x: self.view.frame.width-45, y: 25, width: 30, height: 30)
+        self.view.addSubview(toSearchButton)
+        view.bringSubviewToFront(toSearchButton)
+        // round ava
+        //        toSearchButton.layer.cornerRadius = toSearchButton.frame.size.width / 2
+        toSearchButton.clipsToBounds = true
+        toSearchButton.isHidden = false
+    }
+    
     func setZoomScale() {
            scrollView.maximumZoomScale = 60
            scrollView.minimumZoomScale = 0.5
     }
     
-    func addFollowButton(){
-        view.addSubview(followButton)
-        followButton.frame = CGRect(x: view.frame.width - 40, y: 25, width: 40, height: 40)
-        followButton.imageView?.image = UIImage(named: "addFriend")
-        followButton.layer.cornerRadius =  followButton.frame.size.width / 2
-        followButton.clipsToBounds = true
-        followButton.imageView?.backgroundColor = .systemGray4
+    func addSettingsButton(){
+      //  view.addSubview(followButton)
+        toSettingsButton.frame = CGRect(x: 0, y: 25, width: 30, height: 30)
+        view.addSubview(toSettingsButton)
+        view.bringSubviewToFront(toSettingsButton)
+        toSettingsButton.imageView?.image = UIImage(named: "addFriend")
+        toSettingsButton.layer.cornerRadius =  toSettingsButton.frame.size.width / 2
+        toSettingsButton.clipsToBounds = true
+        toSettingsButton.imageView?.backgroundColor = .clear
         
-        let tapped = UITapGestureRecognizer(target: self, action: #selector(followTapped))
-        followButton.addGestureRecognizer(tapped)
+//        let tapped = UITapGestureRecognizer(target: self, action: #selector(followTapped))
+//        toSettingsButton.addGestureRecognizer(tapped)
         
     }
     
+    func insertFollowButton() {
+        self.view.addSubview(followView)
+        self.followView.backgroundColor = .white
+        self.followView.frame = CGRect(x: self.view.frame.midX - 45, y: 25, width: 90, height: 30)
+        self.followView.layer.cornerRadius = followView.frame.size.width / 20
+        self.followView.addSubview(followImage)
+        self.followView.addSubview(followLabel)
+        self.followView.isHidden = false
+        self.followImage.frame = CGRect(x: 5, y: 0, width: followView.frame.height, height: followView.frame.height)
+        self.followView.layer.cornerRadius = followView.frame.size.width/10
+        //self.followView.clipsToBounds()
+        
+        if isFollowing {
+            self.followImage.image = UIImage(named: "friendCheck")
+            self.followLabel.text = "Added"
+        }
+        else {
+            self.followImage.image = UIImage(named: "addFriend")
+            self.followLabel.text = "Add"
+        }
+        
+        //self.followImage.image = UIImage(named: "friendCheck")
+        self.followLabel.frame = CGRect(x: followImage.frame.maxX + 5, y: 0.0, width: followView.frame.width - 10, height: followView.frame.height)
+        //self.followLabel.text = "Added"
+        self.followLabel.textColor = .black
+        let tapped = UITapGestureRecognizer(target: self, action: #selector(followTapped))
+        self.followView.addGestureRecognizer(tapped)
+        
+
+        
+    }
+    
+    
+    
     @objc func followTapped(_ sender: UITapGestureRecognizer) {
         if userData != nil {
-            if followButton!.tag == 0 {
+            if toSettingsButton!.tag == 0 {
                 let newFollow = ["follower": username, "following": userData!.publicID]
                 db.collection("Followings").addDocument(data: newFollow as [String : Any])
                 UIDevice.vibrate()
-//                button?.imageView?.image = UIImage(named: "checkmark32x32")
-//                sender.imageView?.image = UIImage(named: "checkmark32x32")
-                followButton?.tag = 1
-//                print("It's supposed to change to check")
-//                button?.frame = CGRect(x: width - width / 4.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
-//                button?.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
-                
                 
                 let notificationObjectref = db.collection("News2")
                    let notificationDoc = notificationObjectref.document()
@@ -171,34 +187,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
                            
                        }
                    }
-                
-                
-                
-                
-                
-                
-                //SEND A NOTIFICATION FOR FOLLOWING! SWITCH FROM PARSE TO FIREBASE
-//                if self.usernameBtn.titleLabel?.text != PFUser.current()?.username {
-//                                 let newsObj = PFObject(className: "News")
-//                                 newsObj["by"] = PFUser.current()?.username
-//                                 newsObj["ava"] = PFUser.current()?.object(forKey: "ava") as! PFFile
-//                                 newsObj["to"] = self.usernameBtn.titleLabel!.text
-//                                 newsObj["owner"] = self.usernameBtn.titleLabel!.text
-//                                 newsObj["uuid"] = self.uuidLbl.text
-//                                 newsObj["type"] = "like"
-//                                 newsObj["checked"] = "no"
-//                                 newsObj.saveEventually()
-//                             }
-                
-                
-                
-                
-//
-//                sender.imageView?.image = UIImage(named: "friendCheck")
-//                        button?.tag = 1
-//                        print("It's supposed to change to check")
-//                sender.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
-//                        sender.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
+            
                 
             }
             else {
@@ -215,7 +204,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
 //                button?.imageView?.image = UIImage(named: "addFriend")
 //                button?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
 //                button?.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
-                followButton?.tag = 0
+                toSettingsButton?.tag = 0
             }
 //          button?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
 //                         button?.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
@@ -309,6 +298,27 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         return contentView
     }
     
+    func checkIfFollow() {
+        
+        
+    }
+    
+//    func loadFollows(completion: @escaping() -> ()) {
+//        followListener = db.collection("Followings").whereField("follower", isEqualTo: userData!.publicID).addSnapshotListener({ objects, error in
+//            if error == nil {
+//                self.followList.removeAll(keepingCapacity: true)
+//                guard let docs = objects?.documents else {
+//                    return
+//                }
+//                for doc in docs {
+//                    print("follow item \(doc.data())")
+//                    self.followList.append(doc["following"] as! String)
+//                }
+//            }
+//            completion()
+//        })
+//    }
+    
     
     // refresh logic when view will appear
     func refresh() {
@@ -387,6 +397,29 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
             }
         })
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        toSearchButton.isHidden = true
+        toSettingsButton.isHidden = true
+        followView.isHidden = true
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        toSettingsButton.isHidden = false
+        toSearchButton.isHidden = false
+        followView.isHidden = false
+    }
+    
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        toSearchButton.isHidden = false
+        toSettingsButton.isHidden = false
+        followView.isHidden = false
+    }
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        toSettingsButton.isHidden = false
+        toSearchButton.isHidden = false
+        followView.isHidden = false
+    }
         
     func changePostImageCoordinates() {
         for image in imageViewArray {
@@ -433,8 +466,29 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         //loadView()
         super.viewWillAppear(true) // No need for semicolon
 //        print("search button \(toSearchButton.frame)")
-        firstLoad = true
+      //  firstLoad = truefollowView.isHidden = true
+        toSearchButton.isHidden = false
+        toSettingsButton.isHidden = false
+        followView.isHidden = false
         refresh()
+    }
+    
+    @IBAction func toSearchButtonClicked(_ sender: UIButton) {
+        let userTableVC = storyboard?.instantiateViewController(identifier: "userTableVC") as! UserTableView
+        userTableVC.userData = userData
+        present(userTableVC, animated: false)
+        //        print("frame after pressed \(toSearchButton.frame)")
+        
+    }
+    
+    
+    @IBAction func toSettingsClicked(_ sender: UIButton) {
+        let userdata = self.userData
+        let settingsVC = self.storyboard!.instantiateViewController(identifier: "settingsVC") as! ProfessionalSettingsVC
+        settingsVC.userData = userdata
+    
+        self.present(settingsVC, animated: false)
+        settingsVC.modalPresentationStyle = .fullScreen
     }
     
     func openInstagram(instagramHandle: String) {

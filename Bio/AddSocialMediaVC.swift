@@ -55,6 +55,12 @@ class AddSocialMediaVC: UIViewController {
     @IBOutlet weak var continueBtn: UIButton!
     @IBOutlet weak var cancelBtn: UIButton!
     
+    @IBOutlet var twitchLogo: UIImageView!
+    
+    @IBOutlet var interactiveTwitchText: UITextField!
+    @IBOutlet var twitchText: UITextField!
+    
+    
     //interactive TextFields
     
     @IBOutlet weak var interactiveInstagramTxt: UITextField!
@@ -98,6 +104,7 @@ class AddSocialMediaVC: UIViewController {
         snapchatUsernameTxt.borderStyle = .roundedRect
         twitterHandleTxt.borderStyle = .roundedRect
         hudlText.borderStyle = .roundedRect
+        twitchText.borderStyle = .roundedRect
         
         tikTokText.layer.borderWidth = 1.0
         instagramUsernameTxt.layer.borderWidth = 1.0
@@ -108,6 +115,7 @@ class AddSocialMediaVC: UIViewController {
         poshmarkText.layer.borderWidth = 1.0
         soundCloudText.layer.borderWidth = 1.0
         hudlText.layer.borderWidth = 1.0
+        twitchText.layer.borderWidth = 1.0
         
         tikTokText.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
         venmoTxt.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
@@ -118,6 +126,7 @@ class AddSocialMediaVC: UIViewController {
         snapchatUsernameTxt.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
         twitterHandleTxt.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
         hudlText.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
+        twitchText.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
         
         tikTokText.backgroundColor = .black
         venmoTxt.backgroundColor = .black
@@ -128,6 +137,7 @@ class AddSocialMediaVC: UIViewController {
         snapchatUsernameTxt.backgroundColor = .black
         twitterHandleTxt.backgroundColor = .black
         hudlText.backgroundColor = .black
+        twitchText.backgroundColor = .black
         
         
         interactiveVenmoTxt.attributedPlaceholder = NSAttributedString(string: "Venmo Username",
@@ -152,6 +162,9 @@ class AddSocialMediaVC: UIViewController {
         interactiveSnapchatUsernameTxt.attributedPlaceholder = NSAttributedString(string: "Snapchat Username",
                                      attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
         interactiveHudlText.attributedPlaceholder = NSAttributedString(string: "Hudl Link",
+                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+        
+        interactiveTwitchText.attributedPlaceholder = NSAttributedString(string: "Twitch Username",
                                      attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
         
         
@@ -202,6 +215,7 @@ class AddSocialMediaVC: UIViewController {
         poshmarkText.frame = CGRect(x: 10, y: tikTokText.frame.maxY + 15, width: self.view.frame.size.width - 20, height: 35)
         
         hudlText.frame = CGRect(x: 10, y: poshmarkText.frame.maxY + 15, width: self.view.frame.size.width - 20, height: 35)
+        twitchText.frame = CGRect(x: 10, y: hudlText.frame.maxY + 15, width: self.view.frame.size.width - 20, height: 35)
         
         instagramLogo.frame = CGRect(x: 11, y: instagramUsernameTxt.frame.minY + 2, width: 24, height: 33)
         interactiveInstagramTxt.frame = CGRect(x: instagramLogo.frame.maxX + 3, y: instagramUsernameTxt.frame.minY, width: self.view.frame.size.width - instagramLogo.frame.maxX - 5, height: 35)
@@ -218,6 +232,8 @@ class AddSocialMediaVC: UIViewController {
         
         hudlLogo.frame =  CGRect(x: 11, y: hudlText.frame.minY + 2, width: 24, height: 33)
         
+        twitchLogo.frame =  CGRect(x: 11, y: twitchText.frame.minY + 2, width: 24, height: 33)
+        
           interactiveLinkedInText.frame = CGRect(x: linkedInLogo.frame.maxX + 3, y: linkedInText.frame.minY, width: self.view.frame.size.width - linkedInLogo.frame.maxX - 5, height: 35)
         
         venmoLogo.frame =  CGRect(x: 11, y: venmoTxt.frame.minY + 2, width: 24, height: 33)
@@ -232,7 +248,9 @@ class AddSocialMediaVC: UIViewController {
         
         interactiveHudlText.frame = CGRect(x: hudlLogo.frame.maxX + 3, y: hudlText.frame.minY, width: self.view.frame.size.width - hudlLogo.frame.maxX - 5, height: 35)
         
-        continueBtn.frame =  CGRect(x: 10.0, y: hudlText.frame.maxY + 15, width: hudlText.frame.width, height: 30)
+        interactiveTwitchText.frame = CGRect(x: twitchLogo.frame.maxX + 3, y: twitchText.frame.minY, width: self.view.frame.size.width - twitchLogo.frame.maxX - 5, height: 35)
+        
+        continueBtn.frame =  CGRect(x: 10.0, y: twitchText.frame.maxY + 15, width: twitchText.frame.width, height: 30)
        continueBtn.layer.cornerRadius = continueBtn.frame.size.width / 20
         cancelBtn.frame =  CGRect(x: 10.0, y: continueBtn.frame.maxY + 10, width: continueBtn.frame.width, height: 30)
        //cancelBtn.layer.cornerRadius = cancelBtn.frame.size.width / 20
@@ -253,6 +271,7 @@ class AddSocialMediaVC: UIViewController {
         interactiveTikTokText.borderStyle = .none
         interactivePoshmarkTxt.borderStyle = .none
         interactiveHudlText.borderStyle = .none
+        interactiveTwitchText.borderStyle = .none
         
         
 
@@ -339,7 +358,7 @@ class AddSocialMediaVC: UIViewController {
         self.view.endEditing(true)
         
         // if fields are empty
-        if (interactiveInstagramTxt.text!.isEmpty && interactiveSnapchatUsernameTxt.text!.isEmpty && interactiveTwitterHandleTxt.text!.isEmpty && interactiveSoundCloudText.text!.isEmpty && interactiveLinkedInText.text!.isEmpty && interactiveVenmoTxt.text!.isEmpty && interactiveTikTokText.text!.isEmpty && interactivePoshmarkTxt.text!.isEmpty) {
+        if (interactiveInstagramTxt.text!.isEmpty && interactiveSnapchatUsernameTxt.text!.isEmpty && interactiveTwitterHandleTxt.text!.isEmpty && interactiveSoundCloudText.text!.isEmpty && interactiveLinkedInText.text!.isEmpty && interactiveVenmoTxt.text!.isEmpty && interactiveTikTokText.text!.isEmpty && interactivePoshmarkTxt.text!.isEmpty && interactiveHudlText.text!.isEmpty && interactiveTwitchText.text!.isEmpty) {
             
             // alert message
             let alert = UIAlertController(title: "Hold up", message: "Fill in a field or hit \(cancelBtn.titleLabel!.text!)", preferredStyle: UIAlertController.Style.alert)
@@ -428,6 +447,15 @@ class AddSocialMediaVC: UIViewController {
                 
             })
         }
+        if (!interactiveTwitchText.text!.isEmpty) {
+            numPosts += 1
+            let twitchHex = HexagonStructData(resource: "\(interactiveHudlText.text!)/", type: "socialmedia_twitch", location: numPosts, thumbResource: "icons/twitch1.png", createdAt: NSDate.now.description, postingUserID: username, text: "https://m.twitch.tv/\(interactiveTwitchText.text!)/profile", views: 0, isArchived: false, docID: "WillBeSetLater")
+            addHex(hexData: twitchHex, completion: {bool in
+                success = success && bool
+                
+            })
+        }
+        
         
         if (!interactivePoshmarkTxt.text!.isEmpty) {
             numPosts += 1
@@ -481,7 +509,18 @@ class AddSocialMediaVC: UIViewController {
         }
     }
     
-    
+    func openTwitch(twitchURl: String) {
+       // guard let url = URL(string: "https://instagram.com/\(instagramHandle)")  else { return }
+        guard let url = URL(string:twitchURl) else { return }
+        
+        if UIApplication.shared.canOpenURL(url) {
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.openURL(url)
+            }
+        }
+    }
     
     
     

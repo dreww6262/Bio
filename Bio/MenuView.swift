@@ -286,14 +286,26 @@ class MenuView: UIView {
     @objc func friendsButtonClicked(_ sender: UIButton) {
         let viewControllers = tabController!.customizableViewControllers!
         let profileGrid = (viewControllers[3] as! BioProfileHexagonGrid2)
+        profileGrid.menuView.dmButton.isHidden = true
+        profileGrid.menuView.newPostButton.isHidden = true
+        profileGrid.menuView.friendsButton.isHidden = true
+        profileGrid.menuView.notificationsButton.isHidden = true
+        profileGrid.menuView.homeProfileButton.isHidden = true
+        
         profileGrid.userData = userData
         tabController!.viewControllers![3] = profileGrid
+       // tabController!.viewControllers![currentTab]
         tabController!.customTabBar.switchTab(from: currentTab, to: 3)
     }
     
     @objc func newPostButtonClicked(_ sender: UIButton) {
         let viewControllers = tabController!.customizableViewControllers!
         let newPostVC = (viewControllers[4] as! NewPostColorfulVC)
+        newPostVC.menuView.dmButton.isHidden = true
+        newPostVC.menuView.newPostButton.isHidden = true
+        newPostVC.menuView.friendsButton.isHidden = true
+        newPostVC.menuView.notificationsButton.isHidden = true
+        newPostVC.menuView.homeProfileButton.isHidden = true
         newPostVC.userData = userData
         tabController!.viewControllers![4] = newPostVC
         tabController!.customTabBar.switchTab(from: currentTab, to: 4)
@@ -303,6 +315,11 @@ class MenuView: UIView {
         let viewControllers = tabController!.customizableViewControllers!
         let notificationsVC = (viewControllers[0] as! NotificationsVC)
         notificationsVC.userData = userData
+        notificationsVC.menuView.dmButton.isHidden = true
+        notificationsVC.menuView.newPostButton.isHidden = true
+        notificationsVC.menuView.friendsButton.isHidden = true
+        notificationsVC.menuView.notificationsButton.isHidden = true
+        notificationsVC.menuView.homeProfileButton.isHidden = true
         tabController!.viewControllers![0] = notificationsVC
         tabController!.customTabBar.switchTab(from: currentTab, to: 0)
     }
@@ -311,6 +328,11 @@ class MenuView: UIView {
         let viewControllers = tabController!.customizableViewControllers!
         let homeVC = (viewControllers[2] as! HomeHexagonGrid)
         homeVC.userData = userData
+        homeVC.menuView.dmButton.isHidden = true
+        homeVC.menuView.newPostButton.isHidden = true
+        homeVC.menuView.friendsButton.isHidden = true
+        homeVC.menuView.notificationsButton.isHidden = true
+        homeVC.menuView.homeProfileButton.isHidden = true
         tabController!.viewControllers![2] = homeVC
         tabController!.customTabBar.switchTab(from: currentTab, to: 2)
     }

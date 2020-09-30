@@ -407,13 +407,9 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         let userdata = self.userData
         let settingsVC = self.storyboard!.instantiateViewController(identifier: "settingsVC") as! ProfessionalSettingsVC
         settingsVC.userData = userdata
-        
-        //settingsVC.menuView.tabController = (tabBarController as! NavigationMenuBaseController)
-        //settingsVC.menuView.userData = userData
-        //        settingsVC.modalPresentationStyle = .fullScreen
+    
         self.present(settingsVC, animated: false)
         settingsVC.modalPresentationStyle = .fullScreen
-        
     }
     
     func createImageViews() {
@@ -887,11 +883,9 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             if error != nil {
                 print(error!.localizedDescription)
             }
-          // self.textToImage(drawText: "Caye", inImage: (self.avaImage?.image)!, atPoint: CGPoint(x: 5, y: 5))
         })
    
-        
-        //print("avaFrame: \(avaImage!.frame)")
+    
     }
     
     func scrollIfNeeded(location: CGPoint, xDelta: CGFloat, yDelta: CGFloat) {
@@ -1080,6 +1074,11 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             if theType.contains("posh") {
                 openLink(link: hexItem.text)
             }
+            if theType.contains("twitch") {
+                print("This is hedItem.text \(hexItem.text)")
+            openLink(link: hexItem.text)
+                
+            }
           
             
         }
@@ -1089,7 +1088,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     
     var webView: WKWebView?
     var navBarView: NavBarView?
-    
+
     
     func openLink(link: String) {
         let backButton1 = UIButton()
