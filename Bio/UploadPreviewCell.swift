@@ -25,6 +25,9 @@ class UploadPreviewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+      // previewImage.frame = CGRect(x: 10 , y: self.frame.height-previewImage.frame.height/2, width: previewImage.frame.width, height: previewImage.frame.height)
+        previewImage.frame = CGRect(x: 10 , y: 30, width: previewImage.frame.width, height: previewImage.frame.height)
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

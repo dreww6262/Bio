@@ -288,7 +288,64 @@ extension UploadPreviewVC: UITableViewDelegate, UITableViewDataSource {
         let previewImageWidth = cell.previewImage.frame.width
         let previewImageHeight = cell.previewImage.frame.height
         cell.previewImage.frame = CGRect(x: 10, y: (cell.frame.height/2) - (previewImageHeight/2), width: previewImageWidth, height: previewImageHeight)
+        cell.previewImage.center = CGPoint(x: cell.contentView.bounds.size.width/2,y: cell.contentView.bounds.size.height/2)
+     //   cell.captionField.layer.borderWidth = 0.5
+     //   cell.captionField.layer.borderColor = white.cgColor
+      //  cell.tagField.layer.borderWidth = 0.5
+      //  cell.tagField.layer.borderColor = white.cgColor
+        //cell.locationField.layer.borderWidth = 0.5
+       // cell.locationField.layer.borderColor = white.cgColor
+       // cell.captionField.layer.cornerRadius = cell.captionField.frame.width/20
+       // cell.tagField.layer.cornerRadius = cell.tagField.frame.width/30
+      //  cell.locationField.layer.cornerRadius = cell.locationField.frame.width/40
+        cell.captionField.attributedPlaceholder = NSAttributedString(string: "Write A Caption...",
+                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+        cell.tagField.attributedPlaceholder = NSAttributedString(string: "Tag Friends",
+                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+        cell.locationField.attributedPlaceholder = NSAttributedString(string: "Add Location",
+                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+        print("This is preview image frame \(cell.previewImage.frame)")
+        print("This is cell frame \(cell.frame)")
         print("This is cell image \(cell.previewImage.image!)")
+        
+        
+        let bottomLine = CALayer()
+        bottomLine.frame = CGRect(x: 110, y: cell.captionField.frame.maxY, width: cell.captionField.frame.width, height: 1.0)
+        bottomLine.backgroundColor = UIColor.white.cgColor
+        let bottomLine2 = CALayer()
+        bottomLine2.frame = CGRect(x: 110, y: cell.tagField.frame.maxY, width: cell.tagField.frame.width, height: 1.0)
+        bottomLine2.backgroundColor = UIColor.white.cgColor
+               
+        let bottomLine3 = CALayer()
+        bottomLine3.backgroundColor = UIColor.white.cgColor
+        bottomLine3.frame = CGRect(x: 110, y: cell.locationField.frame.maxY, width: cell.locationField.frame.width, height: 1.0)
+        print("preview image frame \(cell.previewImage.frame)")
+        print("bottomLine frame \(bottomLine.frame)")
+        print("bottomLine 2 frame \(bottomLine2.frame)")
+        print("bottomLine 3 frame \(bottomLine3.frame)")
+        print("caption field frame \(cell.captionField.frame)")
+        print("tag field  frame \(cell.tagField.frame)")
+        print("location field frame \(cell.locationField.frame)")
+        
+        
+                bottomLine3.backgroundColor = UIColor.white.cgColor
+        cell.captionField.borderStyle = UITextField.BorderStyle.none
+        cell.captionField.layer.addSublayer(bottomLine)
+        cell.tagField.borderStyle = UITextField.BorderStyle.none
+        cell.tagField.layer.addSublayer(bottomLine2)
+        
+        cell.locationField.borderStyle = UITextField.BorderStyle.none
+        cell.locationField.layer.addSublayer(bottomLine3)
+//        bottomLine.frame = CGRect(x: 110, y: cell.captionField.frame.maxY, width: cell.captionField.frame.width, height: 1.0)
+//        bottomLine2.frame = CGRect(x: 110, y: cell.locationField.frame.maxY, width: cell.locationField.frame.width, height: 1.0)
+//        bottomLine3.frame = CGRect(x: 110, y: cell.locationField.frame.maxY, width: cell.locationField.frame.width, height: 1.0)
+        cell.captionField.textColor = .white
+        cell.tagField.textColor = .white
+        cell.locationField.textColor = .white
+
+        
+        
+        
 //        cell.previewImage.setupHexagonMask(lineWidth: cell.previewImage.frame.width/15, color: myOrange, cornerRadius: cell.previewImage.frame.width/15)
         cellArray.append(cell)
         return cell
