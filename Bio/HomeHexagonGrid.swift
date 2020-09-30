@@ -103,8 +103,8 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         toSearchButton.isHidden = false
         toSettingsButton.isHidden = false
         
-        let contentTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleContentViewerTap))
-        contentViewer.addGestureRecognizer(contentTapGesture)
+//        let contentTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleContentViewerTap))
+//        contentViewer.addGestureRecognizer(contentTapGesture)
         
         if userData == nil {
             user = Auth.auth().currentUser
@@ -1008,7 +1008,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             let playString = hexItem.resource
             // play(url: hexagonStructArray[sender.view!.tag].resource)
 //            print("This is url string \(playString)")
-            loadVideo(urlString: playString)
+            //loadVideo(urlString: playString)
             menuView.menuButton.isHidden = true
         }
         
