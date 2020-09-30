@@ -45,9 +45,6 @@ var shakebleImages : [PostImageView] = []
 class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, WKUIDelegate  {
     
     
-    // Content presentation
-    var player = AVAudioPlayer()
-    var contentViewer = UIView()
     
     // Firebase stuff
     var loadDataListener: ListenerRegistration?
@@ -55,6 +52,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     var userData: UserData?
     let db = Firestore.firestore()
     let storage = Storage.storage().reference()
+    let contentPages = ContentPagesVC()
     
     // UI stuff
     @objc var panGesture  = UIPanGestureRecognizer()
@@ -360,7 +358,9 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
 //            print("populates without getting userdata")
             populateUserAvatar()
             menuView.userData = userData
-            createImageViews()
+            createImageViews(completion: {
+                self.loadDataListener?.remove()
+            })
             return
         }
         user = Auth.auth().currentUser
@@ -374,7 +374,9 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
 //                            print("populates after getting userdata")
                             self.populateUserAvatar()
                             self.menuView.userData = newData
-                            self.createImageViews()
+                            self.createImageViews(completion: {
+                                self.loadDataListener?.remove()
+                            })
                             //                        print("created image views")
                         }
                         else {
@@ -416,9 +418,9 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         
     }
     
-    func createImageViews() {
+    func createImageViews(completion: @escaping () -> ()) {
         var newPostImageArray = [PostImageView]()
-        db.collection("Hexagons2").whereField("postingUserID", isEqualTo: userData!.publicID).addSnapshotListener({ objects, error in
+        loadDataListener = db.collection("Hexagons2").whereField("postingUserID", isEqualTo: userData!.publicID).addSnapshotListener({ objects, error in
             if error == nil {
                 guard let docs = objects?.documents else {
                     print("get hex failed")
@@ -435,6 +437,8 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                         newPostImageArray.append(hexImage)
                     }
                 }
+                self.updatePages(posts: newPostImageArray)
+                
                 self.resizeScrollView(numPosts: newPostImageArray.count) // clears out all content
                 
 //                print("populates after resizescrollview")
@@ -449,7 +453,59 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                 }
                 self.contentView.bringSubviewToFront(self.avaImage!)
             }
+            completion()
         })
+    }
+    
+    func updatePages(posts: [PostImageView]) {
+        var hexDatas = [HexagonStructData?](repeating: nil, count: posts.count)
+        var repeats = [HexagonStructData]()
+        for post in posts {
+            if (post.hexData!.location - 1 >= hexDatas.count) {
+                print("location >= count \(post.hexData!.location) \(hexDatas.count)")
+                repeats.append(post.hexData!)
+            }
+            else if (hexDatas[post.hexData!.location - 1] == nil) {
+                hexDatas[post.hexData!.location - 1] = post.hexData
+            }
+            else {
+                print("was already an item here \(post.hexData!.location - 1)")
+                repeats.append(post.hexData!)
+            }
+        }
+        var c = 0
+        var count = 0
+        for re in repeats {
+            print("repeat \(c)")
+            while count < hexDatas.count {
+                if (hexDatas[count] == nil) {
+                    hexDatas[count] = re
+                    hexDatas[count]!.location = count + 1
+                    repeats[c].location = hexDatas[count]!.location
+                    count += 1
+                    break
+                }
+                count += 1
+            }
+            c += 1
+        }
+        contentPages.hexData = hexDatas
+        
+        DispatchQueue.global().async {
+            let dispatchGroup = DispatchGroup()
+            for re in repeats {
+                dispatchGroup.enter()
+                self.db.collection("Hexagons2").document(re.docID).setData(re.dictionary) { _ in
+                    dispatchGroup.leave()
+                }
+            }
+            if (repeats.count > 0) {
+                dispatchGroup.notify(queue: .main) {
+                    self.userData?.numPosts = posts.count
+                    self.db.collection("UserData1").document(self.user!.uid).setData(self.userData!.dictionary)
+                }
+            }
+        }
     }
     
     func changePostImageCoordinates() {
@@ -486,14 +542,14 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         image.contentMode = .scaleAspectFill
         image.image = UIImage()
         image.hexData = hexData
-        image.tag = hexData.location ?? 0
+        image.tag = hexData.location
         
         image.addGestureRecognizer(longGesture)
         image.addGestureRecognizer(tapGesture)
         image.isUserInteractionEnabled = true
         //    var gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
 //        print("This is the type of hexagon: \(hexData.type)")
-        var myType = hexData.type
+        let myType = hexData.type
         // image.setupHexagonMask(lineWidth: 10.0, color: myBlueGreen, cornerRadius: 10.0)
         createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
         //let ref = storage.child(hexData.thumbResource)
@@ -519,6 +575,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                 db.collection("UserData1").whereField("email", isEqualTo: user!.email!).addSnapshotListener({ objects, error in
                     if (error == nil) {
                         if (objects!.documents.capacity > 0) {
+                            print("got userdata")
                             let newData = UserData(dictionary: objects!.documents[0].data())
                             self.menuView.userData = newData
                             self.userData = newData
@@ -724,7 +781,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         //find coordinates of final location for hexagon
         let hexCenter = hexView.center
         let red = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
-        let gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
+        //let gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
         for hex in self.imageViewArray {
             if (hex.hexData!.isArchived) {
                 continue
@@ -1005,83 +1062,72 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         //TO DO: Tap to Play Video
         if hexItem.type.contains("video") {
             //TO DO: play a video here!!
-            let playString = hexItem.resource
-            // play(url: hexagonStructArray[sender.view!.tag].resource)
-//            print("This is url string \(playString)")
-            //loadVideo(urlString: playString)
-            menuView.menuButton.isHidden = true
+            let videoVC = ContentVideoVC()
+            videoVC.videoHex = hexItem
+            present(videoVC, animated: false, completion: nil)
+
         }
         
         
         
         else if hexItem.type.contains("photo") {
-            menuView.menuButton.isHidden = true
-            let newImageView = UIImageView(image: UIImage(named: "kbit"))
-            let cleanRef = hexItem.thumbResource.replacingOccurrences(of: "/", with: "%2F")
-            let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
-            newImageView.sd_setImage(with: url!, completed: {_, error, _, _ in
-                if error != nil {
-                    print(error!.localizedDescription)
-                }
-            })
-            self.view.addSubview(newImageView)
-            
-            let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
-            
-            newImageView.frame = frame
-            newImageView.backgroundColor = .black
-            
-            newImageView.contentMode = .scaleAspectFit
-            newImageView.isUserInteractionEnabled = true
-            let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImageHandler))
-            newImageView.addGestureRecognizer(tap)
-            
-            let textView = UITextView()
-            textView.text = "asdfkjlasdfjasdf"
-            textView.textColor = .red
+//            let contentImageVC = ContentImageVC()
+//            contentImageVC.photoHex = hexItem
+//            present(contentImageVC, animated: false, completion: nil)
+            contentPages.currentIndex = hexItem.location - 1
+            contentPages.modalPresentationStyle = .fullScreen
+            self.present(contentPages, animated: false, completion: nil)
             
         }
         else if hexItem.type.contains("link") {
-            openLink(link: hexItem.resource)
+//            openLinkVC(hex: hexItem)
+            contentPages.currentIndex = hexItem.location - 1
+            contentPages.modalPresentationStyle = .fullScreen
+            self.present(contentPages, animated: false, completion: nil)
         }
         else if hexItem.type.contains("music") {
-            openLink(link: hexItem.resource)
+//            openLinkVC(hex: hexItem)
+            contentPages.currentIndex = hexItem.location - 1
+            contentPages.modalPresentationStyle = .fullScreen
+            self.present(contentPages, animated: false, completion: nil)
         }
         
-        else if hexItem.type.contains("social") {
-            let theType = hexItem.type
-            if theType.contains("instagram") {
-                openInstagram(instagramHandle: hexItem.text)
-            }
-            if theType.contains("twitter") {
-                openTwitter(twitterHandle: hexItem.text)
-            }
-            if theType.contains("tik") {
-                openTikTok(tikTokHandle: hexItem.text)
-            }
-            if theType.contains("snapchat") {
-                openSnapchat(snapchatUsername: hexItem.text)
-            }
-            if theType.contains("youtube") {
-                openLink(link: hexItem.text)
-            }
-            if theType.contains("hudl") {
-                openLink(link: hexItem.text)
-            }
-            if theType.contains("venmo") {
-                openLink(link: hexItem.text)
-            }
-            if theType.contains("sound") {
-                openLink(link: hexItem.text)
-            }
-            if theType.contains("linked") {
-                openLink(link: hexItem.text)
-            }
-            if theType.contains("posh") {
-                openLink(link: hexItem.text)
-            }
-          
-            
+//        else if hexItem.type.contains("social") {
+//            let theType = hexItem.type
+//            if theType.contains("instagram") {
+//                openInstagram(instagramHandle: hexItem.text)
+//            }
+//            if theType.contains("twitter") {
+//                openTwitter(twitterHandle: hexItem.text)
+//            }
+//            if theType.contains("tik") {
+//                openTikTok(tikTokHandle: hexItem.text)
+//            }
+//            if theType.contains("snapchat") {
+//                openSnapchat(snapchatUsername: hexItem.text)
+//            }
+//            if theType.contains("youtube") {
+//                openLink(link: hexItem.text)
+//            }
+//            if theType.contains("hudl") {
+//                openLink(link: hexItem.text)
+//            }
+//            if theType.contains("venmo") {
+//                openLink(link: hexItem.text)
+//            }
+//            if theType.contains("sound") {
+//                openLink(link: hexItem.text)
+//            }
+//            if theType.contains("linked") {
+//                openLink(link: hexItem.text)
+//            }
+//            if theType.contains("posh") {
+//                openLink(link: hexItem.text)
+//            }
+        else {
+            contentPages.currentIndex = hexItem.location - 1
+            contentPages.modalPresentationStyle = .fullScreen
+            self.present(contentPages, animated: false, completion: nil)
         }
         
     }
