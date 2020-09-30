@@ -138,6 +138,8 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         for v in view.subviews {
             v.isHidden = false
         }
+        pageView.dataSource = nil
+        pageView.dataSource = self
         
         if (currentIndex < viewControllers.count && currentIndex >= 0) {
             let currentVC = viewControllers[currentIndex]
