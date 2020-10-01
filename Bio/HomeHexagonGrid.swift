@@ -720,7 +720,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         //find coordinates of final location for hexagon
         let hexCenter = hexView.center
         let red = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
-        let gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
+        //let gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
         for hex in self.imageViewArray {
             if (hex.hexData!.isArchived) {
                 continue
@@ -852,7 +852,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         if avaImage != nil {
             avaImage?.removeFromSuperview()
         }
-        avaImage = UIImageView(frame: CGRect(x: self.reOrderedCoordinateArrayPoints[0].x, y: self.reOrderedCoordinateArrayPoints[0].y, width: hexaDiameter, height: hexaDiameter))
+        avaImage = UIImageView(frame: CGRect(x: self.reOrderedCoordinateArrayPoints[0].x + ((1/30)*hexaDiameter), y: self.reOrderedCoordinateArrayPoints[0].y + ((1/30)*hexaDiameter), width: (14/15)*hexaDiameter, height: (14/15)*hexaDiameter))
         avaImage?.contentMode = .scaleAspectFill
         avaImage?.image = UIImage()
         avaImage?.tag = 0
@@ -863,17 +863,17 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         avaImage?.isHidden = false
         contentView.bringSubviewToFront(avaImage!)
       //  avaImage!.setupHexagonMask(lineWidth: avaImage!.frame.width/15, color: white, cornerRadius: avaImage!.frame.width/15)
-        var scaleFactor = CGFloat(0.10)
-        var widthShavedOff = scaleFactor*CGFloat(avaImage!.frame.width)
-        var smallerFrame = CGRect(x: avaImage!.frame.minX, y: avaImage!.frame.minY, width: avaImage!.frame.width*CGFloat(0.90), height: avaImage!.frame.height*CGFloat(0.90))
-        avaImage!.frame = smallerFrame
-        avaImage!.frame = CGRect(x: smallerFrame.minX + (widthShavedOff/2), y: smallerFrame.minY + (widthShavedOff/2), width: smallerFrame.width, height: smallerFrame.height)
+//        var scaleFactor = CGFloat(0.10)
+//        var widthShavedOff = scaleFactor*CGFloat(avaImage!.frame.width)
+//        var smallerFrame = CGRect(x: avaImage!.frame.minX, y: avaImage!.frame.minY, width: avaImage!.frame.width*CGFloat(0.90), height: avaImage!.frame.height*CGFloat(0.90))
+//        avaImage!.frame = smallerFrame
+//        avaImage!.frame = CGRect(x: smallerFrame.minX + (widthShavedOff/2), y: smallerFrame.minY + (widthShavedOff/2), width: smallerFrame.width, height: smallerFrame.height)
         avaImage!.layer.cornerRadius = (avaImage!.frame.size.width)/2
         avaImage?.clipsToBounds = true
         avaImage?.layer.masksToBounds = true
         avaImage?.layer.borderColor = UIColor.white.cgColor
         avaImage?.layer.borderWidth = (avaImage?.frame.width)!/30
-        var myCenter = avaImage?.center
+//        var myCenter = avaImage?.center
 //        shrinkImage(imageView: avaImage!)
        // var mySize = avaImage?.bounds*
         
@@ -999,204 +999,55 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         //TO DO: Tap to Play Video
         if hexItem.type.contains("video") {
             //TO DO: play a video here!!
-            let playString = hexItem.resource
-            // play(url: hexagonStructArray[sender.view!.tag].resource)
-//            print("This is url string \(playString)")
-            loadVideo(urlString: playString)
-            menuView.menuButton.isHidden = true
+            let videoVC = ContentVideoVC()
+            videoVC.videoHex = hexItem
+            present(videoVC, animated: false, completion: nil)
+
         }
         
         
         
         else if hexItem.type.contains("photo") {
-            menuView.menuButton.isHidden = true
-            let newImageView = UIImageView(image: UIImage(named: "kbit"))
-            let cleanRef = hexItem.thumbResource.replacingOccurrences(of: "/", with: "%2F")
-            let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
-            newImageView.sd_setImage(with: url!, completed: {_, error, _, _ in
-                if error != nil {
-                    print(error!.localizedDescription)
-                }
-            })
-            self.view.addSubview(newImageView)
-            
-            let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
-            
-            newImageView.frame = frame
-            newImageView.backgroundColor = .black
-            
-            newImageView.contentMode = .scaleAspectFit
-            newImageView.isUserInteractionEnabled = true
-            let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImageHandler))
-            newImageView.addGestureRecognizer(tap)
-            
-            let textView = UITextView()
-            textView.text = "asdfkjlasdfjasdf"
-            textView.textColor = .red
+            contentPages.currentIndex = hexItem.location - 1
+            contentPages.modalPresentationStyle = .fullScreen
+            self.present(contentPages, animated: false, completion: nil)
             
         }
         else if hexItem.type.contains("link") {
-            openLink(link: hexItem.resource)
+//            openLinkVC(hex: hexItem)
+            contentPages.currentIndex = hexItem.location - 1
+            contentPages.modalPresentationStyle = .fullScreen
+            self.present(contentPages, animated: false, completion: nil)
         }
         else if hexItem.type.contains("music") {
-            openLink(link: hexItem.resource)
+            contentPages.currentIndex = hexItem.location - 1
+            contentPages.modalPresentationStyle = .fullScreen
+            self.present(contentPages, animated: false, completion: nil)
         }
-        
-        else if hexItem.type.contains("social") {
-            let theType = hexItem.type
-            if theType.contains("instagram") {
-                openInstagram(instagramHandle: hexItem.text)
-            }
-            if theType.contains("twitter") {
-                openTwitter(twitterHandle: hexItem.text)
-            }
-            if theType.contains("tik") {
-                openTikTok(tikTokHandle: hexItem.text)
-            }
-            if theType.contains("snapchat") {
-                openSnapchat(snapchatUsername: hexItem.text)
-            }
-            if theType.contains("youtube") {
-                openLink(link: hexItem.text)
-            }
-            if theType.contains("hudl") {
-                openLink(link: hexItem.text)
-            }
-            if theType.contains("venmo") {
-                openLink(link: hexItem.text)
-            }
-            if theType.contains("sound") {
-                openLink(link: hexItem.text)
-            }
-            if theType.contains("linked") {
-                openLink(link: hexItem.text)
-            }
-            if theType.contains("posh") {
-                openLink(link: hexItem.text)
-            }
-            if theType.contains("twitch") {
-                print("This is hedItem.text \(hexItem.text)")
-            openLink(link: hexItem.text)
-                
-            }
-          
+        else {
+            contentPages.currentIndex = hexItem.location - 1
+            contentPages.modalPresentationStyle = .fullScreen
+            self.present(contentPages, animated: false, completion: nil)
             
         }
         
     }
     
+   
+    func openLinkVC(hex: HexagonStructData) {
+        let linkVC = ContentLinkVC()
+        linkVC.webHex = hex
+        present(linkVC, animated: false, completion: nil)
+    }
     
-    var webView: WKWebView?
-    var navBarView: NavBarView?
+    
 
     
-    func openLink(link: String) {
-        let backButton1 = UIButton()
-        let webLabel = UILabel()
-        
-        let webConfig = WKWebViewConfiguration()
-        navBarView = NavBarView()
-        navBarView?.titleLabel.text = "Link"
-        let tapBack = UITapGestureRecognizer(target: self, action: #selector(backWebHandler))
-        navBarView?.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
-        //navBarView?.backButton.addGestureRecognizer(tapBack)
-        let rect = CGRect(x: 0, y: navBarView!.frame.maxY, width: view.frame.width, height: view.frame.height - navBarView!.frame.height)
-        webView = WKWebView(frame: rect, configuration: webConfig)
-        webView?.uiDelegate = self
-        view.addSubview(navBarView!)
-        navBarView?.addBehavior()
-        navBarView?.backgroundColor = .systemGray6
-        navBarView?.addSubview(backButton1)
-        navBarView?.addSubview(webLabel)
-        
-        webLabel.text = "Link"
-        webLabel.frame = CGRect(x: navBarView!.frame.midX - 50, y: navBarView!.frame.midY - 5, width: 100, height: 30)
-        webLabel.textAlignment = .center
-        webLabel.font = UIFont(name: "DINAlternate-Bold", size: 20)
         
         
-        backButton1.isUserInteractionEnabled = true
-        backButton1.addGestureRecognizer(tapBack)
-        backButton1.setTitle("Back", for: .normal)
-        backButton1.setTitleColor(.systemBlue, for: .normal)
-        backButton1.frame = CGRect(x: 5, y: navBarView!.frame.midY - 20, width: navBarView!.frame.width/8, height: self.view.frame.height/12)
-        
-        
-        view.addSubview(webView!)
-        menuView.menuButton.isHidden = true
-        let myUrl = URL(string: link)
-        if (myUrl != nil) {
-            let myRequest = URLRequest(url: myUrl!)
-            webView?.load(myRequest)
-        }
-        toSettingsButton.isHidden = true
-        toSearchButton.isHidden = true
-        menuView.menuButton.isHidden = true
-    }
-    
-    @objc func backWebHandler(_ sender: UITapGestureRecognizer) {
-        webView?.removeFromSuperview()
-        navBarView?.removeFromSuperview()
-        webView = nil
-        navBarView = nil
-        toSearchButton.isHidden = false
-        toSettingsButton.isHidden = false
-        menuView.menuButton.isHidden = false
-    }
-    
-    var avPlayer: AVPlayer? = nil
-    // loads video into new avplayer and overlays on current VC
-    
-    func loadVideo(urlString: String) {
-//        print("im in loadVideo")
-        let vidRef = storage.child(urlString)
-        vidRef.downloadURL(completion: { url, error in
-            if error == nil {
-                let asset = AVAsset(url: url!)
-                let item = AVPlayerItem(asset: asset)
-                self.view.addSubview(self.contentViewer)
-                let contentRect = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
-                self.contentViewer.frame = contentRect
-                self.contentViewer.backgroundColor = .black
-                self.avPlayer = AVPlayer(playerItem: item)
-                let playerLayer = AVPlayerLayer(player: self.avPlayer)
-                playerLayer.frame = self.contentViewer.bounds //bounds of the view in which AVPlayer should be displayed
-                playerLayer.videoGravity = .resizeAspect
-                self.contentViewer.layer.addSublayer(playerLayer)
-                self.playVideo()
-            }
-        })
-        
-    }
-    
-    @objc func handleContentViewerTap(sender: UITapGestureRecognizer) {
-        dismissContent(view: sender.view!)
-        
-    }
-    func dismissContent(view: UIView){
-        //self.navigationController?.isNavigationBarHidden = false
-        // self.tabBarController?.tabBar.isHidden = false
-        pauseVideo()
-        //        for v in view.subviews {
-        //            v.removeFromSuperview()
-        //        }
-        //        for layer in view.layer.sublayers {
-        //        }
-        view.removeFromSuperview()
-        menuView.menuButton.isHidden = false
-        
-    }
-    
-    public func playVideo() {
-        avPlayer?.play()
-    }
-    
-    public func pauseVideo() {
-        avPlayer?.pause()
-    }
-    
     @IBAction func unvindSegueSignOut(segue: UIStoryboardSegue) {
         menuView.userData = nil
+        user = nil
         do {
             try Auth.auth().signOut()
         }
@@ -1205,8 +1056,10 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         }
         menuView.tabController?.customTabBar.switchTab(from: 2, to: 5)
     }
+        
+  }
     
-}
+
 
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -1378,8 +1231,6 @@ extension UIView {
         self.layer.mask = nil
     }
     
-}
-extension UIView {
   
   func shake() {
     let animation = CABasicAnimation(keyPath: "position")
