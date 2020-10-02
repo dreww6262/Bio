@@ -46,6 +46,12 @@ class AddSocialMediaCell: UITableViewCell {
         //socialMediaIcon.setupHexagonMask(lineWidth: socialMediaIcon.frame.height/15, color: gold, cornerRadius: socialMediaIcon.frame.height/15)
         textField.frame = CGRect(x: socialMediaIcon.frame.maxX + (self.frame.width/24), y: self.frame.height/3, width: width - socialMediaIcon.frame.maxX, height: self.frame.height*(1/4))
         interactiveTextField.frame = textField.frame
+        
+        let bottomLine = CALayer()
+        bottomLine.frame = CGRect(x: 0.0, y: 22, width: interactiveTextField.frame.width, height: 1.0)
+        bottomLine.backgroundColor = UIColor.white.cgColor
+        interactiveTextField.borderStyle = UITextField.BorderStyle.none
+        interactiveTextField.layer.addSublayer(bottomLine)
        
         print("This is textfield.frame \(textField.frame)")
         print("This is interactivetextfield.frame \(interactiveTextField.frame)")
