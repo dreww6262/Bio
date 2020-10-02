@@ -18,12 +18,12 @@ class ContentLinkVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        var newSafeArea = UIEdgeInsets()
-        newSafeArea.bottom = 10
-        newSafeArea.top = 50
-        newSafeArea.right = 0
-        newSafeArea.left = 0
-        self.additionalSafeAreaInsets = newSafeArea
+//        var newSafeArea = UIEdgeInsets()
+//        newSafeArea.bottom = 10
+//        newSafeArea.top = 50
+//        newSafeArea.right = 0
+//        newSafeArea.left = 0
+//        self.additionalSafeAreaInsets = newSafeArea
         
         let webConfig = WKWebViewConfiguration()
 

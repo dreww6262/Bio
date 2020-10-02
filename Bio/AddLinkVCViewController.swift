@@ -18,20 +18,20 @@ import FirebaseFirestore
 class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     var hasChosenThumbnailImage = false
     var lowTitleTextFrame = CGRect()
-   var validURL = false
-            var lowSubtitleTextFrame = CGRect()
-             var lowLinkLogoFrame = CGRect()
-             var lowLinkTextfieldFrame = CGRect()
-             var lowLinkHexagonImageFrame = CGRect()
-             var lowContinueButtonFrame = CGRect()
-             var lowCancelButtonFrame = CGRect()
-          var highTitleTextFrame = CGRect()
-          var highSubtitleTextFrame = CGRect()
-        var highLinkLogoFrame = CGRect()
-        var highLinkTextfieldFrame = CGRect()
-          var highLinkHexagonImageFrame = CGRect()
-        var highContinueButtonFrame = CGRect()
-        var highCancelButtonFrame = CGRect()
+    var validURL = false
+    var lowSubtitleTextFrame = CGRect()
+    var lowLinkLogoFrame = CGRect()
+    var lowLinkTextfieldFrame = CGRect()
+    var lowLinkHexagonImageFrame = CGRect()
+    var lowContinueButtonFrame = CGRect()
+    var lowCancelButtonFrame = CGRect()
+    var highTitleTextFrame = CGRect()
+    var highSubtitleTextFrame = CGRect()
+    var highLinkLogoFrame = CGRect()
+    var highLinkTextfieldFrame = CGRect()
+    var highLinkHexagonImageFrame = CGRect()
+    var highContinueButtonFrame = CGRect()
+    var highCancelButtonFrame = CGRect()
     
     @IBOutlet weak var titleText: UILabel!
     @IBOutlet weak var subtitleText: UILabel!
@@ -71,7 +71,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     override func viewDidLoad() {
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboard(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboard(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-                NotificationCenter.default.addObserver(self, selector: #selector(self.keyboard(notification:)), name:UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboard(notification:)), name:UIResponder.keyboardWillChangeFrameNotification, object: nil)
         
         
         var alreadySnapped = false
@@ -144,21 +144,21 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         bg.layer.zPosition = -1
         self.view.addSubview(bg)
         var lowTitleTextFrame = titleText.frame
-          var lowSubtitleTextFrame = subtitleText.frame
-           var lowLinkLogoFrame = linkLogo.frame
-           var lowLinkTextfieldFrame = linkTextField.frame
-           var lowLinkHexagonImageFrame = linkHexagonImage.frame
-           var lowContinueButtonFrame = continueBtn.frame
-           var lowCancelButtonFrame = cancelBtn.frame
+        var lowSubtitleTextFrame = subtitleText.frame
+        var lowLinkLogoFrame = linkLogo.frame
+        var lowLinkTextfieldFrame = linkTextField.frame
+        var lowLinkHexagonImageFrame = linkHexagonImage.frame
+        var lowContinueButtonFrame = continueBtn.frame
+        var lowCancelButtonFrame = cancelBtn.frame
         
         var highTitleTextFrame = CGRect(x: titleText.frame.minX, y: lowTitleTextFrame.minY - 70, width: titleText.frame.width, height: titleText.frame.height)
         var highSubtitleTextFrame = CGRect(x: subtitleText.frame.minX, y: lowSubtitleTextFrame.minY - 70, width: lowSubtitleTextFrame.width, height: lowSubtitleTextFrame.height)
-                  var highLinkLogoFrame = CGRect(x: linkLogo.frame.minX, y: lowTitleTextFrame.minY - 70, width: linkLogo.frame.width, height: titleText.frame.height)
-                  var highLinkTextfieldFrame = CGRect(x: linkTextField.frame.minX, y: lowLinkTextfieldFrame.minY - 70, width: linkTextField.frame.width, height: linkTextField.frame.height)
+        var highLinkLogoFrame = CGRect(x: linkLogo.frame.minX, y: lowTitleTextFrame.minY - 70, width: linkLogo.frame.width, height: titleText.frame.height)
+        var highLinkTextfieldFrame = CGRect(x: linkTextField.frame.minX, y: lowLinkTextfieldFrame.minY - 70, width: linkTextField.frame.width, height: linkTextField.frame.height)
         var highLinkHexagonImageFrame = CGRect(x: linkHexagonImage.frame.minX, y: lowLinkHexagonImageFrame.minY - 70, width: linkHexagonImage.frame.width, height: linkHexagonImage.frame.height)
-                  var highContinueButtonFrame = CGRect(x: continueBtn.frame.minX, y: lowContinueButtonFrame.minY - 70, width: continueBtn.frame.width, height: continueBtn.frame.height)
-                  var highCancelButtonFrame = CGRect(x: cancelBtn.frame.minX, y: lowCancelButtonFrame.minY - 70, width: cancelBtn.frame.width, height: cancelBtn.frame.height)
-
+        var highContinueButtonFrame = CGRect(x: continueBtn.frame.minX, y: lowContinueButtonFrame.minY - 70, width: continueBtn.frame.width, height: continueBtn.frame.height)
+        var highCancelButtonFrame = CGRect(x: cancelBtn.frame.minX, y: lowCancelButtonFrame.minY - 70, width: cancelBtn.frame.width, height: cancelBtn.frame.height)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -168,31 +168,31 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     
     // hide keyboard if tapped
     @objc func hideKeyboardTap(_ recoginizer:UITapGestureRecognizer) {
-     //   pushEverythingDown()
+        //   pushEverythingDown()
         self.view.endEditing(true)
     }
     
     func pushEverythingUp() {
         titleText.frame = CGRect(x: 0,y:60, width: self.view.frame.size.width, height: 30)
-               subtitleText.frame = CGRect(x:0, y: titleText.frame.origin.y + 30, width: self.view.frame.size.width, height: 30)
-               linkHexagonImage.frame = CGRect(x: 40, y: subtitleText.frame.maxY + 35, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
-               changeCoverLabel.frame = CGRect(x: 10, y: linkHexagonImage.frame.origin.y + scrollView.frame.width/2, width: self.view.frame.size.width - 20, height: 30)
-               linkTextField.frame = CGRect(x: 10, y: linkHexagonImage.frame.maxY + 20, width: self.view.frame.size.width - 20, height: 30)
-               linkTextField.attributedPlaceholder = NSAttributedString(string: "Paste Link Here",
-                                                                        attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
-               linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: linkTextField.frame.minY, width: 30, height: 30)
-               continueBtn.frame =  CGRect(x: 10.0, y: linkTextField.frame.maxY + 20, width: self.view.frame.width - 20, height: 24)
-               continueBtn.layer.cornerRadius = continueBtn.frame.size.width / 20
-               cancelBtn.frame =  CGRect(x: 10.0, y: continueBtn.frame.maxY + 10, width: continueBtn.frame.width, height: 24)
+        subtitleText.frame = CGRect(x:0, y: titleText.frame.origin.y + 30, width: self.view.frame.size.width, height: 30)
+        linkHexagonImage.frame = CGRect(x: 40, y: subtitleText.frame.maxY + 35, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
+        changeCoverLabel.frame = CGRect(x: 10, y: linkHexagonImage.frame.origin.y + scrollView.frame.width/2, width: self.view.frame.size.width - 20, height: 30)
+        linkTextField.frame = CGRect(x: 10, y: linkHexagonImage.frame.maxY + 20, width: self.view.frame.size.width - 20, height: 30)
+        linkTextField.attributedPlaceholder = NSAttributedString(string: "Paste Link Here",
+                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: linkTextField.frame.minY, width: 30, height: 30)
+        continueBtn.frame =  CGRect(x: 10.0, y: linkTextField.frame.maxY + 20, width: self.view.frame.width - 20, height: 24)
+        continueBtn.layer.cornerRadius = continueBtn.frame.size.width / 20
+        cancelBtn.frame =  CGRect(x: 10.0, y: continueBtn.frame.maxY + 10, width: continueBtn.frame.width, height: 24)
         
         
         highTitleTextFrame = CGRect(x: titleText.frame.minX, y: lowTitleTextFrame.minY - 70, width: titleText.frame.width, height: titleText.frame.height)
         highSubtitleTextFrame = CGRect(x: subtitleText.frame.minX, y: lowSubtitleTextFrame.minY - 70, width: lowSubtitleTextFrame.width, height: lowSubtitleTextFrame.height)
-            highLinkLogoFrame = CGRect(x: linkLogo.frame.minX, y: lowTitleTextFrame.minY - 70, width: linkLogo.frame.width, height: titleText.frame.height)
-                highLinkTextfieldFrame = CGRect(x: linkTextField.frame.minX, y: lowLinkTextfieldFrame.minY - 70, width: linkTextField.frame.width, height: linkTextField.frame.height)
-         highLinkHexagonImageFrame = CGRect(x: linkHexagonImage.frame.minX, y: lowLinkHexagonImageFrame.minY - 70, width: linkHexagonImage.frame.width, height: linkHexagonImage.frame.height)
-                highContinueButtonFrame = CGRect(x: continueBtn.frame.minX, y: lowContinueButtonFrame.minY - 70, width: continueBtn.frame.width, height: continueBtn.frame.height)
-                highCancelButtonFrame = CGRect(x: cancelBtn.frame.minX, y: lowCancelButtonFrame.minY - 70, width: cancelBtn.frame.width, height: cancelBtn.frame.height)
+        highLinkLogoFrame = CGRect(x: linkLogo.frame.minX, y: lowTitleTextFrame.minY - 70, width: linkLogo.frame.width, height: titleText.frame.height)
+        highLinkTextfieldFrame = CGRect(x: linkTextField.frame.minX, y: lowLinkTextfieldFrame.minY - 70, width: linkTextField.frame.width, height: linkTextField.frame.height)
+        highLinkHexagonImageFrame = CGRect(x: linkHexagonImage.frame.minX, y: lowLinkHexagonImageFrame.minY - 70, width: linkHexagonImage.frame.width, height: linkHexagonImage.frame.height)
+        highContinueButtonFrame = CGRect(x: continueBtn.frame.minX, y: lowContinueButtonFrame.minY - 70, width: continueBtn.frame.width, height: continueBtn.frame.height)
+        highCancelButtonFrame = CGRect(x: cancelBtn.frame.minX, y: lowCancelButtonFrame.minY - 70, width: cancelBtn.frame.width, height: cancelBtn.frame.height)
         
         titleText.frame = highTitleTextFrame
         subtitleText.frame = highSubtitleTextFrame
@@ -217,13 +217,13 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         guard let keyboardReact = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else{
             return
         }
-
+        
         if notification.name == UIResponder.keyboardWillShowNotification ||  notification.name == UIResponder.keyboardWillChangeFrameNotification {
             self.view.frame.origin.y = -keyboardReact.height
         }else{
             self.view.frame.origin.y = 0
         }
-
+        
     }
     
     
@@ -237,27 +237,27 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         lowLinkHexagonImageFrame = CGRect(x: linkHexagonImage.frame.minX, y: linkHexagonImage.frame.minY + 70, width: linkHexagonImage.frame.width, height: linkHexagonImage.frame.height)
         lowContinueButtonFrame = CGRect(x: continueBtn.frame.minX, y: continueBtn.frame.minY + 70, width: continueBtn.frame.width, height: continueBtn.frame.height)
         cancelBtn.frame = CGRect(x: cancelBtn.frame.minX, y: cancelBtn.frame.minY + 70, width: cancelBtn.frame.width, height: cancelBtn.frame.height)
-                 
-                 titleText.frame = lowTitleTextFrame
-                 subtitleText.frame = lowSubtitleTextFrame
-                 linkLogo.frame = lowLinkLogoFrame
-                 linkTextField.frame = lowLinkTextfieldFrame
-                 linkHexagonImage.frame = lowLinkHexagonImageFrame
-                 continueBtn.frame = lowContinueButtonFrame
-                 cancelBtn.frame = lowCancelButtonFrame
-                 print("New Frames")
-                 print(titleText.frame)
-                 print(subtitleText.frame)
-                 print(linkLogo.frame)
-                 print(linkTextField.frame)
-                 print(linkHexagonImage.frame)
-                 print(continueBtn.frame)
-                 print(cancelBtn.frame)
-      }
+        
+        titleText.frame = lowTitleTextFrame
+        subtitleText.frame = lowSubtitleTextFrame
+        linkLogo.frame = lowLinkLogoFrame
+        linkTextField.frame = lowLinkTextfieldFrame
+        linkHexagonImage.frame = lowLinkHexagonImageFrame
+        continueBtn.frame = lowContinueButtonFrame
+        cancelBtn.frame = lowCancelButtonFrame
+        print("New Frames")
+        print(titleText.frame)
+        print(subtitleText.frame)
+        print(linkLogo.frame)
+        print(linkTextField.frame)
+        print(linkHexagonImage.frame)
+        print(continueBtn.frame)
+        print(cancelBtn.frame)
+    }
     
     // show keyboard
     @objc func showKeyboard(_ notification:Notification) {
-       // pushEverythingUp()
+        // pushEverythingUp()
         
         
         
@@ -265,21 +265,21 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         keyboard = ((notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]! as AnyObject).cgRectValue)!
         
         // move up UI
-//        UIView.animate(withDuration: 0.4, animations: { () -> Void in
-//            self.scrollView.frame.size.height = self.scrollViewHeight - self.keyboard.height
-//        })
-    
+        //        UIView.animate(withDuration: 0.4, animations: { () -> Void in
+        //            self.scrollView.frame.size.height = self.scrollViewHeight - self.keyboard.height
+        //        })
+        
         
     }
     
     
     // hide keyboard func
     @objc func hideKeybard(_ notification:Notification) {
-    //    pushEverythingDown()
+        //    pushEverythingDown()
         // move down UI
-//        UIView.animate(withDuration: 0.4, animations: { () -> Void in
-//            self.scrollView.frame.size.height = self.view.frame.height
-//        })
+        //        UIView.animate(withDuration: 0.4, animations: { () -> Void in
+        //            self.scrollView.frame.size.height = self.view.frame.height
+        //        })
     }
     
     func addHex(hexData: HexagonStructData, completion: @escaping (Bool) -> Void) {
@@ -305,50 +305,62 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     @IBAction func continueClicked(_ sender: AnyObject) {
         print("continue button pressed")
         
+        let username = userData!.publicID
+        var numPosts = userData!.numPosts
+        
+        if numPosts + 1 > 38 {
+            // too many posts
+            let alert = UIAlertController(title: "Not Enough Space :/", message: "Either cancel this or delete a post from your home grid and try again.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
+        
         if hasChosenThumbnailImage == false {
             loadImg(UITapGestureRecognizer())
         }
         else {
-        
-        // dismiss keyboard
-        self.view.endEditing(true)
-        
-        // if fields are empty
-        if (linkTextField.text!.isEmpty) {
             
-            // alert message
-            let alert = UIAlertController(title: "Hold up", message: "Fill in a field or hit Cancel", preferredStyle: UIAlertController.Style.alert)
-            let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
-            alert.addAction(ok)
-            self.present(alert, animated: true, completion: nil)
+            // dismiss keyboard
+            self.view.endEditing(true)
             
-            return
-        }
-        
-        let username = userData!.publicID
-        var numPosts = userData!.numPosts
-        
-        var linkString = "\(linkTextField.text!)"
-        print("This is linkString \(linkString)")
-        let url = URL(string: linkString)
+            // if fields are empty
+            if (linkTextField.text!.isEmpty) {
+                
+                // alert message
+                let alert = UIAlertController(title: "Hold up", message: "Fill in a field or hit Cancel", preferredStyle: UIAlertController.Style.alert)
+                let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
+                alert.addAction(ok)
+                self.present(alert, animated: true, completion: nil)
+                
+                return
+            }
+            
+            
+            
+            
+            
+            var linkString = "\(linkTextField.text!)"
+            print("This is linkString \(linkString)")
+            let url = URL(string: linkString)
             if linkString.isValidURL {
                 print("linkString is valid URL")
                 validURL = true
-print("This is url \(url)")
-////                let url = URL(string: linkString)
-////                let session = URLSession.shared
-////                let task = session.downloadTask(with:url as! URL) { loc, resp, err in
-////                    let status = (resp as! HTTPURLResponse).statusCode
-////                    print("response status: \(status)")
-////                }
-////                task.resume()
-//            let task = URLSession.shared.dataTask(with: url!) { _, response, _ in
-//                if let httpResponse = response as? HTTPURLResponse {
-//                    print(httpResponse.statusCode)
-//                }
-//            }
-//
-//            task.resume()
+                print("This is url \(url)")
+                ////                let url = URL(string: linkString)
+                ////                let session = URLSession.shared
+                ////                let task = session.downloadTask(with:url as! URL) { loc, resp, err in
+                ////                    let status = (resp as! HTTPURLResponse).statusCode
+                ////                    print("response status: \(status)")
+                ////                }
+                ////                task.resume()
+                //            let task = URLSession.shared.dataTask(with: url!) { _, response, _ in
+                //                if let httpResponse = response as? HTTPURLResponse {
+                //                    print(httpResponse.statusCode)
+                //                }
+                //            }
+                //
+                //            task.resume()
                 
                 
                 
@@ -358,51 +370,51 @@ print("This is url \(url)")
                 validURL = false
             }
             
-        
-        
-        //let group = DispatchGroup()
-        if (!linkTextField.text!.isEmpty && validURL) {
-            let timestamp = Timestamp.init().seconds
-            let imageFileName = "\(username)_\(timestamp)_link.png"
-            let refText = "userFiles/\(username)/\(imageFileName)"
-            let imageRef = storageRef.child(refText)
-            numPosts += 1
-            let linkHex = HexagonStructData(resource: linkTextField.text!, type: "link", location: numPosts, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: "\(linkTextField.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
             
             
-            
-            
-            imageRef.putData(linkHexagonImage.image!.pngData()!, metadata: nil){ data, error in
-                if (error == nil) {
-                    print ("upload successful")
-                    self.addHex(hexData: linkHex, completion: { bool in
-                        if (bool) {
-                            print("Add hex successful")
-                        }
-                        else {
-                            print("didnt add hex")
-                        }
-                    })
-                }
-                else {
-                    print ("upload failed")
-                }
-            }
-            
-            
-            userData?.numPosts = numPosts
-            db.collection("UserData1").document(currentUser!.uid).setData(self.userData!.dictionary, completion: { error in
-                if error == nil {
-                    print("userdata updated successfully")
-                    self.performSegue(withIdentifier: "unwindFromLinkToHome", sender: nil)
-                }
-                else {
-                    print("userData not saved \(error?.localizedDescription)")
+            //let group = DispatchGroup()
+            if (!linkTextField.text!.isEmpty && validURL) {
+                let timestamp = Timestamp.init().seconds
+                let imageFileName = "\(username)_\(timestamp)_link.png"
+                let refText = "userFiles/\(username)/\(imageFileName)"
+                let imageRef = storageRef.child(refText)
+                numPosts += 1
+                let linkHex = HexagonStructData(resource: linkTextField.text!, type: "link", location: numPosts, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: "\(linkTextField.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+                
+                
+                
+                
+                imageRef.putData(linkHexagonImage.image!.pngData()!, metadata: nil){ data, error in
+                    if (error == nil) {
+                        print ("upload successful")
+                        self.addHex(hexData: linkHex, completion: { bool in
+                            if (bool) {
+                                print("Add hex successful")
+                            }
+                            else {
+                                print("didnt add hex")
+                            }
+                        })
+                    }
+                    else {
+                        print ("upload failed")
+                    }
                 }
                 
-            })
-        }
-        
+                
+                userData?.numPosts = numPosts
+                db.collection("UserData1").document(currentUser!.uid).setData(self.userData!.dictionary, completion: { error in
+                    if error == nil {
+                        print("userdata updated successfully")
+                        self.performSegue(withIdentifier: "unwindFromLinkToHome", sender: nil)
+                    }
+                    else {
+                        print("userData not saved \(error?.localizedDescription)")
+                    }
+                    
+                })
+            }
+            
         }
     }
     
