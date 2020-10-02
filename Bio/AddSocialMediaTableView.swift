@@ -131,10 +131,9 @@ class AddSocialMediaTableView: UIViewController {
                 count += 1
             }
         }
-        
-        if numPosts + count > 38 {
+        if numPosts + count > 37 {
             // too many posts
-            let overflow = numPosts + count - 38
+            let overflow = numPosts + count - 37
             let alert = UIAlertController(title: "Not Enough Space :/", message: "Either clear out \(overflow) field\(overflow > 1 ? "s" : "") or delete \(overflow) post\(overflow > 1 ? "s" : "") from your home grid.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)

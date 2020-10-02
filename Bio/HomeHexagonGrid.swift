@@ -428,7 +428,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                     if (hexData.isArchived == true) {
                         continue
                     }
-                    if (newPostImageArray.count < 38 && hexData.location > 0) {
+                    if (newPostImageArray.count < 37 && hexData.location > 0 && hexData.location < 37) {
                         let hexImage = self.createPostImage(hexData: hexData)
                         newPostImageArray.append(hexImage)
                     }

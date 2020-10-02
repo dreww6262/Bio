@@ -2227,7 +2227,7 @@
         <!--Upload PreviewVC-->
         <scene sceneID="Q7i-Yx-Ctm">
             <objects>
-                <viewController storyboardIdentifier="uploadPreviewVC" id="qt2-lM-pKk" customClass="UploadPreviewVC" customModule="Bio" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="uploadPreviewVC" modalPresentationStyle="fullScreen" id="qt2-lM-pKk" customClass="UploadPreviewVC" customModule="Bio" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="mhZ-ph-tfV">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -60,9 +60,9 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
         var count = 0
         let numPosts = self.userData!.numPosts
         
-        if numPosts + cellArray.count > 38 {
+        if numPosts + cellArray.count > 37 {
             // too many posts
-            let overflow = numPosts + cellArray.count - 38
+            let overflow = numPosts + cellArray.count - 37
             let alert = UIAlertController(title: "Not Enough Space :/", message: "Either remove \(overflow) photo\(overflow > 1 ? "s" : "") or delete \(overflow) post\(overflow > 1 ? "s" : "") from your home grid.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
@@ -158,11 +158,6 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
     
     func uploadHexagons(hexes: ThreadSafeArray<HexagonStructData>) {
         
-        if (userData != nil && userData!.numPosts + hexes.count > 38) {
-            // add alert for too many posts.
-            // should then return
-            print("too many posts")
-        }
         
         var readHexes = hexes.readOnlyArray()
         var failedHexes = [HexagonStructData]()
