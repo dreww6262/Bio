@@ -10,6 +10,12 @@ import UIKit
 
 class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource {
     
+    let backImage = UIImage(named: "whiteBack")
+    let shareImage = UIImage(named: "whiteShare")
+    let commentImage = UIImage(named: "whiteComment")
+    let reportImage = UIImage(named: "whiteShield")
+    
+    
     var viewControllers = [UIViewController]()
     var pageView = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
     var currentIndex: Int = 0
@@ -117,18 +123,91 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         super.viewDidLoad()
         let topBar = UIView()
         view.addSubview(topBar)
-        topBar.backgroundColor = .darkGray
+        topBar.backgroundColor = .clear
         topBar.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 50)
         
         let backButton = UIButton()
-        view.addSubview(backButton)
-        backButton.setTitle("Back", for: .normal)
-        backButton.setTitleColor(.white, for: .normal)
-        backButton.backgroundColor = .clear
+        topBar.addSubview(backButton)
+     //  backButton.setTitle("Back", for: .normal)
+    //    backButton.setTitleColor(.white, for: .normal)
+     //   backButton.backgroundColor = .black
+        backButton.imageView?.image?.withTintColor(.white)
+        backButton.tintColor = .white
+        backButton.imageView?.tintColor = white
+      //  backButton.imageView.col
         let backTap = UITapGestureRecognizer(target: self, action: #selector(backTapped))
         backButton.addGestureRecognizer(backTap)
         backButton.sizeToFit()
         backButton.frame = CGRect(x: 5, y: (topBar.frame.height - backButton.frame.height) / 2 + 10, width: backButton.frame.width, height: backButton.frame.height)
+        backButton.imageView?.frame = backButton.frame
+        backButton.imageView?.image = UIImage(named: "whiteBack")
+        let commentButton = UIButton()
+        topBar.addSubview(commentButton)
+        commentButton.setTitleColor(.white, for: .normal)
+        commentButton.backgroundColor = .black
+        commentButton.imageView?.image?.withTintColor(.white)
+    //    commentButton.setTitle("Comment", for: .normal)
+       
+        commentButton.tintColor = .white
+        commentButton.imageView?.tintColor = white
+      //  backButton.imageView.col
+       // let commentTap = UITapGestureRecognizer(target: self, action: #selector(backTapped))
+        commentButton.addGestureRecognizer(backTap)
+        commentButton.sizeToFit()
+        commentButton.frame = CGRect(x: self.view.frame.width-150, y: (topBar.frame.height - commentButton.frame.height) / 2 + 10, width: commentButton.frame.width, height: commentButton.frame.height)
+        commentButton.imageView?.frame = commentButton.frame
+        commentButton.imageView?.image = commentImage
+        
+        let shareButton = UIButton()
+        topBar.addSubview(shareButton)
+        shareButton.setTitleColor(.white, for: .normal)
+        shareButton.backgroundColor = .black
+        shareButton.imageView?.image?.withTintColor(.white)
+       // shareButton.setTitle("Share", for: .normal)
+       
+        shareButton.tintColor = .white
+        shareButton.imageView?.tintColor = white
+      //  backButton.imageView.col
+    //    let shareTap = UITapGestureRecognizer(target: self, action: #selector(backTapped))
+        shareButton.addGestureRecognizer(backTap)
+        shareButton.sizeToFit()
+        shareButton.frame = CGRect(x: self.view.frame.width-150+commentButton.frame.width, y: (topBar.frame.height - shareButton.frame.height) / 2 + 10, width: shareButton.frame.width, height: shareButton.frame.height)
+        shareButton.imageView?.frame = shareButton.frame
+        shareButton.imageView?.image = shareImage
+        
+        let reportButton = UIButton()
+        topBar.addSubview(reportButton)
+        reportButton.setTitleColor(.white, for: .normal)
+        reportButton.backgroundColor = .black
+        reportButton.imageView?.image?.withTintColor(.white)
+    //    reportButton.setTitle("Report", for: .normal)
+        
+        
+        reportButton.tintColor = .white
+        reportButton.imageView?.tintColor = white
+      //  backButton.imageView.col
+    //    let shareTap = UITapGestureRecognizer(target: self, action: #selector(backTapped))
+       // reportButton.addGestureRecognizer(backTap)
+        reportButton.sizeToFit()
+        reportButton.frame = CGRect(x: self.view.frame.width-150+commentButton.frame.width + 5+shareButton.frame.width, y: (topBar.frame.height - reportButton.frame.height) / 2 + 10, width: reportButton.frame.width, height: reportButton.frame.height)
+        reportButton.imageView?.frame = reportButton.frame
+        reportButton.imageView?.image = reportImage
+        print("This is topBar frame \(topBar.frame)")
+        print("This is backButton.image.frame \(backButton.imageView?.frame)")
+        print("This is commentButton.image.frame \(commentButton.imageView?.frame)")
+        print("This is shareButton.image.frame \(shareButton.imageView?.frame)")
+        print("This is reportButton.image.frame \(reportButton.imageView?.frame)")
+      //  print("This is backButton.image.frame \(backButton.imageView?.frame)")
+        backButton.setBackgroundImage(UIImage(named: "whiteBack"), for: .normal)
+        commentButton.setBackgroundImage(UIImage(named: "whiteComment"), for: .normal)
+        shareButton.setBackgroundImage(UIImage(named: "whiteShare"), for: .normal)
+        reportButton.setBackgroundImage(UIImage(named: "whiteShield"), for: .normal)
+        reportButton.frame = CGRect(x: self.view.frame.width-reportButton.frame.width, y: (topBar.frame.height - reportButton.frame.height) / 2, width: reportButton.frame.width, height: reportButton.frame.height)
+        shareButton.frame = CGRect(x: self.view.frame.width-reportButton.frame.width-5-shareButton.frame.width, y: (topBar.frame.height - shareButton.frame.height) / 2, width: shareButton.frame.width, height: shareButton.frame.height)
+        commentButton.frame = CGRect(x: (self.view.frame.width)-(reportButton.frame.width)-5-(shareButton.frame.width)-(commentButton.frame.width)-5, y: (topBar.frame.height - commentButton.frame.height) / 2, width: commentButton.frame.width, height: commentButton.frame.height)
+        backButton.frame = CGRect(x: 0, y: (topBar.frame.height - backButton.frame.height) / 2, width: backButton.frame.width, height: backButton.frame.height)
+        
+        
         
         pageView.view.frame = CGRect(x: 0, y: topBar.frame.maxY, width: view.frame.width, height: view.frame.height - topBar.frame.height)
 
@@ -173,6 +252,7 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
 //    }
     
     @objc func backTapped(_ sender: UITapGestureRecognizer) {
+        print("back hit!")
         for v in view.subviews {
             v.isHidden = true
         }

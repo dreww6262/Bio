@@ -2172,7 +2172,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ahf-Pk-Wnj">
-                                <rect key="frame" x="258" y="480" width="100" height="100"/>
+                                <rect key="frame" x="52" y="274" width="512" height="512"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="socialMediaIcon"/>
                                 <connections>
@@ -3691,7 +3691,7 @@
                                 <state key="normal" title="Button" image="trashCircle"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z1n-Q0-Osp">
-                                <rect key="frame" x="183" y="424" width="48" height="48"/>
+                                <rect key="frame" x="184" y="424" width="48" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="whiteMag"/>
                                 <connections>
