@@ -199,15 +199,20 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         config.video.automaticTrimToTrimmerMaxDuration = true
         let picker = YPImagePicker(configuration: config)
         picker.didFinishPicking { [unowned picker] items, cancelled in
-            picker.dismiss(animated: true, completion: nil)
+            
             if (items.count > 0) {
                 let uploadPreviewVC = self.storyboard?.instantiateViewController(identifier: "uploadPreviewVC") as! UploadPreviewVC
                 //print(photos)
                 uploadPreviewVC.userData = self.userData
                 uploadPreviewVC.items = items
-                self.present(uploadPreviewVC, animated: false, completion: nil)
+                //picker.dismiss(animated: false, completion: nil)
+                picker.present(uploadPreviewVC, animated: false, completion: nil)
                 uploadPreviewVC.modalPresentationStyle = .fullScreen
             }
+            else {
+                picker.dismiss(animated: false, completion: nil)
+            }
+            
         }
         present(picker, animated: false)
         modalPresentationStyle = .fullScreen

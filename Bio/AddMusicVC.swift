@@ -363,6 +363,18 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
     // clicked sign up
     @IBAction func continueClicked(_ sender: AnyObject) {
         print("continue button pressed")
+        
+        let username = userData!.publicID
+        var numPosts = userData!.numPosts
+        
+        if numPosts + 1 > 37 {
+            // too many posts
+            let alert = UIAlertController(title: "Not Enough Space :/", message: "Either cancel or delete a post from your home grid.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
+        
 
         if hasChosenThumbnailImage == false {
             loadImg(UITapGestureRecognizer())
@@ -384,8 +396,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
             return
         }
 
-        let username = userData!.publicID
-        var numPosts = userData!.numPosts
+        
 
 
 
