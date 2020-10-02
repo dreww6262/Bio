@@ -3188,9 +3188,11 @@
                         <outlet property="cancelButton" destination="Wc2-Oq-qNh" id="ecg-M1-Eoi"/>
                         <outlet property="doneButton" destination="hyd-uX-day" id="Cat-z3-ZZE"/>
                         <outlet property="tableView" destination="URb-qT-cKb" id="5hD-uF-Kp4"/>
+                        <segue destination="gUq-cD-yy5" kind="unwind" identifier="rewindToFront" unwindAction="unvindSegueFromAddToHomeWithSegue:" id="NKa-zm-XTL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kgJ-eT-7ii" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="gUq-cD-yy5" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1491" y="-4438"/>
         </scene>

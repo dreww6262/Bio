@@ -164,9 +164,9 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
     
 
     @objc func tappedSocialMediaView(sender: UITapGestureRecognizer) {
-        let addSocialMediaVC = storyboard?.instantiateViewController(identifier: "addSocialMediaVC") as! AddSocialMediaVC
+        let addSocialMediaVC = storyboard?.instantiateViewController(identifier: "addSocialMediaTableView") as! AddSocialMediaTableView
         addSocialMediaVC.userData = userData
-        addSocialMediaVC.cancelLbl = "Cancel"
+        //addSocialMediaVC.cancelLbl = "Cancel"
         //print("This is addSocialMedia.userData \(addSocialMediaVC.userData)")
        // print("2 This is userData from NewPostOptionsVC \(userData)")
         // addSocialMediaVC.publicID = userData?.publicID

@@ -66,6 +66,8 @@ class UserCell: UITableViewCell {
         // round ava
         avaImg.layer.cornerRadius = avaImg.frame.size.width / 2
         avaImg.clipsToBounds = true
+        
+        
     }
     
     

@@ -197,7 +197,10 @@ class UserTableView: UIViewController, UISearchBarDelegate {
                 }
                 for doc in docs {
                     print("follow item \(doc.data())")
-                    self.followList.append(doc["following"] as! String)
+                    let following = doc["following"] as! String
+                    if (!self.followList.contains(following)) {
+                        self.followList.append(following)
+                    }
                 }
             }
             completion()
@@ -258,6 +261,7 @@ class UserTableView: UIViewController, UISearchBarDelegate {
         }
         // find by username
         //var success = true
+        searchString = searchString.lowercased()
         let usernameQuery = db.collection("UserData1").whereField("publicID", isGreaterThanOrEqualTo: searchString).whereField("publicID", isLessThan: searchString+"\u{F8FF}")
         usernameQuery.addSnapshotListener({snapshots,error in
             if (error != nil) {
@@ -268,9 +272,12 @@ class UserTableView: UIViewController, UISearchBarDelegate {
             print("success, search bar pulled data")
             for doc in snapshots!.documents {
                 //self.usernameArray.append(doc.value(forKey: "publicID") as! String)
-                print(doc.data())
-                self.loadUserDataArray.append(newElement: UserData(dictionary: doc.data()))
-                
+                let userdata = UserData(dictionary: doc.data())
+                if (!self.loadUserDataArray.readOnlyArray().contains(where: { u in
+                    return u.publicID == userdata.publicID
+                })) {
+                    self.loadUserDataArray.append(newElement: userdata)
+                }
             }
             self.sortUserDataArray()
             self.tableView.reloadData()
@@ -402,11 +409,16 @@ extension UserTableView: UITableViewDelegate, UITableViewDataSource {
             cell.followView.isHidden = true
             cell.followView.tag = 1
         }
+        else if (userData?.publicID == loadUserDataArray[indexPath.row].publicID) {
+            cell.followView.isHidden = true
+        }
         else {
             cell.followView.isHidden = false
             cell.followImage?.image = UIImage(named: "addFriend")
             cell.followView.tag = 0
         }
+        
+        
         
         
         //cell = loadUserDataArray![indexPath.row]

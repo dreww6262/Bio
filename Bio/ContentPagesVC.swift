@@ -238,18 +238,7 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
             pageView.setViewControllers([viewControllers.first!], direction: .forward, animated: false, completion: nil)
             currentIndex = 0
         }
-        //print("currentVC \(currentIndex) \(currentVC)")
     }
-    
-//    override func viewDidAppear(_ animated: Bool) {
-//        super.viewDidAppear(animated)
-//        var newSafeArea = UIEdgeInsets()
-//        newSafeArea.bottom = pageView.view.bounds.height
-//        newSafeArea.top = 0
-//        newSafeArea.right = view.frame.width
-//        newSafeArea.left = 0
-//        pageView.additionalSafeAreaInsets = newSafeArea
-//    }
     
     @objc func backTapped(_ sender: UITapGestureRecognizer) {
         print("back hit!")

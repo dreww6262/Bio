@@ -89,6 +89,7 @@ class AddSocialMediaTableView: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        currentUser = Auth.auth().currentUser
         iconArray = [image1 ?? UIImage(),image2 ?? UIImage(),image3 ?? UIImage(),image4 ?? UIImage(),image5 ?? UIImage(),image6 ?? UIImage(),image7 ?? UIImage(),image8 ?? UIImage(),image9 ?? UIImage(),image10 ?? UIImage(),image11 ?? UIImage(),image12 ?? UIImage()]
     }
     
@@ -159,7 +160,7 @@ class AddSocialMediaTableView: UIViewController {
         
         if (!textFieldArray[1].text!.isEmpty) {
             numPosts += 1
-            let snapHex = HexagonStructData(resource: "snapchat://add/\(textFieldArray[1].text!)", type: "socialmedia_snapchat", location: numPosts, thumbResource: "icons/snapchatlogo.jpg", createdAt: NSDate.now.description, postingUserID: username, text: "\(textFieldArray[1].text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            let snapHex = HexagonStructData(resource: "https://www.snapchat.com/add/\(textFieldArray[1].text!)", type: "socialmedia_snapchat", location: numPosts, thumbResource: "icons/snapchatlogo.jpg", createdAt: NSDate.now.description, postingUserID: username, text: "\(textFieldArray[1].text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: snapHex, completion: {bool in
                 success = success && bool
                 
@@ -307,6 +308,12 @@ class AddSocialMediaTableView: UIViewController {
         self.titleLabel1.font = UIFont(name: "DINAlternate-Bold", size: 25)
         self.titleLabel1.textColor = .white
         self.navBarView.backgroundColor = .clear
+        cancelButton.sizeToFit()
+        cancelButton.frame = CGRect(x: 5, y: navBarView.frame.midY - cancelButton.frame.height/2 + 10, width: cancelButton.frame.width, height: cancelButton.frame.height)
+        view.bringSubviewToFront(cancelButton)
+        doneButton.sizeToFit()
+        doneButton.frame = CGRect(x: view.frame.width - doneButton.frame.width - 10, y: navBarView.frame.midY - cancelButton.frame.height/2 + 10, width: cancelButton.frame.width, height: cancelButton.frame.height)
+        view.bringSubviewToFront(doneButton)
     }
  
     
