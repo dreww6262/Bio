@@ -4326,10 +4326,10 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s1R-Xw-ZLB">
-                                <rect key="frame" x="77" y="308" width="260" height="280"/>
+                                <rect key="frame" x="143" y="384" width="128" height="128"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" image="redx">
+                                <state key="normal" image="cancel2">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
@@ -5168,6 +5168,7 @@
         <image name="beachex" width="960" height="640"/>
         <image name="bioBlue" width="512" height="512"/>
         <image name="boyprofile" width="216" height="233"/>
+        <image name="cancel2" width="128" height="128"/>
         <image name="circle" catalog="system" width="128" height="121"/>
         <image name="circle.grid.hex" catalog="system" width="128" height="112"/>
         <image name="circle.grid.hex.fill" catalog="system" width="128" height="112"/>
@@ -5196,7 +5197,6 @@
         <image name="poshmarkLogo" width="256" height="256"/>
         <image name="pp.jpg" width="128" height="128"/>
         <image name="redOrangeGradient2" width="675" height="1080"/>
-        <image name="redx" width="260" height="280"/>
         <image name="snapapp" width="480" height="480"/>
         <image name="snapchatlogo" width="2100" height="2100"/>
         <image name="socialMediaIcon" width="512" height="512"/>

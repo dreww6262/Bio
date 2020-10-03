@@ -194,6 +194,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         backButton.tintColor = .white
         backButton.imageView?.tintColor = white
        let backTap = UITapGestureRecognizer(target: self, action: #selector(backTapped))
+        let postTap = UITapGestureRecognizer(target: self, action: #selector(postTapped))
         var addMusicLabel = UILabel()
     backButton.addGestureRecognizer(backTap)
         backButton.sizeToFit()
@@ -214,6 +215,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         
         let postButton = UIButton()
         topBar.addSubview(postButton)
+        postButton.addGestureRecognizer(postTap)
         postButton.setTitle("Post", for: .normal)
         postButton.frame = CGRect(x: (self.view.frame.width) - (topBar.frame.height) - 5, y: 0, width: topBar.frame.height, height: topBar.frame.height)
         postButton.titleLabel?.sizeToFit()
@@ -444,6 +446,99 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
             badMusicLink = true
         }
         
+    }
+    
+    
+    // call picker to select image
+    @objc func postTapped(_ recognizer:UITapGestureRecognizer) {
+        print("continue button pressed")
+        createMusicLink()
+        
+        let username = userData!.publicID
+        var numPosts = userData!.numPosts
+        
+        if numPosts + 1 > 37 {
+            // too many posts
+            let alert = UIAlertController(title: "Not Enough Space :/", message: "Either cancel or delete a post from your home grid.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
+        
+
+        if hasChosenThumbnailImage == false {
+            loadImg(UITapGestureRecognizer())
+        }
+        else {
+
+        // dismiss keyboard
+        self.view.endEditing(true)
+
+        // if fields are empty
+            if (linkTextField.text!.isEmpty) {
+
+            // alert message
+            let alert = UIAlertController(title: "Hold up", message: "Fill in a field or hit Cancel", preferredStyle: UIAlertController.Style.alert)
+            let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
+            alert.addAction(ok)
+            self.present(alert, animated: true, completion: nil)
+
+            return
+        }
+
+        
+
+
+
+        //let group = DispatchGroup()
+        if (!linkTextField.text!.isEmpty) {
+            let timestamp = Timestamp.init().seconds
+            let imageFileName = "\(username)_\(timestamp)_link.png"
+            let refText = "userFiles/\(username)/\(imageFileName)"
+            let imageRef = storageRef.child(refText)
+            numPosts += 1
+            print("music link before \(musicLink)")
+            musicLink = musicLink.replacingOccurrences(of: " ", with: "-")
+            musicLink = musicLink.replacingOccurrences(of: "'", with: "")
+            musicLink.trimmingCharacters(in: ["'", "!", "?"])
+            print("music Link after \(musicLink)")
+            let musicHex = HexagonStructData(resource: musicLink, type: "music", location: numPosts, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: musicLink, views: 0, isArchived: false, docID: "WillBeSetLater")
+
+
+
+
+            imageRef.putData(linkHexagonImage.image!.pngData()!, metadata: nil){ data, error in
+                if (error == nil) {
+                    print ("upload successful")
+                    self.addHex(hexData: musicHex, completion: { bool in
+                        if (bool) {
+                            print("Add hex successful")
+                        }
+                        else {
+                            print("didnt add hex")
+                        }
+                    })
+                }
+                else {
+                    print ("upload failed")
+                }
+            }
+
+
+            userData?.numPosts = numPosts
+            db.collection("UserData1").document(currentUser!.uid).setData(self.userData!.dictionary, completion: { error in
+                if error == nil {
+                    print("userdata updated successfully")
+                    self.performSegue(withIdentifier: "unwindFromLinkToHome", sender: nil)
+                }
+                else {
+                    print("userData not saved \(error?.localizedDescription)")
+                }
+
+            })
+        }
+
+        }
     }
     
     

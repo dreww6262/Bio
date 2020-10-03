@@ -79,7 +79,10 @@ class AddSocialMediaTableView: UIViewController {
         tableView.frame = CGRect(x: 0, y: navBarView.frame.height, width: view.frame.width, height: view.frame.height - navBarView.frame.height)
         tableView.reloadData()
         
-        cancelButton.frame = CGRect(x: 0, y: self.tableView.frame.minY/4, width: self.tableView.frame.minY/2, height: self.tableView.frame.minY/2)
+       // cancelButton.frame = CGRect(x: 0, y: self.tableView.frame.minY/4, width: self.tableView.frame.minY/2, height: self.tableView.frame.minY/2)
+        cancelButton.sizeToFit()
+        cancelButton.frame = CGRect(x: 5, y: (navBarView.frame.height/4), width: navBarView.frame.height/2, height: navBarView.frame.height/2)
+        cancelButton.setBackgroundImage(UIImage(named: "whiteBack"), for: .normal)
         doneButton.frame = CGRect(x: self.view.frame.width - doneButton.frame.width-5, y: self.tableView.frame.minY/4, width: doneButton.frame.width, height: doneButton.frame.height)
         doneButton.frame = CGRect(x: (self.view.frame.width) - (navBarView.frame.height) - 5, y: 0, width: navBarView.frame.height, height: navBarView.frame.height)
         doneButton.setTitle("Post", for: .normal)
