@@ -66,6 +66,8 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     var curvedRect = CGRect(x: 0.0, y: 0.0, width: 0.0, height: 0.0)
     var curvedLayer = UIImageView()
     
+    var indexLabelArray: [UILabel] = []
+    
     // Flags and tags
     var firstLoad  = true
     
@@ -441,11 +443,30 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                 self.populateUserAvatar()
                 self.imageViewArray = newPostImageArray
                 self.changePostImageCoordinates()
+                var imageIndex = 0
                 for image in self.imageViewArray {
                     self.contentView.addSubview(image)
+//                    let hexLocationLabel = UILabel()
+//                    hexLocationLabel.textAlignment = .center
+//                    self.contentView.addSubview(hexLocationLabel)
+//                    let LabelWidth = image.frame.width/3
+//                    let LabelHeight = image.frame.height/3
+//                    hexLocationLabel.frame = CGRect(x: (image.frame.midX-LabelWidth)/2, y: (image.frame.midY-LabelHeight)/2, width: LabelWidth, height: LabelHeight)
+//                    hexLocationLabel.text = "\( image.hexData!.location)"
+//                    hexLocationLabel.font.withSize(14)
+//                    hexLocationLabel.textColor = red
+//                    self.indexLabelArray.append(hexLocationLabel)
+                    
+                    
                     shakebleImages.append(image)
                     self.contentView.bringSubviewToFront(image)
+                    self.contentView.bringSubviewToFront(self.indexLabelArray[imageIndex])
+                    self.indexLabelArray[imageIndex].center = image.center
+                    self.indexLabelArray[imageIndex].isHidden = true
+                    
+                   // self.contentView.bringSubviewToFront(hexLocationLabel)
                     image.isHidden = false
+                    imageIndex = imageIndex + 1
                 }
                 self.contentView.bringSubviewToFront(self.avaImage!)
             }
@@ -505,22 +526,36 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     }
     
     func changePostImageCoordinates() {
+  //      var imageIndex = 0
+        self.indexLabelArray = []
         for image in imageViewArray {
             image.frame = CGRect(x: self.reOrderedCoordinateArrayPoints[image.hexData!.location].x,
                                  y: self.reOrderedCoordinateArrayPoints[image.hexData!.location].y, width: hexaDiameter, height: hexaDiameter)
-            //image.setupHexagonMask(lineWidth: 10.0, color: myBlueGreen, cornerRadius: 10.0)
-            // createHexagonMaskWithCorrespondingColor(imageView: image, type: <#T##String#>)
+      //      print("This is imageIndex \(imageIndex)")
+        //    print("This is indexLabelaArray.count \(indexLabelArray.count)")
+         //   indexLabelArray[imageIndex].center = image.center
+        // imageIndex = imageIndex + 1
+            let hexLocationLabel = UILabel()
+            hexLocationLabel.textAlignment = .center
+            self.contentView.addSubview(hexLocationLabel)
+            let LabelWidth = image.frame.width/3
+            let LabelHeight = image.frame.height/3
+            hexLocationLabel.frame = CGRect(x: (image.frame.midX-LabelWidth)/2, y: (image.frame.midY-LabelHeight)/2, width: LabelWidth, height: LabelHeight)
+            hexLocationLabel.text = "\( image.hexData!.location)"
+            hexLocationLabel.font.withSize(45)
+            hexLocationLabel.font = UIFont(name: "DINAternate-Bold", size: 45)
+            hexLocationLabel.textColor = red
+            hexLocationLabel.center = image.center
+            self.contentView.bringSubviewToFront(hexLocationLabel)
+            self.indexLabelArray.append(hexLocationLabel)
+            hexLocationLabel.isHidden = true
             
-//            if image == imageViewArray[0] {
-//                shrinkImage(imageView: image)
-//                image.layer.cornerRadius = (image.frame.size.width)/2
-//                image.clipsToBounds = true
-//                print("This happens!")
-//                print("This is image.frame \(image.frame)")
-//                print("This is corner radius \(image.layer.cornerRadius)")
-//            }
+            
+            
             
         }
+        
+        
     }
     
     func createPostImage(hexData: HexagonStructData) -> PostImageView {
@@ -601,6 +636,11 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         var removedImageView = PostImageView()
         var removedImageLocation = Int()
          if sender.state == .began {
+            for hexLabel in indexLabelArray {
+                hexLabel.isHidden = false
+            }
+            
+            
 //            print("UIGestureRecognizerStateBegan.")
             let tappedImage = sender.view as! PostImageView
             currentHexagonCenter = tappedImage.center
@@ -610,9 +650,9 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             removedImageView = shakebleImages[sender.view!.tag]
             removedImageLocation = sender.view!.tag
             shakebleImages.remove(at: sender.view!.tag)
-            for shakeyImage in shakebleImages {
-                shakeyImage.shake()
-            }
+//            for shakeyImage in shakebleImages {
+//                shakeyImage.shake()
+//            }
             
             //dragItem(sender as! UIPanGestureRecognizer)
             dragView = (sender.view as! PostImageView)
@@ -634,9 +674,9 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
 //            print("This is currentHexagon center changed: \(currentHexagonCenter)")
             
             // shake Images
-            for shakeyImage in shakebleImages {
-                shakeyImage.shake()
-            }
+//            for shakeyImage in shakebleImages {
+//                shakeyImage.shake()
+//            }
             
             
             let hexCenterInView = contentView.convert(currentHexagonCenter, to: view)
@@ -652,6 +692,9 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             }
         }
        else if (sender.state == .ended) {
+        for hexLabel in indexLabelArray {
+            hexLabel.isHidden = true
+        }
             shakebleImages.insert(removedImageView, at: removedImageLocation)
             currentHexagonCenter = (sender.view?.center)!
             let hexCenterInView = scrollView.convert(currentHexagonCenter, to: view)

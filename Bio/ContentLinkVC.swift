@@ -14,6 +14,7 @@ class ContentLinkVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
     var webHex: HexagonStructData?
     
     var webView: WKWebView?
+    var showOpenAppButton = false
     
     override func viewDidLoad() {
         super.viewDidLoad()

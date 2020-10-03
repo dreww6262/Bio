@@ -10,7 +10,8 @@ import UIKit
 class ContentImageVC: UIViewController {
     
     var photoHex: HexagonStructData?
-
+    var showOpenAppButton = false 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

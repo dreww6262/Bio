@@ -79,6 +79,13 @@ class AddSocialMediaTableView: UIViewController {
         tableView.frame = CGRect(x: 0, y: navBarView.frame.height, width: view.frame.width, height: view.frame.height - navBarView.frame.height)
         tableView.reloadData()
         
+        cancelButton.frame = CGRect(x: 0, y: self.tableView.frame.minY/4, width: self.tableView.frame.minY/2, height: self.tableView.frame.minY/2)
+        doneButton.frame = CGRect(x: self.view.frame.width - doneButton.frame.width-5, y: self.tableView.frame.minY/4, width: doneButton.frame.width, height: doneButton.frame.height)
+        doneButton.frame = CGRect(x: (self.view.frame.width) - (navBarView.frame.height) - 5, y: 0, width: navBarView.frame.height, height: navBarView.frame.height)
+        doneButton.setTitle("Post", for: .normal)
+        doneButton.setTitleColor(.white, for: .normal)
+        
+        
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -214,7 +221,7 @@ class AddSocialMediaTableView: UIViewController {
         }
         if (!textFieldArray[5].text!.isEmpty) {
             numPosts += 1
-            let twitchHex = HexagonStructData(resource: "\(textFieldArray[5].text!)/", type: "socialmedia_twitch", location: numPosts, thumbResource: "icons/twitch1.png", createdAt: NSDate.now.description, postingUserID: username, text: "https://m.twitch.tv/\(textFieldArray[5].text!)/profile", views: 0, isArchived: false, docID: "WillBeSetLater")
+            let twitchHex = HexagonStructData(resource: "https://m.twitch.tv/\(textFieldArray[5].text!)/profile", type: "socialmedia_twitch", location: numPosts, thumbResource: "icons/twitch1.png", createdAt: NSDate.now.description, postingUserID: username, text: "https://m.twitch.tv/\(textFieldArray[5].text!)/profile", views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: twitchHex, completion: {bool in
                 success = success && bool
                 
@@ -240,14 +247,14 @@ class AddSocialMediaTableView: UIViewController {
             })
         }
         
-        if (!textFieldArray[11].text!.isEmpty) {
-            numPosts += 1
-            let poshmarkHex = HexagonStructData(resource: "https://poshmark.com/closet/\(textFieldArray[11].text!)", type: "socialmedia_poshmark", location: numPosts, thumbResource: "icons/poshmarkLogo.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(textFieldArray[11].text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
-            addHex(hexData: poshmarkHex, completion: {bool in
-                success = success && bool
-                
-            })
-        }
+//        if (!textFieldArray[11].text!.isEmpty) {
+//            numPosts += 1
+//            let poshmarkHex = HexagonStructData(resource: "https://poshmark.com/closet/\(textFieldArray[11].text!)", type: "socialmedia_poshmark", location: numPosts, thumbResource: "icons/poshmarkLogo.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(textFieldArray[11].text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+//            addHex(hexData: poshmarkHex, completion: {bool in
+//                success = success && bool
+//
+//            })
+//        }
         
         print("passed wait for social media tiles")
         userData?.numPosts = numPosts
@@ -300,7 +307,7 @@ class AddSocialMediaTableView: UIViewController {
         self.navBarView.addBehavior()
        
         self.titleLabel1.text = "Add Social Media"
-        self.navBarView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 55)
+        self.navBarView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/15)
        // self.tableiew.frame = CGRect(x: 0, y: self.view.frame.height/12, width: self.view.frame.width, height: self.view.frame.height*(11/12))
         self.titleLabel1.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/12)
         self.titleLabel1.textAlignment = .center
@@ -310,6 +317,10 @@ class AddSocialMediaTableView: UIViewController {
         self.navBarView.backgroundColor = .clear
         cancelButton.sizeToFit()
         cancelButton.frame = CGRect(x: 5, y: navBarView.frame.midY - cancelButton.frame.height/2 + 10, width: cancelButton.frame.width, height: cancelButton.frame.height)
+        cancelButton.frame = CGRect(x: 5, y: (navBarView.frame.height/4), width: navBarView.frame.height/2, height: navBarView.frame.height/2)
+    //    backButton.setBackgroundImage(UIImage(named: "whiteBack"), for: .normal)
+        
+        
         view.bringSubviewToFront(cancelButton)
         doneButton.sizeToFit()
         doneButton.frame = CGRect(x: view.frame.width - doneButton.frame.width - 10, y: navBarView.frame.midY - cancelButton.frame.height/2 + 10, width: cancelButton.frame.width, height: cancelButton.frame.height)
@@ -438,7 +449,7 @@ extension AddSocialMediaTableView: UITableViewDelegate, UITableViewDataSource {
         cell.socialMediaIcon.image = iconArray[indexPath.row] ?? UIImage(named: "instagramLogo")
 
         cell.interactiveTextField.attributedPlaceholder = NSAttributedString(string: placeHolderTextArray[indexPath.row],
-                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
         cell.interactiveTextField.textColor = .white
         self.textFieldArray.append(cell.interactiveTextField)
         

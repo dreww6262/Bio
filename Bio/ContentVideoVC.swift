@@ -15,6 +15,7 @@ class ContentVideoVC: UIViewController {
     var videoHex: HexagonStructData?
     var player = AVPlayer()
     let contentViewer = UIView()
+    var showOpenAppButton = false
     
     let storage = FirebaseStorage.Storage.storage().reference()
 

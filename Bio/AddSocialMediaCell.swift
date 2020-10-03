@@ -44,19 +44,18 @@ class AddSocialMediaCell: UITableViewCell {
         
         socialMediaIcon.frame = CGRect(x: self.frame.width*(3/48), y: self.frame.height*(3/48), width: cellHeight*(42/48), height: cellHeight*(42/48))
         //socialMediaIcon.setupHexagonMask(lineWidth: socialMediaIcon.frame.height/15, color: gold, cornerRadius: socialMediaIcon.frame.height/15)
-        textField.frame = CGRect(x: socialMediaIcon.frame.maxX + (self.frame.width/24), y: self.frame.height/3, width: width - socialMediaIcon.frame.maxX, height: self.frame.height*(1/4))
+        textField.frame = CGRect(x: socialMediaIcon.frame.maxX + (self.frame.width/24), y: self.frame.height/3, width: width - (2*socialMediaIcon.frame.maxX), height: self.frame.height*(1/4))
         interactiveTextField.frame = textField.frame
         
         let bottomLine = CALayer()
         bottomLine.frame = CGRect(x: 0.0, y: 22, width: interactiveTextField.frame.width, height: 1.0)
-        bottomLine.backgroundColor = UIColor.white.cgColor
+        bottomLine.backgroundColor = UIColor.systemGray4.cgColor
         interactiveTextField.borderStyle = UITextField.BorderStyle.none
         interactiveTextField.layer.addSublayer(bottomLine)
        
         print("This is textfield.frame \(textField.frame)")
         print("This is interactivetextfield.frame \(interactiveTextField.frame)")
-        // followBtn.frame = CGRect(x: width - width / 3.5 - 40, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
-       // followBtn.frame = CGRect(x: width - (width/3), y: avaImg.frame.minY, width: width / 3.5, height: width/3.5)
+       
         verifyView.frame = CGRect(x: width - (width/4.5), y: interactiveTextField.frame.minY - (self.frame.height/8), width: width/7, height: interactiveTextField.frame.height)
         verifyView.layer.cornerRadius = verifyView.frame.size.width / 20
         verifyView.addSubview(verifyImage)

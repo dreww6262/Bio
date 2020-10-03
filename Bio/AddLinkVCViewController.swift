@@ -32,6 +32,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     var highLinkHexagonImageFrame = CGRect()
     var highContinueButtonFrame = CGRect()
     var highCancelButtonFrame = CGRect()
+    var addLinkLabel = UILabel()
     
     @IBOutlet weak var titleText: UILabel!
     @IBOutlet weak var subtitleText: UILabel!
@@ -76,6 +77,8 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         
         var alreadySnapped = false
         super.viewDidLoad()
+        titleText.isHidden = true
+        subtitleText.isHidden = true
         
         if (userData == nil) {
             print("userdata is nil")
@@ -159,6 +162,65 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         var highContinueButtonFrame = CGRect(x: continueBtn.frame.minX, y: lowContinueButtonFrame.minY - 70, width: continueBtn.frame.width, height: continueBtn.frame.height)
         var highCancelButtonFrame = CGRect(x: cancelBtn.frame.minX, y: lowCancelButtonFrame.minY - 70, width: cancelBtn.frame.width, height: cancelBtn.frame.height)
         
+        
+        
+        // set up Top View
+        let topBar = UIView()
+        view.addSubview(topBar)
+        topBar.backgroundColor = .clear
+        topBar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/15)
+        
+        let backButton = UIButton()
+        topBar.addSubview(backButton)
+        backButton.imageView?.image?.withTintColor(.white)
+        backButton.tintColor = .white
+        backButton.imageView?.tintColor = white
+       let backTap = UITapGestureRecognizer(target: self, action: #selector(backTapped))
+    backButton.addGestureRecognizer(backTap)
+        backButton.sizeToFit()
+        backButton.frame = CGRect(x: 5, y: (topBar.frame.height/4), width: topBar.frame.height/2, height: topBar.frame.height/2)
+        backButton.setBackgroundImage(UIImage(named: "whiteBack"), for: .normal)
+       
+        topBar.addSubview(addLinkLabel)
+        addLinkLabel.frame = CGRect(x: (topBar.frame.width/2) - 60, y: 0, width: 120, height: topBar.frame.height)
+        addLinkLabel.text = "Add A Link"
+        addLinkLabel.textColor = white
+        addLinkLabel.font.withSize(40)
+       // addLinkLabel.
+        
+        addLinkLabel.textAlignment = .center
+
+        backButton.imageView?.frame = backButton.frame
+       // backButton.imageView?.image = UIImage(named: "whiteBack")
+        
+        let postButton = UIButton()
+        topBar.addSubview(postButton)
+        postButton.setTitle("Post", for: .normal)
+        postButton.frame = CGRect(x: (self.view.frame.width) - (topBar.frame.height) - 5, y: 0, width: topBar.frame.height, height: topBar.frame.height)
+        postButton.titleLabel?.sizeToFit()
+        postButton.titleLabel?.textAlignment = .right
+        
+        continueBtn.isHidden = true
+        cancelBtn.isHidden = true
+        
+        // set up link text Field
+        linkTextField.frame = CGRect(x: 10, y: addLinkLabel.frame.maxY + 40, width: self.view.frame.size.width - 20, height: 30)
+        linkTextField.attributedPlaceholder = NSAttributedString(string: "Paste Link Here",
+                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: linkTextField.frame.minY, width: 30, height: 30)
+        
+        linkHexagonImage.frame = CGRect(x: 40, y: linkTextField.frame.maxY + 20, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
+        
+        let bottomLine = CALayer()
+        bottomLine.frame = CGRect(x: 0.0, y: linkTextField.frame.height, width: linkTextField.frame.width, height: 1.0)
+        bottomLine.backgroundColor = UIColor.systemGray4.cgColor
+        linkTextField.borderStyle = UITextField.BorderStyle.none
+        linkTextField.layer.addSublayer(bottomLine)
+        linkTextField.backgroundColor = .clear
+        linkTextField.font = UIFont(name: "Poppins", size: 20)
+        
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -209,6 +271,11 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         print(linkHexagonImage.frame)
         print(continueBtn.frame)
         print(cancelBtn.frame)
+        
+        
+        
+        
+        
         
         
     }
@@ -300,6 +367,13 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         }
     }
     
+    @objc func backTapped(_ sender: UITapGestureRecognizer) {
+        print("back hit!")
+        for v in view.subviews {
+            v.isHidden = true
+        }
+        self.dismiss(animated: false, completion: nil)
+    }
     
     // clicked sign up
     @IBAction func continueClicked(_ sender: AnyObject) {

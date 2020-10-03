@@ -9,12 +9,14 @@
 import UIKit
 
 class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource {
-    
+    var currentIndexLabel = UILabel()
     let backImage = UIImage(named: "whiteBack")
-    let shareImage = UIImage(named: "whiteShare")
+    let shareImage = UIImage(named: "whiteShare1")
     let commentImage = UIImage(named: "whiteComment")
     let reportImage = UIImage(named: "whiteShield")
+    let openAppImage = UIImage(named: "bioBlue")
     
+    var showBool = false
     
     var viewControllers = [UIViewController]()
     var pageView = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
@@ -30,18 +32,26 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
                         case "photo":
                             let vc = ContentImageVC()
                             vc.photoHex = data
+                            showBool = false
+                            vc.showOpenAppButton = false
                             viewControllers.append(vc)
                         case "video":
                             let vc = ContentVideoVC()
                             vc.videoHex = data
+                            vc.showOpenAppButton = false
+                            showBool = false
                             viewControllers.append(vc)
                         case "link":
                             let vc = ContentLinkVC()
                             vc.webHex = data
+                            vc.showOpenAppButton = false
+                            showBool = false
                             viewControllers.append(vc)
                         default:
                             let vc = ContentLinkVC()
                             vc.webHex = data
+                            vc.showOpenAppButton = true
+                            showBool = true
                             viewControllers.append(vc)
                         }
                         //pageView.setViewControllers(viewControllers, direction: .forward, animated: false, completion: nil)
@@ -54,13 +64,13 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         }
     }
     
-    func presentationCount(for pageViewController: UIPageViewController) -> Int {
-        return viewControllers.count
-    }
-    
-    func presentationIndex(for pageViewController: UIPageViewController) -> Int {
-        return self.currentIndex
-    }
+//    func presentationCount(for pageViewController: UIPageViewController) -> Int {
+//        return viewControllers.count
+//    }
+//
+//    func presentationIndex(for pageViewController: UIPageViewController) -> Int {
+//        return self.currentIndex
+//    }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         
@@ -86,6 +96,7 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         
         print("viewcontroller: \(previousIndex)")
         currentIndex = previousIndex
+        currentIndexLabel.text = "\(currentIndex+1)/\(viewControllers.count)"
         return viewControllers[previousIndex]
     }
     
@@ -113,6 +124,11 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         
         print("viewcontroller: \(nextIndex)")
         currentIndex = nextIndex
+        currentIndexLabel.text = "\(currentIndex+1)/\(viewControllers.count)"
+        
+      //  viewControllers[nextIndex].
+      //  viewControllers[nextIndex].showOpenAppButton = showBool
+        
         return viewControllers[nextIndex]
     }
     
@@ -121,11 +137,18 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+    
+        
         let topBar = UIView()
         view.addSubview(topBar)
         topBar.backgroundColor = .clear
-        topBar.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 50)
+        topBar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/15)
         
+        let bottomBar = UIView()
+        view.addSubview(bottomBar)
+        bottomBar.backgroundColor = .clear
+        bottomBar.frame = CGRect(x: 0, y: self.view.frame.height*(14/15), width: view.frame.width, height: self.view.frame.height/15)
         let backButton = UIButton()
         topBar.addSubview(backButton)
      //  backButton.setTitle("Back", for: .normal)
@@ -138,13 +161,22 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         let backTap = UITapGestureRecognizer(target: self, action: #selector(backTapped))
         backButton.addGestureRecognizer(backTap)
         backButton.sizeToFit()
-        backButton.frame = CGRect(x: 5, y: (topBar.frame.height - backButton.frame.height) / 2 + 10, width: backButton.frame.width, height: backButton.frame.height)
+        backButton.frame = CGRect(x: 5, y: (topBar.frame.height/4), width: topBar.frame.height/2, height: topBar.frame.height/2)
+        
+       
+        topBar.addSubview(currentIndexLabel)
+        currentIndexLabel.frame = CGRect(x: (view.frame.width/2) - 40, y: topBar.frame.height/4, width: 80, height: topBar.frame.height/2)
+        currentIndexLabel.text = "\(currentIndex+1)/\(viewControllers.count)"
+        currentIndexLabel.textColor = white
+        currentIndexLabel.font.withSize(25)
+        currentIndexLabel.textAlignment = .center
+
         backButton.imageView?.frame = backButton.frame
         backButton.imageView?.image = UIImage(named: "whiteBack")
         let commentButton = UIButton()
-        topBar.addSubview(commentButton)
+        bottomBar.addSubview(commentButton)
         commentButton.setTitleColor(.white, for: .normal)
-        commentButton.backgroundColor = .black
+        commentButton.backgroundColor = .clear
         commentButton.imageView?.image?.withTintColor(.white)
     //    commentButton.setTitle("Comment", for: .normal)
        
@@ -152,16 +184,24 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         commentButton.imageView?.tintColor = white
       //  backButton.imageView.col
        // let commentTap = UITapGestureRecognizer(target: self, action: #selector(backTapped))
-        commentButton.addGestureRecognizer(backTap)
+       // commentButton.addGestureRecognizer(backTap)
         commentButton.sizeToFit()
-        commentButton.frame = CGRect(x: self.view.frame.width-150, y: (topBar.frame.height - commentButton.frame.height) / 2 + 10, width: commentButton.frame.width, height: commentButton.frame.height)
+        //1
+        commentButton.frame = CGRect(x:5, y: bottomBar.frame.height/4, width: bottomBar.frame.height/2, height: bottomBar.frame.height/2)
         commentButton.imageView?.frame = commentButton.frame
         commentButton.imageView?.image = commentImage
+        var spacingForButton = bottomBar.frame.height/4
         
         let shareButton = UIButton()
-        topBar.addSubview(shareButton)
+        bottomBar.addSubview(shareButton)
+        bottomBar.backgroundColor = .black
+        view.bringSubviewToFront(bottomBar)
+        bottomBar.bringSubviewToFront(commentButton)
+        
+        
+        print("This is bottm bar frame \(bottomBar.frame) and view.frame \(view.frame)")
         shareButton.setTitleColor(.white, for: .normal)
-        shareButton.backgroundColor = .black
+        shareButton.backgroundColor = .clear
         shareButton.imageView?.image?.withTintColor(.white)
        // shareButton.setTitle("Share", for: .normal)
        
@@ -169,16 +209,18 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         shareButton.imageView?.tintColor = white
       //  backButton.imageView.col
     //    let shareTap = UITapGestureRecognizer(target: self, action: #selector(backTapped))
-        shareButton.addGestureRecognizer(backTap)
+        //shareButton.addGestureRecognizer(backTap)
         shareButton.sizeToFit()
-        shareButton.frame = CGRect(x: self.view.frame.width-150+commentButton.frame.width, y: (topBar.frame.height - shareButton.frame.height) / 2 + 10, width: shareButton.frame.width, height: shareButton.frame.height)
+        //1
+        shareButton.frame = CGRect(x: commentButton.frame.maxX + spacingForButton, y: bottomBar.frame.height/4, width: bottomBar.frame.height/2, height: bottomBar.frame.height/2)
         shareButton.imageView?.frame = shareButton.frame
         shareButton.imageView?.image = shareImage
+        bottomBar.bringSubviewToFront(shareButton)
         
         let reportButton = UIButton()
         topBar.addSubview(reportButton)
         reportButton.setTitleColor(.white, for: .normal)
-        reportButton.backgroundColor = .black
+        reportButton.backgroundColor = .clear
         reportButton.imageView?.image?.withTintColor(.white)
     //    reportButton.setTitle("Report", for: .normal)
         
@@ -189,7 +231,7 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
     //    let shareTap = UITapGestureRecognizer(target: self, action: #selector(backTapped))
        // reportButton.addGestureRecognizer(backTap)
         reportButton.sizeToFit()
-        reportButton.frame = CGRect(x: self.view.frame.width-150+commentButton.frame.width + 5+shareButton.frame.width, y: (topBar.frame.height - reportButton.frame.height) / 2 + 10, width: reportButton.frame.width, height: reportButton.frame.height)
+        reportButton.frame = CGRect(x: self.view.frame.width-150+commentButton.frame.width + spacingForButton + shareButton.frame.width, y: (topBar.frame.height - reportButton.frame.height) / 2 + 10, width: reportButton.frame.width, height: reportButton.frame.height)
         reportButton.imageView?.frame = reportButton.frame
         reportButton.imageView?.image = reportImage
         print("This is topBar frame \(topBar.frame)")
@@ -200,16 +242,39 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
       //  print("This is backButton.image.frame \(backButton.imageView?.frame)")
         backButton.setBackgroundImage(UIImage(named: "whiteBack"), for: .normal)
         commentButton.setBackgroundImage(UIImage(named: "whiteComment"), for: .normal)
-        shareButton.setBackgroundImage(UIImage(named: "whiteShare"), for: .normal)
+        shareButton.setBackgroundImage(UIImage(named: "whiteShare1"), for: .normal)
         reportButton.setBackgroundImage(UIImage(named: "whiteShield"), for: .normal)
         reportButton.frame = CGRect(x: self.view.frame.width-reportButton.frame.width, y: (topBar.frame.height - reportButton.frame.height) / 2, width: reportButton.frame.width, height: reportButton.frame.height)
-        shareButton.frame = CGRect(x: self.view.frame.width-reportButton.frame.width-5-shareButton.frame.width, y: (topBar.frame.height - shareButton.frame.height) / 2, width: shareButton.frame.width, height: shareButton.frame.height)
-        commentButton.frame = CGRect(x: (self.view.frame.width)-(reportButton.frame.width)-5-(shareButton.frame.width)-(commentButton.frame.width)-5, y: (topBar.frame.height - commentButton.frame.height) / 2, width: commentButton.frame.width, height: commentButton.frame.height)
+     //   shareButton.frame = CGRect(x: self.view.frame.width-reportButton.frame.width-5-shareButton.frame.width, y: (topBar.frame.height - shareButton.frame.height) / 2, width: shareButton.frame.width, height: shareButton.frame.height)
+      //  commentButton.frame = CGRect(x: (self.view.frame.width)-(reportButton.frame.width)-5-(shareButton.frame.width)-(commentButton.frame.width)-5, y: (topBar.frame.height - commentButton.frame.height) / 2, width: commentButton.frame.width, height: commentButton.frame.height)
         backButton.frame = CGRect(x: 0, y: (topBar.frame.height - backButton.frame.height) / 2, width: backButton.frame.width, height: backButton.frame.height)
         
+  
+        let goToAppButton = UIButton()
+        bottomBar.addSubview(goToAppButton)
+        
+        if showBool == true {
+            goToAppButton.isHidden = false
+        }
+        else {
+            goToAppButton.isHidden = true
+        }
         
         
-        pageView.view.frame = CGRect(x: 0, y: topBar.frame.maxY, width: view.frame.width, height: view.frame.height - topBar.frame.height)
+        var openInAppWidth = (7/4)*bottomBar.frame.height
+        goToAppButton.frame = CGRect(x: (bottomBar.frame.width/2)-(openInAppWidth/2), y: bottomBar.frame.height/4, width: (7/4)*bottomBar.frame.height, height: bottomBar.frame.height/2)
+      //  goToAppButton.setBackgroundImage(UIImage(named: "bioBlue"), for: .normal)
+        goToAppButton.backgroundColor = .clear
+        goToAppButton.setTitle("Open App", for: .normal)
+        goToAppButton.setTitleColor(.white, for: .normal)
+        goToAppButton.titleLabel?.textAlignment = .center
+        goToAppButton.layer.cornerRadius = goToAppButton.frame.width/20
+        goToAppButton.layer.borderWidth = 0.4
+        goToAppButton.layer.borderColor = white.cgColor
+        
+        
+        
+        pageView.view.frame = CGRect(x: 0, y: topBar.frame.maxY, width: view.frame.width, height: view.frame.height - topBar.frame.height - bottomBar.frame.height)
 
         addChild(pageView)
         view.addSubview(pageView.view)
@@ -218,6 +283,8 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         pageView.dataSource = self
         pageView.delegate = self
         view.backgroundColor = .black
+        pageView.view.backgroundColor = .clear
+       // pageView.presentationController.
         
         // Do any additional setup after loading the view.
     }

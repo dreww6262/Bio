@@ -93,7 +93,7 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         passwordTxt.frame = CGRect(x: 10, y: displayNameTxt.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
         repeatPassword.frame = CGRect(x: 10, y: passwordTxt.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
         
-        signUpBtn.frame = CGRect(x: 10, y: repeatPassword.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
+        signUpBtn.frame = CGRect(x: 10, y: repeatPassword.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 40)
         signUpBtn.layer.cornerRadius = signUpBtn.frame.size.width / 20
         cancelBtn.frame = CGRect(x: 5, y: 40, width: 24, height: 23)
         cancelBtn.layer.cornerRadius = cancelBtn.frame.size.width / 20
@@ -104,9 +104,66 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         bg.layer.zPosition = -1
         self.view.addSubview(bg)
         formatPhotoLabel()
+        formatBottomLines()
     }
     
+   func formatBottomLines(){
+    let bottomLine = CALayer()
+    bottomLine.frame = CGRect(x: 0, y: self.emailTxt.frame.height, width: self.emailTxt.frame.width, height: 1.0)
+    bottomLine.backgroundColor = UIColor.systemGray4.cgColor
+    self.emailTxt.borderStyle = UITextField.BorderStyle.none
+    self.emailTxt.layer.addSublayer(bottomLine)
     
+    let bottomLine2 = CALayer()
+    bottomLine2.frame = CGRect(x: 0, y: usernameTxt.frame.height, width: usernameTxt.frame.width, height: 1.0)
+    bottomLine2.backgroundColor = UIColor.systemGray4.cgColor
+    usernameTxt.borderStyle = UITextField.BorderStyle.none
+    usernameTxt.layer.addSublayer(bottomLine2)
+    
+    let bottomLine3 = CALayer()
+    bottomLine3.frame = CGRect(x: 0, y: self.displayNameTxt.frame.height, width: self.displayNameTxt.frame.width, height: 1.0)
+    bottomLine3.backgroundColor = UIColor.systemGray4.cgColor
+    self.displayNameTxt.borderStyle = UITextField.BorderStyle.none
+    self.displayNameTxt.layer.addSublayer(bottomLine3)
+    
+    let bottomLine4 = CALayer()
+    bottomLine4.frame = CGRect(x: 0, y: passwordTxt.frame.height, width: passwordTxt.frame.width, height: 1.0)
+    bottomLine4.backgroundColor = UIColor.systemGray4.cgColor
+    passwordTxt.borderStyle = UITextField.BorderStyle.none
+    passwordTxt.layer.addSublayer(bottomLine4)
+    
+    
+    let bottomLine5 = CALayer()
+    bottomLine5.frame = CGRect(x: 0, y: repeatPassword.frame.height, width: repeatPassword.frame.width, height: 1.0)
+    bottomLine5.backgroundColor = UIColor.systemGray4.cgColor
+    repeatPassword.borderStyle = UITextField.BorderStyle.none
+    repeatPassword.layer.addSublayer(bottomLine5)
+    
+    emailTxt.attributedPlaceholder = NSAttributedString(string: "Email Address",
+                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+    emailTxt.textColor = .white
+    usernameTxt.attributedPlaceholder = NSAttributedString(string: "Username",
+                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+    usernameTxt.textColor = .white
+    displayNameTxt.attributedPlaceholder = NSAttributedString(string: "Display Name",
+                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+    displayNameTxt.textColor = .white
+    passwordTxt.attributedPlaceholder = NSAttributedString(string: "Password",
+                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+    passwordTxt.textColor = .white
+    repeatPassword.attributedPlaceholder = NSAttributedString(string: "Repeat Password",
+                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+    repeatPassword.textColor = .white
+//    emailTxt.font = UIFont(name: "Poppins-SemiBold", size: 17)
+//    usernameTxt.font = UIFont(name: "Poppins-SemiBold", size: 17)
+//    displayNameTxt.font = UIFont(name: "Poppins-SemiBold", size: 17)
+//    repeatPassword.font = UIFont(name: "Poppins-SemiBold", size: 17)
+//    passwordTxt.font = UIFont(name: "Poppins-SemiBold", size: 17)
+//    signUpBtn.titleLabel?.font = UIFont(name: "Poppins-SemiBold", size: 25)
+    
+    
+    
+    }
     // call picker to select image
     @objc func loadImg(_ recognizer:UITapGestureRecognizer) {
         let picker = UIImagePickerController()
@@ -154,7 +211,8 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         var photoFrame = self.avaImg.frame
         self.profileImageLabel.frame = CGRect(x: self.view.frame.width/32, y: photoFrame.minY, width: (self.view.frame.width/2) - self.view.frame.width/16, height: 44)
         self.profileImageLabel.text = "Choose A Profile Picture:"
-        self.profileImageLabel.font = UIFont(name: "DINAlternate-Bold", size: 13)
+        self.profileImageLabel.font = emailTxt.font
+        self.profileImageLabel.font = emailTxt.font?.withSize(12)
         self.profileImageLabel.textColor = .white
     }
     
@@ -285,7 +343,9 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         self.titleLabel1.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/12)
         self.titleLabel1.textAlignment = .center
        
-        self.titleLabel1.font = UIFont(name: "DINAlternate-Bold", size: 25)
+        self.titleLabel1.font = signUpBtn.titleLabel?.font
+        self.titleLabel1.font.withSize(45)
+       // self.titleLabel1.font = UIFont(name: , size: 25)
         self.titleLabel1.textColor = .white
         self.navBarView.backgroundColor = .clear
         self.navBarView.isUserInteractionEnabled = false

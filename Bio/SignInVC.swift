@@ -30,14 +30,42 @@ class SignInVC: UIViewController {
         signInButton.frame = CGRect(x: rect1.minX, y: rect1.minY, width: rect1.width, height: rect1
                                         .height*(5/4))
         setUpNavBarView()
+        formatStuff()
     }
     
  func formatStuff() {
-    emailText.frame = CGRect(x: self.view.frame.width/2 - 50, y: self.view.frame.height-66, width: 100, height: 44)
-    passwordText.frame = CGRect(x: emailText.frame.minX, y: emailText.frame.maxY + 10, width: 100, height: 44)
-    signInButton.frame = CGRect(x: passwordText.frame.minX, y: passwordText.frame.maxY + 10, width: 100, height: 66)
-    cancelButton.frame = CGRect(x: signInButton.frame.minX, y: signInButton.frame.maxY + 10, width: 100, height: 44)
-    signInButton.layer.cornerRadius = signInButton.frame.width/20
+//    self.emailText.frame = CGRect(x: self.view.frame.width/2 - 50, y: self.view.frame.height/2-66, width: 100, height: 44)
+//    self.passwordText.frame = CGRect(x: emailText.frame.minX, y: emailText.frame.maxY + 10, width: 100, height: 44)
+//    signInButton.frame = CGRect(x: passwordText.frame.minX, y: passwordText.frame.maxY + 10, width: 100, height: 66)
+//    cancelButton.frame = CGRect(x: signInButton.frame.minX, y: signInButton.frame.maxY + 10, width: 100, height: 44)
+//    signInButton.layer.cornerRadius = signInButton.frame.width/20
+    self.emailText.attributedPlaceholder = NSAttributedString(string: "Email",
+                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+    self.passwordText.attributedPlaceholder = NSAttributedString(string: "Password",
+                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+    self.emailText.textColor = white
+    self.passwordText.textColor = white
+    //self.emailText.font = UIFont(name: "Poppins-SemiBold", size: 20)
+    //self.passwordText.font = UIFont(name: "Poppins-SemiBold", size: 20)
+
+    
+    let bottomLine = CALayer()
+    bottomLine.frame = CGRect(x: 0, y: self.emailText.frame.height, width: self.emailText.frame.width, height: 1.0)
+    bottomLine.backgroundColor = UIColor.systemGray4.cgColor
+    self.emailText.borderStyle = UITextField.BorderStyle.none
+    self.emailText.layer.addSublayer(bottomLine)
+    
+    let bottomLine2 = CALayer()
+    bottomLine2.frame = CGRect(x: 0, y: passwordText.frame.height, width: passwordText.frame.width, height: 1.0)
+    bottomLine2.backgroundColor = UIColor.systemGray4.cgColor
+    passwordText.borderStyle = UITextField.BorderStyle.none
+    passwordText.layer.addSublayer(bottomLine2)
+    
+    
+    
+    
+    
+    
     }
     
     func setUpNavBarView() {
@@ -51,7 +79,8 @@ class SignInVC: UIViewController {
         self.titleLabel1.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/12)
         self.titleLabel1.textAlignment = .center
        
-        self.titleLabel1.font = UIFont(name: "DINAlternate-Bold", size: 25)
+        self.titleLabel1.font = self.emailText.font
+        self.titleLabel1.font.withSize(45)
         self.titleLabel1.textColor = .white
         self.navBarView.backgroundColor = .clear
         self.navBarView.isUserInteractionEnabled = false

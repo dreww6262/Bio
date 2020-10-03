@@ -215,6 +215,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         returnButton.frame = CGRect(x: view.frame.width/2-40, y: view.frame.height-112, width: 80, height: 80)
         view.bringSubviewToFront(returnButton)
         returnButton.layer.cornerRadius = returnButton.frame.size.width / 2
+        //returnButton.setBackgroundImage(UIImage(named: "cancel11"), for: .normal)
         returnButton.clipsToBounds = true
     }
     
@@ -467,6 +468,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         super.viewWillAppear(true) // No need for semicolon
 //        print("search button \(toSearchButton.frame)")
       //  firstLoad = truefollowView.isHidden = true
+        returnButton.isHidden = false
         toSearchButton.isHidden = false
         toSettingsButton.isHidden = false
         followView.isHidden = false
@@ -474,7 +476,8 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     @IBAction func toSearchButtonClicked(_ sender: UIButton) {
-        let userTableVC = storyboard?.instantiateViewController(identifier: "userTableVC") as! UserTableView
+        print("clicked search!")
+        let userTableVC = storyboard?.instantiateViewController(identifier: "userTableView") as! UserTableView
         userTableVC.userData = userData
         present(userTableVC, animated: false)
         //        print("frame after pressed \(toSearchButton.frame)")
