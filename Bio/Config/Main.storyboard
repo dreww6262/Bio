@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="AGA-wN-m2B">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -314,8 +313,6 @@
         <!--Sign InV-->
         <scene sceneID="vFr-8k-Go8">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="PAM-mJ-nVG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="yUY-Qd-9W7" userLabel="Exit" sceneMemberID="exit"/>
                 <viewController storyboardIdentifier="signInVC" modalPresentationStyle="fullScreen" id="iEc-KO-fKI" customClass="SignInV" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cBY-wn-0C3">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
@@ -386,6 +383,8 @@
                         <segue destination="yUY-Qd-9W7" kind="unwind" identifier="unwindFromSignIn" unwindAction="unvindSegueToMenuWithSegue:" id="6mq-To-8uI"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PAM-mJ-nVG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="yUY-Qd-9W7" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-5455" y="-5136"/>
         </scene>
@@ -787,6 +786,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UNI-69-vj7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-2381" y="-3687"/>
+        </scene>
+        <!--Submit SuggestionsVC-->
+        <scene sceneID="pEe-FW-EES">
+            <objects>
+                <viewController id="aTA-D0-wmI" customClass="SubmitSuggestionsVC" customModule="Bio" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="MUs-8X-Pqy">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="1M9-qd-HLC"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hpW-WY-8ow" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1541" y="-3680"/>
         </scene>
         <!--Home Hexagon Grid-->
         <scene sceneID="xs9-DC-QC8">
@@ -1880,6 +1894,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pfr-gS-VOo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-2659" y="-5044"/>
+        </scene>
+        <!--Report Post Table View-->
+        <scene sceneID="7fk-j9-Lx7">
+            <objects>
+                <viewController storyboardIdentifier="reportVC" modalPresentationStyle="fullScreen" id="vvd-bQ-Rbx" customClass="ReportPostTableView" customModule="Bio" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="brR-Q6-hga">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="Yrh-8r-vBk"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <connections>
+                        <segue destination="Gtd-CH-TX4" kind="unwind" identifier="rewindSignOut" unwindAction="unvindSegueSignOutWithSegue:" id="s0N-3M-x72"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZMq-De-9Zc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="Gtd-CH-TX4" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="-3493" y="-2948"/>
         </scene>
     </scenes>
     <resources>

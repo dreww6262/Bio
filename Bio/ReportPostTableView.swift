@@ -13,7 +13,6 @@ class ReportPostTableView: QuickTableViewController {
     
     var navBarView = NavBarView()
     
-    
     //var tabController = NavigationMenuBaseController()
     var userData: UserData? = nil
     //var menuView = MenuView()

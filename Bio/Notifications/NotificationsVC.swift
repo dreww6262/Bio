@@ -26,9 +26,9 @@ class NotificationsVC: UIViewController {
     var titleLabel1 = UILabel()
     
     // arrays to hold data from server
-    @IBOutlet weak var toSearchButton: UIButton!
+   var toSearchButton = UIButton()
     
-    @IBOutlet weak var toSettingsButton: UIButton!
+    var toSettingsButton = UIButton()
     
     var usernameArray = [String]()
     var avaArray = [String]()

@@ -21,9 +21,8 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
     var navBarView = NavBarView()
     var titleLabel1 = UILabel()
     
-    @IBOutlet weak var toSearchButton: UIButton!
-    
-    @IBOutlet weak var toSettingsButton: UIButton!
+   var toSearchButton = UIButton()
+    var toSettingsButton = UIButton()
     
     @IBOutlet weak var view1: UIView!
     
@@ -139,14 +138,14 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
     }
     
     func addSearchButton() {
-        self.view.addSubview(toSearchButton)
+        self.view.addSubview(self.toSearchButton)
         toSearchButton.frame = CGRect(x: self.view.frame.width - (self.view.frame.height*(3/48)), y: (self.view.frame.height/48) + 2, width: self.view.frame.height/24, height: self.view.frame.height/24)
         // round ava
     //    toSearchButton.layer.cornerRadius = toSearchButton.frame.size.width / 2
-        toSearchButton.clipsToBounds = true
-        toSearchButton.isHidden = false
+        self.toSearchButton.clipsToBounds = true
+        self.toSearchButton.isHidden = false
        // followView.isHidden = false
-        toSettingsButton.isHidden = false
+        self.toSettingsButton.isHidden = false
     }
     
     func setUpNavBarView() {
