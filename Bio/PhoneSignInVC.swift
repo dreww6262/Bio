@@ -22,7 +22,7 @@ class PhoneSignInVC: UIViewController {
     @IBOutlet weak var signIn: UIButton!
     
     @IBOutlet weak var logo: UIImageView!
-    @IBOutlet weak var popUpView: SignUpPopUpView!
+    //@IBOutlet weak var popUpView: SignUpPopUpView!
     
     @IBOutlet weak var signUpLabel: UILabel!
     
