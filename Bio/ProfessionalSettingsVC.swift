@@ -135,7 +135,7 @@ let dismissTap = UITapGestureRecognizer(target: self, action: #selector(self.bac
         self.backButton1.setTitleColor(.systemBlue, for: .normal)
         self.titleLabel1.text = "Settings"
         self.navBarView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/12)
-        self.tableView.frame = CGRect(x: 0, y: self.view.frame.height/20, width: self.view.frame.width, height: self.view.frame.height)
+        self.tableView.frame = CGRect(x: 0, y: self.navBarView.frame.height, width: self.view.frame.width, height: self.view.frame.height-self.navBarView.frame.height)
         self.titleLabel1.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/12)
         self.backButton1.frame = CGRect(x: 0, y: 0, width: navBarView.frame.width/8, height: titleLabel1.frame.height)
         self.titleLabel1.textAlignment = .center
@@ -168,6 +168,7 @@ let dismissTap = UITapGestureRecognizer(target: self, action: #selector(self.bac
         override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
           let cell = super.tableView(tableView, cellForRowAt: indexPath)
           // Alter the cells created by QuickTableViewController
+            print("This is cell \(cell)")
           return cell
         }
 
@@ -197,6 +198,8 @@ let dismissTap = UITapGestureRecognizer(target: self, action: #selector(self.bac
             alert.addAction(nah)
             self!.present(alert, animated: true, completion: nil)
         }
+        
+        
          // ...
        }
      }

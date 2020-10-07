@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="AGA-wN-m2B">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="sDH-WD-DIx">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -8,6 +8,11 @@
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="Poppins-SemiBold.ttf">
+            <string>Poppins-SemiBold</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--Sign InVC-->
         <scene sceneID="vvm-WH-o6a">
@@ -2297,7 +2302,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="vch-4E-zvh"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="23"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -2311,11 +2316,11 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uwc-1Q-obk">
-                                <rect key="frame" x="3" y="47" width="20" height="22"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uwc-1Q-obk">
+                                <rect key="frame" x="3" y="47" width="10" height="10"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" image="arrow.turn.up.left" catalog="system">
+                                <state key="normal" image="chevron.left" catalog="system">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
@@ -2323,7 +2328,8 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0hx-Uq-KmD">
-                                <rect key="frame" x="362" y="47" width="49" height="30"/>
+                                <rect key="frame" x="361" y="47" width="50" height="32"/>
+                                <fontDescription key="fontDescription" name="DINAlternate-Bold" family="DIN Alternate" pointSize="17"/>
                                 <state key="normal" title="Upload">
                                     <color key="titleColor" systemColor="linkColor"/>
                                 </state>
@@ -2354,7 +2360,9 @@
                     <connections>
                         <outlet property="cancelButton" destination="uwc-1Q-obk" id="985-PT-bU5"/>
                         <outlet property="doneButton" destination="0hx-Uq-KmD" id="6Te-Xa-sh7"/>
+                        <outlet property="subtitleLabel" destination="MH3-ox-kC1" id="rQO-8b-Iqa"/>
                         <outlet property="tableView" destination="9rN-8w-252" id="Fc8-eE-kKb"/>
+                        <outlet property="titleLabel1" destination="rwc-ZV-FbL" id="upr-6b-jdT"/>
                         <segue destination="6iO-BZ-N76" kind="unwind" identifier="unwindFromUpload" unwindAction="unvindSegueFromAddToHomeWithSegue:" id="Epa-Bz-Dbp"/>
                     </connections>
                 </viewController>
@@ -3165,17 +3173,19 @@
                                 </prototypes>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hyd-uX-day">
-                                <rect key="frame" x="353" y="6" width="37" height="30"/>
+                                <rect key="frame" x="354" y="4" width="38" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Done"/>
+                                <fontDescription key="fontDescription" name="Poppins-SemiBold" family="Poppins" pointSize="17"/>
+                                <state key="normal" title="Post">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
                                 <connections>
                                     <action selector="donePressed:" destination="RBz-J9-AND" eventType="touchUpInside" id="IzU-Vg-xQk"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wc2-Oq-qNh">
-                                <rect key="frame" x="15" y="6" width="48" height="30"/>
+                                <rect key="frame" x="24" y="6" width="30" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Cancel"/>
                                 <connections>
                                     <action selector="cancelPressed:" destination="RBz-J9-AND" eventType="touchUpInside" id="cie-bR-Onl"/>
                                 </connections>
@@ -3194,7 +3204,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kgJ-eT-7ii" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="gUq-cD-yy5" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1491" y="-4438"/>
+            <point key="canvasLocation" x="1489.8550724637682" y="-4438.3928571428569"/>
         </scene>
         <!--Bio Profile Hexagon Grid2-->
         <scene sceneID="NsO-jD-gQu">
@@ -4411,7 +4421,7 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Show Your Audience Something Cool" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qdv-pR-Ykm">
                                         <rect key="frame" x="-1" y="52" width="415" height="42"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="DINAlternate-Bold" family="DIN Alternate" pointSize="25"/>
+                                        <fontDescription key="fontDescription" name="Poppins-SemiBold" family="Poppins" pointSize="25"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -4671,6 +4681,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SuR-Gw-X74">
+                                <rect key="frame" x="127" y="6" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="whiteMag"/>
+                                <connections>
+                                    <action selector="toSearchButtonClicked:" destination="nOt-HR-JiL" eventType="touchUpInside" id="kxD-Y4-Bm1"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="thQ-zb-uKh">
+                                <rect key="frame" x="28" y="6" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="whiteGearFinal"/>
+                                <connections>
+                                    <action selector="toSettingsButtonClicked:" destination="nOt-HR-JiL" eventType="touchUpInside" id="yC2-cr-RRV"/>
+                                </connections>
+                            </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="NiV-9i-s9W">
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -4733,6 +4759,8 @@
                     </view>
                     <connections>
                         <outlet property="tableView" destination="NiV-9i-s9W" id="EoY-8i-Qmb"/>
+                        <outlet property="toSearchButton" destination="SuR-Gw-X74" id="Wf2-kE-c2C"/>
+                        <outlet property="toSettingsButton" destination="thQ-zb-uKh" id="jqS-c9-eWP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kxV-ku-XiI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -5029,6 +5057,22 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.82496446369999998" blue="0.83174425360000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DPM-r6-9uE">
+                                <rect key="frame" x="346" y="21" width="48" height="48"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="whiteMag"/>
+                                <connections>
+                                    <action selector="toSearchButtonClicked:" destination="NnI-dh-3bo" eventType="touchUpInside" id="A8v-hg-6XF"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MaQ-xf-18M">
+                                <rect key="frame" x="20" y="21" width="64" height="64"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="whiteGearFinal"/>
+                                <connections>
+                                    <action selector="toSettingsButtonClicked:" destination="NnI-dh-3bo" eventType="touchUpInside" id="ndb-0Z-R5J"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="9eL-kr-APH"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -5042,6 +5086,8 @@
                         <outlet property="pic2" destination="8ov-fh-KM6" id="IbM-dW-KWs"/>
                         <outlet property="pic3" destination="yNN-GV-ANz" id="nND-sb-ri2"/>
                         <outlet property="pic4" destination="zaJ-S2-RpR" id="Dw8-G7-MFl"/>
+                        <outlet property="toSearchButton" destination="DPM-r6-9uE" id="PV0-Pt-hS8"/>
+                        <outlet property="toSettingsButton" destination="MaQ-xf-18M" id="2G1-v9-cOd"/>
                         <outlet property="view1" destination="twa-Dg-dF4" id="xIn-nX-2HZ"/>
                         <outlet property="view2" destination="Vjb-CM-wxc" id="fxt-3K-sry"/>
                         <outlet property="view3" destination="tzY-w2-QX3" id="dgf-ZS-rwI"/>
@@ -5138,6 +5184,45 @@
             </objects>
             <point key="canvasLocation" x="2296" y="-3687"/>
         </scene>
+        <!--Report Post Table View-->
+        <scene sceneID="wqI-Hw-bvC">
+            <objects>
+                <viewController storyboardIdentifier="report" modalPresentationStyle="fullScreen" id="Mem-6g-Iyi" customClass="ReportPostTableView" customModule="Bio" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="xsH-Ep-8gm">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="RO9-NA-BAd"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <connections>
+                        <segue destination="zwB-MG-VAF" kind="unwind" identifier="rewindSignOut" unwindAction="unvindSegueSignOutWithSegue:" id="pWj-KK-5nz"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="q2K-uY-lW4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="zwB-MG-VAF" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="-4012" y="-4776"/>
+        </scene>
+        <!--Submit SuggestionsVC-->
+        <scene sceneID="mTU-n4-avT">
+            <objects>
+                <viewController id="sDH-WD-DIx" customClass="SubmitSuggestionsVC" customModule="Bio" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="P5f-cD-yK5"/>
+                        <viewControllerLayoutGuide type="bottom" id="UL1-dY-t4h"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="KeD-wT-OSf">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="9Br-dl-DrV"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Jrd-Tp-aTy"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="V7A-Zf-XeJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1420" y="404"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="qJe-D9-f9l"/>
@@ -5169,6 +5254,7 @@
         <image name="bioBlue" width="512" height="512"/>
         <image name="boyprofile" width="216" height="233"/>
         <image name="cancel2" width="128" height="128"/>
+        <image name="chevron.left" catalog="system" width="96" height="128"/>
         <image name="circle" catalog="system" width="128" height="121"/>
         <image name="circle.grid.hex" catalog="system" width="128" height="112"/>
         <image name="circle.grid.hex.fill" catalog="system" width="128" height="112"/>

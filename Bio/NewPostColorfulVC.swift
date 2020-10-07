@@ -21,7 +21,9 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
     var navBarView = NavBarView()
     var titleLabel1 = UILabel()
     
- 
+    @IBOutlet weak var toSearchButton: UIButton!
+    
+    @IBOutlet weak var toSettingsButton: UIButton!
     
     @IBOutlet weak var view1: UIView!
     
@@ -62,6 +64,8 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         navigationController?.navigationBar.isHidden = true
         addMenuButtons()
         setUpNavBarView()
+        addSearchButton()
+        addSettingsButton()
         
         let addPhotoTapped = UITapGestureRecognizer(target: self, action: #selector(tappedPhotoView))
         let addMusicTapped = UITapGestureRecognizer(target: self, action: #selector(tappedMusicView))
@@ -112,6 +116,38 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         menuView.userData = userData
         navigationController?.navigationBar.isHidden = true
     }
+    @IBAction func toSettingsButtonClicked(_ sender: UIButton) {
+        let settingsVC = storyboard?.instantiateViewController(identifier: "settingsVC") as! ProfessionalSettingsVC
+        settingsVC.userData = userData
+        present(settingsVC, animated: false)
+    }
+    
+    
+    func addSettingsButton() {
+        self.view.addSubview(toSettingsButton)
+       // toSettingsButton.frame = CGRect(x: 15, y: self.view.frame.height/48, width: 30, height: 30)
+        toSettingsButton.frame = CGRect(x: self.view.frame.height*(1/48), y: (self.view.frame.height/48) + 2, width: self.view.frame.height/24, height: self.view.frame.height/24)
+        // round ava
+        toSettingsButton.clipsToBounds = true
+        toSettingsButton.isHidden = false
+    }
+    
+    @IBAction func toSearchButtonClicked(_ sender: UIButton) {
+        let userTableVC = storyboard?.instantiateViewController(identifier: "userTableView") as! UserTableView
+        userTableVC.userData = userData
+        present(userTableVC, animated: false)
+    }
+    
+    func addSearchButton() {
+        self.view.addSubview(toSearchButton)
+        toSearchButton.frame = CGRect(x: self.view.frame.width - (self.view.frame.height*(3/48)), y: (self.view.frame.height/48) + 2, width: self.view.frame.height/24, height: self.view.frame.height/24)
+        // round ava
+    //    toSearchButton.layer.cornerRadius = toSearchButton.frame.size.width / 2
+        toSearchButton.clipsToBounds = true
+        toSearchButton.isHidden = false
+       // followView.isHidden = false
+        toSettingsButton.isHidden = false
+    }
     
     func setUpNavBarView() {
         self.view.addSubview(navBarView)
@@ -119,10 +155,16 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         self.navBarView.addBehavior()
        
         self.titleLabel1.text = "Add Content"
-        self.navBarView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/12)
-       // self.tableView.frame = CGRect(x: 0, y: self.view.frame.height/12, width: self.view.frame.width, height: self.view.frame.height*(11/12))
-        self.titleLabel1.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/12)
+        self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12) + 10)
+        self.navBarView.backgroundColor = UIColor(cgColor: CGColor(gray: 0.05, alpha: 1.0))
+        self.navBarView.layer.borderWidth = 0.25
+        self.navBarView.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
+//        self.titleLabel1.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/12)
+        self.titleLabel1.frame = CGRect(x: 0, y: 10, width: self.view.frame.width, height: self.navBarView.frame.height-10)
         self.titleLabel1.textAlignment = .center
+      
+        
+        
        
         self.titleLabel1.font = UIFont(name: "DINAlternate-Bold", size: 25)
         self.titleLabel1.textColor = .white

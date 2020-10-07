@@ -15,7 +15,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>$(PRODUCT_NAME)</string>
+	<string></string>
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
@@ -73,6 +73,13 @@
 	<string>Allow bio to access your microphone to take videos.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Allow bio to access your photos and videos.</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Poppins-Black</string>
+		<string>Poppins-Black.ttf</string>
+		<string>Poppins-SemiBold</string>
+		<string>Poppins-SemiBold.ttf</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

@@ -33,20 +33,21 @@ class AddSocialMediaTableView: UIViewController {
     var followListener: ListenerRegistration?
     var isCompletelyEmpty = true
     
-    var socialMediaArray: [String] = ["instagram", "snapchat", "tikTok", "twitter", "youtube", "twitch", "soundcloud", "venmo", "linkedIn", "etsy", "poshmark", "hudl"]
+    var socialMediaArray: [String] = ["instagram", "snapchat", "tikTok", "twitter", "youtube", "vsco", "soundcloud", "twitch", "linkedIn", "etsy", "poshmark", "hudl"]
     
-    var image1 = UIImage(named: "instagramCircle")
-    var image2 = UIImage(named: "snapchatCircle")
-    var image3 = UIImage(named: "tiktoklogo")
-    var image4 = UIImage(named: "twitterCircle")
-    var image5 = UIImage(named: "youtubeCircle")
-    var image6 = UIImage(named: "twitch1")
-    var image7 = UIImage(named: "soundCloudLogo")
-    var image8 = UIImage(named: "venmo2")
-    var image9 = UIImage(named: "linkedInCircle")
-    var image10 = UIImage(named: "instagramCircle")
+    var image1 = UIImage(named: "instagramLogo")
+    var image2 = UIImage(named: "snapchatlogo")
+    var image3 = UIImage(named: "tikTokCircle")
+    var image4 = UIImage(named: "twitterapp")
+    var image5 = UIImage(named: "youtube3")
+    var image6 = UIImage(named: "vscologo1")
+    var image7 = UIImage(named: "soundCloudCircleOrange")
+    var image8 = UIImage(named: "twitchCircle")
+    var image9 = UIImage(named: "linkedIn7")
+    var image10 = UIImage(named: "etsyLogoCircle")
     var image11 = UIImage(named: "poshmarkLogo")
     var image12 = UIImage(named: "hudlapp")
+    var image13 = UIImage(named: "twitchCircle")
     
     
     
@@ -54,7 +55,7 @@ class AddSocialMediaTableView: UIViewController {
     var iconArray: [UIImage] = []
     //[image1,image2,image3,image4,image5,image6,image7,image8,image9,image10,image11,image12]
     //var iconArray: [UIImage] = [UIImage(named: "icons/instagramLogo.png")!,UIImage(named: "icons/snapchatLogo.png")!,UIImage(named: "icons/tikTokLogo.png")!,UIImage(named: "icons/twitterLogo.png")!,UIImage(named: "icons/youtubeLogo.png")!,UIImage(named: "icons/twitch1.png")!,UIImage(named: "icons/soundCloudLogo.png")!,UIImage(named: "icons/venmo1.png")!,UIImage(named: "icons/linkedInLogo.png")!,UIImage(named: "icons/etsyLogo.png")!,UIImage(named: "icons/poshmarkLogo.png")!,UIImage(named: "icons/hudl1.png")!]
-    var placeHolderTextArray: [String] = ["Instagram Username", "Snapchat Username", "Tik Tok Username", "Twitter Handle", "Youtube Channel Name", "Twitch Username", "Soundcloud Link", "Venmo Username", "LinkedIn Link", "Etsy Shop Name", "Poshmark Username", "Hudl Link"]
+    var placeHolderTextArray: [String] = ["Instagram Username", "Snapchat Username", "Tik Tok Username", "Twitter Handle", "Youtube Channel Name", "Twitch Username", "Soundcloud Link", "Twitch Username", "LinkedIn Link", "Etsy Shop Name", "Poshmark Username", "Hudl Link"]
 //    var textField = UITextField()
 //    var interactiveTextField = UITextField()
 //    @IBOutlet weak var verifyView: UIView!
@@ -67,6 +68,7 @@ class AddSocialMediaTableView: UIViewController {
 //    @IBOutlet weak var textField: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
+        doneButton.titleLabel!.font = UIFont(name: "DINAlternate-Bold", size: 19)
         setUpNavBarView()
         view.addSubview(tableView)
 //        textField.isUserInteractionEnabled = false
@@ -86,7 +88,7 @@ class AddSocialMediaTableView: UIViewController {
         doneButton.frame = CGRect(x: self.view.frame.width - doneButton.frame.width-5, y: self.tableView.frame.minY/4, width: doneButton.frame.width, height: doneButton.frame.height)
         doneButton.frame = CGRect(x: (self.view.frame.width) - (navBarView.frame.height) - 5, y: 0, width: navBarView.frame.height, height: navBarView.frame.height)
         doneButton.setTitle("Post", for: .normal)
-        doneButton.setTitleColor(.white, for: .normal)
+        doneButton.setTitleColor(.systemBlue, for: .normal)
         
         
         
@@ -214,6 +216,15 @@ class AddSocialMediaTableView: UIViewController {
             })
         }
         
+        if (!textFieldArray[5].text!.isEmpty) {
+            numPosts += 1
+            let vscoHex = HexagonStructData(resource: "https://www.vsco.co/\(textFieldArray[5].text!)/gallery", type: "socialmedia_vsco", location: numPosts, thumbResource: "icons/vscologo1.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(textFieldArray[5].text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            addHex(hexData: vscoHex, completion: {bool in
+                success = success && bool
+                
+            })
+        }
+        
         if (!textFieldArray[11].text!.isEmpty) {
             numPosts += 1
             let hudlHex = HexagonStructData(resource: "\(textFieldArray[11].text!)/", type: "socialmedia_hudl", location: numPosts, thumbResource: "icons/hudl.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(textFieldArray[11].text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
@@ -222,7 +233,7 @@ class AddSocialMediaTableView: UIViewController {
                 
             })
         }
-        if (!textFieldArray[5].text!.isEmpty) {
+        if (!textFieldArray[7].text!.isEmpty) {
             numPosts += 1
             let twitchHex = HexagonStructData(resource: "https://m.twitch.tv/\(textFieldArray[5].text!)/profile", type: "socialmedia_twitch", location: numPosts, thumbResource: "icons/twitch1.png", createdAt: NSDate.now.description, postingUserID: username, text: "https://m.twitch.tv/\(textFieldArray[5].text!)/profile", views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: twitchHex, completion: {bool in
@@ -279,7 +290,7 @@ class AddSocialMediaTableView: UIViewController {
         print("hit cancel button")
         // hide keyboard when pressed cancel
         self.view.endEditing(true)
-        if (cancelButton.titleLabel?.text! == "Skip") {
+        if (cancelButton.titleLabel?.text == "Skip") {
             performSegue(withIdentifier: "rewindToFront", sender: nil)
         }
         else {
@@ -308,16 +319,20 @@ class AddSocialMediaTableView: UIViewController {
         self.view.addSubview(navBarView)
         self.navBarView.addSubview(titleLabel1)
         self.navBarView.addBehavior()
-       
+        self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
+        self.navBarView.backgroundColor = UIColor(cgColor: CGColor(gray: 0.05, alpha: 1.0))
+        self.navBarView.layer.borderWidth = 0.25
+        self.navBarView.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
         self.titleLabel1.text = "Add Social Media"
-        self.navBarView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/15)
+    //    self.navBarView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/15)
        // self.tableiew.frame = CGRect(x: 0, y: self.view.frame.height/12, width: self.view.frame.width, height: self.view.frame.height*(11/12))
-        self.titleLabel1.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/12)
+        self.titleLabel1.frame = CGRect(x: 0, y: 10, width: self.view.frame.width, height: self.navBarView.frame.height-10)
         self.titleLabel1.textAlignment = .center
        
-        self.titleLabel1.font = UIFont(name: "DINAlternate-Bold", size: 25)
+        self.titleLabel1.font = UIFont(name: "DINAlternate-Bold", size: 22)
         self.titleLabel1.textColor = .white
-        self.navBarView.backgroundColor = .clear
+      //  self.navBarView.backgroundColor = .clear
+        
         cancelButton.sizeToFit()
         cancelButton.frame = CGRect(x: 5, y: navBarView.frame.midY - cancelButton.frame.height/2 + 10, width: cancelButton.frame.width, height: cancelButton.frame.height)
         cancelButton.frame = CGRect(x: 5, y: (navBarView.frame.height/4), width: navBarView.frame.height/2, height: navBarView.frame.height/2)
@@ -328,6 +343,7 @@ class AddSocialMediaTableView: UIViewController {
         doneButton.sizeToFit()
         doneButton.frame = CGRect(x: view.frame.width - doneButton.frame.width - 10, y: navBarView.frame.midY - cancelButton.frame.height/2 + 10, width: cancelButton.frame.width, height: cancelButton.frame.height)
         view.bringSubviewToFront(doneButton)
+//        doneButton.titleLabel!.font = UIFont(name: "DINAlternate-Bold", size: 20)
     }
  
     
@@ -450,9 +466,36 @@ extension AddSocialMediaTableView: UITableViewDelegate, UITableViewDataSource {
         //  Configure the cell...
         print("This is cell \(cell)")
         cell.socialMediaIcon.image = iconArray[indexPath.row] ?? UIImage(named: "instagramLogo")
-
+        cell.socialMediaIcon.layer.cornerRadius = cell.socialMediaIcon.frame.size.width / 2
+        cell.socialMediaIcon.clipsToBounds = true
+        cell.socialMediaIcon.layer.borderWidth = 1.0
+        cell.socialMediaIcon.layer.borderColor = white.cgColor
+        
+        if indexPath.row == 2 {
+            cell.socialMediaIcon.layer.cornerRadius = cell.socialMediaIcon.frame.size.width / 2
+            cell.socialMediaIcon.clipsToBounds = true
+            cell.socialMediaIcon.image = UIImage(named: "tikTokLogo4")
+//            cell.socialMediaIcon.layer.borderWidth = 1.0
+//            cell.socialMediaIcon.layer.borderColor = white.cgColor
+        }
+        
+        if indexPath.row == 8 {
+            cell.contentMode = .scaleToFill
+            cell.layer.cornerRadius = 0
+        }
+        
+//
+//        if indexPath.row == 10 {
+//            cell.socialMediaIcon.layer.cornerRadius = cell.socialMediaIcon.frame.size.width / 2
+//            cell.socialMediaIcon.clipsToBounds = true
+//        }
+//        if indexPath.row == 11 {
+//            cell.socialMediaIcon.layer.cornerRadius = cell.socialMediaIcon.frame.size.width / 2
+//            cell.socialMediaIcon.clipsToBounds = true
+//        }
         cell.interactiveTextField.attributedPlaceholder = NSAttributedString(string: placeHolderTextArray[indexPath.row],
                                                                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+        cell.circularMask.frame = cell.socialMediaIcon.frame
         cell.interactiveTextField.textColor = .white
         self.textFieldArray.append(cell.interactiveTextField)
         

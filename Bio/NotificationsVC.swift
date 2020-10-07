@@ -26,6 +26,10 @@ class NotificationsVC: UIViewController {
     var titleLabel1 = UILabel()
     
     // arrays to hold data from server
+    @IBOutlet weak var toSearchButton: UIButton!
+    
+    @IBOutlet weak var toSettingsButton: UIButton!
+    
     var usernameArray = [String]()
     var avaArray = [String]()
     var typeArray = [String]()
@@ -57,6 +61,8 @@ class NotificationsVC: UIViewController {
         tableView.dataSource = self
         addMenuButtons()
         setUpNavBarView()
+        addSearchButton()
+        addSettingsButton()
 //        print("This is current user email \(Auth.auth().currentUser?.email)")
         super.viewDidLoad()
         //        var navBarHeight = CGFloat(66.0)
@@ -218,23 +224,52 @@ class NotificationsVC: UIViewController {
         self.view.addSubview(navBarView)
         self.navBarView.addSubview(titleLabel1)
         self.navBarView.addBehavior()
-        
-        
-        
+
         self.titleLabel1.text = "Notifications"
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
         let yOffset = navBarView.frame.maxY
         self.tableView.frame = CGRect(x: 0, y: yOffset, width: self.view.frame.width, height: self.view.frame.height - yOffset)
-//        print("notifications, navBarHeight: \(navBarView.frame)")
-//        print("notifications, tableViewHeight: \(tableView.frame)")
         self.titleLabel1.frame = CGRect(x: 0, y: 5, width: self.view.frame.width, height: self.view.frame.height/12)
         self.titleLabel1.textAlignment = .center
         
-        self.titleLabel1.font = UIFont(name: "DINAlternate-Bold", size: 20)
+        self.titleLabel1.font = UIFont(name: "DINAlternate-Bold", size: 25)
         self.titleLabel1.textColor = .white
         self.navBarView.backgroundColor = UIColor(cgColor: CGColor(gray: 0.05, alpha: 1.0))
         self.navBarView.layer.borderWidth = 0.25
         self.navBarView.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
+    }
+    
+    @IBAction func toSettingsButtonClicked(_ sender: UIButton) {
+        let settingsVC = storyboard?.instantiateViewController(identifier: "settingsVC") as! ProfessionalSettingsVC
+        settingsVC.userData = userData
+        present(settingsVC, animated: false)
+    }
+    
+    
+    func addSettingsButton() {
+        self.view.addSubview(toSettingsButton)
+       // toSettingsButton.frame = CGRect(x: 15, y: self.view.frame.height/48, width: 30, height: 30)
+        toSettingsButton.frame = CGRect(x: self.view.frame.height*(1/48), y: (self.view.frame.height/48) + 2, width: self.view.frame.height/24, height: self.view.frame.height/24)
+        // round ava
+        toSettingsButton.clipsToBounds = true
+        toSettingsButton.isHidden = false
+    }
+    
+    @IBAction func toSearchButtonClicked(_ sender: UIButton) {
+        let userTableVC = storyboard?.instantiateViewController(identifier: "userTableView") as! UserTableView
+        userTableVC.userData = userData
+        present(userTableVC, animated: false)
+    }
+    
+    func addSearchButton() {
+        self.view.addSubview(toSearchButton)
+        toSearchButton.frame = CGRect(x: self.view.frame.width - (self.view.frame.height*(3/48)), y: (self.view.frame.height/48) + 2, width: self.view.frame.height/24, height: self.view.frame.height/24)
+        // round ava
+    //    toSearchButton.layer.cornerRadius = toSearchButton.frame.size.width / 2
+        toSearchButton.clipsToBounds = true
+        toSearchButton.isHidden = false
+       // followView.isHidden = false
+        toSettingsButton.isHidden = false
     }
     
     

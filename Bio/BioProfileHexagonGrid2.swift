@@ -94,6 +94,10 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
         toSettingsButton.isHidden = false
         toSearchButton.isHidden = false
         followView.isHidden = false
+        
+     //   print("This is total count \(reOrderedCoordinateArrayPoints.count)")
+      // var unique = reOrderedCoordinateArrayPoints.removingDuplicates()
+      //  print("This is the new unique one \(reOrderedCoordinateArrayPoints.count)")
     }
     
     func addSearchButton() {
@@ -631,3 +635,4 @@ extension UIImageView {
     }
 
 }
+
