@@ -14,7 +14,19 @@ import FirebaseStorage
 import FirebaseUI
 import FirebaseFirestore
 
+
+
 class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    var poppinsBlack = UIFont(name: "poppins-Black", size: UIFont.labelFontSize)
+    var poppinsSemiBold = UIFont(name: "poppins-SemiBold", size: UIFont.labelFontSize)
+       
+//    label.font = UIFontMetrics.default.scaledFont(for: customFont)
+//    label.adjustsFontForContentSizeCategory = true
+
+    
+    
+    var bottomLine = CALayer()
     var badMusicLink = false
     var hasChosenThumbnailImage = false
     var artistText = ""
@@ -152,7 +164,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
     
         confirmLinkButton.frame =  CGRect(x: 10.0, y: linkTextField.frame.maxY + 10, width: self.view.frame.width - 20, height: 24)
         confirmLinkButton.layer.cornerRadius = continueBtn.frame.size.width / 20
-        linkHexagonImage.frame = CGRect(x: 40, y: confirmLinkButton.frame.maxY + 20, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
+        linkHexagonImage.frame = CGRect(x: 40, y: confirmLinkButton.frame.maxY + 10, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
         
         continueBtn.frame =  CGRect(x: 10.0, y: confirmLinkButton.frame.maxY + 5, width: self.view.frame.width - 20, height: 24)
         continueBtn.layer.cornerRadius = continueBtn.frame.size.width / 20
@@ -186,8 +198,11 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         let topBar = UIView()
         view.addSubview(topBar)
         topBar.backgroundColor = .clear
-        topBar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/15)
-        
+       // topBar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/15)
+       topBar.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
+  topBar.backgroundColor = UIColor(cgColor: CGColor(gray: 0.05, alpha: 1.0))
+        topBar.layer.borderWidth = 0.25
+        topBar.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
         let backButton = UIButton()
         topBar.addSubview(backButton)
         backButton.imageView?.image?.withTintColor(.white)
@@ -217,6 +232,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         topBar.addSubview(postButton)
         postButton.addGestureRecognizer(postTap)
         postButton.setTitle("Post", for: .normal)
+        postButton.setTitleColor(.systemBlue, for: .normal)
         postButton.frame = CGRect(x: (self.view.frame.width) - (topBar.frame.height) - 5, y: 0, width: topBar.frame.height, height: topBar.frame.height)
         postButton.titleLabel?.sizeToFit()
         postButton.titleLabel?.textAlignment = .right
@@ -225,27 +241,30 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         cancelBtn.isHidden = true
         
         // set up link text Field
-       linkTextField.frame = CGRect(x: 10, y: addMusicLabel.frame.maxY + 40, width: self.view.frame.size.width - 20, height: 30)
-        songNameTextField.frame = CGRect(x: 10, y: linkTextField.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
+      
         
         linkTextField.attributedPlaceholder = NSAttributedString(string: "Artist Name (Required)",
                                                                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: linkTextField.frame.minY, width: 30, height: 30)
         
-        linkHexagonImage.frame = CGRect(x: 40, y: confirmLinkButton.frame.maxY + 10, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
+        linkHexagonImage.frame = CGRect(x: 40, y: topBar.frame.maxY + 10, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
         
-        let bottomLine = CALayer()
-        bottomLine.frame = CGRect(x: 0.0, y: linkTextField.frame.height, width: linkTextField.frame.width, height: 1.0)
-        bottomLine.backgroundColor = UIColor.systemGray4.cgColor
+        linkTextField.frame = CGRect(x: 10, y: linkHexagonImage.frame.maxY, width: self.view.frame.size.width - 20, height: 30)
+         songNameTextField.frame = CGRect(x: 10, y: linkTextField.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
+        
+       // let bottomLine = CALayer()
+        self.bottomLine.frame = CGRect(x: 0.0, y: linkTextField.frame.height, width: linkTextField.frame.width, height: 1.0)
+        self.bottomLine.backgroundColor = UIColor.systemGray4.cgColor
         var bottomLine2 = CALayer()
         bottomLine2.frame = CGRect(x: 0.0, y: songNameTextField.frame.height, width: linkTextField.frame.width, height: 1.0)
         bottomLine2.backgroundColor = UIColor.systemGray4.cgColor
         linkTextField.borderStyle = UITextField.BorderStyle.none
-        linkTextField.layer.addSublayer(bottomLine)
+        linkTextField.layer.addSublayer(self.bottomLine)
         linkTextField.backgroundColor = .clear
         songNameTextField.borderStyle = UITextField.BorderStyle.none
         songNameTextField.layer.addSublayer(bottomLine2)
         songNameTextField.backgroundColor = .clear
+        linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: linkTextField.frame.minY, width: 30, height: 30)
         
         
         linkTextField.font = UIFont(name: "Poppins", size: 20)
@@ -258,7 +277,11 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         linkTextField.textColor = .white
         songNameTextField.textColor = .white
         
+        addMusicLabel.font = UIFontMetrics.default.scaledFont(for: poppinsSemiBold ?? UIFont(name: "DINAlternate-Bold", size: 22)!)
+        addMusicLabel.adjustsFontForContentSizeCategory = true
         
+        postButton.titleLabel?.font = UIFontMetrics.default.scaledFont(for: poppinsSemiBold ?? UIFont(name: "DINAlternate-Bold", size: 20)!)
+        postButton.titleLabel!.adjustsFontForContentSizeCategory = true
         
 
     }
@@ -282,7 +305,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
                linkTextField.frame = CGRect(x: 10, y: linkHexagonImage.frame.maxY + 20, width: self.view.frame.size.width - 20, height: 30)
                linkTextField.attributedPlaceholder = NSAttributedString(string: "Paste Link Here",
                                                                         attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
-               linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: linkTextField.frame.minY, width: 30, height: 30)
+//               linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: linkTextField.frame.minY, width: 30, height: 30)
                continueBtn.frame =  CGRect(x: 10.0, y: linkTextField.frame.maxY + 20, width: self.view.frame.width - 20, height: 24)
                continueBtn.layer.cornerRadius = continueBtn.frame.size.width / 20
                cancelBtn.frame =  CGRect(x: 10.0, y: continueBtn.frame.maxY + 10, width: continueBtn.frame.width, height: 24)
@@ -373,6 +396,23 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
 
 
     }
+    
+    
+    
+    @objc func keyboard(notification:Notification) {
+        guard let keyboardReact = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else{
+            return
+        }
+        
+        if notification.name == UIResponder.keyboardWillShowNotification ||  notification.name == UIResponder.keyboardWillChangeFrameNotification {
+           // self.view.frame.origin.y = -keyboardReact.height
+            self.view.frame.origin.y = -self.bottomLine.frame.maxY
+        }else{
+            self.view.frame.origin.y = 0
+        }
+        
+    }
+    
     
     @objc func backTapped(_ sender: UITapGestureRecognizer) {
         print("back hit!")
@@ -663,7 +703,12 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
     
     // clicked cancel
     @IBAction func cancelBtn_click(_ sender: AnyObject) {
+        print("hit cancel button")
+        // hide keyboard when pressed cancel
+        self.view.endEditing(true)
+        print("should dismiss vc")
         self.dismiss(animated: true, completion: nil)
+        
     }
 }
 

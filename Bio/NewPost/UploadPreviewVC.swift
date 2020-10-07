@@ -21,7 +21,9 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
     let storageRef = Storage.storage().reference()
     let filterSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ1234567890/_-."
     
+    @IBOutlet weak var titleLabel1: UILabel!
     
+    @IBOutlet weak var subtitleLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     var userData: UserData?
     
@@ -29,14 +31,62 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
     @IBOutlet weak var cancelButton: UIButton!
     var cellArray: [UploadPreviewCell] = []
     
+    var navBarView = NavBarView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpNavBarView()
+        formatBackButton()
+        formatUploadButton()
         tableView.delegate = self
         tableView.dataSource = self
         print("This is items \(items!)")
         // Do any additional setup after loading the view.
         tableView.reloadData()
         
+    }
+    
+    func setUpNavBarView() {
+        self.view.addSubview(navBarView)
+        self.navBarView.addSubview(titleLabel1)
+        self.navBarView.addBehavior()
+
+        self.titleLabel1.text = "New Post"
+        self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
+        let yOffset = navBarView.frame.maxY
+        self.tableView.frame = CGRect(x: 0, y: yOffset, width: self.view.frame.width, height: self.view.frame.height - yOffset)
+        self.titleLabel1.frame = CGRect(x: 0, y: 5, width: self.view.frame.width, height: self.view.frame.height/12)
+        self.titleLabel1.textAlignment = .center
+        
+        self.titleLabel1.font = UIFont(name: "DINAlternate-Bold", size: 25)
+        self.titleLabel1.textColor = .white
+        self.navBarView.backgroundColor = UIColor(cgColor: CGColor(gray: 0.05, alpha: 1.0))
+        self.navBarView.layer.borderWidth = 0.25
+        self.navBarView.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
+    }
+    
+    func formatBackButton() {
+        self.view.addSubview(cancelButton)
+       // toSettingsButton.frame = CGRect(x: 15, y: self.view.frame.height/48, width: 30, height: 30)
+        cancelButton.frame = CGRect(x: self.view.frame.height*(1/48), y: (self.view.frame.height/48) + 2, width: self.view.frame.height/18, height: self.view.frame.height/18)
+        
+//        cancelButton.frame = CGRect(x: self.view.frame.height*(1/48), y: (self.view.frame.height/48) + 2, width: self.view.frame.height/24, height: self.view.frame.height/24)
+        // round ava
+        cancelButton.clipsToBounds = true
+        cancelButton.isHidden = false
+    }
+    
+    func formatUploadButton() {
+        self.view.addSubview(doneButton)
+        
+        doneButton.frame = CGRect(x: self.view.frame.width - (self.view.frame.height*(3/48)), y: (self.view.frame.height/48) + 2, width: self.view.frame.height/24, height: self.view.frame.height/24)
+        
+//        doneButton.frame = CGRect(x: self.view.frame.width - (self.view.frame.height*(3/48)), y: (self.view.frame.height/48) + 2, width: self.view.frame.height/24, height: self.view.frame.height/24)
+        // round ava
+        doneButton.clipsToBounds = true
+        doneButton.isHidden = false
+       // followView.isHidden = false
+        doneButton.isHidden = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -92,15 +142,6 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
                         print("should be adding \(photoHex)")
                         hexesToUpload.append(newElement: photoHex)
                         dispatchGroup.leave()
-//                        self.addHex(hexData: photoHex, completion: {    bool in
-//                            success = success && bool
-//                            if (bool) {
-//                                print("hex successfully added")
-//                            }
-//                            else {
-//                                print("hex failed")
-//                            }
-//                        })
                     }
                     else {
                         dispatchGroup.leave()
@@ -340,15 +381,7 @@ extension UploadPreviewVC: UITableViewDelegate, UITableViewDataSource {
         let previewImageHeight = cell.previewImage.frame.height
         cell.previewImage.frame = CGRect(x: 10, y: (cell.frame.height/2) - (previewImageHeight/2), width: previewImageWidth, height: previewImageHeight)
         cell.previewImage.center = CGPoint(x: cell.contentView.bounds.size.width/2,y: cell.contentView.bounds.size.height/2)
-     //   cell.captionField.layer.borderWidth = 0.5
-     //   cell.captionField.layer.borderColor = white.cgColor
-      //  cell.tagField.layer.borderWidth = 0.5
-      //  cell.tagField.layer.borderColor = white.cgColor
-        //cell.locationField.layer.borderWidth = 0.5
-       // cell.locationField.layer.borderColor = white.cgColor
-       // cell.captionField.layer.cornerRadius = cell.captionField.frame.width/20
-       // cell.tagField.layer.cornerRadius = cell.tagField.frame.width/30
-      //  cell.locationField.layer.cornerRadius = cell.locationField.frame.width/40
+   
         cell.captionField.attributedPlaceholder = NSAttributedString(string: "Write A Caption...",
                                      attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
         cell.tagField.attributedPlaceholder = NSAttributedString(string: "Tag Friends",
@@ -381,12 +414,12 @@ extension UploadPreviewVC: UITableViewDelegate, UITableViewDataSource {
         
                 bottomLine3.backgroundColor = UIColor.white.cgColor
         cell.captionField.borderStyle = UITextField.BorderStyle.none
-        cell.captionField.layer.addSublayer(bottomLine)
+   //     cell.captionField.layer.addSublayer(bottomLine)
         cell.tagField.borderStyle = UITextField.BorderStyle.none
-        cell.tagField.layer.addSublayer(bottomLine2)
+     //   cell.tagField.layer.addSublayer(bottomLine2)
         
         cell.locationField.borderStyle = UITextField.BorderStyle.none
-        cell.locationField.layer.addSublayer(bottomLine3)
+       // cell.locationField.layer.addSublayer(bottomLine3)
 //        bottomLine.frame = CGRect(x: 110, y: cell.captionField.frame.maxY, width: cell.captionField.frame.width, height: 1.0)
 //        bottomLine2.frame = CGRect(x: 110, y: cell.locationField.frame.maxY, width: cell.locationField.frame.width, height: 1.0)
 //        bottomLine3.frame = CGRect(x: 110, y: cell.locationField.frame.maxY, width: cell.locationField.frame.width, height: 1.0)
@@ -404,7 +437,7 @@ extension UploadPreviewVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 160
+        return 200
     }
     
     

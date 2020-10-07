@@ -30,6 +30,7 @@ class AddSocialMediaCell: UITableViewCell {
     
     let db = Firestore.firestore()
     
+    let circularMask = UIImageView()
     
     // default func
     override func awakeFromNib() {
@@ -73,6 +74,11 @@ class AddSocialMediaCell: UITableViewCell {
         // round ava
        // socialMediaIcon.layer.cornerRadius = socialMediaIcon.frame.size.width / 2
         socialMediaIcon.clipsToBounds = true
+        circularMask.frame = socialMediaIcon.frame
+        circularMask.backgroundColor = white
+        self.bringSubviewToFront(circularMask)
+        
+        
     }
     
     

@@ -16,6 +16,7 @@ import FirebaseUI
 import FirebaseFirestore
 
 class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    let bottomLine = CALayer()
     var hasChosenThumbnailImage = false
     var lowTitleTextFrame = CGRect()
     var validURL = false
@@ -127,20 +128,13 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         
         
         //         linkHexagonImage.frame = CGRect(x: 10, y: linkTextField.frame.origin.y + 30, width: self.view.frame.size.width - 20, height: 30)
-        linkHexagonImage.frame = CGRect(x: 40, y: subtitleText.frame.maxY + 35, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
-        changeCoverLabel.frame = CGRect(x: 10, y: linkHexagonImage.frame.origin.y + scrollView.frame.width/2, width: self.view.frame.size.width - 20, height: 30)
-        
-        
-        linkTextField.frame = CGRect(x: 10, y: linkHexagonImage.frame.maxY + 20, width: self.view.frame.size.width - 20, height: 30)
-        linkTextField.attributedPlaceholder = NSAttributedString(string: "Paste Link Here",
-                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
-        linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: linkTextField.frame.minY, width: 30, height: 30)
+ 
         
         continueBtn.frame =  CGRect(x: 10.0, y: linkTextField.frame.maxY + 20, width: self.view.frame.width - 20, height: 24)
         continueBtn.layer.cornerRadius = continueBtn.frame.size.width / 20
         cancelBtn.frame =  CGRect(x: 10.0, y: continueBtn.frame.maxY + 10, width: continueBtn.frame.width, height: 24)
         cancelBtn.layer.cornerRadius = cancelBtn.frame.size.width / 20
-        linkHexagonImage.setupHexagonMask(lineWidth: linkHexagonImage.frame.width/15, color: myCoolBlue, cornerRadius: linkHexagonImage.frame.width/15)
+
         // background
         let bg = UIImageView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height))
         bg.image = UIImage(named: "manaloghourglass")
@@ -168,7 +162,11 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         let topBar = UIView()
         view.addSubview(topBar)
         topBar.backgroundColor = .clear
-        topBar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/15)
+      //  topBar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/15)
+        topBar.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
+      topBar.backgroundColor = UIColor(cgColor: CGColor(gray: 0.05, alpha: 1.0))
+        topBar.layer.borderWidth = 0.25
+        topBar.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
         
         let backButton = UIButton()
         topBar.addSubview(backButton)
@@ -183,7 +181,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         backButton.setBackgroundImage(UIImage(named: "whiteBack"), for: .normal)
        
         topBar.addSubview(addLinkLabel)
-        addLinkLabel.frame = CGRect(x: (topBar.frame.width/2) - 60, y: 0, width: 120, height: topBar.frame.height)
+        addLinkLabel.frame = CGRect(x: (topBar.frame.width/2) - 60, y: 10, width: 120, height: topBar.frame.height-10)
         addLinkLabel.text = "Add A Link"
         addLinkLabel.textColor = white
         addLinkLabel.font.withSize(40)
@@ -198,6 +196,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         topBar.addSubview(postButton)
         postButton.addGestureRecognizer(postTap)
         postButton.setTitle("Post", for: .normal)
+        postButton.setTitleColor(.systemBlue, for: .normal)
         postButton.frame = CGRect(x: (self.view.frame.width) - (topBar.frame.height) - 5, y: 0, width: topBar.frame.height, height: topBar.frame.height)
         postButton.titleLabel?.sizeToFit()
         postButton.titleLabel?.textAlignment = .right
@@ -206,23 +205,35 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         cancelBtn.isHidden = true
         
         // set up link text Field
-        linkTextField.frame = CGRect(x: 10, y: addLinkLabel.frame.maxY + 40, width: self.view.frame.size.width - 20, height: 30)
+       // linkTextField.frame = CGRect(x: 10, y: addLinkLabel.frame.maxY + 40, width: self.view.frame.size.width - 20, height: 30)
         linkTextField.attributedPlaceholder = NSAttributedString(string: "Paste Link Here",
                                                                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+    
+        
+    //    linkHexagonImage.frame = CGRect(x: 40, y: linkTextField.frame.minY, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
+        linkTextField.frame = CGRect(x: 10, y: linkHexagonImage.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
         linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: linkTextField.frame.minY, width: 30, height: 30)
-        
-        linkHexagonImage.frame = CGRect(x: 40, y: linkTextField.frame.maxY + 20, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
-        
-        let bottomLine = CALayer()
-        bottomLine.frame = CGRect(x: 0.0, y: linkTextField.frame.height, width: linkTextField.frame.width, height: 1.0)
-        bottomLine.backgroundColor = UIColor.systemGray4.cgColor
+      
+        self.bottomLine.frame = CGRect(x: 0.0, y: linkTextField.frame.height, width: linkTextField.frame.width, height: 1.0)
+        self.bottomLine.backgroundColor = UIColor.systemGray4.cgColor
         linkTextField.borderStyle = UITextField.BorderStyle.none
-        linkTextField.layer.addSublayer(bottomLine)
+        linkTextField.layer.addSublayer(self.bottomLine)
         linkTextField.backgroundColor = .clear
         linkTextField.font = UIFont(name: "Poppins", size: 20)
         linkTextField.textColor = .white
         
         
+        linkHexagonImage.frame = CGRect(x: 40, y: addLinkLabel.frame.maxY + 10, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
+        changeCoverLabel.frame = CGRect(x: 10, y: linkHexagonImage.frame.origin.y + scrollView.frame.width/2, width: self.view.frame.size.width - 20, height: 30)
+        
+        
+        linkTextField.frame = CGRect(x: 10, y: linkHexagonImage.frame.maxY + 20, width: self.view.frame.size.width - 20, height: 30)
+        linkTextField.attributedPlaceholder = NSAttributedString(string: "Paste Link Here",
+                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: linkTextField.frame.minY, width: 30, height: 30)
+        linkHexagonImage.setupHexagonMask(lineWidth: linkHexagonImage.frame.width/15, color: myCoolBlue, cornerRadius: linkHexagonImage.frame.width/15)
+        addLinkLabel.font = UIFont(name: "DINAlternate-Bold", size: 22)
+        postButton.titleLabel!.font = UIFont(name: "DINAlternate-Bold", size: 19)
         
     }
     
@@ -259,11 +270,13 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         highContinueButtonFrame = CGRect(x: continueBtn.frame.minX, y: lowContinueButtonFrame.minY - 70, width: continueBtn.frame.width, height: continueBtn.frame.height)
         highCancelButtonFrame = CGRect(x: cancelBtn.frame.minX, y: lowCancelButtonFrame.minY - 70, width: cancelBtn.frame.width, height: cancelBtn.frame.height)
         
+        linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: linkTextField.frame.minY, width: 30, height: 30)
+        
         titleText.frame = highTitleTextFrame
         subtitleText.frame = highSubtitleTextFrame
-        linkLogo.frame = highLinkLogoFrame
-        linkTextField.frame = highLinkTextfieldFrame
-        linkHexagonImage.frame = highLinkHexagonImageFrame
+       // linkLogo.frame = highLinkLogoFrame
+        //linkTextField.frame = highLinkTextfieldFrame
+    //    linkHexagonImage.frame = highLinkHexagonImageFrame
         continueBtn.frame = highContinueButtonFrame
         cancelBtn.frame = highCancelButtonFrame
         print("New Frames")
@@ -289,41 +302,14 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         }
         
         if notification.name == UIResponder.keyboardWillShowNotification ||  notification.name == UIResponder.keyboardWillChangeFrameNotification {
-          //  self.view.frame.origin.y = -keyboardReact.height
+           // self.view.frame.origin.y = -keyboardReact.height
+      //      self.view.frame.origin.y = -self.bottomLine.frame.maxY
         }else{
             self.view.frame.origin.y = 0
         }
         
     }
     
-    
-    
-    
-    func pushEverythingDown() {
-        lowTitleTextFrame = CGRect(x: titleText.frame.minX, y: titleText.frame.minY + 70, width: titleText.frame.width, height: titleText.frame.height)
-        lowSubtitleTextFrame = CGRect(x: subtitleText.frame.minX, y: subtitleText.frame.minY + 70, width: subtitleText.frame.width, height: subtitleText.frame.height)
-        lowLinkLogoFrame = CGRect(x: linkLogo.frame.minX, y: linkLogo.frame.minY + 70, width: linkLogo.frame.width, height: linkLogo.frame.height)
-        lowLinkTextfieldFrame = CGRect(x: linkTextField.frame.minX, y: linkTextField.frame.minY + 70, width: linkTextField.frame.width, height: linkTextField.frame.height)
-        lowLinkHexagonImageFrame = CGRect(x: linkHexagonImage.frame.minX, y: linkHexagonImage.frame.minY + 70, width: linkHexagonImage.frame.width, height: linkHexagonImage.frame.height)
-        lowContinueButtonFrame = CGRect(x: continueBtn.frame.minX, y: continueBtn.frame.minY + 70, width: continueBtn.frame.width, height: continueBtn.frame.height)
-        cancelBtn.frame = CGRect(x: cancelBtn.frame.minX, y: cancelBtn.frame.minY + 70, width: cancelBtn.frame.width, height: cancelBtn.frame.height)
-        
-        titleText.frame = lowTitleTextFrame
-        subtitleText.frame = lowSubtitleTextFrame
-        linkLogo.frame = lowLinkLogoFrame
-        linkTextField.frame = lowLinkTextfieldFrame
-        linkHexagonImage.frame = lowLinkHexagonImageFrame
-        continueBtn.frame = lowContinueButtonFrame
-        cancelBtn.frame = lowCancelButtonFrame
-        print("New Frames")
-        print(titleText.frame)
-        print(subtitleText.frame)
-        print(linkLogo.frame)
-        print(linkTextField.frame)
-        print(linkHexagonImage.frame)
-        print(continueBtn.frame)
-        print(cancelBtn.frame)
-    }
     
     // show keyboard
     @objc func showKeyboard(_ notification:Notification) {
