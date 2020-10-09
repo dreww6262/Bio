@@ -204,6 +204,7 @@
                         <outlet property="cancelButton" destination="uwc-1Q-obk" id="985-PT-bU5"/>
                         <outlet property="doneButton" destination="0hx-Uq-KmD" id="6Te-Xa-sh7"/>
                         <outlet property="tableView" destination="9rN-8w-252" id="Fc8-eE-kKb"/>
+                        <outlet property="titleLabel1" destination="rwc-ZV-FbL" id="pnc-zF-GX0"/>
                         <segue destination="6iO-BZ-N76" kind="unwind" identifier="unwindFromUpload" unwindAction="unvindSegueFromAddToHomeWithSegue:" id="Epa-Bz-Dbp"/>
                     </connections>
                 </viewController>
@@ -211,6 +212,25 @@
                 <exit id="6iO-BZ-N76" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="739" y="-4341"/>
+        </scene>
+        <!--Link PreviewVC-->
+        <scene sceneID="n98-v3-qk5">
+            <objects>
+                <viewController storyboardIdentifier="linkPreview" id="Iew-Gd-z4Y" customClass="LinkPreviewVC" customModule="Bio" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="TS2-8l-YuT">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="jlD-Bl-wF8"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <connections>
+                        <segue destination="owx-G5-tG0" kind="unwind" identifier="unwindFromLinkToHome" animates="NO" unwindAction="unvindSegueFromAddToHomeWithSegue:" id="YjU-tq-ACp"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3ve-SS-m04" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="owx-G5-tG0" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1648" y="-4346"/>
         </scene>
         <!--Professional SettingsVC-->
         <scene sceneID="0XX-Lk-mhR">

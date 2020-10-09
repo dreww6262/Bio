@@ -195,7 +195,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         let postButton = UIButton()
         topBar.addSubview(postButton)
         postButton.addGestureRecognizer(postTap)
-        postButton.setTitle("Post", for: .normal)
+        postButton.setTitle("Next", for: .normal)
         postButton.setTitleColor(.systemBlue, for: .normal)
         postButton.frame = CGRect(x: (self.view.frame.width) - (topBar.frame.height) - 5, y: 0, width: topBar.frame.height, height: topBar.frame.height)
         postButton.titleLabel?.sizeToFit()
@@ -338,23 +338,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         //        })
     }
     
-    func addHex(hexData: HexagonStructData, completion: @escaping (Bool) -> Void) {
-        let hexCollectionRef = db.collection("Hexagons2")
-        let hexDoc = hexCollectionRef.document()
-        var hexCopy = HexagonStructData(dictionary: hexData.dictionary)
-        hexCopy.docID = hexDoc.documentID
-        hexDoc.setData(hexCopy.dictionary){ error in
-            //     group.leave()
-            if error == nil {
-                print("added hex: \(hexData)")
-                completion(true)
-            }
-            else {
-                print("failed to add hex \(hexData)")
-                completion(false)
-            }
-        }
-    }
+    
     
     @objc func backTapped(_ sender: UITapGestureRecognizer) {
         print("back hit!")
@@ -364,108 +348,13 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         self.dismiss(animated: false, completion: nil)
     }
     
-    @objc func postTapped(_ sender: UITapGestureRecognizer) {
-        let username = userData!.publicID
-        var numPosts = userData!.numPosts
-        if numPosts + 1 > 37 {
-            // too many posts
-            let alert = UIAlertController(title: "Not Enough Space :/", message: "Either cancel this or delete a post from your home grid and try again.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-            return
-        }
+    
         
-        if hasChosenThumbnailImage == false {
-            loadImg(UITapGestureRecognizer())
-        }
-        else {
-            
-            // dismiss keyboard
-            self.view.endEditing(true)
-            
-            // if fields are empty
-            if (linkTextField.text!.isEmpty) {
-                
-                // alert message
-                let alert = UIAlertController(title: "Hold up", message: "Fill in a field or hit Cancel", preferredStyle: UIAlertController.Style.alert)
-                let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
-                alert.addAction(ok)
-                self.present(alert, animated: true, completion: nil)
-                
-                return
-            }
-            
-            
-            
-            
-            
-            var linkString = "\(linkTextField.text!)"
-            print("This is linkString \(linkString)")
-            let url = URL(string: linkString)
-            if linkString.isValidURL {
-                print("linkString is valid URL")
-                validURL = true
-                print("This is url \(url)")
-            }
-            else {
-                print("linkString is not valid URL \(linkString)")
-                validURL = false
-            }
-            
-            
-            
-            //let group = DispatchGroup()
-            if (!linkTextField.text!.isEmpty && validURL) {
-                let timestamp = Timestamp.init().seconds
-                let imageFileName = "\(username)_\(timestamp)_link.png"
-                let refText = "userFiles/\(username)/\(imageFileName)"
-                let imageRef = storageRef.child(refText)
-                numPosts += 1
-                let linkHex = HexagonStructData(resource: linkTextField.text!, type: "link", location: numPosts, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: "\(linkTextField.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
-                
-                
-                
-                
-                imageRef.putData(linkHexagonImage.image!.pngData()!, metadata: nil){ data, error in
-                    if (error == nil) {
-                        print ("upload successful")
-                        self.addHex(hexData: linkHex, completion: { bool in
-                            if (bool) {
-                                print("Add hex successful")
-                            }
-                            else {
-                                print("didnt add hex")
-                            }
-                        })
-                    }
-                    else {
-                        print ("upload failed")
-                    }
-                }
-                
-                
-                userData?.numPosts = numPosts
-                db.collection("UserData1").document(currentUser!.uid).setData(self.userData!.dictionary, completion: { error in
-                    if error == nil {
-                        print("userdata updated successfully")
-                        self.performSegue(withIdentifier: "unwindFromLinkToHome", sender: nil)
-                    }
-                    else {
-                        print("userData not saved \(error?.localizedDescription)")
-                    }
-                    
-                })
-            }
-            
-        }
-    }
     
     // clicked sign up
-    @IBAction func continueClicked(_ sender: AnyObject) {
-        print("continue button pressed")
-        
+    @objc func postTapped(_ sender: UITapGestureRecognizer) {
         let username = userData!.publicID
-        var numPosts = userData!.numPosts
+        let numPosts = userData!.numPosts
         
         if numPosts + 1 > 37 {
             // too many posts
@@ -494,86 +383,32 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
                 
                 return
             }
-            
-            
-            
-            
-            
-            var linkString = "\(linkTextField.text!)"
+    
+            let linkString = "\(linkTextField.text!)"
             print("This is linkString \(linkString)")
             let url = URL(string: linkString)
             if linkString.isValidURL {
                 print("linkString is valid URL")
                 validURL = true
-                print("This is url \(url)")
-                ////                let url = URL(string: linkString)
-                ////                let session = URLSession.shared
-                ////                let task = session.downloadTask(with:url as! URL) { loc, resp, err in
-                ////                    let status = (resp as! HTTPURLResponse).statusCode
-                ////                    print("response status: \(status)")
-                ////                }
-                ////                task.resume()
-                //            let task = URLSession.shared.dataTask(with: url!) { _, response, _ in
-                //                if let httpResponse = response as? HTTPURLResponse {
-                //                    print(httpResponse.statusCode)
-                //                }
-                //            }
-                //
-                //            task.resume()
-                
-                
-                
             }
             else {
                 print("linkString is not valid URL \(linkString)")
                 validURL = false
             }
             
-            
-            
             //let group = DispatchGroup()
             if (!linkTextField.text!.isEmpty && validURL) {
                 let timestamp = Timestamp.init().seconds
                 let imageFileName = "\(username)_\(timestamp)_link.png"
                 let refText = "userFiles/\(username)/\(imageFileName)"
-                let imageRef = storageRef.child(refText)
-                numPosts += 1
-                let linkHex = HexagonStructData(resource: linkTextField.text!, type: "link", location: numPosts, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: "\(linkTextField.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
-                
-                
-                
-                
-                imageRef.putData(linkHexagonImage.image!.pngData()!, metadata: nil){ data, error in
-                    if (error == nil) {
-                        print ("upload successful")
-                        self.addHex(hexData: linkHex, completion: { bool in
-                            if (bool) {
-                                print("Add hex successful")
-                            }
-                            else {
-                                print("didnt add hex")
-                            }
-                        })
-                    }
-                    else {
-                        print ("upload failed")
-                    }
-                }
-                
-                
-                userData?.numPosts = numPosts
-                db.collection("UserData1").document(currentUser!.uid).setData(self.userData!.dictionary, completion: { error in
-                    if error == nil {
-                        print("userdata updated successfully")
-                        self.performSegue(withIdentifier: "unwindFromLinkToHome", sender: nil)
-                    }
-                    else {
-                        print("userData not saved \(error?.localizedDescription)")
-                    }
-                    
-                })
+                let linkHex = HexagonStructData(resource: linkTextField.text!, type: "link", location: numPosts + 1, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: "\(linkTextField.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+                let previewVC = storyboard?.instantiateViewController(identifier: "linkPreview") as! LinkPreviewVC
+                previewVC.webHex = linkHex
+                previewVC.thumbImage = linkHexagonImage.image
+                previewVC.userData = userData
+                previewVC.modalPresentationStyle = .fullScreen
+                self.present(previewVC, animated: false, completion: nil)
             }
-            
         }
     }
     
