@@ -337,7 +337,7 @@ class AlgorithmHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRec
             createImageViews()
         }
         user = Auth.auth().currentUser
-        db.collection("UserData1").whereField("email", isEqualTo: user?.email).addSnapshotListener({ objects, error in
+      db.collection("UserData1").whereField("email", isEqualTo: user?.email).addSnapshotListener({ objects, error in
             if (error == nil) {
                 if (objects!.documents.capacity > 0) {
                     let newData = UserData(dictionary: objects!.documents[0].data())

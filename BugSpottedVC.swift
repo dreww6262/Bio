@@ -1,5 +1,5 @@
 //
-//  SubmitSuggestionsVC.swift
+//  BugSpottedVC.swift
 //  Bio
 //
 //  Created by Ann McDonough on 10/7/20.
@@ -14,7 +14,7 @@ import FirebaseStorage
 import FirebaseAuth
 import FirebaseUI
 
-class SubmitSuggestionsVC: UIViewController, UITextViewDelegate {
+class BugSpottedVC: UIViewController, UITextViewDelegate {
     var navBarView = NavBarView()
     var titleLabel1 = UILabel()
     var cancelButton = UIButton()
@@ -34,7 +34,7 @@ setUpNavBarView()
     func setUpTextView() {
         self.view.addSubview(self.textView)
         self.view.addSubview(self.placeholderLabel)
-        self.placeholderLabel.text = "Tell us what we can do better..."
+        self.placeholderLabel.text = "Where did you find a bug?"
         self.placeholderLabel.font = UIFont(name: "DINAlternate-SemiBold", size: 18)
         self.textView.font = UIFont(name: "DINAlternate-SemiBold", size: 18)
      //   self.placeholderLabel.font = UIFont.italicSystemFont(ofSize: (textView.font?.pointSize)!)
@@ -63,7 +63,7 @@ setUpNavBarView()
         self.navBarView.backgroundColor = UIColor(cgColor: CGColor(gray: 0.05, alpha: 1.0))
         self.navBarView.layer.borderWidth = 0.25
         self.navBarView.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
-        self.titleLabel1.text = "Submit A Suggestion"
+        self.titleLabel1.text = "Report A Bug"
     //    self.navBarView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/15)
        // self.tableiew.frame = CGRect(x: 0, y: self.view.frame.height/12, width: self.view.frame.width, height: self.view.frame.height*(11/12))
         self.titleLabel1.frame = CGRect(x: 0, y: 10, width: self.view.frame.width, height: self.navBarView.frame.height-10)
@@ -120,17 +120,17 @@ setUpNavBarView()
      
             
             
-            let feedbackObjectref = db.collection("Feedback")
-               let feedbackDoc = feedbackObjectref.document()
-            let feedbackObject = FeedbackObject(text: newSuggestion!)
-               feedbackDoc.setData(feedbackObject.dictionary){ error in
+            let bugObjectref = db.collection("Bugs")
+               let bugDoc = bugObjectref.document()
+            let bugObject = FeedbackObject(text: newSuggestion!)
+               bugDoc.setData(bugObject.dictionary){ error in
                    if error == nil {
                     UIDevice.vibrate()
-                       print("added feedback: \(feedbackObject)")
+                       print("reported ug: \(bugObject)")
                     self.dismiss(animated: true)
                    }
                    else {
-                       print("failed to add notification \(feedbackObject)")
+                       print("failed to add bug \(bugObject)")
 
                    }
                }

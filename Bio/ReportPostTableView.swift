@@ -24,14 +24,23 @@ class ReportPostTableView: QuickTableViewController {
 //        view.addSubview(navBarView)
 //
         setUpNavBarView()
-        
+        tableView.frame = CGRect(x: 0, y: navBarView.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - navBarView.frame.maxY)
+//        print("estimated row height \(tableView.estimatedRowHeight)")
+//        print("number of rows in section \(tableView.numberOfRows(inSection: 0))")
+//
         // Do any additional setup after loading the view.
        
         //menuView.isHidden = true
         tableContents = [
             Section(title: "Report Post", rows: [
-                        NavigationRow(text: "Nudity or sexual activity", detailText: .none, icon: .none), NavigationRow(text: "Hate speech of symbols", detailText: .none, icon: .none), NavigationRow(text: "Violence or dangerous organizations", detailText: .none, icon: .none), NavigationRow(text: "Sale of illegal or regulated goods", detailText: .none, icon: .none),NavigationRow(text: "Bullying or harassment", detailText: .none, icon: .none), NavigationRow(text: "Intellectual property violation", detailText: .none, icon: .none), NavigationRow(text: "Suicide, self-injury or eating disorders", detailText: .none, icon: .none), NavigationRow(text: "Scam or fraud", detailText: .none, icon: .none), NavigationRow(text: "False information", detailText: .none, icon: .none), NavigationRow(text: "Other", detailText: .none, icon: .none)])]
-      
+                        NavigationRow(text: "Nudity or sexual activity", detailText: .none, icon: .none), NavigationRow(text: "Hate speech of symbols", detailText: .none, icon: .none), NavigationRow(text: "Violence or dangerous organizations", detailText: .none, icon: .none), NavigationRow(text: "Sale of illegal or regulated goods", detailText: .none, icon: .none),NavigationRow(text: "Bullying or harassment", detailText: .none, icon: .none), NavigationRow(text: "Intellectual property violation", detailText: .none, icon: .none), NavigationRow(text: "Suicide, self-injury or eating disorders", detailText: .none, icon: .none), NavigationRow(text: "Scam or fraud", detailText: .none, icon: .none), NavigationRow(text: "False information", detailText: .none, icon: .none), NavigationRow(text: "Other", detailText: .none, icon: .none)]), Section(title: "Report Post", rows: [
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    NavigationRow(text: "Nudity or sexual activity", detailText: .none, icon: .none), NavigationRow(text: "Hate speech of symbols", detailText: .none, icon: .none), NavigationRow(text: "Violence or dangerous organizations", detailText: .none, icon: .none), NavigationRow(text: "Sale of illegal or regulated goods", detailText: .none, icon: .none),NavigationRow(text: "Bullying or harassment", detailText: .none, icon: .none), NavigationRow(text: "Intellectual property violation", detailText: .none, icon: .none), NavigationRow(text: "Suicide, self-injury or eating disorders", detailText: .none, icon: .none), NavigationRow(text: "Scam or fraud", detailText: .none, icon: .none), NavigationRow(text: "False information", detailText: .none, icon: .none), NavigationRow(text: "Other", detailText: .none, icon: .none)])
+        ]
+        
+        print("estimated row height \(tableView.estimatedRowHeight)")
+        //print("number of rows in section \(tableView.numberOfRows(inSection: tableContents[0]))")
+        
+     //   tableView.reloadData()
         
         }
     
