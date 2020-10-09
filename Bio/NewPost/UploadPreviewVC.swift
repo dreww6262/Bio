@@ -21,9 +21,9 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
     let storageRef = Storage.storage().reference()
     let filterSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ1234567890/_-."
     
-    @IBOutlet weak var titleLabel1: UILabel!
+    var titleLabel1 = UILabel()
     
-    @IBOutlet weak var subtitleLabel: UILabel!
+    var subtitleLabel = UILabel()
     @IBOutlet weak var tableView: UITableView!
     var userData: UserData?
     

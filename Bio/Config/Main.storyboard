@@ -821,7 +821,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hpW-WY-8ow" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1541" y="-3680"/>
+            <point key="canvasLocation" x="-1519" y="-3651"/>
         </scene>
         <!--Home Hexagon Grid-->
         <scene sceneID="xs9-DC-QC8">
@@ -1916,10 +1916,10 @@
             </objects>
             <point key="canvasLocation" x="-2659" y="-5044"/>
         </scene>
-        <!--Report Post Table View-->
+        <!--ReportA PostVC-->
         <scene sceneID="7fk-j9-Lx7">
             <objects>
-                <viewController storyboardIdentifier="reportVC" modalPresentationStyle="fullScreen" id="vvd-bQ-Rbx" customClass="ReportPostTableView" customModule="Bio" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="reportVC" modalPresentationStyle="fullScreen" id="vvd-bQ-Rbx" customClass="ReportAPostVC" customModule="Bio" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="brR-Q6-hga">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1934,6 +1934,21 @@
                 <exit id="Gtd-CH-TX4" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-3493" y="-2948"/>
+        </scene>
+        <!--Bug SpottedVC-->
+        <scene sceneID="T5A-e9-BcC">
+            <objects>
+                <viewController storyboardIdentifier="bugSpottedVC" id="tFj-cC-63L" customClass="BugSpottedVC" customModule="Bio" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ooc-Y5-UCo">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="lxn-AI-ZsJ"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wIk-Pa-61b" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-654" y="-3687"/>
         </scene>
     </scenes>
     <resources>

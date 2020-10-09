@@ -1,16 +1,16 @@
 //
-//  ProfessionalSettingsVC.swift
+//  ReportAPostVC.swift
 //  Bio
 //
-//  Created by Ann McDonough on 9/2/20.
+//  Created by Ann McDonough on 10/8/20.
 //  Copyright © 2020 Patrick McDonough. All rights reserved.
 //
-//
+
 import UIKit
 import FirebaseAuth
 import QuickTableViewController
 
-class ProfessionalSettingsVC: QuickTableViewController {
+class ReportAPostVC: QuickTableViewController {
     
     var navBarView = NavBarView()
     
@@ -75,24 +75,24 @@ var titleLabel1 = UILabel()
 //
 
         tableContents = [
-            Section(title: "My Account", rows: [
-                                 NavigationRow(text: "Name", detailText: .value1(name)!, icon: .named("gear")),
-                                 NavigationRow(text: "Username", detailText: .value1(email)!, icon: .named("globe")),
-                                 NavigationRow(text: "Birthday", detailText: .value1(birthday), icon: .none, action: { _ in }),
-                                 NavigationRow(text: "Country", detailText: .value1(country)), NavigationRow(text: "Terms of Service", detailText: .none, icon: .named("time"), action: { _ in }),
-                                 NavigationRow(text: "Phone Number", detailText: .value1(phoneNumber)),
-                                 NavigationRow(text: "Email", detailText: .value1(email)!, icon: .named("time"), action: { _ in }),
-                                NavigationRow(text: "Password", detailText: .none),
-                                NavigationRow(text: "Two-Factor Authentification", detailText: .none, icon: .named("time"), action: { _ in })]),
-            Section(title: "Support", rows: [
-                        NavigationRow(text: "FAQ's", detailText: .none, icon: .named("gear")),
-                        NavigationRow(text: "I Spotted a Bug", detailText: .none, icon: .named("globe"), action: didToggleSelection()),
-                        NavigationRow(text: "I Have a Suggestion", detailText: .none, icon: .named("time"), action: didToggleSelection()),
-                        NavigationRow(text: "Privacy Policy", detailText: .none),
-                        NavigationRow(text: "Terms of Service", detailText: .none, icon: .named("time"), action: { _ in }),
-                        NavigationRow(text: "Report User", detailText: .none)]),
-                Section(title: "Account Actions", rows: [
-                    NavigationRow(text: "Log Out", detailText: .none, icon: .named("gear"), action: didToggleSelection())])
+            Section(title: "Report Post", rows: [
+                                 NavigationRow(text: "Nudity or sexual activity", detailText: .none, icon: .none, action: didToggleSelection()), NavigationRow(text: "Hate speech or symbols", detailText: .none, icon: .none, action: didToggleSelection()),
+                                 NavigationRow(text: "Violence or dangerous organizations", detailText: .none, action: didToggleSelection()), NavigationRow(text: "Sale of illegal or regulated goods", detailText: .none, icon: .none, action: didToggleSelection()),
+                                 NavigationRow(text: "Bullying or harassment", detailText: .none, action: didToggleSelection()),
+                                 NavigationRow(text: "Intellectual property violation", detailText: .none, icon: .none, action: didToggleSelection()),
+                                NavigationRow(text: "Suicide, self-injury or, eating disorders", detailText: .none, action: didToggleSelection()),
+                                NavigationRow(text: "Scam or Fraud", detailText: .none, icon: .none, action: didToggleSelection()), NavigationRow(text: "False information", detailText: .none, action: didToggleSelection()),
+                        NavigationRow(text: "Other", detailText: .none, icon: .none, action: didToggleSelection())])
+            //,
+//            Section(title: "Support", rows: [
+//                        NavigationRow(text: "FAQ's", detailText: .none, icon: .named("gear")),
+//                        NavigationRow(text: "I Spotted a Bug", detailText: .none, icon: .named("globe"), action: didToggleSelection()),
+//                        NavigationRow(text: "I Have a Suggestion", detailText: .none, icon: .named("time"), action: didToggleSelection()),
+//                        NavigationRow(text: "Privacy Policy", detailText: .none),
+//                        NavigationRow(text: "Terms of Service", detailText: .none, icon: .named("time"), action: { _ in }),
+//                        NavigationRow(text: "Report User", detailText: .none)]),
+//                Section(title: "Account Actions", rows: [
+//                    NavigationRow(text: "Log Out", detailText: .none, icon: .named("gear"), action: didToggleSelection())])
         ]
         
         
@@ -113,7 +113,7 @@ let dismissTap = UITapGestureRecognizer(target: self, action: #selector(self.bac
         
         self.backButton1.setTitle("Back", for: .normal)
         self.backButton1.setTitleColor(.systemBlue, for: .normal)
-        self.titleLabel1.text = "Settings"
+        self.titleLabel1.text = "Report Post"
         self.navBarView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/12)
         self.tableView.frame = CGRect(x: 0, y: self.navBarView.frame.height, width: self.view.frame.width, height: self.view.frame.height-self.navBarView.frame.height)
         self.titleLabel1.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/12)

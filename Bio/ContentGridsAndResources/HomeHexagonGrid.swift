@@ -547,12 +547,32 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         self.indexLabelArray = []
         self.indexImageViewArray = []
         for image in imageViewArray {
+            var imageType = image.hexData?.type
+            print("This is image type \(imageType)")
+       var copyColor = myBlueGreen
+            
+            if imageType == "photo" {
+            copyColor = myOrange as UIColor
+            }
+            else if imageType!.contains("social") {
+            copyColor = myPink as UIColor
+            }
+            else if imageType == "music" {
+            copyColor = myBlueGreen as UIColor
+            }
+            else if imageType == "link" {
+            copyColor = myCoolBlue as UIColor
+            }
+        
+            
+            
+            
             image.frame = CGRect(x: self.reOrderedCoordinateArrayPoints[image.hexData!.location].x,
                                  y: self.reOrderedCoordinateArrayPoints[image.hexData!.location].y, width: hexaDiameter, height: hexaDiameter)
             var imageCopyFrame = image.frame
             var imageCopy = UIImageView(frame: imageCopyFrame)
-            imageCopy.backgroundColor = myDarkBlue
-            imageCopy.setupHexagonMask(lineWidth: imageCopy.frame.width/15, color: red, cornerRadius: imageCopy.frame.width/15)
+            imageCopy.backgroundColor = copyColor
+            imageCopy.setupHexagonMask(lineWidth: imageCopy.frame.width/15, color: copyColor, cornerRadius: imageCopy.frame.width/15)
             self.indexImageViewArray.append(imageCopy)
             //print("Now this is indexImageviewarray count \(indexImageViewArray.count)")
     
@@ -563,13 +583,14 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             let hexLocationLabel = UILabel()
             hexLocationLabel.textAlignment = .center
             self.contentView.addSubview(hexLocationLabel)
+            self.contentView.addSubview(imageCopy)
             let LabelWidth = image.frame.width/3
             let LabelHeight = image.frame.height/3
             hexLocationLabel.frame = CGRect(x: (image.frame.midX-LabelWidth)/2, y: (image.frame.midY-LabelHeight)/2, width: LabelWidth, height: LabelHeight)
             hexLocationLabel.text = "\( image.hexData!.location)"
             hexLocationLabel.font.withSize(45)
             hexLocationLabel.font = UIFont(name: "DINAternate-Bold", size: 45)
-            hexLocationLabel.textColor = red
+            hexLocationLabel.textColor = white
             hexLocationLabel.center = image.center
             self.contentView.bringSubviewToFront(imageCopy)
             self.contentView.bringSubviewToFront(hexLocationLabel)
@@ -584,6 +605,40 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         
         
     }
+    
+ //   func makeRateMenu() -> UIMenu {
+//      let ratingButtonTitles = ["View Profile Picture", "Change Profile Picture"]
+//
+//      let rateActions = ratingButtonTitles
+//        .enumerated()
+//        .map { index, title in
+//          return UIAction(
+//            title: title,
+//            identifier: UIAction.Identifier("\(index + 1)"),
+////            handler: handleProfilePicTap(nil))
+//            return UIMenu(
+//              title: "Rate...",
+////              image: UIImage(systemName: "star.circle"),
+////              options: .displayInline,
+////              children: ratingButtonTitles)
+////
+//        let menu1 = UIMenu(title: <#T##String#>, image: <#T##UIImage?#>, identifier: <#T##UIMenu.Identifier?#>, options: <#T##UIMenu.Options#>, children: <#T##[UIMenuElement]#>)
+//
+//        UIMenuElement(
+//
+//      return UIMenu(title: "View Profile Picture", image: nil, children: <#T##[UIMenuElement]#>
+//        title: "Rate...",
+//        image: UIImage(systemName: "star.circle"),
+//        children: ratingButtonTitles)
+//    }
+    
+    func createContentView() {
+        let interaction = UIContextMenuInteraction(delegate: self)
+        self.imageViewArray[0].addInteraction(interaction)
+        
+    }
+    
+    
     
     func createPostImage(hexData: HexagonStructData) -> PostImageView {
         let hexaDiameter : CGFloat = 150
@@ -1024,8 +1079,10 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         avaImage?.tag = 0
         avaImage?.isUserInteractionEnabled = true
         contentView.addSubview(avaImage!)
-        let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(handleProfilePicTap))
-        avaImage?.addGestureRecognizer(tapGesture1)
+        let interaction = UIContextMenuInteraction(delegate: self)
+        avaImage?.addInteraction(interaction)
+        let tapGestureAva = UITapGestureRecognizer(target: self, action: #selector(handleProfilePicTap))
+        avaImage?.addGestureRecognizer(tapGestureAva)
         avaImage?.isHidden = false
         contentView.bringSubviewToFront(avaImage!)
       //  avaImage!.setupHexagonMask(lineWidth: avaImage!.frame.width/15, color: white, cornerRadius: avaImage!.frame.width/15)
@@ -1445,4 +1502,28 @@ extension UIView {
     self.layer.add(animation, forKey: "position")
   }
 
+}
+
+//extension HomeHexagonGrid: UIContextMenuInteractionDelegate {
+//  func contextMenuInteraction(_ interaction: UIContextMenuInteraction,
+//  configurationForMenuAtLocation location: CGPoint)
+//  -> UIContextMenuConfiguration? {
+//    return nil
+//  }
+//}
+extension HomeHexagonGrid: UIContextMenuInteractionDelegate {
+  func contextMenuInteraction(
+    _ interaction: UIContextMenuInteraction,
+    configurationForMenuAtLocation location: CGPoint)
+      -> UIContextMenuConfiguration? {
+    return UIContextMenuConfiguration(
+      identifier: nil,
+      previewProvider: nil,
+      actionProvider: { _ in
+  let children: [UIMenuElement] = []
+   //     let rateMenu = self.makeRateMenu()
+     //   let children = [rateMenu]
+        return UIMenu(title: "", children: children)
+    })
+  }
 }
