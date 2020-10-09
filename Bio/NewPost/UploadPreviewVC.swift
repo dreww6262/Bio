@@ -105,6 +105,10 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
         }
     }
     
+    var loadingIndicator: UIViewController?
+    var blurEffectView: UIVisualEffectView?
+    
+    
     @IBAction func donePressed(_ sender: UIButton) {
         var success = true
         var count = 0
@@ -118,6 +122,29 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
             self.present(alert, animated: true, completion: nil)
             return
         }
+        
+        let loadingIndicator = storyboard?.instantiateViewController(withIdentifier: "loading")
+        
+        blurEffectView = {
+            let blurEffect = UIBlurEffect(style: .dark)
+            let blurEffectView = UIVisualEffectView(effect: blurEffect)
+            
+            blurEffectView.alpha = 0.8
+            
+            // Setting the autoresizing mask to flexible for
+            // width and height will ensure the blurEffectView
+            // is the same size as its parent view.
+            blurEffectView.autoresizingMask = [
+                .flexibleWidth, .flexibleHeight
+            ]
+            blurEffectView.frame = view.bounds
+            
+            return blurEffectView
+        }()
+        view.addSubview(blurEffectView!)
+        
+        addChild(loadingIndicator!)
+        view.addSubview(loadingIndicator!.view)
         
         var hexesToUpload = ThreadSafeArray<HexagonStructData>()
         

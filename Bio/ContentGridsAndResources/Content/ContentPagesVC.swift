@@ -20,7 +20,11 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
     
     var viewControllers = [UIViewController]()
     var pageView = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
-    var currentIndex: Int = 0
+    var currentIndex: Int = 0 {
+        didSet{
+            currentIndexLabel.text = "\(currentIndex + 1)/\(viewControllers.count)"
+        }
+    }
     
     var hexData: [HexagonStructData?]? {
         didSet {
@@ -95,8 +99,7 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         }
         
         print("viewcontroller: \(previousIndex)")
-        currentIndex = previousIndex
-        currentIndexLabel.text = "\(currentIndex+1)/\(viewControllers.count)"
+        
         return viewControllers[previousIndex]
     }
     
@@ -123,8 +126,6 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         }
         
         print("viewcontroller: \(nextIndex)")
-        currentIndex = nextIndex
-        currentIndexLabel.text = "\(currentIndex+1)/\(viewControllers.count)"
         
       //  viewControllers[nextIndex].
       //  viewControllers[nextIndex].showOpenAppButton = showBool
@@ -132,8 +133,21 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         return viewControllers[nextIndex]
     }
     
+    func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
+        if (pendingViewControllers.count > 0) {
+            guard let vcIndex = viewControllers.firstIndex(of: pendingViewControllers[0]) else {return}
+            currentIndex = vcIndex
+        }
+
+    }
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        if !completed {
+            guard let vcIndex = viewControllers.firstIndex(of: previousViewControllers[0]) else {return}
+            currentIndex = vcIndex
+        }
+    }
     
-    
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -166,7 +180,7 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
        
         topBar.addSubview(currentIndexLabel)
         currentIndexLabel.frame = CGRect(x: (view.frame.width/2) - 40, y: topBar.frame.height/4, width: 80, height: topBar.frame.height/2)
-        currentIndexLabel.text = "\(currentIndex+1)/\(viewControllers.count)"
+        currentIndexLabel.text = "\(currentIndex + 1)/\(viewControllers.count)"
         currentIndexLabel.textColor = white
         currentIndexLabel.font.withSize(25)
         currentIndexLabel.textAlignment = .center
@@ -174,7 +188,7 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         backButton.imageView?.frame = backButton.frame
         backButton.imageView?.image = UIImage(named: "whiteBack")
         let commentButton = UIButton()
-        bottomBar.addSubview(commentButton)
+        //bottomBar.addSubview(commentButton)
         commentButton.setTitleColor(.white, for: .normal)
         commentButton.backgroundColor = .clear
         commentButton.imageView?.image?.withTintColor(.white)
@@ -193,9 +207,9 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         var spacingForButton = bottomBar.frame.height/4
         
         let shareButton = UIButton()
-        bottomBar.addSubview(shareButton)
+        //bottomBar.addSubview(shareButton)
         bottomBar.backgroundColor = .black
-        view.bringSubviewToFront(bottomBar)
+        //view.bringSubviewToFront(bottomBar)
         bottomBar.bringSubviewToFront(commentButton)
         
         
@@ -261,11 +275,14 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         }
         
         
-        var openInAppWidth = (7/4)*bottomBar.frame.height
-        goToAppButton.frame = CGRect(x: (bottomBar.frame.width/2)-(openInAppWidth/2), y: bottomBar.frame.height/4, width: (7/4)*bottomBar.frame.height, height: bottomBar.frame.height/2)
+        let openInAppWidth = (7/4)*bottomBar.frame.height
+        goToAppButton.setTitle("Open App", for: .normal)
+        goToAppButton.sizeToFit()
+        goToAppButton.frame = CGRect(x: (bottomBar.frame.width/2)-((openInAppWidth + 8)/2), y: bottomBar.frame.height/2 - (goToAppButton.frame.height + 3) / 2, width: goToAppButton.frame.width + 8, height: goToAppButton.frame.height + 3)
+        
       //  goToAppButton.setBackgroundImage(UIImage(named: "bioBlue"), for: .normal)
         goToAppButton.backgroundColor = .clear
-        goToAppButton.setTitle("Open App", for: .normal)
+        
         goToAppButton.setTitleColor(.white, for: .normal)
         goToAppButton.titleLabel?.textAlignment = .center
         goToAppButton.layer.cornerRadius = goToAppButton.frame.width/20
@@ -314,5 +331,6 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         }
         self.dismiss(animated: false, completion: nil)
     }
+    
     
 }

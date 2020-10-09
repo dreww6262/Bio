@@ -95,9 +95,9 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("This is reordered count before append \(reOrderedCoordinateArrayPoints.count)")
+        //print("This is reordered count before append \(reOrderedCoordinateArrayPoints.count)")
         reOrderedCoordinateArrayPoints.append(contentsOf: fourthRowArray)
-        print("This is reordered count after append \(reOrderedCoordinateArrayPoints.count)")
+        //print("This is reordered count after append \(reOrderedCoordinateArrayPoints.count)")
         setUpScrollView()
         setZoomScale()
         addMenuButtons()
@@ -251,6 +251,13 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         
         for view in contentView.subviews {
             view.removeFromSuperview()
+        }
+        
+        if (width == contentView.frame.width && height == contentView.frame.height) {
+            toSettingsButton.isHidden = false
+            toSearchButton.isHidden = false
+            followView.isHidden = false
+            return
         }
         
         contentView.frame = CGRect(x: 0,y: 0,width: width, height: height)
@@ -567,7 +574,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             imageCopy.backgroundColor = copyColor
             imageCopy.setupHexagonMask(lineWidth: imageCopy.frame.width/15, color: copyColor, cornerRadius: imageCopy.frame.width/15)
             self.indexImageViewArray.append(imageCopy)
-            print("Now this is indexImageviewarray count \(indexImageViewArray.count)")
+            //print("Now this is indexImageviewarray count \(indexImageViewArray.count)")
     
       //      print("This is imageIndex \(imageIndex)")
         //    print("This is indexLabelaArray.count \(indexLabelArray.count)")
@@ -702,9 +709,12 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     
     
     var dragView : PostImageView? = nil
+    var draggedcounter = 0
+    
     @objc func longTap(_ sender: UIGestureRecognizer){
 //        print("Long tap")
 //        print("🎹🎹🎹🎹🎹🎹🎹🎹🎹")
+        //scrollView.zoomScale = 1
         var currentHexagonCenter = CGPoint(x:0.0, y:0.0)
         let hexImage = sender.view! as! PostImageView
        
@@ -735,16 +745,22 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             
             //dragItem(sender as! UIPanGestureRecognizer)
             dragView = (sender.view as! PostImageView)
-            dragView?.center = sender.location(in: scrollView)
+            dragView?.center = sender.location(in: contentView)
 //            print("yo: this is dragView.center before \(dragView!.center)")
             contentView.bringSubviewToFront(dragView!)
             trashButton.isHidden = false
             menuView.menuButton.isHidden = true
+            
+            for image in imageViewArray {
+                image.setupHexagonMask(lineWidth: 10.0, color: .darkGray, cornerRadius: 10.0)
+            }
+            
         }
         else if (sender.state == .changed) {
-            let xDelta = dragView!.center.x - sender.location(in: scrollView).x
-            let yDelta = dragView!.center.y - sender.location(in: scrollView).y
-            dragView?.center = sender.location(in: scrollView)
+            draggedcounter += 1
+            let xDelta = dragView!.center.x - sender.location(in: contentView).x
+            let yDelta = dragView!.center.y - sender.location(in: contentView).y
+            dragView?.center = sender.location(in: contentView)
 //            print("yo: this is dragView.center changed \(dragView!.center)")
             
             self.scrollIfNeeded(location: sender.location(in: scrollView.superview), xDelta: xDelta, yDelta: yDelta)
@@ -759,7 +775,12 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             
             
             let hexCenterInView = contentView.convert(currentHexagonCenter, to: view)
-            let _ = findIntersectingHexagon(hexView: dragView!)
+//            DispatchQueue.global().async {
+            if (draggedcounter > 25 || xDelta > 2 || yDelta > 2) {
+                draggedcounter = 0
+                let _ = self.findIntersectingHexagon(hexView: self.dragView!)
+            }
+//            }
             
 //            print(distance(hexCenterInView, trashButton.center))
             if (distance(hexCenterInView, trashButton.center) < 70) {
@@ -779,7 +800,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         }
             shakebleImages.insert(removedImageView, at: removedImageLocation)
             currentHexagonCenter = (sender.view?.center)!
-            let hexCenterInView = scrollView.convert(currentHexagonCenter, to: view)
+            let hexCenterInView = contentView.convert(currentHexagonCenter, to: view)
             if (distance(hexCenterInView, trashButton.center) < 70) {
                 // trash current hexagon
                 hexImage.hexData!.isArchived = true
@@ -801,7 +822,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             }
             else {
                 let intersectingHex = findIntersectingHexagon(hexView: dragView!)
-                if (intersectingHex != nil) {
+                if (intersectingHex != nil && intersectingHex?.hexData?.location != dragView?.hexData?.location) {
                     let tempLoc = intersectingHex!.hexData!.location
                     intersectingHex!.hexData!.location = dragView!.hexData!.location
                     dragView!.hexData!.location = tempLoc
@@ -821,7 +842,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                                          y: self.reOrderedCoordinateArrayPoints[dragView!.hexData!.location].y, width: hexaDiameter, height: hexaDiameter)
             }
             for hex in imageViewArray {
-                hex.setupHexagonMask(lineWidth: 10.0, color: myBlueGreen, cornerRadius: 10.0)
+                createHexagonMaskWithCorrespondingColor(imageView: hex, type: hex.hexData!.type)
             }
             trashButton.isHidden = true
             menuView.menuButton.isHidden = false
@@ -902,7 +923,10 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         //find coordinates of final location for hexagon
         let hexCenter = hexView.center
         let red = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+        //var closeHexagons = [PostImageView]()
         //let gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
+        
+        var hexToReturn = hexView
         for hex in self.imageViewArray {
             if (hex.hexData!.isArchived) {
                 continue
@@ -910,15 +934,30 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             else if hexView == hex {
                 continue
             }
-            else if distance(hexCenter, reOrderedCoordinateArrayPointsCentered[hex.hexData!.location]) < 110.0 {
+            else if distance(hexCenter, reOrderedCoordinateArrayPointsCentered[hex.hexData!.location]) < hexaDiameter/2 {
                 hex.setupHexagonMask(lineWidth: 10.0, color: red, cornerRadius: 10.0)
-                return hex
+                //closeHexagons.append(hex)
+                hexToReturn = hex
             }
             else {
                 hex.setupHexagonMask(lineWidth: 10.0, color: .darkGray, cornerRadius: 10.0)
             }
         }
-        return nil
+        return hexToReturn
+        
+//        if (closeHexagons.count > 1) {
+//            var closestHex = closeHexagons.first!
+//            var closestHexDistance = distance(hexCenter, reOrderedCoordinateArrayPointsCentered[closestHex.hexData!.location])
+//            for hex in closeHexagons {
+//                let newHexDistance = distance(hexCenter, reOrderedCoordinateArrayPointsCentered[hex.hexData!.location])
+//                if closestHexDistance > newHexDistance {
+//                    closestHex.setupHexagonMask(lineWidth: 10.0, color: .darkGray, cornerRadius: 10.0)
+//                    closestHexDistance = newHexDistance
+//                    closestHex = hex
+//                }
+//            }
+//            closestHex.setupHexagonMask(lineWidth: 10.0, color: red, cornerRadius: 10.0)
+//        }
     }
     
     func distance(_ a: CGPoint, _ b: CGPoint) -> CGFloat {
@@ -1079,17 +1118,17 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         var scrollOffset: CGPoint = scrollView.contentOffset
         var xOfs: CGFloat = 0
         var yOfs: CGFloat = 0
-        let speed: CGFloat = 10.0
+        let speed: CGFloat = 5.0
         
-        if ((location.x > bounds.size.width * 0.7) && (xDelta < 0)) {
+        if ((location.x > bounds.size.width * 0.85) && (xDelta < 0)) {
             //            print("should be panning right")
             xOfs = CGFloat(CGFloat(speed) * location.x/bounds.size.width)
         }
-        if ((location.y > bounds.size.height * 0.7) && (yDelta < 0)) {
+        if ((location.y > bounds.size.height * 0.90) && (yDelta < 0)) {
             //            print("should be panning down")
             yOfs = CGFloat(CGFloat(speed) * location.y/bounds.size.height)
         }
-        if ((location.x < bounds.size.width * 0.3) && (xDelta > 0))
+        if ((location.x < bounds.size.width * 0.15) && (xDelta > 0))
         {
             //            print("should be panning left")
             xOfs = -1 * speed * (1.0 - location.x/bounds.size.width)
@@ -1105,7 +1144,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             }
         }
         
-        if ((location.y < bounds.size.height * 0.3) && (yDelta > 0))
+        if ((location.y < bounds.size.height * 0.15) && (yDelta > 0))
         {
             //            print("should be panning up")
             yOfs = -1 * speed * (1.0 - location.y/bounds.size.height)

@@ -158,7 +158,28 @@ class AddSocialMediaTableView: UIViewController {
         
         var success = true
         
+        let loadingIndicator = storyboard?.instantiateViewController(withIdentifier: "loading")
         
+        let blurEffectView: UIVisualEffectView = {
+            let blurEffect = UIBlurEffect(style: .dark)
+            let blurEffectView = UIVisualEffectView(effect: blurEffect)
+            
+            blurEffectView.alpha = 0.8
+            
+            // Setting the autoresizing mask to flexible for
+            // width and height will ensure the blurEffectView
+            // is the same size as its parent view.
+            blurEffectView.autoresizingMask = [
+                .flexibleWidth, .flexibleHeight
+            ]
+            blurEffectView.frame = view.bounds
+            
+            return blurEffectView
+        }()
+        view.addSubview(blurEffectView)
+        
+        addChild(loadingIndicator!)
+        view.addSubview(loadingIndicator!.view)
         
         //let group = DispatchGroup()
         if (!textFieldArray[0].text!.isEmpty) {
