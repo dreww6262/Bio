@@ -1287,6 +1287,21 @@
             </objects>
             <point key="canvasLocation" x="-2558" y="-5847"/>
         </scene>
+        <!--Content PagesVC-->
+        <scene sceneID="AxJ-g5-XDb">
+            <objects>
+                <viewController storyboardIdentifier="contentPagesVC" id="OSl-sO-gae" customClass="ContentPagesVC" customModule="Bio" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="1aC-uh-hna">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="hxD-6X-4oe"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mjI-lr-Vpk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1574" y="-6079"/>
+        </scene>
         <!--Add LinkVC View Controller-->
         <scene sceneID="6G5-wl-bS4">
             <objects>

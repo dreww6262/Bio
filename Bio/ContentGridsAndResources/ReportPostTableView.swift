@@ -20,6 +20,8 @@ class ReportPostTableView: QuickTableViewController {
     var titleLabel1 = UILabel()
     var backButton1 = UIButton()
     
+    var hexData: HexagonStructData?
+    
     override func viewDidLoad() {
 //        view.addSubview(navBarView)
 //

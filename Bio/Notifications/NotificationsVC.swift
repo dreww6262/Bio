@@ -9,6 +9,7 @@
 
 
 import UIKit
+import Foundation
 import Firebase
 import FirebaseAuth
 import FirebaseFirestore
@@ -428,14 +429,18 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
        // let dateFormatter = ISO8601DateFormatter()
         let dateFormatter = DateFormatter()
        // dateFormatter.dateFormat = "yyyy-MM-dd' 'HH:mm:ssZ"
-        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss" //"yyyy-MM-dd hh:mm:ss.SSSSxxx"  //"yyyy-MM-dd HH:mm:ss.SSSZ" // "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
+        dateFormatter.locale = Locale.init(identifier: "en_GB")
+        dateFormatter.timeZone = NSTimeZone(name: "GMT") as TimeZone?
+
+        //"yyyy-MM-dd HH:mm:ss.SSSZ" // "yyyy-MM-dd HH:mm:ss"
         
         var fromString = notificationArray[indexPath.row].createdAt
-        var fromString1 = fromString.dropLast(6)
-        fromString = "\(fromString1)"
+        //var fromString1 = fromString.dropLast(6)
+        //fromString = "\(fromString1)"
        let from = dateFormatter.date(from: fromString)
 //    let from = dateFormatter.date(from: fromString)
-        print("This is from: \(from) and fromString: \(fromString)")
+        print("This is from: \(from) and fromString: *\(fromString)*")
 //        print("from: \(from)")
         let now = Date()
         print("This is now: \(now)")
@@ -537,6 +542,7 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
         }
         
     }
+    
     
     
     

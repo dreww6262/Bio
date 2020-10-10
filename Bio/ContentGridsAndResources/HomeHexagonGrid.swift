@@ -48,11 +48,12 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     
     // Firebase stuff
     var loadDataListener: ListenerRegistration?
+    var pageViewListener: ListenerRegistration?
     var user = Auth.auth().currentUser
     var userData: UserData?
     let db = Firestore.firestore()
     let storage = Storage.storage().reference()
-    let contentPages = ContentPagesVC()
+    var contentPages: ContentPagesVC?
     
     // UI stuff
     @objc var panGesture  = UIPanGestureRecognizer()
@@ -95,6 +96,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        contentPages = storyboard?.instantiateViewController(identifier: "contentPagesVC")
         //print("This is reordered count before append \(reOrderedCoordinateArrayPoints.count)")
         reOrderedCoordinateArrayPoints.append(contentsOf: fourthRowArray)
         //print("This is reordered count after append \(reOrderedCoordinateArrayPoints.count)")
@@ -103,7 +105,8 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         addMenuButtons()
         addSearchButton()
         addSettingsButton()
-        insertFakeViewCounter()
+//        insertFakeViewCounter()
+        setUpViewCounter()
         addTrashButton()
         
         followView.isHidden = false
@@ -158,7 +161,24 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     }
     
     
-    func insertFakeViewCounter() {
+//    func insertFakeViewCounter() {
+//        self.view.addSubview(followView)
+//        self.followView.backgroundColor = .white
+//        self.followView.frame = CGRect(x: self.view.frame.midX - 45, y: 25, width: 90, height: 30)
+//        self.followView.layer.cornerRadius = followView.frame.size.width / 20
+//        self.followView.addSubview(followImage)
+//        self.followView.addSubview(followLabel)
+//        self.followImage.frame = CGRect(x: 5, y: 0, width: followView.frame.height, height: followView.frame.height)
+//        self.followView.layer.cornerRadius = followView.frame.size.width/10
+//        //self.followView.clipsToBounds()
+//        self.followImage.image = UIImage(named: "eye")
+//        self.followLabel.frame = CGRect(x: followImage.frame.maxX + 5, y: 0.0, width: followView.frame.width - 10, height: followView.frame.height)
+//        self.followLabel.text = "1568"
+//        self.followLabel.textColor = .black
+//
+//    }
+    
+    func setUpViewCounter() {
         self.view.addSubview(followView)
         self.followView.backgroundColor = .white
         self.followView.frame = CGRect(x: self.view.frame.midX - 45, y: 25, width: 90, height: 30)
@@ -170,7 +190,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         //self.followView.clipsToBounds()
         self.followImage.image = UIImage(named: "eye")
         self.followLabel.frame = CGRect(x: followImage.frame.maxX + 5, y: 0.0, width: followView.frame.width - 10, height: followView.frame.height)
-        self.followLabel.text = "1568"
+//        self.followLabel.text = profileViews
         self.followLabel.textColor = .black
         
     }
@@ -376,10 +396,23 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         if (userData != nil) {
 //            print("populates without getting userdata")
             populateUserAvatar()
+            pageViewListener?.remove()
+            pageViewListener = db.collection("PageViews").whereField("viewed", isEqualTo: userData!.publicID).addSnapshotListener({ objects, error in
+                if error == nil {
+                    self.followLabel.text = "\(objects?.documents.count ?? 0)"
+                }
+                else {
+                    self.followLabel.text = "0"
+                }
+                self.followLabel.sizeToFit()
+                let xOffset = (self.followView.frame.width + self.followImage.frame.maxX - self.followLabel.frame.width)/2
+                self.followLabel.frame = CGRect(x: xOffset, y: self.followLabel.frame.minY, width: self.followLabel.frame.width, height: self.followView.frame.height)
+            })
             menuView.userData = userData
             createImageViews(completion: {
                 self.loadDataListener?.remove()
             })
+            
             return
         }
         user = Auth.auth().currentUser
@@ -410,6 +443,18 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                 else {
                     print("error on getting userdata before adding image views")
                 }
+            })
+            pageViewListener?.remove()
+            pageViewListener = db.collection("PageViews").whereField("viewed", isEqualTo: userData!.publicID).addSnapshotListener({ objects, error in
+                if error == nil {
+                    self.followLabel.text = "\(objects?.documents.count ?? 0)"
+                }
+                else {
+                    self.followLabel.text = "0"
+                }
+                self.followLabel.sizeToFit()
+                let xOffset = (self.followView.frame.width + self.followImage.frame.maxX - self.followLabel.frame.width)/2
+                self.followLabel.frame = CGRect(x: xOffset, y: self.followLabel.frame.minY, width: self.followLabel.frame.width, height: self.followView.frame.height)
             })
         }
     }
@@ -523,7 +568,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             }
             c += 1
         }
-        contentPages.hexData = hexDatas
+        contentPages!.hexData = hexDatas
         
         DispatchQueue.global().async {
             let dispatchGroup = DispatchGroup()
@@ -1177,22 +1222,22 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
 //            let contentImageVC = ContentImageVC()
 //            contentImageVC.photoHex = hexItem
 //            present(contentImageVC, animated: false, completion: nil)
-            contentPages.currentIndex = hexItem.location - 1
-            contentPages.modalPresentationStyle = .fullScreen
-            self.present(contentPages, animated: false, completion: nil)
+            contentPages!.currentIndex = hexItem.location - 1
+            contentPages!.modalPresentationStyle = .fullScreen
+            self.present(contentPages!, animated: false, completion: nil)
             
         }
         else if hexItem.type.contains("link") {
 //            openLinkVC(hex: hexItem)
-            contentPages.currentIndex = hexItem.location - 1
-            contentPages.modalPresentationStyle = .fullScreen
-            self.present(contentPages, animated: false, completion: nil)
+            contentPages!.currentIndex = hexItem.location - 1
+            contentPages!.modalPresentationStyle = .fullScreen
+            self.present(contentPages!, animated: false, completion: nil)
         }
         else if hexItem.type.contains("music") {
 //            openLinkVC(hex: hexItem)
-            contentPages.currentIndex = hexItem.location - 1
-            contentPages.modalPresentationStyle = .fullScreen
-            self.present(contentPages, animated: false, completion: nil)
+            contentPages!.currentIndex = hexItem.location - 1
+            contentPages!.modalPresentationStyle = .fullScreen
+            self.present(contentPages!, animated: false, completion: nil)
         }
         
 //        else if hexItem.type.contains("social") {
@@ -1228,9 +1273,9 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
 //                openLink(link: hexItem.text)
 //            }
         else {
-            contentPages.currentIndex = hexItem.location - 1
-            contentPages.modalPresentationStyle = .fullScreen
-            self.present(contentPages, animated: false, completion: nil)
+            contentPages!.currentIndex = hexItem.location - 1
+            contentPages!.modalPresentationStyle = .fullScreen
+            self.present(contentPages!, animated: false, completion: nil)
             
         }
         
