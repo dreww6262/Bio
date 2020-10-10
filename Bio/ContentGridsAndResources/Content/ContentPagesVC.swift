@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Foundation
 
 class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource {
     var currentIndexLabel = UILabel()
@@ -236,6 +237,9 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         reportButton.setTitleColor(.white, for: .normal)
         reportButton.backgroundColor = .clear
         reportButton.imageView?.image?.withTintColor(.white)
+        
+        let reportTapped = UITapGestureRecognizer(target: self, action: #selector(reportButtonPressed))
+        reportButton.addGestureRecognizer(reportTapped)
     //    reportButton.setTitle("Report", for: .normal)
         
         
@@ -330,6 +334,25 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
             v.isHidden = true
         }
         self.dismiss(animated: false, completion: nil)
+    }
+    
+    @objc func reportButtonPressed(_ sender: UITapGestureRecognizer) {
+        let reportVC = storyboard?.instantiateViewController(withIdentifier: "reportVC") as! ReportPostTableView
+        let currentVC = viewControllers[currentIndex]
+        if currentVC is ContentLinkVC {
+            let linkVC = currentVC as! ContentLinkVC
+            reportVC.hexData = linkVC.webHex
+        }
+        else if currentVC is ContentImageVC {
+            let imageVC = currentVC as! ContentImageVC
+            reportVC.hexData = imageVC.photoHex
+        }
+        else if currentVC is ContentVideoVC {
+            let videoVC = currentVC as! ContentVideoVC
+            reportVC.hexData = videoVC.videoHex
+        }
+        present(reportVC, animated: false, completion: nil)
+        
     }
     
     
