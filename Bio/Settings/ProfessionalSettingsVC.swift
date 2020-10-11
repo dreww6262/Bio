@@ -80,19 +80,15 @@ var titleLabel1 = UILabel()
                                  NavigationRow(text: "Username", detailText: .value1(email)!, icon: .named("globe")),
                                  NavigationRow(text: "Birthday", detailText: .value1(birthday), icon: .none, action: { _ in }),
                                  NavigationRow(text: "Country", detailText: .value1(country)), NavigationRow(text: "Terms of Service", detailText: .none, icon: .named("time"), action: { _ in }),
-                                 NavigationRow(text: "Phone Number", detailText: .value1(phoneNumber)),
                                  NavigationRow(text: "Email", detailText: .value1(email)!, icon: .named("time"), action: { _ in }),
-                                NavigationRow(text: "Password", detailText: .none),
-                                NavigationRow(text: "Two-Factor Authentification", detailText: .none, icon: .named("time"), action: { _ in })]),
+                                NavigationRow(text: "Password", detailText: .none)]),
             Section(title: "Support", rows: [
                         NavigationRow(text: "FAQ's", detailText: .none, icon: .named("gear")),
                         NavigationRow(text: "I Spotted a Bug", detailText: .none, icon: .named("globe"), action: didToggleSelection()),
                         NavigationRow(text: "I Have a Suggestion", detailText: .none, icon: .named("time"), action: didToggleSelection()),
                         NavigationRow(text: "Privacy Policy", detailText: .none),
-                        NavigationRow(text: "Terms of Service", detailText: .none, icon: .named("time"), action: { _ in }),
-                        NavigationRow(text: "Report User", detailText: .none)]),
-                Section(title: "Account Actions", rows: [
-                    NavigationRow(text: "Log Out", detailText: .none, icon: .named("gear"), action: didToggleSelection())])
+                        NavigationRow(text: "Terms of Service", detailText: .none, icon: .named("time"), action: { _ in }),NavigationRow(text: "Delete Account", detailText: .none, icon: .none, action: didToggleSelection())]),
+                Section(title: "Account Actions", rows: [NavigationRow(text: "Log Out", detailText: .none, icon: .named("gear"), action: didToggleSelection())])
         ]
         
         
