@@ -55,7 +55,7 @@ class AddSocialMediaTableView: UIViewController {
     var iconArray: [UIImage] = []
     //[image1,image2,image3,image4,image5,image6,image7,image8,image9,image10,image11,image12]
     //var iconArray: [UIImage] = [UIImage(named: "icons/instagramLogo.png")!,UIImage(named: "icons/snapchatLogo.png")!,UIImage(named: "icons/tikTokLogo.png")!,UIImage(named: "icons/twitterLogo.png")!,UIImage(named: "icons/youtubeLogo.png")!,UIImage(named: "icons/twitch1.png")!,UIImage(named: "icons/soundCloudLogo.png")!,UIImage(named: "icons/venmo1.png")!,UIImage(named: "icons/linkedInLogo.png")!,UIImage(named: "icons/etsyLogo.png")!,UIImage(named: "icons/poshmarkLogo.png")!,UIImage(named: "icons/hudl1.png")!]
-    var placeHolderTextArray: [String] = ["Instagram Username", "Snapchat Username", "Tik Tok Username", "Twitter Handle", "Youtube Channel Name", "Twitch Username", "Soundcloud Link", "Twitch Username", "LinkedIn Link", "Etsy Shop Name", "Poshmark Username", "Hudl Link"]
+    var placeHolderTextArray: [String] = ["Instagram Username", "Snapchat Username", "Tik Tok Username", "Twitter Handle", "Youtube Channel Name", "VSCO Username", "Soundcloud Link", "Twitch Username", "LinkedIn Link", "Etsy Shop Name", "Poshmark Username", "Hudl Link"]
 //    var textField = UITextField()
 //    var interactiveTextField = UITextField()
 //    @IBOutlet weak var verifyView: UIView!
