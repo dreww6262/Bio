@@ -174,6 +174,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         //        toSearchButton.layer.cornerRadius = toSearchButton.frame.size.width / 2
         toSearchButton.clipsToBounds = true
         toSearchButton.isHidden = false
+        
     }
     
     func setZoomScale() {
@@ -328,6 +329,9 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         let contentOffset = CGPoint(x: contentView.frame.width/2 - view.frame.width/2, y: contentView.frame.height/2 - view.frame.height/2)
         print(contentOffset)
         scrollView.contentOffset = contentOffset
+        toSearchButton.isHidden = false
+        toSettingsButton.isHidden = false
+        followView.isHidden = false
     }
     
     func resetCoordinatePoints() {
@@ -469,10 +473,16 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if (firstLoad) {
+            firstLoad = false
+            return
+        }
         toSearchButton.isHidden = true
         toSettingsButton.isHidden = true
         followView.isHidden = true
     }
+    
+    
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         toSettingsButton.isHidden = false
@@ -555,7 +565,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         //loadView()
         super.viewWillAppear(true) // No need for semicolon
 //        print("search button \(toSearchButton.frame)")
-      //  firstLoad = truefollowView.isHidden = true
+        firstLoad = true
         returnButton.isHidden = false
         toSearchButton.isHidden = false
         toSettingsButton.isHidden = false
