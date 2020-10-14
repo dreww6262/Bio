@@ -1,8 +1,8 @@
 //
-//  UploadPreviewVC.swift
+//  NewUploadPreviewVC.swift
 //  Bio
 //
-//  Created by Ann McDonough on 8/6/20.
+//  Created by Ann McDonough on 10/13/20.
 //  Copyright © 2020 Patrick McDonough. All rights reserved.
 //
 
@@ -14,8 +14,7 @@ import FirebaseStorage
 import YPImagePicker
 import Photos
 
-class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewDataSource {
-    
+class NewUploadPreviewVC: UIViewController {
     var items: [YPMediaItem]?
     let db = Firestore.firestore()
     let storageRef = Storage.storage().reference()
@@ -82,14 +81,11 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
     func formatBackButton() {
         
         self.navBarView.addSubview(cancelButton)
-       // toSettingsButton.frame = CGRect(x: 15, y: self.view.frame.height/48, width: 30, height: 30)
-      //  cancelButton.frame = CGRect(x: self.view.frame.height*(1/48), y: (self.view.frame.height/48) + 2, width: self.view.frame.height/18, height: self.view.frame.height/18)
+     
         cancelButton.frame = CGRect(x: 5, y: navBarView.frame.maxY - 30, width: 25, height: 25)
         print("This is cancel Button.frame \(cancelButton.frame)")
         print("This is post Button.frame \(doneButton.frame)")
         
-//        cancelButton.frame = CGRect(x: self.view.frame.height*(1/48), y: (self.view.frame.height/48) + 2, width: self.view.frame.height/24, height: self.view.frame.height/24)
-        // round ava
         cancelButton.clipsToBounds = true
         cancelButton.isHidden = false
     }
@@ -210,17 +206,7 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
                                 print("uploaded thumb")
                                 hexesToUpload.append(newElement: videoHex)
                                 dispatchGroup.leave()
-//                                self.addHex(hexData: videoHex, completion: {    bool in
-//                                    success = success && bool
-//
-//                                    if (bool) {
-//                                        print("hex successfully added")
-//                                    }
-//                                    else {
-//                                        print("hex failed")
-//                                    }
-//                                })
-                            }
+                    }
                             else {
                                 print("didnt upload thumb")
                                 dispatchGroup.leave()
@@ -388,21 +374,27 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
         }
     }
     
+    @objc func tagTapped(_ sender: UITapGestureRecognizer) {
+        print("tag view hit!")
+        print("******Pull in the cell this is contained in so we can ge the image for the next page")
+        let tagUsersVC = storyboard?.instantiateViewController(identifier: "tagUsersVC") as! TagUsersVC
+        tagUsersVC.tagImage = cellArray[0].previewImage
+        tagUsersVC.userData = self.userData
+        present(tagUsersVC, animated: false)
+    }
     
+    @objc func locationTapped(_ sender: UITapGestureRecognizer) {
+        print("location view hit!")
+        let addLocationVC = storyboard?.instantiateViewController(identifier: "mapViewController") as! MapViewController
+       // addLocationVC.tagImage = cellArray[0].previewImage
+        addLocationVC.userData = self.userData
+        present(addLocationVC, animated: false)
+    }
     
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
     
 }
 
-extension UploadPreviewVC: UITableViewDelegate, UITableViewDataSource {
+extension NewUploadPreviewVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // put the number of photos that you have selected in here for count
         print("This is photos.count \(items!.count)")
@@ -424,70 +416,62 @@ extension UploadPreviewVC: UITableViewDelegate, UITableViewDataSource {
             print("bad")
         }
         cell.item = items![indexPath.row]
-        cell.previewImage.setupHexagonMask(lineWidth: cell.previewImage.frame.width/15, color: myCoolBlue, cornerRadius: cell.previewImage.frame.width/15)
-        let previewImageWidth = cell.previewImage.frame.width
-        let previewImageHeight = cell.previewImage.frame.height
-        cell.previewImage.frame = CGRect(x: 10, y: (cell.frame.height/2) - (previewImageHeight/2), width: previewImageWidth, height: previewImageHeight)
-        cell.previewImage.center = CGPoint(x: cell.contentView.bounds.size.width/2,y: cell.contentView.bounds.size.height/2)
+        cell.previewImage.setupHexagonMask(lineWidth: cell.previewImage.frame.width/15, color: myOrange, cornerRadius: cell.previewImage.frame.width/15)
+//        let previewImageWidth = cell.previewImage.frame.width
+//        let previewImageHeight = cell.previewImage.frame.height
+//        cell.previewImage.frame = CGRect(x: 10, y: (cell.frame.height/2) - (previewImageHeight/2), width: previewImageWidth, height: previewImageHeight)
+//        cell.previewImage.center = CGPoint(x: cell.contentView.bounds.size.width/2,y: cell.contentView.bounds.size.height/2)
    
         cell.captionField.attributedPlaceholder = NSAttributedString(string: "Write A Caption...",
                                      attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
-      //  cell.tagField.attributedPlaceholder = NSAttributedString(string: "Tag Friends",
-     //   ..attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
-  //      cell.locationField.attributedPlaceholder = NSAttributedString(string: "Add Location",
-                                     //attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+   
         print("This is preview image frame \(cell.previewImage.frame)")
         print("This is cell frame \(cell.frame)")
         print("This is cell image \(cell.previewImage.image!)")
         
+        print("This is locationView frame \(cell.locationView.frame)")
+        print("This is tag view frame \(cell.tagView.frame)")
+        print("This is taglabel frame \(cell.tagLabel.frame)")
+        print("This is location label frame \(cell.locationLabel.frame)")
+        print("This is tag arrow frame \(cell.tagArrow.frame)")
+        print("This is location arrow frame \(cell.locationArrow.frame)")
         
-        let bottomLine = CALayer()
-        bottomLine.frame = CGRect(x: 110, y: cell.captionField.frame.maxY, width: cell.captionField.frame.width, height: 1.0)
-        bottomLine.backgroundColor = UIColor.white.cgColor
-        let bottomLine2 = CALayer()
-        bottomLine2.frame = CGRect(x: 110, y: cell.tagView.frame.maxY, width: cell.tagView.frame.width, height: 1.0)
-        bottomLine2.backgroundColor = UIColor.white.cgColor
-               
-        let bottomLine3 = CALayer()
-        bottomLine3.backgroundColor = UIColor.white.cgColor
-        bottomLine3.frame = CGRect(x: 110, y: cell.locationView.frame.maxY, width: cell.locationView.frame.width, height: 1.0)
-//        print("preview image frame \(cell.previewImage.frame)")
-//        print("bottomLine frame \(bottomLine.frame)")
-//        print("bottomLine 2 frame \(bottomLine2.frame)")
-//        print("bottomLine 3 frame \(bottomLine3.frame)")
-//        print("caption field frame \(cell.captionField.frame)")
-//        print("tag field  frame \(cell.tagField.frame)")
-//        print("location field frame \(cell.locationField.frame)")
-//        
+        let tagTap = UITapGestureRecognizer(target: self, action: #selector(tagTapped))
+        let locationTap = UITapGestureRecognizer(target: self, action: #selector(locationTapped))
+        cell.tagView.addGestureRecognizer(tagTap)
+        cell.locationView.addGestureRecognizer(locationTap)
         
-                bottomLine3.backgroundColor = UIColor.white.cgColor
-        cell.captionField.borderStyle = UITextField.BorderStyle.none
-   //     cell.captionField.layer.addSublayer(bottomLine)
-      //  cell.tagField.borderStyle = UITextField.BorderStyle.none
-     //   cell.tagField.layer.addSublayer(bottomLine2)
         
-       // cell.locationField.borderStyle = UITextField.BorderStyle.none
-       // cell.locationField.layer.addSublayer(bottomLine3)
+        
+        
+//        let bottomLine = CALayer()
 //        bottomLine.frame = CGRect(x: 110, y: cell.captionField.frame.maxY, width: cell.captionField.frame.width, height: 1.0)
-//        bottomLine2.frame = CGRect(x: 110, y: cell.locationField.frame.maxY, width: cell.locationField.frame.width, height: 1.0)
-//        bottomLine3.frame = CGRect(x: 110, y: cell.locationField.frame.maxY, width: cell.locationField.frame.width, height: 1.0)
-        cell.captionField.textColor = .white
-//        cell.tagField.textColor = .white
-//        cell.locationField.textColor = .white
+//        bottomLine.backgroundColor = UIColor.white.cgColor
+//        let bottomLine2 = CALayer()
+//        bottomLine2.frame = CGRect(x: 110, y: cell.tagView.frame.maxY, width: cell.tagView.frame.width, height: 1.0)
+//        bottomLine2.backgroundColor = UIColor.white.cgColor
+//
+//        let bottomLine3 = CALayer()
+//        bottomLine3.backgroundColor = UIColor.white.cgColor
+////        bottomLine3.frame = CGRect(x: 110, y: cell.locationView.frame.maxY, width: cell.locationView.frame.width, height: 1.0)
+//
+//
+//
+//                bottomLine3.backgroundColor = UIColor.white.cgColor
+        cell.captionField.borderStyle = UITextField.BorderStyle.none
 
-        
-        
-        
-//        cell.previewImage.setupHexagonMask(lineWidth: cell.previewImage.frame.width/15, color: myOrange, cornerRadius: cell.previewImage.frame.width/15)
+        cell.captionField.textColor = .white
+   
         cellArray.append(cell)
         return cell
         
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 200
+        return 250
     }
     
     
     
 }
+

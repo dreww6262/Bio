@@ -17,12 +17,13 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     
     // scrollView
     @IBOutlet weak var scrollView: UIScrollView!
-    
+    var datePicker = UIDatePicker()
     // profile image
     @IBOutlet weak var avaImg: UIImageView!
     
     @IBOutlet weak var gradientImage: UIImageView!
     @IBOutlet weak var displayNameTxt: UITextField!
+    var txtDatePicker = UITextField()
     
     @IBOutlet weak var emailTxt: UITextField!
     // textfields
@@ -33,6 +34,7 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     @IBOutlet weak var signUpBtn: UIButton!
     @IBOutlet weak var cancelBtn: UIButton!
     var profileImageLabel = UILabel()
+    var birthday = ""
     
     var user: User?
     var userData: UserData?
@@ -47,7 +49,7 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     var keyboard = CGRect()
     var navBarView = NavBarView()
     var titleLabel1 = UILabel()
-        
+    var age = 0
     
     // default func
     override func viewDidLoad() {
@@ -60,7 +62,7 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
         scrollView.contentSize.height = self.view.frame.height
         scrollViewHeight = scrollView.frame.size.height
-        
+        showDatePicker()
         // check notifications if keyboard is shown or not
         NotificationCenter.default.addObserver(self, selector: #selector(GoodBioSignUpVC.showKeyboard(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(GoodBioSignUpVC.hideKeybard(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -81,7 +83,10 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         avaTap.numberOfTapsRequired = 1
         avaImg.isUserInteractionEnabled = true
         avaImg.addGestureRecognizer(avaTap)
-        
+        view.addSubview(txtDatePicker)
+        txtDatePicker.backgroundColor = .clear
+
+      
         // alignment
         avaImg.frame = CGRect(x: self.view.frame.size.width / 2 - 60, y: 80, width: 120, height: 120)
         avaImg.setupHexagonMask(lineWidth: 7.5, color: gray, cornerRadius: 10.0)
@@ -92,8 +97,9 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         displayNameTxt.frame = CGRect(x: 10, y: usernameTxt.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
         passwordTxt.frame = CGRect(x: 10, y: displayNameTxt.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
         repeatPassword.frame = CGRect(x: 10, y: passwordTxt.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
+        txtDatePicker.frame = CGRect(x: 10, y: repeatPassword.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
         
-        signUpBtn.frame = CGRect(x: 10, y: repeatPassword.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 40)
+        signUpBtn.frame = CGRect(x: 10, y: txtDatePicker.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 40)
         signUpBtn.layer.cornerRadius = signUpBtn.frame.size.width / 20
         cancelBtn.frame = CGRect(x: 5, y: 40, width: 24, height: 23)
         cancelBtn.layer.cornerRadius = cancelBtn.frame.size.width / 20
@@ -106,6 +112,40 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         formatPhotoLabel()
         formatBottomLines()
     }
+    
+    func showDatePicker(){
+        //Formate Date
+        datePicker.datePickerMode = .date
+
+       //ToolBar
+       let toolbar = UIToolbar();
+       toolbar.sizeToFit()
+       let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker));
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+      let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker));
+
+     toolbar.setItems([spaceButton,doneButton], animated: false)
+
+      txtDatePicker.inputAccessoryView = toolbar
+      txtDatePicker.inputView = datePicker
+
+     }
+
+      @objc func donedatePicker(){
+
+       let formatter = DateFormatter()
+       formatter.dateFormat = "MM/dd/yyyy"
+       txtDatePicker.text = formatter.string(from: datePicker.date)
+        var birthdaySubmitted = txtDatePicker.text
+        self.birthday = birthdaySubmitted!
+      age = calcAge(birthday: birthdaySubmitted!)
+       self.view.endEditing(true)
+     }
+
+     @objc func cancelDatePicker(){
+        self.view.endEditing(true)
+      }
+    
     
    func formatBottomLines(){
     let bottomLine = CALayer()
@@ -138,6 +178,11 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     bottomLine5.backgroundColor = UIColor.systemGray4.cgColor
     repeatPassword.borderStyle = UITextField.BorderStyle.none
     repeatPassword.layer.addSublayer(bottomLine5)
+    let bottomLine6 = CALayer()
+    bottomLine6.frame = CGRect(x: 0, y: txtDatePicker.frame.height, width: txtDatePicker.frame.width, height: 1.0)
+    bottomLine6.backgroundColor = UIColor.systemGray4.cgColor
+    txtDatePicker.borderStyle = UITextField.BorderStyle.none
+    txtDatePicker.layer.addSublayer(bottomLine6)
     
     emailTxt.attributedPlaceholder = NSAttributedString(string: "Email Address",
                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
@@ -154,6 +199,14 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     repeatPassword.attributedPlaceholder = NSAttributedString(string: "Repeat Password",
                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
     repeatPassword.textColor = .white
+    
+    self.txtDatePicker.attributedPlaceholder = NSAttributedString(string: "Birthday",
+                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+    self.txtDatePicker.textColor = .white
+//    self.txtDatePicker.attributedPlaceholder = NSAttributedString(string: "Repeat Password",
+//                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+    
+    
 //    emailTxt.font = UIFont(name: "Poppins-SemiBold", size: 17)
 //    usernameTxt.font = UIFont(name: "Poppins-SemiBold", size: 17)
 //    displayNameTxt.font = UIFont(name: "Poppins-SemiBold", size: 17)
@@ -242,7 +295,17 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         })
     }
     
-    
+    func calcAge(birthday: String) -> Int {
+        let dateFormater = DateFormatter()
+        dateFormater.dateFormat = "MM/dd/yyyy"
+        let birthdayDate = dateFormater.date(from: birthday)
+        let calendar: NSCalendar! = NSCalendar(calendarIdentifier: .gregorian)
+        let now = Date()
+        let calcAge = calendar.components(.year, from: birthdayDate!, to: now, options: [])
+        let age = calcAge.year
+        print("This is age: \(age)")
+        return age!
+    }
     
     // clicked sign up
     @IBAction func signUpBtn_click(_ sender: AnyObject) {
@@ -256,6 +319,18 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
             
             // alert message
             let alert = UIAlertController(title: "PLEASE", message: "fill all fields", preferredStyle: UIAlertController.Style.alert)
+            let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
+            alert.addAction(ok)
+            self.present(alert, animated: true, completion: nil)
+            
+            return
+        }
+        print("This is age \(age)")
+        print("This is birthday \(birthday)")
+        
+        if age < 13 {
+            // alert message
+            let alert = UIAlertController(title: "👶🏼", message: "You must be at least 13 years old to join Bio", preferredStyle: UIAlertController.Style.alert)
             let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
             alert.addAction(ok)
             self.present(alert, animated: true, completion: nil)
@@ -299,7 +374,7 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
             let avaFileRef = userDataStorageRef.child(filename)
             avaFileRef.putData(self.avaImg.image!.pngData()!, metadata: nil, completion: { meta, error in
                 if (error == nil) {
-                    self.userData = UserData(email: email, publicID: self.usernameTxt.text!.lowercased(), privateID: signedInUser!.uid, avaRef: reference, hexagonGridID: "", userPage: "", subscribedUsers: [""], subscriptions: [""], numPosts: 0, displayName: self.displayNameTxt.text!)
+                    self.userData = UserData(email: email, publicID: self.usernameTxt.text!.lowercased(), privateID: signedInUser!.uid, avaRef: reference, hexagonGridID: "", userPage: "", subscribedUsers: [""], subscriptions: [""], numPosts: 0, displayName: self.displayNameTxt.text!, birthday: self.birthday)
                     let db = Firestore.firestore()
                     let userDataCollection = db.collection("UserData1")
                     let docRef = userDataCollection.document(user.uid)

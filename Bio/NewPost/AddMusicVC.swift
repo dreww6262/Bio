@@ -199,7 +199,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         view.addSubview(topBar)
         topBar.backgroundColor = .clear
         // topBar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/15)
-        topBar.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
+        topBar.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/10)+5)
         topBar.backgroundColor = UIColor(cgColor: CGColor(gray: 0.05, alpha: 1.0))
         topBar.layer.borderWidth = 0.25
         topBar.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
@@ -213,11 +213,13 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         var addMusicLabel = UILabel()
         backButton.addGestureRecognizer(backTap)
         backButton.sizeToFit()
-        backButton.frame = CGRect(x: 5, y: (topBar.frame.height/4), width: topBar.frame.height/2, height: topBar.frame.height/2)
+      //  backButton.frame = CGRect(x: 5, y: (topBar.frame.height/4), width: topBar.frame.height/2, height: topBar.frame.height/2)
+        backButton.frame = CGRect(x: 15, y: topBar.frame.maxY - 25, width: 20, height: 20)
         backButton.setBackgroundImage(UIImage(named: "whiteBack"), for: .normal)
         
         topBar.addSubview(addMusicLabel)
-        addMusicLabel.frame = CGRect(x: (topBar.frame.width/2) - 60, y: 0, width: 120, height: topBar.frame.height)
+       // addMusicLabel.frame = CGRect(x: (topBar.frame.width/2) - 60, y: 0, width: 120, height: topBar.frame.height)
+        addMusicLabel.frame = CGRect(x: (topBar.frame.width/2) - 60, y: topBar.frame.maxY - 25, width: 120, height: 25)
         addMusicLabel.text = "Add Music"
         addMusicLabel.textColor = white
         addMusicLabel.font.withSize(40)
@@ -233,7 +235,8 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         postButton.addGestureRecognizer(postTap)
         postButton.setTitle("Next", for: .normal)
         postButton.setTitleColor(.systemBlue, for: .normal)
-        postButton.frame = CGRect(x: (self.view.frame.width) - (topBar.frame.height) - 5, y: 0, width: topBar.frame.height, height: topBar.frame.height)
+      //  postButton.frame = CGRect(x: (self.view.frame.width) - (topBar.frame.height) - 5, y: 0, width: topBar.frame.height, height: topBar.frame.height)
+        postButton.frame = CGRect(x: (self.view.frame.width) - 40, y: topBar.frame.maxY - 25, width: 40, height: 25)
         postButton.titleLabel?.sizeToFit()
         postButton.titleLabel?.textAlignment = .right
         
