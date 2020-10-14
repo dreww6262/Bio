@@ -120,6 +120,22 @@ class NotificationsVC: UIViewController {
                 //                                       })
             }
             
+            self.notificationArray.sort(by: { x, y in
+                let dateFormatter = DateFormatter()
+               // dateFormatter.dateFormat = "yyyy-MM-dd' 'HH:mm:ssZ"
+                dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
+                dateFormatter.locale = Locale.init(identifier: "en_GB")
+                dateFormatter.timeZone = NSTimeZone(name: "GMT") as TimeZone?
+
+                //var fromString1 = fromString.dropLast(6)
+                //fromString = "\(fromString1)"
+                let xDate = dateFormatter.date(from: x.createdAt)
+                
+                let yDate = dateFormatter.date(from: y.createdAt)
+                
+                return xDate!.compare(yDate!) == ComparisonResult.orderedDescending
+            })
+            
             self.tableView.reloadData()
             
             

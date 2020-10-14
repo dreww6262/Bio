@@ -51,6 +51,7 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     var titleLabel1 = UILabel()
     var age = 0
     
+
     // default func
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -280,7 +281,7 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     }
     
     
-    func createUser(email: String, password: String, completion: @escaping (User) -> Void) {
+    func createUser(email: String, password: String, completion: @escaping (User?) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password, completion: { obj, error in
             if error == nil {
                 guard let obj = obj else { return }
@@ -290,6 +291,7 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
             }
             else {
                 print("failed to create user \(error?.localizedDescription)")
+                completion(nil)
             }
             print("completed")
         })
@@ -307,6 +309,9 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         return age!
     }
     
+    
+    var loadingIndicator: UIViewController?
+    var blurEffectView: UIVisualEffectView?
     // clicked sign up
     @IBAction func signUpBtn_click(_ sender: AnyObject) {
         print("sign up pressed")
@@ -358,7 +363,36 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         
         print("about to create new user")
         
+        let loadingIndicator = storyboard?.instantiateViewController(withIdentifier: "loading")
+        
+        blurEffectView = {
+            let blurEffect = UIBlurEffect(style: .dark)
+            let blurEffectView = UIVisualEffectView(effect: blurEffect)
+            
+            blurEffectView.alpha = 0.8
+            
+            // Setting the autoresizing mask to flexible for
+            // width and height will ensure the blurEffectView
+            // is the same size as its parent view.
+            blurEffectView.autoresizingMask = [
+                .flexibleWidth, .flexibleHeight
+            ]
+            blurEffectView.frame = view.bounds
+            
+            return blurEffectView
+        }()
+        view.addSubview(blurEffectView!)
+        
+        addChild(loadingIndicator!)
+        view.addSubview(loadingIndicator!.view)
+        
         createUser(email: email, password: password, completion: {user in
+            if (user == nil) {
+                self.blurEffectView?.removeFromSuperview()
+                loadingIndicator!.view.removeFromSuperview()
+                loadingIndicator!.removeFromParent()
+                return
+            }
             signedInUser = user
             let changableUser = signedInUser?.createProfileChangeRequest()
             changableUser?.displayName = self.displayNameTxt.text!
@@ -377,15 +411,27 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
                     self.userData = UserData(email: email, publicID: self.usernameTxt.text!.lowercased(), privateID: signedInUser!.uid, avaRef: reference, hexagonGridID: "", userPage: "", subscribedUsers: [""], subscriptions: [""], numPosts: 0, displayName: self.displayNameTxt.text!, birthday: self.birthday)
                     let db = Firestore.firestore()
                     let userDataCollection = db.collection("UserData1")
-                    let docRef = userDataCollection.document(user.uid)
+                    let docRef = userDataCollection.document(user!.uid)
                     docRef.setData(self.userData!.dictionary, completion: { error in
-                        print("userData posted")
+                        if error == nil {
+                            print("userData posted")
+                            self.performSegue(withIdentifier: "toAddSocialMedia", sender: self)
+                        }
+                        else {
+                            print(error?.localizedDescription)
+                            self.blurEffectView?.removeFromSuperview()
+                            loadingIndicator!.view.removeFromSuperview()
+                            loadingIndicator!.removeFromParent()
+                        }
                     })
-                    print("performing segue")
-                    self.performSegue(withIdentifier: "toAddSocialMedia", sender: self)
+                    
                 }
                 else {
                     print("could not upload profile photo \(error?.localizedDescription)")
+                    self.blurEffectView?.removeFromSuperview()
+                    loadingIndicator!.view.removeFromSuperview()
+                    loadingIndicator!.removeFromParent()
+                    
                 }
             })
         })
