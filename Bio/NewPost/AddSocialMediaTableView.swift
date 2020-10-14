@@ -27,7 +27,7 @@ class AddSocialMediaTableView: UIViewController {
     var loadUserDataArray = ThreadSafeArray<UserData>()
     var searchString: String = ""
     var userData: UserData?
-    var textFieldArray: [UITextField] = []
+    var textFieldArray = [UITextField]()
     
     var followList = [String]()
     var followListener: ListenerRegistration?
@@ -68,6 +68,7 @@ class AddSocialMediaTableView: UIViewController {
 //    @IBOutlet weak var textField: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
+        textFieldArray.reserveCapacity(12)
         doneButton.titleLabel!.font = UIFont(name: "DINAlternate-Bold", size: 19)
         setUpNavBarView()
         view.addSubview(tableView)
@@ -519,7 +520,6 @@ extension AddSocialMediaTableView: UITableViewDelegate, UITableViewDataSource {
         cell.circularMask.frame = cell.socialMediaIcon.frame
         cell.interactiveTextField.textColor = .white
         self.textFieldArray.append(cell.interactiveTextField)
-        
        
         
         
