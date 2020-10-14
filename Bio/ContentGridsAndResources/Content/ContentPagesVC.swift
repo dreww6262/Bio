@@ -158,12 +158,15 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         let topBar = UIView()
         view.addSubview(topBar)
         topBar.backgroundColor = .clear
-        topBar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/15)
+        topBar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/11)
         
         let bottomBar = UIView()
         view.addSubview(bottomBar)
         bottomBar.backgroundColor = .clear
-        bottomBar.frame = CGRect(x: 0, y: self.view.frame.height*(14/15), width: view.frame.width, height: self.view.frame.height/15)
+       // bottomBar.frame = CGRect(x: 0, y: self.view.frame.height*(14/15), width: view.frame.width, height: self.view.frame.height/15)
+        // hide Bottom bar by pushing it off screen
+        bottomBar.frame = CGRect(x: 0, y: self.view.frame.height*(15/15), width: view.frame.width, height: self.view.frame.height/15)
+        
         let backButton = UIButton()
         topBar.addSubview(backButton)
      //  backButton.setTitle("Back", for: .normal)
@@ -175,19 +178,19 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
       //  backButton.imageView.col
         let backTap = UITapGestureRecognizer(target: self, action: #selector(backTapped))
         backButton.addGestureRecognizer(backTap)
-        backButton.sizeToFit()
-        backButton.frame = CGRect(x: 5, y: (topBar.frame.height/4), width: topBar.frame.height/2, height: topBar.frame.height/2)
-        
+        //backButton.sizeToFit()
+        backButton.frame = CGRect(x: 5, y: topBar.frame.maxY - 30, width: 25, height: 25)
+        backButton.setBackgroundImage(UIImage(named:"whiteChevron"), for: .normal)
        
         topBar.addSubview(currentIndexLabel)
-        currentIndexLabel.frame = CGRect(x: (view.frame.width/2) - 40, y: topBar.frame.height/4, width: 80, height: topBar.frame.height/2)
+        currentIndexLabel.frame = CGRect(x: (view.frame.width/2) - 40, y: topBar.frame.maxY - 30, width: 80, height: 25)
         currentIndexLabel.text = "\(currentIndex + 1)/\(viewControllers.count)"
         currentIndexLabel.textColor = white
         currentIndexLabel.font.withSize(25)
         currentIndexLabel.textAlignment = .center
 
-        backButton.imageView?.frame = backButton.frame
-        backButton.imageView?.image = UIImage(named: "whiteBack")
+       // backButton.imageView?.frame = backButton.frame
+       // backButton.imageView?.image = UIImage(named: "whiteChevron")
         let commentButton = UIButton()
         //bottomBar.addSubview(commentButton)
         commentButton.setTitleColor(.white, for: .normal)
@@ -212,6 +215,7 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         bottomBar.backgroundColor = .black
         //view.bringSubviewToFront(bottomBar)
         bottomBar.bringSubviewToFront(commentButton)
+       // bottomBar.isHidden = true
         
         
         print("This is bottm bar frame \(bottomBar.frame) and view.frame \(view.frame)")
@@ -249,23 +253,23 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
     //    let shareTap = UITapGestureRecognizer(target: self, action: #selector(backTapped))
        // reportButton.addGestureRecognizer(backTap)
         reportButton.sizeToFit()
-        reportButton.frame = CGRect(x: self.view.frame.width-150+commentButton.frame.width + spacingForButton + shareButton.frame.width, y: (topBar.frame.height - reportButton.frame.height) / 2 + 10, width: reportButton.frame.width, height: reportButton.frame.height)
-        reportButton.imageView?.frame = reportButton.frame
-        reportButton.imageView?.image = reportImage
+       // reportButton.frame = CGRect(x: self.view.frame.width-150+commentButton.frame.width + spacingForButton + shareButton.frame.width, y: (topBar.frame.height - reportButton.frame.height) / 2 + 10, width: reportButton.frame.width, height: reportButton.frame.height)
+      //  reportButton.imageView?.frame = reportButton.frame
+      //  reportButton.imageView?.image = reportImage
         print("This is topBar frame \(topBar.frame)")
         print("This is backButton.image.frame \(backButton.imageView?.frame)")
         print("This is commentButton.image.frame \(commentButton.imageView?.frame)")
         print("This is shareButton.image.frame \(shareButton.imageView?.frame)")
         print("This is reportButton.image.frame \(reportButton.imageView?.frame)")
       //  print("This is backButton.image.frame \(backButton.imageView?.frame)")
-        backButton.setBackgroundImage(UIImage(named: "whiteBack"), for: .normal)
+        //backButton.setBackgroundImage(UIImage(named: "whiteBack"), for: .normal)
         commentButton.setBackgroundImage(UIImage(named: "whiteComment"), for: .normal)
         shareButton.setBackgroundImage(UIImage(named: "whiteShare1"), for: .normal)
         reportButton.setBackgroundImage(UIImage(named: "whiteShield"), for: .normal)
-        reportButton.frame = CGRect(x: self.view.frame.width-reportButton.frame.width, y: (topBar.frame.height - reportButton.frame.height) / 2, width: reportButton.frame.width, height: reportButton.frame.height)
+        reportButton.frame = CGRect(x: self.view.frame.width-30, y: (topBar.frame.maxY) -  30, width: 25, height: 25)
      //   shareButton.frame = CGRect(x: self.view.frame.width-reportButton.frame.width-5-shareButton.frame.width, y: (topBar.frame.height - shareButton.frame.height) / 2, width: shareButton.frame.width, height: shareButton.frame.height)
       //  commentButton.frame = CGRect(x: (self.view.frame.width)-(reportButton.frame.width)-5-(shareButton.frame.width)-(commentButton.frame.width)-5, y: (topBar.frame.height - commentButton.frame.height) / 2, width: commentButton.frame.width, height: commentButton.frame.height)
-        backButton.frame = CGRect(x: 0, y: (topBar.frame.height - backButton.frame.height) / 2, width: backButton.frame.width, height: backButton.frame.height)
+       // backButton.frame = CGRect(x: 0, y: (topBar.frame.height - backButton.frame.height) / 2, width: backButton.frame.width, height: backButton.frame.height)
         
   
         let goToAppButton = UIButton()
@@ -295,7 +299,10 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         
         
         
-        pageView.view.frame = CGRect(x: 0, y: topBar.frame.maxY, width: view.frame.width, height: view.frame.height - topBar.frame.height - bottomBar.frame.height)
+//        pageView.view.frame = CGRect(x: 0, y: topBar.frame.maxY, width: view.frame.width, height: view.frame.height - topBar.frame.height - bottomBar.frame.height)
+        //adjust height for removing bottom bar
+        
+        pageView.view.frame = CGRect(x: 0, y: topBar.frame.maxY, width: view.frame.width, height: view.frame.height - topBar.frame.height)
 
         addChild(pageView)
         view.addSubview(pageView.view)

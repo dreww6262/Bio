@@ -20,7 +20,7 @@ import YPImagePicker
 class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDelegate {
     var navBarView = NavBarView()
     var titleLabel1 = UILabel()
-    
+    var titleFontSize = CGFloat(20)
    var toSearchButton = UIButton()
     var toSettingsButton = UIButton()
     
@@ -123,8 +123,9 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
     
     
     func addSettingsButton() {
-        self.view.addSubview(toSettingsButton)
+        self.navBarView.addSubview(toSettingsButton)
        // toSettingsButton.frame = CGRect(x: 15, y: self.view.frame.height/48, width: 30, height: 30)
+        toSettingsButton.imageView?.image = UIImage(named: "lightGrayGearFinal")
         toSettingsButton.frame = CGRect(x: self.view.frame.height*(1/48), y: (self.view.frame.height/48) + 2, width: self.view.frame.height/24, height: self.view.frame.height/24)
         // round ava
         toSettingsButton.clipsToBounds = true
@@ -159,13 +160,13 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         self.navBarView.layer.borderWidth = 0.25
         self.navBarView.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
 //        self.titleLabel1.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/12)
-        self.titleLabel1.frame = CGRect(x: 0, y: 10, width: self.view.frame.width, height: self.navBarView.frame.height-10)
+        self.titleLabel1.frame = CGRect(x: 0, y: 20, width: self.view.frame.width, height: self.navBarView.frame.height-10)
         self.titleLabel1.textAlignment = .center
       
         
         
        
-        self.titleLabel1.font = UIFont(name: "DINAlternate-Bold", size: 25)
+        self.titleLabel1.font = UIFont(name: "DINAlternate-Bold", size: 20)
         self.titleLabel1.textColor = .white
         self.navBarView.backgroundColor = .black
     }
@@ -242,7 +243,7 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         picker.didFinishPicking { [unowned picker] items, cancelled in
             
             if (items.count > 0) {
-                let uploadPreviewVC = self.storyboard?.instantiateViewController(identifier: "uploadPreviewVC") as! UploadPreviewVC
+                let uploadPreviewVC = self.storyboard?.instantiateViewController(identifier: "newUploadPreviewVC") as! NewUploadPreviewVC
                 //print(photos)
                 uploadPreviewVC.userData = self.userData
                 uploadPreviewVC.items = items
@@ -374,6 +375,10 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         l2.text = "Add Music"
         l3.text = "Add Link"
         l4.text = "Add Social Media"
+        l1.textColor = UIColor.black
+        l2.textColor = UIColor.black
+        l3.textColor = UIColor.black
+        l4.textColor = UIColor.black
         
         view2.frame = CGRect(x: (self.view.frame.width*7/12), y: (self.view.frame.height/3) - (self.view.frame.width/6)-20, width: self.view.frame.width/3, height: self.view.frame.width/3)
        
@@ -394,6 +399,9 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         l3.frame = CGRect(x: self.view.frame.width/12, y: pic3.frame.maxY + 30.0, width: self.view.frame.width/3, height: 33.0)
         
         l4.frame = CGRect(x: self.view.frame.width*7/12, y: pic4.frame.maxY + 30.0, width: self.view.frame.width/3, height: 33.0)
+        
+
+        
     }
 }
 extension UIColor {

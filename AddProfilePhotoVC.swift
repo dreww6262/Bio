@@ -1,8 +1,8 @@
 //
-//  SignInVC.swift
+//  AddProfilePhotoVC.swift
 //  Bio
 //
-//  Created by Ann McDonough on 8/14/20.
+//  Created by Ann McDonough on 10/14/20.
 //  Copyright © 2020 Patrick McDonough. All rights reserved.
 //
 
@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import FirebaseAuth
 
-class SignInVC: UIViewController {
+class AddProfilePhotoVC: UIViewController {
     @IBOutlet weak var emailText: UITextField!
     @IBOutlet weak var passwordText: UITextField!
     
@@ -77,7 +77,7 @@ class SignInVC: UIViewController {
         self.navBarView.addSubview(self.titleLabel1)
         self.navBarView.addBehavior()
        
-        self.titleLabel1.text = "Sign In"
+        self.titleLabel1.text = "Add Profile Picture"
         self.titleLabel1.font = UIFont(name: "DINAlternate-Bold", size: 28)
         self.navBarView.frame = CGRect(x: 0, y: self.cancelButton.frame.minY/2, width: self.view.frame.width, height: self.view.frame.height/12)
        // self.tableView.frame = CGRect(x: 0, y: self.view.frame.height/12, width: self.view.frame.width, height: self.view.frame.height*(11/12))

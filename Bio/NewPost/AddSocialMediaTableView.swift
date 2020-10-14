@@ -68,7 +68,9 @@ class AddSocialMediaTableView: UIViewController {
 //    @IBOutlet weak var textField: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
-        textFieldArray.reserveCapacity(12)
+        cancelButton.isHidden = true
+        doneButton.isHidden = true
+        titleLabel1.isHidden = true
         doneButton.titleLabel!.font = UIFont(name: "DINAlternate-Bold", size: 19)
         setUpNavBarView()
         view.addSubview(tableView)
@@ -83,13 +85,13 @@ class AddSocialMediaTableView: UIViewController {
         tableView.reloadData()
         
        // cancelButton.frame = CGRect(x: 0, y: self.tableView.frame.minY/4, width: self.tableView.frame.minY/2, height: self.tableView.frame.minY/2)
-        cancelButton.sizeToFit()
-        cancelButton.frame = CGRect(x: 5, y: (navBarView.frame.height/4), width: navBarView.frame.height/2, height: navBarView.frame.height/2)
-        cancelButton.setBackgroundImage(UIImage(named: "whiteBack"), for: .normal)
-        doneButton.frame = CGRect(x: self.view.frame.width - doneButton.frame.width-5, y: self.tableView.frame.minY/4, width: doneButton.frame.width, height: doneButton.frame.height)
-        doneButton.frame = CGRect(x: (self.view.frame.width) - (navBarView.frame.height) - 5, y: 0, width: navBarView.frame.height, height: navBarView.frame.height)
-        doneButton.setTitle("Post", for: .normal)
-        doneButton.setTitleColor(.systemBlue, for: .normal)
+//        cancelButton.sizeToFit()
+//        cancelButton.frame = CGRect(x: 5, y: (navBarView.frame.height/4), width: navBarView.frame.height/2, height: navBarView.frame.height/2)
+//        cancelButton.setBackgroundImage(UIImage(named: "whiteBack"), for: .normal)
+//        doneButton.frame = CGRect(x: self.view.frame.width - doneButton.frame.width-5, y: self.tableView.frame.minY/4, width: doneButton.frame.width, height: doneButton.frame.height)
+//        doneButton.frame = CGRect(x: (self.view.frame.width) - (navBarView.frame.height) - 5, y: 0, width: navBarView.frame.height, height: navBarView.frame.height)
+//        doneButton.setTitle("Post", for: .normal)
+//        doneButton.setTitleColor(.systemBlue, for: .normal)
         
         
         
@@ -106,7 +108,8 @@ class AddSocialMediaTableView: UIViewController {
         iconArray = [image1 ?? UIImage(),image2 ?? UIImage(),image3 ?? UIImage(),image4 ?? UIImage(),image5 ?? UIImage(),image6 ?? UIImage(),image7 ?? UIImage(),image8 ?? UIImage(),image9 ?? UIImage(),image10 ?? UIImage(),image11 ?? UIImage(),image12 ?? UIImage()]
     }
     
-    @IBAction func donePressed(_ sender: UIButton) {
+  //  @IBAction func donePressed(_ sender: UIButton) {
+    @objc func postTapped(_ recognizer:UITapGestureRecognizer) {
         print("done button pressed")
         
         // dismiss keyboard
@@ -257,7 +260,7 @@ class AddSocialMediaTableView: UIViewController {
         }
         if (!textFieldArray[7].text!.isEmpty) {
             numPosts += 1
-            let twitchHex = HexagonStructData(resource: "https://m.twitch.tv/\(textFieldArray[5].text!)/profile", type: "socialmedia_twitch", location: numPosts, thumbResource: "icons/twitch1.png", createdAt: NSDate.now.description, postingUserID: username, text: "https://m.twitch.tv/\(textFieldArray[5].text!)/profile", views: 0, isArchived: false, docID: "WillBeSetLater")
+            let twitchHex = HexagonStructData(resource: "https://m.twitch.tv/\(textFieldArray[7].text!)/profile", type: "socialmedia_twitch", location: numPosts, thumbResource: "icons/twitch1.png", createdAt: NSDate.now.description, postingUserID: username, text: "https://m.twitch.tv/\(textFieldArray[7].text!)/profile", views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: twitchHex, completion: {bool in
                 success = success && bool
                 
@@ -266,6 +269,7 @@ class AddSocialMediaTableView: UIViewController {
         
         
         if (!textFieldArray[10].text!.isEmpty) {
+            print("Trying to add a poshmark link")
             numPosts += 1
             let poshmarkHex = HexagonStructData(resource: "https://poshmark.com/closet/\(textFieldArray[10].text!)", type: "socialmedia_poshmark", location: numPosts, thumbResource: "icons/poshmarkLogo.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(textFieldArray[10].text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: poshmarkHex, completion: {bool in
@@ -337,35 +341,68 @@ class AddSocialMediaTableView: UIViewController {
         
     }
     
+    @objc func backTapped(_ sender: UITapGestureRecognizer) {
+        print("back hit!")
+        for v in view.subviews {
+            v.isHidden = true
+        }
+        self.dismiss(animated: false, completion: nil)
+    }
+    
+    
     func setUpNavBarView() {
         self.view.addSubview(navBarView)
-        self.navBarView.addSubview(titleLabel1)
+      //  self.navBarView.addSubview(titleLabel1)
         self.navBarView.addBehavior()
-        self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
+        self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/10)+5)
         self.navBarView.backgroundColor = UIColor(cgColor: CGColor(gray: 0.05, alpha: 1.0))
         self.navBarView.layer.borderWidth = 0.25
         self.navBarView.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
-        self.titleLabel1.text = "Add Social Media"
+        var backButton = UIButton()
+        var postButton = UIButton()
+        let backTap = UITapGestureRecognizer(target: self, action: #selector(backTapped))
+        let postTap = UITapGestureRecognizer(target: self, action: #selector(postTapped))
+        var titleLabel = UILabel()
+        self.navBarView.addSubview(titleLabel)
+        self.navBarView.addSubview(postButton)
+        self.navBarView.addSubview(backButton)
+        backButton.addGestureRecognizer(backTap)
+        postButton.addGestureRecognizer(postTap)
+        postButton.setTitle("Post", for: .normal)
+        postButton.setTitleColor(.systemBlue, for: .normal)
+        titleLabel.text = "Add Social Media"
     //    self.navBarView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/15)
        // self.tableiew.frame = CGRect(x: 0, y: self.view.frame.height/12, width: self.view.frame.width, height: self.view.frame.height*(11/12))
-        self.titleLabel1.frame = CGRect(x: 0, y: 10, width: self.view.frame.width, height: self.navBarView.frame.height-10)
-        self.titleLabel1.textAlignment = .center
+       // self.titleLabel1.frame = CGRect(x: 0, y: 10, width: self.view.frame.width, height: self.navBarView.frame.height-10)
+        titleLabel.frame = CGRect(x: (navBarView.frame.width/2) - 80, y: navBarView.frame.maxY - 25, width: 160, height: 25)
+        titleLabel.textAlignment = .center
        
-        self.titleLabel1.font = UIFont(name: "DINAlternate-Bold", size: 22)
-        self.titleLabel1.textColor = .white
+        titleLabel.font = UIFont(name: "DINAlternate-Bold", size: 22)
+        titleLabel.textColor = .white
+        
       //  self.navBarView.backgroundColor = .clear
         
-        cancelButton.sizeToFit()
-        cancelButton.frame = CGRect(x: 5, y: navBarView.frame.midY - cancelButton.frame.height/2 + 10, width: cancelButton.frame.width, height: cancelButton.frame.height)
-        cancelButton.frame = CGRect(x: 5, y: (navBarView.frame.height/4), width: navBarView.frame.height/2, height: navBarView.frame.height/2)
+       // cancelButton.sizeToFit()
+     //   cancelButton.frame = CGRect(x: 5, y: navBarView.frame.midY - cancelButton.frame.height/2 + 10, width: cancelButton.frame.width, height: cancelButton.frame.height)
+       // cancelButton.frame = CGRect(x: 5, y: (navBarView.frame.height/4), width: navBarView.frame.height/2, height: navBarView.frame.height/2)
+       
     //    backButton.setBackgroundImage(UIImage(named: "whiteBack"), for: .normal)
         
+        backButton.setBackgroundImage(UIImage(named: "whiteChevron"), for: .normal)
         
-        view.bringSubviewToFront(cancelButton)
-        doneButton.sizeToFit()
-        doneButton.frame = CGRect(x: view.frame.width - doneButton.frame.width - 10, y: navBarView.frame.midY - cancelButton.frame.height/2 + 10, width: cancelButton.frame.width, height: cancelButton.frame.height)
-        view.bringSubviewToFront(doneButton)
+    
+      //  doneButton.sizeToFit()
+       // doneButton.frame = CGRect(x: view.frame.width - doneButton.frame.width - 10, y: navBarView.frame.midY - cancelButton.frame.height/2 + 10, width: cancelButton.frame.width, height: cancelButton.frame.height)
+        postButton.frame = CGRect(x: (self.view.frame.width) - 40, y: navBarView.frame.maxY - 25, width: 40, height: 25)
+        view.bringSubviewToFront(postButton)
 //        doneButton.titleLabel!.font = UIFont(name: "DINAlternate-Bold", size: 20)
+        //self.cancelButton.imageView?.image = UIImage(named: "whiteChevron")
+        backButton.frame = CGRect(x: 15, y: navBarView.frame.maxY - 30, width: 25, height: 25)
+        backButton.imageView?.frame = backButton.frame
+        view.bringSubviewToFront(backButton)
+     //   postButton.setTitle("Post", for: .normal)
+        
+        
     }
  
     
@@ -474,7 +511,7 @@ extension AddSocialMediaTableView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
      //   print("This is height for row at: \(self.view.frame.height/8)")
     //    return self.view.frame.height/8
-    return 80
+    return 66
     }
     
     

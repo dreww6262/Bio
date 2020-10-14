@@ -25,6 +25,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var profileImage = UIImage()
     var followList = [String]()
     var followListener: ListenerRegistration?
+    var navBarY = CGFloat(39)
     
     // Content presentation
     var player = AVAudioPlayer()
@@ -166,7 +167,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func addSearchButton() {
        // self.view.addSubview(toSearchButton)
-        toSearchButton.frame = CGRect(x: self.view.frame.width-45, y: 25, width: 30, height: 30)
+        toSearchButton.frame = CGRect(x: self.view.frame.width-45, y: navBarY, width: 25, height: 25)
         self.view.addSubview(toSearchButton)
         view.bringSubviewToFront(toSearchButton)
         // round ava
@@ -182,7 +183,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func addSettingsButton(){
       //  view.addSubview(followButton)
-        toSettingsButton.frame = CGRect(x: 0, y: 25, width: 30, height: 30)
+        toSettingsButton.frame = CGRect(x: 0, y: navBarY, width: 25, height: 25)
         view.addSubview(toSettingsButton)
         view.bringSubviewToFront(toSettingsButton)
         toSettingsButton.imageView?.image = UIImage(named: "addFriend")
@@ -198,7 +199,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func insertFollowButton() {
         self.view.addSubview(followView)
         self.followView.backgroundColor = .white
-        self.followView.frame = CGRect(x: self.view.frame.midX - 45, y: 25, width: 90, height: 30)
+        self.followView.frame = CGRect(x: self.view.frame.midX - 45, y: navBarY, width: 90, height: 30)
         self.followView.layer.cornerRadius = followView.frame.size.width / 20
         self.followView.addSubview(followImage)
         self.followView.addSubview(followLabel)
@@ -230,6 +231,10 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     
     @objc func followTapped(_ sender: UITapGestureRecognizer) {
+//        if followLabel.text == "Add" {
+//            print("Follow the user :)")
+        
+        
         if userData != nil {
             if toSettingsButton!.tag == 0 {
                 let newFollow = ["follower": username, "following": userData!.publicID]
@@ -487,7 +492,26 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
         
     func changePostImageCoordinates() {
+        
         for image in imageViewArray {
+            var copyColor = myBlueGreen
+                var imageType = image.hexData?.type
+                print("This is image type \(imageType)")
+     
+                
+            if imageType == "photo"  {
+                copyColor = myOrange as UIColor
+                }
+                else if imageType!.contains("social") {
+                copyColor = myPink as UIColor
+                }
+                else if imageType == "music" {
+                copyColor = myBlueGreen as UIColor
+                }
+                else if imageType == "link" {
+                copyColor = myCoolBlue as UIColor
+                }
+            
             image.frame = CGRect(x: self.reOrderedCoordinateArrayPoints[image.hexData!.location].x,
                                  y: self.reOrderedCoordinateArrayPoints[image.hexData!.location].y, width: hexaDiameter, height: hexaDiameter)
             //image.setupHexagonMask(lineWidth: 10.0, color: .darkGray, cornerRadius: 10.0)
@@ -499,11 +523,9 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
      
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
-        
         let image = PostImageView(frame: CGRect(x: self.reOrderedCoordinateArrayPoints[hexData.location].x,
                                                 y: self.reOrderedCoordinateArrayPoints[hexData.location].y, width: hexaDiameter, height: hexaDiameter))
-        //print("This is contentView.center \(contentView.center)")
-        //print("This is profile Pic Center \(self.reOrderedCoordinateArrayPoints[0].x), \(self.reOrderedCoordinateArrayPoints[0].y)")
+                                  
         image.contentMode = .scaleAspectFill
         image.image = UIImage()
         image.hexData = hexData
@@ -959,7 +981,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
         backButton1.isUserInteractionEnabled = true
         backButton1.addGestureRecognizer(tapBack)
-        backButton1.setTitle("Back", for: .normal)
+        backButton1.setTitle("whiteChevron", for: .normal)
         backButton1.setTitleColor(.systemBlue, for: .normal)
         backButton1.frame = CGRect(x: 5, y: navBarView!.frame.midY - 20, width: navBarView!.frame.width/8, height: self.view.frame.height/12)
         

@@ -22,15 +22,16 @@ class UserData {
     var subscriptions: [String]
     var numPosts: Int
     var displayName: String
+    var birthday: String
     
     
     
     var dictionary: [String: Any] {
-        return ["email": email, "publicID": publicID, "privateID": privateID, "avaRef": avaRef, "hexagonGridID": hexagonGridID, "userPage": userPage, "subscribedUsers": subscribedUsers, "subscriptions":  subscriptions, "numPosts": numPosts, "displayName": displayName]
+        return ["email": email, "publicID": publicID, "privateID": privateID, "avaRef": avaRef, "hexagonGridID": hexagonGridID, "userPage": userPage, "subscribedUsers": subscribedUsers, "subscriptions":  subscriptions, "numPosts": numPosts, "displayName": displayName, "birthday": birthday]
     }
     
     
-    init(email: String, publicID: String, privateID: String, avaRef: String, hexagonGridID: String, userPage: String, subscribedUsers:  [String], subscriptions: [String], numPosts: Int, displayName: String) {
+    init(email: String, publicID: String, privateID: String, avaRef: String, hexagonGridID: String, userPage: String, subscribedUsers:  [String], subscriptions: [String], numPosts: Int, displayName: String, birthday: String) {
         self.email = email
         self.publicID = publicID
         self.privateID = privateID
@@ -41,6 +42,7 @@ class UserData {
         self.subscriptions = subscriptions
         self.numPosts = numPosts
         self.displayName = displayName
+        self.birthday = birthday
     }
     
     
@@ -55,10 +57,11 @@ class UserData {
         let subscriptions = dictionary["subscriptions"] as! [String]? ?? [""]
         let numPosts = Int(dictionary["numPosts"] as! Int? ?? 0)
         let displayName = dictionary["displayName"] as! String? ?? ""
+        let birthday = dictionary["birthday"] as! String? ?? ""
         
         
         
-        self.init(email: email, publicID: publicID,privateID: privateID, avaRef: avaRef, hexagonGridID: hexagonGridID, userPage: userPage, subscribedUsers: subscribedUsers, subscriptions: subscriptions, numPosts: numPosts, displayName: displayName)
+        self.init(email: email, publicID: publicID,privateID: privateID, avaRef: avaRef, hexagonGridID: hexagonGridID, userPage: userPage, subscribedUsers: subscribedUsers, subscriptions: subscriptions, numPosts: numPosts, displayName: displayName, birthday: birthday)
     }
 }
 

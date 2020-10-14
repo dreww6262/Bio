@@ -163,7 +163,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         view.addSubview(topBar)
         topBar.backgroundColor = .clear
       //  topBar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/15)
-        topBar.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
+        topBar.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/10)+5)
       topBar.backgroundColor = UIColor(cgColor: CGColor(gray: 0.05, alpha: 1.0))
         topBar.layer.borderWidth = 0.25
         topBar.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
@@ -176,20 +176,21 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
        let backTap = UITapGestureRecognizer(target: self, action: #selector(backTapped))
         let postTap = UITapGestureRecognizer(target: self, action: #selector(postTapped))
     backButton.addGestureRecognizer(backTap)
-        backButton.sizeToFit()
-        backButton.frame = CGRect(x: 5, y: (topBar.frame.height/4), width: topBar.frame.height/2, height: topBar.frame.height/2)
+  //      backButton.sizeToFit()
+      //  backButton.frame = CGRect(x: 5, y: (topBar.frame.height/4), width: topBar.frame.height/2, height: topBar.frame.height/2)
+        backButton.frame = CGRect(x: 15, y: topBar.frame.maxY - 25, width: 20, height: 20)
         backButton.setBackgroundImage(UIImage(named: "whiteBack"), for: .normal)
        
         topBar.addSubview(addLinkLabel)
-        addLinkLabel.frame = CGRect(x: (topBar.frame.width/2) - 60, y: 10, width: 120, height: topBar.frame.height-10)
+        addLinkLabel.frame = CGRect(x: (topBar.frame.width/2) - 60, y: topBar.frame.maxY - 25, width: 120, height: 25)
         addLinkLabel.text = "Add A Link"
         addLinkLabel.textColor = white
-        addLinkLabel.font.withSize(40)
+        addLinkLabel.font.withSize(22)
        // addLinkLabel.
         
         addLinkLabel.textAlignment = .center
 
-        backButton.imageView?.frame = backButton.frame
+     //   backButton.imageView?.frame = backButton.frame
        // backButton.imageView?.image = UIImage(named: "whiteBack")
         
         let postButton = UIButton()
@@ -197,7 +198,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         postButton.addGestureRecognizer(postTap)
         postButton.setTitle("Next", for: .normal)
         postButton.setTitleColor(.systemBlue, for: .normal)
-        postButton.frame = CGRect(x: (self.view.frame.width) - (topBar.frame.height) - 5, y: 0, width: topBar.frame.height, height: topBar.frame.height)
+        postButton.frame = CGRect(x: (self.view.frame.width) - 40, y: topBar.frame.maxY - 25, width: 40, height: 25)
         postButton.titleLabel?.sizeToFit()
         postButton.titleLabel?.textAlignment = .right
         

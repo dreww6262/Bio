@@ -17,6 +17,8 @@ import FirebaseStorage
 //import FirebaseFirestore
 
 class NotificationsVC: UIViewController {
+    var navBarY = CGFloat(39)
+    var titleFontSize = CGFloat(20)
     let menuView = MenuView()
     let storage = Storage.storage().reference()
     var db = Firestore.firestore()
@@ -230,10 +232,10 @@ class NotificationsVC: UIViewController {
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
         let yOffset = navBarView.frame.maxY
         self.tableView.frame = CGRect(x: 0, y: yOffset, width: self.view.frame.width, height: self.view.frame.height - yOffset)
-        self.titleLabel1.frame = CGRect(x: 0, y: 5, width: self.view.frame.width, height: self.view.frame.height/12)
+        self.titleLabel1.frame = CGRect(x: 0, y: 20, width: self.view.frame.width, height: self.view.frame.height/12)
         self.titleLabel1.textAlignment = .center
         
-        self.titleLabel1.font = UIFont(name: "DINAlternate-Bold", size: 25)
+        self.titleLabel1.font = UIFont(name: "DINAlternate-Bold", size: 20)
         self.titleLabel1.textColor = .white
         self.navBarView.backgroundColor = UIColor(cgColor: CGColor(gray: 0.05, alpha: 1.0))
         self.navBarView.layer.borderWidth = 0.25

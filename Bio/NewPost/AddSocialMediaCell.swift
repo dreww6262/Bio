@@ -40,13 +40,14 @@ class AddSocialMediaCell: UITableViewCell {
         // alignment
         let width = UIScreen.main.bounds.width
        // cellHeight =  self.frame.height
-        cellHeight = 50
+        cellHeight = 66
         print("This is cellHeight \(cellHeight)")
         
-        socialMediaIcon.frame = CGRect(x: self.frame.width*(3/48), y: self.frame.height*(3/48), width: cellHeight*(42/48), height: cellHeight*(42/48))
+        socialMediaIcon.frame = CGRect(x: self.frame.width*(3/48), y: self.frame.height*(6/48), width: cellHeight*(36/48), height: cellHeight*(36/48))
         //socialMediaIcon.setupHexagonMask(lineWidth: socialMediaIcon.frame.height/15, color: gold, cornerRadius: socialMediaIcon.frame.height/15)
-        textField.frame = CGRect(x: socialMediaIcon.frame.maxX + (self.frame.width/24), y: self.frame.height/3, width: width - (2*socialMediaIcon.frame.maxX), height: self.frame.height*(1/4))
+        textField.frame = CGRect(x: socialMediaIcon.frame.maxX + (self.frame.width/24), y: self.frame.height/3, width: width - (2*socialMediaIcon.frame.maxX), height: self.frame.height*(1/3))
         interactiveTextField.frame = textField.frame
+        textField.isHidden = true 
         
         let bottomLine = CALayer()
         bottomLine.frame = CGRect(x: 0.0, y: 22, width: interactiveTextField.frame.width, height: 1.0)

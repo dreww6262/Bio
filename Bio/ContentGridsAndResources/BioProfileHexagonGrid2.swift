@@ -14,8 +14,10 @@ import FirebaseFirestore
 import FirebaseUI
 import FirebaseStorage
 
+
+
 class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
-    
+    var navBarY = CGFloat(39)
     var followView = UIView()
     var newFollowArray: [String] = []
     //var user = PFUser.current()!.username!
@@ -102,9 +104,9 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
     
     func addSearchButton() {
         self.view.addSubview(toSearchButton)
-        toSearchButton.frame = CGRect(x: self.view.frame.width-45, y: 20, width: 30, height: 30)
+        toSearchButton.frame = CGRect(x: self.view.frame.width-40, y: navBarY, width: 25, height: 25)
         // round ava
-        toSearchButton.layer.cornerRadius = toSearchButton.frame.size.width / 2
+     //   toSearchButton.layer.cornerRadius = toSearchButton.frame.size.width / 2
         toSearchButton.clipsToBounds = true
         toSearchButton.isHidden = false
         followView.isHidden = false
@@ -114,7 +116,7 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
     func insertFollowView() {
         self.view.addSubview(followView)
         self.followView.backgroundColor = .white
-        self.followView.frame = CGRect(x: self.view.frame.midX - 55, y: 25, width: 110, height: 30)
+        self.followView.frame = CGRect(x: self.view.frame.midX - 55, y: navBarY, width: 110, height: 30)
         self.followView.layer.cornerRadius = followView.frame.size.width / 20
         self.followView.addSubview(followImage)
         self.followView.addSubview(followImage2)
@@ -162,7 +164,7 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
     
     func addSettingsButton() {
         self.view.addSubview(toSettingsButton)
-        toSettingsButton.frame = CGRect(x: 15, y: 25, width: 30, height: 30)
+        toSettingsButton.frame = CGRect(x: 15, y: self.navBarY, width: 25, height: 25)
         // round ava
         toSettingsButton.clipsToBounds = true
         toSettingsButton.isHidden = false
@@ -578,7 +580,7 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
                 image.layer.masksToBounds = true
                 image.layer.borderColor = UIColor.white.cgColor
                 image.layer.borderWidth = (image.frame.width)/30
-                self.myProfileImage = image.image ?? UIImage(named: "boyProfile") as! UIImage
+                self.myProfileImage = image.image ?? UIImage()
                 self.followImage.image = self.myProfileImage
             }
             else {

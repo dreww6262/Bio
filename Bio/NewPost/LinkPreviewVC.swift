@@ -32,7 +32,7 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
         navBarView.backgroundColor = .systemGray6
         
         let backButton = UIButton()
-        backButton.setTitle("Back", for: .normal)
+        backButton.setTitle("whiteChevron", for: .normal)
         backButton.sizeToFit()
         backButton.frame = CGRect(x: 5, y: navBarView.frame.midY - backButton.frame.height/2 + 5, width: backButton.frame.width, height: backButton.frame.height)
         backButton.backgroundColor = .clear

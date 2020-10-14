@@ -36,10 +36,7 @@ var myTikTokBlack = #colorLiteral(red: 0.003921568627, green: 0.003921568627, bl
 var myLinkedInBlue = #colorLiteral(red: 0, green: 0.4470588235, blue: 0.6941176471, alpha: 1)
 
 var shakebleImages : [PostImageView] = []
-
-
-
-
+var navBarY = CGFloat(39)
 
 
 class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, WKUIDelegate  {
@@ -181,14 +178,14 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     func setUpViewCounter() {
         self.view.addSubview(followView)
         self.followView.backgroundColor = .white
-        self.followView.frame = CGRect(x: self.view.frame.midX - 45, y: 25, width: 90, height: 30)
+        self.followView.frame = CGRect(x: self.view.frame.midX - 45, y: navBarY, width: 90, height: 30)
         self.followView.layer.cornerRadius = followView.frame.size.width / 20
         self.followView.addSubview(followImage)
         self.followView.addSubview(followLabel)
         self.followImage.frame = CGRect(x: 5, y: 0, width: followView.frame.height, height: followView.frame.height)
         self.followView.layer.cornerRadius = followView.frame.size.width/10
         //self.followView.clipsToBounds()
-        self.followImage.image = UIImage(named: "eye")
+        self.followImage.image = UIImage(named: "eyeFinal")
         self.followLabel.frame = CGRect(x: followImage.frame.maxX + 5, y: 0.0, width: followView.frame.width - 10, height: followView.frame.height)
 //        self.followLabel.text = profileViews
         self.followLabel.textColor = .black
@@ -214,7 +211,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     
     func addSearchButton() {
         self.view.addSubview(toSearchButton)
-        toSearchButton.frame = CGRect(x: self.view.frame.width-45, y: 25, width: 30, height: 30)
+        toSearchButton.frame = CGRect(x: self.view.frame.width-45, y: navBarY, width: 25, height: 25)
         // round ava
         //        toSearchButton.layer.cornerRadius = toSearchButton.frame.size.width / 2
         toSearchButton.clipsToBounds = true
@@ -223,7 +220,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     
     func addSettingsButton() {
         self.view.addSubview(toSettingsButton)
-        toSettingsButton.frame = CGRect(x: 15, y: 25, width: 30, height: 30)
+        toSettingsButton.frame = CGRect(x: 15, y: navBarY, width: 25, height: 25)
         // round ava
         toSettingsButton.clipsToBounds = true
         toSettingsButton.isHidden = false
@@ -848,22 +845,41 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             let hexCenterInView = contentView.convert(currentHexagonCenter, to: view)
             if (distance(hexCenterInView, trashButton.center) < 70) {
                 // trash current hexagon
-                hexImage.hexData!.isArchived = true
-                // push update to server
-                let docRef = db.collection("Hexagons2").document(hexImage.hexData!.docID)
-                docRef.setData(hexImage.hexData!.dictionary) { error in
-                    if error == nil {
-                        self.userData!.numPosts -= 1
-                        self.db.collection("UserData1").document(self.userData!.privateID).setData(self.userData!.dictionary)
-                    }
-                }
-                for hex in imageViewArray {
-                    if (hex.hexData!.location > hexImage.hexData!.location) {
-                        hex.hexData!.location -= 1
-                        db.collection("Hexagons2").document(hex.hexData!.docID).setData(hex.hexData!.dictionary)
-                    }
-                }
-                refresh()
+                
+                // give alert
+                let refreshAlert = UIAlertController(title: "Delete This Post?", message: "All data will be lost.", preferredStyle: UIAlertController.Style.alert)
+
+                refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { [self] (action: UIAlertAction!) in
+                      print("Handle Deleting Hexagon!")
+                    self.handleDeleting(hexImage: hexImage)
+                    
+                }))
+
+                refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+                      print("Handle Cancel Logic here")
+                    self.refresh()
+                }))
+
+                present(refreshAlert, animated: true, completion: nil)
+              
+            
+//                hexImage.hexData!.isArchived = true
+//                // push update to server
+//                let docRef = db.collection("Hexagons2").document(hexImage.hexData!.docID)
+//                docRef.setData(hexImage.hexData!.dictionary) { error in
+//                    if error == nil {
+//                        self.userData!.numPosts -= 1
+//                        self.db.collection("UserData1").document(self.userData!.privateID).setData(self.userData!.dictionary)
+//                    }
+//                }
+//                for hex in imageViewArray {
+//                    if (hex.hexData!.location > hexImage.hexData!.location) {
+//                        hex.hexData!.location -= 1
+//                        db.collection("Hexagons2").document(hex.hexData!.docID).setData(hex.hexData!.dictionary)
+//                    }
+//                }
+//                refresh()
+                
             }
             else {
                 let intersectingHex = findIntersectingHexagon(hexView: dragView!)
@@ -894,6 +910,26 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             
         }
     }
+    
+    func handleDeleting(hexImage: PostImageView) {
+        hexImage.hexData!.isArchived = true
+        // push update to server
+        let docRef = db.collection("Hexagons2").document(hexImage.hexData!.docID)
+        docRef.setData(hexImage.hexData!.dictionary) { error in
+            if error == nil {
+                self.userData!.numPosts -= 1
+                self.db.collection("UserData1").document(self.userData!.privateID).setData(self.userData!.dictionary)
+            }
+        }
+        for hex in imageViewArray {
+            if (hex.hexData!.location > hexImage.hexData!.location) {
+                hex.hexData!.location -= 1
+                db.collection("Hexagons2").document(hex.hexData!.docID).setData(hex.hexData!.dictionary)
+            }
+        }
+        refresh()
+    }
+    
     
     func createHexagonMaskWithCorrespondingColor(imageView: UIImageView, type: String) {
         if type == "photo" {

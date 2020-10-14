@@ -1,17 +1,18 @@
 //
-//  UserCell.swift
+//  TagUserCell.swift
 //  Bio
 //
-//  Created by Ann McDonough on 8/16/20.
+//  Created by Ann McDonough on 10/13/20.
 //  Copyright © 2020 Patrick McDonough. All rights reserved.
 //
+
 
 import UIKit
 import Firebase
 import FirebaseFirestore
 import AVFoundation
 
-class UserCell: UITableViewCell {
+class TagUserCell: UITableViewCell {
     
     @IBOutlet weak var followView: UIView!
     
@@ -184,8 +185,5 @@ class UserCell: UITableViewCell {
     
 }
 
-extension UIDevice {
-    static func vibrate() {
-        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
-    }
-}
+
+

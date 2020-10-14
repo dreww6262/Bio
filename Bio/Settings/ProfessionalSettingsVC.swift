@@ -61,7 +61,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
  var userDataCombinedArray: [String] = []
 var backButton1 = UIButton()
 var titleLabel1 = UILabel()
-    
+
     override func viewDidLoad() {
 //        view.addSubview(navBarView)
 //        navBarView.addSubview(titleLabel1)
@@ -72,13 +72,14 @@ var titleLabel1 = UILabel()
 //        titleLabel1.text = "Settings"
         super.viewDidLoad()
         setUpNavBarView()
+        
+        var myBirthday = userData?.birthday
 //
-
         tableContents = [
             Section(title: "My Account", rows: [
                                  NavigationRow(text: "Name", detailText: .value1(name)!, icon: .named("gear")),
                                  NavigationRow(text: "Username", detailText: .value1(email)!, icon: .named("globe")),
-                                 NavigationRow(text: "Birthday", detailText: .value1(birthday), icon: .none, action: { _ in }),
+                                 NavigationRow(text: "Birthday", detailText: .value1(myBirthday ?? ""), icon: .none, action: { _ in }),
                                  NavigationRow(text: "Country", detailText: .value1(country)), NavigationRow(text: "Terms of Service", detailText: .none, icon: .named("time"), action: { _ in }),
                                  NavigationRow(text: "Email", detailText: .value1(email)!, icon: .named("time"), action: { _ in }),
                                 NavigationRow(text: "Password", detailText: .none)]),
@@ -107,13 +108,13 @@ let dismissTap = UITapGestureRecognizer(target: self, action: #selector(self.bac
         self.backButton1.addGestureRecognizer(dismissTap)
 
         
-        self.backButton1.setTitle("Back", for: .normal)
+        self.backButton1.setBackgroundImage(UIImage(named: "whiteChevron"), for: .normal)
         self.backButton1.setTitleColor(.systemBlue, for: .normal)
         self.titleLabel1.text = "Settings"
         self.navBarView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/12)
         self.tableView.frame = CGRect(x: 0, y: self.navBarView.frame.height, width: self.view.frame.width, height: self.view.frame.height-self.navBarView.frame.height)
-        self.titleLabel1.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/12)
-        self.backButton1.frame = CGRect(x: 0, y: 0, width: navBarView.frame.width/8, height: titleLabel1.frame.height)
+        self.titleLabel1.frame = CGRect(x: 0, y: navBarView.frame.maxY - 30, width: self.view.frame.width, height: 30)
+        self.backButton1.frame = CGRect(x: 5, y: navBarView.frame.maxY - 30, width: 25, height: 25)
         self.titleLabel1.textAlignment = .center
         self.backButton1.titleLabel?.textAlignment = .left
         self.titleLabel1.font = UIFont(name: "DINAlternate-Bold", size: 20)
