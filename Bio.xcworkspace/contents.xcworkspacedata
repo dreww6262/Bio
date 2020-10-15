@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:EditProfilePhotoVC.swift">
+      location = "group:/Users/annmcdonough/Documents/Bio/EditProfilePhotoVC.swift">
    </FileRef>
    <FileRef
       location = "group:Bio.xcodeproj">
