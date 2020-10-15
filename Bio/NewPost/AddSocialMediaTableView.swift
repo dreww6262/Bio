@@ -27,7 +27,7 @@ class AddSocialMediaTableView: UIViewController {
     var loadUserDataArray = ThreadSafeArray<UserData>()
     var searchString: String = ""
     var userData: UserData?
-    var textFieldArray: [UITextField] = []
+    var textFieldArray = [UITextField]()
     
     var followList = [String]()
     var followListener: ListenerRegistration?
@@ -557,7 +557,6 @@ extension AddSocialMediaTableView: UITableViewDelegate, UITableViewDataSource {
         cell.circularMask.frame = cell.socialMediaIcon.frame
         cell.interactiveTextField.textColor = .white
         self.textFieldArray.append(cell.interactiveTextField)
-        
        
         
         
