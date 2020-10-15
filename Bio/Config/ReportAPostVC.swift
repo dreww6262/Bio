@@ -14,7 +14,7 @@ class ReportAPostVC: QuickTableViewController {
     
     var navBarView = NavBarView()
     
-    
+    var hexData: HexagonStructData?
     //var tabController = NavigationMenuBaseController()
     var userData: UserData? = nil
     //var menuView = MenuView()
@@ -111,8 +111,8 @@ let dismissTap = UITapGestureRecognizer(target: self, action: #selector(self.bac
         self.backButton1.addGestureRecognizer(dismissTap)
 
         
-        self.backButton1.setTitle("whiteChevron", for: .normal)
-        self.backButton1.setTitleColor(.systemBlue, for: .normal)
+        self.backButton1.setBackgroundImage(UIImage(named:"whiteChevron"), for: .normal)
+       // self.backButton1.setTitleColor(.systemBlue, for: .normal)
         self.titleLabel1.text = "Report Post"
         self.navBarView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/12)
         self.tableView.frame = CGRect(x: 0, y: self.navBarView.frame.height, width: self.view.frame.width, height: self.view.frame.height-self.navBarView.frame.height)

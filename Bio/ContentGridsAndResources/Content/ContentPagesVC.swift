@@ -9,7 +9,7 @@
 import UIKit
 import Foundation
 
-class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource {
+class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource, UIContextMenuInteractionDelegate {
     var currentIndexLabel = UILabel()
     let backImage = UIImage(named: "whiteBack")
     let shareImage = UIImage(named: "whiteShare1")
@@ -242,6 +242,10 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         reportButton.backgroundColor = .clear
         reportButton.imageView?.image?.withTintColor(.white)
         
+        let interaction = UIContextMenuInteraction(delegate: self)
+        reportButton.addInteraction(interaction)
+        reportButton.isUserInteractionEnabled = true
+        
         let reportTapped = UITapGestureRecognizer(target: self, action: #selector(reportButtonPressed))
         reportButton.addGestureRecognizer(reportTapped)
     //    reportButton.setTitle("Report", for: .normal)
@@ -332,6 +336,44 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         else if (viewControllers.first != nil) {
             pageView.setViewControllers([viewControllers.first!], direction: .forward, animated: false, completion: nil)
             currentIndex = 0
+        }
+    }
+    
+    func createContextMenu() -> UIMenu {
+    let shareAction = UIAction(title: "Copy Link", image: UIImage(systemName: "square.and.arrow.up")) { _ in
+    print("Copy Link")
+    }
+    let copy = UIAction(title: "Report", image: UIImage(named: "whiteShield")) { _ in
+    print("Report")
+        let reportVC = self.storyboard?.instantiateViewController(withIdentifier: "reportVC") as! ReportAPostVC
+        let currentVC = self.viewControllers[self.currentIndex]
+        if currentVC is ContentLinkVC {
+            let linkVC = currentVC as! ContentLinkVC
+            reportVC.hexData = linkVC.webHex
+        }
+        else if currentVC is ContentImageVC {
+            let imageVC = currentVC as! ContentImageVC
+            reportVC.hexData = imageVC.photoHex
+        }
+        else if currentVC is ContentVideoVC {
+            let videoVC = currentVC as! ContentVideoVC
+            reportVC.hexData = videoVC.videoHex
+        }
+        self.present(reportVC, animated: false, completion: nil)
+    }
+//    let saveToPhotos = UIAction(title: "Cancel", image: UIImage(systemName: "photo")) { _ in
+//    print("Save to Photos")
+//    }
+    let cancelAction = UIAction(title: "Cancel", image: .none, attributes: .destructive) { action in
+             // Delete this photo 😢
+         }
+        
+    return UIMenu(title: "", children: [shareAction, copy, cancelAction])
+    }
+    
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+    return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ -> UIMenu? in
+    return self.createContextMenu()
         }
     }
     

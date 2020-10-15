@@ -39,7 +39,7 @@ var shakebleImages : [PostImageView] = []
 var navBarY = CGFloat(39)
 
 
-class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, WKUIDelegate  {
+class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, WKUIDelegate, UIContextMenuInteractionDelegate  {
     var indexImageViewArray : [UIImageView] = []
     
     
@@ -1148,6 +1148,32 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
        return newImage!
     }
     
+    func createContextMenu() -> UIMenu {
+    let shareAction = UIAction(title: "View Profile Picture", image: UIImage(systemName: "square.and.arrow.up")) { _ in
+    print("View Profile Picture")
+        self.handleProfilePicTap(UITapGestureRecognizer())
+    }
+    let copy = UIAction(title: "Change Profile Picture", image: UIImage(systemName: "doc.on.doc")) { _ in
+    print("Change")
+        let editProfilePhotoVC = self.storyboard?.instantiateViewController(identifier: "editProfilePhotoVC")
+        self.present(editProfilePhotoVC!, animated: false)
+    
+    }
+//    let saveToPhotos = UIAction(title: "Cancel", image: UIImage(systemName: "photo")) { _ in
+//    print("Save to Photos")
+//    }
+    let cancelAction = UIAction(title: "Cancel", image: .none, attributes: .destructive) { action in
+             // Delete this photo 😢
+         }
+        
+    return UIMenu(title: "", children: [shareAction, copy, cancelAction])
+    }
+    
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+    return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ -> UIMenu? in
+    return self.createContextMenu()
+        }
+    }
     
     func populateUserAvatar() {
         // to for hexstruct array once algorithm done
@@ -1162,16 +1188,13 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         contentView.addSubview(avaImage!)
         let interaction = UIContextMenuInteraction(delegate: self)
         avaImage?.addInteraction(interaction)
-        let tapGestureAva = UITapGestureRecognizer(target: self, action: #selector(handleProfilePicTap))
-        avaImage?.addGestureRecognizer(tapGestureAva)
         avaImage?.isHidden = false
+        let avaTap = UITapGestureRecognizer(target: self, action: #selector(self.handleProfilePicTap))
+        avaTap.numberOfTapsRequired = 1
+        avaImage?.isUserInteractionEnabled = true
+        avaImage?.addGestureRecognizer(avaTap)
+        
         contentView.bringSubviewToFront(avaImage!)
-      //  avaImage!.setupHexagonMask(lineWidth: avaImage!.frame.width/15, color: white, cornerRadius: avaImage!.frame.width/15)
-//        var scaleFactor = CGFloat(0.10)
-//        var widthShavedOff = scaleFactor*CGFloat(avaImage!.frame.width)
-//        var smallerFrame = CGRect(x: avaImage!.frame.minX, y: avaImage!.frame.minY, width: avaImage!.frame.width*CGFloat(0.90), height: avaImage!.frame.height*CGFloat(0.90))
-//        avaImage!.frame = smallerFrame
-//        avaImage!.frame = CGRect(x: smallerFrame.minX + (widthShavedOff/2), y: smallerFrame.minY + (widthShavedOff/2), width: smallerFrame.width, height: smallerFrame.height)
         avaImage!.layer.cornerRadius = (avaImage!.frame.size.width)/2
         avaImage?.clipsToBounds = true
         avaImage?.layer.masksToBounds = true
@@ -1592,19 +1615,22 @@ extension UIView {
 //    return nil
 //  }
 //}
-extension HomeHexagonGrid: UIContextMenuInteractionDelegate {
-  func contextMenuInteraction(
-    _ interaction: UIContextMenuInteraction,
-    configurationForMenuAtLocation location: CGPoint)
-      -> UIContextMenuConfiguration? {
-    return UIContextMenuConfiguration(
-      identifier: nil,
-      previewProvider: nil,
-      actionProvider: { _ in
-  let children: [UIMenuElement] = []
-   //     let rateMenu = self.makeRateMenu()
-     //   let children = [rateMenu]
-        return UIMenu(title: "", children: children)
-    })
-  }
-}
+
+
+
+//extension HomeHexagonGrid: UIContextMenuInteractionDelegate {
+//  func contextMenuInteraction(
+//    _ interaction: UIContextMenuInteraction,
+//    configurationForMenuAtLocation location: CGPoint)
+//      -> UIContextMenuConfiguration? {
+//    return UIContextMenuConfiguration(
+//      identifier: nil,
+//      previewProvider: nil,
+//      actionProvider: { _ in
+//  let children: [UIMenuElement] = []
+//   //     let rateMenu = self.makeRateMenu()
+//     //   let children = [rateMenu]
+//        return UIMenu(title: "", children: children)
+//    })
+//  }
+//}

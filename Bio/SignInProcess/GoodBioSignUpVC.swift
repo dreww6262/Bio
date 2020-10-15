@@ -232,10 +232,6 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         // Local variable inserted by Swift 4.2 migrator.
         let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         avaImg.image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
-//        if let imageURL = info[UIImagePickerController.InfoKey.referenceURL.rawValue] as? URL {
-//            let result = PHAsset.fetchAssets(withALAssetURLs: [imageURL], options: nil)
-//            avaImageExtension = String((result.firstObject?.value(forKey: "filename") as! String).split(separator: ".")[1])
-//            print("extension \(avaImageExtension)")
 //        }
         self.dismiss(animated: true, completion: nil)
     }
