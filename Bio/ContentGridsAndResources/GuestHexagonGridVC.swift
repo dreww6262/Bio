@@ -46,14 +46,14 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     @objc var panGesture  = UIPanGestureRecognizer()
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var contentView: UIView!
-   
+    
     @IBOutlet weak var returnButton: UIButton!
     
     @IBOutlet weak var toSettingsButton: UIButton!
     
     var followImage = UIImageView()
     var followLabel = UILabel()
-
+    
     var curvedRect = CGRect(x: 0.0, y: 0.0, width: 0.0, height: 0.0)
     var curvedLayer = UIImageView()
     
@@ -89,8 +89,6 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         addReturnButton()
         insertFollowButton()
         followView.isHidden = false
-        let contentTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleContentViewerTap))
-        contentViewer.addGestureRecognizer(contentTapGesture)
         
         addPageView()
         
@@ -166,7 +164,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func addSearchButton() {
-       // self.view.addSubview(toSearchButton)
+        // self.view.addSubview(toSearchButton)
         toSearchButton.frame = CGRect(x: self.view.frame.width-45, y: navBarY, width: 25, height: 25)
         self.view.addSubview(toSearchButton)
         view.bringSubviewToFront(toSearchButton)
@@ -178,12 +176,12 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func setZoomScale() {
-           scrollView.maximumZoomScale = 60
-           scrollView.minimumZoomScale = 0.5
+        scrollView.maximumZoomScale = 60
+        scrollView.minimumZoomScale = 0.5
     }
     
     func addSettingsButton(){
-      //  view.addSubview(followButton)
+        //  view.addSubview(followButton)
         toSettingsButton.frame = CGRect(x: 0, y: navBarY, width: 25, height: 25)
         view.addSubview(toSettingsButton)
         view.bringSubviewToFront(toSettingsButton)
@@ -192,8 +190,8 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         toSettingsButton.clipsToBounds = true
         toSettingsButton.imageView?.backgroundColor = .clear
         
-//        let tapped = UITapGestureRecognizer(target: self, action: #selector(followTapped))
-//        toSettingsButton.addGestureRecognizer(tapped)
+        //        let tapped = UITapGestureRecognizer(target: self, action: #selector(followTapped))
+        //        toSettingsButton.addGestureRecognizer(tapped)
         
     }
     
@@ -225,42 +223,43 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         let tapped = UITapGestureRecognizer(target: self, action: #selector(followTapped))
         self.followView.addGestureRecognizer(tapped)
         
-
+        
         
     }
     
     
     
     @objc func followTapped(_ sender: UITapGestureRecognizer) {
-//        if followLabel.text == "Add" {
-//            print("Follow the user :)")
+        //        if followLabel.text == "Add" {
+        //            print("Follow the user :)")
         
         
         if userData != nil {
-            if toSettingsButton!.tag == 0 {
+            if !isFollowing {
                 let newFollow = ["follower": username, "following": userData!.publicID]
                 db.collection("Followings").addDocument(data: newFollow as [String : Any])
                 UIDevice.vibrate()
                 
                 let notificationObjectref = db.collection("News2")
-                   let notificationDoc = notificationObjectref.document()
+                let notificationDoc = notificationObjectref.document()
                 let notificationObject = NewsObject(ava: userData!.avaRef, type: "follow", currentUser: userData!.publicID, notifyingUser: userData!.publicID, thumbResource: userData!.avaRef, createdAt: NSDate.now.description, checked: false, notificationID: notificationDoc.documentID)
-                   notificationDoc.setData(notificationObject.dictionary){ error in
-                       //     group.leave()
-                       if error == nil {
-//                           print("added notification: \(notificationObject)")
-                           
-                       }
-                       else {
-                           print("failed to add notification \(notificationObject)")
-                           
-                       }
-                   }
-            
-                
+                notificationDoc.setData(notificationObject.dictionary){ error in
+                    //     group.leave()
+                    if error == nil {
+                        //                           print("added notification: \(notificationObject)")
+                        
+                    }
+                    else {
+                        print("failed to add notification \(notificationObject)")
+                        
+                    }
+                }
+                self.followImage.image = UIImage(named: "friendCheck")
+                self.followLabel.text = "Added"
+                isFollowing = true
             }
             else {
-                db.collection("Followings").whereField("follower", isEqualTo: userData!.publicID).whereField("following", isEqualTo: username).addSnapshotListener({ objects, error in
+                db.collection("Followings").whereField("follower", isEqualTo: username!).whereField("following", isEqualTo: userData!.publicID).getDocuments(completion: { objects, error in
                     if error == nil {
                         guard let docs = objects?.documents else {
                             return
@@ -269,14 +268,12 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
                             doc.reference.delete()
                         }
                     }
-                    })
-//                button?.imageView?.image = UIImage(named: "addFriend")
-//                button?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
-//                button?.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
-                toSettingsButton?.tag = 0
+                })
+                
+                self.followImage.image = UIImage(named: "addFriend")
+                self.followLabel.text = "Add"
+                isFollowing = false
             }
-//          button?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
-//                         button?.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
         }
     }
     
@@ -290,7 +287,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     // Zoom Logic
     func resizeScrollView(numPosts: Int) {
-//        print("Contentviewframebeforeresize \(contentView.frame)")
+        //        print("Contentviewframebeforeresize \(contentView.frame)")
         //var rows = 0
         var width = view.frame.width
         var height = view.frame.height
@@ -371,26 +368,22 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         return contentView
     }
     
-    func checkIfFollow() {
-        
-        
-    }
     
-//    func loadFollows(completion: @escaping() -> ()) {
-//        followListener = db.collection("Followings").whereField("follower", isEqualTo: userData!.publicID).addSnapshotListener({ objects, error in
-//            if error == nil {
-//                self.followList.removeAll(keepingCapacity: true)
-//                guard let docs = objects?.documents else {
-//                    return
-//                }
-//                for doc in docs {
-//                    print("follow item \(doc.data())")
-//                    self.followList.append(doc["following"] as! String)
-//                }
-//            }
-//            completion()
-//        })
-//    }
+    //    func loadFollows(completion: @escaping() -> ()) {
+    //        followListener = db.collection("Followings").whereField("follower", isEqualTo: userData!.publicID).addSnapshotListener({ objects, error in
+    //            if error == nil {
+    //                self.followList.removeAll(keepingCapacity: true)
+    //                guard let docs = objects?.documents else {
+    //                    return
+    //                }
+    //                for doc in docs {
+    //                    print("follow item \(doc.data())")
+    //                    self.followList.append(doc["following"] as! String)
+    //                }
+    //            }
+    //            completion()
+    //        })
+    //    }
     
     
     // refresh logic when view will appear
@@ -414,10 +407,10 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
                             print("populates after getting userdata")
                             self.populateUserAvatar()
                             self.createImageViews()
-    //                        print("created image views")
+                            //                        print("created image views")
                         }
                         else {
-    //                        print("nothing changed")
+                            //                        print("nothing changed")
                         }
                         
                     }
@@ -454,12 +447,12 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
                 }
                 self.updatePages(posts: newPostImageArray)
                 self.resizeScrollView(numPosts: newPostImageArray.count) // clears out all content
-//                print("populates after resizescrollview")
+                //                print("populates after resizescrollview")
                 self.populateUserAvatar()
                 //if newPostImageArray != self.imageViewArray {
-                    //for image in self.imageViewArray {
-                        //image.removeFromSuperview()
-                    //}
+                //for image in self.imageViewArray {
+                //image.removeFromSuperview()
+                //}
                 self.imageViewArray = newPostImageArray
                 self.changePostImageCoordinates()
                 for image in self.imageViewArray {
@@ -500,27 +493,27 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         toSearchButton.isHidden = false
         followView.isHidden = false
     }
-        
+    
     func changePostImageCoordinates() {
         
         for image in imageViewArray {
             var copyColor = myBlueGreen
-                var imageType = image.hexData?.type
-                print("This is image type \(imageType)")
-     
-                
+            var imageType = image.hexData?.type
+            print("This is image type \(imageType)")
+            
+            
             if imageType == "photo"  {
                 copyColor = myOrange as UIColor
-                }
-                else if imageType!.contains("social") {
+            }
+            else if imageType!.contains("social") {
                 copyColor = myPink as UIColor
-                }
-                else if imageType == "music" {
+            }
+            else if imageType == "music" {
                 copyColor = myBlueGreen as UIColor
-                }
-                else if imageType == "link" {
+            }
+            else if imageType == "link" {
                 copyColor = myCoolBlue as UIColor
-                }
+            }
             
             image.frame = CGRect(x: self.reOrderedCoordinateArrayPoints[image.hexData!.location].x,
                                  y: self.reOrderedCoordinateArrayPoints[image.hexData!.location].y, width: hexaDiameter, height: hexaDiameter)
@@ -531,11 +524,11 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func createPostImage(hexData: HexagonStructData) -> PostImageView {
         let hexaDiameter : CGFloat = 150
         
-     
+        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
         let image = PostImageView(frame: CGRect(x: self.reOrderedCoordinateArrayPoints[hexData.location].x,
                                                 y: self.reOrderedCoordinateArrayPoints[hexData.location].y, width: hexaDiameter, height: hexaDiameter))
-                                  
+        
         image.contentMode = .scaleAspectFill
         image.image = UIImage()
         image.hexData = hexData
@@ -546,7 +539,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         var myType = hexData.type
         createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
         //    var gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
-//        print("This is the type of hexagon: \(hexData.type)")
+        //        print("This is the type of hexagon: \(hexData.type)")
         
         // image.setupHexagonMask(lineWidth: 10.0, color: myBlueGreen, cornerRadius: 10.0)
         createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
@@ -564,7 +557,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     override func viewWillAppear(_ animated: Bool) {
         //loadView()
         super.viewWillAppear(true) // No need for semicolon
-//        print("search button \(toSearchButton.frame)")
+        //        print("search button \(toSearchButton.frame)")
         firstLoad = true
         returnButton.isHidden = false
         toSearchButton.isHidden = false
@@ -587,7 +580,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         let userdata = self.userData
         let settingsVC = self.storyboard!.instantiateViewController(identifier: "settingsVC") as! ProfessionalSettingsVC
         settingsVC.userData = userdata
-    
+        
         self.present(settingsVC, animated: false)
         settingsVC.modalPresentationStyle = .fullScreen
     }
@@ -655,7 +648,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func openSnapchat(snapchatUsername: String) {
         let username = snapchatUsername
-//        print("This us username for openSnapchat \(username)")
+        //        print("This us username for openSnapchat \(username)")
         let appURL = URL(string: "snapchat://add/\(username)")!
         let application = UIApplication.shared
         
@@ -669,7 +662,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
             
         }
     }
- 
+    
     
     func populateUserAvatar() {
         // to for hexstruct array once algorithm done
@@ -708,104 +701,10 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         view.removeFromSuperview()
     }
     
-    
-//    @objc func handleTap(_ sender: UITapGestureRecognizer) {
-//        //        print("🎯🎯🎯🎯🎯Hello World")
-//        print("🎯🎯🎯🎯🎯🎯🎯I tapped image with tag \(sender.view!.tag)")
-//
-//        let postImage = sender.view as! PostImageView
-//        let hexItem = postImage.hexData!
-//
-////        if sender.view!.tag == 0 {
-////            print("Tried to click profile pic handle later")
-////
-////        }
-//
-//            //TO DO: Tap to Play Video
-//        if hexItem.type.contains("video") {
-//            //TO DO: play a video here!!
-//            let playString = hexItem.resource
-//           // play(url: hexagonStructArray[sender.view!.tag].resource)
-////            print("This is url string \(playString)")
-//            loadVideo(urlString: playString)
-//            returnButton.isHidden = true
-//        }
-//
-//
-//        else if hexItem.type.contains("photo") {
-//            returnButton.isHidden = true
-//            let newImageView = UIImageView(image: UIImage(named: "kbit"))
-//            let cleanRef = hexItem.thumbResource.replacingOccurrences(of: "/", with: "%2F")
-//            let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
-//            newImageView.sd_setImage(with: url!, completed: {_, error, _, _ in
-//                if error != nil {
-//                    print(error!.localizedDescription)
-//                }
-//            })
-//            self.view.addSubview(newImageView)
-//
-//            // let newImageView = UIImageView(image: imageViewArray[sender.view!.tag].image)
-//            //    let frame = CGRect(x: scrollView.frame.minX + scrollView.contentOffset.x, y: scrollView.frame.minY + scrollView.contentOffset.y, width: scrollView.frame.width, height: scrollView.frame.height)
-//            let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
-//
-//            newImageView.frame = frame
-//            newImageView.backgroundColor = .black
-//
-//            newImageView.contentMode = .scaleAspectFit
-//            newImageView.isUserInteractionEnabled = true
-//            let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImageHandler))
-//            newImageView.addGestureRecognizer(tap)
-//
-//            let textView = UITextView()
-//            textView.text = "asdfkjlasdfjasdf"
-//            textView.textColor = .red
-//
-//        }
-//        else if hexItem.type.contains("link") {
-//            openLink(link: hexItem.resource)
-//        }
-//
-//        else if hexItem.type.contains("social") {
-//            let theType = hexItem.type
-//            if theType.contains("instagram") {
-//                openInstagram(instagramHandle: hexItem.text)
-//            }
-//            if theType.contains("twitter") {
-//                openTwitter(twitterHandle: hexItem.text)
-//            }
-//            if theType.contains("tik") {
-//                openTikTok(tikTokHandle: hexItem.text)
-//            }
-//            if theType.contains("snapchat") {
-//                openSnapchat(snapchatUsername: hexItem.text)
-//            }
-//
-//        }
-//
-//        //        if sender.view!.tag == 1 {
-//        //            dismissFullscreenImage(view: newImageView)
-//        //            openFacebook(facebookHandle: "")
-//        //        }
-//        //
-//        //        if sender.view!.tag == 2 {
-//        //            dismissFullscreenImage(view: newImageView)
-//        //            openInstagram(instagramHandle: "patmcdonough42")
-//        //        }
-//        //
-//        //        if sender.view!.tag == 3 {
-//        //            dismissFullscreenImage(view: newImageView)
-//        //            openTwitter(twitterHandle: "kanyewest")
-//        //        }
-//        //
-//        //        if sender.view!.tag == 4 {
-//        //            dismissFullscreenImage(view: newImageView)
-//        //            openSpotifySong()
-//        //        }
-//
-//    }
+
     
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
-
+        
         
         let postImage = sender.view as! PostImageView
         let hexItem = postImage.hexData!
@@ -818,65 +717,33 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
             let videoVC = ContentVideoVC()
             videoVC.videoHex = hexItem
             present(videoVC, animated: false, completion: nil)
-
+            
         }
         
         
         
         else if hexItem.type.contains("photo") {
-//            let contentImageVC = ContentImageVC()
-//            contentImageVC.photoHex = hexItem
-//            present(contentImageVC, animated: false, completion: nil)
+            //            let contentImageVC = ContentImageVC()
+            //            contentImageVC.photoHex = hexItem
+            //            present(contentImageVC, animated: false, completion: nil)
             contentPages!.currentIndex = hexItem.location - 1
             contentPages!.modalPresentationStyle = .fullScreen
             self.present(contentPages!, animated: false, completion: nil)
             
         }
         else if hexItem.type.contains("link") {
-//            openLinkVC(hex: hexItem)
+            //            openLinkVC(hex: hexItem)
             contentPages!.currentIndex = hexItem.location - 1
             contentPages!.modalPresentationStyle = .fullScreen
             self.present(contentPages!, animated: false, completion: nil)
         }
         else if hexItem.type.contains("music") {
-//            openLinkVC(hex: hexItem)
+            //            openLinkVC(hex: hexItem)
             contentPages!.currentIndex = hexItem.location - 1
             contentPages!.modalPresentationStyle = .fullScreen
             self.present(contentPages!, animated: false, completion: nil)
         }
-        
-//        else if hexItem.type.contains("social") {
-//            let theType = hexItem.type
-//            if theType.contains("instagram") {
-//                openInstagram(instagramHandle: hexItem.text)
-//            }
-//            if theType.contains("twitter") {
-//                openTwitter(twitterHandle: hexItem.text)
-//            }
-//            if theType.contains("tik") {
-//                openTikTok(tikTokHandle: hexItem.text)
-//            }
-//            if theType.contains("snapchat") {
-//                openSnapchat(snapchatUsername: hexItem.text)
-//            }
-//            if theType.contains("youtube") {
-//                openLink(link: hexItem.text)
-//            }
-//            if theType.contains("hudl") {
-//                openLink(link: hexItem.text)
-//            }
-//            if theType.contains("venmo") {
-//                openLink(link: hexItem.text)
-//            }
-//            if theType.contains("sound") {
-//                openLink(link: hexItem.text)
-//            }
-//            if theType.contains("linked") {
-//                openLink(link: hexItem.text)
-//            }
-//            if theType.contains("posh") {
-//                openLink(link: hexItem.text)
-//            }
+ 
         else {
             contentPages!.currentIndex = hexItem.location - 1
             contentPages!.modalPresentationStyle = .fullScreen
@@ -885,14 +752,6 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         }
         
     }
-    
-    
-    
-    
-    
-    
-    var navBarView: NavBarView?
-    var webView: WKWebView?
     
     
     func createHexagonMaskWithCorrespondingColor(imageView: UIImageView, type: String) {
@@ -912,16 +771,16 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
             imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myCoolBlue, cornerRadius: imageView.frame.width/15)
         }
         else if type.contains("social") {
-       // chooseSpecificSocialMedia(type: type, imageView: imageView)
+            // chooseSpecificSocialMedia(type: type, imageView: imageView)
             //clear border
             imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: .clear, cornerRadius: imageView.frame.width/15)
-        
+            
         }
         else if type.contains("youtube") {
-       // chooseSpecificSocialMedia(type: type, imageView: imageView)
+            // chooseSpecificSocialMedia(type: type, imageView: imageView)
             //clear border
             imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: .clear, cornerRadius: imageView.frame.width/15)
-        
+            
         }
         else {
             imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: white, cornerRadius: imageView.frame.width/15)
@@ -929,171 +788,40 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
     }
     
-//    func chooseSpecificSocialMedia(type: String, imageView: UIImageView) {
-//        if type.contains("insta") {
-//            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myInstaPurple, cornerRadius: imageView.frame.width/15)
-//        }
-//        else if type.contains("twitter") {
-//            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myTwitterBlue, cornerRadius: imageView.frame.width/15)
-//        }
-//        else if type.contains("tik") {
-//            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: white, cornerRadius: imageView.frame.width/15)
-//        }
-//        else if type.contains("hudl") {
-//            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myHudlOrange, cornerRadius: imageView.frame.width/15)
-//        }
-//        else if type.contains("sound") {
-//            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: mySoundCloudOrange, cornerRadius: imageView.frame.width/15)
-//        }
-//        else if type.contains("snap") {
-//            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: mySnapChatYellow, cornerRadius: imageView.frame.width/15)
-//        }
-//        else if type.contains("posh") {
-//            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myPoshmarkMaroon, cornerRadius: imageView.frame.width/15)
-//        }
-//        else if type.contains("linked") {
-//            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myLinkedInBlue, cornerRadius: imageView.frame.width/15)
-//        }
-//        else if type.contains("venmo") {
-//            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myVenmoBlue, cornerRadius: imageView.frame.width/15)
-//        }
-//        else {
-//            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myPink, cornerRadius: imageView.frame.width/15)
-//        }
-//
-//    }
-    
-    
-    func openLink(link: String) {
-        let backButton1 = UIButton()
-        let webLabel = UILabel()
-        
-        let webConfig = WKWebViewConfiguration()
-        navBarView = NavBarView()
-        navBarView?.titleLabel.text = "Link"
-        let tapBack = UITapGestureRecognizer(target: self, action: #selector(backWebHandler))
-        navBarView?.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
-        //navBarView?.backButton.addGestureRecognizer(tapBack)
-        let rect = CGRect(x: 0, y: navBarView!.frame.maxY, width: view.frame.width, height: view.frame.height - navBarView!.frame.height)
-        webView = WKWebView(frame: rect, configuration: webConfig)
-        webView?.uiDelegate = self
-        view.addSubview(navBarView!)
-        navBarView?.addBehavior()
-        navBarView?.backgroundColor = .systemGray6
-        navBarView?.addSubview(backButton1)
-        navBarView?.addSubview(webLabel)
-        
-        webLabel.text = "Link"
-        webLabel.frame = CGRect(x: navBarView!.frame.midX - 50, y: navBarView!.frame.midY - 5, width: 100, height: 30)
-        webLabel.textAlignment = .center
-        webLabel.font = UIFont(name: "DINAlternate-Bold", size: 20)
-        
-        
-        backButton1.isUserInteractionEnabled = true
-        backButton1.addGestureRecognizer(tapBack)
-        backButton1.setTitle("whiteChevron", for: .normal)
-        backButton1.setTitleColor(.systemBlue, for: .normal)
-        backButton1.frame = CGRect(x: 5, y: navBarView!.frame.midY - 20, width: navBarView!.frame.width/8, height: self.view.frame.height/12)
-        
-        
-        view.addSubview(webView!)
-        returnButton.isHidden = true
-        let myUrl = URL(string: link)
-        if (myUrl != nil) {
-            let myRequest = URLRequest(url: myUrl!)
-            webView?.load(myRequest)
-        }
-        
-    }
-    @objc func backWebHandler(_ sender: UITapGestureRecognizer) {
-        webView?.removeFromSuperview()
-        navBarView?.removeFromSuperview()
-        webView = nil
-        navBarView = nil
-        returnButton.isHidden = false
-    }
-    
-    var avPlayer: AVPlayer? = nil
-    // loads video into new avplayer and overlays on current VC
-    
-    func loadVideo(urlString: String) {
-//        print("im in loadVideo")
-        let vidRef = storage.child(urlString)
-        vidRef.downloadURL(completion: { url, error in
-            if error == nil {
-                let asset = AVAsset(url: url!)
-                let item = AVPlayerItem(asset: asset)
-                self.view.addSubview(self.contentViewer)
-                let contentRect = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
-                self.contentViewer.frame = contentRect
-                self.contentViewer.backgroundColor = .black
-                self.avPlayer = AVPlayer(playerItem: item)
-                let playerLayer = AVPlayerLayer(player: self.avPlayer)
-                playerLayer.frame = self.contentViewer.bounds //bounds of the view in which AVPlayer should be displayed
-                playerLayer.videoGravity = .resizeAspect
-                self.contentViewer.layer.addSublayer(playerLayer)
-                self.playVideo()
-            }
-        })
-                
-    }
     
     @objc func handleProfilePicTap(_ sender: UITapGestureRecognizer) {
-//            print("Tried to click profile pic handle later")
-          //  menuView.menuButton.isHidden = true
-            let newImageView = UIImageView(image: UIImage(named: "kbit"))
-            let cleanRef = userData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
-            let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
-            newImageView.sd_setImage(with: url!, completed: {_, error, _, _ in
-                if error != nil {
-                    print(error!.localizedDescription)
-                }
-            })
-            
-            self.view.addSubview(newImageView)
+        //            print("Tried to click profile pic handle later")
+        //  menuView.menuButton.isHidden = true
+        let newImageView = UIImageView(image: UIImage(named: "kbit"))
+        let cleanRef = userData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
+        let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
+        newImageView.sd_setImage(with: url!, completed: {_, error, _, _ in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+        })
+        
+        self.view.addSubview(newImageView)
+        
+        let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
+        
+        newImageView.frame = frame
+        newImageView.backgroundColor = .black
+        
+        newImageView.contentMode = .scaleAspectFit
+        newImageView.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImageHandler))
+        newImageView.addGestureRecognizer(tap)
+        
+        let textView = UITextView()
+        textView.text = "asdfkjlasdfjasdf"
+        textView.textColor = .red
+    }
+    
+    
 
-            let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
-            
-            newImageView.frame = frame
-            newImageView.backgroundColor = .black
-            
-            newImageView.contentMode = .scaleAspectFit
-            newImageView.isUserInteractionEnabled = true
-            let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImageHandler))
-            newImageView.addGestureRecognizer(tap)
-            
-            let textView = UITextView()
-            textView.text = "asdfkjlasdfjasdf"
-            textView.textColor = .red
-    }
     
-    
-    @objc func handleContentViewerTap(sender: UITapGestureRecognizer) {
-        dismissContent(view: sender.view!)
-        
-    }
-    func dismissContent(view: UIView){
-        //self.navigationController?.isNavigationBarHidden = false
-       // self.tabBarController?.tabBar.isHidden = false
-        pauseVideo()
-        //        for v in view.subviews {
-        //            v.removeFromSuperview()
-        //        }
-        //        for layer in view.layer.sublayers {
-        //        }
-        view.removeFromSuperview()
-        returnButton.isHidden = false
-        
-    }
-    
-    public func playVideo() {
-        avPlayer?.play()
-    }
-    
-    public func pauseVideo() {
-        avPlayer?.pause()
-    }
-    
+
 }
 
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
