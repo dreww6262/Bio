@@ -6,12 +6,10 @@
 //  Copyright © 2020 Patrick McDonough. All rights reserved.
 //
 import UIKit
-//import FBSDKCoreKit
-//import Parse
-//import FBSDKCoreKit
 import Firebase
 import FirebaseCore
 import FirebaseFirestore
+import IQKeyboardManagerSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -28,6 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print("Could not enable persistence: \(error?.localizedDescription)")
             }
         })
+        IQKeyboardManager.shared.enable = true
         // clears persistence data for firesetore
         return true
     }

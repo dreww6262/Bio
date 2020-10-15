@@ -20,4 +20,5 @@ pod 'Gallery'
 pod 'YPImagePicker'
 pod 'QuickTableViewController'
 pod 'MessageKit', '~> 3.0.0'
+pod 'IQKeyboardManagerSwift'
 end
