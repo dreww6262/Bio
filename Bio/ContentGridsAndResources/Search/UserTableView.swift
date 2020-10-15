@@ -302,8 +302,8 @@ class UserTableView: UIViewController, UISearchBarDelegate {
                 else {
                     let userdata = UserData(dictionary: docs[0].data())
                     let guestVC = self.storyboard!.instantiateViewController(identifier: "guestGridVC") as! GuestHexagonGridVC
-                    guestVC.userData = userdata
-                    guestVC.username = self.userData!.publicID
+                    guestVC.guestUserData = userdata
+                    guestVC.myUserData = self.userData
                     guestVC.isFollowing = sender.view?.tag == 1
                     self.present(guestVC, animated: false)
                     self.modalPresentationStyle = .fullScreen

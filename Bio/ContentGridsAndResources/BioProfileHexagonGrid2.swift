@@ -494,10 +494,10 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
 //        print("🎯🎯🎯🎯🎯🎯🎯 I tapped image with associated username: \(username)")
         let guestVC = storyboard?.instantiateViewController(identifier: "guestGridVC") as! GuestHexagonGridVC
         //guestVC.user = user
-        guestVC.username = userData!.publicID
+        guestVC.myUserData = userData
         guestVC.followList = self.newFollowArray
         //guestVC.profileImage = self.
-        guestVC.userData = followingUserDataArray[sender.view!.tag]
+        guestVC.guestUserData = followingUserDataArray[sender.view!.tag]
         guestVC.isFollowing = true
         show(guestVC, sender: nil)
         // TODO: use tag to get index of userdata to go to new hex grid as guest.

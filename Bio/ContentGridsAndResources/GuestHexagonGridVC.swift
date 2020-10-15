@@ -37,8 +37,8 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     // Firebase stuff
     var loadDataListener: ListenerRegistration?
     var user = Auth.auth().currentUser
-    var userData: UserData?
-    var username: String?
+    var guestUserData: UserData?
+    var myUserData: UserData?
     let db = Firestore.firestore()
     let storage = Storage.storage().reference()
     
@@ -138,15 +138,15 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
             }
             if (repeats.count > 0) {
                 dispatchGroup.notify(queue: .main) {
-                    self.userData?.numPosts = posts.count
-                    self.db.collection("UserData1").document(self.user!.uid).setData(self.userData!.dictionary)
+                    self.guestUserData?.numPosts = posts.count
+                    self.db.collection("UserData1").document(self.user!.uid).setData(self.guestUserData!.dictionary)
                 }
             }
         }
     }
     
     func addPageView() {
-        db.collection("PageViews").document().setData(["viewer": username ?? "no_username", "viewed": userData!.publicID, "viewedAt": Date()])
+        db.collection("PageViews").document().setData(["viewer": myUserData?.publicID ?? "no_username", "viewed": guestUserData!.publicID, "viewedAt": Date()])
     }
     
     // viewdidload helper functions
@@ -234,15 +234,15 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         //            print("Follow the user :)")
         
         
-        if userData != nil {
+        if guestUserData != nil {
             if !isFollowing {
-                let newFollow = ["follower": username, "following": userData!.publicID]
+                let newFollow = ["follower": myUserData!.publicID, "following": guestUserData!.publicID]
                 db.collection("Followings").addDocument(data: newFollow as [String : Any])
                 UIDevice.vibrate()
                 
                 let notificationObjectref = db.collection("News2")
                 let notificationDoc = notificationObjectref.document()
-                let notificationObject = NewsObject(ava: userData!.avaRef, type: "follow", currentUser: userData!.publicID, notifyingUser: userData!.publicID, thumbResource: userData!.avaRef, createdAt: NSDate.now.description, checked: false, notificationID: notificationDoc.documentID)
+                let notificationObject = NewsObject(ava: myUserData!.avaRef, type: "follow", currentUser: myUserData!.publicID, notifyingUser: guestUserData!.publicID, thumbResource: myUserData!.avaRef, createdAt: NSDate.now.description, checked: false, notificationID: notificationDoc.documentID)
                 notificationDoc.setData(notificationObject.dictionary){ error in
                     //     group.leave()
                     if error == nil {
@@ -259,7 +259,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
                 isFollowing = true
             }
             else {
-                db.collection("Followings").whereField("follower", isEqualTo: username!).whereField("following", isEqualTo: userData!.publicID).getDocuments(completion: { objects, error in
+                db.collection("Followings").whereField("follower", isEqualTo: myUserData!.publicID).whereField("following", isEqualTo: guestUserData!.publicID).getDocuments(completion: { objects, error in
                     if error == nil {
                         guard let docs = objects?.documents else {
                             return
@@ -390,7 +390,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func refresh() {
         //loadView()
         
-        if (userData != nil) {
+        if (guestUserData != nil) {
             print("populates without getting userdata")
             populateUserAvatar()
             createImageViews()
@@ -402,8 +402,8 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
                 if (error == nil) {
                     if (objects!.documents.capacity > 0) {
                         let newData = UserData(dictionary: objects!.documents[0].data())
-                        if (self.userData == nil || !NSDictionary(dictionary: newData.dictionary).isEqual(to: self.userData!.dictionary)) {
-                            self.userData = newData
+                        if (self.guestUserData == nil || !NSDictionary(dictionary: newData.dictionary).isEqual(to: self.guestUserData!.dictionary)) {
+                            self.guestUserData = newData
                             print("populates after getting userdata")
                             self.populateUserAvatar()
                             self.createImageViews()
@@ -431,7 +431,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func createImageViews() {
         var newPostImageArray = [PostImageView]()
-        db.collection("Hexagons2").whereField("postingUserID", isEqualTo: userData!.publicID).addSnapshotListener({ objects, error in
+        db.collection("Hexagons2").whereField("postingUserID", isEqualTo: guestUserData!.publicID).addSnapshotListener({ objects, error in
             if error == nil {
                 guard let docs = objects?.documents else {
                     print("get hex failed")
@@ -569,7 +569,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     @IBAction func toSearchButtonClicked(_ sender: UIButton) {
         print("clicked search!")
         let userTableVC = storyboard?.instantiateViewController(identifier: "userTableView") as! UserTableView
-        userTableVC.userData = userData
+        userTableVC.userData = guestUserData
         present(userTableVC, animated: false)
         //        print("frame after pressed \(toSearchButton.frame)")
         
@@ -577,7 +577,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     
     @IBAction func toSettingsClicked(_ sender: UIButton) {
-        let userdata = self.userData
+        let userdata = self.guestUserData
         let settingsVC = self.storyboard!.instantiateViewController(identifier: "settingsVC") as! ProfessionalSettingsVC
         settingsVC.userData = userdata
         
@@ -680,7 +680,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         avaImage?.isHidden = false
         contentView.bringSubviewToFront(avaImage!)
         avaImage!.setupHexagonMask(lineWidth: 10.0, color: .white, cornerRadius: 10.0)
-        let cleanRef = userData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
+        let cleanRef = guestUserData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
         avaImage!.sd_setImage(with: url!, completed: {_, error, _, _ in
             if error != nil {
@@ -793,7 +793,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         //            print("Tried to click profile pic handle later")
         //  menuView.menuButton.isHidden = true
         let newImageView = UIImageView(image: UIImage(named: "kbit"))
-        let cleanRef = userData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
+        let cleanRef = guestUserData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
         newImageView.sd_setImage(with: url!, completed: {_, error, _, _ in
             if error != nil {
