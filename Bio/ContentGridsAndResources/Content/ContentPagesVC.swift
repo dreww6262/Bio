@@ -9,12 +9,12 @@
 import UIKit
 import Foundation
 
-class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource, UIContextMenuInteractionDelegate {
+class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource {
     var currentIndexLabel = UILabel()
     let backImage = UIImage(named: "whiteBack")
     let shareImage = UIImage(named: "whiteShare1")
     let commentImage = UIImage(named: "whiteComment")
-    let reportImage = UIImage(named: "whiteShield")
+    let reportImage = UIImage(named: "elipsis")
     let openAppImage = UIImage(named: "bioBlue")
     
     var showBool = false
@@ -242,8 +242,8 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         reportButton.backgroundColor = .clear
         reportButton.imageView?.image?.withTintColor(.white)
         
-        let interaction = UIContextMenuInteraction(delegate: self)
-        reportButton.addInteraction(interaction)
+//        let interaction = UIContextMenuInteraction(delegate: self)
+//        reportButton.addInteraction(interaction)
         reportButton.isUserInteractionEnabled = true
         
         let reportTapped = UITapGestureRecognizer(target: self, action: #selector(reportButtonPressed))
@@ -269,7 +269,7 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         //backButton.setBackgroundImage(UIImage(named: "whiteBack"), for: .normal)
         commentButton.setBackgroundImage(UIImage(named: "whiteComment"), for: .normal)
         shareButton.setBackgroundImage(UIImage(named: "whiteShare1"), for: .normal)
-        reportButton.setBackgroundImage(UIImage(named: "whiteShield"), for: .normal)
+        reportButton.setBackgroundImage(UIImage(named: "elipsis"), for: .normal)
         reportButton.frame = CGRect(x: self.view.frame.width-30, y: (topBar.frame.maxY) -  30, width: 25, height: 25)
      //   shareButton.frame = CGRect(x: self.view.frame.width-reportButton.frame.width-5-shareButton.frame.width, y: (topBar.frame.height - shareButton.frame.height) / 2, width: shareButton.frame.width, height: shareButton.frame.height)
       //  commentButton.frame = CGRect(x: (self.view.frame.width)-(reportButton.frame.width)-5-(shareButton.frame.width)-(commentButton.frame.width)-5, y: (topBar.frame.height - commentButton.frame.height) / 2, width: commentButton.frame.width, height: commentButton.frame.height)
@@ -339,43 +339,43 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         }
     }
     
-    func createContextMenu() -> UIMenu {
-    let shareAction = UIAction(title: "Copy Link", image: UIImage(systemName: "square.and.arrow.up")) { _ in
-    print("Copy Link")
-    }
-    let copy = UIAction(title: "Report", image: UIImage(named: "whiteShield")) { _ in
-    print("Report")
-        let reportVC = self.storyboard?.instantiateViewController(withIdentifier: "reportVC") as! ReportAPostVC
-        let currentVC = self.viewControllers[self.currentIndex]
-        if currentVC is ContentLinkVC {
-            let linkVC = currentVC as! ContentLinkVC
-            reportVC.hexData = linkVC.webHex
-        }
-        else if currentVC is ContentImageVC {
-            let imageVC = currentVC as! ContentImageVC
-            reportVC.hexData = imageVC.photoHex
-        }
-        else if currentVC is ContentVideoVC {
-            let videoVC = currentVC as! ContentVideoVC
-            reportVC.hexData = videoVC.videoHex
-        }
-        self.present(reportVC, animated: false, completion: nil)
-    }
-//    let saveToPhotos = UIAction(title: "Cancel", image: UIImage(systemName: "photo")) { _ in
-//    print("Save to Photos")
+//    func createContextMenu() -> UIMenu {
+//    let shareAction = UIAction(title: "Copy Link", image: UIImage(systemName: "square.and.arrow.up")) { _ in
+//    print("Copy Link")
 //    }
-    let cancelAction = UIAction(title: "Cancel", image: .none, attributes: .destructive) { action in
-             // Delete this photo 😢
-         }
-        
-    return UIMenu(title: "", children: [shareAction, copy, cancelAction])
-    }
+//    let copy = UIAction(title: "Report", image: UIImage(named: "whiteShield")) { _ in
+//    print("Report")
+//        let reportVC = self.storyboard?.instantiateViewController(withIdentifier: "reportVC") as! ReportAPostVC
+//        let currentVC = self.viewControllers[self.currentIndex]
+//        if currentVC is ContentLinkVC {
+//            let linkVC = currentVC as! ContentLinkVC
+//            reportVC.hexData = linkVC.webHex
+//        }
+//        else if currentVC is ContentImageVC {
+//            let imageVC = currentVC as! ContentImageVC
+//            reportVC.hexData = imageVC.photoHex
+//        }
+//        else if currentVC is ContentVideoVC {
+//            let videoVC = currentVC as! ContentVideoVC
+//            reportVC.hexData = videoVC.videoHex
+//        }
+//        self.present(reportVC, animated: false, completion: nil)
+//    }
+////    let saveToPhotos = UIAction(title: "Cancel", image: UIImage(systemName: "photo")) { _ in
+////    print("Save to Photos")
+////    }
+//    let cancelAction = UIAction(title: "Cancel", image: .none, attributes: .destructive) { action in
+//             // Delete this photo 😢
+//         }
+//
+//    return UIMenu(title: "", children: [shareAction, copy, cancelAction])
+//    }
     
-    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
-    return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ -> UIMenu? in
-    return self.createContextMenu()
-        }
-    }
+//    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+//    return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ -> UIMenu? in
+//    return self.createContextMenu()
+//        }
+//    }
     
     @objc func backTapped(_ sender: UITapGestureRecognizer) {
         print("back hit!")
@@ -386,23 +386,45 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
     }
     
     @objc func reportButtonPressed(_ sender: UITapGestureRecognizer) {
-        let reportVC = storyboard?.instantiateViewController(withIdentifier: "reportVC") as! ReportPostTableView
-        let currentVC = viewControllers[currentIndex]
-        if currentVC is ContentLinkVC {
-            let linkVC = currentVC as! ContentLinkVC
-            reportVC.hexData = linkVC.webHex
-        }
-        else if currentVC is ContentImageVC {
-            let imageVC = currentVC as! ContentImageVC
-            reportVC.hexData = imageVC.photoHex
-        }
-        else if currentVC is ContentVideoVC {
-            let videoVC = currentVC as! ContentVideoVC
-            reportVC.hexData = videoVC.videoHex
-        }
-        present(reportVC, animated: false, completion: nil)
+print("More tapped")
+       let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
+          alert.addAction(UIAlertAction(title: "Copy Link", style: .default , handler:{ (UIAlertAction)in
+              print("User click Copy Link button")
+          }))
+        
+        alert.addAction(UIAlertAction(title: "Report Post", style: .default , handler:{ (UIAlertAction)in
+            print("User click Report button")
+            let reportVC = self.storyboard?.instantiateViewController(withIdentifier: "reportVC") as! ReportAPostVC
+            let currentVC = self.viewControllers[self.currentIndex]
+            if currentVC is ContentLinkVC {
+                let linkVC = currentVC as! ContentLinkVC
+                reportVC.hexData = linkVC.webHex
+            }
+            else if currentVC is ContentImageVC {
+                let imageVC = currentVC as! ContentImageVC
+                reportVC.hexData = imageVC.photoHex
+            }
+            else if currentVC is ContentVideoVC {
+                let videoVC = currentVC as! ContentVideoVC
+                reportVC.hexData = videoVC.videoHex
+            }
+            self.present(reportVC, animated: false, completion: nil)
+            
+        }))
+
+//          alert.addAction(UIAlertAction(title: "Report", style: .destructive , handler:{ (UIAlertAction)in
+//              print("User click Report button")
+//          }))
+
+          alert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler:{ (UIAlertAction)in
+              print("User click Dismiss button")
+          }))
+
+          self.present(alert, animated: true, completion: {
+              print("completion block")
+          })
         
     }
-    
     
 }
