@@ -18,6 +18,10 @@ class AddSocialMediaTableView: UIViewController {
     var titleLabel1 = UILabel()
     @IBOutlet weak var doneButton: UIButton!
     
+    var backButton = UIButton()
+    var postButton = UIButton()
+    
+    
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
     let db = Firestore.firestore()
@@ -349,12 +353,111 @@ class AddSocialMediaTableView: UIViewController {
         self.dismiss(animated: false, completion: nil)
     }
     
+    @objc func backButtonpressed() {
+        print("It should dismiss here")
+        self.dismiss(animated: true)
+     }
+    
     
     func setUpNavBarView() {
+        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        print("This is status bar height \(statusBarHeight)")
+        self.view.addSubview(navBarView)
+        self.navBarView.addSubview(backButton)
+        self.navBarView.addSubview(postButton)
+        self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
+       
+        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        navBarView.backButton.isHidden = true
+        navBarView.postButton.isHidden = true
+//        self.navBarView.addSubview(toSettingsButton)
+//        self.navBarView.addSubview(toSearchButton)
+        
+        let backTap = UITapGestureRecognizer(target: self, action: #selector(self.backButtonpressed))
+        backTap.numberOfTapsRequired = 1
+        backButton.isUserInteractionEnabled = true
+        backButton.addGestureRecognizer(backTap)
+        backButton.setImage(UIImage(named: "whiteChevron"), for: .normal)
+        
+        let postTap = UITapGestureRecognizer(target: self, action: #selector(self.postTapped))
+        postTap.numberOfTapsRequired = 1
+        postButton.isUserInteractionEnabled = true
+        postButton.addGestureRecognizer(postTap)
+        postButton.setTitle("Next", for: .normal)
+        postButton.setTitleColor(.systemBlue, for: .normal)
+      //  postButton.frame = CGRect(x: (self.view.frame.width) - (topBar.frame.height) - 5, y: 0, width: topBar.frame.height, height: topBar.frame.height)
+        postButton.titleLabel?.sizeToFit()
+        postButton.titleLabel?.textAlignment = .right
+        
+    
+       backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+        postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 30)/2, width: 40, height: 30)
+        //navBarView.postButton.titleLabel?.sizeToFit()
+        navBarView.postButton.titleLabel?.textAlignment = .right
+        let yOffset = navBarView.frame.maxY
+  
+        self.navBarView.addBehavior()
+        self.navBarView.titleLabel.text = "Add Social Media"
+        print("This is navBarView.")
+      
+      
+    }
+    
+    
+    func setUpNavBarViewBad() {
+        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        print("This is status bar height \(statusBarHeight)")
+        self.view.addSubview(navBarView)
+        self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
+       
+        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        navBarView.backButton.isHidden = false
+        navBarView.postButton.isHidden = false
+//        self.navBarView.addSubview(toSettingsButton)
+//        self.navBarView.addSubview(toSearchButton)
+        
+        let backTap = UITapGestureRecognizer(target: self, action: #selector(self.backButtonpressed))
+        backTap.numberOfTapsRequired = 1
+        navBarView.backButton.isUserInteractionEnabled = true
+        navBarView.backButton.addGestureRecognizer(backTap)
+        
+        let postTap = UITapGestureRecognizer(target: self, action: #selector(self.postTapped))
+        postTap.numberOfTapsRequired = 1
+        navBarView.postButton.isUserInteractionEnabled = true
+        navBarView.postButton.addGestureRecognizer(postTap)
+        
+
+//        self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
+//        self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
+//
+//        self.toSettingsButton.frame = CGRect(x: 10, y: navBarView.frame.height - 30, width: 25, height: 25)
+        navBarView.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+        navBarView.postButton.frame = CGRect(x: navBarView.frame.width - 110, y: statusBarHeight + (navBarHeightRemaining - 30)/2, width: 100, height: 30)
+        //navBarView.postButton.titleLabel?.sizeToFit()
+        navBarView.postButton.titleLabel?.textAlignment = .right
+        let yOffset = navBarView.frame.maxY
+        self.tableView.frame = CGRect(x: 0, y: yOffset, width: self.view.frame.width, height: self.view.frame.height - yOffset)
+      //  self.navBarView.addSubview(titleLabel1)
+        self.navBarView.addBehavior()
+        self.navBarView.titleLabel.text = "Add Social Media"
+        print("This is navBarView.")
+      
+       // let yOffset = navBarView.frame.maxY
+        self.tableView.frame = CGRect(x: 0, y: yOffset, width: self.view.frame.width, height: self.view.frame.height - yOffset)
+
+    }
+    
+    func setUpNavBarViewBad2() {
+        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        print("This is status bar height \(statusBarHeight)")
+       
+        
+        
         self.view.addSubview(navBarView)
       //  self.navBarView.addSubview(titleLabel1)
         self.navBarView.addBehavior()
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/10)+5)
+        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
         self.navBarView.backgroundColor = UIColor(cgColor: CGColor(gray: 0.05, alpha: 1.0))
         self.navBarView.layer.borderWidth = 0.25
         self.navBarView.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
@@ -369,7 +472,17 @@ class AddSocialMediaTableView: UIViewController {
         backButton.addGestureRecognizer(backTap)
         postButton.addGestureRecognizer(postTap)
         postButton.setTitle("Post", for: .normal)
-        postButton.setTitleColor(.systemBlue, for: .normal)
+    
+        postButton.setTitleColor(myCoolBlue, for: .normal)
+        postButton.titleLabel?.sizeToFit()
+        postButton.titleLabel?.textAlignment = .right
+        
+    
+       backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+        postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 30)/2, width: 40, height: 30)
+        
+        
+        
         titleLabel.text = "Add Social Media"
     //    self.navBarView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/15)
        // self.tableiew.frame = CGRect(x: 0, y: self.view.frame.height/12, width: self.view.frame.width, height: self.view.frame.height*(11/12))
@@ -393,12 +506,12 @@ class AddSocialMediaTableView: UIViewController {
     
       //  doneButton.sizeToFit()
        // doneButton.frame = CGRect(x: view.frame.width - doneButton.frame.width - 10, y: navBarView.frame.midY - cancelButton.frame.height/2 + 10, width: cancelButton.frame.width, height: cancelButton.frame.height)
-        postButton.frame = CGRect(x: (self.view.frame.width) - 40, y: navBarView.frame.maxY - 25, width: 40, height: 25)
+       // postButton.frame = CGRect(x: (self.view.frame.width) - 40, y: navBarView.frame.maxY - 25, width: 40, height: 25)
         view.bringSubviewToFront(postButton)
 //        doneButton.titleLabel!.font = UIFont(name: "DINAlternate-Bold", size: 20)
         //self.cancelButton.imageView?.image = UIImage(named: "whiteChevron")
-        backButton.frame = CGRect(x: 15, y: navBarView.frame.maxY - 30, width: 25, height: 25)
-        backButton.imageView?.frame = backButton.frame
+//        backButton.frame = CGRect(x: 15, y: navBarView.frame.maxY - 30, width: 25, height: 25)
+//        backButton.imageView?.frame = backButton.frame
         view.bringSubviewToFront(backButton)
      //   postButton.setTitle("Post", for: .normal)
         

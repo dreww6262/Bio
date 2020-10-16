@@ -63,9 +63,10 @@ class NotificationsVC: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         addMenuButtons()
+        
         setUpNavBarView()
-        addSearchButton()
-        addSettingsButton()
+      //  addSearchButton()
+       // addSettingsButton()
 //        print("This is current user email \(Auth.auth().currentUser?.email)")
         super.viewDidLoad()
         //        var navBarHeight = CGFloat(66.0)
@@ -240,25 +241,51 @@ class NotificationsVC: UIViewController {
     }
     
     func setUpNavBarView() {
+        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
-        self.navBarView.addSubview(titleLabel1)
-        self.navBarView.addBehavior()
-
-        self.titleLabel1.text = "Notifications"
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
+        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        navBarView.backButton.isHidden = true
+        navBarView.postButton.isHidden = true
+        self.navBarView.addSubview(toSettingsButton)
+        self.navBarView.addSubview(toSearchButton)
+        
+        let settingsTap = UITapGestureRecognizer(target: self, action: #selector(self.toSettingsButtonClicked))
+        settingsTap.numberOfTapsRequired = 1
+        toSettingsButton.isUserInteractionEnabled = true
+        toSettingsButton.addGestureRecognizer(settingsTap)
+        
+        let searchTap = UITapGestureRecognizer(target: self, action: #selector(self.toSearchButtonClicked))
+        searchTap.numberOfTapsRequired = 1
+        toSearchButton.isUserInteractionEnabled = true
+        toSearchButton.addGestureRecognizer(searchTap)
+        
+
+        self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
+        self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
+     
+        self.toSettingsButton.frame = CGRect(x: 10, y: navBarView.frame.height - 30, width: 25, height: 25)
+        self.toSettingsButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+        self.toSearchButton.frame = CGRect(x: navBarView.frame.width - 35, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
         let yOffset = navBarView.frame.maxY
         self.tableView.frame = CGRect(x: 0, y: yOffset, width: self.view.frame.width, height: self.view.frame.height - yOffset)
-        self.titleLabel1.frame = CGRect(x: 0, y: 20, width: self.view.frame.width, height: self.view.frame.height/12)
-        self.titleLabel1.textAlignment = .center
-        
-        self.titleLabel1.font = UIFont(name: "DINAlternate-Bold", size: 20)
-        self.titleLabel1.textColor = .white
-        self.navBarView.backgroundColor = UIColor(cgColor: CGColor(gray: 0.05, alpha: 1.0))
-        self.navBarView.layer.borderWidth = 0.25
-        self.navBarView.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
+      //  self.navBarView.addSubview(titleLabel1)
+        self.navBarView.addBehavior()
+        self.navBarView.titleLabel.text = "Notifications"
+        print("This is navBarView.")
+        self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
+        self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
+
+
+        //self.titleLabel1.text = "Notifications"
+        self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
+       // let yOffset = navBarView.frame.maxY
+        self.tableView.frame = CGRect(x: 0, y: yOffset, width: self.view.frame.width, height: self.view.frame.height - yOffset)
+
     }
     
-    @IBAction func toSettingsButtonClicked(_ sender: UIButton) {
+    @objc func toSettingsButtonClicked(_ recognizer: UITapGestureRecognizer) {
         let settingsVC = storyboard?.instantiateViewController(identifier: "settingsVC") as! ProfessionalSettingsVC
         settingsVC.userData = userData
         present(settingsVC, animated: false)
@@ -274,7 +301,7 @@ class NotificationsVC: UIViewController {
         toSettingsButton.isHidden = false
     }
     
-    @IBAction func toSearchButtonClicked(_ sender: UIButton) {
+    @objc func toSearchButtonClicked(_ recognizer: UITapGestureRecognizer) {
         let userTableVC = storyboard?.instantiateViewController(identifier: "userTableView") as! UserTableView
         userTableVC.userData = userData
         present(userTableVC, animated: false)

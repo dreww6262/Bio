@@ -21,7 +21,7 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
     var followView = UIView()
     var newFollowArray: [String] = []
     //var user = PFUser.current()!.username!
-    
+    var navBarView = NavBarView()
     let menuView = MenuView()
     var user = Auth.auth().currentUser
     var storage = Storage.storage().reference()
@@ -45,9 +45,8 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
     
     @IBOutlet weak var contentView: UIView!
     
-    @IBOutlet weak var toSearchButton: UIButton!
-    
-    @IBOutlet weak var toSettingsButton: UIButton!
+    var toSearchButton = UIButton()
+    var toSettingsButton = UIButton()
     
     //var hexagonDataArray = [HexagonStructData]()
     
@@ -89,9 +88,10 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
         setUpScrollView()
         setZoomScale()
         addMenuButtons()
-        addSearchButton()
-        addSettingsButton()
-        insertFollowView()
+    setUpNavBarView()
+        self.navBarView.backgroundColor = .clear
+        self.navBarView.layer.borderWidth = 0.0
+       // insertFollowView()
         
         toSettingsButton.isHidden = false
         toSearchButton.isHidden = false
@@ -116,7 +116,7 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
     func insertFollowView() {
         self.view.addSubview(followView)
         self.followView.backgroundColor = .white
-        self.followView.frame = CGRect(x: self.view.frame.midX - 55, y: navBarY, width: 110, height: 30)
+        self.followView.frame = CGRect(x: self.view.frame.midX - 55, y: toSettingsButton.frame.minY, width: 110, height: 30)
         self.followView.layer.cornerRadius = followView.frame.size.width / 20
         self.followView.addSubview(followImage)
         self.followView.addSubview(followImage2)
@@ -185,13 +185,13 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
         
     }
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if (firstLoad) {
-            firstLoad = false
-            return
-        }
-        toSearchButton.isHidden = true
-        toSettingsButton.isHidden = true
-        followView.isHidden = true
+//        if (firstLoad) {
+//            firstLoad = false
+//            return
+//        }
+//        toSearchButton.isHidden = true
+//        toSettingsButton.isHidden = true
+//        followView.isHidden = true
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -313,16 +313,98 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
         return contentView
     }
     
-    @IBAction func toSearchButtonClicked(_ sender: UIButton) {
+    @objc func toSearchButtonClicked(_ recognizer: UITapGestureRecognizer) {
         let userTableVC = storyboard?.instantiateViewController(identifier: "userTableView") as! UserTableView
         userTableVC.userData = userData
         present(userTableVC, animated: false)
     }
     
-    @IBAction func toSettingsButtonClicked(_ sender: UIButton) {
+    @objc func toSettingsButtonClicked(_ recognizer: UITapGestureRecognizer) {
         let settingsVC = storyboard?.instantiateViewController(identifier: "settingsVC") as! ProfessionalSettingsVC
         settingsVC.userData = userData
         present(settingsVC, animated: false)
+    }
+    
+    
+    func setUpNavBarView() {
+        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        print("This is status bar height \(statusBarHeight)")
+        self.view.addSubview(navBarView)
+        self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
+        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        navBarView.backButton.isHidden = true
+        navBarView.postButton.isHidden = true
+        self.navBarView.addSubview(toSettingsButton)
+        self.navBarView.addSubview(toSearchButton)
+        self.navBarView.backgroundColor = .clear
+        self.navBarView.layer.borderWidth = 0.0
+        
+        let settingsTap = UITapGestureRecognizer(target: self, action: #selector(self.toSettingsButtonClicked))
+        settingsTap.numberOfTapsRequired = 1
+        toSettingsButton.isUserInteractionEnabled = true
+        toSettingsButton.addGestureRecognizer(settingsTap)
+        
+        let searchTap = UITapGestureRecognizer(target: self, action: #selector(self.toSearchButtonClicked))
+        searchTap.numberOfTapsRequired = 1
+        toSearchButton.isUserInteractionEnabled = true
+        toSearchButton.addGestureRecognizer(searchTap)
+        
+
+        self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
+        self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
+     
+        self.toSettingsButton.frame = CGRect(x: 10, y: navBarView.frame.height - 30, width: 25, height: 25)
+        self.toSettingsButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+        self.toSearchButton.frame = CGRect(x: navBarView.frame.width - 35, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+        let yOffset = navBarView.frame.maxY
+      //  self.navBarView.addSubview(titleLabel1)
+        self.navBarView.addBehavior()
+        self.navBarView.titleLabel.isHidden = true
+        print("This is navBarView.")
+        self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
+        self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
+
+        self.navBarView.addSubview(followView)
+        self.followView.backgroundColor = .white
+        self.followView.frame = CGRect(x: self.view.frame.midX - 55, y: toSettingsButton.frame.minY, width: 110, height: 30)
+        self.followView.layer.cornerRadius = followView.frame.size.width / 20
+        self.followView.addSubview(followImage)
+        self.followView.addSubview(followImage2)
+        self.followView.addSubview(followImage3)
+        self.followView.addSubview(followLabel)
+        self.followView.isHidden = false
+        var widthRemaining = self.followView.frame.width - (3*self.followView.frame.height)
+        var spacingWidth = widthRemaining/4
+        self.followImage.frame = CGRect(x: spacingWidth, y: 0, width: followView.frame.height, height: followView.frame.height)
+       
+        self.followImage2.frame = CGRect(x: (2*spacingWidth) + followView.frame.height, y: 0, width: followView.frame.height, height: followView.frame.height)
+        self.followImage3.frame = CGRect(x:(2*followView.frame.height)+(3*spacingWidth), y: 0, width: followView.frame.height, height: followView.frame.height)
+        self.followView.layer.cornerRadius = followView.frame.size.width/10
+        //self.followView.clipsToBounds()
+        
+     //   let cleanRef = userData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
+       // let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
+//        self.followImage.sd_setImage(with: url!, completed: {_, error, _, _ in
+//            if error != nil {
+//                print(error!.localizedDescription)
+//            }
+//        })
+        self.followImage.image = myProfileImage
+        
+        self.followImage.setupHexagonMask(lineWidth: self.followImage.frame.width/15, color: .darkGray, cornerRadius: self.followImage.frame.width/15)
+        //self.followImage.image = UIImage(named: "twoFriendsFlipped")
+        self.followImage2.image = UIImage(named: "fire1")
+        self.followImage3.image = UIImage(named: "earth")
+        print("This is follow view frame \(self.followView.frame)")
+        print("This is follow image1.frame \(self.followImage.frame)")
+        print("This is follow image2.frame \(self.followImage2.frame)")
+        print("This is follow image3.frame \(self.followImage3.frame)")
+        self.followLabel.frame = CGRect(x: followImage.frame.maxX + 5, y: 0.0, width: followView.frame.width - 10, height: followView.frame.height)
+        self.followLabel.isHidden = true
+        self.followLabel.text = "Community"
+        self.followLabel.textColor = .black
+        
+
     }
     
     

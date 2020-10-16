@@ -20,7 +20,7 @@ import WebKit
 import SwiftUI
 
 class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, WKUIDelegate  {
-    
+    var navBarView = NavBarView()
     var isFollowing = false
     var profileImage = UIImage()
     var followList = [String]()
@@ -31,7 +31,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var player = AVAudioPlayer()
     var contentViewer = UIView()
     let menuView = MenuView()
-    @IBOutlet weak var toSearchButton: UIButton!
+    var toSearchButton = UIButton()
     var followView = UIView()
     
     // Firebase stuff
@@ -49,7 +49,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     @IBOutlet weak var returnButton: UIButton!
     
-    @IBOutlet weak var toSettingsButton: UIButton!
+     var toSettingsButton = UIButton()
     
     var followImage = UIImageView()
     var followLabel = UILabel()
@@ -80,14 +80,17 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         super.viewDidLoad()
         contentPages = storyboard?.instantiateViewController(identifier: "contentPagesVC")
         reOrderedCoordinateArrayPoints.append(contentsOf: fourthRowArray)
-        addSettingsButton()
-        addSearchButton()
+     //   addSettingsButton()
+     //   addSearchButton()
+        setUpNavBarView()
+        navBarView.backgroundColor = .clear
+        navBarView.layer.borderWidth = 0.0
         toSettingsButton.isHidden = false
         toSearchButton.isHidden = false
         setUpScrollView()
         setZoomScale()
         addReturnButton()
-        insertFollowButton()
+       // insertFollowButton()
         followView.isHidden = false
         
         addPageView()
@@ -466,13 +469,13 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if (firstLoad) {
-            firstLoad = false
-            return
-        }
-        toSearchButton.isHidden = true
-        toSettingsButton.isHidden = true
-        followView.isHidden = true
+//        if (firstLoad) {
+//            firstLoad = false
+//            return
+//        }
+//        toSearchButton.isHidden = true
+//        toSettingsButton.isHidden = true
+//        followView.isHidden = true
     }
     
     
@@ -576,7 +579,78 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     
-    @IBAction func toSettingsClicked(_ sender: UIButton) {
+    
+    func setUpNavBarView() {
+        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        print("This is status bar height \(statusBarHeight)")
+        self.view.addSubview(navBarView)
+        self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
+        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        navBarView.backButton.isHidden = true
+        navBarView.postButton.isHidden = true
+        self.navBarView.addSubview(toSettingsButton)
+        self.navBarView.addSubview(toSearchButton)
+        self.navBarView.backgroundColor = .clear
+        self.navBarView.layer.borderWidth = 0.0
+        
+        let settingsTap = UITapGestureRecognizer(target: self, action: #selector(self.toSettingsClicked))
+        settingsTap.numberOfTapsRequired = 1
+        toSettingsButton.isUserInteractionEnabled = true
+        toSettingsButton.addGestureRecognizer(settingsTap)
+        
+        let searchTap = UITapGestureRecognizer(target: self, action: #selector(self.toSearchButtonClicked))
+        searchTap.numberOfTapsRequired = 1
+        toSearchButton.isUserInteractionEnabled = true
+        toSearchButton.addGestureRecognizer(searchTap)
+        
+
+        self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
+        self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
+     
+        self.toSettingsButton.frame = CGRect(x: 10, y: navBarView.frame.height - 30, width: 25, height: 25)
+        self.toSettingsButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+        self.toSearchButton.frame = CGRect(x: navBarView.frame.width - 35, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+        let yOffset = navBarView.frame.maxY
+      //  self.navBarView.addSubview(titleLabel1)
+        self.navBarView.addBehavior()
+        self.navBarView.titleLabel.isHidden = true
+        print("This is navBarView.")
+        self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
+        self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
+
+        self.navBarView.addSubview(followView)
+        self.followView.backgroundColor = .white
+        self.followView.frame = CGRect(x: self.view.frame.midX - 45, y: toSettingsButton.frame.minY, width: 90, height: 30)
+        self.followView.layer.cornerRadius = followView.frame.size.width / 20
+        self.followView.addSubview(followImage)
+        self.followView.addSubview(followLabel)
+        self.followView.isHidden = false
+        self.followImage.frame = CGRect(x: 5, y: 0, width: followView.frame.height, height: followView.frame.height)
+        self.followView.layer.cornerRadius = followView.frame.size.width/10
+        //self.followView.clipsToBounds()
+        
+        if isFollowing {
+            self.followImage.image = UIImage(named: "friendCheck")
+            self.followLabel.text = "Added"
+        }
+        else {
+            self.followImage.image = UIImage(named: "addFriend")
+            self.followLabel.text = "Add"
+        }
+        
+        //self.followImage.image = UIImage(named: "friendCheck")
+        self.followLabel.frame = CGRect(x: followImage.frame.maxX + 5, y: 0.0, width: followView.frame.width - 10, height: followView.frame.height)
+        //self.followLabel.text = "Added"
+        self.followLabel.textColor = .black
+        let tapped = UITapGestureRecognizer(target: self, action: #selector(followTapped))
+        self.followView.addGestureRecognizer(tapped)
+        
+        
+
+    }
+    
+    
+    @objc func toSettingsClicked(_ recognizer: UITapGestureRecognizer) {
         let userdata = self.guestUserData
         let settingsVC = self.storyboard!.instantiateViewController(identifier: "settingsVC") as! ProfessionalSettingsVC
         settingsVC.userData = userdata

@@ -73,7 +73,7 @@ class NewUploadPreviewVC: UIViewController {
         doneButton.isHidden = false
        // followView.isHidden = false
         doneButton.isHidden = false
-        doneButton.frame = CGRect(x: self.view.frame.width - 30, y: navBarView.frame.maxY - 30, width: 25, height: 25)
+        doneButton.frame = CGRect(x: self.view.frame.width - 75, y: navBarView.frame.maxY - 30, width: 70, height: 25)
         
         
     }
@@ -81,7 +81,6 @@ class NewUploadPreviewVC: UIViewController {
     func formatBackButton() {
         
         self.navBarView.addSubview(cancelButton)
-     
         cancelButton.frame = CGRect(x: 5, y: navBarView.frame.maxY - 30, width: 25, height: 25)
         print("This is cancel Button.frame \(cancelButton.frame)")
         print("This is post Button.frame \(doneButton.frame)")
@@ -429,24 +428,25 @@ extension NewUploadPreviewVC: UITableViewDelegate, UITableViewDataSource {
         print("This is cell frame \(cell.frame)")
         print("This is cell image \(cell.previewImage.image!)")
         
-        print("This is locationView frame \(cell.locationView.frame)")
-        print("This is tag view frame \(cell.tagView.frame)")
-        print("This is taglabel frame \(cell.tagLabel.frame)")
-        print("This is location label frame \(cell.locationLabel.frame)")
-        print("This is tag arrow frame \(cell.tagArrow.frame)")
-        print("This is location arrow frame \(cell.locationArrow.frame)")
+//        print("This is locationView frame \(cell.locationView.frame)")
+//        print("This is tag view frame \(cell.tagView.frame)")
+//        print("This is taglabel frame \(cell.tagLabel.frame)")
+//        print("This is location label frame \(cell.locationLabel.frame)")
+//        print("This is tag arrow frame \(cell.tagArrow.frame)")
+//        print("This is location arrow frame \(cell.locationArrow.frame)")
+//
+//        let tagTap = UITapGestureRecognizer(target: self, action: #selector(tagTapped))
+//        let locationTap = UITapGestureRecognizer(target: self, action: #selector(locationTapped))
+//        cell.tagView.addGestureRecognizer(tagTap)
+//        cell.locationView.addGestureRecognizer(locationTap)
+//
+//
         
-        let tagTap = UITapGestureRecognizer(target: self, action: #selector(tagTapped))
-        let locationTap = UITapGestureRecognizer(target: self, action: #selector(locationTapped))
-        cell.tagView.addGestureRecognizer(tagTap)
-        cell.locationView.addGestureRecognizer(locationTap)
         
+        let bottomLine = CALayer()
+        bottomLine.frame = CGRect(x: 0, y: 100, width: cell.captionField.frame.width, height: 0.1)
+        bottomLine.backgroundColor = UIColor.lightGray.cgColor
         
-        
-        
-//        let bottomLine = CALayer()
-//        bottomLine.frame = CGRect(x: 110, y: cell.captionField.frame.maxY, width: cell.captionField.frame.width, height: 1.0)
-//        bottomLine.backgroundColor = UIColor.white.cgColor
 //        let bottomLine2 = CALayer()
 //        bottomLine2.frame = CGRect(x: 110, y: cell.tagView.frame.maxY, width: cell.tagView.frame.width, height: 1.0)
 //        bottomLine2.backgroundColor = UIColor.white.cgColor
@@ -462,13 +462,14 @@ extension NewUploadPreviewVC: UITableViewDelegate, UITableViewDataSource {
 
         cell.captionField.textColor = .white
    
+        
         cellArray.append(cell)
         return cell
         
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 250
+        return 130
     }
     
     
