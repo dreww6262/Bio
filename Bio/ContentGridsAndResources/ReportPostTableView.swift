@@ -59,7 +59,7 @@ let dismissTap = UITapGestureRecognizer(target: self, action: #selector(self.bac
         self.backButton1.addGestureRecognizer(dismissTap)
 
         
-        self.backButton1.setTitle("whiteChevron", for: .normal)
+        self.backButton1.setImage(UIImage(named: "whiteChevron"), for: .normal)
         self.backButton1.setTitleColor(.systemBlue, for: .normal)
         self.titleLabel1.text = "Report Post"
         self.navBarView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/12)

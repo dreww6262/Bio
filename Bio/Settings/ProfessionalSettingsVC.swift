@@ -74,7 +74,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
         //        titleLabel1.text = "Settings"
         super.viewDidLoad()
         setUpNavBarView()
-        
+        navBarView.backgroundColor = .systemGray6
         var myBirthday = userData?.birthday
         //
         tableContents = [
@@ -84,6 +84,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
                         NavigationRow(text: "Birthday", detailText: .value1(myBirthday ?? ""), icon: .none, action: { _ in }),
                         NavigationRow(text: "Country", detailText: .value1(country)), NavigationRow(text: "Terms of Service", detailText: .none, icon: .named("time"), action: { _ in }),
                         NavigationRow(text: "Email", detailText: .value1(email)!, icon: .named("time"), action: { _ in }),
+                        NavigationRow(text: "Change Profile Picture", detailText: .none, icon: .none, action: didToggleSelection()),
                         NavigationRow(text: "Password", detailText: .none)]),
             Section(title: "Support", rows: [NavigationRow(text: "Blocked Users", detailText: .none, icon: .named("gear"), action: didToggleSelection()),
                         NavigationRow(text: "FAQ's", detailText: .none, icon: .named("gear")),
@@ -98,30 +99,78 @@ class ProfessionalSettingsVC: QuickTableViewController {
     }
     
     func setUpNavBarView() {
+        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
-        self.navBarView.addSubview(titleLabel1)
-        self.navBarView.addSubview(backButton1)
-        self.navBarView.addBehavior()
-        
-        // tap to dismissSettings
-        let dismissTap = UITapGestureRecognizer(target: self, action: #selector(self.backButtonpressed))
-        dismissTap.numberOfTapsRequired = 1
-        self.backButton1.isUserInteractionEnabled = true
-        self.backButton1.addGestureRecognizer(dismissTap)
-        
-        
-        self.backButton1.setBackgroundImage(UIImage(named: "whiteChevron"), for: .normal)
-        self.backButton1.setTitleColor(.systemBlue, for: .normal)
-        self.titleLabel1.text = "Settings"
-        self.navBarView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/12)
-        self.tableView.frame = CGRect(x: 0, y: self.navBarView.frame.height, width: self.view.frame.width, height: self.view.frame.height-self.navBarView.frame.height)
-        self.titleLabel1.frame = CGRect(x: 0, y: navBarView.frame.maxY - 30, width: self.view.frame.width, height: 30)
-        self.backButton1.frame = CGRect(x: 5, y: navBarView.frame.maxY - 30, width: 25, height: 25)
-        self.titleLabel1.textAlignment = .center
-        self.backButton1.titleLabel?.textAlignment = .left
-        self.titleLabel1.font = UIFont(name: "DINAlternate-Bold", size: 20)
+        self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
+        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+       // navBarView.backButton.isHidden = true
+        navBarView.postButton.isHidden = true
+        navBarView.backButton.setTitleColor(.black, for: .normal)
         self.navBarView.backgroundColor = .systemGray6
+//        self.navBarView.addSubview(toSettingsButton)
+//        self.navBarView.addSubview(toSearchButton)
+//
+        let backTap = UITapGestureRecognizer(target: self, action: #selector(self.backButtonpressed))
+        backTap.numberOfTapsRequired = 1
+        navBarView.backButton.isUserInteractionEnabled = true
+        navBarView.backButton.addGestureRecognizer(backTap)
+//
+//        let searchTap = UITapGestureRecognizer(target: self, action: #selector(self.toSearchButtonClicked))
+//        searchTap.numberOfTapsRequired = 1
+//        toSearchButton.isUserInteractionEnabled = true
+//        toSearchButton.addGestureRecognizer(searchTap)
+        
+
+//        self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
+//        self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
+//
+//        self.toSettingsButton.frame = CGRect(x: 10, y: navBarView.frame.height - 30, width: 25, height: 25)
+        navBarView.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+//        self.toSearchButton.frame = CGRect(x: navBarView.frame.width - 35, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+        let yOffset = navBarView.frame.maxY
+        self.tableView.frame = CGRect(x: 0, y: yOffset, width: self.view.frame.width, height: self.view.frame.height - yOffset)
+      //  self.navBarView.addSubview(titleLabel1)
+        self.navBarView.addBehavior()
+        self.navBarView.titleLabel.text = "Settings"
+        self.navBarView.titleLabel.textColor = .black
+        print("This is navBarView.")
+//        self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
+//        self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
+
+
+        //self.titleLabel1.text = "Notifications"
+        self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
+       // let yOffset = navBarView.frame.maxY
+        self.tableView.frame = CGRect(x: 0, y: yOffset, width: self.view.frame.width, height: self.view.frame.height - yOffset)
+
     }
+    
+//    func setUpNavBarViewBad() {
+//        self.view.addSubview(navBarView)
+//        self.navBarView.addSubview(titleLabel1)
+//        self.navBarView.addSubview(backButton1)
+//        self.navBarView.addBehavior()
+//        
+//        // tap to dismissSettings
+//        let dismissTap = UITapGestureRecognizer(target: self, action: #selector(self.backButtonpressed))
+//        dismissTap.numberOfTapsRequired = 1
+//        self.backButton1.isUserInteractionEnabled = true
+//        self.backButton1.addGestureRecognizer(dismissTap)
+//        
+//        
+//        self.backButton1.setBackgroundImage(UIImage(named: "whiteChevron"), for: .normal)
+//        self.backButton1.setTitleColor(.systemBlue, for: .normal)
+//        self.titleLabel1.text = "Settings"
+//        self.navBarView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/12)
+//        self.tableView.frame = CGRect(x: 0, y: self.navBarView.frame.height, width: self.view.frame.width, height: self.view.frame.height-self.navBarView.frame.height)
+//        self.titleLabel1.frame = CGRect(x: 0, y: navBarView.frame.maxY - 30, width: self.view.frame.width, height: 30)
+//        self.backButton1.frame = CGRect(x: 5, y: navBarView.frame.maxY - 30, width: 25, height: 25)
+//        self.titleLabel1.textAlignment = .center
+//        self.backButton1.titleLabel?.textAlignment = .left
+//        self.titleLabel1.font = UIFont(name: "DINAlternate-Bold", size: 20)
+//        self.navBarView.backgroundColor = .systemGray6
+//    }
     
     @objc func backButtonpressed() {
         print("It should dismiss here")
@@ -180,6 +229,13 @@ class ProfessionalSettingsVC: QuickTableViewController {
                 alert.addAction(ok)
                 alert.addAction(nah)
                 self!.present(alert, animated: true, completion: nil)
+            }
+            
+            if row.text == "Change Profile Picture" {
+                let editProfilePhotoVC = self?.storyboard?.instantiateViewController(identifier: "editProfilePhotoVC2") as! EditProfilePhotoVC2
+           //     editProfilePhotoVC.userData = self?.userData
+                editProfilePhotoVC.userData = self!.userData
+                self!.present(editProfilePhotoVC, animated: false)
             }
             
             if row.text == "Delete Account" {

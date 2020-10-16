@@ -428,7 +428,7 @@ extension UploadPreviewVC: UITableViewDelegate, UITableViewDataSource {
         let previewImageWidth = cell.previewImage.frame.width
         let previewImageHeight = cell.previewImage.frame.height
         cell.previewImage.frame = CGRect(x: 10, y: (cell.frame.height/2) - (previewImageHeight/2), width: previewImageWidth, height: previewImageHeight)
-        cell.previewImage.center = CGPoint(x: cell.contentView.bounds.size.width/2,y: cell.contentView.bounds.size.height/2)
+     //   cell.previewImage.center = CGPoint(x: cell.contentView.bounds.size.width/2,y: cell.contentView.bounds.size.height/2)
    
         cell.captionField.attributedPlaceholder = NSAttributedString(string: "Write A Caption...",
                                      attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
@@ -445,12 +445,12 @@ extension UploadPreviewVC: UITableViewDelegate, UITableViewDataSource {
         bottomLine.frame = CGRect(x: 110, y: cell.captionField.frame.maxY, width: cell.captionField.frame.width, height: 1.0)
         bottomLine.backgroundColor = UIColor.white.cgColor
         let bottomLine2 = CALayer()
-        bottomLine2.frame = CGRect(x: 110, y: cell.tagView.frame.maxY, width: cell.tagView.frame.width, height: 1.0)
+    //    bottomLine2.frame = CGRect(x: 110, y: cell.tagView.frame.maxY, width: cell.tagView.frame.width, height: 1.0)
         bottomLine2.backgroundColor = UIColor.white.cgColor
                
         let bottomLine3 = CALayer()
         bottomLine3.backgroundColor = UIColor.white.cgColor
-        bottomLine3.frame = CGRect(x: 110, y: cell.locationView.frame.maxY, width: cell.locationView.frame.width, height: 1.0)
+       // bottomLine3.frame = CGRect(x: 110, y: cell.locationView.frame.maxY, width: cell.locationView.frame.width, height: 1.0)
 //        print("preview image frame \(cell.previewImage.frame)")
 //        print("bottomLine frame \(bottomLine.frame)")
 //        print("bottomLine 2 frame \(bottomLine2.frame)")
@@ -485,7 +485,7 @@ extension UploadPreviewVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 200
+        return 110
     }
     
     

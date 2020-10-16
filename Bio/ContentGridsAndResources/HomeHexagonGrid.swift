@@ -42,7 +42,7 @@ var navBarY = CGFloat(39)
 class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, WKUIDelegate, UIContextMenuInteractionDelegate  {
     var indexImageViewArray : [UIImageView] = []
     
-    
+var navBarView = NavBarView()
     // Firebase stuff
     var loadDataListener: ListenerRegistration?
     var pageViewListener: ListenerRegistration?
@@ -57,9 +57,8 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var trashButton: UIButton!
-    @IBOutlet weak var toSearchButton: UIButton!
-    
-    @IBOutlet weak var toSettingsButton: UIButton!
+    var toSearchButton = UIButton()
+    var toSettingsButton = UIButton()
     let menuView = MenuView()
     var curvedRect = CGRect(x: 0.0, y: 0.0, width: 0.0, height: 0.0)
     var curvedLayer = UIImageView()
@@ -100,11 +99,14 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         //print("This is reordered count after append \(reOrderedCoordinateArrayPoints.count)")
         setUpScrollView()
         setZoomScale()
+        setUpNavBarView()
+        self.navBarView.backgroundColor = .clear
+        self.navBarView.layer.borderWidth = 0.0
         addMenuButtons()
-        addSearchButton()
-        addSettingsButton()
+       // addSearchButton()
+      //  addSettingsButton()
 //        insertFakeViewCounter()
-        setUpViewCounter()
+     //   setUpViewCounter()
         addTrashButton()
         
         followView.isHidden = false
@@ -350,9 +352,9 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        toSearchButton.isHidden = true
-        toSettingsButton.isHidden = true
-        followView.isHidden = true
+//        toSearchButton.isHidden = true
+//        toSettingsButton.isHidden = true
+//        followView.isHidden = true
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -458,7 +460,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     }
     
     // search button logic
-    @IBAction func toSearchButtonClicked(_ sender: UIButton) {
+    @objc func toSearchButtonClicked(_ recognizer: UITapGestureRecognizer) {
         let userTableVC = storyboard?.instantiateViewController(identifier: "userTableView") as! UserTableView
         userTableVC.userData = userData
         present(userTableVC, animated: false)
@@ -466,7 +468,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         
     }
     
-    @IBAction func toSettingsButtonClicked(_ sender: UIButton) {
+    @objc func toSettingsButtonClicked(_ recognizer: UITapGestureRecognizer) {
         
         let userdata = self.userData
         let settingsVC = self.storyboard!.instantiateViewController(identifier: "settingsVC") as! ProfessionalSettingsVC
@@ -688,8 +690,6 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         let hexaDiameter : CGFloat = 150
         
         let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.longTap))
-        //            let dragGesture = UIPanGestureRecognizer(target: self, action: #selector(dragItem(_:)))
-        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
         
         let image = PostImageView(frame: CGRect(x: self.reOrderedCoordinateArrayPoints[hexData.location].x,
@@ -712,11 +712,12 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         //let ref = storage.child(hexData.thumbResource)
         let cleanRef = hexData.thumbResource.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
-        image.sd_setImage(with: url!, completed: {_, error, _, _ in
-            if error != nil {
-                print(error!.localizedDescription)
+        image.sd_setImage(with: url!, placeholderImage: UIImage(named: "boyprofile"), options: .refreshCached) { (_, error, _, _) in
+            if (error != nil) {
+                print(error?.localizedDescription)
+                image.image = UIImage(named:"boyprofile")
             }
-        })
+        }
         return image
     }
     
@@ -912,6 +913,68 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             
         }
     }
+    
+    func setUpNavBarView() {
+        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        print("This is status bar height \(statusBarHeight)")
+        self.view.addSubview(navBarView)
+        self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
+        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        navBarView.backButton.isHidden = true
+        navBarView.postButton.isHidden = true
+        self.navBarView.addSubview(toSettingsButton)
+        self.navBarView.addSubview(toSearchButton)
+        self.navBarView.backgroundColor = .clear
+        self.navBarView.layer.borderWidth = 0.0
+        
+        let settingsTap = UITapGestureRecognizer(target: self, action: #selector(self.toSettingsButtonClicked))
+        settingsTap.numberOfTapsRequired = 1
+        toSettingsButton.isUserInteractionEnabled = true
+        toSettingsButton.addGestureRecognizer(settingsTap)
+        
+        let searchTap = UITapGestureRecognizer(target: self, action: #selector(self.toSearchButtonClicked))
+        searchTap.numberOfTapsRequired = 1
+        toSearchButton.isUserInteractionEnabled = true
+        toSearchButton.addGestureRecognizer(searchTap)
+        
+
+        self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
+        self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
+     
+        self.toSettingsButton.frame = CGRect(x: 10, y: navBarView.frame.height - 30, width: 25, height: 25)
+        self.toSettingsButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+        self.toSearchButton.frame = CGRect(x: navBarView.frame.width - 35, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+        let yOffset = navBarView.frame.maxY
+      //  self.navBarView.addSubview(titleLabel1)
+        self.navBarView.addBehavior()
+        self.navBarView.titleLabel.isHidden = true
+        print("This is navBarView.")
+        self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
+        self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
+
+        self.navBarView.addSubview(followView)
+        self.followView.backgroundColor = .white
+        self.followView.frame = CGRect(x: navBarView.frame.midX - 45, y: toSettingsButton.frame.minY, width: 90, height: 30)
+        
+        self.followView.layer.cornerRadius = followView.frame.size.width / 20
+        self.followView.addSubview(followImage)
+        self.followView.addSubview(followLabel)
+        self.followImage.frame = CGRect(x: 5, y: 0, width: followView.frame.height, height: followView.frame.height)
+        self.followView.layer.cornerRadius = followView.frame.size.width/10
+        //self.followView.clipsToBounds()
+        self.followImage.image = UIImage(named: "eyeFinal")
+        self.followLabel.frame = CGRect(x: followImage.frame.maxX + 5, y: 0.0, width: followView.frame.width - 10, height: followView.frame.height)
+//        self.followLabel.text = profileViews
+        self.followLabel.textColor = .black
+        
+
+        //self.titleLabel1.text = "Notifications"
+       // self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
+       // let yOffset = navBarView.frame.maxY
+        
+
+    }
+    
     
     func handleDeleting(hexImage: PostImageView) {
         hexImage.hexData!.isArchived = true
@@ -1157,8 +1220,9 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     }
     let copy = UIAction(title: "Change Profile Picture", image: UIImage(systemName: "doc.on.doc")) { _ in
     print("Change")
-        let editProfilePhotoVC = self.storyboard?.instantiateViewController(identifier: "editProfilePhotoVC")
-        self.present(editProfilePhotoVC!, animated: false)
+        let editProfilePhotoVC = self.storyboard?.instantiateViewController(identifier: "editProfilePhotoVC2") as! EditProfilePhotoVC2
+        editProfilePhotoVC.userData = self.userData
+        self.present(editProfilePhotoVC, animated: false)
     
     }
 //    let saveToPhotos = UIAction(title: "Cancel", image: UIImage(systemName: "photo")) { _ in
@@ -1213,6 +1277,9 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
                 print(error!.localizedDescription)
             }
         })
+        
+        
+        
    
     
     }

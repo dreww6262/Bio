@@ -16,6 +16,7 @@ import FirebaseUI
 import FirebaseFirestore
 
 class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    var navBarView = NavBarView()
     let bottomLine = CALayer()
     var hasChosenThumbnailImage = false
     var lowTitleTextFrame = CGRect()
@@ -51,8 +52,9 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     
     @IBOutlet weak var linkHexagonImage: UIImageView!
     // buttons
-    @IBOutlet weak var continueBtn: UIButton!
-    @IBOutlet weak var cancelBtn: UIButton!
+    
+    var postButton = UIButton()
+    var backButton = UIButton()
     
     var currentUser: User? = Auth.auth().currentUser
     var userData: UserData?
@@ -80,6 +82,8 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         super.viewDidLoad()
         titleText.isHidden = true
         subtitleText.isHidden = true
+        
+        setUpNavBarView()
         
         if (userData == nil) {
             print("userdata is nil")
@@ -120,7 +124,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         //hexagonAva
         
         //cancelBtn.frame = CGRect(x: 5, y: 15, width: 24, height: 24)
-        cancelBtn.layer.cornerRadius = cancelBtn.frame.size.width / 20
+    
         titleText.frame = CGRect(x: 0,y:60, width: self.view.frame.size.width, height: 30)
         subtitleText.frame = CGRect(x:0, y: titleText.frame.origin.y + 30, width: self.view.frame.size.width, height: 30)
         
@@ -130,80 +134,13 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         //         linkHexagonImage.frame = CGRect(x: 10, y: linkTextField.frame.origin.y + 30, width: self.view.frame.size.width - 20, height: 30)
  
         
-        continueBtn.frame =  CGRect(x: 10.0, y: linkTextField.frame.maxY + 20, width: self.view.frame.width - 20, height: 24)
-        continueBtn.layer.cornerRadius = continueBtn.frame.size.width / 20
-        cancelBtn.frame =  CGRect(x: 10.0, y: continueBtn.frame.maxY + 10, width: continueBtn.frame.width, height: 24)
-        cancelBtn.layer.cornerRadius = cancelBtn.frame.size.width / 20
+
 
         // background
-        let bg = UIImageView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height))
-        bg.image = UIImage(named: "manaloghourglass")
-        bg.layer.zPosition = -1
-        self.view.addSubview(bg)
-        var lowTitleTextFrame = titleText.frame
-        var lowSubtitleTextFrame = subtitleText.frame
-        var lowLinkLogoFrame = linkLogo.frame
-        var lowLinkTextfieldFrame = linkTextField.frame
-        var lowLinkHexagonImageFrame = linkHexagonImage.frame
-        var lowContinueButtonFrame = continueBtn.frame
-        var lowCancelButtonFrame = cancelBtn.frame
-        
-        var highTitleTextFrame = CGRect(x: titleText.frame.minX, y: lowTitleTextFrame.minY - 70, width: titleText.frame.width, height: titleText.frame.height)
-        var highSubtitleTextFrame = CGRect(x: subtitleText.frame.minX, y: lowSubtitleTextFrame.minY - 70, width: lowSubtitleTextFrame.width, height: lowSubtitleTextFrame.height)
-        var highLinkLogoFrame = CGRect(x: linkLogo.frame.minX, y: lowTitleTextFrame.minY - 70, width: linkLogo.frame.width, height: titleText.frame.height)
-        var highLinkTextfieldFrame = CGRect(x: linkTextField.frame.minX, y: lowLinkTextfieldFrame.minY - 70, width: linkTextField.frame.width, height: linkTextField.frame.height)
-        var highLinkHexagonImageFrame = CGRect(x: linkHexagonImage.frame.minX, y: lowLinkHexagonImageFrame.minY - 70, width: linkHexagonImage.frame.width, height: linkHexagonImage.frame.height)
-        var highContinueButtonFrame = CGRect(x: continueBtn.frame.minX, y: lowContinueButtonFrame.minY - 70, width: continueBtn.frame.width, height: continueBtn.frame.height)
-        var highCancelButtonFrame = CGRect(x: cancelBtn.frame.minX, y: lowCancelButtonFrame.minY - 70, width: cancelBtn.frame.width, height: cancelBtn.frame.height)
+  
         
         
         
-        // set up Top View
-        let topBar = UIView()
-        view.addSubview(topBar)
-        topBar.backgroundColor = .clear
-      //  topBar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/15)
-        topBar.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/10)+5)
-      topBar.backgroundColor = UIColor(cgColor: CGColor(gray: 0.05, alpha: 1.0))
-        topBar.layer.borderWidth = 0.25
-        topBar.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
-        
-        let backButton = UIButton()
-        topBar.addSubview(backButton)
-        backButton.imageView?.image?.withTintColor(.white)
-        backButton.tintColor = .white
-        backButton.imageView?.tintColor = white
-       let backTap = UITapGestureRecognizer(target: self, action: #selector(backTapped))
-        let postTap = UITapGestureRecognizer(target: self, action: #selector(postTapped))
-    backButton.addGestureRecognizer(backTap)
-  //      backButton.sizeToFit()
-      //  backButton.frame = CGRect(x: 5, y: (topBar.frame.height/4), width: topBar.frame.height/2, height: topBar.frame.height/2)
-        backButton.frame = CGRect(x: 15, y: topBar.frame.maxY - 25, width: 20, height: 20)
-        backButton.setBackgroundImage(UIImage(named: "whiteBack"), for: .normal)
-       
-        topBar.addSubview(addLinkLabel)
-        addLinkLabel.frame = CGRect(x: (topBar.frame.width/2) - 60, y: topBar.frame.maxY - 25, width: 120, height: 25)
-        addLinkLabel.text = "Add A Link"
-        addLinkLabel.textColor = white
-        addLinkLabel.font.withSize(22)
-       // addLinkLabel.
-        
-        addLinkLabel.textAlignment = .center
-
-     //   backButton.imageView?.frame = backButton.frame
-       // backButton.imageView?.image = UIImage(named: "whiteBack")
-        
-        let postButton = UIButton()
-        topBar.addSubview(postButton)
-        postButton.addGestureRecognizer(postTap)
-        postButton.setTitle("Next", for: .normal)
-        postButton.setTitleColor(.systemBlue, for: .normal)
-        postButton.frame = CGRect(x: (self.view.frame.width) - 40, y: topBar.frame.maxY - 25, width: 40, height: 25)
-        postButton.titleLabel?.sizeToFit()
-        postButton.titleLabel?.textAlignment = .right
-        
-        continueBtn.isHidden = true
-        cancelBtn.isHidden = true
         
         // set up link text Field
        // linkTextField.frame = CGRect(x: 10, y: addLinkLabel.frame.maxY + 40, width: self.view.frame.size.width - 20, height: 30)
@@ -212,8 +149,8 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     
         
     //    linkHexagonImage.frame = CGRect(x: 40, y: linkTextField.frame.minY, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
-        linkTextField.frame = CGRect(x: 10, y: linkHexagonImage.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
-        linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: linkTextField.frame.minY, width: 30, height: 30)
+        linkTextField.frame = CGRect(x: 10, y: linkHexagonImage.frame.maxY, width: self.view.frame.size.width - 20, height: 30)
+     //   linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: linkTextField.frame.minY, width: 30, height: 30)
       
         self.bottomLine.frame = CGRect(x: 0.0, y: linkTextField.frame.height, width: linkTextField.frame.width, height: 1.0)
         self.bottomLine.backgroundColor = UIColor.systemGray4.cgColor
@@ -224,11 +161,11 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         linkTextField.textColor = .white
         
         
-        linkHexagonImage.frame = CGRect(x: 40, y: addLinkLabel.frame.maxY + 10, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
+        linkHexagonImage.frame = CGRect(x: 40, y: navBarView.frame.maxY + 10, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
         changeCoverLabel.frame = CGRect(x: 10, y: linkHexagonImage.frame.origin.y + scrollView.frame.width/2, width: self.view.frame.size.width - 20, height: 30)
         
         
-        linkTextField.frame = CGRect(x: 10, y: linkHexagonImage.frame.maxY + 20, width: self.view.frame.size.width - 20, height: 30)
+        linkTextField.frame = CGRect(x: 10, y: linkHexagonImage.frame.maxY, width: self.view.frame.size.width - 20, height: 30)
         linkTextField.attributedPlaceholder = NSAttributedString(string: "Paste Link Here",
                                                                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: linkTextField.frame.minY, width: 30, height: 30)
@@ -249,53 +186,56 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         self.view.endEditing(true)
     }
     
-    func pushEverythingUp() {
-        titleText.frame = CGRect(x: 0,y:60, width: self.view.frame.size.width, height: 30)
-        subtitleText.frame = CGRect(x:0, y: titleText.frame.origin.y + 30, width: self.view.frame.size.width, height: 30)
-        linkHexagonImage.frame = CGRect(x: 40, y: subtitleText.frame.maxY + 35, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
-        changeCoverLabel.frame = CGRect(x: 10, y: linkHexagonImage.frame.origin.y + scrollView.frame.width/2, width: self.view.frame.size.width - 20, height: 30)
-        linkTextField.frame = CGRect(x: 10, y: linkHexagonImage.frame.maxY + 20, width: self.view.frame.size.width - 20, height: 30)
-        linkTextField.attributedPlaceholder = NSAttributedString(string: "Paste Link Here",
-                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
-        linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: linkTextField.frame.minY, width: 30, height: 30)
-        continueBtn.frame =  CGRect(x: 10.0, y: linkTextField.frame.maxY + 20, width: self.view.frame.width - 20, height: 24)
-        continueBtn.layer.cornerRadius = continueBtn.frame.size.width / 20
-        cancelBtn.frame =  CGRect(x: 10.0, y: continueBtn.frame.maxY + 10, width: continueBtn.frame.width, height: 24)
+    func setUpNavBarView() {
+        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        print("This is status bar height \(statusBarHeight)")
+        self.view.addSubview(navBarView)
+        self.navBarView.addSubview(backButton)
+        self.navBarView.addSubview(postButton)
+        self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
+       
+        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        navBarView.backButton.isHidden = true
+        navBarView.postButton.isHidden = true
+//        self.navBarView.addSubview(toSettingsButton)
+//        self.navBarView.addSubview(toSearchButton)
         
+        let backTap = UITapGestureRecognizer(target: self, action: #selector(self.backButtonpressed))
+        backTap.numberOfTapsRequired = 1
+        backButton.isUserInteractionEnabled = true
+        backButton.addGestureRecognizer(backTap)
+        backButton.setImage(UIImage(named: "whiteChevron"), for: .normal)
         
-        highTitleTextFrame = CGRect(x: titleText.frame.minX, y: lowTitleTextFrame.minY - 70, width: titleText.frame.width, height: titleText.frame.height)
-        highSubtitleTextFrame = CGRect(x: subtitleText.frame.minX, y: lowSubtitleTextFrame.minY - 70, width: lowSubtitleTextFrame.width, height: lowSubtitleTextFrame.height)
-        highLinkLogoFrame = CGRect(x: linkLogo.frame.minX, y: lowTitleTextFrame.minY - 70, width: linkLogo.frame.width, height: titleText.frame.height)
-        highLinkTextfieldFrame = CGRect(x: linkTextField.frame.minX, y: lowLinkTextfieldFrame.minY - 70, width: linkTextField.frame.width, height: linkTextField.frame.height)
-        highLinkHexagonImageFrame = CGRect(x: linkHexagonImage.frame.minX, y: lowLinkHexagonImageFrame.minY - 70, width: linkHexagonImage.frame.width, height: linkHexagonImage.frame.height)
-        highContinueButtonFrame = CGRect(x: continueBtn.frame.minX, y: lowContinueButtonFrame.minY - 70, width: continueBtn.frame.width, height: continueBtn.frame.height)
-        highCancelButtonFrame = CGRect(x: cancelBtn.frame.minX, y: lowCancelButtonFrame.minY - 70, width: cancelBtn.frame.width, height: cancelBtn.frame.height)
+        let postTap = UITapGestureRecognizer(target: self, action: #selector(self.postTapped))
+        postTap.numberOfTapsRequired = 1
+        postButton.isUserInteractionEnabled = true
+        postButton.addGestureRecognizer(postTap)
+        postButton.setTitle("Next", for: .normal)
+        postButton.setTitleColor(myCoolBlue, for: .normal)
+      //  postButton.frame = CGRect(x: (self.view.frame.width) - (topBar.frame.height) - 5, y: 0, width: topBar.frame.height, height: topBar.frame.height)
+        postButton.titleLabel?.sizeToFit()
+        postButton.titleLabel?.textAlignment = .right
         
-        linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: linkTextField.frame.minY, width: 30, height: 30)
-        
-        titleText.frame = highTitleTextFrame
-        subtitleText.frame = highSubtitleTextFrame
-       // linkLogo.frame = highLinkLogoFrame
-        //linkTextField.frame = highLinkTextfieldFrame
-    //    linkHexagonImage.frame = highLinkHexagonImageFrame
-        continueBtn.frame = highContinueButtonFrame
-        cancelBtn.frame = highCancelButtonFrame
-        print("New Frames")
-        print(titleText.frame)
-        print(subtitleText.frame)
-        print(linkLogo.frame)
-        print(linkTextField.frame)
-        print(linkHexagonImage.frame)
-        print(continueBtn.frame)
-        print(cancelBtn.frame)
-        
-        
-        
-        
-        
-        
-        
+    
+       backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+        postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 30)/2, width: 40, height: 30)
+        //navBarView.postButton.titleLabel?.sizeToFit()
+        navBarView.postButton.titleLabel?.textAlignment = .right
+        let yOffset = navBarView.frame.maxY
+  
+        self.navBarView.addBehavior()
+        self.navBarView.titleLabel.text = "Add A Link"
+        print("This is navBarView.")
+      
+      
     }
+    
+    @objc func backButtonpressed() {
+        print("It should dismiss here")
+        self.dismiss(animated: true)
+     }
+    
+    
     
     @objc func keyboard(notification:Notification) {
         guard let keyboardReact = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else{

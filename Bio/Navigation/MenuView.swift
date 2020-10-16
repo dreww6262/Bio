@@ -133,25 +133,14 @@ class MenuView: UIView {
 //
         homeProfileButton.frame = CGRect(x: superFrame.width/2 - halfButtonWidth, y: superFrame.height - 223, width: buttonWidth, height: buttonWidth)
         
-        // friendsButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
-        // round ava
-       // friendsButton.layer.cornerRadius = friendsButton.frame.size.width / 2
-        //friendsButton.clipsToBounds = true
-//        print ("friends frame \(friendsButton.frame)")
-        
-
+     
         
         friendsButton.frame = CGRect(x: menuButton.center.x + 64.2 - 5, y: superFrame.height - 192 + 10, width: buttonWidth, height: buttonWidth)
     
         friendsButton.clipsToBounds = true
-//        print ("dm frame \(dmButton.frame)")
-        
-        
-//        notificationsButton.frame = CGRect(x: superFrame.width*4/5 - halfButtonWidth, y: superFrame.height - 112, width: buttonWidth, height: buttonWidth)
+
         newPostButton.frame = CGRect(x: menuButton.center.x + 130.2829 - halfButtonWidth, y: superFrame.height - 112 + 10, width: buttonWidth, height: buttonWidth)
-        // settingsButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
-        // round ava
-      //  notificationsButton.layer.cornerRadius = notificationsButton.frame.size.width / 2
+      
         notificationsButton.clipsToBounds = true
 //        print ("settings frame \(settingsButton.frame)")
         
@@ -162,73 +151,16 @@ class MenuView: UIView {
 //        print("home frame \(homeProfileButton.frame)")
         
         var xDistanceFromHomeToMenuCenter = menuButton.center.x - homeProfileButton.frame.maxX
-//        print("This is xDistance \(xDistanceFromHomeToMenuCenter)")
-        
-        
-        
-    // below is old 80x80 menu
-        
-//        menuButton.frame = CGRect(x: superFrame.width/2-40, y: superFrame.height-112, width: 80, height: 80)
-//        // round ava
-//        menuButton.layer.cornerRadius = menuButton.frame.size.width / 2
-//        menuButton.clipsToBounds = true
-////        print ("menuButton frame \(menuButton.frame)")
-//
-//        newPostButton.frame = CGRect(x: superFrame.width/5 - 40, y: menuButton.frame.minY, width: 80, height: 80)
-//        //  newPostButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
-//        // round ava
-//        newPostButton.layer.cornerRadius = newPostButton.frame.size.width / 2
-//        newPostButton.clipsToBounds = true
-////        print ("newpost frame \(newPostButton.frame)")
-//
-//        friendsButton.frame = CGRect(x: superFrame.width/2 - 40, y: superFrame.height - 223, width: 80, height: 80)
-//        // friendsButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
-//        // round ava
-//        friendsButton.layer.cornerRadius = friendsButton.frame.size.width / 2
-//        friendsButton.clipsToBounds = true
-////        print ("friends frame \(friendsButton.frame)")
-//
-//
-//
-//        dmButton.frame = CGRect(x: superFrame.width*3/5 + 5, y: superFrame.height - 192, width: 80, height: 80)
-//        //  dmButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
-//        // round ava
-//        dmButton.layer.cornerRadius = dmButton.frame.size.width / 2
-//        dmButton.clipsToBounds = true
-////        print ("dm frame \(dmButton.frame)")
-//
-//
-//        notificationsButton.frame = CGRect(x: superFrame.width*4/5 - 40, y: superFrame.height - 112, width: 80, height: 80)
-//        // settingsButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
-//        // round ava
-//        notificationsButton.layer.cornerRadius = notificationsButton.frame.size.width / 2
-//        notificationsButton.clipsToBounds = true
-////        print ("settings frame \(settingsButton.frame)")
-//
-//
-//        homeProfileButton.frame = CGRect(x: superFrame.width/5 - 10, y: dmButton.frame.minY, width: 80, height: 80)
-//        // homeProfileButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
-//        // round ava
-//        homeProfileButton.layer.cornerRadius = homeProfileButton.frame.size.width / 2
-//        homeProfileButton.clipsToBounds = true
-////        print("home frame \(homeProfileButton.frame)")
-        
+
         
         let menuTapped = UITapGestureRecognizer(target: self, action: #selector(tappedMenuButton))
         let menuDragged = UIPanGestureRecognizer(target: self, action: #selector(draggedMenuButton))
         let menuLongPressed = UILongPressGestureRecognizer(target: self, action: #selector(longPressMenuButton))
-//        let friendsPressed = UITapGestureRecognizer(target: self, action: #selector(friendsButtonClicked))
-//        let homePressed = UITapGestureRecognizer(target: self, action: #selector(homeButtonClicked))
-//        let newPostPressed = UITapGestureRecognizer(target: self, action: #selector(newPostButtonClicked))
 
         menuButton.addGestureRecognizer(menuTapped)
         menuButton.addGestureRecognizer(menuDragged)
         menuButton.addGestureRecognizer(menuLongPressed)
-        
-//        friendsButton.addGestureRecognizer(friendsPressed)
-//        homeProfileButton.addGestureRecognizer(homePressed)
-//        newPostButton.addGestureRecognizer(newPostPressed)
-        
+
         friendsButton.addTarget(self, action: #selector(friendsButtonClicked), for: .touchUpInside)
         homeProfileButton.addTarget(self, action: #selector(homeButtonClicked), for: .touchUpInside)
         newPostButton.addTarget(self, action: #selector(newPostButtonClicked), for: .touchUpInside)
@@ -269,14 +201,6 @@ class MenuView: UIView {
         friendsButton.imageView!.image = UIImage(named: "twoFriendsFlipped")
         dmButton.imageView!.image = UIImage(named: "email1")
         homeProfileButton.imageView!.image = UIImage(named: "clearHouse")
-
-        
-//        print("This is distance \(distance(homeProfileButton.center, menuButton.center))")
-//        print("This is distance 2 \(distance(dmButton.center, menuButton.center))")
-//        print("This is homeProfileButton.frame \(homeProfileButton.frame)")
-//        print("This is dmButton.frame \(dmButton.frame)")
-//        print("This is menuButton.center \(menuButton.center)")
-        
         // show add Post button
         menuButton.isHidden = false
         //menuButton.imageView?.image = UIImage(named: "k23")

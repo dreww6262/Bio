@@ -63,8 +63,8 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         navigationController?.navigationBar.isHidden = true
         addMenuButtons()
         setUpNavBarView()
-        addSearchButton()
-        addSettingsButton()
+//        addSearchButton()
+//        addSettingsButton()
         
         let addPhotoTapped = UITapGestureRecognizer(target: self, action: #selector(tappedPhotoView))
         let addMusicTapped = UITapGestureRecognizer(target: self, action: #selector(tappedMusicView))
@@ -115,24 +115,16 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         menuView.userData = userData
         navigationController?.navigationBar.isHidden = true
     }
-    @IBAction func toSettingsButtonClicked(_ sender: UIButton) {
+    @objc func toSettingsButtonClicked(_ recognizer: UITapGestureRecognizer) {
         let settingsVC = storyboard?.instantiateViewController(identifier: "settingsVC") as! ProfessionalSettingsVC
         settingsVC.userData = userData
         present(settingsVC, animated: false)
     }
     
     
-    func addSettingsButton() {
-        self.navBarView.addSubview(toSettingsButton)
-       // toSettingsButton.frame = CGRect(x: 15, y: self.view.frame.height/48, width: 30, height: 30)
-        toSettingsButton.imageView?.image = UIImage(named: "lightGrayGearFinal")
-        toSettingsButton.frame = CGRect(x: self.view.frame.height*(1/48), y: (self.view.frame.height/48) + 2, width: self.view.frame.height/24, height: self.view.frame.height/24)
-        // round ava
-        toSettingsButton.clipsToBounds = true
-        toSettingsButton.isHidden = false
-    }
+
     
-    @IBAction func toSearchButtonClicked(_ sender: UIButton) {
+    @objc func toSearchButtonClicked(_ recognizer: UITapGestureRecognizer) {
         let userTableVC = storyboard?.instantiateViewController(identifier: "userTableView") as! UserTableView
         userTableVC.userData = userData
         present(userTableVC, animated: false)
@@ -150,26 +142,50 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
     }
     
     func setUpNavBarView() {
+        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
-        self.navBarView.addSubview(titleLabel1)
+        self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
+        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        navBarView.backButton.isHidden = true
+        navBarView.postButton.isHidden = true
+        self.navBarView.addSubview(toSettingsButton)
+        self.navBarView.addSubview(toSearchButton)
+        
+        let settingsTap = UITapGestureRecognizer(target: self, action: #selector(self.toSettingsButtonClicked))
+        settingsTap.numberOfTapsRequired = 1
+        toSettingsButton.isUserInteractionEnabled = true
+        toSettingsButton.addGestureRecognizer(settingsTap)
+        
+        let searchTap = UITapGestureRecognizer(target: self, action: #selector(self.toSearchButtonClicked))
+        searchTap.numberOfTapsRequired = 1
+        toSearchButton.isUserInteractionEnabled = true
+        toSearchButton.addGestureRecognizer(searchTap)
+        
+
+        self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
+        self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
+     
+        self.toSettingsButton.frame = CGRect(x: 10, y: navBarView.frame.height - 30, width: 25, height: 25)
+        self.toSettingsButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+        self.toSearchButton.frame = CGRect(x: navBarView.frame.width - 35, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+        let yOffset = navBarView.frame.maxY
+      //  self.navBarView.addSubview(titleLabel1)
         self.navBarView.addBehavior()
-       
-        self.titleLabel1.text = "Add Content"
-        self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12) + 10)
-        self.navBarView.backgroundColor = UIColor(cgColor: CGColor(gray: 0.05, alpha: 1.0))
-        self.navBarView.layer.borderWidth = 0.25
-        self.navBarView.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
-//        self.titleLabel1.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/12)
-        self.titleLabel1.frame = CGRect(x: 0, y: 20, width: self.view.frame.width, height: self.navBarView.frame.height-10)
-        self.titleLabel1.textAlignment = .center
-      
+        self.navBarView.titleLabel.text = "Add Content"
+        print("This is navBarView.")
+        self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
+        self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
+
+
+        //self.titleLabel1.text = "Notifications"
+        self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
+       // let yOffset = navBarView.frame.maxY
         
-        
-       
-        self.titleLabel1.font = UIFont(name: "DINAlternate-Bold", size: 20)
-        self.titleLabel1.textColor = .white
-        self.navBarView.backgroundColor = .black
+
     }
+    
+    
   
     
     func addMenuButtons() {
@@ -281,6 +297,9 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
 //        view1.frame = CGRect(x: view.frame.width/24,y: self.view.frame.height/6, width: (self.view.frame.width/2) - (self.view.frame.width/12), height: (self.view.frame.height/2) - self.view.frame/12)
 //
 //    }
+    
+
+    
     
     func formatPicturesAndLabelsFinal() {
         var frame1 = CGRect(x: self.view.frame.width/24, y: (self.view.frame.height*(3/24)), width: (self.view.frame.width)*(5/12), height: self.view.frame.height*(1/3))
