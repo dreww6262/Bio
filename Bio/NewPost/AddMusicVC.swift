@@ -71,6 +71,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
     var userDataRef: DocumentReference? = nil
     let db = Firestore.firestore()
     let storageRef = Storage.storage().reference()
+    var cancelLbl: String?
     
     @IBOutlet weak var changeCoverLabel: UILabel!
     
@@ -314,9 +315,22 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
     
     override func viewWillAppear(_ animated: Bool) {
         print("userData, view will appear: \(userData)")
+        if cancelLbl != nil {
+            navBarView.backButton.setTitle(cancelLbl, for: .normal)
+            navBarView.backButton.setImage(UIImage(), for: .normal)
+            navBarView.removeGestureRecognizer(navBarView.backButton.gestureRecognizers![0])
+            let skipOverride = UITapGestureRecognizer(target: self, action: #selector(skipTapped))
+        }
         hasChosenThumbnailImage = false
     }
     
+    @objc func skipTapped(_ sender: UITapGestureRecognizer) {
+        let linkVC = storyboard?.instantiateViewController(withIdentifier: "linkVC") as! AddLinkVCViewController
+        linkVC.userData = userData
+        linkVC.currentUser = currentUser
+        linkVC.cancelLbl = "Skip"
+        self.present(linkVC, animated: false, completion: nil)
+    }
     // hide keyboard if tapped
     @objc func hideKeyboardTap(_ recoginizer:UITapGestureRecognizer) {
         //   pushEverythingDown()

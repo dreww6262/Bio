@@ -278,72 +278,109 @@ class ProfessionalSettingsVC: QuickTableViewController {
                     group.enter()
                     group.enter()
                     self?.storage.delete(completion: {_ in
+                        print("left storage")
                         group.leave()
                         // idk if we need to handle anything specifically
                     })
                     self?.db.collection("Followings").whereField("following", isEqualTo: self!.userData!.publicID).getDocuments(completion: { objects, error in
                         guard let docs = objects?.documents else {
+                            print("left following")
                             group.leave()
                             return
                         }
                         for doc in docs {
                             doc.reference.delete()
                         }
-                        
+                        print("left following")
                         group.leave()
                     })
                     self?.db.collection("Followings").whereField("follower", isEqualTo: self!.userData!.publicID).getDocuments(completion: { objects, error in
                         guard let docs = objects?.documents else {
                             group.leave()
+                            print("left follower")
+
                             return
                         }
                         for doc in docs {
                             doc.reference.delete()
                         }
+                        print("left follower")
+
                         group.leave()
                     })
                     self?.db.collection("Hexagons2").whereField("postingUserID", isEqualTo: self!.userData!.publicID).getDocuments(completion: { objects, error in
                         guard let docs = objects?.documents else {
                             group.leave()
+                            print("left hex")
+
                             return
                         }
                         for doc in docs {
                             doc.reference.delete()
                         }
+                        print("left hex")
+
                         group.leave()
                     })
                     self?.db.collection("News2").whereField("notifyingUser", isEqualTo: self!.userData!.publicID).getDocuments(completion: { objects, error in
                         guard let docs = objects?.documents else {
+                            print("left news notifying")
+
                             group.leave()
                             return
                         }
                         for doc in docs {
                             doc.reference.delete()
                         }
+                        print("left news notifying")
+
                         group.leave()
                     })
                     self?.db.collection("News2").whereField("currentUser", isEqualTo: self!.userData!.publicID).getDocuments(completion: { objects, error in
                         guard let docs = objects?.documents else {
                             group.leave()
+                            print("left news current")
+
                             return
                         }
                         for doc in docs {
                             doc.reference.delete()
                         }
+                        print("left news current")
+
                         group.leave()
                     })
                     self?.db.collection("Tags").whereField("postingUserID", isEqualTo: self!.userData!.publicID).getDocuments(completion: { objects, error in
                         guard let docs = objects?.documents else {
                             group.leave()
+                            print("left tags posting")
+
                             return
                         }
                         for doc in docs {
                             doc.reference.delete()
                         }
+                        print("left tags posting")
+
                         group.leave()
                     })
                     self?.db.collection("Tags").whereField("taggedUser", isEqualTo: self!.userData!.publicID).getDocuments(completion: { objects, error in
                         guard let docs = objects?.documents else {
+                            print("left tags tagged")
+
+                            group.leave()
+                            return
+                        }
+                        for doc in docs {
+                            doc.reference.delete()
+                        }
+                        print("left tags tagged")
+
+                        group.leave()
+                    })
+                    self?.db.collection("UserData1").whereField("publicID", isEqualTo: self!.userData!.publicID).getDocuments(completion: { obj, error  in
+                        guard let docs = obj?.documents else {
+                            print("left userdata")
                             group.leave()
                             return
                         }
@@ -352,15 +389,15 @@ class ProfessionalSettingsVC: QuickTableViewController {
                         }
                         group.leave()
                     })
-                    self?.db.collection("UserData1").document(self!.userData!.privateID).delete(completion: { _ in
-                        group.leave()
-                    })
                     
                     Auth.auth().currentUser?.delete(completion: { _ in
+                        print("left user")
+
                         group.leave()
                     })
-                    
+                    print("waiting to notify")
                     group.notify(queue: .main) {
+                        print("should sign out")
                         self?.performSignout()
                     }
                     

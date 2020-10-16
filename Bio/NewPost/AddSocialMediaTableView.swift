@@ -12,6 +12,7 @@ import FirebaseAuth
 import SDWebImage
 import FirebaseUI
 import FirebaseStorage
+import YPImagePicker
 
 class AddSocialMediaTableView: UIViewController {
     var navBarView = NavBarView()
@@ -36,6 +37,8 @@ class AddSocialMediaTableView: UIViewController {
     var followList = [String]()
     var followListener: ListenerRegistration?
     var isCompletelyEmpty = true
+    
+    var cancelLbl: String?
     
     var socialMediaArray: [String] = ["instagram", "snapchat", "tikTok", "twitter", "youtube", "vsco", "soundcloud", "twitch", "linkedIn", "etsy", "poshmark", "hudl"]
     
@@ -110,6 +113,52 @@ class AddSocialMediaTableView: UIViewController {
         super.viewWillAppear(true)
         currentUser = Auth.auth().currentUser
         iconArray = [image1 ?? UIImage(),image2 ?? UIImage(),image3 ?? UIImage(),image4 ?? UIImage(),image5 ?? UIImage(),image6 ?? UIImage(),image7 ?? UIImage(),image8 ?? UIImage(),image9 ?? UIImage(),image10 ?? UIImage(),image11 ?? UIImage(),image12 ?? UIImage()]
+        if cancelLbl != nil {
+            navBarView.backButton.setTitle(cancelLbl, for: .normal)
+            navBarView.backButton.setImage(UIImage(), for: .normal)
+            navBarView.backButton.removeGestureRecognizer(navBarView.backButton.gestureRecognizers![0])
+            let skipOverride = UITapGestureRecognizer(target: self, action: #selector(skipTapped))
+            navBarView.backButton.addGestureRecognizer(skipOverride)
+        }
+    }
+    
+    @objc func skipTapped(_ sender: UITapGestureRecognizer) {
+        var config = YPImagePickerConfiguration()
+        config.screens = [.library, .photo, .video]
+        config.startOnScreen = .library
+        config.library.mediaType = .photoAndVideo
+        config.library.maxNumberOfItems = 10
+        config.video.trimmerMaxDuration = 60.0
+        config.video.recordingTimeLimit = 60.0
+        config.video.automaticTrimToTrimmerMaxDuration = true
+        let picker = YPImagePicker(configuration: config)
+        picker.didFinishPicking { [unowned picker] items, cancelled in
+            
+            if (items.count > 0) {
+                let uploadPreviewVC = self.storyboard?.instantiateViewController(identifier: "newUploadPreviewVC") as! NewUploadPreviewVC
+                //print(photos)
+                uploadPreviewVC.userData = self.userData
+                uploadPreviewVC.items = items
+                //picker.dismiss(animated: false, completion: nil)
+                picker.present(uploadPreviewVC, animated: false, completion: nil)
+                uploadPreviewVC.modalPresentationStyle = .fullScreen
+            }
+            else {
+                if (self.cancelLbl == "Skip") {
+                    let musicVC = self.storyboard?.instantiateViewController(withIdentifier: "addMusicVC") as! AddMusicVC
+                    musicVC.userData = self.userData
+                    musicVC.currentUser = self.currentUser
+                    musicVC.cancelLbl = "Skip"
+                    picker.present(musicVC, animated: false, completion: nil)
+                }
+                else {
+                    picker.dismiss(animated: false, completion: nil)
+                }
+            }
+            
+        }
+        present(picker, animated: false)
+        modalPresentationStyle = .fullScreen
     }
     
   //  @IBAction func donePressed(_ sender: UIButton) {

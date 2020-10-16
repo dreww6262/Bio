@@ -250,6 +250,7 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
     @objc func tappedPhotoView(sender: UITapGestureRecognizer) {
         var config = YPImagePickerConfiguration()
         config.screens = [.library, .photo, .video]
+        config.startOnScreen = .library
         config.library.mediaType = .photoAndVideo
         config.library.maxNumberOfItems = 10
         config.video.trimmerMaxDuration = 60.0

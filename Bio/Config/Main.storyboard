@@ -420,7 +420,6 @@
                         <outlet property="repeatPassword" destination="bnE-yE-gvE" id="UBn-PP-l54"/>
                         <outlet property="scrollView" destination="vgc-Ux-feZ" id="Jf9-cX-xSf"/>
                         <outlet property="usernameTxt" destination="Sdl-wR-yEQ" id="ThK-Of-NPd"/>
-                        <segue destination="5zq-EU-6dT" kind="showDetail" identifier="toAddSocialMedia" id="IB4-yM-9f6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Igx-oy-a7d" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1270,6 +1269,7 @@
                         <outlet property="subtitleText" destination="KXq-GF-Gy4" id="9Xy-3a-5RD"/>
                         <outlet property="titleText" destination="Qdv-pR-Ykm" id="EIp-UD-CRy"/>
                         <segue destination="YgN-C3-alh" kind="unwind" identifier="unwindFromLinkToHome" unwindAction="unvindSegueFromAddToHomeWithSegue:" id="iS6-wJ-SfR"/>
+                        <segue destination="YgN-C3-alh" kind="unwind" identifier="rewindToFront" unwindAction="unvindSegueFromAddToHomeWithSegue:" id="yQu-Re-XAc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="muU-wZ-jtK" userLabel="First Responder" sceneMemberID="firstResponder"/>

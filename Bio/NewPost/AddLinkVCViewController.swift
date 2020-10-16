@@ -35,6 +35,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     var highContinueButtonFrame = CGRect()
     var highCancelButtonFrame = CGRect()
     var addLinkLabel = UILabel()
+    var cancelLbl: String?
     
     @IBOutlet weak var titleText: UILabel!
     @IBOutlet weak var subtitleText: UILabel!
@@ -175,9 +176,21 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         
     }
     
+    var navBarView = NavBarView()
+    
     override func viewWillAppear(_ animated: Bool) {
         print("userData, view will appear: \(userData)")
+        if cancelLbl != nil {
+            navBarView.backButton.setTitle(cancelLbl, for: .normal)
+            navBarView.backButton.setImage(UIImage(), for: .normal)
+            navBarView.removeGestureRecognizer(navBarView.backButton.gestureRecognizers![0])
+            let skipOverride = UITapGestureRecognizer(target: self, action: #selector(skipTapped))
+        }
         hasChosenThumbnailImage = false 
+    }
+    
+    @objc func skipTapped(_ sender: UITapGestureRecognizer) {
+        performSegue(withIdentifier: "rewindToFront", sender: self)
     }
     
     // hide keyboard if tapped

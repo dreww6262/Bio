@@ -411,7 +411,11 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
                     docRef.setData(self.userData!.dictionary, completion: { error in
                         if error == nil {
                             print("userData posted")
-                            self.performSegue(withIdentifier: "toAddSocialMedia", sender: self)
+                            let addsocialmediaVC = self.storyboard?.instantiateViewController(withIdentifier: "addSocialMediaTableView") as! AddSocialMediaTableView
+                            addsocialmediaVC.userData = self.userData
+                            addsocialmediaVC.currentUser = self.user
+                            addsocialmediaVC.cancelLbl = "Skip"
+                            self.present(addsocialmediaVC, animated: false, completion: nil)
                         }
                         else {
                             print(error?.localizedDescription)
@@ -437,6 +441,7 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         var addSocialMediaVC = segue.destination as! AddSocialMediaVC
         addSocialMediaVC.currentUser = user
         addSocialMediaVC.userData = userData
+        addSocialMediaVC.cancelLbl = "Skip"
     }
     
     
