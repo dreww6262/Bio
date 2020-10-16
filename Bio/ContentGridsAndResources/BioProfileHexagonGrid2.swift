@@ -421,9 +421,9 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
             self.followingUserDataArray.append(newElement: userData!)
             loadProfileHexagons()
         }
-        createFollowArray(completion: { newFollowArray in
+        createFollowArray(completion: { newFollowArray, success in
 //            print("loadFollowings: new follow array: \(newFollowArray)")
-            if newFollowArray.count > 0 {
+            if success {
                 // using 5 for efficiency and less possibility of timeout
                 self.followingUserDataArray.removeAll()
                 self.followingUserDataArray.append(newElement: self.userData!)
@@ -446,7 +446,7 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
         })
     }
     
-    func createFollowArray(completion: @escaping ([String]) -> ()) {
+    func createFollowArray(completion: @escaping ([String], Bool) -> ()) {
         let followCollection = db.collection("Followings")
         let usernameText:String = userData!.publicID
          newFollowArray = []
@@ -464,11 +464,11 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
                     }
 //                    print("Now this is followArray \(self.followArray)")
                 }
-                completion(self.newFollowArray)
+                completion(self.newFollowArray, true)
             }
             else {
                 print(error!.localizedDescription)
-                completion([String]())
+                completion([String](), false)
             }
         })
     }
@@ -494,10 +494,10 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
 //        print("🎯🎯🎯🎯🎯🎯🎯 I tapped image with associated username: \(username)")
         let guestVC = storyboard?.instantiateViewController(identifier: "guestGridVC") as! GuestHexagonGridVC
         //guestVC.user = user
-        guestVC.username = userData!.publicID
+        guestVC.myUserData = userData
         guestVC.followList = self.newFollowArray
         //guestVC.profileImage = self.
-        guestVC.userData = followingUserDataArray[sender.view!.tag]
+        guestVC.guestUserData = followingUserDataArray[sender.view!.tag]
         guestVC.isFollowing = true
         show(guestVC, sender: nil)
         // TODO: use tag to get index of userdata to go to new hex grid as guest.

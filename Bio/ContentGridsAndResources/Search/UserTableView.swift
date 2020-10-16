@@ -302,8 +302,9 @@ class UserTableView: UIViewController, UISearchBarDelegate {
                 else {
                     let userdata = UserData(dictionary: docs[0].data())
                     let guestVC = self.storyboard!.instantiateViewController(identifier: "guestGridVC") as! GuestHexagonGridVC
-                    guestVC.userData = userdata
-                    guestVC.username = self.userData!.publicID
+                    guestVC.guestUserData = userdata
+                    guestVC.myUserData = self.userData
+                    guestVC.isFollowing = sender.view?.tag == 1
                     self.present(guestVC, animated: false)
                     self.modalPresentationStyle = .fullScreen
                 }
@@ -408,6 +409,7 @@ extension UserTableView: UITableViewDelegate, UITableViewDataSource {
            // cell.followBtn.imageView?.image = UIImage(named: "friendCheck")
             cell.followView.isHidden = true
             cell.followView.tag = 1
+            cell.tag = 1
         }
         else if (userData?.publicID == loadUserDataArray[indexPath.row].publicID) {
             cell.followView.isHidden = true
@@ -416,6 +418,7 @@ extension UserTableView: UITableViewDelegate, UITableViewDataSource {
             cell.followView.isHidden = false
             cell.followImage?.image = UIImage(named: "addFriend")
             cell.followView.tag = 0
+            cell.tag = 0
         }
         
         

@@ -27,7 +27,7 @@ class EditProfilePhotoVC: UIViewController, UIImagePickerControllerDelegate & UI
         view.addSubview(cancelButton)
         view.addSubview(signInButton)
         cancelButton.frame = CGRect(x: 10 , y: 10 , width: 25, height: 25)
-        cancelButton.setImage(UIImage(named: "whiteChevron"), for: .normal)
+        cancelButton.imageView?.image = UIImage(named: "whiteChevron")
         formatStuff()
         //ava tap
         let avaTap = UITapGestureRecognizer(target: self, action: #selector(self.loadImg(_:)))
@@ -44,7 +44,7 @@ class EditProfilePhotoVC: UIViewController, UIImagePickerControllerDelegate & UI
         //sign in tap tap
           let signInTap = UITapGestureRecognizer(target: self, action: #selector(signInClicked))
           signInTap.numberOfTapsRequired = 1
-          signInButton.isUserInteractionEnabled = true
+          //signInTap.isUserInteractionEnabled = true
           signInButton.addGestureRecognizer(signInTap)
         
         signInButton.layer.cornerRadius = signInButton.frame.width/20

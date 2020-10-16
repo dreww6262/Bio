@@ -312,8 +312,8 @@ class NotificationsVC: UIViewController {
                 else {
                     let userdata = UserData(dictionary: docs[0].data())
                     let guestVC = self.storyboard!.instantiateViewController(identifier: "guestGridVC") as! GuestHexagonGridVC
-                    guestVC.username = self.userData!.publicID
-                    guestVC.userData = userdata
+                    guestVC.myUserData = self.userData
+                    guestVC.guestUserData = userdata
                     self.present(guestVC, animated: false)
                     self.modalPresentationStyle = .fullScreen
                 }
@@ -352,8 +352,8 @@ class NotificationsVC: UIViewController {
                 else {
                     let userdata = UserData(dictionary: docs[0].data())
                     let guestVC = self.storyboard!.instantiateViewController(identifier: "guestGridVC") as! GuestHexagonGridVC
-                    guestVC.userData = userdata
-                    guestVC.username = self.userData!.publicID
+                    guestVC.guestUserData = userdata
+                    guestVC.myUserData = self.userData
                     self.present(guestVC, animated: false)
                     self.modalPresentationStyle = .fullScreen
                 }
@@ -394,8 +394,8 @@ class NotificationsVC: UIViewController {
                 else {
                     let userdata = UserData(dictionary: docs[0].data())
                     let guestVC = self.storyboard!.instantiateViewController(identifier: "guestGridVC") as! GuestHexagonGridVC
-                    guestVC.userData = userdata
-                    guestVC.username = self.userData!.publicID
+                    guestVC.guestUserData = userdata
+                    guestVC.myUserData = self.userData
                     self.present(guestVC, animated: false)
                     self.modalPresentationStyle = .fullScreen
                 }
@@ -543,7 +543,7 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
             // go guest
             let guest = self.storyboard?.instantiateViewController(withIdentifier: "guestVC") as! GuestHexagonGridVC
             // SET USERDATA
-            guest.username = userData!.publicID
+            guest.myUserData = userData
             self.navigationController?.pushViewController(guest, animated: true)
         }
         
