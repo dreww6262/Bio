@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YPImagePicker
 
 class TagUsersVC: UIViewController {
     
@@ -16,6 +17,7 @@ class TagUsersVC: UIViewController {
     var doneButton = UIButton()
     var cancelButton = UIButton()
     var userData: UserData?
+    var item: YPMediaItem?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +31,15 @@ class TagUsersVC: UIViewController {
            self.tagImage.addGestureRecognizer(tapGestureRecognizer)
         
         tagImage.frame = CGRect(x: 0, y: navBarView.frame.maxY, width: self.view.frame.width, height: self.view.frame.width)
+        
+        switch item {
+        case .photo(let photo):
+            tagImage.image = photo.image
+        case .video(let video):
+            tagImage.image = video.thumbnail
+        default:
+            print("bade")
+        }
        // tagImage.setupHexagonMask(lineWidth: tagImage.frame.width/15, color: myOrange, cornerRadius: tagImage.frame.width/15)
        
     }

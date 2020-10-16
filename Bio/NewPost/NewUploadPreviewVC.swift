@@ -377,8 +377,11 @@ class NewUploadPreviewVC: UIViewController {
     @objc func tagTapped(_ sender: UITapGestureRecognizer) {
         print("tag view hit!")
         print("******Pull in the cell this is contained in so we can ge the image for the next page")
+        let cell = sender.view?.superview?.superview as! UploadPreviewCell
+        
         let tagUsersVC = storyboard?.instantiateViewController(identifier: "tagUsersVC") as! TagUsersVC
-        tagUsersVC.tagImage = cellArray[0].previewImage
+        tagUsersVC.item = cell.item
+        tagUsersVC.tagImage = cell.previewImage
         tagUsersVC.userData = self.userData
         present(tagUsersVC, animated: false)
     }

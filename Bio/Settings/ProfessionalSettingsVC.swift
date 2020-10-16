@@ -85,13 +85,13 @@ class ProfessionalSettingsVC: QuickTableViewController {
                         NavigationRow(text: "Country", detailText: .value1(country)), NavigationRow(text: "Terms of Service", detailText: .none, icon: .named("time"), action: { _ in }),
                         NavigationRow(text: "Email", detailText: .value1(email)!, icon: .named("time"), action: { _ in }),
                         NavigationRow(text: "Password", detailText: .none)]),
-            Section(title: "Support", rows: [
+            Section(title: "Support", rows: [NavigationRow(text: "Blocked Users", detailText: .none, icon: .named("gear"), action: didToggleSelection()),
                         NavigationRow(text: "FAQ's", detailText: .none, icon: .named("gear")),
                         NavigationRow(text: "I Spotted a Bug", detailText: .none, icon: .named("globe"), action: didToggleSelection()),
                         NavigationRow(text: "I Have a Suggestion", detailText: .none, icon: .named("time"), action: didToggleSelection()),
                         NavigationRow(text: "Privacy Policy", detailText: .none),
-                        NavigationRow(text: "Terms of Service", detailText: .none, icon: .named("time"), action: { _ in }),NavigationRow(text: "Delete Account", detailText: .none, icon: .none, action: didToggleSelection())]),
-            Section(title: "Account Actions", rows: [NavigationRow(text: "Log Out", detailText: .none, icon: .named("gear"), action: didToggleSelection())])
+                        NavigationRow(text: "Terms of Service", detailText: .none, icon: .named("time"), action: { _ in })]),
+            Section(title: "Account Actions", rows: [NavigationRow(text: "Log Out", detailText: .none, icon: .named("gear"), action: didToggleSelection()),NavigationRow(text: "Delete Account", detailText: .none, icon: .none, action: didToggleSelection())])
         ]
         
         
@@ -147,7 +147,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
         // Alter the cells created by QuickTableViewController
-        print("This is cell \(cell)")
+//        print("This is cell \(cell)")
         return cell
     }
     
@@ -314,6 +314,13 @@ class ProfessionalSettingsVC: QuickTableViewController {
                 alert.addAction(ok)
                 alert.addAction(nah)
                 self!.present(alert, animated: true, completion: nil)
+            }
+            
+            if row.text == "Blocked Users" {
+                let blockedVC = self?.storyboard?.instantiateViewController(identifier: "blockedVC") as! BlockedUsersVC
+                blockedVC.userData = self?.userData
+                self?.present(blockedVC, animated: false, completion: nil)
+                
             }
             
             if row.text.contains("I Have") {
