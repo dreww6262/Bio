@@ -12,6 +12,7 @@ import WebKit
 class ContentLinkVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
 
     var webHex: HexagonStructData?
+    var userData: UserData?
     
     var webView: WKWebView?
     var showOpenAppButton = false

@@ -9,9 +9,13 @@
 import UIKit
 import FirebaseAuth
 import QuickTableViewController
+import FirebaseFirestore
+import FirebaseStorage
+import FirebaseAuth
+import FirebaseUI
 
 class ReportAPostVC: QuickTableViewController {
-    
+    let db = Firestore.firestore()
     var navBarView = NavBarView()
     
     var hexData: HexagonStructData?
@@ -71,6 +75,7 @@ var titleLabel1 = UILabel()
 //        backButton1.setTitleColor(.systemBlue, for: .normal)
 //        titleLabel1.text = "Settings"
         super.viewDidLoad()
+        print("Report A Post VC userdata: \(userData)")
         setUpNavBarView()
 //
 
@@ -168,7 +173,41 @@ let dismissTap = UITapGestureRecognizer(target: self, action: #selector(self.bac
 
      private func didToggleSelection() -> (Row) -> Void {
        return { [weak self] row in
+        var reason = row.text
         print("toggled row: \(row.text)")
+        
+        if row.text != "" {
+            let alert = UIAlertController(title: "Are You Sure?", message: "Click Yes to report this user for \(row.text)", preferredStyle: UIAlertController.Style.alert)
+            let ok = UIAlertAction(title: "Yes", style: UIAlertAction.Style.cancel, handler: {_ in
+                print("Send report to backend for \(row.text)")
+                print("This is the reason: \(reason)")
+                let reportObjectref = self!.db.collection("ReportedPosts")
+                   let reportDoc = reportObjectref.document()
+                let reportObject = ReportedPostObject(reason: reason,post: (self?.hexData?.thumbResource)!, userReporting: self!.userData?.publicID ?? "unable to find userData.publicID", userWhoWasReported: (self?.hexData!.postingUserID)!)
+                   reportDoc.setData(reportObject.dictionary){ error in
+                       if error == nil {
+                        UIDevice.vibrate()
+                           print("reported bug: \(reportObject)")
+                        self!.dismiss(animated: true)
+                       }
+                       else {
+                           print("failed to add bug \(reportObject)")
+
+                       }
+                   }
+                
+                
+                
+                
+            })
+            let nah = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: nil)
+            alert.addAction(ok)
+            alert.addAction(nah)
+            self!.present(alert, animated: true, completion: nil)
+            
+        }
+        
+        
         
         if row.text == "Log Out" {
             let alert = UIAlertController(title: "Are You Sure?", message: "We will miss you <3", preferredStyle: UIAlertController.Style.alert)

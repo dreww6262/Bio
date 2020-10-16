@@ -16,6 +16,7 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
     let commentImage = UIImage(named: "whiteComment")
     let reportImage = UIImage(named: "elipsis")
     let openAppImage = UIImage(named: "bioBlue")
+    var userData: UserData?
     
     var showBool = false
     
@@ -37,17 +38,20 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
                         case "photo":
                             let vc = ContentImageVC()
                             vc.photoHex = data
+                            vc.userData = userData
                             showBool = false
                             vc.showOpenAppButton = false
                             viewControllers.append(vc)
                         case "video":
                             let vc = ContentVideoVC()
                             vc.videoHex = data
+                            vc.userData = userData
                             vc.showOpenAppButton = false
                             showBool = false
                             viewControllers.append(vc)
                         case "link":
                             let vc = ContentLinkVC()
+                            vc.userData = userData
                             vc.webHex = data
                             vc.showOpenAppButton = false
                             showBool = false
@@ -55,6 +59,7 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
                         default:
                             let vc = ContentLinkVC()
                             vc.webHex = data
+                            vc.userData = userData
                             vc.showOpenAppButton = true
                             showBool = true
                             viewControllers.append(vc)
@@ -152,7 +157,7 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print("Content Pages userdata: \(userData)")
     
         
         let topBar = UIView()
@@ -396,18 +401,22 @@ print("More tapped")
         alert.addAction(UIAlertAction(title: "Report Post", style: .default , handler:{ (UIAlertAction)in
             print("User click Report button")
             let reportVC = self.storyboard?.instantiateViewController(withIdentifier: "reportVC") as! ReportAPostVC
+            reportVC.userData = self.userData
             let currentVC = self.viewControllers[self.currentIndex]
             if currentVC is ContentLinkVC {
                 let linkVC = currentVC as! ContentLinkVC
                 reportVC.hexData = linkVC.webHex
+                reportVC.userData = self.userData
             }
             else if currentVC is ContentImageVC {
                 let imageVC = currentVC as! ContentImageVC
                 reportVC.hexData = imageVC.photoHex
+                reportVC.userData = self.userData
             }
             else if currentVC is ContentVideoVC {
                 let videoVC = currentVC as! ContentVideoVC
                 reportVC.hexData = videoVC.videoHex
+                reportVC.userData = self.userData
             }
             self.present(reportVC, animated: false, completion: nil)
             

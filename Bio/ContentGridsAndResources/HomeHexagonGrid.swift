@@ -94,6 +94,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     override func viewDidLoad() {
         super.viewDidLoad()
         contentPages = storyboard?.instantiateViewController(identifier: "contentPagesVC")
+        contentPages!.userData = userData
         //print("This is reordered count before append \(reOrderedCoordinateArrayPoints.count)")
         reOrderedCoordinateArrayPoints.append(contentsOf: fourthRowArray)
         //print("This is reordered count after append \(reOrderedCoordinateArrayPoints.count)")
@@ -566,6 +567,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
             c += 1
         }
         contentPages!.hexData = hexDatas
+        contentPages!.userData = self.userData
         
         DispatchQueue.global().async {
             let dispatchGroup = DispatchGroup()
@@ -1391,6 +1393,7 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
         else {
             contentPages!.currentIndex = hexItem.location - 1
             contentPages!.modalPresentationStyle = .fullScreen
+            contentPages!.userData = self.userData
             self.present(contentPages!, animated: false, completion: nil)
             
         }

@@ -13,6 +13,7 @@ class ContentImageVC: UIViewController, UIScrollViewDelegate {
     var showOpenAppButton = false
     var scrollView = UIScrollView()
     var newImageView: UIImageView?
+    var userData: UserData?
     
     override func viewDidLoad() {
         super.viewDidLoad()
