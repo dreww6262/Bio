@@ -753,7 +753,17 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         avaImage?.addGestureRecognizer(tapGesture1)
         avaImage?.isHidden = false
         contentView.bringSubviewToFront(avaImage!)
-        avaImage!.setupHexagonMask(lineWidth: 10.0, color: .white, cornerRadius: 10.0)
+    //    avaImage!.setupHexagonMask(lineWidth: 10.0, color: .white, cornerRadius: 10.0)
+        var scaleFactor = CGFloat(0.10)
+        var widthShavedOff = scaleFactor*CGFloat((avaImage?.frame.width)!)
+        var smallerFrame = CGRect(x: avaImage!.frame.minX, y: avaImage!.frame.minY, width: (avaImage!.frame.width)*CGFloat(0.90), height: (avaImage!.frame.height)*CGFloat(0.90))
+        avaImage?.frame = smallerFrame
+        avaImage?.frame = CGRect(x: smallerFrame.minX + (widthShavedOff/2), y: smallerFrame.minY + (widthShavedOff/2), width: smallerFrame.width, height: smallerFrame.height)
+        avaImage?.layer.cornerRadius = ((avaImage?.frame.size.width)!)/2
+        avaImage?.clipsToBounds = true
+        avaImage?.layer.masksToBounds = true
+        avaImage?.layer.borderColor = UIColor.white.cgColor
+        avaImage?.layer.borderWidth = ((avaImage?.frame.width)!)/30
         let cleanRef = guestUserData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
         avaImage!.sd_setImage(with: url!, completed: {_, error, _, _ in

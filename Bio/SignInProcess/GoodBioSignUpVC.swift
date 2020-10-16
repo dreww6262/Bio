@@ -31,8 +31,8 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     @IBOutlet weak var passwordTxt: UITextField!
     @IBOutlet weak var repeatPassword: UITextField!
     // buttons
-    @IBOutlet weak var signUpBtn: UIButton!
-    @IBOutlet weak var cancelBtn: UIButton!
+    var signUpBtn = UIButton()
+    var cancelBtn = UIButton()
     var profileImageLabel = UILabel()
     var birthday = ""
     
@@ -309,7 +309,7 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     var loadingIndicator: UIViewController?
     var blurEffectView: UIVisualEffectView?
     // clicked sign up
-    @IBAction func signUpBtn_click(_ sender: AnyObject) {
+    @objc func signUpTapped(_ recognizer: UITapGestureRecognizer) {
         print("sign up pressed")
         
         // dismiss keyboard
@@ -441,7 +441,7 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     
     
     // clicked cancel
-    @IBAction func cancelBtn_click(_ sender: AnyObject) {
+    @objc func backButtonpressed(_ recognizer: UITapGestureRecognizer) {
         
         // hide keyboard when pressed cancel
         self.view.endEditing(true)
@@ -450,6 +450,51 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     }
     
     func setUpNavBarView() {
+        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        print("This is status bar height \(statusBarHeight)")
+        self.view.addSubview(navBarView)
+        self.navBarView.addSubview(cancelBtn)
+        self.navBarView.addSubview(signUpBtn)
+        self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
+       
+        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        navBarView.backButton.isHidden = true
+        navBarView.postButton.isHidden = true
+//        self.navBarView.addSubview(toSettingsButton)
+//        self.navBarView.addSubview(toSearchButton)
+        
+        let backTap = UITapGestureRecognizer(target: self, action: #selector(self.backButtonpressed))
+        backTap.numberOfTapsRequired = 1
+        cancelBtn.isUserInteractionEnabled = true
+        cancelBtn.addGestureRecognizer(backTap)
+        cancelBtn.setImage(UIImage(named: "whiteChevron"), for: .normal)
+        
+        let postTap = UITapGestureRecognizer(target: self, action: #selector(self.signUpTapped))
+        postTap.numberOfTapsRequired = 1
+        signUpBtn.isUserInteractionEnabled = true
+        signUpBtn.addGestureRecognizer(postTap)
+        signUpBtn.setTitle("Next", for: .normal)
+        signUpBtn.setTitleColor(.systemBlue, for: .normal)
+      //  postButton.frame = CGRect(x: (self.view.frame.width) - (topBar.frame.height) - 5, y: 0, width: topBar.frame.height, height: topBar.frame.height)
+        signUpBtn.titleLabel?.sizeToFit()
+        signUpBtn.titleLabel?.textAlignment = .right
+        
+    
+       cancelBtn.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+        signUpBtn.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 30)/2, width: 40, height: 30)
+        //navBarView.postButton.titleLabel?.sizeToFit()
+        navBarView.postButton.titleLabel?.textAlignment = .right
+        let yOffset = navBarView.frame.maxY
+  
+        self.navBarView.addBehavior()
+        self.navBarView.titleLabel.text = "Create An Account"
+        print("This is navBarView.")
+      
+      
+    }
+    
+    
+    func setUpNavBarViewBad() {
         self.view.addSubview(self.navBarView)
         self.navBarView.addSubview(self.titleLabel1)
         self.navBarView.addBehavior()

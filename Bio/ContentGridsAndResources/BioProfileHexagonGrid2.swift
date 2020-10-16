@@ -40,6 +40,8 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
     var followImage3 = UIImageView()
 //    var profileImage = UIImage()
     var myProfileImage = UIImage()
+    var followersButton = UIButton()
+    var followingButton = UIButton()
     
     var followLabel = UILabel()
     
@@ -366,19 +368,35 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
 
         self.navBarView.addSubview(followView)
         self.followView.backgroundColor = .white
-        self.followView.frame = CGRect(x: self.view.frame.midX - 55, y: toSettingsButton.frame.minY, width: 110, height: 30)
+        self.followView.frame = CGRect(x: self.view.frame.midX - 80, y: toSettingsButton.frame.minY, width: 160, height: 30)
         self.followView.layer.cornerRadius = followView.frame.size.width / 20
-        self.followView.addSubview(followImage)
-        self.followView.addSubview(followImage2)
-        self.followView.addSubview(followImage3)
-        self.followView.addSubview(followLabel)
+        followersButton.setTitleColor(.black, for: .normal)
+        followingButton.setTitleColor(.black, for: .normal)
+        followersButton.setTitle("Followers", for: .normal)
+        followingButton.setTitle("Following", for: .normal)
+        let followersTap = UITapGestureRecognizer(target: self, action: #selector(followersTapped))
+        followersTap.numberOfTapsRequired = 1
+        followersButton.isUserInteractionEnabled = true
+        followersButton.addGestureRecognizer(followersTap)
+        
+        let followingTap = UITapGestureRecognizer(target: self, action: #selector(followingTapped))
+        followingTap.numberOfTapsRequired = 1
+        followingButton.isUserInteractionEnabled = true
+        followingButton.addGestureRecognizer(followingTap)
+        
+        self.followView.addSubview(followersButton)
+        self.followView.addSubview(followingButton)
         self.followView.isHidden = false
         var widthRemaining = self.followView.frame.width - (3*self.followView.frame.height)
         var spacingWidth = widthRemaining/4
-        self.followImage.frame = CGRect(x: spacingWidth, y: 0, width: followView.frame.height, height: followView.frame.height)
+        self.followersButton.frame = CGRect(x: 0, y: 0, width: followView.frame.width/2, height: followView.frame.height)
+        self.followingButton.frame = CGRect(x: followersButton.frame.maxX, y: 0, width: followView.frame.width/2, height: followView.frame.height)
        
-        self.followImage2.frame = CGRect(x: (2*spacingWidth) + followView.frame.height, y: 0, width: followView.frame.height, height: followView.frame.height)
-        self.followImage3.frame = CGRect(x:(2*followView.frame.height)+(3*spacingWidth), y: 0, width: followView.frame.height, height: followView.frame.height)
+       // self.followingButton.frame = CGRect(x: (2*spacingWidth) + followView.frame.height, y: 0, width: followView.frame.height, height: followView.frame.height)
+        self.followersButton.setTitle("Followers", for: .normal)
+        self.followingButton.setTitle("Following", for: .normal)
+        
+        //self.followImage3.frame = CGRect(x:(2*followView.frame.height)+(3*spacingWidth), y: 0, width: followView.frame.height, height: followView.frame.height)
         self.followView.layer.cornerRadius = followView.frame.size.width/10
         //self.followView.clipsToBounds()
         
@@ -389,12 +407,12 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
 //                print(error!.localizedDescription)
 //            }
 //        })
-        self.followImage.image = myProfileImage
+        self.followImage.image = myProfileImage//
         
-        self.followImage.setupHexagonMask(lineWidth: self.followImage.frame.width/15, color: .darkGray, cornerRadius: self.followImage.frame.width/15)
+      //  self.followImage.setupHexagonMask(lineWidth: self.followImage.frame.width/15, color: .darkGray, cornerRadius: self.followImage.frame.width/15)
         //self.followImage.image = UIImage(named: "twoFriendsFlipped")
-        self.followImage2.image = UIImage(named: "fire1")
-        self.followImage3.image = UIImage(named: "earth")
+      //  self.followImage2.image = UIImage(named: "fire1")
+      //  self.followImage3.image = UIImage(named: "earth")
         print("This is follow view frame \(self.followView.frame)")
         print("This is follow image1.frame \(self.followImage.frame)")
         print("This is follow image2.frame \(self.followImage2.frame)")
@@ -566,6 +584,23 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
         self.navigationController?.isNavigationBarHidden = false
         self.tabBarController?.tabBar.isHidden = false
         sender.view?.removeFromSuperview()
+    }
+
+    @objc func followersTapped(_ recognizer: UITapGestureRecognizer) {
+       print("followers tapped")
+        let followersTableVC = storyboard?.instantiateViewController(identifier: "followersTableView") as! FollowersTableView
+        followersTableVC.userData = self.userData
+        present(followersTableVC, animated: false)
+    }
+    
+    @objc func followingTapped(_ recognizer: UITapGestureRecognizer) {
+       print("following tapped")
+        let followingTableVC = storyboard?.instantiateViewController(identifier: "followingTableView") as! FollowingTableView
+        followingTableVC.userData = self.userData
+        present(followingTableVC, animated: false)
+       // print("frame after pressed \(toSearchButton.frame)")
+        
+
     }
 
     
