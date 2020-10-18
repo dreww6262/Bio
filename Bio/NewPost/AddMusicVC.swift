@@ -282,11 +282,21 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
 //        self.navBarView.addSubview(toSettingsButton)
 //        self.navBarView.addSubview(toSearchButton)
         
-        let backTap = UITapGestureRecognizer(target: self, action: #selector(self.backButtonpressed))
-        backTap.numberOfTapsRequired = 1
-        backButton.isUserInteractionEnabled = true
-        backButton.addGestureRecognizer(backTap)
-        backButton.setImage(UIImage(named: "whiteChevron"), for: .normal)
+        if cancelLbl != nil {
+            backButton.setTitle(cancelLbl, for: .normal)
+            backButton.setTitleColor(.systemBlue, for: .normal)
+            backButton.titleLabel?.font = UIFont(name: "poppins-SemiBold", size: 14)
+            //navBarView.backButton.setImage(UIImage(), for: .normal)
+            let skipOverride = UITapGestureRecognizer(target: self, action: #selector(skipTapped))
+            backButton.addGestureRecognizer(skipOverride)
+        }
+        else {
+            let backTap = UITapGestureRecognizer(target: self, action: #selector(self.backButtonpressed))
+            backTap.numberOfTapsRequired = 1
+            backButton.isUserInteractionEnabled = true
+            backButton.addGestureRecognizer(backTap)
+            backButton.setImage(UIImage(named: "whiteChevron"), for: .normal)
+        }
         
         let postTap = UITapGestureRecognizer(target: self, action: #selector(self.postTapped))
         postTap.numberOfTapsRequired = 1
@@ -300,6 +310,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         
     
        backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+        backButton.sizeToFit()
         postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 30)/2, width: 40, height: 30)
         //navBarView.postButton.titleLabel?.sizeToFit()
         navBarView.postButton.titleLabel?.textAlignment = .right
@@ -315,12 +326,6 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
     
     override func viewWillAppear(_ animated: Bool) {
         print("userData, view will appear: \(userData)")
-        if cancelLbl != nil {
-            navBarView.backButton.setTitle(cancelLbl, for: .normal)
-            navBarView.backButton.setImage(UIImage(), for: .normal)
-            navBarView.removeGestureRecognizer(navBarView.backButton.gestureRecognizers![0])
-            let skipOverride = UITapGestureRecognizer(target: self, action: #selector(skipTapped))
-        }
         hasChosenThumbnailImage = false
     }
     
@@ -527,6 +532,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
                 previewVC.thumbImage = linkHexagonImage.image
                 previewVC.userData = userData
                 previewVC.modalPresentationStyle = .fullScreen
+                previewVC.cancelLbl = cancelLbl
                 self.present(previewVC, animated: false, completion: nil)
                 
             }

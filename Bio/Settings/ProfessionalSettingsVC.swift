@@ -440,6 +440,23 @@ class ProfessionalSettingsVC: QuickTableViewController {
     }
     
     @objc func performSignout() {
+        var presenter = presentingViewController
+        if (presenter is HomeHexagonGrid) {
+            let home = presenter as! HomeHexagonGrid
+            home.menuView.userData = nil
+        }
+        else if (presenter is BioProfileHexagonGrid2) {
+            let prof = presenter as! BioProfileHexagonGrid2
+            prof.menuView.userData = nil
+        }
+        else if (presenter is NotificationsVC) {
+            let noti = presenter as! NotificationsVC
+            noti.menuView.userData = nil
+        }
+        else if (presenter is NewPostColorfulVC) {
+            let new = presenter as! NewPostColorfulVC
+            new.menuView.userData = nil
+        }
         self.performSegue(withIdentifier: "rewindSignOut", sender: self)
     }
     

@@ -20,6 +20,8 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
     var userData: UserData?
     var user = Auth.auth().currentUser
     
+    var cancelLbl: String?
+    
     var backButton = UIButton()
     var postButton = UIButton()
     
@@ -156,7 +158,6 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
             let parent = self.presentingViewController as! AddMusicVC
             parent.hasChosenThumbnailImage = true
         }
-        
         self.dismiss(animated: false, completion: nil)
     }
     
@@ -195,7 +196,19 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
                             self.db.collection("UserData1").document(self.user!.uid).setData(self.userData!.dictionary, completion: { error in
                                 if error == nil {
                                     print("userdata updated successfully")
-                                    self.performSegue(withIdentifier: "unwindFromLinkToHome", sender: nil)
+                                    
+                                    if (self.cancelLbl == nil || self.webHex?.type == "link") {
+                                        self.performSegue(withIdentifier: "unwindFromLinkToHome", sender: nil)
+                                    }
+
+                                    else {
+                                        let linkVC = self.storyboard?.instantiateViewController(withIdentifier: "linkVC") as! AddLinkVCViewController
+                                        linkVC.userData = self.userData
+                                        linkVC.currentUser = self.user
+                                        linkVC.cancelLbl = "Skip"
+                                        self.present(linkVC, animated: false, completion: nil)
+                                    }
+                                    
                                 }
                                 else {
                                     print("userData not saved \(error!.localizedDescription)")

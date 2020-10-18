@@ -30,6 +30,8 @@ class NewUploadPreviewVC: UIViewController {
     @IBOutlet weak var cancelButton: UIButton!
     var cellArray: [UploadPreviewCell] = []
     
+    var cancelLbl: String?
+    
     var navBarView = NavBarView()
     
     override func viewDidLoad() {
@@ -256,7 +258,16 @@ class NewUploadPreviewVC: UIViewController {
         self.db.collection("UserData1").document(Auth.auth().currentUser!.uid).setData(self.userData!.dictionary, completion: { error in
             if error == nil {
                 print("should navigate to homehexgrid")
-                self.performSegue(withIdentifier: "unwindFromUpload", sender: nil)
+                if (self.cancelLbl == nil) {
+                    self.performSegue(withIdentifier: "unwindFromUpload", sender: nil)
+                }
+                else {
+                    let musicVC = self.storyboard?.instantiateViewController(withIdentifier: "addMusicVC") as! AddMusicVC
+                    musicVC.userData = self.userData
+                    musicVC.currentUser = Auth.auth().currentUser
+                    musicVC.cancelLbl = "Skip"
+                    self.present(musicVC, animated: false, completion: nil)
+                }
             }
         })
     }

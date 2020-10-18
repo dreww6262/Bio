@@ -416,6 +416,9 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
                             addsocialmediaVC.currentUser = self.user
                             addsocialmediaVC.cancelLbl = "Skip"
                             self.present(addsocialmediaVC, animated: false, completion: nil)
+                            self.blurEffectView?.removeFromSuperview()
+                            loadingIndicator!.view.removeFromSuperview()
+                            loadingIndicator!.removeFromParent()
                         }
                         else {
                             print(error?.localizedDescription)

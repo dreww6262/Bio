@@ -424,11 +424,13 @@ var navBarView = NavBarView()
                         if (self.userData == nil || !NSDictionary(dictionary: newData.dictionary).isEqual(to: self.userData!.dictionary)) {
                             self.userData = newData
 //                            print("populates after getting userdata")
-                            self.populateUserAvatar()
-                            self.menuView.userData = newData
-                            self.createImageViews(completion: {
-                                self.loadDataListener?.remove()
-                            })
+                            if (self.userData != nil) {
+                                self.populateUserAvatar()
+                                self.menuView.userData = newData
+                                self.createImageViews(completion: {
+                                    self.loadDataListener?.remove()
+                                })
+                            }
                             //                        print("created image views")
                         }
                         else {
