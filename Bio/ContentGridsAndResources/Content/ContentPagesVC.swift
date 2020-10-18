@@ -382,6 +382,16 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
 //        }
 //    }
     
+    func copyTextToResource() {
+        let pasteboard = UIPasteboard.general
+        let currentVC = viewControllers[currentIndex]
+        if currentVC is ContentLinkVC {
+            let linkVC = currentVC as! ContentLinkVC
+            pasteboard.string = linkVC.webHex?.resource
+        }
+        
+    }
+    
     @objc func backTapped(_ sender: UITapGestureRecognizer) {
         print("back hit!")
         for v in view.subviews {
