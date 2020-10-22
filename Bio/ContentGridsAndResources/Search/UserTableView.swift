@@ -152,7 +152,7 @@ class UserTableView: UIViewController, UISearchBarDelegate {
                     
                     if (!readOnlyArray.contains(where: { data in
                         data.publicID == newUserData.publicID
-                    })) {
+                    }) && !self.userData!.isBlockedBy.contains(newUserData.publicID)) {
                         self.loadUserDataArray.append(newElement: newUserData)
                     }
                 }

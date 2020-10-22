@@ -404,7 +404,7 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
             let avaFileRef = userDataStorageRef.child(filename)
             avaFileRef.putData(self.avaImg.image!.pngData()!, metadata: nil, completion: { meta, error in
                 if (error == nil) {
-                    self.userData = UserData(email: email, publicID: self.usernameTxt.text!.lowercased(), privateID: signedInUser!.uid, avaRef: reference, hexagonGridID: "", userPage: "", subscribedUsers: [""], subscriptions: [""], numPosts: 0, displayName: self.displayNameTxt.text!, birthday: self.birthday, blockedUsers: [String]())
+                    self.userData = UserData(email: email, publicID: self.usernameTxt.text!.lowercased(), privateID: signedInUser!.uid, avaRef: reference, hexagonGridID: "", userPage: "", subscribedUsers: [""], subscriptions: [""], numPosts: 0, displayName: self.displayNameTxt.text!, birthday: self.birthday, blockedUsers: [String](), isBlockedBy: [String]())
                     let db = Firestore.firestore()
                     let userDataCollection = db.collection("UserData1")
                     let docRef = userDataCollection.document(user!.uid)

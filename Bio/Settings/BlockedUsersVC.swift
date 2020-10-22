@@ -104,7 +104,7 @@ class BlockedUsersVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             return
         }
         let usernameQuery = db.collection("UserData1").whereField("publicID", isGreaterThanOrEqualTo: searchString).whereField("publicID", isLessThan: searchString+"\u{F8FF}")
-        usernameQuery.addSnapshotListener({snapshots,error in
+        usernameQuery.getDocuments(completion: { snapshots,error in
             if (error != nil) {
                 print("god damnit")
                 //success = false
@@ -140,11 +140,15 @@ class BlockedUsersVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     @objc func deletePressed(_ sender: UITapGestureRecognizer) {
         let cell = sender.view?.superview?.superview as! BlockedCell
         let index = userData!.blockedUsers.firstIndex(of: cell.usernameLabel.text!)
+        
+        var isBlocking = true
+        
         if (index == nil) {
             userData?.blockedUsers.append(cell.usernameLabel.text!)
             blockedArray.append(newElement: cell.blockedUserData!)
         }
         else {
+            isBlocking = false
             userData?.blockedUsers.remove(at: index!)
             var count = 0
             for i in searchArray.readOnlyArray() {
@@ -167,7 +171,25 @@ class BlockedUsersVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         db.collection("UserData1").document(userData!.privateID).setData(userData!.dictionary)
         
-        
+        var blockedUser: UserData?
+        var blockedRef: DocumentReference?
+        db.collection("UserData1").whereField("publicID", isEqualTo: cell.usernameLabel.text!).getDocuments(completion: {obj, error in
+            guard let docs = obj?.documents else {
+                return
+            }
+            if docs.count > 0 {
+                blockedUser = UserData(dictionary: docs[0].data())
+                blockedRef = docs[0].reference
+                let blockedIndex = blockedUser?.isBlockedBy.firstIndex(of: self.userData!.publicID)
+                if blockedIndex == nil  && isBlocking{
+                    blockedUser?.isBlockedBy.append(self.userData!.publicID)
+                }
+                else if (!isBlocking && blockedIndex != nil) {
+                    blockedUser?.isBlockedBy.remove(at: blockedIndex!)
+                }
+                blockedRef?.setData(blockedUser!.dictionary)
+            }
+        })
         
     }
     
