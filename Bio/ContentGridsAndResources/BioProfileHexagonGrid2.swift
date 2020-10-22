@@ -491,7 +491,7 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
                     
                     if (!readOnlyArray.contains(where: { data in
                         data.publicID == newUserData.publicID
-                    })) {
+                    }) && !self.userData!.isBlockedBy.contains(newUserData.publicID) && !self.userData!.blockedUsers.contains(newUserData.publicID)) {
                         self.followingUserDataArray.append(newElement: newUserData)
                     }
                 }
