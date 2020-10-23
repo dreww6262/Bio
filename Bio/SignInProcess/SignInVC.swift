@@ -78,7 +78,7 @@ class SignInVC: UIViewController {
         print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.addSubview(self.cancelButton)
-        self.navBarView.addSubview(self.signInButton)
+       // self.navBarView.addSubview(self.signInButton)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
        
         var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
@@ -139,6 +139,7 @@ class SignInVC: UIViewController {
     }
     
     @IBAction func signInClicked(_ sender: Any) {
+        print("signin in")
         auth.signIn(withEmail: emailText.text!, password: passwordText.text!, completion: { result, error in
             if error == nil {
                 if result?.user != nil {
