@@ -104,6 +104,12 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
       //  print("This is the new unique one \(reOrderedCoordinateArrayPoints.count)")
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+
+    
+    
     func addSearchButton() {
         self.view.addSubview(toSearchButton)
         toSearchButton.frame = CGRect(x: self.view.frame.width-40, y: navBarY, width: 25, height: 25)

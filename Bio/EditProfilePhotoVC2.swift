@@ -18,8 +18,10 @@ class EditProfilePhotoVC2: UIViewController, UIImagePickerControllerDelegate & U
     @IBOutlet weak var signInButton: UIButton!
     var user = Auth.auth().currentUser
     @IBOutlet weak var imageView: UIImageView!
+
     
-    @IBOutlet weak var cancelButton: UIButton!
+    var toSettingsButton = UIButton()
+    
     var userData : UserData?
     let auth = Auth.auth()
     var navBarView = NavBarView()
@@ -38,6 +40,54 @@ class EditProfilePhotoVC2: UIViewController, UIImagePickerControllerDelegate & U
                                         .height*(5/4))
         setUpNavBarView()
         formatStuff()
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
+    func setUpNavBarView() {
+        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        print("This is status bar height \(statusBarHeight)")
+        self.view.addSubview(navBarView)
+        self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
+        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        navBarView.backButton.isHidden = true
+        navBarView.postButton.isHidden = true
+       
+        self.navBarView.addSubview(toSettingsButton)
+        
+        let settingsTap = UITapGestureRecognizer(target: self, action: #selector(self.toSettingsButtonClicked))
+        settingsTap.numberOfTapsRequired = 1
+        toSettingsButton.isUserInteractionEnabled = true
+        toSettingsButton.addGestureRecognizer(settingsTap)
+    
+       
+
+        self.toSettingsButton.setImage(UIImage(named: "whiteChevron"), for: .normal)
+ 
+     
+        self.toSettingsButton.frame = CGRect(x: 10, y: navBarView.frame.height - 30, width: 25, height: 25)
+        self.toSettingsButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+        let yOffset = navBarView.frame.maxY
+      //  self.navBarView.addSubview(titleLabel1)
+        self.navBarView.addBehavior()
+        self.navBarView.titleLabel.text = "Edit Profile Picture"
+        print("This is navBarView.")
+        self.toSettingsButton.setImage(UIImage(named: "whiteChevron"), for: .normal)
+
+
+        //self.titleLabel1.text = "Notifications"
+        self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
+       // let yOffset = navBarView.frame.maxY
+        
+
+    }
+    
+    
+    @objc func toSettingsButtonClicked(_ recognizer: UITapGestureRecognizer) {
+        self.view.endEditing(true)
+        self.dismiss(animated: true, completion: nil)
     }
     
     @objc func loadImg(_ recognizer:UITapGestureRecognizer) {
@@ -66,22 +116,6 @@ class EditProfilePhotoVC2: UIViewController, UIImagePickerControllerDelegate & U
         self.imageView.layer.borderColor = white.cgColor
     }
     
-    func setUpNavBarView() {
-        self.view.addSubview(self.navBarView)
-        self.navBarView.addSubview(self.titleLabel1)
-        self.navBarView.addBehavior()
-       
-        self.titleLabel1.text = "Change Profile Picture"
-        self.titleLabel1.font = UIFont(name: "DINAlternate-Bold", size: 28)
-        self.navBarView.frame = CGRect(x: 0, y: self.cancelButton.frame.minY/2, width: self.view.frame.width, height: self.view.frame.height/12)
-        self.titleLabel1.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/12)
-        self.titleLabel1.textAlignment = .center
-       
-        
-        self.titleLabel1.textColor = .white
-        self.navBarView.backgroundColor = .clear
-        self.navBarView.isUserInteractionEnabled = false
-    }
     
     
     @IBAction func signInClicked(_ sender: Any) {
@@ -166,12 +200,7 @@ class EditProfilePhotoVC2: UIViewController, UIImagePickerControllerDelegate & U
         
     }
     
-    @IBAction func cancelButtonClicked(_ sender: Any) {
-       
-            self.view.endEditing(true)
-            
-            self.dismiss(animated: true, completion: nil)
-    }
+    
 
 
 }

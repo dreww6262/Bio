@@ -709,19 +709,42 @@ var navBarView = NavBarView()
         //    var gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
 //        print("This is the type of hexagon: \(hexData.type)")
         let myType = hexData.type
+        //change this to photo one when we make that
+        var placeHolderImage = UIImage(named: "blueLink")
+        
+        switch myType {
+        case "photo":
+            placeHolderImage = UIImage(named: "blueLink")
+        case "video":
+            placeHolderImage = UIImage(named: "blueLink")
+        case "link":
+            placeHolderImage = UIImage(named: "blueLink")
+        case "music":
+            placeHolderImage = UIImage(named: "tealMusic")
+        case "social_media":
+            placeHolderImage = UIImage(named: "tealMusic")
+        default:
+            placeHolderImage = UIImage(named: "tealMusic")
+        }
+        
+        
         // image.setupHexagonMask(lineWidth: 10.0, color: myBlueGreen, cornerRadius: 10.0)
         createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
         //let ref = storage.child(hexData.thumbResource)
         let cleanRef = hexData.thumbResource.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
-        image.sd_setImage(with: url!, placeholderImage: UIImage(named: "boyprofile"), options: .refreshCached) { (_, error, _, _) in
+        image.sd_setImage(with: url!, placeholderImage: placeHolderImage, options: .refreshCached) { (_, error, _, _) in
             if (error != nil) {
                 print(error?.localizedDescription)
-                image.image = UIImage(named:"boyprofile")
+                image.image = placeHolderImage
             }
         }
         return image
     }
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)

@@ -86,7 +86,9 @@ class NotificationsVC: UIViewController {
         
     }
     
-    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
     
     
     

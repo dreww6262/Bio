@@ -3,7 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -114,35 +114,11 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uwc-1Q-obk">
-                                <rect key="frame" x="3" y="25" width="25" height="25"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" image="whiteChevron">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="cancelPost:" destination="qt2-lM-pKk" eventType="touchUpInside" id="BVG-KL-Zro"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0hx-Uq-KmD">
-                                <rect key="frame" x="337" y="47" width="74" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Post">
-                                    <color key="titleColor" systemColor="linkColor"/>
-                                </state>
-                                <connections>
-                                    <action selector="donePressed:" destination="qt2-lM-pKk" eventType="touchUpInside" id="azt-hs-Zdt"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="jt9-VZ-5Fv"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <connections>
-                        <outlet property="cancelButton" destination="uwc-1Q-obk" id="Mpu-Tv-nt1"/>
-                        <outlet property="doneButton" destination="0hx-Uq-KmD" id="iXD-VH-8PD"/>
                         <outlet property="tableView" destination="9rN-8w-252" id="46f-vJ-KUh"/>
                         <segue destination="6iO-BZ-N76" kind="unwind" identifier="unwindFromUpload" unwindAction="unvindSegueFromAddToHomeWithSegue:" id="Epa-Bz-Dbp"/>
                     </connections>
@@ -2009,25 +1985,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GlS-xR-zYC">
-                                <rect key="frame" x="20" y="44" width="25" height="25"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" image="whiteChevron">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <color key="titleShadowColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="cancelButtonClicked:" destination="Ak8-zB-fe9" eventType="touchUpInside" id="AGI-NZ-AwE"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JHB-bE-k3S">
                                 <rect key="frame" x="55" y="362" width="304" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="17"/>
-                                <state key="normal" title="Add Profile Picture">
+                                <state key="normal" title="Edit Profile Picture">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
@@ -2045,7 +2008,6 @@
                     </view>
                     <navigationItem key="navigationItem" id="Y1k-0c-RX3"/>
                     <connections>
-                        <outlet property="cancelButton" destination="GlS-xR-zYC" id="4Kb-Lq-f8e"/>
                         <outlet property="imageView" destination="Op3-8D-Fzs" id="AZ0-85-krv"/>
                         <outlet property="signInButton" destination="JHB-bE-k3S" id="8Qs-kF-Wuc"/>
                         <segue destination="XcK-IF-kM8" kind="unwind" identifier="unwindFromEditVC" unwindAction="unvindSegueFromAddToHomeWithSegue:" id="W9R-D2-kde"/>
@@ -2260,9 +2222,6 @@
         <image name="whiteChevron" width="64" height="64"/>
         <image name="whiteGearFinal" width="64" height="64"/>
         <image name="whiteMag" width="48" height="48"/>
-        <systemColor name="linkColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

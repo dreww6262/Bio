@@ -108,6 +108,11 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         // Do any additional setup after loading the view.
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+
+    
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         super.viewWillAppear(animated)

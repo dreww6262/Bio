@@ -97,6 +97,12 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+
+    
+    
     func updatePages(posts: [PostImageView]) {
         var hexDatas = [HexagonStructData?](repeating: nil, count: posts.count)
         var repeats = [HexagonStructData]()
@@ -540,7 +546,24 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         image.addGestureRecognizer(tapGesture)
         image.isUserInteractionEnabled = true
         var myType = hexData.type
+        var placeHolderImage = UIImage(named: "blueLink")
         createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
+        switch myType {
+        case "photo":
+            placeHolderImage = UIImage(named: "blueLink")
+        case "video":
+            placeHolderImage = UIImage(named: "blueLink")
+        case "link":
+            placeHolderImage = UIImage(named: "blueLink")
+        case "music":
+            placeHolderImage = UIImage(named: "tealMusic")
+        case "social_media":
+            placeHolderImage = UIImage(named: "tealMusic")
+        default:
+            placeHolderImage = UIImage(named: "tealMusic")
+        }
+        
+        
         //    var gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
         //        print("This is the type of hexagon: \(hexData.type)")
         
@@ -549,11 +572,14 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         //let ref = storage.child(hexData.thumbResource)
         let cleanRef = hexData.thumbResource.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
-        image.sd_setImage(with: url!, completed: {_, error, _, _ in
-            if error != nil {
-                print(error!.localizedDescription)
+
+        image.sd_setImage(with: url!, placeholderImage: placeHolderImage, options: .refreshCached) { (_, error, _, _) in
+            if (error != nil) {
+                print(error?.localizedDescription)
+                image.image = placeHolderImage
             }
-        })
+        }
+        
         return image
     }
     

@@ -26,8 +26,8 @@ class NewUploadPreviewVC: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     var userData: UserData?
     
-    @IBOutlet weak var doneButton: UIButton!
-    @IBOutlet weak var cancelButton: UIButton!
+var doneButton = UIButton()
+var cancelButton = UIButton()
     var cellArray: [UploadPreviewCell] = []
     
     var cancelLbl: String?
@@ -48,6 +48,7 @@ class NewUploadPreviewVC: UIViewController {
     }
     
     func setUpNavBarView() {
+        var statusBarHeight = UIApplication.shared.statusBarFrame.height
         self.view.addSubview(navBarView)
         self.navBarView.addSubview(titleLabel1)
         self.navBarView.addBehavior()
@@ -67,15 +68,28 @@ class NewUploadPreviewVC: UIViewController {
         
         self.navBarView.addSubview(cancelButton)
         self.navBarView.addSubview(doneButton)
-        cancelButton.frame = CGRect(x: 5, y: navBarView.frame.maxY - 30, width: 25, height: 25)
+        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+      //  self.cancelButton.frame = CGRect(x: 5, y: navBarView.frame.maxY - 30, width: 25, height: 25)
+        let postTap = UITapGestureRecognizer(target: self, action: #selector(self.donePressed))
+        postTap.numberOfTapsRequired = 1
+        self.doneButton.isUserInteractionEnabled = true
+        self.doneButton.addGestureRecognizer(postTap)
+        
+        let cancelTap = UITapGestureRecognizer(target: self, action: #selector(self.cancelPost))
+        cancelTap.numberOfTapsRequired = 1
+        self.cancelButton.isUserInteractionEnabled = true
+        self.cancelButton.addGestureRecognizer(cancelTap)
+        
+        
+        self.cancelButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
         //cancelButton.imageView?.frame = cancelButton.frame
-        cancelButton.clipsToBounds = true
-        cancelButton.isHidden = false
-        doneButton.clipsToBounds = true
-        doneButton.isHidden = false
+        self.cancelButton.clipsToBounds = true
+        self.cancelButton.isHidden = false
+        self.doneButton.clipsToBounds = true
+        self.doneButton.isHidden = false
        // followView.isHidden = false
-        doneButton.isHidden = false
-        doneButton.frame = CGRect(x: self.view.frame.width - 75, y: navBarView.frame.maxY - 30, width: 70, height: 25)
+        self.doneButton.isHidden = false
+        self.doneButton.frame = CGRect(x: self.view.frame.width - 75, y: navBarView.frame.maxY - 30, width: 70, height: 25)
         
         
     }
@@ -83,7 +97,7 @@ class NewUploadPreviewVC: UIViewController {
     func formatBackButton() {
         
         self.navBarView.addSubview(cancelButton)
-        cancelButton.frame = CGRect(x: 5, y: navBarView.frame.maxY - 30, width: 25, height: 25)
+        self.cancelButton.frame = CGRect(x: 5, y: navBarView.frame.maxY - 30, width: 25, height: 25)
         print("This is cancel Button.frame \(cancelButton.frame)")
         print("This is post Button.frame \(doneButton.frame)")
         
@@ -126,7 +140,7 @@ class NewUploadPreviewVC: UIViewController {
     var blurEffectView: UIVisualEffectView?
     
     
-    @IBAction func donePressed(_ sender: UIButton) {
+    @objc func donePressed(_ sender: UIButton) {
         var success = true
         var count = 0
         let numPosts = self.userData!.numPosts
@@ -362,7 +376,7 @@ class NewUploadPreviewVC: UIViewController {
         })
     }
     
-    @IBAction func cancelPost(_ sender: UIButton) {
+    @objc func cancelPost(_ sender: UIButton) {
         self.items = []
         self.dismiss(animated: false, completion: nil)
     }

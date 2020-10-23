@@ -273,8 +273,8 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
       //  print("This is backButton.image.frame \(backButton.imageView?.frame)")
         //backButton.setBackgroundImage(UIImage(named: "whiteBack"), for: .normal)
         commentButton.setBackgroundImage(UIImage(named: "whiteComment"), for: .normal)
-        shareButton.setBackgroundImage(UIImage(named: "whiteShare1"), for: .normal)
-        reportButton.setBackgroundImage(UIImage(named: "elipsis"), for: .normal)
+        shareButton.setBackgroundImage(UIImage(named: "whiteDots"), for: .normal)
+        reportButton.setBackgroundImage(UIImage(named: "whiteDots"), for: .normal)
         reportButton.frame = CGRect(x: self.view.frame.width-30, y: (topBar.frame.maxY) -  30, width: 25, height: 25)
      //   shareButton.frame = CGRect(x: self.view.frame.width-reportButton.frame.width-5-shareButton.frame.width, y: (topBar.frame.height - shareButton.frame.height) / 2, width: shareButton.frame.width, height: shareButton.frame.height)
       //  commentButton.frame = CGRect(x: (self.view.frame.width)-(reportButton.frame.width)-5-(shareButton.frame.width)-(commentButton.frame.width)-5, y: (topBar.frame.height - commentButton.frame.height) / 2, width: commentButton.frame.width, height: commentButton.frame.height)
@@ -324,6 +324,10 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
        // pageView.presentationController.
         
         // Do any additional setup after loading the view.
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -406,6 +410,7 @@ print("More tapped")
 
           alert.addAction(UIAlertAction(title: "Copy Link", style: .default , handler:{ (UIAlertAction)in
               print("User click Copy Link button")
+            self.copyTextToResource()
           }))
         
         alert.addAction(UIAlertAction(title: "Report Post", style: .default , handler:{ (UIAlertAction)in
