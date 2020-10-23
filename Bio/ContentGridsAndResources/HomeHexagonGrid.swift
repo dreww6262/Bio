@@ -714,12 +714,48 @@ var navBarView = NavBarView()
         //let ref = storage.child(hexData.thumbResource)
         let cleanRef = hexData.thumbResource.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
-        image.sd_setImage(with: url!, placeholderImage: UIImage(named: "boyprofile"), options: .refreshCached) { (_, error, _, _) in
-            if (error != nil) {
-                print(error?.localizedDescription)
-                image.image = UIImage(named:"boyprofile")
+        
+        
+        switch(hexData.type) {
+        case "music":
+            image.sd_setImage(with: url!, placeholderImage: UIImage(named: "musicplaceholder"), options: .refreshCached) { (_, error, _, _) in
+                if (error != nil) {
+                    print(error!.localizedDescription)
+                    image.image = UIImage(named:"musicplaceholder")
+                }
+            }
+        case "link":
+            image.sd_setImage(with: url!, placeholderImage: UIImage(named: "musicplaceholder"), options: .refreshCached) { (_, error, _, _) in
+                if (error != nil) {
+                    print(error!.localizedDescription)
+                    image.image = UIImage(named:"musicplaceholder")
+                }
+            }
+        case "photo":
+            image.sd_setImage(with: url!, placeholderImage: UIImage(named: "musicplaceholder"), options: .refreshCached) { (_, error, _, _) in
+                if (error != nil) {
+                    print(error!.localizedDescription)
+                    image.image = UIImage(named:"musicplaceholder")
+                }
+            }
+        case "video":
+            image.sd_setImage(with: url!, placeholderImage: UIImage(named: "musicplaceholder"), options: .refreshCached) { (_, error, _, _) in
+                if (error != nil) {
+                    print(error!.localizedDescription)
+                    image.image = UIImage(named:"musicplaceholder")
+                }
+            }
+        default:
+            // social media
+            image.sd_setImage(with: url!, placeholderImage: UIImage(named: "musicplaceholder"), options: .refreshCached) { (_, error, _, _) in
+                if (error != nil) {
+                    print(error!.localizedDescription)
+                    image.image = UIImage(named:"musicplaceholder")
+                }
             }
         }
+        
+        
         return image
     }
     
@@ -1272,6 +1308,9 @@ var navBarView = NavBarView()
 //        shrinkImage(imageView: avaImage!)
        // var mySize = avaImage?.bounds*
         
+        if (userData == nil) {
+            return
+        }
         let cleanRef = userData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
         
