@@ -24,15 +24,16 @@ class UserData {
     var displayName: String
     var birthday: String
     var blockedUsers: [String]
+    var isBlockedBy: [String]
     
     
     
     var dictionary: [String: Any] {
-        return ["email": email, "publicID": publicID, "privateID": privateID, "avaRef": avaRef, "hexagonGridID": hexagonGridID, "userPage": userPage, "subscribedUsers": subscribedUsers, "subscriptions":  subscriptions, "numPosts": numPosts, "displayName": displayName, "birthday": birthday, "blockedUsers": blockedUsers]
+        return ["email": email, "publicID": publicID, "privateID": privateID, "avaRef": avaRef, "hexagonGridID": hexagonGridID, "userPage": userPage, "subscribedUsers": subscribedUsers, "subscriptions":  subscriptions, "numPosts": numPosts, "displayName": displayName, "birthday": birthday, "blockedUsers": blockedUsers, "isBlockedBy": isBlockedBy]
     }
     
     
-    init(email: String, publicID: String, privateID: String, avaRef: String, hexagonGridID: String, userPage: String, subscribedUsers:  [String], subscriptions: [String], numPosts: Int, displayName: String, birthday: String, blockedUsers: [String]) {
+    init(email: String, publicID: String, privateID: String, avaRef: String, hexagonGridID: String, userPage: String, subscribedUsers:  [String], subscriptions: [String], numPosts: Int, displayName: String, birthday: String, blockedUsers: [String], isBlockedBy: [String]) {
         self.email = email
         self.publicID = publicID
         self.privateID = privateID
@@ -45,6 +46,7 @@ class UserData {
         self.displayName = displayName
         self.birthday = birthday
         self.blockedUsers = blockedUsers
+        self.isBlockedBy = isBlockedBy
     }
     
     
@@ -64,10 +66,15 @@ class UserData {
         if dictionary["blockedUsers"] != nil {
             blockedUsers = dictionary["blockedUsers"] as! [String]? ?? [""]
         }
+        var isBlockedBy = [String]()
+        if dictionary["isBlockedBy"] != nil {
+            isBlockedBy = dictionary["isBlockedBy"] as! [String]? ?? [""]
+        }
         
         
         
-        self.init(email: email, publicID: publicID,privateID: privateID, avaRef: avaRef, hexagonGridID: hexagonGridID, userPage: userPage, subscribedUsers: subscribedUsers, subscriptions: subscriptions, numPosts: numPosts, displayName: displayName, birthday: birthday, blockedUsers: blockedUsers)
+        
+        self.init(email: email, publicID: publicID,privateID: privateID, avaRef: avaRef, hexagonGridID: hexagonGridID, userPage: userPage, subscribedUsers: subscribedUsers, subscriptions: subscriptions, numPosts: numPosts, displayName: displayName, birthday: birthday, blockedUsers: blockedUsers, isBlockedBy: isBlockedBy)
     }
 }
 

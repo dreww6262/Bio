@@ -440,7 +440,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
     }
     
     @objc func performSignout() {
-        var presenter = presentingViewController
+        let presenter = presentingViewController
         if (presenter is HomeHexagonGrid) {
             let home = presenter as! HomeHexagonGrid
             home.menuView.userData = nil

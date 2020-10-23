@@ -1274,6 +1274,7 @@ var navBarView = NavBarView()
         
         let cleanRef = userData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
+        
         avaImage!.sd_setImage(with: url!, completed: {_, error, _, _ in
             if error != nil {
                 print(error!.localizedDescription)
