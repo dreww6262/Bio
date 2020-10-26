@@ -46,7 +46,6 @@ class PostiOS10PhotoCapture: NSObject, YPPhotoCapture, AVCapturePhotoCaptureDele
         settings.isHighResolutionPhotoEnabled = true
         
         // Set flash mode.
-        /*
         if let deviceInput = deviceInput {
             if deviceInput.device.isFlashAvailable {
                 switch currentFlashMode {
@@ -65,7 +64,6 @@ class PostiOS10PhotoCapture: NSObject, YPPhotoCapture, AVCapturePhotoCaptureDele
                 }
             }
         }
- */
         return settings
     }
     

@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>413651950234-vb9056k10mam6pbkri073v78rec3j6j4.apps.googleusercontent.com</string>
+	<string>413651950234-v2rj6rv9t1sfd30s23pvouab34b3qopm.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.413651950234-vb9056k10mam6pbkri073v78rec3j6j4</string>
+	<string>com.googleusercontent.apps.413651950234-v2rj6rv9t1sfd30s23pvouab34b3qopm</string>
 	<key>API_KEY</key>
 	<string>AIzaSyAd0eyteqCesIi31auoAo0C87xCbJGkaA4</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,23 +13,23 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.PatrickMcDonough.Bio</string>
+	<string>com.Bio97.Bio</string>
 	<key>PROJECT_ID</key>
 	<string>bio-social-media</string>
 	<key>STORAGE_BUCKET</key>
 	<string>bio-social-media.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_GCM_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:413651950234:ios:0d4e43c81d046ca6addd23</string>
+	<string>1:413651950234:ios:60082fef3c830081addd23</string>
 	<key>DATABASE_URL</key>
 	<string>https://bio-social-media.firebaseio.com</string>
 </dict>

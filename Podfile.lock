@@ -233,6 +233,9 @@ PODS:
   - Firebase/Firestore (6.32.2):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 1.17.1)
+  - Firebase/Messaging (6.32.2):
+    - Firebase/CoreOnly
+    - FirebaseMessaging (~> 4.6.2)
   - Firebase/Storage (6.32.2):
     - Firebase/CoreOnly
     - FirebaseStorage (~> 3.9.0)
@@ -276,6 +279,19 @@ PODS:
     - GoogleUtilities/Environment (~> 6.7)
     - GoogleUtilities/UserDefaults (~> 6.7)
     - PromisesObjC (~> 1.2)
+  - FirebaseInstanceID (4.8.0):
+    - FirebaseCore (~> 6.10)
+    - FirebaseInstallations (~> 1.6)
+    - GoogleUtilities/Environment (~> 6.7)
+    - GoogleUtilities/UserDefaults (~> 6.7)
+  - FirebaseMessaging (4.6.2):
+    - FirebaseCore (~> 6.10)
+    - FirebaseInstanceID (~> 4.6)
+    - GoogleUtilities/AppDelegateSwizzler (~> 6.7)
+    - GoogleUtilities/Environment (~> 6.7)
+    - GoogleUtilities/Reachability (~> 6.7)
+    - GoogleUtilities/UserDefaults (~> 6.7)
+    - Protobuf (>= 3.9.2, ~> 3.9)
   - FirebaseStorage (3.9.0):
     - FirebaseCore (~> 6.10)
     - GTMSessionFetcher/Core (~> 1.1)
@@ -362,6 +378,7 @@ PODS:
   - nanopb/decode (1.30906.0)
   - nanopb/encode (1.30906.0)
   - PromisesObjC (1.2.10)
+  - Protobuf (3.13.0)
   - PryntTrimmerView (4.0.2)
   - QuickTableViewController (1.2.4)
   - SDWebImage (5.9.1):
@@ -377,6 +394,7 @@ DEPENDENCIES:
   - Firebase/Analytics
   - Firebase/Auth
   - Firebase/Firestore
+  - Firebase/Messaging
   - Firebase/Storage
   - FirebaseUI/Storage
   - FMPhotoPicker (~> 1.1.0)
@@ -399,6 +417,8 @@ SPEC REPOS:
     - FirebaseCoreDiagnostics
     - FirebaseFirestore
     - FirebaseInstallations
+    - FirebaseInstanceID
+    - FirebaseMessaging
     - FirebaseStorage
     - FirebaseUI
     - FMPhotoPicker
@@ -415,6 +435,7 @@ SPEC REPOS:
     - MessageKit
     - nanopb
     - PromisesObjC
+    - Protobuf
     - PryntTrimmerView
     - QuickTableViewController
     - SDWebImage
@@ -440,6 +461,8 @@ SPEC CHECKSUMS:
   FirebaseCoreDiagnostics: 7415bfb3883b3500c5a95c42b6ba66baae78f600
   FirebaseFirestore: f178b761bf05a890749e4d87095ac5a77f11df2f
   FirebaseInstallations: 466c7b4d1f58fe16707693091da253726a731ed2
+  FirebaseInstanceID: bd3ffc24367f901a43c063b36c640b345a4a5dd1
+  FirebaseMessaging: 82d75b3770a78bbce470769a6980429608b4c407
   FirebaseStorage: 33b92875a9b556824886cc7a65120c7d2cb3a8d8
   FirebaseUI: e57e9b9c4340631151fbe67a14206d23d0974f37
   FMPhotoPicker: 609abea30c1ac413f74ef8aae0a84288bfe319cb
@@ -457,12 +480,13 @@ SPEC CHECKSUMS:
   MessageKit: e892a9ca49ebe6d82684d3a93ad84021fa23e2c6
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
   PromisesObjC: b14b1c6b68e306650688599de8a45e49fae81151
+  Protobuf: 3dac39b34a08151c6d949560efe3f86134a3f748
   PryntTrimmerView: 6a43cc90df5d99addeabd33d4ba09b1365322130
   QuickTableViewController: 92005c22d3ef77e5b264aee0d8027de0f63cabbf
   SDWebImage: a990c053fff71e388a10f3357edb0be17929c9c5
   SteviaLayout: c2ecdcff57d44e38fd2f65e54ad52aeae28ca0c4
   YPImagePicker: 08bbb809ed62bf4149fc015c97249eb4b9463ff9
 
-PODFILE CHECKSUM: 7211d4dcd4c02fae58383abdf0271b625fdf04e0
+PODFILE CHECKSUM: 7f3aa7fc497e206ea1ff0cec40d2d8338b2ffe3e
 
 COCOAPODS: 1.9.3
