@@ -20,7 +20,7 @@ class NewUploadPreviewVC: UIViewController {
     let storageRef = Storage.storage().reference()
     let filterSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ1234567890/_-."
     
-    var titleLabel1 = UILabel()
+   // var titleLabel1 = UILabel()
     
     var subtitleLabel = UILabel()
     @IBOutlet weak var tableView: UITableView!
@@ -48,50 +48,61 @@ var cancelButton = UIButton()
     }
     
     func setUpNavBarView() {
-        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        var statusBarHeight = UIApplication.shared.statusBarFrame.maxY
         self.view.addSubview(navBarView)
-        self.navBarView.addSubview(titleLabel1)
+      //  self.navBarView.addSubview(titleLabel1)
         self.navBarView.addBehavior()
 
-        self.titleLabel1.text = "New Post"
-        self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/10)+5)
+        self.navBarView.titleLabel.text = "New Post"
+      //  self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/10)+5)
+        self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
         let yOffset = navBarView.frame.maxY
         self.tableView.frame = CGRect(x: 0, y: yOffset, width: self.view.frame.width, height: self.view.frame.height - yOffset)
-        self.titleLabel1.frame = CGRect(x: 0, y: self.navBarView.frame.maxY - 30, width: self.view.frame.width, height: 30)
-        self.titleLabel1.textAlignment = .center
+    //    self.navBarView.titleLabel.frame = CGRect(x: 0, y: self.navBarView.frame.maxY - 30, width: self.view.frame.width, height: 30)
+        self.navBarView.titleLabel.textAlignment = .center
         
-        self.titleLabel1.font = UIFont(name: "DINAlternate-Bold", size: 20)
-        self.titleLabel1.textColor = .white
+        self.navBarView.titleLabel.font = UIFont(name: "DINAlternate-Bold", size: 20)
+        self.navBarView.titleLabel.textColor = .white
         self.navBarView.backgroundColor = UIColor(cgColor: CGColor(gray: 0.05, alpha: 1.0))
         self.navBarView.layer.borderWidth = 0.25
         self.navBarView.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
         
-        self.navBarView.addSubview(cancelButton)
-        self.navBarView.addSubview(doneButton)
+    //    self.navBarView.addSubview(self.cancelButton)
+  //      self.navBarView.addSubview(doneButton)
         var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
       //  self.cancelButton.frame = CGRect(x: 5, y: navBarView.frame.maxY - 30, width: 25, height: 25)
         let postTap = UITapGestureRecognizer(target: self, action: #selector(self.donePressed))
         postTap.numberOfTapsRequired = 1
-        self.doneButton.isUserInteractionEnabled = true
-        self.doneButton.addGestureRecognizer(postTap)
+//        self.doneButton.isUserInteractionEnabled = true
+//        self.doneButton.addGestureRecognizer(postTap)
         
         let cancelTap = UITapGestureRecognizer(target: self, action: #selector(self.cancelPost))
         cancelTap.numberOfTapsRequired = 1
-        self.cancelButton.isUserInteractionEnabled = true
-        self.cancelButton.addGestureRecognizer(cancelTap)
+        self.navBarView.backButton.isUserInteractionEnabled = true
+        self.navBarView.backButton.addGestureRecognizer(cancelTap)
         
         
-        self.cancelButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+       // self.cancelButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
         //cancelButton.imageView?.frame = cancelButton.frame
-        self.cancelButton.clipsToBounds = true
-        self.cancelButton.isHidden = false
-        self.doneButton.clipsToBounds = true
-        self.doneButton.isHidden = false
+        self.navBarView.backButton.clipsToBounds = true
+        self.navBarView.backButton.isHidden = false
+        self.navBarView.backButton.clipsToBounds = true
+        self.navBarView.postButton.isHidden = false
        // followView.isHidden = false
-        self.doneButton.isHidden = false
-        self.doneButton.frame = CGRect(x: self.view.frame.width - 75, y: navBarView.frame.maxY - 30, width: 70, height: 25)
+        self.navBarView.postButton.isHidden = false
+       // self.doneButton.frame = CGRect(x: self.view.frame.width - 75, y: navBarView.frame.maxY - 30, width: 70, height: 25)
+        self.navBarView.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+        self.navBarView.postButton.frame = CGRect(x: navBarView.frame.maxX - 65, y: statusBarHeight + (navBarHeightRemaining - 30)/2, width: 50, height: 30)
+        self.navBarView.postButton.titleLabel?.textAlignment = .right
+        
+        self.navBarView.postButton.isUserInteractionEnabled = true
+        self.navBarView.postButton.addGestureRecognizer(postTap)
         
         
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
     
     func formatBackButton() {
@@ -377,6 +388,7 @@ var cancelButton = UIButton()
     }
     
     @objc func cancelPost(_ sender: UIButton) {
+        print("Trying to cancel")
         self.items = []
         self.dismiss(animated: false, completion: nil)
     }

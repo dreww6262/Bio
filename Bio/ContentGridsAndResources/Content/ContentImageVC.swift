@@ -14,6 +14,7 @@ class ContentImageVC: UIViewController, UIScrollViewDelegate {
     var scrollView = UIScrollView()
     var newImageView: UIImageView?
     var userData: UserData?
+    var captionTextField = UITextField()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,12 +35,14 @@ class ContentImageVC: UIViewController, UIScrollViewDelegate {
         scrollView.bringSubviewToFront(newImageView!)
         
         let frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - 65)
+        let captionFrame = CGRect(x: 0, y: frame.minY - 71, width: view.bounds.width, height: 66)
         
         newImageView!.frame = frame
         newImageView!.backgroundColor = .black
         
         newImageView!.contentMode = .scaleAspectFit
         newImageView!.isUserInteractionEnabled = true
+        setUpCaption()
         //let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         //newImageView.addGestureRecognizer(tap)
         
@@ -47,6 +50,21 @@ class ContentImageVC: UIViewController, UIScrollViewDelegate {
         textView.text = "asdfkjlasdfjasdf"
         textView.textColor = .red
         // Do any additional setup after loading the view.
+        
+        captionTextField.frame = captionFrame
+        
+    }
+    
+    func setUpCaption() {
+        scrollView.addSubview(captionTextField)
+        var captionText = photoHex?.text
+        captionTextField.text = captionText
+        print("This is caption text \(captionText)")
+        print("This is text field text \(captionTextField.text)")
+        captionTextField.textColor = .white
+    //    captionTextField.size
+        
+        print()
     }
     
     // viewdidload helper functions

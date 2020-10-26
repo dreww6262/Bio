@@ -1256,7 +1256,7 @@
         <!--One Post Preview-->
         <scene sceneID="LfY-MA-by0">
             <objects>
-                <viewController storyboardIdentifier="1PostPreview" modalPresentationStyle="fullScreen" id="g6c-3y-BMm" customClass="OnePostPreview" customModule="Bio" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="onePostPreview" modalPresentationStyle="fullScreen" id="g6c-3y-BMm" customClass="OnePostPreview" customModule="Bio" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Axc-n5-TrU"/>
                         <viewControllerLayoutGuide type="bottom" id="FWK-6b-ddJ"/>
@@ -1535,7 +1535,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" image="clearCam">
+                                        <state key="normal" image="cameraicon">
                                             <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                     </button>
@@ -1563,7 +1563,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8ov-fh-KM6">
                                         <rect key="frame" x="23" y="-9" width="100" height="100"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" image="socialMediaIcon"/>
+                                        <state key="normal" image="socialmediaicon-1"/>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.97568184140000003" green="0.55293726919999997" blue="0.92070990799999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -2197,8 +2197,8 @@
         <image name="beachex" width="960" height="640"/>
         <image name="bioBlue" width="512" height="512"/>
         <image name="boyprofile" width="216" height="233"/>
+        <image name="cameraicon" width="128" height="102"/>
         <image name="cancel2" width="128" height="128"/>
-        <image name="clearCam" width="512" height="512"/>
         <image name="clearMusic" width="1280" height="1280"/>
         <image name="gradBG" width="488" height="780"/>
         <image name="hudlapp" width="921" height="921"/>
@@ -2212,7 +2212,7 @@
         <image name="poshmarkLogo" width="256" height="256"/>
         <image name="pp.jpg" width="128" height="128"/>
         <image name="snapapp" width="480" height="480"/>
-        <image name="socialMediaIcon" width="512" height="512"/>
+        <image name="socialmediaicon-1" width="512" height="512"/>
         <image name="soundcloud" width="280" height="280"/>
         <image name="tiktoklogo" width="750" height="749"/>
         <image name="trashCircle" width="512" height="512"/>

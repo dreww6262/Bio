@@ -190,7 +190,7 @@ class FollowersTableView: UIViewController, UISearchBarDelegate {
     }
     
     func loadFollows(completion: @escaping() -> ()) {
-        followListener = db.collection("Followings").whereField("follower", isEqualTo: userData!.publicID).addSnapshotListener({ objects, error in
+        followListener = db.collection("Followings").whereField("following", isEqualTo: userData!.publicID).addSnapshotListener({ objects, error in
             if error == nil {
                 self.followList.removeAll(keepingCapacity: true)
                 guard let docs = objects?.documents else {

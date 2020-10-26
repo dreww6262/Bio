@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import QuickTableViewController
+import FirebaseFirestore
 
 class ProfessionalSettingsVC: QuickTableViewController {
     

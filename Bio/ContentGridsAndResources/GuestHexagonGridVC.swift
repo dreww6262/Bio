@@ -550,17 +550,17 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
         switch myType {
         case "photo":
-            placeHolderImage = UIImage(named: "blueLink")
+            placeHolderImage = UIImage(named: "linkprev")
         case "video":
-            placeHolderImage = UIImage(named: "blueLink")
+            placeHolderImage = UIImage(named: "linkprev")
         case "link":
-            placeHolderImage = UIImage(named: "blueLink")
+            placeHolderImage = UIImage(named: "linkprev")
         case "music":
-            placeHolderImage = UIImage(named: "tealMusic")
+            placeHolderImage = UIImage(named: "musicprev")
         case "social_media":
-            placeHolderImage = UIImage(named: "tealMusic")
+            placeHolderImage = UIImage(named: "socialmediaprev2")
         default:
-            placeHolderImage = UIImage(named: "tealMusic")
+            placeHolderImage = UIImage(named: "socialmediaprev2")
         }
         
         

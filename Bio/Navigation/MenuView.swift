@@ -161,6 +161,8 @@ class MenuView: UIView {
         menuButton.addGestureRecognizer(menuDragged)
         menuButton.addGestureRecognizer(menuLongPressed)
 
+        
+        dmButton.addTarget(self, action: #selector(dmsButtonClicked), for: .touchUpInside)
         friendsButton.addTarget(self, action: #selector(friendsButtonClicked), for: .touchUpInside)
         homeProfileButton.addTarget(self, action: #selector(homeButtonClicked), for: .touchUpInside)
         newPostButton.addTarget(self, action: #selector(newPostButtonClicked), for: .touchUpInside)
@@ -205,6 +207,14 @@ class MenuView: UIView {
         menuButton.isHidden = false
         //menuButton.imageView?.image = UIImage(named: "k23")
         menuButton.layer.zPosition = 2
+    }
+
+    @objc func dmsButtonClicked(_ sender: UIButton) {
+        let alert = UIAlertController(title: "Coming Soon!", message: "DM's and Messenging Will Be Available in the Next Update", preferredStyle: UIAlertController.Style.alert)
+        let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: {_ in
+    })
+        alert.addAction(ok)
+   //     self.present(alert, animated: true, completion: nil)
     }
     
     @objc func friendsButtonClicked(_ sender: UIButton) {

@@ -33,6 +33,7 @@ class EditProfilePhotoVC2: UIViewController, UIImagePickerControllerDelegate & U
         avaTap.numberOfTapsRequired = 1
         imageView.isUserInteractionEnabled = true
         imageView.addGestureRecognizer(avaTap)
+        imageView.contentMode = .scaleToFill
         signInButton.layer.cornerRadius = signInButton.frame.width/20
         // Do any additional setup after loading the view.
        var rect1 = signInButton.frame
