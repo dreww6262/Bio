@@ -138,10 +138,10 @@ class ProfessionalSettingsVC: QuickTableViewController {
         print("This is navBarView.")
 //        self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
 //        self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
-
+        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
 
         //self.titleLabel1.text = "Notifications"
-        self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
+     //   self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
        // let yOffset = navBarView.frame.maxY
         self.tableView.frame = CGRect(x: 0, y: yOffset, width: self.view.frame.width, height: self.view.frame.height - yOffset)
 

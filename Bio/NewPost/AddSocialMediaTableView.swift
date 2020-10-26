@@ -450,7 +450,7 @@ class AddSocialMediaTableView: UIViewController {
         
     
    //     self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
-        self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+        self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 30)/2, width: 30, height: 30)
       //  backButton.sizeToFit()
         postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 30)/2, width: 40, height: 30)
         //navBarView.postButton.titleLabel?.sizeToFit()
@@ -459,6 +459,7 @@ class AddSocialMediaTableView: UIViewController {
   
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Add Social Media"
+        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
         print("This is navBarView.")
       
       

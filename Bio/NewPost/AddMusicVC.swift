@@ -320,6 +320,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
   
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Add Music"
+        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
         print("This is navBarView.")
       
       
