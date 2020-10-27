@@ -306,7 +306,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PAM-mJ-nVG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="yUY-Qd-9W7" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-5455" y="-5136"/>
+            <point key="canvasLocation" x="-5509" y="-5119"/>
         </scene>
         <!--Good Bio Sign UpVC-->
         <scene sceneID="dTc-0A-bar">
@@ -615,7 +615,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S92-a0-zHc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-4488" y="-4771"/>
+            <point key="canvasLocation" x="-4559" y="-4566"/>
         </scene>
         <!--SettingsVC Gradient-->
         <scene sceneID="Iro-Am-Pmq">
@@ -2189,6 +2189,76 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L0J-xC-Efh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="114" y="-5095"/>
+        </scene>
+        <!--Change PasswordVC-->
+        <scene sceneID="bFF-tO-Hcl">
+            <objects>
+                <viewController storyboardIdentifier="changePasswordVC" modalPresentationStyle="fullScreen" id="gAF-ch-0Ab" customClass="ChangePasswordVC" customModule="Bio" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="1Gk-7H-nPI">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gradBG" translatesAutoresizingMaskIntoConstraints="NO" id="1Si-vi-hMA">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </imageView>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Zyn-dr-rqB">
+                                <rect key="frame" x="55" y="208" width="304" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lfJ-yV-Cem">
+                                <rect key="frame" x="55" y="284" width="304" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zeK-o4-MLG">
+                                <rect key="frame" x="43" y="414" width="304" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="17"/>
+                                <state key="normal" title="Change Password">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="changePasswordClicked:" destination="gAF-ch-0Ab" eventType="touchUpInside" id="h7N-I2-tn7"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirm New Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KHC-BF-9Bf">
+                                <rect key="frame" x="55" y="342" width="304" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
+                            </textField>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="MQs-Ch-cWa"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="MQs-Ch-cWa" firstAttribute="trailing" secondItem="1Si-vi-hMA" secondAttribute="trailing" id="IIJ-So-rXT"/>
+                            <constraint firstItem="1Si-vi-hMA" firstAttribute="leading" secondItem="MQs-Ch-cWa" secondAttribute="leading" id="Qch-lG-oGg"/>
+                            <constraint firstItem="MQs-Ch-cWa" firstAttribute="bottom" secondItem="1Si-vi-hMA" secondAttribute="bottom" id="Wc0-fb-tNS"/>
+                            <constraint firstItem="1Si-vi-hMA" firstAttribute="top" secondItem="1Gk-7H-nPI" secondAttribute="topMargin" id="n4z-XO-JV3"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="gCA-Pa-zIf"/>
+                    <connections>
+                        <outlet property="confirmNewPasswordText" destination="KHC-BF-9Bf" id="iKX-Hv-VGq"/>
+                        <outlet property="currentPasswordText" destination="Zyn-dr-rqB" id="tb7-2s-NjF"/>
+                        <outlet property="newPasswordText" destination="lfJ-yV-Cem" id="BzG-it-MiY"/>
+                        <outlet property="signInButton" destination="zeK-o4-MLG" id="xsF-lf-slM"/>
+                        <segue destination="4qF-wo-Ms8" kind="unwind" identifier="unwindFromSignIn" unwindAction="unvindSegueToMenuWithSegue:" id="kR5-m8-Gl5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Jxu-le-Gnk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="4qF-wo-Ms8" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="-4752" y="-5267"/>
         </scene>
     </scenes>
     <resources>
