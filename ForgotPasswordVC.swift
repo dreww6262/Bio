@@ -135,7 +135,6 @@ class ChangePasswordVC: UIViewController {
         // dismiss keyboard
         self.view.endEditing(true)
         
-        // TODO: check if current password is correct
         
         
         
@@ -150,6 +149,29 @@ class ChangePasswordVC: UIViewController {
             
             return
         }
+        
+        //check if current password is correct
+        auth.signIn(withEmail: userData!.email, password: currentPasswordText.text!, completion: { result, error in
+            if error == nil {
+                if result?.user != nil {
+                  print("This is the correct password. continue")
+                }
+                
+            }
+            else {
+                print("error during signin: \(error?.localizedDescription)")
+                // alert message
+                let alert = UIAlertController(title: "Incorrect Password", message: "Enter Current Password Correctly", preferredStyle: UIAlertController.Style.alert)
+                let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
+                alert.addAction(ok)
+                self.present(alert, animated: true, completion: nil)
+                
+                return
+                
+            }
+        })
+        
+        
     
         //if new password matches old password
         if newPasswordText.text == currentPasswordText.text || confirmNewPasswordText.text == currentPasswordText.text {
