@@ -12,11 +12,12 @@ import FirebaseAuth
 import FirebaseStorage
 import FirebaseUI
 import FirebaseFirestore
+import YPImagePicker
 
 class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     @IBOutlet weak var titleText: UILabel!
     @IBOutlet weak var subtitleText: UILabel!
-    
+    var items: [YPMediaItem]?
     
     
     // scrollView
@@ -54,8 +55,17 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
     override func viewDidLoad() {
         var alreadySnapped = false
         super.viewDidLoad()
+        locationTextField.isHidden = true
+        tagTextField.isHidden = true
         
-        
+        switch items![0] {
+        case .photo(let photo):
+            previewImage.image = photo.image
+        case .video(let video) :
+            previewImage.image = video.thumbnail
+        default:
+            print("bad")
+        }
         
         //        let group = DispatchGroup()
         //
@@ -133,12 +143,12 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
         
         
         captionTextField.frame = CGRect(x: 10, y: previewImage.frame.maxY + 20, width: self.view.frame.size.width - 20, height: 30)
-         locationTextField.frame = CGRect(x: 10, y: captionTextField.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
- tagTextField.frame = CGRect(x: 10, y: locationTextField.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
+      //   locationTextField.frame = CGRect(x: 10, y: captionTextField.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
+// tagTextField.frame = CGRect(x: 10, y: locationTextField.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
 //        captionTextField.attributedPlaceholder = NSAttributedString(string: "Caption",
 //        attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         
-        continueBtn.frame =  CGRect(x: 10.0, y: tagTextField.frame.maxY + 10, width: self.view.frame.width - 20, height: 24)
+        continueBtn.frame =  CGRect(x: 10.0, y: captionTextField.frame.maxY + 10, width: self.view.frame.width - 20, height: 24)
         continueBtn.layer.cornerRadius = continueBtn.frame.size.width / 20
         cancelBtn.frame =  CGRect(x: 10.0, y: continueBtn.frame.maxY + 10, width: continueBtn.frame.width, height: 24)
         cancelBtn.layer.cornerRadius = cancelBtn.frame.size.width / 20

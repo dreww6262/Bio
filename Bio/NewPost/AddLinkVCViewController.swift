@@ -233,8 +233,10 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         postButton.titleLabel?.textAlignment = .right
         
     
-       backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
-        backButton.sizeToFit()
+      //  self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+        self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+        
+    //    backButton.sizeToFit()
         postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 30)/2, width: 40, height: 30)
         //navBarView.postButton.titleLabel?.sizeToFit()
         navBarView.postButton.titleLabel?.textAlignment = .right
@@ -242,6 +244,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
   
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Add A Link"
+        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
         print("This is navBarView.")
       
       

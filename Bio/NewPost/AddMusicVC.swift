@@ -309,8 +309,10 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         postButton.titleLabel?.textAlignment = .right
         
     
-       backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
-        backButton.sizeToFit()
+        self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+        //self.backButton.frame = CGRect(x: 10, y: (navBarView.frame.height - 25)/2, width: 25, height: 25)
+        
+        //backButton.sizeToFit()
         postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 30)/2, width: 40, height: 30)
         //navBarView.postButton.titleLabel?.sizeToFit()
         navBarView.postButton.titleLabel?.textAlignment = .right
@@ -318,6 +320,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
   
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Add Music"
+        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
         print("This is navBarView.")
       
       

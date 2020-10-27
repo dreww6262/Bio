@@ -16,11 +16,44 @@ import FirebaseStorage
 
 
 
-class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
+class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
+    let db = Firestore.firestore()
+    let storageRef = Storage.storage().reference()
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+       // refresh()
+        loadFollowings()
+        print("This is followingUserDataArray count \(self.followingUserDataArray.count): \(self.followingUserDataArray)")
+        return self.followingUserDataArray.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+       // refresh()
+        loadFollowings()
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "profileCircleCell", for: indexPath) as! ProfileCircleCell
+        cell.imageView.frame = CGRect(x: cell.frame.width/16, y: 0, width: cell.frame.width*(14/16), height: cell.frame.height*(14/16))
+        cell.label.frame = CGRect(x: 0, y: cell.imageView.frame.maxY, width: cell.frame.width, height: cell.frame.height - cell.imageView.frame.maxY)
+        cell.tag = indexPath.row
+        cell.imageView.tag = indexPath.row
+        cell.label.tag = indexPath.row
+        let tapCellGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleCollectionViewTap))
+        cell.addGestureRecognizer(tapCellGesture)
+        cell.imageView.layer.cornerRadius = cell.imageView.frame.width/2
+       // let ref = self.followingUserDataArray[indexPath.row].avaRef as! StorageReference
+        cell.imageView.sd_setImage(with: storageRef.child(followingUserDataArray[indexPath.row].avaRef))
+        //cell.imageView.sd_setImage(with: ref)
+        cell.label.text = self.followingUserDataArray[indexPath.row].displayName
+        cell.label.textColor = .white
+        cell.label.font = UIFont(name: "DINAlternate-SemiBold", size: 12)
+                return cell
+    }
+    
     var navBarY = CGFloat(39)
     var followView = UIView()
     var newFollowArray: [String] = []
     //var user = PFUser.current()!.username!
+    @IBOutlet weak var profileCollectionView: UICollectionView!
+    
     var navBarView = NavBarView()
     let menuView = MenuView()
     var user = Auth.auth().currentUser
@@ -31,7 +64,7 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
     // array showing who we follow
     var followArray = [String]()
     var followingUserDataArray = ThreadSafeArray<UserData>()
-    let db = Firestore.firestore()
+    //let db = Firestore.firestore()
     var userData: UserData?
     var loadUserDataArray: [UserData] = []
     var tableView = UITableView()
@@ -42,6 +75,8 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
     var myProfileImage = UIImage()
     var followersButton = UIButton()
     var followingButton = UIButton()
+    var followersView = UIView()
+    var followingView = UIView()
     
     var followLabel = UILabel()
     
@@ -86,7 +121,8 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        profileCollectionView.dataSource = self
+        profileCollectionView.delegate = self
         setUpScrollView()
         setZoomScale()
         addMenuButtons()
@@ -99,10 +135,19 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
         toSearchButton.isHidden = false
         followView.isHidden = false
         
+        insertFollowersView()
+        setUpCollectionView()
+        
      //   print("This is total count \(reOrderedCoordinateArrayPoints.count)")
       // var unique = reOrderedCoordinateArrayPoints.removingDuplicates()
       //  print("This is the new unique one \(reOrderedCoordinateArrayPoints.count)")
     }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+
+    
     
     func addSearchButton() {
         self.view.addSubview(toSearchButton)
@@ -113,6 +158,47 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
         toSearchButton.isHidden = false
         followView.isHidden = false
         toSettingsButton.isHidden = false
+    }
+    
+    func insertFollowersView() {
+        self.navBarView.addSubview(followersView)
+        self.followersView.backgroundColor = .white
+        self.followersView.frame = CGRect(x: self.view.frame.midX - 80, y: toSettingsButton.frame.minY, width: 80, height: 30)
+        self.followersView.layer.cornerRadius = followersView.frame.size.width / 20
+        self.navBarView.addSubview(followingView)
+        self.followersView.addSubview(followersButton)
+        self.followingView.addSubview(followingButton)
+        self.followingView.backgroundColor = .white
+        self.followingView.frame = CGRect(x: self.followersView.frame.maxX + 5, y: toSettingsButton.frame.minY, width: 80, height: 30)
+        self.followersView.layer.cornerRadius = followersView.frame.size.width / 20
+        self.followingView.layer.cornerRadius = followingView.frame.size.width / 20
+        self.followersButton.setTitleColor(.black, for: .normal)
+        self.followingButton.setTitleColor(.black, for: .normal)
+        self.followersButton.setTitle("Followers", for: .normal)
+        self.followingButton.setTitle("Following", for: .normal)
+        self.followersButton.frame = CGRect(x: 0, y: 0, width: followersView.frame.width, height: followersView.frame.height)
+        self.followingButton.frame = CGRect(x: 0, y: 0, width: followingView.frame.width, height: followingView.frame.height)
+        let followersTap = UITapGestureRecognizer(target: self, action: #selector(followersTapped))
+        followersTap.numberOfTapsRequired = 1
+        self.followersView.isUserInteractionEnabled = true
+        self.followersView.addGestureRecognizer(followersTap)
+        
+        let followingTap = UITapGestureRecognizer(target: self, action: #selector(followingTapped))
+        followingTap.numberOfTapsRequired = 1
+        self.followingView.isUserInteractionEnabled = true
+        self.followingView.addGestureRecognizer(followingTap)
+        
+        self.followersButton.setTitle("Followers", for: .normal)
+        self.followingButton.setTitle("Following", for: .normal)
+        
+
+        
+    }
+    
+    func setUpCollectionView() {
+        self.view.addSubview(profileCollectionView)
+        self.profileCollectionView.frame = CGRect(x: 0, y: self.navBarView.frame.maxY, width: self.view.frame.width, height: self.view.frame.height*(8/24))
+        self.profileCollectionView.backgroundColor = .clear
     }
     
     func insertFollowView() {
@@ -366,62 +452,62 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
         self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
         self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
 
-        self.navBarView.addSubview(followView)
-        self.followView.backgroundColor = .white
-        self.followView.frame = CGRect(x: self.view.frame.midX - 80, y: toSettingsButton.frame.minY, width: 160, height: 30)
-        self.followView.layer.cornerRadius = followView.frame.size.width / 20
-        followersButton.setTitleColor(.black, for: .normal)
-        followingButton.setTitleColor(.black, for: .normal)
-        followersButton.setTitle("Followers", for: .normal)
-        followingButton.setTitle("Following", for: .normal)
-        let followersTap = UITapGestureRecognizer(target: self, action: #selector(followersTapped))
-        followersTap.numberOfTapsRequired = 1
-        followersButton.isUserInteractionEnabled = true
-        followersButton.addGestureRecognizer(followersTap)
-        
-        let followingTap = UITapGestureRecognizer(target: self, action: #selector(followingTapped))
-        followingTap.numberOfTapsRequired = 1
-        followingButton.isUserInteractionEnabled = true
-        followingButton.addGestureRecognizer(followingTap)
-        
-        self.followView.addSubview(followersButton)
-        self.followView.addSubview(followingButton)
-        self.followView.isHidden = false
-        var widthRemaining = self.followView.frame.width - (3*self.followView.frame.height)
-        var spacingWidth = widthRemaining/4
-        self.followersButton.frame = CGRect(x: 0, y: 0, width: followView.frame.width/2, height: followView.frame.height)
-        self.followingButton.frame = CGRect(x: followersButton.frame.maxX, y: 0, width: followView.frame.width/2, height: followView.frame.height)
-       
-       // self.followingButton.frame = CGRect(x: (2*spacingWidth) + followView.frame.height, y: 0, width: followView.frame.height, height: followView.frame.height)
-        self.followersButton.setTitle("Followers", for: .normal)
-        self.followingButton.setTitle("Following", for: .normal)
-        
-        //self.followImage3.frame = CGRect(x:(2*followView.frame.height)+(3*spacingWidth), y: 0, width: followView.frame.height, height: followView.frame.height)
-        self.followView.layer.cornerRadius = followView.frame.size.width/10
-        //self.followView.clipsToBounds()
-        
-     //   let cleanRef = userData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
-       // let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
-//        self.followImage.sd_setImage(with: url!, completed: {_, error, _, _ in
-//            if error != nil {
-//                print(error!.localizedDescription)
-//            }
-//        })
-        self.followImage.image = myProfileImage//
-        
-      //  self.followImage.setupHexagonMask(lineWidth: self.followImage.frame.width/15, color: .darkGray, cornerRadius: self.followImage.frame.width/15)
-        //self.followImage.image = UIImage(named: "twoFriendsFlipped")
-      //  self.followImage2.image = UIImage(named: "fire1")
-      //  self.followImage3.image = UIImage(named: "earth")
-        print("This is follow view frame \(self.followView.frame)")
-        print("This is follow image1.frame \(self.followImage.frame)")
-        print("This is follow image2.frame \(self.followImage2.frame)")
-        print("This is follow image3.frame \(self.followImage3.frame)")
-        self.followLabel.frame = CGRect(x: followImage.frame.maxX + 5, y: 0.0, width: followView.frame.width - 10, height: followView.frame.height)
-        self.followLabel.isHidden = true
-        self.followLabel.text = "Community"
-        self.followLabel.textColor = .black
-        
+//        self.navBarView.addSubview(followView)
+//        self.followView.backgroundColor = .white
+//        self.followView.frame = CGRect(x: self.view.frame.midX - 80, y: toSettingsButton.frame.minY, width: 160, height: 30)
+//        self.followView.layer.cornerRadius = followView.frame.size.width / 20
+//        followersButton.setTitleColor(.black, for: .normal)
+//        followingButton.setTitleColor(.black, for: .normal)
+//        followersButton.setTitle("Followers", for: .normal)
+//        followingButton.setTitle("Following", for: .normal)
+//        let followersTap = UITapGestureRecognizer(target: self, action: #selector(followersTapped))
+//        followersTap.numberOfTapsRequired = 1
+//        followersButton.isUserInteractionEnabled = true
+//        followersButton.addGestureRecognizer(followersTap)
+//
+//        let followingTap = UITapGestureRecognizer(target: self, action: #selector(followingTapped))
+//        followingTap.numberOfTapsRequired = 1
+//        followingButton.isUserInteractionEnabled = true
+//        followingButton.addGestureRecognizer(followingTap)
+//
+//        self.followView.addSubview(followersButton)
+//        self.followView.addSubview(followingButton)
+//        self.followView.isHidden = false
+//        var widthRemaining = self.followView.frame.width - (3*self.followView.frame.height)
+//        var spacingWidth = widthRemaining/4
+//        self.followersButton.frame = CGRect(x: 0, y: 0, width: followView.frame.width/2, height: followView.frame.height)
+//        self.followingButton.frame = CGRect(x: followersButton.frame.maxX, y: 0, width: followView.frame.width/2, height: followView.frame.height)
+//
+//       // self.followingButton.frame = CGRect(x: (2*spacingWidth) + followView.frame.height, y: 0, width: followView.frame.height, height: followView.frame.height)
+//        self.followersButton.setTitle("Followers", for: .normal)
+//        self.followingButton.setTitle("Following", for: .normal)
+//
+//        //self.followImage3.frame = CGRect(x:(2*followView.frame.height)+(3*spacingWidth), y: 0, width: followView.frame.height, height: followView.frame.height)
+//        self.followView.layer.cornerRadius = followView.frame.size.width/10
+//        //self.followView.clipsToBounds()
+//
+//     //   let cleanRef = userData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
+//       // let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
+////        self.followImage.sd_setImage(with: url!, completed: {_, error, _, _ in
+////            if error != nil {
+////                print(error!.localizedDescription)
+////            }
+////        })
+//        self.followImage.image = myProfileImage//
+//
+//      //  self.followImage.setupHexagonMask(lineWidth: self.followImage.frame.width/15, color: .darkGray, cornerRadius: self.followImage.frame.width/15)
+//        //self.followImage.image = UIImage(named: "twoFriendsFlipped")
+//      //  self.followImage2.image = UIImage(named: "fire1")
+//      //  self.followImage3.image = UIImage(named: "earth")
+//        print("This is follow view frame \(self.followView.frame)")
+//        print("This is follow image1.frame \(self.followImage.frame)")
+//        print("This is follow image2.frame \(self.followImage2.frame)")
+//        print("This is follow image3.frame \(self.followImage3.frame)")
+//        self.followLabel.frame = CGRect(x: followImage.frame.maxX + 5, y: 0.0, width: followView.frame.width - 10, height: followView.frame.height)
+//        self.followLabel.isHidden = true
+//        self.followLabel.text = "Community"
+//        self.followLabel.textColor = .black
+//
 
     }
     
@@ -605,6 +691,23 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate {
 
     
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
+//        print("🎯🎯🎯🎯🎯Hello World")
+//        print("🎯🎯🎯🎯🎯🎯🎯I tapped image with tag \(sender.view!.tag)")
+        let username = followingUserDataArray[sender.view!.tag].publicID
+//        print("🎯🎯🎯🎯🎯🎯🎯 I tapped image with associated username: \(username)")
+        let guestVC = storyboard?.instantiateViewController(identifier: "guestGridVC") as! GuestHexagonGridVC
+        //guestVC.user = user
+        guestVC.myUserData = userData
+        guestVC.followList = self.newFollowArray
+        //guestVC.profileImage = self.
+        guestVC.guestUserData = followingUserDataArray[sender.view!.tag]
+        guestVC.isFollowing = true
+        show(guestVC, sender: nil)
+        // TODO: use tag to get index of userdata to go to new hex grid as guest.
+        
+    }
+    
+    @objc func handleCollectionViewTap(_ sender: UITapGestureRecognizer) {
 //        print("🎯🎯🎯🎯🎯Hello World")
 //        print("🎯🎯🎯🎯🎯🎯🎯I tapped image with tag \(sender.view!.tag)")
         let username = followingUserDataArray[sender.view!.tag].publicID

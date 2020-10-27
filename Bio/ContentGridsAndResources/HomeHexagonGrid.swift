@@ -709,55 +709,44 @@ var navBarView = NavBarView()
         //    var gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
 //        print("This is the type of hexagon: \(hexData.type)")
         let myType = hexData.type
+        //change this to photo one when we make that
+        var placeHolderImage = UIImage(named: "blueLink")
+        
+        switch myType {
+        case "photo":
+            placeHolderImage = UIImage(named: "photoPrev")
+        case "video":
+            placeHolderImage = UIImage(named: "photoPrev")
+        case "link":
+            placeHolderImage = UIImage(named: "linkprev")
+        case "music":
+            placeHolderImage = UIImage(named: "musicprev")
+        case "social_media":
+            placeHolderImage = UIImage(named: "socialprev")
+        default:
+            placeHolderImage = UIImage(named: "socialprev")
+        }
+        
+        
         // image.setupHexagonMask(lineWidth: 10.0, color: myBlueGreen, cornerRadius: 10.0)
         createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
         //let ref = storage.child(hexData.thumbResource)
         let cleanRef = hexData.thumbResource.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
-        
-        
-        switch(hexData.type) {
-        case "music":
-            image.sd_setImage(with: url!, placeholderImage: UIImage(named: "musicplaceholder"), options: .refreshCached) { (_, error, _, _) in
-                if (error != nil) {
-                    print(error!.localizedDescription)
-                    image.image = UIImage(named:"musicplaceholder")
-                }
-            }
-        case "link":
-            image.sd_setImage(with: url!, placeholderImage: UIImage(named: "musicplaceholder"), options: .refreshCached) { (_, error, _, _) in
-                if (error != nil) {
-                    print(error!.localizedDescription)
-                    image.image = UIImage(named:"musicplaceholder")
-                }
-            }
-        case "photo":
-            image.sd_setImage(with: url!, placeholderImage: UIImage(named: "musicplaceholder"), options: .refreshCached) { (_, error, _, _) in
-                if (error != nil) {
-                    print(error!.localizedDescription)
-                    image.image = UIImage(named:"musicplaceholder")
-                }
-            }
-        case "video":
-            image.sd_setImage(with: url!, placeholderImage: UIImage(named: "musicplaceholder"), options: .refreshCached) { (_, error, _, _) in
-                if (error != nil) {
-                    print(error!.localizedDescription)
-                    image.image = UIImage(named:"musicplaceholder")
-                }
-            }
-        default:
-            // social media
-            image.sd_setImage(with: url!, placeholderImage: UIImage(named: "musicplaceholder"), options: .refreshCached) { (_, error, _, _) in
-                if (error != nil) {
-                    print(error!.localizedDescription)
-                    image.image = UIImage(named:"musicplaceholder")
-                }
+        image.sd_setImage(with: url!, placeholderImage: placeHolderImage, options: .refreshCached) { (_, error, _, _) in
+            if (error != nil) {
+                print(error?.localizedDescription)
+                image.image = placeHolderImage
             }
         }
         
         
         return image
     }
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)

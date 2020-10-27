@@ -10,6 +10,7 @@ import Foundation
 import CoreLocation
 import Firebase
 import MapKit
+import FirebaseFirestore
 
 class Spot: NSObject, MKAnnotation {
     var name: String

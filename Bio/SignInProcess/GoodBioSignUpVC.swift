@@ -259,10 +259,11 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     func formatPhotoLabel() {
         self.view.addSubview(self.profileImageLabel)
         var photoFrame = self.avaImg.frame
-        self.profileImageLabel.frame = CGRect(x: self.view.frame.width/32, y: photoFrame.minY, width: (self.view.frame.width/2) - self.view.frame.width/16, height: 44)
+        self.profileImageLabel.frame = CGRect(x: self.view.frame.width/32, y: photoFrame.minY - 10, width: self.view.frame.width/2, height: 44)
         self.profileImageLabel.text = "Choose A Profile Picture:"
         self.profileImageLabel.font = emailTxt.font
-        self.profileImageLabel.font = emailTxt.font?.withSize(12)
+       self.profileImageLabel.font = emailTxt.font?.withSize(12)
+        self.profileImageLabel.textAlignment = .left
         self.profileImageLabel.textColor = .white
     }
     
@@ -496,6 +497,7 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
   
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Create An Account"
+        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
         print("This is navBarView.")
       
       

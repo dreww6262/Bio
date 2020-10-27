@@ -40,7 +40,7 @@ class AddSocialMediaTableView: UIViewController {
     
     var cancelLbl: String?
     
-    var socialMediaArray: [String] = ["instagram", "snapchat", "tikTok", "twitter", "youtube", "vsco", "soundcloud", "twitch", "linkedIn", "etsy", "poshmark", "hudl"]
+    var socialMediaArray: [String] = ["instagram", "snapchat", "tikTok", "twitter", "youtube", "vsco", "soundcloud", "twitch", "linkedIn", "etsy", "poshmark", "hudl", "venmo", "cameo"]
     
     var image1 = UIImage(named: "instagramLogo")
     var image2 = UIImage(named: "snapchatlogo")
@@ -54,7 +54,8 @@ class AddSocialMediaTableView: UIViewController {
     var image10 = UIImage(named: "etsyLogoCircle")
     var image11 = UIImage(named: "poshmarkLogo")
     var image12 = UIImage(named: "hudlapp")
-    var image13 = UIImage(named: "twitchCircle")
+    var image13 = UIImage(named: "venmoCircle")
+    var image14 = UIImage(named: "cameo")
     
     
     
@@ -62,7 +63,7 @@ class AddSocialMediaTableView: UIViewController {
     var iconArray: [UIImage] = []
     //[image1,image2,image3,image4,image5,image6,image7,image8,image9,image10,image11,image12]
     //var iconArray: [UIImage] = [UIImage(named: "icons/instagramLogo.png")!,UIImage(named: "icons/snapchatLogo.png")!,UIImage(named: "icons/tikTokLogo.png")!,UIImage(named: "icons/twitterLogo.png")!,UIImage(named: "icons/youtubeLogo.png")!,UIImage(named: "icons/twitch1.png")!,UIImage(named: "icons/soundCloudLogo.png")!,UIImage(named: "icons/venmo1.png")!,UIImage(named: "icons/linkedInLogo.png")!,UIImage(named: "icons/etsyLogo.png")!,UIImage(named: "icons/poshmarkLogo.png")!,UIImage(named: "icons/hudl1.png")!]
-    var placeHolderTextArray: [String] = ["Instagram Username", "Snapchat Username", "Tik Tok Username", "Twitter Handle", "Youtube Channel Name", "VSCO Username", "Soundcloud Link", "Twitch Username", "LinkedIn Link", "Etsy Shop Name", "Poshmark Username", "Hudl Link"]
+    var placeHolderTextArray: [String] = ["Instagram Username", "Snapchat Username", "Tik Tok Username", "Twitter Handle", "Youtube Channel Name", "VSCO Username", "Soundcloud Link", "Twitch Username", "LinkedIn Link", "Etsy Shop Name", "Poshmark Username", "Hudl Link", "Venmo Username", "Cameo Link"]
 //    var textField = UITextField()
 //    var interactiveTextField = UITextField()
 //    @IBOutlet weak var verifyView: UIView!
@@ -112,7 +113,7 @@ class AddSocialMediaTableView: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         currentUser = Auth.auth().currentUser
-        iconArray = [image1 ?? UIImage(),image2 ?? UIImage(),image3 ?? UIImage(),image4 ?? UIImage(),image5 ?? UIImage(),image6 ?? UIImage(),image7 ?? UIImage(),image8 ?? UIImage(),image9 ?? UIImage(),image10 ?? UIImage(),image11 ?? UIImage(),image12 ?? UIImage()]
+        iconArray = [image1 ?? UIImage(),image2 ?? UIImage(),image3 ?? UIImage(),image4 ?? UIImage(),image5 ?? UIImage(),image6 ?? UIImage(),image7 ?? UIImage(),image8 ?? UIImage(),image9 ?? UIImage(),image10 ?? UIImage(),image11 ?? UIImage(),image12 ?? UIImage(), image13 ?? UIImage(),image14 ?? UIImage()]
         
     }
     
@@ -315,6 +316,24 @@ class AddSocialMediaTableView: UIViewController {
             })
         }
         
+        if (!textFieldArray[12].text!.isEmpty) {
+            numPosts += 1
+            print("should be a venmo hex!")
+            let venmoHex = HexagonStructData(resource: "https://venmo.com/\(textFieldArray[12].text!)", type: "socialmedia_venmo", location: numPosts, thumbResource: "icons/venmologo.png", createdAt: NSDate.now.description, postingUserID: username, text: "https://venmo.com/\(textFieldArray[12].text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            addHex(hexData: venmoHex, completion: {bool in
+                success = success && bool
+                
+            })
+        }
+        if (!textFieldArray[13].text!.isEmpty) {
+            numPosts += 1
+            print("should be a cameo hex!")
+            let cameoHex = HexagonStructData(resource: textFieldArray[13].text!, type: "socialmedia_cameo", location: numPosts, thumbResource: "icons/cameo.png", createdAt: NSDate.now.description, postingUserID: username, text: textFieldArray[13].text!, views: 0, isArchived: false, docID: "WillBeSetLater")
+            addHex(hexData: cameoHex, completion: {bool in
+                success = success && bool
+                
+            })
+        }
         
         if (!textFieldArray[10].text!.isEmpty) {
             print("Trying to add a poshmark link")
@@ -449,8 +468,9 @@ class AddSocialMediaTableView: UIViewController {
         postButton.titleLabel?.textAlignment = .right
         
     
-       backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
-        backButton.sizeToFit()
+   //     self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+        self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 30)/2, width: 30, height: 30)
+      //  backButton.sizeToFit()
         postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 30)/2, width: 40, height: 30)
         //navBarView.postButton.titleLabel?.sizeToFit()
         navBarView.postButton.titleLabel?.textAlignment = .right
@@ -458,6 +478,7 @@ class AddSocialMediaTableView: UIViewController {
   
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Add Social Media"
+        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
         print("This is navBarView.")
       
       
@@ -588,13 +609,13 @@ extension AddSocialMediaTableView: UITableViewDelegate, UITableViewDataSource {
         cell.socialMediaIcon.layer.borderWidth = 1.0
         cell.socialMediaIcon.layer.borderColor = white.cgColor
         
-        if indexPath.row == 2 {
-            cell.socialMediaIcon.layer.cornerRadius = cell.socialMediaIcon.frame.size.width / 2
-            cell.socialMediaIcon.clipsToBounds = true
-            cell.socialMediaIcon.image = UIImage(named: "tikTokLogo4")
-//            cell.socialMediaIcon.layer.borderWidth = 1.0
-//            cell.socialMediaIcon.layer.borderColor = white.cgColor
-        }
+//        if indexPath.row == 2 {
+//            cell.socialMediaIcon.layer.cornerRadius = cell.socialMediaIcon.frame.size.width / 2
+//            cell.socialMediaIcon.clipsToBounds = true
+//            cell.socialMediaIcon.image = UIImage(named: "tikTokLogo4")
+////            cell.socialMediaIcon.layer.borderWidth = 1.0
+////            cell.socialMediaIcon.layer.borderColor = white.cgColor
+//        }
         
         if indexPath.row == 8 {
             cell.contentMode = .scaleToFill

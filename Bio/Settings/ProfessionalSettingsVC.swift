@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import QuickTableViewController
+import FirebaseFirestore
 
 class ProfessionalSettingsVC: QuickTableViewController {
     
@@ -40,7 +41,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
                                         "Country",
                                         "Phone Number",
                                         "Email",
-                                        "Password",
+                                        "CHange Password",
                                         "Two-Factor Authentication", "FAQs",
                                         "I spotted a bug",
                                         "I have a Suggestion",
@@ -84,8 +85,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
                         NavigationRow(text: "Birthday", detailText: .value1(myBirthday ?? ""), icon: .none, action: { _ in }),
                         NavigationRow(text: "Country", detailText: .value1(country)), NavigationRow(text: "Terms of Service", detailText: .none, icon: .named("time"), action: { _ in }),
                         NavigationRow(text: "Email", detailText: .value1(email)!, icon: .named("time"), action: { _ in }),
-                        NavigationRow(text: "Change Profile Picture", detailText: .none, icon: .none, action: didToggleSelection()),
-                        NavigationRow(text: "Password", detailText: .none)]),
+                        NavigationRow(text: "Change Profile Picture", detailText: .none, icon: .none, action: didToggleSelection()), NavigationRow(text: "Change Password", detailText: .none, icon: .none, action: didToggleSelection())]),
             Section(title: "Support", rows: [NavigationRow(text: "Blocked Users", detailText: .none, icon: .named("gear"), action: didToggleSelection()),
                         NavigationRow(text: "FAQ's", detailText: .none, icon: .named("gear")),
                         NavigationRow(text: "I Spotted a Bug", detailText: .none, icon: .named("globe"), action: didToggleSelection()),
@@ -137,10 +137,10 @@ class ProfessionalSettingsVC: QuickTableViewController {
         print("This is navBarView.")
 //        self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
 //        self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
-
+        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
 
         //self.titleLabel1.text = "Notifications"
-        self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
+     //   self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
        // let yOffset = navBarView.frame.maxY
         self.tableView.frame = CGRect(x: 0, y: yOffset, width: self.view.frame.width, height: self.view.frame.height - yOffset)
 
@@ -236,6 +236,13 @@ class ProfessionalSettingsVC: QuickTableViewController {
            //     editProfilePhotoVC.userData = self?.userData
                 editProfilePhotoVC.userData = self!.userData
                 self!.present(editProfilePhotoVC, animated: false)
+            }
+            
+            if row.text == "Change Password" {
+                let changePasswordVC = self?.storyboard?.instantiateViewController(identifier: "changePasswordVC") as! ChangePasswordVC
+           //     editProfilePhotoVC.userData = self?.userData
+                changePasswordVC.userData = self!.userData
+                self!.present(changePasswordVC, animated: false)
             }
             
             if row.text == "Delete Account" {

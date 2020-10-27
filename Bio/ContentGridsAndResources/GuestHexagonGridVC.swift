@@ -19,7 +19,7 @@ import WebKit
 
 import SwiftUI
 
-class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, WKUIDelegate  {
+class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, WKUIDelegate, UIContextMenuInteractionDelegate  {
     var navBarView = NavBarView()
     var isFollowing = false
     var profileImage = UIImage()
@@ -91,11 +91,17 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         setZoomScale()
         addReturnButton()
        // insertFollowButton()
-        followView.isHidden = false
+      //  followView.isHidden = false
         
         addPageView()
         
     }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+
+    
     
     func updatePages(posts: [PostImageView]) {
         var hexDatas = [HexagonStructData?](repeating: nil, count: posts.count)
@@ -205,16 +211,18 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         self.followView.layer.cornerRadius = followView.frame.size.width / 20
         self.followView.addSubview(followImage)
         self.followView.addSubview(followLabel)
-        self.followView.isHidden = false
+       // self.followView.isHidden = false
         self.followImage.frame = CGRect(x: 5, y: 0, width: followView.frame.height, height: followView.frame.height)
         self.followView.layer.cornerRadius = followView.frame.size.width/10
         //self.followView.clipsToBounds()
         
         if isFollowing {
+            self.followView.isHidden = true
             self.followImage.image = UIImage(named: "friendCheck")
             self.followLabel.text = "Added"
         }
         else {
+            self.followView.isHidden = false
             self.followImage.image = UIImage(named: "addFriend")
             self.followLabel.text = "Add"
         }
@@ -260,6 +268,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
                 self.followImage.image = UIImage(named: "friendCheck")
                 self.followLabel.text = "Added"
                 isFollowing = true
+                self.followView.isHidden = true
             }
             else {
                 db.collection("Followings").whereField("follower", isEqualTo: myUserData!.publicID).whereField("following", isEqualTo: guestUserData!.publicID).getDocuments(completion: { objects, error in
@@ -272,7 +281,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
                         }
                     }
                 })
-                
+                self.followView.isHidden = false
                 self.followImage.image = UIImage(named: "addFriend")
                 self.followLabel.text = "Add"
                 isFollowing = false
@@ -331,7 +340,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         scrollView.contentOffset = contentOffset
         toSearchButton.isHidden = false
         toSettingsButton.isHidden = false
-        followView.isHidden = false
+       // followView.isHidden = false
     }
     
     func resetCoordinatePoints() {
@@ -483,18 +492,18 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         toSettingsButton.isHidden = false
         toSearchButton.isHidden = false
-        followView.isHidden = false
+        //followView.isHidden = false
     }
     
     func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         toSearchButton.isHidden = false
         toSettingsButton.isHidden = false
-        followView.isHidden = false
+       // followView.isHidden = false
     }
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         toSettingsButton.isHidden = false
         toSearchButton.isHidden = false
-        followView.isHidden = false
+       //followView.isHidden = false
     }
     
     func changePostImageCoordinates() {
@@ -540,7 +549,24 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         image.addGestureRecognizer(tapGesture)
         image.isUserInteractionEnabled = true
         var myType = hexData.type
+        var placeHolderImage = UIImage(named: "blueLink")
         createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
+        switch myType {
+        case "photo":
+            placeHolderImage = UIImage(named: "photoPrev")
+        case "video":
+            placeHolderImage = UIImage(named: "photoPrev")
+        case "link":
+            placeHolderImage = UIImage(named: "linkprev")
+        case "music":
+            placeHolderImage = UIImage(named: "musicprev")
+        case "social_media":
+            placeHolderImage = UIImage(named: "socialprev")
+        default:
+            placeHolderImage = UIImage(named: "socialprev")
+        }
+        
+        
         //    var gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
         //        print("This is the type of hexagon: \(hexData.type)")
         
@@ -549,11 +575,14 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         //let ref = storage.child(hexData.thumbResource)
         let cleanRef = hexData.thumbResource.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
-        image.sd_setImage(with: url!, completed: {_, error, _, _ in
-            if error != nil {
-                print(error!.localizedDescription)
+
+        image.sd_setImage(with: url!, placeholderImage: placeHolderImage, options: .refreshCached) { (_, error, _, _) in
+            if (error != nil) {
+                print(error?.localizedDescription)
+                image.image = placeHolderImage
             }
-        })
+        }
+        
         return image
     }
     
@@ -565,9 +594,52 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         returnButton.isHidden = false
         toSearchButton.isHidden = false
         toSettingsButton.isHidden = false
-        followView.isHidden = false
+      //  followView.isHidden = false
         refresh()
     }
+    
+    
+    func createContextMenu() -> UIMenu {
+        let followAction = UIAction(title: "Follow \(guestUserData!.displayName)", image: nil) { _ in
+    print("Unfollow User")
+       // self.handleProfilePicTap(UITapGestureRecognizer())
+            self.followTapped(UITapGestureRecognizer())
+    }
+        
+        let unfollowAction = UIAction(title: "Unfollow \(guestUserData!.displayName)", image: nil) { _ in
+    print("Unfollow User")
+            self.followTapped(UITapGestureRecognizer())
+    }
+        let guestFollowingList = UIAction(title: "View Who \(guestUserData!.displayName) Follows", image: nil) { _ in
+    print("TODO: View their users")
+            let guestFollowingTableView = self.storyboard?.instantiateViewController(identifier: "followingTableView") as! FollowingTableView
+            guestFollowingTableView.userData = self.guestUserData
+            self.present(guestFollowingTableView, animated: false)
+    }
+        
+     
+
+    let cancelAction = UIAction(title: "Cancel", image: .none, attributes: .destructive) { action in
+             // Delete this photo 😢
+         }
+        
+        
+        if isFollowing {
+            return UIMenu(title: "", children: [unfollowAction, guestFollowingList, cancelAction])
+        }
+        else {
+            return UIMenu(title: "", children: [followAction, guestFollowingList, cancelAction])
+        }
+        
+   
+    }
+    
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+    return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ -> UIMenu? in
+    return self.createContextMenu()
+        }
+    }
+    
     
     @IBAction func toSearchButtonClicked(_ sender: UIButton) {
         print("clicked search!")
@@ -624,16 +696,18 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         self.followView.layer.cornerRadius = followView.frame.size.width / 20
         self.followView.addSubview(followImage)
         self.followView.addSubview(followLabel)
-        self.followView.isHidden = false
+        //self.followView.isHidden = false
         self.followImage.frame = CGRect(x: 5, y: 0, width: followView.frame.height, height: followView.frame.height)
         self.followView.layer.cornerRadius = followView.frame.size.width/10
         //self.followView.clipsToBounds()
         
         if isFollowing {
+            self.followView.isHidden = true
             self.followImage.image = UIImage(named: "friendCheck")
             self.followLabel.text = "Added"
         }
         else {
+            self.followView.isHidden = false
             self.followImage.image = UIImage(named: "addFriend")
             self.followLabel.text = "Add"
         }
@@ -751,6 +825,8 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         avaImage?.isUserInteractionEnabled = true
         let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(handleProfilePicTap))
         avaImage?.addGestureRecognizer(tapGesture1)
+        let interaction = UIContextMenuInteraction(delegate: self)
+        avaImage?.addInteraction(interaction)
         avaImage?.isHidden = false
         contentView.bringSubviewToFront(avaImage!)
     //    avaImage!.setupHexagonMask(lineWidth: 10.0, color: .white, cornerRadius: 10.0)

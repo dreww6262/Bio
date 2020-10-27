@@ -108,6 +108,11 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         // Do any additional setup after loading the view.
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+
+    
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         super.viewWillAppear(animated)
@@ -173,13 +178,14 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
       //  self.navBarView.addSubview(titleLabel1)
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Add Content"
+        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
         print("This is navBarView.")
         self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
         self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
 
 
         //self.titleLabel1.text = "Notifications"
-        self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
+     //   self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
        // let yOffset = navBarView.frame.maxY
         
 
@@ -258,8 +264,27 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         config.video.automaticTrimToTrimmerMaxDuration = true
         let picker = YPImagePicker(configuration: config)
         picker.didFinishPicking { [unowned picker] items, cancelled in
+           
+            if items.count == 1 {
+                let onePostPreviewVC = self.storyboard?.instantiateViewController(identifier: "onePostPreview") as! OnePostPreview
+                onePostPreviewVC.userData = self.userData
+                onePostPreviewVC.items = items
+                onePostPreviewVC.modalPresentationStyle = .fullScreen
+               //onePostPreviewVC.previewImage = items[0]
+//                switch items[0] {
+//                case .photo(let photo):
+//                    onePostPreviewVC.previewImage.image = photo.image
+//                case .video(let video) :
+//                    onePostPreviewVC.previewImage.image = video.thumbnail
+//                default:
+//                    print("bad")
+//                }
+                
+                
+            }
             
-            if (items.count > 0) {
+            
+            else if (items.count > 0) {
                 let uploadPreviewVC = self.storyboard?.instantiateViewController(identifier: "newUploadPreviewVC") as! NewUploadPreviewVC
                 //print(photos)
                 uploadPreviewVC.userData = self.userData
@@ -315,7 +340,7 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         var frame4 = CGRect(x: self.view.frame.width*(13/24), y: self.view.frame.height*(12/24), width: (self.view.frame.width)*(5/12), height: self.view.frame.height*(1/3))
         view4.frame = frame4
         view1.addSubview(pic1)
-        pic1.frame = CGRect(x: self.view1.frame.width/4, y: self.view1.frame.height/12, width: self.view1.frame.width/2, height: self.view1.frame.width/2)
+        pic1.frame = CGRect(x: self.view1.frame.width*(3/16), y: self.view1.frame.height/12, width: self.view1.frame.width*(10/16), height: self.view1.frame.width/2)
         l1.frame =  CGRect(x: 0, y: self.pic1.frame.maxY + 10, width: self.view1.frame.width, height: 44)
         
         var piclabelHeight = l1.frame.maxY - pic1.frame.minY
