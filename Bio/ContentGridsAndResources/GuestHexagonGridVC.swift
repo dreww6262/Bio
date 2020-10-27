@@ -19,7 +19,7 @@ import WebKit
 
 import SwiftUI
 
-class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, WKUIDelegate  {
+class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, WKUIDelegate, UIContextMenuInteractionDelegate  {
     var navBarView = NavBarView()
     var isFollowing = false
     var profileImage = UIImage()
@@ -91,7 +91,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         setZoomScale()
         addReturnButton()
        // insertFollowButton()
-        followView.isHidden = false
+      //  followView.isHidden = false
         
         addPageView()
         
@@ -211,16 +211,18 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         self.followView.layer.cornerRadius = followView.frame.size.width / 20
         self.followView.addSubview(followImage)
         self.followView.addSubview(followLabel)
-        self.followView.isHidden = false
+       // self.followView.isHidden = false
         self.followImage.frame = CGRect(x: 5, y: 0, width: followView.frame.height, height: followView.frame.height)
         self.followView.layer.cornerRadius = followView.frame.size.width/10
         //self.followView.clipsToBounds()
         
         if isFollowing {
+            self.followView.isHidden = true
             self.followImage.image = UIImage(named: "friendCheck")
             self.followLabel.text = "Added"
         }
         else {
+            self.followView.isHidden = false
             self.followImage.image = UIImage(named: "addFriend")
             self.followLabel.text = "Add"
         }
@@ -266,6 +268,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
                 self.followImage.image = UIImage(named: "friendCheck")
                 self.followLabel.text = "Added"
                 isFollowing = true
+                self.followView.isHidden = true
             }
             else {
                 db.collection("Followings").whereField("follower", isEqualTo: myUserData!.publicID).whereField("following", isEqualTo: guestUserData!.publicID).getDocuments(completion: { objects, error in
@@ -278,7 +281,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
                         }
                     }
                 })
-                
+                self.followView.isHidden = false
                 self.followImage.image = UIImage(named: "addFriend")
                 self.followLabel.text = "Add"
                 isFollowing = false
@@ -337,7 +340,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         scrollView.contentOffset = contentOffset
         toSearchButton.isHidden = false
         toSettingsButton.isHidden = false
-        followView.isHidden = false
+       // followView.isHidden = false
     }
     
     func resetCoordinatePoints() {
@@ -489,18 +492,18 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         toSettingsButton.isHidden = false
         toSearchButton.isHidden = false
-        followView.isHidden = false
+        //followView.isHidden = false
     }
     
     func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         toSearchButton.isHidden = false
         toSettingsButton.isHidden = false
-        followView.isHidden = false
+       // followView.isHidden = false
     }
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         toSettingsButton.isHidden = false
         toSearchButton.isHidden = false
-        followView.isHidden = false
+       //followView.isHidden = false
     }
     
     func changePostImageCoordinates() {
@@ -591,9 +594,45 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         returnButton.isHidden = false
         toSearchButton.isHidden = false
         toSettingsButton.isHidden = false
-        followView.isHidden = false
+      //  followView.isHidden = false
         refresh()
     }
+    
+    
+    func createContextMenu() -> UIMenu {
+        let followAction = UIAction(title: "Follow \(guestUserData!.displayName)", image: nil) { _ in
+    print("Unfollow User")
+       // self.handleProfilePicTap(UITapGestureRecognizer())
+            self.followTapped(UITapGestureRecognizer())
+    }
+        
+        let unfollowAction = UIAction(title: "Unfollow \(guestUserData!.displayName)", image: nil) { _ in
+    print("Unfollow User")
+            self.followTapped(UITapGestureRecognizer())
+    }
+     
+
+    let cancelAction = UIAction(title: "Cancel", image: .none, attributes: .destructive) { action in
+             // Delete this photo 😢
+         }
+        
+        
+        if isFollowing {
+            return UIMenu(title: "", children: [unfollowAction, cancelAction])
+        }
+        else {
+            return UIMenu(title: "", children: [followAction, cancelAction])
+        }
+        
+   
+    }
+    
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+    return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ -> UIMenu? in
+    return self.createContextMenu()
+        }
+    }
+    
     
     @IBAction func toSearchButtonClicked(_ sender: UIButton) {
         print("clicked search!")
@@ -650,16 +689,18 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         self.followView.layer.cornerRadius = followView.frame.size.width / 20
         self.followView.addSubview(followImage)
         self.followView.addSubview(followLabel)
-        self.followView.isHidden = false
+        //self.followView.isHidden = false
         self.followImage.frame = CGRect(x: 5, y: 0, width: followView.frame.height, height: followView.frame.height)
         self.followView.layer.cornerRadius = followView.frame.size.width/10
         //self.followView.clipsToBounds()
         
         if isFollowing {
+            self.followView.isHidden = true
             self.followImage.image = UIImage(named: "friendCheck")
             self.followLabel.text = "Added"
         }
         else {
+            self.followView.isHidden = false
             self.followImage.image = UIImage(named: "addFriend")
             self.followLabel.text = "Add"
         }
@@ -777,6 +818,8 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         avaImage?.isUserInteractionEnabled = true
         let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(handleProfilePicTap))
         avaImage?.addGestureRecognizer(tapGesture1)
+        let interaction = UIContextMenuInteraction(delegate: self)
+        avaImage?.addInteraction(interaction)
         avaImage?.isHidden = false
         contentView.bringSubviewToFront(avaImage!)
     //    avaImage!.setupHexagonMask(lineWidth: 10.0, color: .white, cornerRadius: 10.0)
