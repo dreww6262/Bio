@@ -17,8 +17,6 @@ import FirebaseUI
 import SDWebImage
 import WebKit
 
-import SwiftUI
-
 class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, WKUIDelegate, UIContextMenuInteractionDelegate  {
     var navBarView = NavBarView()
     var isFollowing = false
@@ -601,14 +599,20 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func createContextMenu() -> UIMenu {
         let followAction = UIAction(title: "Follow \(guestUserData!.displayName)", image: nil) { _ in
-    print("Unfollow User")
+    print("follow User")
        // self.handleProfilePicTap(UITapGestureRecognizer())
             self.followTapped(UITapGestureRecognizer())
     }
         
         let unfollowAction = UIAction(title: "Unfollow \(guestUserData!.displayName)", image: nil) { _ in
     print("Unfollow User")
-            self.followTapped(UITapGestureRecognizer())
+            let alert = UIAlertController(title: "Are you sure?", message: nil, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
+                self.followTapped(UITapGestureRecognizer())
+            }))
+            alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            
     }
         let guestFollowingList = UIAction(title: "View Who \(guestUserData!.displayName) Follows", image: nil) { _ in
     print("TODO: View their users")

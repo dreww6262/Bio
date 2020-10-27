@@ -53,8 +53,15 @@ class NavBarView: UIView {
         backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
         postButton.frame = CGRect(x: superView.frame.width - 35, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
         
-        titleLabel.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
-        titleLabel.text = "Example Title Text"
+        //var yOffset = UIApplication.shared.windows.filter {$0.isKeyWindow}.first?.safeAreaInsets.top ?? 0
+
+        
+
+        if (titleLabel.text == "") {
+            titleLabel.text = "Example Title Text"
+        }
+        titleLabel.sizeToFit()
+        titleLabel.frame = CGRect(x: 0, y: self.frame.height - titleLabel.frame.height - 8, width: superView.frame.width, height: titleLabel.frame.height)
         titleLabel.textAlignment = .center
         postButton.contentHorizontalAlignment = .right
         titleLabel.font = UIFont(name: "DINAlternate-Bold", size: 20)
@@ -85,7 +92,15 @@ class NavBarView: UIView {
 //        print("Tapped back button. should dismiss!")
 //    }
     
+    func addBackTap() {
+        let backTap = UIGestureRecognizer(target: self, action: #selector(backTapped))
+        backButton.addGestureRecognizer(backTap)
+        backButton.isUserInteractionEnabled = true
+    }
     
+    @objc func backTapped(_ sender: UITapGestureRecognizer) {
+        viewContainingController()?.dismiss(animated: false, completion: nil)
+    }
     
   
 }

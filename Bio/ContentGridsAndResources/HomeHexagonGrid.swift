@@ -17,7 +17,6 @@ import FirebaseUI
 import SDWebImage
 import WebKit
 
-import SwiftUI
 var myBlueGreen = #colorLiteral(red: 0, green: 0.8249644637, blue: 0.8317442536, alpha: 1)
 var myPink = #colorLiteral(red: 0.9756818414, green: 0.5529372692, blue: 0.920709908, alpha: 1)
 var myOrange = #colorLiteral(red: 1, green: 0.8000468612, blue: 0.4002942443, alpha: 1)

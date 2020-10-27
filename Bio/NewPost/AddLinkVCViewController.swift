@@ -206,8 +206,11 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
 //        self.navBarView.addSubview(toSettingsButton)
 //        self.navBarView.addSubview(toSearchButton)
         
+        self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 30)/2, width: 30, height: 30)
+        
         if cancelLbl != nil {
             backButton.setTitle(cancelLbl, for: .normal)
+            backButton.sizeToFit()
             backButton.setTitleColor(.systemBlue, for: .normal)
             backButton.titleLabel?.font = UIFont(name: "poppins-SemiBold", size: 14)
             //navBarView.backButton.setImage(UIImage(), for: .normal)
@@ -234,7 +237,6 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         
     
       //  self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
-        self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
         
     //    backButton.sizeToFit()
         postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 30)/2, width: 40, height: 30)

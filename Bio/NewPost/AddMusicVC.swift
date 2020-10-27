@@ -279,11 +279,13 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
         navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
+        self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 30)/2, width: 25, height: 30)
 //        self.navBarView.addSubview(toSettingsButton)
 //        self.navBarView.addSubview(toSearchButton)
         
         if cancelLbl != nil {
             backButton.setTitle(cancelLbl, for: .normal)
+            backButton.sizeToFit()
             backButton.setTitleColor(.systemBlue, for: .normal)
             backButton.titleLabel?.font = UIFont(name: "poppins-SemiBold", size: 14)
             //navBarView.backButton.setImage(UIImage(), for: .normal)
@@ -309,7 +311,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         postButton.titleLabel?.textAlignment = .right
         
     
-        self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+        
         //self.backButton.frame = CGRect(x: 10, y: (navBarView.frame.height - 25)/2, width: 25, height: 25)
         
         //backButton.sizeToFit()
