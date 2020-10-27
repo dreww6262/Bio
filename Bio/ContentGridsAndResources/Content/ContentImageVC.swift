@@ -36,7 +36,9 @@ class ContentImageVC: UIViewController, UIScrollViewDelegate {
         
         let frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - 65)
         let captionFrame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 66)
+        captionTextField.font = UIFont(name: "DINAlternate-Bold", size: 28)
         captionTextField.textAlignment = .center
+        captionTextField.isUserInteractionEnabled = false
         newImageView!.frame = frame
         newImageView!.backgroundColor = .black
         
