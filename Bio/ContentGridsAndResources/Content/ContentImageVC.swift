@@ -35,8 +35,8 @@ class ContentImageVC: UIViewController, UIScrollViewDelegate {
         scrollView.bringSubviewToFront(newImageView!)
         
         let frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - 65)
-        let captionFrame = CGRect(x: 0, y: frame.minY - 71, width: view.bounds.width, height: 66)
-        
+        let captionFrame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 66)
+        captionTextField.textAlignment = .center
         newImageView!.frame = frame
         newImageView!.backgroundColor = .black
         

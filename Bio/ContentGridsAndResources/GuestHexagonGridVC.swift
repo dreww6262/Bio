@@ -610,6 +610,13 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     print("Unfollow User")
             self.followTapped(UITapGestureRecognizer())
     }
+        let guestFollowingList = UIAction(title: "View Who \(guestUserData!.displayName) Follows", image: nil) { _ in
+    print("TODO: View their users")
+            let guestFollowingTableView = self.storyboard?.instantiateViewController(identifier: "followingTableView") as! FollowingTableView
+            guestFollowingTableView.userData = self.guestUserData
+            self.present(guestFollowingTableView, animated: false)
+    }
+        
      
 
     let cancelAction = UIAction(title: "Cancel", image: .none, attributes: .destructive) { action in
@@ -618,10 +625,10 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
         
         if isFollowing {
-            return UIMenu(title: "", children: [unfollowAction, cancelAction])
+            return UIMenu(title: "", children: [unfollowAction, guestFollowingList, cancelAction])
         }
         else {
-            return UIMenu(title: "", children: [followAction, cancelAction])
+            return UIMenu(title: "", children: [followAction, guestFollowingList, cancelAction])
         }
         
    
