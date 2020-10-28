@@ -22,7 +22,6 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var isFollowing = false
     var profileImage = UIImage()
     var followList = [String]()
-    var followListener: ListenerRegistration?
     var navBarY = CGFloat(39)
     
     // Content presentation
@@ -33,7 +32,6 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var followView = UIView()
     
     // Firebase stuff
-    var loadDataListener: ListenerRegistration?
     var user = Auth.auth().currentUser
     var guestUserData: UserData?
     var myUserData: UserData?
@@ -153,7 +151,54 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func addPageView() {
-        db.collection("PageViews").document().setData(["viewer": myUserData?.publicID ?? "no_username", "viewed": guestUserData!.publicID, "viewedAt": Date()])
+        db.collection("PageViews").document().setData(["viewer": myUserData?.publicID ?? "no_username", "viewed": guestUserData!.publicID, "viewedAt": Date()]) { _ in
+            self.db.collection("PageViews").whereField("viewed", isEqualTo: self.guestUserData!.publicID).getDocuments(completion: { obj, error in
+                if error == nil {
+                    self.guestUserData?.pageViews = obj!.documents.count
+                    self.db.collection("PopularUserData").getDocuments(completion: { pobj, perror in
+                        if error == nil {
+                            let docs = pobj!.documents
+                            
+                            if (docs.count < 18) {
+                                let index = docs.firstIndex(where: { ref in
+                                    UserData(dictionary: ref.data()).publicID == self.guestUserData?.publicID
+                                })
+                                if index == nil {
+                                    self.db.collection("PopularUserData").document().setData(self.guestUserData!.dictionary)
+                                }
+                                else {
+                                    docs[index!].reference.setData(self.guestUserData!.dictionary)
+                                }
+                                return
+                            }
+                            
+                            var least: UserData?
+                            var leastRef: DocumentReference?
+                            for doc in docs {
+                                let data = UserData(dictionary: doc.data())
+                                if data.publicID == self.guestUserData?.publicID {
+                                    data.pageViews = obj!.count
+                                    self.db.collection("UserData1").document(data.privateID).setData(data.dictionary)
+                                }
+                                else if docs.count >= 18 {
+                                    if data.pageViews < self.guestUserData!.pageViews {
+                                        if least == nil {
+                                            least = data
+                                            leastRef = doc.reference
+                                        }
+                                        else if (least!.pageViews > data.pageViews) {
+                                            least = data
+                                            leastRef = doc.reference
+                                        }
+                                    }
+                                }
+                            }
+                            leastRef?.setData(self.guestUserData!.dictionary)
+                        }
+                    })
+                }
+            })
+        }
     }
     
     // viewdidload helper functions
@@ -408,7 +453,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         }
         user = Auth.auth().currentUser
         if (user != nil) {
-            db.collection("UserData1").whereField("email", isEqualTo: user!.email!).addSnapshotListener({ objects, error in
+            db.collection("UserData1").whereField("email", isEqualTo: user!.email!).getDocuments(completion: { objects, error in
                 if (error == nil) {
                     if (objects!.documents.capacity > 0) {
                         let newData = UserData(dictionary: objects!.documents[0].data())
@@ -441,7 +486,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func createImageViews() {
         var newPostImageArray = [PostImageView]()
-        db.collection("Hexagons2").whereField("postingUserID", isEqualTo: guestUserData!.publicID).addSnapshotListener({ objects, error in
+        db.collection("Hexagons2").whereField("postingUserID", isEqualTo: guestUserData!.publicID).getDocuments(completion: { objects, error in
             if error == nil {
                 guard let docs = objects?.documents else {
                     print("get hex failed")
@@ -507,23 +552,22 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func changePostImageCoordinates() {
         
         for image in imageViewArray {
-            var copyColor = myBlueGreen
-            var imageType = image.hexData?.type
-            print("This is image type \(imageType)")
-            
-            
-            if imageType == "photo"  {
-                copyColor = myOrange as UIColor
-            }
-            else if imageType!.contains("social") {
-                copyColor = myPink as UIColor
-            }
-            else if imageType == "music" {
-                copyColor = myBlueGreen as UIColor
-            }
-            else if imageType == "link" {
-                copyColor = myCoolBlue as UIColor
-            }
+//            var copyColor = myBlueGreen
+//            let imageType = image.hexData?.type
+//
+//
+//            if imageType == "photo"  {
+//                copyColor = myOrange as UIColor
+//            }
+//            else if imageType!.contains("social") {
+//                copyColor = myPink as UIColor
+//            }
+//            else if imageType == "music" {
+//                copyColor = myBlueGreen as UIColor
+//            }
+//            else if imageType == "link" {
+//                copyColor = myCoolBlue as UIColor
+//            }
             
             image.frame = CGRect(x: self.reOrderedCoordinateArrayPoints[image.hexData!.location].x,
                                  y: self.reOrderedCoordinateArrayPoints[image.hexData!.location].y, width: hexaDiameter, height: hexaDiameter)
@@ -542,11 +586,11 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         image.contentMode = .scaleAspectFill
         image.image = UIImage()
         image.hexData = hexData
-        image.tag = hexData.location ?? 0
+        image.tag = hexData.location
         
         image.addGestureRecognizer(tapGesture)
         image.isUserInteractionEnabled = true
-        var myType = hexData.type
+        let myType = hexData.type
         var placeHolderImage = UIImage(named: "blueLink")
         createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
         switch myType {
@@ -576,7 +620,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
 
         image.sd_setImage(with: url!, placeholderImage: placeHolderImage, options: .refreshCached) { (_, error, _, _) in
             if (error != nil) {
-                print(error?.localizedDescription)
+                print(error!.localizedDescription)
                 image.image = placeHolderImage
             }
         }
@@ -657,11 +701,11 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     
     func setUpNavBarView() {
-        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
         print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
-        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        let navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
         navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
         self.navBarView.addSubview(toSettingsButton)
@@ -686,7 +730,6 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         self.toSettingsButton.frame = CGRect(x: 10, y: navBarView.frame.height - 30, width: 25, height: 25)
         self.toSettingsButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
         self.toSearchButton.frame = CGRect(x: navBarView.frame.width - 35, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
-        let yOffset = navBarView.frame.maxY
       //  self.navBarView.addSubview(titleLabel1)
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.isHidden = true
@@ -834,9 +877,9 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         avaImage?.isHidden = false
         contentView.bringSubviewToFront(avaImage!)
     //    avaImage!.setupHexagonMask(lineWidth: 10.0, color: .white, cornerRadius: 10.0)
-        var scaleFactor = CGFloat(0.10)
-        var widthShavedOff = scaleFactor*CGFloat((avaImage?.frame.width)!)
-        var smallerFrame = CGRect(x: avaImage!.frame.minX, y: avaImage!.frame.minY, width: (avaImage!.frame.width)*CGFloat(0.90), height: (avaImage!.frame.height)*CGFloat(0.90))
+        let scaleFactor = CGFloat(0.10)
+        let widthShavedOff = scaleFactor*CGFloat((avaImage?.frame.width)!)
+        let smallerFrame = CGRect(x: avaImage!.frame.minX, y: avaImage!.frame.minY, width: (avaImage!.frame.width)*CGFloat(0.90), height: (avaImage!.frame.height)*CGFloat(0.90))
         avaImage?.frame = smallerFrame
         avaImage?.frame = CGRect(x: smallerFrame.minX + (widthShavedOff/2), y: smallerFrame.minY + (widthShavedOff/2), width: smallerFrame.width, height: smallerFrame.height)
         avaImage?.layer.cornerRadius = ((avaImage?.frame.size.width)!)/2
@@ -846,7 +889,11 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         avaImage?.layer.borderWidth = ((avaImage?.frame.width)!)/30
         let cleanRef = guestUserData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
-        avaImage!.sd_setImage(with: url!, completed: {_, error, _, _ in
+        if (url == nil) {
+            avaImage?.image = UIImage(named: "boyprofile")
+            return
+        }
+        avaImage?.sd_setImage(with: url!, completed: {_, error, _, _ in
             if error != nil {
                 print(error!.localizedDescription)
                 self.avaImage?.image = UIImage(named: "boyprofile")

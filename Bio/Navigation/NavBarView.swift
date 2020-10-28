@@ -92,15 +92,6 @@ class NavBarView: UIView {
 //        print("Tapped back button. should dismiss!")
 //    }
     
-    func addBackTap() {
-        let backTap = UIGestureRecognizer(target: self, action: #selector(backTapped))
-        backButton.addGestureRecognizer(backTap)
-        backButton.isUserInteractionEnabled = true
-    }
-    
-    @objc func backTapped(_ sender: UITapGestureRecognizer) {
-        viewContainingController()?.dismiss(animated: false, completion: nil)
-    }
-    
+  
   
 }

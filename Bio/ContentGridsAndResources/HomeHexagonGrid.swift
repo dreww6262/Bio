@@ -43,7 +43,6 @@ class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecogniz
     
 var navBarView = NavBarView()
     // Firebase stuff
-    var loadDataListener: ListenerRegistration?
     var pageViewListener: ListenerRegistration?
     var user = Auth.auth().currentUser
     var userData: UserData?
@@ -118,7 +117,7 @@ var navBarView = NavBarView()
         if userData == nil {
             user = Auth.auth().currentUser
             if (user != nil) {
-                db.collection("UserData1").whereField("email", isEqualTo: user!.email!).addSnapshotListener({ objects, error in
+                db.collection("UserData1").whereField("email", isEqualTo: user!.email!).getDocuments(completion: { objects, error in
                     if error == nil {
                         guard let docs = objects?.documents
                         else{
@@ -140,6 +139,7 @@ var navBarView = NavBarView()
                 })
             }
         }
+        
     }
     
     // viewdidload helper functions
@@ -395,28 +395,15 @@ var navBarView = NavBarView()
         if (userData != nil) {
 //            print("populates without getting userdata")
             populateUserAvatar()
-            pageViewListener?.remove()
-            pageViewListener = db.collection("PageViews").whereField("viewed", isEqualTo: userData!.publicID).addSnapshotListener({ objects, error in
-                if error == nil {
-                    self.followLabel.text = "\(objects?.documents.count ?? 0)"
-                }
-                else {
-                    self.followLabel.text = "0"
-                }
-                self.followLabel.sizeToFit()
-                let xOffset = (self.followView.frame.width + self.followImage.frame.maxX - self.followLabel.frame.width)/2
-                self.followLabel.frame = CGRect(x: xOffset, y: self.followLabel.frame.minY, width: self.followLabel.frame.width, height: self.followView.frame.height)
-            })
             menuView.userData = userData
             createImageViews(completion: {
-                self.loadDataListener?.remove()
             })
             
             return
         }
         user = Auth.auth().currentUser
         if (user != nil) {
-            db.collection("UserData1").whereField("email", isEqualTo: user!.email!).addSnapshotListener({ objects, error in
+            db.collection("UserData1").whereField("email", isEqualTo: user!.email!).getDocuments(completion: { objects, error in
                 if (error == nil) {
                     if (objects!.documents.capacity > 0) {
                         let newData = UserData(dictionary: objects!.documents[0].data())
@@ -427,7 +414,6 @@ var navBarView = NavBarView()
                                 self.populateUserAvatar()
                                 self.menuView.userData = newData
                                 self.createImageViews(completion: {
-                                    self.loadDataListener?.remove()
                                 })
                             }
                             //                        print("created image views")
@@ -444,18 +430,6 @@ var navBarView = NavBarView()
                 else {
                     print("error on getting userdata before adding image views")
                 }
-            })
-            pageViewListener?.remove()
-            pageViewListener = db.collection("PageViews").whereField("viewed", isEqualTo: userData!.publicID).addSnapshotListener({ objects, error in
-                if error == nil {
-                    self.followLabel.text = "\(objects?.documents.count ?? 0)"
-                }
-                else {
-                    self.followLabel.text = "0"
-                }
-                self.followLabel.sizeToFit()
-                let xOffset = (self.followView.frame.width + self.followImage.frame.maxX - self.followLabel.frame.width)/2
-                self.followLabel.frame = CGRect(x: xOffset, y: self.followLabel.frame.minY, width: self.followLabel.frame.width, height: self.followView.frame.height)
             })
         }
     }
@@ -481,7 +455,7 @@ var navBarView = NavBarView()
     
     func createImageViews(completion: @escaping () -> ()) {
         var newPostImageArray = [PostImageView]()
-        loadDataListener = db.collection("Hexagons2").whereField("postingUserID", isEqualTo: userData!.publicID).addSnapshotListener({ objects, error in
+        db.collection("Hexagons2").whereField("postingUserID", isEqualTo: userData!.publicID).getDocuments(completion: { objects, error in
             if error == nil {
                 guard let docs = objects?.documents else {
                     print("get hex failed")
@@ -756,7 +730,7 @@ var navBarView = NavBarView()
         if (userData == nil) {
             user = Auth.auth().currentUser
             if (user != nil) {
-                db.collection("UserData1").whereField("email", isEqualTo: user!.email!).addSnapshotListener({ objects, error in
+                db.collection("UserData1").whereField("email", isEqualTo: user!.email!).getDocuments(completion: { objects, error in
                     if (error == nil) {
                         if (objects!.documents.capacity > 0) {
                             print("got userdata")
@@ -1519,6 +1493,22 @@ var navBarView = NavBarView()
             print("could not sign out")
         }
         menuView.tabController?.customTabBar.switchTab(from: 2, to: 5)
+    }
+    
+    
+    func setUpPageViewListener() {
+        pageViewListener?.remove()
+        pageViewListener = db.collection("PageViews").whereField("viewed", isEqualTo: userData!.publicID).addSnapshotListener({ objects, error in
+            if error == nil {
+                self.followLabel.text = "\(objects?.documents.count ?? 0)"
+            }
+            else {
+                self.followLabel.text = "0"
+            }
+            self.followLabel.sizeToFit()
+            let xOffset = (self.followView.frame.width + self.followImage.frame.maxX - self.followLabel.frame.width)/2
+            self.followLabel.frame = CGRect(x: xOffset, y: self.followLabel.frame.minY, width: self.followLabel.frame.width, height: self.followView.frame.height)
+        })
     }
         
   }

@@ -140,7 +140,7 @@ class UserCell: UITableViewCell {
                 
             }
             else {
-                db.collection("Followings").whereField("follower", isEqualTo: userData!.publicID).whereField("following", isEqualTo: username).addSnapshotListener({ objects, error in
+                db.collection("Followings").whereField("follower", isEqualTo: userData!.publicID).whereField("following", isEqualTo: username).getDocuments(completion: { objects, error in
                     if error == nil {
                         guard let docs = objects?.documents else {
                             return

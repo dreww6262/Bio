@@ -27,7 +27,6 @@ class UserTableView: UIViewController, UISearchBarDelegate {
     var userData: UserData?
     
     var followList = [String]()
-    var followListener: ListenerRegistration?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -117,7 +116,6 @@ class UserTableView: UIViewController, UISearchBarDelegate {
             
             // loads follower list to start
             
-            self.followListener?.remove()
             self.loadUserDataArray.removeAll()
             //self.loadUserDataArray.append(newElement: self.userData!)
             let chunks = self.followList.chunked(into: 5)
@@ -126,7 +124,7 @@ class UserTableView: UIViewController, UISearchBarDelegate {
                 group.enter()
                 self.loadUpToTenUserDatas(usernames: chunk, completion: {
                     //print("loadFollowings: loaded followers \(self.followingUserDataArray)")
-                    defer{group.leave()}
+                    group.leave()
                 })
             }
             group.notify(queue: .main) {
@@ -140,7 +138,7 @@ class UserTableView: UIViewController, UISearchBarDelegate {
     func loadUpToTenUserDatas(usernames: [String], completion: @escaping () -> ()) {
         let userDataCollection = self.db.collection("UserData1")
         let userDataQuery = userDataCollection.whereField("publicID", in: usernames)
-        let listener = userDataQuery.addSnapshotListener( { (objects, error) -> Void in
+        userDataQuery.getDocuments(completion: { (objects, error) -> Void in
             if error == nil {
                 guard let documents = objects?.documents else {
                     print("could not get documents from objects?.documents")
@@ -167,16 +165,10 @@ class UserTableView: UIViewController, UISearchBarDelegate {
             completion()
             
         })
-        listenerList?.append(listener)
     }
     
-    var listenerList: [ListenerRegistration]?
     
     func doneLoading() {
-        listenerList?.forEach({ listener in
-            listener.remove()
-        })
-        listenerList = nil
         sortUserDataArray()
         self.tableView.reloadData()
     }
@@ -193,7 +185,7 @@ class UserTableView: UIViewController, UISearchBarDelegate {
     }
     
     func loadFollows(completion: @escaping() -> ()) {
-        followListener = db.collection("Followings").whereField("follower", isEqualTo: userData!.publicID).addSnapshotListener({ objects, error in
+        db.collection("Followings").whereField("follower", isEqualTo: userData!.publicID).getDocuments(completion: { objects, error in
             if error == nil {
                 self.followList.removeAll(keepingCapacity: true)
                 guard let docs = objects?.documents else {
@@ -267,7 +259,7 @@ class UserTableView: UIViewController, UISearchBarDelegate {
         //var success = true
         searchString = searchString.lowercased()
         let usernameQuery = db.collection("UserData1").whereField("publicID", isGreaterThanOrEqualTo: searchString).whereField("publicID", isLessThan: searchString+"\u{F8FF}")
-        usernameQuery.addSnapshotListener({snapshots,error in
+        usernameQuery.getDocuments(completion: {snapshots,error in
             if (error != nil) {
                 print("god damnit")
                 //success = false
@@ -291,7 +283,7 @@ class UserTableView: UIViewController, UISearchBarDelegate {
     @objc func cellTapped(_ sender : UITapGestureRecognizer) {
         let cell  = sender.view as! UserCell
         let username = cell.usernameLbl.text!
-        db.collection("UserData1").whereField("publicID", isEqualTo: username).addSnapshotListener({ objects, error in
+        db.collection("UserData1").whereField("publicID", isEqualTo: username).getDocuments(completion: { objects, error in
             if error == nil {
                 guard let docs = objects?.documents else{
                     print("no docs?")

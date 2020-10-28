@@ -28,6 +28,7 @@ class ChangePasswordVC: UIViewController {
         
         setUpNavBarView()
         backButton = navBarView.backButton
+        addBackTap()
         
         currentPasswordText.frame = CGRect(x: 20, y: view.frame.height / 3, width: view.frame.width - 40, height: 30)
         newPasswordText.frame = CGRect(x: 20, y: currentPasswordText.frame.maxY + 16, width: view.frame.width - 40, height: 30)
@@ -137,7 +138,19 @@ class ChangePasswordVC: UIViewController {
         self.navBarView.titleLabel.text = "Change Password"
         self.navBarView.addBehavior()
         self.navBarView.postButton.isHidden = true
-        self.navBarView.addBackTap()
+        self.navBarView.isUserInteractionEnabled = false
+        self.navBarView.clipsToBounds = true
+        
     }
+    
+    func addBackTap() {
+        backButton!.isUserInteractionEnabled = true
+        backButton?.addTarget(self, action: #selector(ChangePasswordVC.backTapped), for: .touchUpInside)
+    }
+    
+    @objc func backTapped(_ sender: UITapGestureRecognizer) {
+        self.dismiss(animated: false, completion: nil)
+    }
+    
     
 }

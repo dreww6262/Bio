@@ -16,7 +16,7 @@ import FirebaseStorage
 
 
 
-class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
+class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
     let db = Firestore.firestore()
     let storageRef = Storage.storage().reference()
     
@@ -556,12 +556,11 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate, UICollecti
         followView.isHidden = false
     }
     
-    var listenerList: [ListenerRegistration]?
     
     func loadUpToTenFollowers(followers: [String], completion: @escaping () -> ()) {
         let userDataCollection = self.db.collection("UserData1")
         let userDataQuery = userDataCollection.whereField("publicID", in: followers)
-        let listener = userDataQuery.addSnapshotListener( { (objects, error) -> Void in
+        userDataQuery.getDocuments(completion: { (objects, error) -> Void in
             if error == nil {
                 guard let documents = objects?.documents else {
                     print("could not get documents from objects?.documents")
@@ -588,15 +587,10 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate, UICollecti
             completion()
             
         })
-        listenerList?.append(listener)
     }
     
     
     func doneLoading() {
-        listenerList?.forEach({ listener in
-            listener.remove()
-        })
-        listenerList = nil
         self.removeCurrentProfileHexagons()
         self.loadProfileHexagons()
     }
@@ -615,7 +609,6 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate, UICollecti
                 self.followingUserDataArray.append(newElement: self.userData!)
                 let chunks = newFollowArray.chunked(into: 5)
                 let group = DispatchGroup()
-                self.listenerList = [ListenerRegistration]()
                 for chunk in chunks {
                     group.enter()
                     self.loadUpToTenFollowers(followers: chunk, completion: {
@@ -636,7 +629,7 @@ class BioProfileHexagonGrid2: UIViewController, UIScrollViewDelegate, UICollecti
         let followCollection = db.collection("Followings")
         let usernameText:String = userData!.publicID
          newFollowArray = []
-        let _ = followCollection.whereField("follower", isEqualTo: usernameText).addSnapshotListener({ (objects, error) -> Void in
+        followCollection.whereField("follower", isEqualTo: usernameText).getDocuments(completion: { (objects, error) -> Void in
             if error == nil {
 //                print("no error")
                 

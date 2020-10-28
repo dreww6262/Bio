@@ -372,7 +372,7 @@ class AlgorithmHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRec
     @IBAction func friendsButtonClicked(_ sender: UIButton) {
         
         let viewControllers = tabBarController!.customizableViewControllers!
-        let profileGrid = (viewControllers[3] as! BioProfileHexagonGrid2)
+        let profileGrid = (viewControllers[3] as! DiscoverGrid)
         let tabController = tabBarController! as! NavigationMenuBaseController
         profileGrid.userData = userData
         profileGrid.refresh()
