@@ -172,24 +172,27 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
                                 return
                             }
                             
+                            let index = docs.firstIndex(where: { ref in
+                                UserData(dictionary: ref.data()).publicID == self.guestUserData?.publicID
+                            })
+                            
+                            if index != nil {
+                                docs[index!].reference.setData(self.guestUserData!.dictionary)
+                                return
+                            }
+                            
                             var least: UserData?
                             var leastRef: DocumentReference?
                             for doc in docs {
                                 let data = UserData(dictionary: doc.data())
-                                if data.publicID == self.guestUserData?.publicID {
-                                    data.pageViews = obj!.count
-                                    self.db.collection("UserData1").document(data.privateID).setData(data.dictionary)
-                                }
-                                else if docs.count >= 18 {
-                                    if data.pageViews < self.guestUserData!.pageViews {
-                                        if least == nil {
-                                            least = data
-                                            leastRef = doc.reference
-                                        }
-                                        else if (least!.pageViews > data.pageViews) {
-                                            least = data
-                                            leastRef = doc.reference
-                                        }
+                                if data.pageViews < self.guestUserData!.pageViews {
+                                    if least == nil {
+                                        least = data
+                                        leastRef = doc.reference
+                                    }
+                                    else if (least!.pageViews > data.pageViews) {
+                                        least = data
+                                        leastRef = doc.reference
                                     }
                                 }
                             }

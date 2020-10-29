@@ -581,14 +581,15 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
         //        print("🎯🎯🎯🎯🎯Hello World")
         //        print("🎯🎯🎯🎯🎯🎯🎯I tapped image with tag \(sender.view!.tag)")
-        let username = followingUserDataArray[sender.view!.tag].publicID
+        //let username = popularUserDataArray[sender.view!.tag].publicID
         //        print("🎯🎯🎯🎯🎯🎯🎯 I tapped image with associated username: \(username)")
+        let profImage = sender.view as! ProfileImageView
         let guestVC = storyboard?.instantiateViewController(identifier: "guestGridVC") as! GuestHexagonGridVC
         //guestVC.user = user
         guestVC.myUserData = userData
         guestVC.followList = self.newFollowArray
         //guestVC.profileImage = self.
-        guestVC.guestUserData = followingUserDataArray[sender.view!.tag]
+        guestVC.guestUserData = profImage.userData
         guestVC.isFollowing = true
         show(guestVC, sender: nil)
         // TODO: use tag to get index of userdata to go to new hex grid as guest.
@@ -641,10 +642,11 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
                     let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
                     //            print("follower username \(data.publicID)")
                     let defaultProfileImage = UIImage(named: "boyprofile")
-                    let image = UIImageView(frame: CGRect(x: self.reOrderedCoordinateArrayPoints[thisIndex].x,
+                    let image = ProfileImageView(frame: CGRect(x: self.reOrderedCoordinateArrayPoints[thisIndex].x,
                                                           y: self.reOrderedCoordinateArrayPoints[thisIndex].y,
                                                           width: self.hexaDiameter,
                                                           height: self.hexaDiameter))
+                    image.userData = popData
                     image.contentMode = .scaleAspectFill
                     let cleanRef = popData.avaRef.replacingOccurrences(of: "/", with: "%2F")
                     let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
