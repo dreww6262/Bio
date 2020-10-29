@@ -21,15 +21,10 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
     let storageRef = Storage.storage().reference()
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-       // refresh()
-        loadFollowings()
-        print("This is followingUserDataArray count \(self.followingUserDataArray.count): \(self.followingUserDataArray)")
         return self.followingUserDataArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-       // refresh()
-        loadFollowings()
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "profileCircleCell", for: indexPath) as! ProfileCircleCell
         cell.imageView.frame = CGRect(x: cell.frame.width/16, y: 0, width: cell.frame.width*(14/16), height: cell.frame.height*(14/16))
         cell.label.frame = CGRect(x: 0, y: cell.imageView.frame.maxY, width: cell.frame.width, height: cell.frame.height - cell.imageView.frame.maxY)
@@ -39,13 +34,13 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
         let tapCellGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleCollectionViewTap))
         cell.addGestureRecognizer(tapCellGesture)
         cell.imageView.layer.cornerRadius = cell.imageView.frame.width/2
-       // let ref = self.followingUserDataArray[indexPath.row].avaRef as! StorageReference
+        // let ref = self.followingUserDataArray[indexPath.row].avaRef as! StorageReference
         cell.imageView.sd_setImage(with: storageRef.child(followingUserDataArray[indexPath.row].avaRef))
         //cell.imageView.sd_setImage(with: ref)
         cell.label.text = self.followingUserDataArray[indexPath.row].displayName
         cell.label.textColor = .white
         cell.label.font = UIFont(name: "DINAlternate-SemiBold", size: 12)
-                return cell
+        return cell
     }
     
     var navBarY = CGFloat(39)
@@ -66,13 +61,7 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
     var followingUserDataArray = ThreadSafeArray<UserData>()
     //let db = Firestore.firestore()
     var userData: UserData?
-    var loadUserDataArray: [UserData] = []
-    var tableView = UITableView()
-    var followImage = UIImageView()
-    var followImage2 = UIImageView()
-    var followImage3 = UIImageView()
-//    var profileImage = UIImage()
-    var myProfileImage = UIImage()
+    //var loadUserDataArray: [UserData] = []
     var followersButton = UIButton()
     var followingButton = UIButton()
     var followersView = UIView()
@@ -98,16 +87,10 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
     //@IBOutlet weak var expandedView: UIImageView!
     
     let hexaDiameter : CGFloat = 150
-    //var hexaWidth : CGFloat = 0.0
-    //var hexaWidthDelta : CGFloat = 0.0
-    //var hexaHeightDelta : CGFloat = 0.0
-    //let spacing : CGFloat = 5
+    
     
     var customTabBar: TabNavigationMenu!
     
-    // var tapGesture = UITapGestureRecognizer()
-    //var fakeUserImageArray: [UIImage] = []
-    var currentUserFollowingAvatarsArray: [UIImage] = []
     
     var reorderedCoordinateArrayPointsCentered: [CGPoint] = []
     var reOrderedCoordinateArrayPoints: [CGPoint] = [CGPoint(x: 946.8266739736607,y: 902.5),CGPoint(x: 1081.7304845413264,y: 902.5),CGPoint(x: 1014.2785792574934,y: 1020.0), CGPoint(x: 879.3747686898278,y: 1020.0),CGPoint(x:811.9228634059948,y: 902.5), CGPoint(x: 879.3747686898278,y: 785.0),CGPoint(x: 1014.2785792574934,y: 785.0),CGPoint(x:946.8266739736607,y: 667.5),CGPoint(x:1081.7304845413264,y:667.5), CGPoint(x:1149.1823898251594,y:785.0),CGPoint(x: 1216.6342951089923,y: 902.5),CGPoint(x:1149.1823898251594,y: 1020.0), CGPoint(x:1081.7304845413264, y: 1137.5),CGPoint(x:946.8266739736607,y: 1137.5),CGPoint(x: 811.9228634059948, y: 1137.5),CGPoint(x: 744.4709581221618, y: 1020.0), CGPoint(x: 677.0190528383291, y: 902.5),CGPoint(x: 744.4709581221618, y: 785.0), CGPoint(x: 811.9228634059948, y: 667.5),CGPoint(x: 879.3747686898278, y: 550.0),CGPoint(x: 1014.2785792574934, y: 550.0),CGPoint(x: 1149.1823898251594,y: 550.0),CGPoint(x:1216.6342951089923,y: 667.5),CGPoint(x:1284.0862003928253, y: 785.0),CGPoint(x:1351.5381056766582,y: 902.5), CGPoint(x:1284.0862003928253, y: 1020.0),CGPoint(x: 1216.6342951089923, y: 1137.5),CGPoint(x: 1149.1823898251594, y: 1255.0), CGPoint(x:1014.2785792574934,y:1255.0),CGPoint(x:879.3747686898278, y:1255.0),CGPoint(x:744.4709581221618, y:1255.0),CGPoint(x:677.0190528383291, y:1137.5),CGPoint(x:609.5671475544962,y: 1020.0),CGPoint(x:542.1152422706632, y: 902.5),CGPoint(x: 609.5671475544962, y: 785.0),CGPoint(x: 677.0190528383291, y: 667.5),CGPoint(x: 744.4709581221618, y: 550.0)]
@@ -126,10 +109,10 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
         setUpScrollView()
         setZoomScale()
         addMenuButtons()
-    setUpNavBarView()
+        setUpNavBarView()
         self.navBarView.backgroundColor = .clear
         self.navBarView.layer.borderWidth = 0.0
-       // insertFollowView()
+        // insertFollowView()
         
         toSettingsButton.isHidden = false
         toSearchButton.isHidden = false
@@ -138,22 +121,24 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
         insertFollowersView()
         setUpCollectionView()
         
-     //   print("This is total count \(reOrderedCoordinateArrayPoints.count)")
-      // var unique = reOrderedCoordinateArrayPoints.removingDuplicates()
-      //  print("This is the new unique one \(reOrderedCoordinateArrayPoints.count)")
+        //   print("This is total count \(reOrderedCoordinateArrayPoints.count)")
+        // var unique = reOrderedCoordinateArrayPoints.removingDuplicates()
+        //  print("This is the new unique one \(reOrderedCoordinateArrayPoints.count)")
+        
+        populateUserAvatar()
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
-
+    
     
     
     func addSearchButton() {
         self.view.addSubview(toSearchButton)
         toSearchButton.frame = CGRect(x: self.view.frame.width-40, y: navBarY, width: 25, height: 25)
         // round ava
-     //   toSearchButton.layer.cornerRadius = toSearchButton.frame.size.width / 2
+        //   toSearchButton.layer.cornerRadius = toSearchButton.frame.size.width / 2
         toSearchButton.clipsToBounds = true
         toSearchButton.isHidden = false
         followView.isHidden = false
@@ -191,58 +176,22 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
         self.followersButton.setTitle("Followers", for: .normal)
         self.followingButton.setTitle("Following", for: .normal)
         
-
+        
         
     }
     
     func setUpCollectionView() {
         self.view.addSubview(profileCollectionView)
-        self.profileCollectionView.frame = CGRect(x: 0, y: self.navBarView.frame.maxY, width: self.view.frame.width, height: self.view.frame.height*(8/24))
-        self.profileCollectionView.backgroundColor = .clear
+        
+        profileCollectionView.alwaysBounceHorizontal = true
+        profileCollectionView.frame = CGRect(x: 0, y: self.navBarView.frame.maxY, width: self.view.frame.width, height: self.view.frame.height*(1/12))
+        let layout = (profileCollectionView.collectionViewLayout as! UICollectionViewFlowLayout)
+        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: profileCollectionView.frame.height, height: profileCollectionView.frame.height)
+        profileCollectionView.collectionViewLayout = layout
+        profileCollectionView.backgroundColor = .clear
     }
     
-    func insertFollowView() {
-        self.view.addSubview(followView)
-        self.followView.backgroundColor = .white
-        self.followView.frame = CGRect(x: self.view.frame.midX - 55, y: toSettingsButton.frame.minY, width: 110, height: 30)
-        self.followView.layer.cornerRadius = followView.frame.size.width / 20
-        self.followView.addSubview(followImage)
-        self.followView.addSubview(followImage2)
-        self.followView.addSubview(followImage3)
-        self.followView.addSubview(followLabel)
-        self.followView.isHidden = false
-        var widthRemaining = self.followView.frame.width - (3*self.followView.frame.height)
-        var spacingWidth = widthRemaining/4
-        self.followImage.frame = CGRect(x: spacingWidth, y: 0, width: followView.frame.height, height: followView.frame.height)
-       
-        self.followImage2.frame = CGRect(x: (2*spacingWidth) + followView.frame.height, y: 0, width: followView.frame.height, height: followView.frame.height)
-        self.followImage3.frame = CGRect(x:(2*followView.frame.height)+(3*spacingWidth), y: 0, width: followView.frame.height, height: followView.frame.height)
-        self.followView.layer.cornerRadius = followView.frame.size.width/10
-        //self.followView.clipsToBounds()
-        
-     //   let cleanRef = userData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
-       // let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
-//        self.followImage.sd_setImage(with: url!, completed: {_, error, _, _ in
-//            if error != nil {
-//                print(error!.localizedDescription)
-//            }
-//        })
-        self.followImage.image = myProfileImage
-        
-        self.followImage.setupHexagonMask(lineWidth: self.followImage.frame.width/15, color: .darkGray, cornerRadius: self.followImage.frame.width/15)
-        //self.followImage.image = UIImage(named: "twoFriendsFlipped")
-        self.followImage2.image = UIImage(named: "fire1")
-        self.followImage3.image = UIImage(named: "earth")
-        print("This is follow view frame \(self.followView.frame)")
-        print("This is follow image1.frame \(self.followImage.frame)")
-        print("This is follow image2.frame \(self.followImage2.frame)")
-        print("This is follow image3.frame \(self.followImage3.frame)")
-        self.followLabel.frame = CGRect(x: followImage.frame.maxX + 5, y: 0.0, width: followView.frame.width - 10, height: followView.frame.height)
-        self.followLabel.isHidden = true
-        self.followLabel.text = "Community"
-        self.followLabel.textColor = .black
-        
-    }
     
     func addMenuButtons() {
         view.addSubview(menuView)
@@ -273,13 +222,13 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
         
     }
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        if (firstLoad) {
-//            firstLoad = false
-//            return
-//        }
-//        toSearchButton.isHidden = true
-//        toSettingsButton.isHidden = true
-//        followView.isHidden = true
+        //        if (firstLoad) {
+        //            firstLoad = false
+        //            return
+        //        }
+        //        toSearchButton.isHidden = true
+        //        toSettingsButton.isHidden = true
+        //        followView.isHidden = true
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -307,7 +256,7 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
     
     // Zoom Logic
     func resizeScrollView(numFollowers: Int) {
-//        print("Contentviewframebeforeresize \(contentView.frame)")
+        //        print("Contentviewframebeforeresize \(contentView.frame)")
         //var rows = 0
         var width = view.frame.width
         var height = view.frame.height
@@ -341,14 +290,15 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
         
         contentView.frame = CGRect(x: 0,y: 0,width: width, height: height)
         scrollView.contentSize = CGSize(width: width, height: height)
-//        print("contentviewframe: \(contentView.frame)")
+        //        print("contentviewframe: \(contentView.frame)")
         resetCoordinatePoints()
         let contentOffset = CGPoint(x: contentView.frame.width/2 - view.frame.width/2, y: contentView.frame.height/2 - view.frame.height/2)
-//        print(contentOffset)
+        //        print(contentOffset)
         scrollView.contentOffset = contentOffset
         toSearchButton.isHidden = false
         toSettingsButton.isHidden = false
         followView.isHidden = false
+        populateUserAvatar()
     }
     
     func resetCoordinatePoints() {
@@ -370,14 +320,14 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
     }
     
     func setZoomScale() {
-//        let imageViewSize = contentView.bounds.size
-//        let scrollViewSize = scrollView.bounds.size
-//        let widthScale = scrollViewSize.width / imageViewSize.width
-//        let heightScale = scrollViewSize.height / imageViewSize.height
-//
-//        print("width scale: \(widthScale)")
-//        print("height scale: \(heightScale)")
-//         scrollView.minimumZoomScale = min(widthScale, heightScale)
+        //        let imageViewSize = contentView.bounds.size
+        //        let scrollViewSize = scrollView.bounds.size
+        //        let widthScale = scrollViewSize.width / imageViewSize.width
+        //        let heightScale = scrollViewSize.height / imageViewSize.height
+        //
+        //        print("width scale: \(widthScale)")
+        //        print("height scale: \(heightScale)")
+        //         scrollView.minimumZoomScale = min(widthScale, heightScale)
         //scrollView.zoomScale = scrollView.minimumZoomScale
         scrollView.maximumZoomScale = 60
         scrollView.minimumZoomScale = 1
@@ -437,85 +387,28 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
         toSearchButton.isUserInteractionEnabled = true
         toSearchButton.addGestureRecognizer(searchTap)
         
-
+        
         self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
         self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
-     
+        
         self.toSettingsButton.frame = CGRect(x: 10, y: navBarView.frame.height - 30, width: 25, height: 25)
         self.toSettingsButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
         self.toSearchButton.frame = CGRect(x: navBarView.frame.width - 35, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
         let yOffset = navBarView.frame.maxY
-      //  self.navBarView.addSubview(titleLabel1)
+        //  self.navBarView.addSubview(titleLabel1)
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.isHidden = true
         print("This is navBarView.")
         self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
         self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
-
-//        self.navBarView.addSubview(followView)
-//        self.followView.backgroundColor = .white
-//        self.followView.frame = CGRect(x: self.view.frame.midX - 80, y: toSettingsButton.frame.minY, width: 160, height: 30)
-//        self.followView.layer.cornerRadius = followView.frame.size.width / 20
-//        followersButton.setTitleColor(.black, for: .normal)
-//        followingButton.setTitleColor(.black, for: .normal)
-//        followersButton.setTitle("Followers", for: .normal)
-//        followingButton.setTitle("Following", for: .normal)
-//        let followersTap = UITapGestureRecognizer(target: self, action: #selector(followersTapped))
-//        followersTap.numberOfTapsRequired = 1
-//        followersButton.isUserInteractionEnabled = true
-//        followersButton.addGestureRecognizer(followersTap)
-//
-//        let followingTap = UITapGestureRecognizer(target: self, action: #selector(followingTapped))
-//        followingTap.numberOfTapsRequired = 1
-//        followingButton.isUserInteractionEnabled = true
-//        followingButton.addGestureRecognizer(followingTap)
-//
-//        self.followView.addSubview(followersButton)
-//        self.followView.addSubview(followingButton)
-//        self.followView.isHidden = false
-//        var widthRemaining = self.followView.frame.width - (3*self.followView.frame.height)
-//        var spacingWidth = widthRemaining/4
-//        self.followersButton.frame = CGRect(x: 0, y: 0, width: followView.frame.width/2, height: followView.frame.height)
-//        self.followingButton.frame = CGRect(x: followersButton.frame.maxX, y: 0, width: followView.frame.width/2, height: followView.frame.height)
-//
-//       // self.followingButton.frame = CGRect(x: (2*spacingWidth) + followView.frame.height, y: 0, width: followView.frame.height, height: followView.frame.height)
-//        self.followersButton.setTitle("Followers", for: .normal)
-//        self.followingButton.setTitle("Following", for: .normal)
-//
-//        //self.followImage3.frame = CGRect(x:(2*followView.frame.height)+(3*spacingWidth), y: 0, width: followView.frame.height, height: followView.frame.height)
-//        self.followView.layer.cornerRadius = followView.frame.size.width/10
-//        //self.followView.clipsToBounds()
-//
-//     //   let cleanRef = userData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
-//       // let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
-////        self.followImage.sd_setImage(with: url!, completed: {_, error, _, _ in
-////            if error != nil {
-////                print(error!.localizedDescription)
-////            }
-////        })
-//        self.followImage.image = myProfileImage//
-//
-//      //  self.followImage.setupHexagonMask(lineWidth: self.followImage.frame.width/15, color: .darkGray, cornerRadius: self.followImage.frame.width/15)
-//        //self.followImage.image = UIImage(named: "twoFriendsFlipped")
-//      //  self.followImage2.image = UIImage(named: "fire1")
-//      //  self.followImage3.image = UIImage(named: "earth")
-//        print("This is follow view frame \(self.followView.frame)")
-//        print("This is follow image1.frame \(self.followImage.frame)")
-//        print("This is follow image2.frame \(self.followImage2.frame)")
-//        print("This is follow image3.frame \(self.followImage3.frame)")
-//        self.followLabel.frame = CGRect(x: followImage.frame.maxX + 5, y: 0.0, width: followView.frame.width - 10, height: followView.frame.height)
-//        self.followLabel.isHidden = true
-//        self.followLabel.text = "Community"
-//        self.followLabel.textColor = .black
-//
-
+        
     }
     
     
     func refresh() {
         //print("in refresh")
         user = Auth.auth().currentUser
-//        print("current user: \(user)")
+        //        print("current user: \(user)")
         if (user != nil) {
             if (userData == nil || userData?.email != user?.email) {
                 db.collection("UserData1").document(user!.uid).getDocument(completion: {obj,error in
@@ -524,7 +417,7 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
                         if data != nil {
                             self.userData = UserData(dictionary: obj!.data()!)
                             self.menuView.userData = self.userData
-    //                        print("should load followings, userdata was found: \(self.userData?.email)")
+                            //                        print("should load followings, userdata was found: \(self.userData?.email)")
                             self.loadFollowings()
                         }
                         else {
@@ -538,9 +431,10 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
                 })
             }
             else {
-//                print("userData wasnt nil \(userData?.email)")
+                //                print("userData wasnt nil \(userData?.email)")
                 loadFollowings()
             }
+            loadPopularHexagons()
         }
     }
     
@@ -591,18 +485,19 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
     
     
     func doneLoading() {
-        self.removeCurrentProfileHexagons()
-        self.loadProfileHexagons()
+        //self.removeCurrentProfileHexagons()
+        //self.loadProfileHexagons()
+        profileCollectionView.reloadData()
     }
     
     // loading followings
     func loadFollowings() {
         if (self.followingUserDataArray.isEmpty()) {
             self.followingUserDataArray.append(newElement: userData!)
-            loadProfileHexagons()
+            profileCollectionView.reloadData()
         }
         createFollowArray(completion: { newFollowArray, success in
-//            print("loadFollowings: new follow array: \(newFollowArray)")
+            //            print("loadFollowings: new follow array: \(newFollowArray)")
             if success {
                 // using 5 for efficiency and less possibility of timeout
                 self.followingUserDataArray.removeAll()
@@ -612,13 +507,13 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
                 for chunk in chunks {
                     group.enter()
                     self.loadUpToTenFollowers(followers: chunk, completion: {
-//                        print("loadFollowings: loaded followers \(self.followingUserDataArray)")
+                        //                        print("loadFollowings: loaded followers \(self.followingUserDataArray)")
                         
-                        defer {group.leave()}
+                        group.leave()
                     })
                 }
                 group.notify(queue: .main) {
-//                    print("loadFollowings: done loading followers \(self.followingUserDataArray)")
+                    //                    print("loadFollowings: done loading followers \(self.followingUserDataArray)")
                     self.doneLoading()
                 }
             }
@@ -628,10 +523,10 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
     func createFollowArray(completion: @escaping ([String], Bool) -> ()) {
         let followCollection = db.collection("Followings")
         let usernameText:String = userData!.publicID
-         newFollowArray = []
+        newFollowArray = []
         followCollection.whereField("follower", isEqualTo: usernameText).getDocuments(completion: { (objects, error) -> Void in
             if error == nil {
-//                print("no error")
+                //                print("no error")
                 
                 // STEP 2. Hold received data in followArray
                 // find related objects in "follow" class of Parse
@@ -641,7 +536,7 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
                     if followerString != nil  && !self.newFollowArray.contains(followerString as! String){
                         self.newFollowArray.append(followerString as! String)
                     }
-//                    print("Now this is followArray \(self.followArray)")
+                    //                    print("Now this is followArray \(self.followArray)")
                 }
                 completion(self.newFollowArray, true)
             }
@@ -652,42 +547,42 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
         })
     }
     
-    func removeCurrentProfileHexagons() {
+    func removeCurrentPopHexagons() {
         imageViewArray.forEach({ image in
             image.removeFromSuperview()
         })
         imageViewArray = []
     }
-
+    
     @objc func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
         self.navigationController?.isNavigationBarHidden = false
         self.tabBarController?.tabBar.isHidden = false
         sender.view?.removeFromSuperview()
     }
-
+    
     @objc func followersTapped(_ recognizer: UITapGestureRecognizer) {
-       print("followers tapped")
+        print("followers tapped")
         let followersTableVC = storyboard?.instantiateViewController(identifier: "followersTableView") as! FollowersTableView
         followersTableVC.userData = self.userData
         present(followersTableVC, animated: false)
     }
     
     @objc func followingTapped(_ recognizer: UITapGestureRecognizer) {
-       print("following tapped")
+        print("following tapped")
         let followingTableVC = storyboard?.instantiateViewController(identifier: "followingTableView") as! FollowingTableView
         followingTableVC.userData = self.userData
         present(followingTableVC, animated: false)
-       // print("frame after pressed \(toSearchButton.frame)")
+        // print("frame after pressed \(toSearchButton.frame)")
         
-
+        
     }
-
+    
     
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
-//        print("🎯🎯🎯🎯🎯Hello World")
-//        print("🎯🎯🎯🎯🎯🎯🎯I tapped image with tag \(sender.view!.tag)")
+        //        print("🎯🎯🎯🎯🎯Hello World")
+        //        print("🎯🎯🎯🎯🎯🎯🎯I tapped image with tag \(sender.view!.tag)")
         let username = followingUserDataArray[sender.view!.tag].publicID
-//        print("🎯🎯🎯🎯🎯🎯🎯 I tapped image with associated username: \(username)")
+        //        print("🎯🎯🎯🎯🎯🎯🎯 I tapped image with associated username: \(username)")
         let guestVC = storyboard?.instantiateViewController(identifier: "guestGridVC") as! GuestHexagonGridVC
         //guestVC.user = user
         guestVC.myUserData = userData
@@ -701,10 +596,10 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
     }
     
     @objc func handleCollectionViewTap(_ sender: UITapGestureRecognizer) {
-//        print("🎯🎯🎯🎯🎯Hello World")
-//        print("🎯🎯🎯🎯🎯🎯🎯I tapped image with tag \(sender.view!.tag)")
+        //        print("🎯🎯🎯🎯🎯Hello World")
+        //        print("🎯🎯🎯🎯🎯🎯🎯I tapped image with tag \(sender.view!.tag)")
         let username = followingUserDataArray[sender.view!.tag].publicID
-//        print("🎯🎯🎯🎯🎯🎯🎯 I tapped image with associated username: \(username)")
+        //        print("🎯🎯🎯🎯🎯🎯🎯 I tapped image with associated username: \(username)")
         let guestVC = storyboard?.instantiateViewController(identifier: "guestGridVC") as! GuestHexagonGridVC
         //guestVC.user = user
         guestVC.myUserData = userData
@@ -719,98 +614,115 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        var userTableVC = segue.destination as! UserTableView
+        let userTableVC = segue.destination as! UserTableView
         userTableVC.currentUser = user
         userTableVC.loadUserDataArray.setArray(array: followingUserDataArray.readOnlyArray())
     }
     
     
     
-    func loadProfileHexagons() {
-        
-        //adjust coordinates
-        
-//        for point in self.reOrderedCoordinateArrayPoints {
-//            var newPointX = point.x - 104 //680
-//            var newPointY = point.y - 493 //570
-//            var newPoint = CGPoint(x: newPointX, y: newPointY)
-//            reorderedCoordinateArrayPointsCentered.append(newPoint)
-//
-//        }
-        resizeScrollView(numFollowers: followingUserDataArray.count)
-        let contentTapGesture = UITapGestureRecognizer(target: self, action: #selector(DraggableHexagonGrid.handleContentViewerTap))
-        self.contentViewer.addGestureRecognizer(contentTapGesture)
-        
-        //          // Do any additional setup after loading the view.
-        
-        var thisIndex = 0
-//        print ("following data count \(followingUserDataArray.count)")
-        for data in followingUserDataArray.readOnlyArray() {
-            //print(coordinates)
-            
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-//            print("follower username \(data.publicID)")
-            let defaultProfileImage = UIImage(named: "boyprofile")
-            let image = UIImageView(frame: CGRect(x: reOrderedCoordinateArrayPoints[thisIndex].x,
-                                                  y: reOrderedCoordinateArrayPoints[thisIndex].y,
-                                                  width: hexaDiameter,
-                                                  height: hexaDiameter))
-            image.contentMode = .scaleAspectFill
-            let cleanRef = data.avaRef.replacingOccurrences(of: "/", with: "%2F")
-            let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
-            if (url != nil) {
-                image.sd_setImage(with: url!, completed: {_, error, _, _ in
-                    if error != nil {
-                        print(error!.localizedDescription)
-                        image.image = defaultProfileImage
+    func loadPopularHexagons() {
+        db.collection("PopularUserData").getDocuments(completion: { obj, error in
+            if error == nil {
+                self.removeCurrentPopHexagons()
+                self.resizeScrollView(numFollowers: obj!.documents.count)
+                let contentTapGesture = UITapGestureRecognizer(target: self, action: #selector(DraggableHexagonGrid.handleContentViewerTap))
+                self.contentViewer.addGestureRecognizer(contentTapGesture)
+                
+                //          // Do any additional setup after loading the view.
+                
+                let docs = obj!.documents
+                var thisIndex = 1
+                //        print ("following data count \(followingUserDataArray.count)")
+                for doc in docs {
+                    //print(coordinates)
+                    let popData = UserData(dictionary: doc.data())
+                    
+                    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
+                    //            print("follower username \(data.publicID)")
+                    let defaultProfileImage = UIImage(named: "boyprofile")
+                    let image = UIImageView(frame: CGRect(x: self.reOrderedCoordinateArrayPoints[thisIndex].x,
+                                                          y: self.reOrderedCoordinateArrayPoints[thisIndex].y,
+                                                          width: self.hexaDiameter,
+                                                          height: self.hexaDiameter))
+                    image.contentMode = .scaleAspectFill
+                    let cleanRef = popData.avaRef.replacingOccurrences(of: "/", with: "%2F")
+                    let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
+                    if (url != nil) {
+                        image.sd_setImage(with: url!, completed: {_, error, _, _ in
+                            if error != nil {
+                                print(error!.localizedDescription)
+                                image.image = defaultProfileImage
+                            }
+                        })
                     }
-                })
+                    else {
+                        image.image = UIImage(named: "boyprofile")
+                    }
+                    image.tag = thisIndex
+                    
+                    
+                    // image.addGestureRecognizer(longGesture)
+                    image.addGestureRecognizer(tapGesture)
+                    image.isUserInteractionEnabled = true
+                    //   image.addGestureRecognizer(dragGesture)
+                    //    var gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
+                    
+                    image.setupHexagonMask(lineWidth: image.frame.width/15, color: .darkGray, cornerRadius: image.frame.width/15)
+                    self.contentView.addSubview(image)
+                    //   image.startShimmering2()
+                    image.isHidden = false
+                    self.imageViewArray.append(image)
+                    self.imageViewArray[thisIndex - 1].tag = thisIndex
+                    thisIndex = thisIndex+1
+                    //            print("added profile image")
+                    
+                }
             }
-            else {
-                image.image = UIImage(named: "boyprofile")
-            }
-            image.tag = thisIndex
-            
-            
-            // image.addGestureRecognizer(longGesture)
-            image.addGestureRecognizer(tapGesture)
-            image.isUserInteractionEnabled = true
-            //   image.addGestureRecognizer(dragGesture)
-            //    var gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
-       
-            if thisIndex == 0 {
-//                image.layer.cornerRadius = image.frame.size.width / 2
-//                image.layer.borderWidth = image.frame.width/30
-//                image.layer.borderColor = white.cgColor
-//                image.clipsToBounds = true
-                var scaleFactor = CGFloat(0.10)
-                var widthShavedOff = scaleFactor*CGFloat(image.frame.width)
-                var smallerFrame = CGRect(x: image.frame.minX, y: image.frame.minY, width: image.frame.width*CGFloat(0.90), height: image.frame.height*CGFloat(0.90))
-                image.frame = smallerFrame
-                image.frame = CGRect(x: smallerFrame.minX + (widthShavedOff/2), y: smallerFrame.minY + (widthShavedOff/2), width: smallerFrame.width, height: smallerFrame.height)
-                image.layer.cornerRadius = (image.frame.size.width)/2
-                image.clipsToBounds = true
-                image.layer.masksToBounds = true
-                image.layer.borderColor = UIColor.white.cgColor
-                image.layer.borderWidth = (image.frame.width)/30
-                self.myProfileImage = image.image ?? UIImage()
-                self.followImage.image = self.myProfileImage
-            }
-            else {
-                image.setupHexagonMask(lineWidth: image.frame.width/15, color: .darkGray, cornerRadius: image.frame.width/15)
-            }
-            contentView.addSubview(image)
-         //   image.startShimmering2()
-            image.isHidden = false
-            imageViewArray.append(image)
-            imageViewArray[thisIndex].tag = thisIndex
-            thisIndex = thisIndex+1
-//            print("added profile image")
-            
+        })
+    }
+    var avaImage: UIImageView?
+    func populateUserAvatar() {
+        // to for hexstruct array once algorithm done
+        if avaImage != nil {
+            avaImage?.removeFromSuperview()
         }
+        avaImage = UIImageView(frame: CGRect(x: self.reOrderedCoordinateArrayPoints[0].x + ((1/30)*hexaDiameter), y: self.reOrderedCoordinateArrayPoints[0].y + ((1/30)*hexaDiameter), width: (14/15)*hexaDiameter, height: (14/15)*hexaDiameter))
+        avaImage?.contentMode = .scaleAspectFill
+        avaImage?.image = UIImage()
+        avaImage?.tag = 0
+        avaImage?.isUserInteractionEnabled = true
+        contentView.addSubview(avaImage!)
+        //let interaction = UIContextMenuInteraction(delegate: self)
+        //avaImage?.addInteraction(interaction)
+        avaImage?.isHidden = false
+        //let avaTap = UITapGestureRecognizer(target: self, action: #selector(self.handleProfilePicTap))
+        //avaTap.numberOfTapsRequired = 1
+        avaImage?.isUserInteractionEnabled = true
+        // avaImage?.addGestureRecognizer(avaTap)
         
-        //self.view.frame.origin = imageViewArray[0].frame.origin
-//        print("imageViewArray: \(imageViewArray)")
+        contentView.bringSubviewToFront(avaImage!)
+        avaImage!.layer.cornerRadius = (avaImage!.frame.size.width)/2
+        avaImage?.clipsToBounds = true
+        avaImage?.layer.masksToBounds = true
+        avaImage?.layer.borderColor = UIColor.white.cgColor
+        avaImage?.layer.borderWidth = (avaImage?.frame.width)!/30
+        //        var myCenter = avaImage?.center
+        //        shrinkImage(imageView: avaImage!)
+        // var mySize = avaImage?.bounds*
+        
+        if (userData == nil) {
+            return
+        }
+        let cleanRef = userData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
+        let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
+        
+        avaImage!.sd_setImage(with: url!, completed: {_, error, _, _ in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+        })
+        
     }
     
     
@@ -825,7 +737,7 @@ extension Array {
 }
 
 extension UIImageView {
-
+    
     func startShimmering2() {
         let light = UIColor.white.cgColor
         let alpha = UIColor.white.withAlphaComponent(0.6).cgColor
@@ -844,10 +756,10 @@ extension UIImageView {
         animation.repeatCount = HUGE
         gradient.add(animation, forKey: "shimmer")
     }
-
+    
     func stopShimmering2(){
         self.layer.mask = nil
     }
-
+    
 }
 
