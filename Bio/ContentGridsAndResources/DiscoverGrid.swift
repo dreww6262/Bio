@@ -21,10 +21,21 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
     let storageRef = Storage.storage().reference()
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.followingUserDataArray.count
+        if collectionFollowing {
+            return self.followingUserDataArray.count
+        }
+        return self.followerUserDataArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let array: ThreadSafeArray<UserData> = { () -> ThreadSafeArray<UserData> in
+            if (collectionFollowing) {
+                return followingUserDataArray
+            }
+            return followerUserDataArray
+        }()
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "profileCircleCell", for: indexPath) as! ProfileCircleCell
         cell.imageView.frame = CGRect(x: cell.frame.width/16, y: 0, width: cell.frame.width*(14/16), height: cell.frame.height*(14/16))
         cell.label.frame = CGRect(x: 0, y: cell.imageView.frame.maxY, width: cell.frame.width, height: cell.frame.height - cell.imageView.frame.maxY)
@@ -34,10 +45,10 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
         let tapCellGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleCollectionViewTap))
         cell.addGestureRecognizer(tapCellGesture)
         cell.imageView.layer.cornerRadius = cell.imageView.frame.width/2
-        // let ref = self.followingUserDataArray[indexPath.row].avaRef as! StorageReference
-        cell.imageView.sd_setImage(with: storageRef.child(followingUserDataArray[indexPath.row].avaRef))
+        // let ref = array[indexPath.row].avaRef as! StorageReference
+        cell.imageView.sd_setImage(with: storageRef.child(array[indexPath.row].avaRef))
         //cell.imageView.sd_setImage(with: ref)
-        cell.label.text = self.followingUserDataArray[indexPath.row].displayName
+        cell.label.text = array[indexPath.row].displayName
         cell.label.textColor = .white
         cell.label.font = UIFont(name: "DINAlternate-SemiBold", size: 12)
         return cell
@@ -45,7 +56,6 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
     
     var navBarY = CGFloat(39)
     var followView = UIView()
-    var newFollowArray: [String] = []
     //var user = PFUser.current()!.username!
     @IBOutlet weak var profileCollectionView: UICollectionView!
     
@@ -59,6 +69,7 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
     // array showing who we follow
     var followArray = [String]()
     var followingUserDataArray = ThreadSafeArray<UserData>()
+    var followerUserDataArray = ThreadSafeArray<UserData>()
     //let db = Firestore.firestore()
     var userData: UserData?
     //var loadUserDataArray: [UserData] = []
@@ -100,6 +111,8 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
     let firstRowColumns = 15
     
     var firstLoad = true
+    
+    var collectionFollowing = true
     
     
     override func viewDidLoad() {
@@ -175,6 +188,9 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
         
         self.followersButton.setTitle("Followers", for: .normal)
         self.followingButton.setTitle("Following", for: .normal)
+        
+        followersButton.addTarget(self, action: #selector(followersButtonPressed), for: .touchUpInside)
+        followingButton.addTarget(self, action: #selector(followingButtonPressed), for: .touchUpInside)
         
         
         
@@ -419,6 +435,7 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
                             self.menuView.userData = self.userData
                             //                        print("should load followings, userdata was found: \(self.userData?.email)")
                             self.loadFollowings()
+                            self.loadFollowers()
                         }
                         else {
                             print("Userdata data was nil")
@@ -433,6 +450,7 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
             else {
                 //                print("userData wasnt nil \(userData?.email)")
                 loadFollowings()
+                loadFollowers()
             }
             loadPopularHexagons()
         }
@@ -451,7 +469,7 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
     }
     
     
-    func loadUpToTenFollowers(followers: [String], completion: @escaping () -> ()) {
+    func loadUpToTenUserDatas(followers: [String], completion: @escaping () -> (), following: Bool) {
         let userDataCollection = self.db.collection("UserData1")
         let userDataQuery = userDataCollection.whereField("publicID", in: followers)
         userDataQuery.getDocuments(completion: { (objects, error) -> Void in
@@ -464,14 +482,26 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
                 
                 for object in documents {
                     let newUserData = UserData(dictionary: object.data())
-                    let readOnlyArray = self.followingUserDataArray.readOnlyArray()
+                    let readOnlyArray: [UserData] = { () -> [UserData] in
+                        if (following) {
+                            return self.followingUserDataArray.readOnlyArray()
+                        }
+                        return self.followerUserDataArray.readOnlyArray()
+                    }()
                     
                     // TODO: Very inefficient.  Use database operations to make sure data is clean.  Followers shouldnt be too many.  < 100 elements
                     
                     if (!readOnlyArray.contains(where: { data in
                         data.publicID == newUserData.publicID
                     }) && !self.userData!.isBlockedBy.contains(newUserData.publicID) && !self.userData!.blockedUsers.contains(newUserData.publicID)) {
-                        self.followingUserDataArray.append(newElement: newUserData)
+                        
+                        if (following) {
+                            self.followingUserDataArray.append(newElement: newUserData)
+                        }
+                        else {
+                            self.followerUserDataArray.append(newElement: newUserData)
+                        }
+                        
                     }
                 }
             } else {
@@ -496,7 +526,7 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
             self.followingUserDataArray.append(newElement: userData!)
             profileCollectionView.reloadData()
         }
-        createFollowArray(completion: { newFollowArray, success in
+        createFollowingArray(completion: { newFollowArray, success in
             //            print("loadFollowings: new follow array: \(newFollowArray)")
             if success {
                 // using 5 for efficiency and less possibility of timeout
@@ -506,11 +536,11 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
                 let group = DispatchGroup()
                 for chunk in chunks {
                     group.enter()
-                    self.loadUpToTenFollowers(followers: chunk, completion: {
+                    self.loadUpToTenUserDatas(followers: chunk, completion: {
                         //                        print("loadFollowings: loaded followers \(self.followingUserDataArray)")
                         
                         group.leave()
-                    })
+                    }, following: true)
                 }
                 group.notify(queue: .main) {
                     //                    print("loadFollowings: done loading followers \(self.followingUserDataArray)")
@@ -520,10 +550,10 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
         })
     }
     
-    func createFollowArray(completion: @escaping ([String], Bool) -> ()) {
+    func createFollowingArray(completion: @escaping ([String], Bool) -> ()) {
         let followCollection = db.collection("Followings")
         let usernameText:String = userData!.publicID
-        newFollowArray = []
+        var newFollowArray = [String]()
         followCollection.whereField("follower", isEqualTo: usernameText).getDocuments(completion: { (objects, error) -> Void in
             if error == nil {
                 //                print("no error")
@@ -533,12 +563,12 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
                 for object in objects!.documents {
                     print (object.data())
                     let followerString = object.get("following")
-                    if followerString != nil  && !self.newFollowArray.contains(followerString as! String){
-                        self.newFollowArray.append(followerString as! String)
+                    if followerString != nil  && !newFollowArray.contains(followerString as! String){
+                        newFollowArray.append(followerString as! String)
                     }
                     //                    print("Now this is followArray \(self.followArray)")
                 }
-                completion(self.newFollowArray, true)
+                completion(newFollowArray, true)
             }
             else {
                 print(error!.localizedDescription)
@@ -546,6 +576,65 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
             }
         })
     }
+    
+    
+    
+    
+    // loading followings
+    func loadFollowers() {
+        if (self.followerUserDataArray.isEmpty()) {
+            self.followerUserDataArray.append(newElement: userData!)
+            profileCollectionView.reloadData()
+        }
+        createFollowerArray(completion: { newFollowArray, success in
+            if success {
+                // using 5 for efficiency and less possibility of timeout
+                self.followerUserDataArray.removeAll()
+                self.followerUserDataArray.append(newElement: self.userData!)
+                let chunks = newFollowArray.chunked(into: 5)
+                let group = DispatchGroup()
+                for chunk in chunks {
+                    group.enter()
+                    self.loadUpToTenUserDatas(followers: chunk, completion: {
+                        group.leave()
+                    }, following: false)
+                }
+                group.notify(queue: .main) {
+                    self.doneLoading()
+                }
+            }
+        })
+    }
+    
+    func createFollowerArray(completion: @escaping ([String], Bool) -> ()) {
+        let followCollection = db.collection("Followings")
+        let usernameText:String = userData!.publicID
+        var newFollowArray = [String]()
+        followCollection.whereField("following", isEqualTo: usernameText).getDocuments(completion: { (objects, error) -> Void in
+            if error == nil {
+                //                print("no error")
+                
+                // STEP 2. Hold received data in followArray
+                // find related objects in "follow" class of Parse
+                for object in objects!.documents {
+                    print (object.data())
+                    let followerString = object.get("follower")
+                    if followerString != nil  && !newFollowArray.contains(followerString as! String){
+                        newFollowArray.append(followerString as! String)
+                    }
+                    //                    print("Now this is followArray \(self.followArray)")
+                }
+                completion(newFollowArray, true)
+            }
+            else {
+                print(error!.localizedDescription)
+                completion([String](), false)
+            }
+        })
+    }
+    
+    
+    
     
     func removeCurrentPopHexagons() {
         imageViewArray.forEach({ image in
@@ -587,7 +676,6 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
         let guestVC = storyboard?.instantiateViewController(identifier: "guestGridVC") as! GuestHexagonGridVC
         //guestVC.user = user
         guestVC.myUserData = userData
-        guestVC.followList = self.newFollowArray
         //guestVC.profileImage = self.
         guestVC.guestUserData = profImage.userData
         guestVC.isFollowing = true
@@ -604,7 +692,6 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
         let guestVC = storyboard?.instantiateViewController(identifier: "guestGridVC") as! GuestHexagonGridVC
         //guestVC.user = user
         guestVC.myUserData = userData
-        guestVC.followList = self.newFollowArray
         //guestVC.profileImage = self.
         guestVC.guestUserData = followingUserDataArray[sender.view!.tag]
         guestVC.isFollowing = true
@@ -725,6 +812,16 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
             }
         })
         
+    }
+    
+    @objc func followersButtonPressed(_ sender: UITapGestureRecognizer) {
+        collectionFollowing = false
+        profileCollectionView.reloadData()
+        
+    }
+    @objc func followingButtonPressed(_ sender: UITapGestureRecognizer) {
+        collectionFollowing = true
+        profileCollectionView.reloadData()
     }
     
     
