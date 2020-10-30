@@ -8,6 +8,7 @@
 import UIKit
 import Firebase
 import IQKeyboardManagerSwift
+import FirebaseInstallations
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -42,14 +43,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
           application.registerUserNotificationSettings(settings)
         }
 
+        
+        let token = Messaging.messaging().fcmToken
+        
+        if (token != nil) {
+            print("FCMToken: \(token!)")
+        }
+        else {
+            print ("Could not get FCMToken")
+        }
+        
         //get application instance ID
-                InstanceID.instanceID().instanceID { (result, error) in
-                    if let error = error {
-                        print("Error fetching remote instance ID: \(error)")
-                    } else if let result = result {
-                        print("Remote instance ID token: \(result.token)")
-                    }
-                }
+
         
         application.registerForRemoteNotifications()
         
