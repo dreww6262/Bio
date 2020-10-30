@@ -269,18 +269,8 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
                 let onePostPreviewVC = self.storyboard?.instantiateViewController(identifier: "onePostPreview") as! OnePostPreview
                 onePostPreviewVC.userData = self.userData
                 onePostPreviewVC.items = items
+                picker.present(onePostPreviewVC, animated: false, completion: nil)
                 onePostPreviewVC.modalPresentationStyle = .fullScreen
-               //onePostPreviewVC.previewImage = items[0]
-//                switch items[0] {
-//                case .photo(let photo):
-//                    onePostPreviewVC.previewImage.image = photo.image
-//                case .video(let video) :
-//                    onePostPreviewVC.previewImage.image = video.thumbnail
-//                default:
-//                    print("bad")
-//                }
-                
-                
             }
             
             

@@ -129,7 +129,16 @@ class AddSocialMediaTableView: UIViewController {
         let picker = YPImagePicker(configuration: config)
         picker.didFinishPicking { [unowned picker] items, cancelled in
             
-            if (items.count > 0) {
+            if (items.count == 1) {
+                let onePostVC = self.storyboard?.instantiateViewController(identifier: "") as! OnePostPreview
+                onePostVC.userData = self.userData
+                onePostVC.items = items
+                onePostVC.cancelLbl = self.cancelLbl
+                
+                picker.present(onePostVC, animated: false, completion: nil)
+                onePostVC.modalPresentationStyle = .fullScreen
+            }
+            if (items.count > 1) {
                 let uploadPreviewVC = self.storyboard?.instantiateViewController(identifier: "newUploadPreviewVC") as! NewUploadPreviewVC
                 //print(photos)
                 uploadPreviewVC.userData = self.userData

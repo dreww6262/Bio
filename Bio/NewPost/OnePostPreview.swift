@@ -13,6 +13,7 @@ import FirebaseStorage
 import FirebaseUI
 import FirebaseFirestore
 import YPImagePicker
+import Photos
 
 class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     @IBOutlet weak var titleText: UILabel!
@@ -43,12 +44,17 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
     let db = Firestore.firestore()
     let storageRef = Storage.storage().reference()
     
+    var cancelLbl: String?
+    
+    var photoBool = true
     
     // reset default size
     var scrollViewHeight : CGFloat = 0
     
     // keyboard frame size
     var keyboard = CGRect()
+    
+    let filterSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ1234567890/_-."
     
     
     // default func
@@ -61,11 +67,14 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
         switch items![0] {
         case .photo(let photo):
             previewImage.image = photo.image
+            photoBool = true
         case .video(let video) :
             previewImage.image = video.thumbnail
+            photoBool = false
         default:
             print("bad")
         }
+        
         
         //        let group = DispatchGroup()
         //
@@ -255,51 +264,99 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
         
         //let group = DispatchGroup()
         if (!captionTextField.text!.isEmpty) {
+            
+            let loadingIndicator = storyboard?.instantiateViewController(withIdentifier: "loading")
+            let blurEffectView = { () -> UIVisualEffectView in
+                let blurEffect = UIBlurEffect(style: .dark)
+                let blurEffectV = UIVisualEffectView(effect: blurEffect)
+                
+                blurEffectV.alpha = 0.8
+                
+                // Setting the autoresizing mask to flexible for
+                // width and height will ensure the blurEffectView
+                // is the same size as its parent view.
+                blurEffectV.autoresizingMask = [
+                    .flexibleWidth, .flexibleHeight
+                ]
+                blurEffectV.frame = view.bounds
+                
+                return blurEffectV
+            }()
+            view.addSubview(blurEffectView)
+            
+            addChild(loadingIndicator!)
+            view.addSubview(loadingIndicator!.view)
+            
+            let type = { () -> String in
+                if (self.photoBool) {
+                    return "photo"
+                }
+                return "video"
+            }()
+            
             let timestamp = Timestamp.init().seconds
-            let imageFileName = "\(username)_\(timestamp)_link.png"
+            let imageFileName = "\(username)_\(timestamp)_\(type).png"
             let refText = "userFiles/\(username)/\(imageFileName)"
+
+            let photoLocation = refText.filter{filterSet.contains($0)}
+            
             let imageRef = storageRef.child(refText)
-            let date = NSDate.now
             numPosts += 1
-            let linkHex = HexagonStructData(resource: captionTextField.text!, type: "link", location: numPosts, thumbResource: refText, createdAt: date.description, postingUserID: username, text: "\(captionTextField.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
             
             
-            addHex(hexData: linkHex, completion: { bool in
-                success = success && bool
-                
-            })
-            print("passed wait for social media tiles")
             
-            imageRef.putData(previewImage.image!.pngData()!, metadata: nil){ data, error in
-                if (error == nil) {
-                    print ("upload successful")
-                }
-                else {
-                    print ("upload failed")
-                }
+            let photoHex = HexagonStructData(resource: photoLocation, type: type, location: numPosts, thumbResource: photoLocation, createdAt: NSDate.now.description, postingUserID: username, text: "\(captionTextField.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            
+            switch(items![0]) {
+                case .photo(let photo):
+                    uploadPhoto(reference: photoLocation, image: photo, completion: { error in
+                        
+                        self.addHex(hexData: photoHex, completion: { error in
+                            self.userData?.numPosts = numPosts
+                            self.db.collection("UserData1").document(self.currentUser!.uid).setData(self.userData!.dictionary, completion: { error in
+                                if error == nil {
+                                    print("should navigate to homehexgrid")
+                                    if (self.cancelLbl == nil) {
+                                        self.performSegue(withIdentifier: "unwindFromUpload", sender: nil)
+                                    }
+                                    else {
+                                        let musicVC = self.storyboard?.instantiateViewController(withIdentifier: "addMusicVC") as! AddMusicVC
+                                        musicVC.userData = self.userData
+                                        musicVC.currentUser = Auth.auth().currentUser
+                                        musicVC.cancelLbl = "Skip"
+                                        self.present(musicVC, animated: false, completion: nil)
+                                    }
+                                }
+                            })
+                        })
+                    })
+            case .video(v: let video):
+                uploadVideo(reference: photoLocation, video: video, completion: { error in
+                    let rawThumbLocation = "userFiles/\(self.userData!.publicID)/_\(Timestamp.init().dateValue())_thumb.png"
+                    let thumbLocation = rawThumbLocation.filter{self.filterSet.contains($0)}
+                    self.uploadPhoto(reference: thumbLocation, image: YPMediaPhoto(image: video.thumbnail), completion: { error in
+                        self.addHex(hexData: photoHex, completion: { error in
+                            self.userData?.numPosts = numPosts
+                            self.db.collection("UserData1").document(self.currentUser!.uid).setData(self.userData!.dictionary, completion: { error in
+                                if error == nil {
+                                    print("should navigate to homehexgrid")
+                                    if (self.cancelLbl == nil) {
+                                        self.performSegue(withIdentifier: "unwindFromUpload", sender: nil)
+                                    }
+                                    else {
+                                        let musicVC = self.storyboard?.instantiateViewController(withIdentifier: "addMusicVC") as! AddMusicVC
+                                        musicVC.userData = self.userData
+                                        musicVC.currentUser = Auth.auth().currentUser
+                                        musicVC.cancelLbl = "Skip"
+                                        self.present(musicVC, animated: false, completion: nil)
+                                    }
+                                }
+                            })
+                        })
+                    })
+                })
             }
-            
-            
-            userData?.numPosts = numPosts
-            db.collection("UserData1").document(currentUser!.uid).setData(self.userData!.dictionary, completion: { error in
-                if error == nil {
-                    //present Home View Controller Segue
-                    print("present home hex grid")
-                    let homeGrid = self.storyboard?.instantiateViewController(identifier: "homeHexGrid420") as! HomeHexagonGrid
-                    homeGrid.userData = self.userData
-                    self.present(homeGrid, animated: true, completion: nil)
-                    print("should have presented home hex grid")
-                    
-                }
-                else {
-                    print("userData not saved \(error?.localizedDescription)")
-                }
-                
-            })
-            
-            
         }
-        
     }
     
     
@@ -330,105 +387,98 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
     
     
     // clicked cancel
-    @IBAction func cancelBtn_click(_ sender: AnyObject) { 
+    @IBAction func cancelBtn_click(_ sender: AnyObject) {
+        self.items = []
+        self.dismiss(animated: false, completion: nil)
+    }
+    
+    
+    
+    
+    func uploadPhoto(reference: String, image: YPMediaPhoto, completion: @escaping (Bool) -> Void) {
         
-        print("hit cancel button")
-        // hide keyboard when pressed cancel
-        self.view.endEditing(true)
-        if (cancelBtn.titleLabel?.text! == "Skip") {
-            print("present home hex grid")
-            //self.performSegue(withIdentifier: "toHomeHexGrid", sender: nil)
-            let hexGrid = (storyboard?.instantiateViewController(identifier: "homeHexGrid420"))! as HomeHexagonGrid
-            hexGrid.userData = userData
-            show(hexGrid, sender: nil)
-            print("should have presented home hex grid")
-        }
-        else {
-            print("should dismiss vc")
-            self.dismiss(animated: true, completion: nil)
-        }
+        let photoRef = storageRef.child(reference)
+        print("ref and img")
+        print(reference)
+        print(image)
+        photoRef.putData(image.image.pngData()!, metadata: nil, completion: { data, error in
+            print("got complete")
+            return completion(error == nil)
+        })
     }
     
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-           var homeHexGrid = segue.destination as! HomeHexagonGrid
-           homeHexGrid.userData = userData
-       }
-    
-    
-    func openInstagram(instagramHandle: String) {
-        guard let url = URL(string: "https://instagram.com/\(instagramHandle)")  else { return }
-        if UIApplication.shared.canOpenURL(url) {
-            if #available(iOS 10.0, *) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            } else {
-                UIApplication.shared.openURL(url)
-            }
-        }
-    }
-    
-    func openTikTok(tikTokHandle: String) {
-        guard let url = URL(string: tikTokHandle)  else { return }
-        if UIApplication.shared.canOpenURL(url) {
-            if #available(iOS 10.0, *) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            } else {
-                UIApplication.shared.openURL(url)
-            }
-        }
-    }
-    
-    func openSpotifySong() {
-        //  UIApplication.shared.open(URL(string: "spotify:artist:4gzpq5DPGxSnKTe4SA8HAU")!, options: [:], completionHandler: nil)
-        // UIApplication.shared.openURL(URL(string: "spotify:track:1dNIEtp7AY3oDAKCGg2XkH")!)
-        //   UIApplication.shared.open(URL(string: "spotify:track:1dNIEtp7AY3oDAKCGg2XkH")!, options: [:], completionHandler: nil)
-        UIApplication.shared.open(URL(string: "https://p.scdn.co/mp3-preview/18d3b87b0765cd6d8c0a418d6142b3b441c0f8b2?cid=476c620368f349cc8be5b2a29b596eaf" )!, options: [:], completionHandler: nil)
+    func uploadVideo(reference: String, video: YPMediaVideo, completion: @escaping (Bool) -> Void) {
+        
+        let videoRef = storageRef.child(reference)
+        uploadTOFireBaseVideo(url: video.url, storageRef: videoRef, completion: { bool in
+            completion(bool)
+        })
+        
         
     }
     
-    
-    
-    
-    
-    func openFacebook(facebookHandle: String) {
-        let webURL: NSURL = NSURL(string: "https://www.facebook.com/ID")!
-        let IdURL: NSURL = NSURL(string: "fb://profile/ID")!
-        
-        if(UIApplication.shared.canOpenURL(IdURL as URL)){
-            // FB installed
-            UIApplication.shared.open(webURL as URL, options: [:], completionHandler: nil)
-        } else {
-            // FB is not installed, open in safari
-            UIApplication.shared.open(webURL as URL, options: [:], completionHandler: nil)
+    func uploadTOFireBaseVideo(url: URL, storageRef: StorageReference,
+                                      completion : @escaping (Bool) -> Void) {
+
+        let name = "\(Int(Date().timeIntervalSince1970)).mp4"
+        let path = NSTemporaryDirectory() + name
+
+        let dispatchgroup = DispatchGroup()
+
+        dispatchgroup.enter()
+
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let outputurl = documentsURL.appendingPathComponent(name)
+        var ur = outputurl
+        self.convertVideo(toMPEG4FormatForVideo: url as URL, outputURL: outputurl) { (session) in
+
+            ur = session.outputURL!
+            dispatchgroup.leave()
+
         }
-        
+        dispatchgroup.wait()
+
+        let data = NSData(contentsOf: ur as URL)
+
+        do {
+
+            try data?.write(to: URL(fileURLWithPath: path), options: .atomic)
+
+        } catch {
+
+            print(error)
+        }
+
+        if let uploadData = data as Data? {
+            storageRef.putData(uploadData, metadata: nil
+                , completion: { (metadata, error) in
+                    if let error = error {
+                        print(error.localizedDescription)
+                        completion(false)
+                    }else{
+                        //let strPic:String = (metadata?.downloadURL()?.absoluteString)!
+                        completion(true)
+                    }
+            })
+        }
     }
     
-    func openTwitter(twitterHandle: String) {
-        guard let url = URL(string: "https://twitter.com/\(twitterHandle)")  else { return }
-        if UIApplication.shared.canOpenURL(url) {
-            if #available(iOS 10.0, *) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            } else {
-                UIApplication.shared.openURL(url)
-            }
-        }
-    }
     
-    func openSnapchat(snapchatUsername: String) {
-        let username = snapchatUsername
-        let appURL = URL(string: "snapchat://add/\(username)")!
-        let application = UIApplication.shared
-        
-        if application.canOpenURL(appURL) {
-            application.open(appURL)
-            
-        } else {
-            // if Snapchat app is not installed, open URL inside Safari
-            let webURL = URL(string: "https://www.snapchat.com/add/\(username)")!
-            application.open(webURL)
-            
+    func convertVideo(toMPEG4FormatForVideo inputURL: URL, outputURL: URL, handler: @escaping (AVAssetExportSession) -> Void) {
+        do{
+            try FileManager.default.removeItem(at: outputURL as URL)
         }
+        catch {
+            print("bade")
+        }
+        let asset = AVURLAsset(url: inputURL as URL, options: nil)
+
+        let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetHighestQuality)!
+        exportSession.outputURL = outputURL
+        exportSession.outputFileType = .mp4
+        exportSession.exportAsynchronously(completionHandler: {
+            handler(exportSession)
+        })
     }
     
 }

@@ -569,7 +569,6 @@ var navBarView = NavBarView()
         self.indexImageViewArray = []
         for image in imageViewArray {
             var imageType = image.hexData?.type
-            print("This is image type \(imageType)")
        var copyColor = myBlueGreen
             
             if imageType == "photo" {
@@ -733,7 +732,6 @@ var navBarView = NavBarView()
                 db.collection("UserData1").whereField("email", isEqualTo: user!.email!).getDocuments(completion: { objects, error in
                     if (error == nil) {
                         if (objects!.documents.capacity > 0) {
-                            print("got userdata")
                             let newData = UserData(dictionary: objects!.documents[0].data())
                             self.menuView.userData = newData
                             self.userData = newData
@@ -780,10 +778,9 @@ var navBarView = NavBarView()
             currentHexagonCenter = tappedImage.center
 //            print("yo: This is tapped image.center \(tappedImage.center)")
             tappedImage.setupHexagonMask(lineWidth: 10.0, color: .red, cornerRadius: 10.0)
-            print("This is the view that is being removed from shake array : \(sender.view?.tag)")
-            removedImageView = shakebleImages[sender.view!.tag]
-            removedImageLocation = sender.view!.tag
-            shakebleImages.remove(at: sender.view!.tag)
+            removedImageView = shakebleImages[sender.view!.tag - 1]
+            removedImageLocation = sender.view!.tag - 1
+            shakebleImages.remove(at: sender.view!.tag - 1)
 //            for shakeyImage in shakebleImages {
 //                shakeyImage.shake()
 //            }
@@ -853,13 +850,13 @@ var navBarView = NavBarView()
                 let refreshAlert = UIAlertController(title: "Delete This Post?", message: "All data will be lost.", preferredStyle: UIAlertController.Style.alert)
 
                 refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { [self] (action: UIAlertAction!) in
-                      print("Handle Deleting Hexagon!")
+//                      print("Handle Deleting Hexagon!")
                     self.handleDeleting(hexImage: hexImage)
                     
                 }))
 
                 refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
-                      print("Handle Cancel Logic here")
+//                      print("Handle Cancel Logic here")
                     self.refresh()
                 }))
 
@@ -916,7 +913,7 @@ var navBarView = NavBarView()
     
     func setUpNavBarView() {
         var statusBarHeight = UIApplication.shared.statusBarFrame.height
-        print("This is status bar height \(statusBarHeight)")
+//        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
         var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
@@ -948,7 +945,7 @@ var navBarView = NavBarView()
       //  self.navBarView.addSubview(titleLabel1)
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.isHidden = true
-        print("This is navBarView.")
+//        print("This is navBarView.")
         self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
         self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
 
@@ -1176,7 +1173,7 @@ var navBarView = NavBarView()
     
     func openSnapchat(snapchatUsername: String) {
         let username = snapchatUsername
-        print("This us username for openSnapchat \(username)")
+//        print("This us username for openSnapchat \(username)")
         let appURL = URL(string: "snapchat://add/\(username)")!
         let application = UIApplication.shared
         
@@ -1215,11 +1212,11 @@ var navBarView = NavBarView()
     
     func createContextMenu() -> UIMenu {
     let shareAction = UIAction(title: "View Profile Picture", image: UIImage(systemName: "square.and.arrow.up")) { _ in
-    print("View Profile Picture")
+//    print("View Profile Picture")
         self.handleProfilePicTap(UITapGestureRecognizer())
     }
     let copy = UIAction(title: "Change Profile Picture", image: UIImage(systemName: "doc.on.doc")) { _ in
-    print("Change")
+//    print("Change")
         let editProfilePhotoVC = self.storyboard?.instantiateViewController(identifier: "editProfilePhotoVC2") as! EditProfilePhotoVC2
         editProfilePhotoVC.userData = self.userData
         self.present(editProfilePhotoVC, animated: false)
