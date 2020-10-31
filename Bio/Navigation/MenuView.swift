@@ -36,6 +36,9 @@ class MenuView: UIView {
     
     var currentTab: Int = 0
     
+    var numNotifications = 0
+    let notificationLabel = UILabel()
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -106,6 +109,7 @@ class MenuView: UIView {
         superView.addSubview(notificationsButton)
         superView.addSubview(dmButton)
         superView.addSubview(homeProfileButton)
+        superView.addSubview(notificationLabel)
         
         let buttonWidth = CGFloat(60)
         let halfButtonWidth = CGFloat(30)
@@ -123,6 +127,16 @@ class MenuView: UIView {
         //newPostButton.frame = CGRect(x: superFrame.width/5 - halfButtonWidth, y: menuButton.frame.minY, width: buttonWidth, height: buttonWidth)
     
         notificationsButton.frame = CGRect(x: menuButton.center.x - 130.2829 - halfButtonWidth, y: menuButton.frame.minY + 10, width: buttonWidth, height: buttonWidth)
+        
+        let notificationSize: CGFloat = 40
+        notificationLabel.frame = CGRect(x: notificationsButton.frame.maxX -  notificationSize / 2, y: notificationsButton.frame.minY - notificationSize / 2, width: notificationSize, height: notificationSize)
+        notificationLabel.backgroundColor = .red
+        setNotificationAlertText()
+        notificationLabel.font = UIFont(name: "Poppins-SemiBold", size: 14)
+        notificationLabel.textColor = .white
+        notificationLabel.textAlignment = .center
+        notificationLabel.layer.cornerRadius = notificationSize/2
+        notificationLabel.clipsToBounds = true
 
         //  newPostButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
         // round ava
@@ -176,6 +190,7 @@ class MenuView: UIView {
         friendsButton.isHidden = true
         dmButton.isHidden = true
         homeProfileButton.isHidden = true
+        notificationLabel.isHidden = true
         
         newPostButton.setImage(UIImage(named: "addCircle"), for: .normal)
         notificationsButton.setImage(UIImage(named: "bell1"), for: .normal)
@@ -211,11 +226,11 @@ class MenuView: UIView {
     }
 
     @objc func dmsButtonClicked(_ sender: UIButton) {
-        let alert = UIAlertController(title: "Coming Soon!", message: "DM's and Messenging Will Be Available in the Next Update", preferredStyle: UIAlertController.Style.alert)
+        let alert = UIAlertController(title: "Coming Soon!", message: "DM's and Messenging Will Be Available in the Next Update.", preferredStyle: UIAlertController.Style.alert)
         let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: {_ in
     })
         alert.addAction(ok)
-   //     self.present(alert, animated: true, completion: nil)
+        parentContainerViewController()?.present(alert, animated: true, completion: nil)
     }
     
     @objc func friendsButtonClicked(_ sender: UIButton) {
@@ -226,6 +241,8 @@ class MenuView: UIView {
         profileGrid.menuView.friendsButton.isHidden = true
         profileGrid.menuView.notificationsButton.isHidden = true
         profileGrid.menuView.homeProfileButton.isHidden = true
+        profileGrid.menuView.notificationLabel.isHidden = true
+        
         
         profileGrid.userData = userData
         tabController!.viewControllers![3] = profileGrid
@@ -241,6 +258,7 @@ class MenuView: UIView {
         newPostVC.menuView.friendsButton.isHidden = true
         newPostVC.menuView.notificationsButton.isHidden = true
         newPostVC.menuView.homeProfileButton.isHidden = true
+        newPostVC.menuView.notificationLabel.isHidden = true
         newPostVC.userData = userData
         tabController!.viewControllers![4] = newPostVC
         tabController!.customTabBar.switchTab(from: currentTab, to: 4)
@@ -255,6 +273,7 @@ class MenuView: UIView {
         notificationsVC.menuView.friendsButton.isHidden = true
         notificationsVC.menuView.notificationsButton.isHidden = true
         notificationsVC.menuView.homeProfileButton.isHidden = true
+        notificationsVC.menuView.notificationLabel.isHidden = true
         tabController!.viewControllers![0] = notificationsVC
         tabController!.customTabBar.switchTab(from: currentTab, to: 0)
     }
@@ -268,20 +287,21 @@ class MenuView: UIView {
         homeVC.menuView.friendsButton.isHidden = true
         homeVC.menuView.notificationsButton.isHidden = true
         homeVC.menuView.homeProfileButton.isHidden = true
+        homeVC.menuView.notificationLabel.isHidden = true
         tabController!.viewControllers![2] = homeVC
         tabController!.customTabBar.switchTab(from: currentTab, to: 2)
     }
     
     @objc func tappedMenuButton(sender: UITapGestureRecognizer) {
-        if (dmButton.isHidden == true) {
-            //makeAllMenuButtonsBlack()
-            makeAllMenuButtonsClear()
-            showMenuOptions()
-        }
-            //sleep(3000)
-        else {
-            hideMenuOptions()
-        }
+//        if (dmButton.isHidden == true) {
+//            //makeAllMenuButtonsBlack()
+//            makeAllMenuButtonsClear()
+//            showMenuOptions()
+//        }
+//            //sleep(3000)
+//        else {
+//            hideMenuOptions()
+//        }
     }
     
     // TODO: TO DO Redo this for circular border
@@ -314,17 +334,6 @@ class MenuView: UIView {
            // makeAllMenuButtonsBlack()
             makeAllMenuButtonsClear()
             
-            //blur the screen
-         
-           // blurEffectView.frame = (tabController?.customizableViewControllers![currentTab].view.bounds)!
-          //  blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            
-            //if currentTab == 2 {
-                //let homeVCBlur = tabController?.customizableViewControllers![currentTab] as! HomeHexagonGrid
-                //blurEffectView.frame = homeVCBlur.contentView.frame
-                //blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-                //homeVCBlur.contentView.addSubview(blurEffectView)
-            //}
             blurEffectViewArray.append(blurEffectView)
             superview!.addSubview(blurEffectView)
             blurEffectView.frame = superview!.frame
@@ -334,12 +343,10 @@ class MenuView: UIView {
             superview!.bringSubviewToFront(friendsButton)
             superview!.bringSubviewToFront(newPostButton)
             superview!.bringSubviewToFront(menuButton)
-            
-            
-            
-            
-            
+            superview!.bringSubviewToFront(notificationLabel)
+            setNotificationAlertText()
             showMenuOptions()
+            
             
     
         }
@@ -427,14 +434,16 @@ class MenuView: UIView {
     }
     
     @objc func longPressMenuButton(sender: UILongPressGestureRecognizer) {
-        if (sender.state == .began) {
-           // makeAllMenuButtonsBlack()
-            makeAllMenuButtonsClear()
-            showMenuOptions()
-        }
-        if (sender.state == .ended) {
-            hideMenuOptions()
-        }
+//        if (sender.state == .began) {
+//           // makeAllMenuButtonsBlack()
+//            makeAllMenuButtonsClear()
+//            showMenuOptions()
+//        }
+//        if (sender.state == .ended) {
+//            hideMenuOptions()
+//        }
+        
+        
     }
     
     func showMenuOptions() {
@@ -443,6 +452,10 @@ class MenuView: UIView {
         dmButton.isHidden = false
         notificationsButton.isHidden = false
         friendsButton.isHidden = false
+        setNotificationAlertText()
+        //notificationLabel.isHidden = false
+        
+        
         //curvedLayer.isHidden = false
     }
     
@@ -452,6 +465,7 @@ class MenuView: UIView {
         dmButton.isHidden = true
         notificationsButton.isHidden = true
         friendsButton.isHidden = true
+        notificationLabel.isHidden = true
         //curvedLayer.isHidden = true
     }
     
@@ -459,5 +473,21 @@ class MenuView: UIView {
         let xDist = a.x - b.x
         let yDist = a.y - b.y
         return CGFloat(sqrt(xDist * xDist + yDist * yDist))
+    }
+    
+    func setNotificationAlertText() {
+        let numNotifications: Int = { () -> Int in
+            if self.tabController != nil { return(self.tabController!.customizableViewControllers![0] as! NotificationsVC).unreadNotifications
+            }
+            return 0
+        }()
+        if (numNotifications != 0) {
+            let text = String(numNotifications)
+            notificationLabel.text = "\(text)"
+            notificationLabel.isHidden = false
+        }
+        else {
+            notificationLabel.isHidden = true
+        }
     }
 }

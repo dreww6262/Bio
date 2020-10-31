@@ -22,7 +22,27 @@ class NotificationsVC: UIViewController {
     let menuView = MenuView()
     let storage = Storage.storage().reference()
     var db = Firestore.firestore()
-    var userData: UserData?
+    var listener: ListenerRegistration?
+    var unreadNotifications = 0
+    var userData: UserData? {
+        didSet {
+            if (userData != nil) {
+                listener?.remove()
+                listener = db.collection("News2").whereField("notifyingUser", isEqualTo: userData!.publicID).addSnapshotListener({obj, error in
+                    guard let docs = obj?.documents else {
+                        return
+                    }
+                    self.unreadNotifications = 0
+                    for doc in docs {
+                        let checked = doc.get("checked") as! Bool
+                        if (!checked) {
+                            self.unreadNotifications += 1
+                        }
+                    }
+                })
+            }
+        }
+    }
     @IBOutlet weak var tableView: UITableView!
     
     var navBarView = NavBarView()
@@ -98,7 +118,7 @@ class NotificationsVC: UIViewController {
         //le;t notificationsQuery = db.collection("News").whereField("currentUser", isEqualTo: userData?.publicID)
         let notificationsQuery = db.collection("News2").whereField("notifyingUser", isEqualTo: userData!.publicID)
 //        print("This is notification query \(notificationsQuery)")
-        notificationsQuery.addSnapshotListener { (querySnapshot, error) in
+        notificationsQuery.getDocuments(completion: { (querySnapshot, error) in
             guard error == nil else {
                 print("error loading home photos: \n \(error!.localizedDescription)")
                 return completed()
@@ -109,7 +129,9 @@ class NotificationsVC: UIViewController {
             for document in querySnapshot!.documents {
 //                print("doc: \(document)")
                 var newNotification = NewsObject(dictionary: document.data())
+                newNotification.checked = true
                 self.notificationArray.append(newNotification)
+                document.reference.setData(newNotification.dictionary)
 //                print("Loaded: \(newNotification)")
                 //                var success = true
                 //                 self.addNotificationObject(notificationObject: newNotification, completion: {    bool in
@@ -145,7 +167,7 @@ class NotificationsVC: UIViewController {
             
             completed()
             return
-        }
+        })
         //completed()
     }
     
