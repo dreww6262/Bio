@@ -197,7 +197,8 @@ class PhoneSignInVC: UIViewController {
             
             let credential = PhoneAuthProvider.provider().credential(withVerificationID: verificationID!,
                                                                      verificationCode: testVerificationCode)
-            Auth.auth().signInAndRetrieveData(with: credential) { authData, error in
+
+            Auth.auth().signIn(with: credential, completion: { authData, error in
                 if ((error) != nil) {
                     print("Big Yikes, error in signInAndRetrieveData")
                     // Handles error
@@ -205,7 +206,7 @@ class PhoneSignInVC: UIViewController {
                     return
                 }
                 self._user = authData!.user
-            }
+            })
         }
     }
     

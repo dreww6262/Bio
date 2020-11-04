@@ -1,5 +1,6 @@
 import UIKit
 import AVFoundation
+import Photos
 
 public struct Config {
 
@@ -22,6 +23,8 @@ public struct Config {
   public static var tabsToShow: [GalleryTab] = [.imageTab, .cameraTab, .videoTab]
   // Defaults to cameraTab if present, or whatever tab is first if cameraTab isn't present.
   public static var initialTab: GalleryTab?
+  
+  public static var showStatusBar: Bool = false
   
   public enum GalleryTab {
     case imageTab
@@ -69,6 +72,10 @@ public struct Config {
       public static var borderColor: UIColor = UIColor(red: 0, green: 239/255, blue: 155/255, alpha: 1)
     }
 
+    public struct TopView {
+      public static var backgroundColor: UIColor = UIColor.white
+    }
+
     struct Dimension {
       static let columnCount: CGFloat = 4
       static let cellSpacing: CGFloat = 2
@@ -81,13 +88,23 @@ public struct Config {
   }
 
   public struct Permission {
-    public static var image: UIImage? = GalleryBundle.image("gallery_permission_view_camera")
-    public static var textColor: UIColor = UIColor(red: 102/255, green: 118/255, blue: 138/255, alpha: 1)
+    public static var image: UIImage? {
+        if #available(iOS 13, *) {
+            return UIImage(systemName: "camera")
+        } else {
+            return GalleryBundle.image("gallery_permission_view_camera")
+        }
+    }
+    public static var textColor: UIColor = .labelColor
 
     public struct Button {
       public static var textColor: UIColor = UIColor.white
       public static var highlightedTextColor: UIColor = UIColor.lightGray
-      public static var backgroundColor = UIColor(red: 40/255, green: 170/255, blue: 236/255, alpha: 1)
+      public static var backgroundColor = UIColor.blueColor
+    }
+
+    public struct CloseButton {
+      public static var tintColor: UIColor = UIColor(red: 109/255, green: 107/255, blue: 132/255, alpha: 1)
     }
   }
 
@@ -115,4 +132,6 @@ public struct Config {
     public static var portraitSize: CGSize = CGSize(width: 360, height: 640)
     public static var landscapeSize: CGSize = CGSize(width: 640, height: 360)
   }
+    
+  public static var blacklistedAssetMediaSubtypes: [PHAssetMediaSubtype] = []
 }

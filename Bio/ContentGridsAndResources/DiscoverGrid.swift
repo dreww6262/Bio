@@ -37,8 +37,13 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
         }()
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "profileCircleCell", for: indexPath) as! ProfileCircleCell
-        cell.imageView.frame = CGRect(x: cell.frame.width/16, y: 0, width: cell.frame.width*(14/16), height: cell.frame.height*(14/16))
+        cell.label.text = array[indexPath.row].displayName
+        cell.label.textColor = .white
+        cell.label.font = UIFont(name: "DINAlternate-SemiBold", size: 12)
+        cell.imageView.frame = CGRect(x: cell.frame.width/16, y: 0, width: cell.frame.width*(12/16), height: cell.frame.height*(12/16))
+        //cell.label.sizeToFit()
         cell.label.frame = CGRect(x: 0, y: cell.imageView.frame.maxY, width: cell.frame.width, height: cell.frame.height - cell.imageView.frame.maxY)
+        
         cell.tag = indexPath.row
         cell.imageView.tag = indexPath.row
         cell.label.tag = indexPath.row
@@ -48,9 +53,8 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
         // let ref = array[indexPath.row].avaRef as! StorageReference
         cell.imageView.sd_setImage(with: storageRef.child(array[indexPath.row].avaRef))
         //cell.imageView.sd_setImage(with: ref)
-        cell.label.text = array[indexPath.row].displayName
-        cell.label.textColor = .white
-        cell.label.font = UIFont(name: "DINAlternate-SemiBold", size: 12)
+        
+        
         return cell
     }
     
@@ -200,7 +204,7 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
         self.view.addSubview(profileCollectionView)
         
         profileCollectionView.alwaysBounceHorizontal = true
-        profileCollectionView.frame = CGRect(x: 0, y: self.navBarView.frame.maxY, width: self.view.frame.width, height: self.view.frame.height*(1/12))
+        profileCollectionView.frame = CGRect(x: 0, y: self.navBarView.frame.maxY, width: self.view.frame.width, height: self.view.frame.height*(1/10))
         let layout = (profileCollectionView.collectionViewLayout as! UICollectionViewFlowLayout)
         layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: profileCollectionView.frame.height, height: profileCollectionView.frame.height)
