@@ -20,7 +20,7 @@ class EditProfilePhotoVC2: UIViewController, UIImagePickerControllerDelegate & U
     @IBOutlet weak var imageView: UIImageView!
 
     
-    var toSettingsButton = UIButton()
+    var backButton = UIButton()
     
     var userData : UserData?
     let auth = Auth.auth()
@@ -56,30 +56,30 @@ class EditProfilePhotoVC2: UIViewController, UIImagePickerControllerDelegate & U
         navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
        
-        self.navBarView.addSubview(toSettingsButton)
+        self.navBarView.addSubview(backButton)
         
         let settingsTap = UITapGestureRecognizer(target: self, action: #selector(self.toSettingsButtonClicked))
         settingsTap.numberOfTapsRequired = 1
-        toSettingsButton.isUserInteractionEnabled = true
-        toSettingsButton.addGestureRecognizer(settingsTap)
+        backButton.isUserInteractionEnabled = true
+        backButton.addGestureRecognizer(settingsTap)
     
        
 
-        self.toSettingsButton.setImage(UIImage(named: "whiteChevron"), for: .normal)
+        self.backButton.setImage(UIImage(named: "whiteChevron"), for: .normal)
  
      
-        self.toSettingsButton.frame = CGRect(x: 10, y: navBarView.frame.height - 30, width: 25, height: 25)
-        self.toSettingsButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+        self.backButton.frame = CGRect(x: 10, y: navBarView.frame.height - 30, width: 25, height: 25)
+        self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
         let yOffset = navBarView.frame.maxY
       //  self.navBarView.addSubview(titleLabel1)
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Edit Profile Picture"
         print("This is navBarView.")
-        self.toSettingsButton.setImage(UIImage(named: "whiteChevron"), for: .normal)
-
+        self.backButton.setImage(UIImage(named: "whiteChevron"), for: .normal)
+        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: self.backButton.frame.minY, width: 200, height: 25)
 
         //self.titleLabel1.text = "Notifications"
-        self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
+       // self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
        // let yOffset = navBarView.frame.maxY
         
 

@@ -44,7 +44,7 @@ class AddSocialMediaTableView: UIViewController {
     
     var image1 = UIImage(named: "instagramLogo")
     var image2 = UIImage(named: "snapchatlogo")
-    var image3 = UIImage(named: "tikTokCircle")
+    var image3 = UIImage(named: "tikTokLogo4")
     var image4 = UIImage(named: "twitterapp")
     var image5 = UIImage(named: "youtube3")
     var image6 = UIImage(named: "vscologo1")
@@ -63,7 +63,7 @@ class AddSocialMediaTableView: UIViewController {
     var iconArray: [UIImage] = []
     //[image1,image2,image3,image4,image5,image6,image7,image8,image9,image10,image11,image12]
     //var iconArray: [UIImage] = [UIImage(named: "icons/instagramLogo.png")!,UIImage(named: "icons/snapchatLogo.png")!,UIImage(named: "icons/tikTokLogo.png")!,UIImage(named: "icons/twitterLogo.png")!,UIImage(named: "icons/youtubeLogo.png")!,UIImage(named: "icons/twitch1.png")!,UIImage(named: "icons/soundCloudLogo.png")!,UIImage(named: "icons/venmo1.png")!,UIImage(named: "icons/linkedInLogo.png")!,UIImage(named: "icons/etsyLogo.png")!,UIImage(named: "icons/poshmarkLogo.png")!,UIImage(named: "icons/hudl1.png")!]
-    var placeHolderTextArray: [String] = ["Instagram Username", "Snapchat Username", "Tik Tok Username", "Twitter Handle", "Youtube Channel Name", "VSCO Username", "Soundcloud Link", "Twitch Username", "LinkedIn Link", "Etsy Shop Name", "Poshmark Username", "Hudl Link", "Venmo Username", "Cameo Link"]
+    var placeHolderTextArray: [String] = ["Instagram Username", "Snapchat Username", "Link to Tik Tok Profile", "Twitter Handle", "Link to Youtube Channel", "VSCO Username", "Link to Soundcloud Profile", "Twitch Username", "Link to LinkedIn Profile", "Etsy Shop Name", "Poshmark Username", "Link to Hudl Profile", "Venmo Username", "Link to Cameo Profile"]
 //    var textField = UITextField()
 //    var interactiveTextField = UITextField()
 //    @IBOutlet weak var verifyView: UIView!
@@ -189,7 +189,7 @@ class AddSocialMediaTableView: UIViewController {
         if (isCompletelyEmpty == true) {
             
             // alert message
-            let alert = UIAlertController(title: "Hold up", message: "Fill in a field or Hit Cancel", preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: "Hold up", message: "Fill in a field or Hit Skip/Cancel", preferredStyle: UIAlertController.Style.alert)
             let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
             alert.addAction(ok)
             self.present(alert, animated: true, completion: nil)
@@ -246,7 +246,10 @@ class AddSocialMediaTableView: UIViewController {
         //let group = DispatchGroup()
         if (!textFieldArray[0].text!.isEmpty) {
             numPosts += 1
-            let instaHex = HexagonStructData(resource: "https://instagram.com/\(textFieldArray[0].text!)", type: "socialmedia_instagram", location: numPosts, thumbResource: "icons/instagramLogo.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(textFieldArray[0].text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            var myText = textFieldArray[0].text!
+            let trimmedText = myText.trimmingCharacters(in: .whitespaces)
+            print("This is trimmedText \(trimmedText)")
+            let instaHex = HexagonStructData(resource: "https://instagram.com/\(trimmedText)", type: "socialmedia_instagram", location: numPosts, thumbResource: "icons/instagramLogo.png", createdAt: NSDate.now.description, postingUserID: username, text: trimmedText, views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: instaHex, completion: { bool in
                 success = success && bool
                 
@@ -255,7 +258,10 @@ class AddSocialMediaTableView: UIViewController {
         
         if (!textFieldArray[1].text!.isEmpty) {
             numPosts += 1
-            let snapHex = HexagonStructData(resource: "https://www.snapchat.com/add/\(textFieldArray[1].text!)", type: "socialmedia_snapchat", location: numPosts, thumbResource: "icons/snapchatlogo.jpg", createdAt: NSDate.now.description, postingUserID: username, text: "\(textFieldArray[1].text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            var myText = textFieldArray[1].text!
+            let trimmedText = myText.trimmingCharacters(in: .whitespaces)
+            print("This is trimmedText \(trimmedText)")
+            let snapHex = HexagonStructData(resource: "https://www.snapchat.com/add/\(trimmedText)", type: "socialmedia_snapchat", location: numPosts, thumbResource: "icons/snapchatlogo.jpg", createdAt: NSDate.now.description, postingUserID: username, text: "\(trimmedText)", views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: snapHex, completion: {bool in
                 success = success && bool
                 
@@ -264,7 +270,10 @@ class AddSocialMediaTableView: UIViewController {
         
         if (!textFieldArray[3].text!.isEmpty) {
             numPosts += 1
-            let twitterHex = HexagonStructData(resource: "https://twitter.com/\(textFieldArray[3].text!)", type: "socialmedia_twitter", location: numPosts, thumbResource: "icons/twitter.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(textFieldArray[3].text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            var myText = textFieldArray[3].text!
+            let trimmedText = myText.trimmingCharacters(in: .whitespaces)
+            print("This is trimmedText \(trimmedText)")
+            let twitterHex = HexagonStructData(resource: "https://twitter.com/\(trimmedText)", type: "socialmedia_twitter", location: numPosts, thumbResource: "icons/twitter.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(trimmedText)", views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: twitterHex, completion: {bool in
                 success = success && bool
                 
@@ -273,7 +282,10 @@ class AddSocialMediaTableView: UIViewController {
         
         if (!textFieldArray[6].text!.isEmpty) {
             numPosts += 1
-            let soundCloudHex = HexagonStructData(resource: textFieldArray[6].text!, type: "socialmedia_soundCloud", location: numPosts, thumbResource: "icons/soundCloudLogo.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(textFieldArray[6].text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            var myText = textFieldArray[6].text!
+            let trimmedText = myText.trimmingCharacters(in: .whitespaces)
+            print("This is trimmedText \(trimmedText)")
+            let soundCloudHex = HexagonStructData(resource: trimmedText, type: "socialmedia_soundCloud", location: numPosts, thumbResource: "icons/soundCloudLogo.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(trimmedText)", views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: soundCloudHex, completion: {bool in
                 success = success && bool
                 
@@ -282,7 +294,10 @@ class AddSocialMediaTableView: UIViewController {
         
         if (!textFieldArray[8].text!.isEmpty) {
             numPosts += 1
-            let linkedInHex = HexagonStructData(resource: "\(textFieldArray[8].text!)", type: "socialmedia_linkedIn", location: numPosts, thumbResource: "icons/linkedInLogo.jpg", createdAt: NSDate.now.description, postingUserID: username, text: "\(textFieldArray[8].text!)", views: 0,isArchived: false, docID: "WillBeSetLater")
+            var myText = textFieldArray[8].text!
+            let trimmedText = myText.trimmingCharacters(in: .whitespaces)
+            print("This is trimmedText \(trimmedText)")
+            let linkedInHex = HexagonStructData(resource: "\(trimmedText)", type: "socialmedia_linkedIn", location: numPosts, thumbResource: "icons/linkedInLogo.jpg", createdAt: NSDate.now.description, postingUserID: username, text: "\(trimmedText)", views: 0,isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: linkedInHex, completion: {bool in
                 success = success && bool
                 
@@ -292,7 +307,10 @@ class AddSocialMediaTableView: UIViewController {
         
         if (!textFieldArray[2].text!.isEmpty) {
             numPosts += 1
-            let tikTokHex = HexagonStructData(resource: "https://www.tiktok.com/\(textFieldArray[2].text!)/", type: "socialmedia_tiktok", location: numPosts, thumbResource: "icons/tiktoklogo.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(textFieldArray[2].text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            var myText = textFieldArray[2].text!
+            let trimmedText = myText.trimmingCharacters(in: .whitespaces)
+            print("This is trimmedText \(trimmedText)")
+            let tikTokHex = HexagonStructData(resource: trimmedText, type: "socialmedia_tiktok", location: numPosts, thumbResource: "icons/tikTokLogo4.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(trimmedText)", views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: tikTokHex, completion: {bool in
                 success = success && bool
                 
@@ -301,7 +319,10 @@ class AddSocialMediaTableView: UIViewController {
         
         if (!textFieldArray[5].text!.isEmpty) {
             numPosts += 1
-            let vscoHex = HexagonStructData(resource: "https://www.vsco.co/\(textFieldArray[5].text!)/gallery", type: "socialmedia_vsco", location: numPosts, thumbResource: "icons/vscologo1.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(textFieldArray[5].text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            var myText = textFieldArray[5].text!
+            let trimmedText = myText.trimmingCharacters(in: .whitespaces)
+            print("This is trimmedText \(trimmedText)")
+            let vscoHex = HexagonStructData(resource: "https://www.vsco.co/\(trimmedText)/gallery", type: "socialmedia_vsco", location: numPosts, thumbResource: "icons/vscologo1.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(trimmedText)", views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: vscoHex, completion: {bool in
                 success = success && bool
                 
@@ -310,7 +331,10 @@ class AddSocialMediaTableView: UIViewController {
         
         if (!textFieldArray[11].text!.isEmpty) {
             numPosts += 1
-            let hudlHex = HexagonStructData(resource: "\(textFieldArray[11].text!)/", type: "socialmedia_hudl", location: numPosts, thumbResource: "icons/hudl.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(textFieldArray[11].text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            var myText = textFieldArray[11].text!
+            let trimmedText = myText.trimmingCharacters(in: .whitespaces)
+            print("This is trimmedText \(trimmedText)")
+            let hudlHex = HexagonStructData(resource: "\(trimmedText)/", type: "socialmedia_hudl", location: numPosts, thumbResource: "icons/hudl.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(trimmedText)", views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: hudlHex, completion: {bool in
                 success = success && bool
                 
@@ -318,7 +342,10 @@ class AddSocialMediaTableView: UIViewController {
         }
         if (!textFieldArray[7].text!.isEmpty) {
             numPosts += 1
-            let twitchHex = HexagonStructData(resource: "https://m.twitch.tv/\(textFieldArray[7].text!)/profile", type: "socialmedia_twitch", location: numPosts, thumbResource: "icons/twitch1.png", createdAt: NSDate.now.description, postingUserID: username, text: "https://m.twitch.tv/\(textFieldArray[7].text!)/profile", views: 0, isArchived: false, docID: "WillBeSetLater")
+            var myText = textFieldArray[7].text!
+            let trimmedText = myText.trimmingCharacters(in: .whitespaces)
+            print("This is trimmedText \(trimmedText)")
+            let twitchHex = HexagonStructData(resource: "https://m.twitch.tv/\(trimmedText)/profile", type: "socialmedia_twitch", location: numPosts, thumbResource: "icons/twitch1.png", createdAt: NSDate.now.description, postingUserID: username, text: "https://m.twitch.tv/\(trimmedText)/profile", views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: twitchHex, completion: {bool in
                 success = success && bool
                 
@@ -327,8 +354,11 @@ class AddSocialMediaTableView: UIViewController {
         
         if (!textFieldArray[12].text!.isEmpty) {
             numPosts += 1
+            var myText = textFieldArray[12].text!
+            let trimmedText = myText.trimmingCharacters(in: .whitespaces)
+            print("This is trimmedText \(trimmedText)")
             print("should be a venmo hex!")
-            let venmoHex = HexagonStructData(resource: "https://venmo.com/\(textFieldArray[12].text!)", type: "socialmedia_venmo", location: numPosts, thumbResource: "icons/venmologo.png", createdAt: NSDate.now.description, postingUserID: username, text: "https://venmo.com/\(textFieldArray[12].text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            let venmoHex = HexagonStructData(resource: "https://venmo.com/\(trimmedText)", type: "socialmedia_venmo", location: numPosts, thumbResource: "icons/venmologo.png", createdAt: NSDate.now.description, postingUserID: username, text: "https://venmo.com/\(trimmedText)", views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: venmoHex, completion: {bool in
                 success = success && bool
                 
@@ -336,8 +366,11 @@ class AddSocialMediaTableView: UIViewController {
         }
         if (!textFieldArray[13].text!.isEmpty) {
             numPosts += 1
+            var myText = textFieldArray[13].text!
+            let trimmedText = myText.trimmingCharacters(in: .whitespaces)
+            print("This is trimmedText \(trimmedText)")
             print("should be a cameo hex!")
-            let cameoHex = HexagonStructData(resource: textFieldArray[13].text!, type: "socialmedia_cameo", location: numPosts, thumbResource: "icons/cameo.png", createdAt: NSDate.now.description, postingUserID: username, text: textFieldArray[13].text!, views: 0, isArchived: false, docID: "WillBeSetLater")
+            let cameoHex = HexagonStructData(resource: trimmedText, type: "socialmedia_cameo", location: numPosts, thumbResource: "icons/cameo.png", createdAt: NSDate.now.description, postingUserID: username, text: trimmedText, views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: cameoHex, completion: {bool in
                 success = success && bool
                 
@@ -347,7 +380,10 @@ class AddSocialMediaTableView: UIViewController {
         if (!textFieldArray[10].text!.isEmpty) {
             print("Trying to add a poshmark link")
             numPosts += 1
-            let poshmarkHex = HexagonStructData(resource: "https://poshmark.com/closet/\(textFieldArray[10].text!)", type: "socialmedia_poshmark", location: numPosts, thumbResource: "icons/poshmarkLogo.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(textFieldArray[10].text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            var myText = textFieldArray[10].text!
+            let trimmedText = myText.trimmingCharacters(in: .whitespaces)
+            print("This is trimmedText \(trimmedText)")
+            let poshmarkHex = HexagonStructData(resource: "https://poshmark.com/closet/\(trimmedText)", type: "socialmedia_poshmark", location: numPosts, thumbResource: "icons/poshmarkLogo.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(trimmedText)", views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: poshmarkHex, completion: {bool in
                 success = success && bool
                 
@@ -356,7 +392,10 @@ class AddSocialMediaTableView: UIViewController {
         
         if (!textFieldArray[9].text!.isEmpty) {
             numPosts += 1
-            let etsyHex = HexagonStructData(resource: "https://etsy.com/closet/\(textFieldArray[9].text!)", type: "socialmedia_etsy", location: numPosts, thumbResource: "icons/etsyLogo.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(textFieldArray[9].text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            var myText = textFieldArray[9].text!
+            let trimmedText = myText.trimmingCharacters(in: .whitespaces)
+            print("This is trimmedText \(trimmedText)")
+            let etsyHex = HexagonStructData(resource: "https://etsy.com/shop/\(trimmedText)", type: "socialmedia_etsy", location: numPosts, thumbResource: "icons/etsyLogoCircle.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(trimmedText)", views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: etsyHex, completion: {bool in
                 success = success && bool
                 
@@ -489,7 +528,8 @@ class AddSocialMediaTableView: UIViewController {
   
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Add Social Media"
-        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
+       // self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
+        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: postButton.frame.minY, width: 200, height: 25)
         print("This is navBarView.")
       
       

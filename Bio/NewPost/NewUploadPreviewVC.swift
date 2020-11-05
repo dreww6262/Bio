@@ -97,7 +97,8 @@ var cancelButton = UIButton()
         
         self.navBarView.postButton.isUserInteractionEnabled = true
         self.navBarView.postButton.addGestureRecognizer(postTap)
-        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
+     //   self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
+        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: self.navBarView.backButton.frame.minY, width: 200, height: 25)
         
         
     }

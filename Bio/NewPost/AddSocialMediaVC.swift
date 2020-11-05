@@ -377,8 +377,11 @@ class AddSocialMediaVC: UIViewController {
         
         //let group = DispatchGroup()
         if (!interactiveInstagramTxt.text!.isEmpty) {
+            var myText = interactiveInstagramTxt.text!
+            let trimmedText = myText.trimmingCharacters(in: .whitespaces)
+            
             numPosts += 1
-            let instaHex = HexagonStructData(resource: "https://instagram.com/\(interactiveInstagramTxt.text!)", type: "socialmedia_instagram", location: numPosts, thumbResource: "icons/instagramLogo.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(interactiveInstagramTxt.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            let instaHex = HexagonStructData(resource: "https://instagram.com/\(trimmedText)", type: "socialmedia_instagram", location: numPosts, thumbResource: "icons/instagramLogo.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(interactiveInstagramTxt.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: instaHex, completion: { bool in
                 success = success && bool
                 
@@ -387,7 +390,10 @@ class AddSocialMediaVC: UIViewController {
         
         if (!interactiveSnapchatUsernameTxt.text!.isEmpty) {
             numPosts += 1
-            let snapHex = HexagonStructData(resource: "snapchat://add/\(interactiveSnapchatUsernameTxt.text!)", type: "socialmedia_snapchat", location: numPosts, thumbResource: "icons/snapchatlogo.jpg", createdAt: NSDate.now.description, postingUserID: username, text: "\(interactiveSnapchatUsernameTxt.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            var myText = interactiveSnapchatUsernameTxt.text!
+            let trimmedText = myText.trimmingCharacters(in: .whitespaces)
+            print("This is trimmedText \(trimmedText)")
+            let snapHex = HexagonStructData(resource: "snapchat://add/\(trimmedText)", type: "socialmedia_snapchat", location: numPosts, thumbResource: "icons/snapchatlogo.jpg", createdAt: NSDate.now.description, postingUserID: username, text: trimmedText, views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: snapHex, completion: {bool in
                 success = success && bool
                 
@@ -396,7 +402,9 @@ class AddSocialMediaVC: UIViewController {
         
         if (!interactiveTwitterHandleTxt.text!.isEmpty) {
             numPosts += 1
-            let twitterHex = HexagonStructData(resource: "https://twitter.com/\(interactiveTwitterHandleTxt.text!)", type: "socialmedia_twitter", location: numPosts, thumbResource: "icons/twitter.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(interactiveTwitterHandleTxt.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            var myText = interactiveTwitterHandleTxt.text!
+            let trimmedText = myText.trimmingCharacters(in: .whitespaces)
+            let twitterHex = HexagonStructData(resource: "https://twitter.com/\(trimmedText)", type: "socialmedia_twitter", location: numPosts, thumbResource: "icons/twitter.png", createdAt: NSDate.now.description, postingUserID: username, text: trimmedText, views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: twitterHex, completion: {bool in
                 success = success && bool
                 
@@ -405,7 +413,10 @@ class AddSocialMediaVC: UIViewController {
         
         if (!interactiveSoundCloudText.text!.isEmpty) {
             numPosts += 1
-            let soundCloudHex = HexagonStructData(resource: interactiveSoundCloudText.text!, type: "socialmedia_soundCloud", location: numPosts, thumbResource: "icons/soundCloudLogo.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(interactiveSoundCloudText.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            var myText = interactiveSoundCloudText.text!
+            let trimmedText = myText.trimmingCharacters(in: .whitespaces)
+            print("This is trimmedText \(trimmedText)")
+            let soundCloudHex = HexagonStructData(resource: trimmedText, type: "socialmedia_soundCloud", location: numPosts, thumbResource: "icons/soundCloudLogo.png", createdAt: NSDate.now.description, postingUserID: username, text: trimmedText, views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: soundCloudHex, completion: {bool in
                 success = success && bool
                 
@@ -414,7 +425,11 @@ class AddSocialMediaVC: UIViewController {
         
         if (!interactiveLinkedInText.text!.isEmpty) {
             numPosts += 1
-            let linkedInHex = HexagonStructData(resource: "\(interactiveLinkedInText.text!)", type: "socialmedia_linkedIn", location: numPosts, thumbResource: "icons/linkedInLogo.jpg", createdAt: NSDate.now.description, postingUserID: username, text: "\(interactiveLinkedInText.text!)", views: 0,isArchived: false, docID: "WillBeSetLater")
+            var myText = interactiveLinkedInText.text!
+            let trimmedText = myText.trimmingCharacters(in: .whitespaces)
+            print("This is trimmedText \(trimmedText)")
+            
+            let linkedInHex = HexagonStructData(resource: trimmedText, type: "socialmedia_linkedIn", location: numPosts, thumbResource: "icons/linkedInLogo.jpg", createdAt: NSDate.now.description, postingUserID: username, text: trimmedText, views: 0,isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: linkedInHex, completion: {bool in
                 success = success && bool
                 
@@ -423,7 +438,10 @@ class AddSocialMediaVC: UIViewController {
         
         if (!interactiveVenmoTxt.text!.isEmpty) {
             numPosts += 1
-            let venmoHex = HexagonStructData(resource: "https://venmo.com/\(interactiveVenmoTxt.text!)", type: "socialmedia_venmo", location: numPosts, thumbResource: "icons/venmologo.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(interactiveVenmoTxt.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            var myText = interactiveVenmoTxt.text!
+            let trimmedText = myText.trimmingCharacters(in: .whitespaces)
+            print("This is trimmedText \(trimmedText)")
+            let venmoHex = HexagonStructData(resource: "https://venmo.com/\(trimmedText)", type: "socialmedia_venmo", location: numPosts, thumbResource: "icons/venmologo.png", createdAt: NSDate.now.description, postingUserID: username, text: trimmedText, views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: venmoHex, completion: {bool in
                 success = success && bool
                 
@@ -432,7 +450,10 @@ class AddSocialMediaVC: UIViewController {
         
         if (!interactiveTikTokText.text!.isEmpty) {
             numPosts += 1
-            let tikTokHex = HexagonStructData(resource: "https://www.tiktok.com/\(interactiveTikTokText.text!)/", type: "socialmedia_tiktok", location: numPosts, thumbResource: "icons/tiktoklogo.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(interactiveTikTokText.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            var myText = interactiveTikTokText.text!
+            let trimmedText = myText.trimmingCharacters(in: .whitespaces)
+            print("This is trimmedText \(trimmedText)")
+            let tikTokHex = HexagonStructData(resource: "https://www.tiktok.com/\(trimmedText)/", type: "socialmedia_tiktok", location: numPosts, thumbResource: "icons/tikTokLogo4.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(trimmedText)", views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: tikTokHex, completion: {bool in
                 success = success && bool
                 
@@ -441,7 +462,10 @@ class AddSocialMediaVC: UIViewController {
         
         if (!interactiveHudlText.text!.isEmpty) {
             numPosts += 1
-            let hudlHex = HexagonStructData(resource: "\(interactiveHudlText.text!)/", type: "socialmedia_hudl", location: numPosts, thumbResource: "icons/hudl.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(interactiveHudlText.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            var myText = interactiveHudlText.text!
+            let trimmedText = myText.trimmingCharacters(in: .whitespaces)
+            print("This is trimmedText \(trimmedText)")
+            let hudlHex = HexagonStructData(resource: "\(trimmedText)/", type: "socialmedia_hudl", location: numPosts, thumbResource: "icons/hudl.png", createdAt: NSDate.now.description, postingUserID: username, text: trimmedText, views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: hudlHex, completion: {bool in
                 success = success && bool
                 
@@ -449,7 +473,10 @@ class AddSocialMediaVC: UIViewController {
         }
         if (!interactiveTwitchText.text!.isEmpty) {
             numPosts += 1
-            let twitchHex = HexagonStructData(resource: "\(interactiveHudlText.text!)/", type: "socialmedia_twitch", location: numPosts, thumbResource: "icons/twitch1.png", createdAt: NSDate.now.description, postingUserID: username, text: "https://m.twitch.tv/\(interactiveTwitchText.text!)/profile", views: 0, isArchived: false, docID: "WillBeSetLater")
+            var myText = interactiveTwitchText.text!
+            let trimmedText = myText.trimmingCharacters(in: .whitespaces)
+            print("This is trimmedText \(trimmedText)")
+            let twitchHex = HexagonStructData(resource: "\(trimmedText)/", type: "socialmedia_twitch", location: numPosts, thumbResource: "icons/twitch1.png", createdAt: NSDate.now.description, postingUserID: username, text: "https://m.twitch.tv/\(trimmedText)/profile", views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: twitchHex, completion: {bool in
                 success = success && bool
                 
@@ -459,7 +486,10 @@ class AddSocialMediaVC: UIViewController {
         
         if (!interactivePoshmarkTxt.text!.isEmpty) {
             numPosts += 1
-            let poshmarkHex = HexagonStructData(resource: "https://poshmark.com/closet/\(interactivePoshmarkTxt.text!)", type: "socialmedia_poshmark", location: numPosts, thumbResource: "icons/poshmarkLogo.png", createdAt: NSDate.now.description, postingUserID: username, text: "\(interactivePoshmarkTxt.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            var myText = interactivePoshmarkTxt.text!
+            let trimmedText = myText.trimmingCharacters(in: .whitespaces)
+            print("This is trimmedText \(trimmedText)")
+            let poshmarkHex = HexagonStructData(resource: "https://poshmark.com/closet/\(trimmedText)", type: "socialmedia_poshmark", location: numPosts, thumbResource: "icons/poshmarkLogo.png", createdAt: NSDate.now.description, postingUserID: username, text: trimmedText, views: 0, isArchived: false, docID: "WillBeSetLater")
             addHex(hexData: poshmarkHex, completion: {bool in
                 success = success && bool
                 

@@ -40,6 +40,8 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
         cell.label.text = array[indexPath.row].displayName
         cell.label.textColor = .white
         cell.label.font = UIFont(name: "DINAlternate-SemiBold", size: 12)
+        cell.label.numberOfLines = 2
+        cell.label.lineBreakMode = NSLineBreakMode.byWordWrapping
         cell.imageView.frame = CGRect(x: cell.frame.width/16, y: 0, width: cell.frame.width*(12/16), height: cell.frame.height*(12/16))
         //cell.label.sizeToFit()
         cell.label.frame = CGRect(x: 0, y: cell.imageView.frame.maxY, width: cell.frame.width, height: cell.frame.height - cell.imageView.frame.maxY)
@@ -193,8 +195,8 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
         self.followersButton.setTitle("Followers", for: .normal)
         self.followingButton.setTitle("Following", for: .normal)
         
-        followersButton.addTarget(self, action: #selector(followersButtonPressed), for: .touchUpInside)
-        followingButton.addTarget(self, action: #selector(followingButtonPressed), for: .touchUpInside)
+        followersButton.addTarget(self, action: #selector(followersButtonPressedToTable), for: .touchUpInside)
+        followingButton.addTarget(self, action: #selector(followingButtonPressedToTable), for: .touchUpInside)
         
         
         
@@ -204,7 +206,8 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
         self.view.addSubview(profileCollectionView)
         
         profileCollectionView.alwaysBounceHorizontal = true
-        profileCollectionView.frame = CGRect(x: 0, y: self.navBarView.frame.maxY, width: self.view.frame.width, height: self.view.frame.height*(1/10))
+        //profileCollectionView.frame = CGRect(x: 0, y: self.navBarView.frame.maxY, width: self.view.frame.width, height: self.view.frame.height*(1/10))
+        profileCollectionView.frame = CGRect(x: 0, y: self.navBarView.frame.maxY, width: self.view.frame.width, height: self.view.frame.height*(1/8))
         let layout = (profileCollectionView.collectionViewLayout as! UICollectionViewFlowLayout)
         layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: profileCollectionView.frame.height, height: profileCollectionView.frame.height)
@@ -823,9 +826,24 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
         profileCollectionView.reloadData()
         
     }
+    
+    @objc func followersButtonPressedToTable(_ sender: UITapGestureRecognizer) {
+        let followersTableView = storyboard?.instantiateViewController(identifier: "followersTableView") as! FollowersTableView
+        followersTableView.userData = userData
+        present(followersTableView, animated: false)
+    }
+    
+    
     @objc func followingButtonPressed(_ sender: UITapGestureRecognizer) {
         collectionFollowing = true
         profileCollectionView.reloadData()
+    }
+    
+    
+    @objc func followingButtonPressedToTable(_ sender: UITapGestureRecognizer) {
+        let followingTableView = storyboard?.instantiateViewController(identifier: "followingTableView") as! FollowingTableView
+        followingTableView.userData = userData
+        present(followingTableView, animated: false)
     }
     
     

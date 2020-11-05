@@ -21,7 +21,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
     //var menuView = MenuView()
     var myAccountArray = ["Name",
                           "Username",
-                          "Birthday",
+                          "Birthday", "Followers", "Following",
                           "Country",
                           "Phone Number",
                           "Email",
@@ -81,7 +81,8 @@ class ProfessionalSettingsVC: QuickTableViewController {
         tableContents = [
             Section(title: "My Account", rows: [
                         NavigationRow(text: "Name", detailText: .value1(name)!, icon: .named("gear")),
-                        NavigationRow(text: "Username", detailText: .value1(email)!, icon: .named("globe")),
+                        NavigationRow(text: "Username", detailText: .value1(email)!, icon: .named("globe")), NavigationRow(text: "Followers", detailText: .none, icon: .none, action: didToggleSelection()),
+                        NavigationRow(text: "Following", detailText: .none, icon: .none, action: didToggleSelection()),
                         NavigationRow(text: "Birthday", detailText: .value1(myBirthday ?? ""), icon: .none, action: { _ in }),
                         NavigationRow(text: "Country", detailText: .value1(country)), NavigationRow(text: "Terms of Service", detailText: .none, icon: .named("time"), action: { _ in }),
                         NavigationRow(text: "Email", detailText: .value1(email)!, icon: .named("time"), action: { _ in }),
@@ -137,12 +138,14 @@ class ProfessionalSettingsVC: QuickTableViewController {
         print("This is navBarView.")
 //        self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
 //        self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
-        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
+   //     self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
+        
+        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: self.navBarView.backButton.frame.minY, width: 200, height: 25)
 
         //self.titleLabel1.text = "Notifications"
      //   self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
        // let yOffset = navBarView.frame.maxY
-        self.tableView.frame = CGRect(x: 0, y: yOffset, width: self.view.frame.width, height: self.view.frame.height - yOffset)
+     //   self.tableView.frame = CGRect(x: 0, y: yOffset, width: self.view.frame.width, height: self.view.frame.height - yOffset)
 
     }
     
@@ -237,6 +240,19 @@ class ProfessionalSettingsVC: QuickTableViewController {
                 editProfilePhotoVC.userData = self!.userData
                 self!.present(editProfilePhotoVC, animated: false)
             }
+            
+            if row.text == "Followers" {
+                let followersVC = self?.storyboard?.instantiateViewController(identifier: "followersTableView") as! FollowersTableView
+                followersVC.userData = self!.userData
+                self!.present(followersVC, animated: false)
+            }
+
+            if row.text == "Following" {
+                let followingVC = self?.storyboard?.instantiateViewController(identifier: "followingTableView") as! FollowingTableView
+                followingVC.userData = self!.userData
+                self!.present(followingVC, animated: false)
+            }
+
             
             if row.text == "Change Password" {
                 let changePasswordVC = self?.storyboard?.instantiateViewController(identifier: "changePasswordVC") as! ChangePasswordVC

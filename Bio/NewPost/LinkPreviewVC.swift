@@ -119,14 +119,15 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
         
     
        backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
-        postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 30)/2, width: 40, height: 30)
+        postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 40, height: 25)
         //navBarView.postButton.titleLabel?.sizeToFit()
         navBarView.postButton.titleLabel?.textAlignment = .right
         let yOffset = navBarView.frame.maxY
   
         self.navBarView.addBehavior()
-        self.navBarView.titleLabel.text = "Add Preview"
-        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
+        self.navBarView.titleLabel.text = "Preview"
+    //    self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
+        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: postButton.frame.minY, width: 200, height: 25)
         print("This is navBarView.")
       
       

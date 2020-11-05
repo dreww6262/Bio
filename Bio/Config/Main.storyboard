@@ -374,6 +374,10 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
+                                    <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n3f-Lw-NSl" customClass="MRCountryPicker" customModule="MRCountryPicker">
+                                        <rect key="frame" x="9" y="340" width="414" height="162"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    </pickerView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </scrollView>
@@ -390,6 +394,7 @@
                     <navigationItem key="navigationItem" id="Xvx-H3-d3L"/>
                     <connections>
                         <outlet property="avaImg" destination="qMT-Lc-Ma3" id="wfy-aV-A4A"/>
+                        <outlet property="countryPicker" destination="n3f-Lw-NSl" id="x9B-NA-oxQ"/>
                         <outlet property="displayNameTxt" destination="JPI-QI-f2j" id="mL5-I2-Xfc"/>
                         <outlet property="emailTxt" destination="HJF-re-shQ" id="je1-EY-1b3"/>
                         <outlet property="gradientImage" destination="g9Q-yA-sLy" id="aHP-0e-7v7"/>
@@ -548,7 +553,7 @@
                                 <rect key="frame" x="8" y="50" width="398" height="156"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="nZB-lt-eW5">
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="nZB-lt-eW5">
                                     <size key="itemSize" width="128" height="128"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -567,9 +572,9 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Display Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wgb-0H-Q3n">
-                                                    <rect key="frame" x="43" y="53" width="105" height="21"/>
+                                                    <rect key="frame" x="43" y="53" width="89" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -1308,18 +1313,6 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PTw-OE-5bb">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KN5-SR-7ZA">
-                                        <rect key="frame" x="16" y="550" width="304" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" red="1" green="0.80004686120000001" blue="0.40029424429999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <state key="normal" title="Share">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="continueClicked:" destination="g6c-3y-BMm" eventType="touchUpInside" id="0ZU-mb-VnF"/>
-                                        </connections>
-                                    </button>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Write A Caption..." textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="FTf-nH-vSd">
                                         <rect key="frame" x="8" y="152" width="304" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1336,13 +1329,6 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Details" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hl1-xF-fgF">
-                                        <rect key="frame" x="-1" y="52" width="415" height="42"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="DINAlternate-Bold" family="DIN Alternate" pointSize="25"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TFe-0u-OOz">
                                         <rect key="frame" x="0.0" y="94" width="414" height="35"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1350,18 +1336,6 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m7O-9a-wxq">
-                                        <rect key="frame" x="16" y="588" width="304" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" systemColor="systemGray4Color"/>
-                                        <state key="normal" title="Cancel">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="cancelBtn_click:" destination="g6c-3y-BMm" eventType="touchUpInside" id="SKj-zw-qGn"/>
-                                        </connections>
-                                    </button>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="addCover" translatesAutoresizingMaskIntoConstraints="NO" id="Ofj-1O-Ch4">
                                         <rect key="frame" x="8" y="279" width="414" height="254"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1390,15 +1364,11 @@
                     </view>
                     <navigationItem key="navigationItem" id="Y4K-gP-cuq"/>
                     <connections>
-                        <outlet property="cancelBtn" destination="m7O-9a-wxq" id="hUV-kN-qR5"/>
                         <outlet property="captionTextField" destination="FTf-nH-vSd" id="G2m-Rh-ZKb"/>
-                        <outlet property="continueBtn" destination="KN5-SR-7ZA" id="Z8w-Uo-9qb"/>
                         <outlet property="locationTextField" destination="jFO-HB-bZV" id="mVc-he-Pyb"/>
                         <outlet property="previewImage" destination="Ofj-1O-Ch4" id="rP1-Mn-F1O"/>
                         <outlet property="scrollView" destination="PTw-OE-5bb" id="TXG-OX-wtb"/>
-                        <outlet property="subtitleText" destination="TFe-0u-OOz" id="cQ2-JN-Bl0"/>
                         <outlet property="tagTextField" destination="7sh-8X-ZaJ" id="bEd-ry-VGD"/>
-                        <outlet property="titleText" destination="hl1-xF-fgF" id="6Ky-QX-hpe"/>
                         <segue destination="oPL-c3-fAf" kind="unwind" identifier="unwindFromUpload" unwindAction="unvindSegueFromAddToHomeWithSegue:" id="e6M-tH-eSH"/>
                     </connections>
                 </viewController>

@@ -16,10 +16,10 @@ import YPImagePicker
 import Photos
 
 class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-    @IBOutlet weak var titleText: UILabel!
-    @IBOutlet weak var subtitleText: UILabel!
+  //  @IBOutlet weak var titleText: UILabel!
+   // @IBOutlet weak var subtitleText: UILabel!
     var items: [YPMediaItem]?
-    
+    var navBarView = NavBarView()
     
     // scrollView
     @IBOutlet weak var scrollView: UIScrollView!
@@ -35,8 +35,8 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
     @IBOutlet weak var previewImage: UIImageView!
     
     // buttons
-    @IBOutlet weak var continueBtn: UIButton!
-    @IBOutlet weak var cancelBtn: UIButton!
+    var postButton = UIButton()
+    var backButton = UIButton()
     
     var currentUser: User? = Auth.auth().currentUser
     var userData: UserData?
@@ -59,11 +59,12 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
     
     // default func
     override func viewDidLoad() {
+        captionTextField.textColor = .white
         var alreadySnapped = false
         super.viewDidLoad()
         locationTextField.isHidden = true
         tagTextField.isHidden = true
-        
+        setUpNavBarView()
         switch items![0] {
         case .photo(let photo):
             previewImage.image = photo.image
@@ -140,27 +141,38 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
         //hexagonAva
         
         //cancelBtn.frame = CGRect(x: 5, y: 15, width: 24, height: 24)
-        cancelBtn.layer.cornerRadius = cancelBtn.frame.size.width / 20
-        titleText.frame = CGRect(x: 0,y:60, width: self.view.frame.size.width, height: 30)
-        subtitleText.frame = CGRect(x:0, y: titleText.frame.origin.y + 30, width: self.view.frame.size.width, height: 30)
+        backButton.layer.cornerRadius = backButton.frame.size.width / 20
+       // titleText.frame = CGRect(x: 0,y:60, width: self.view.frame.size.width, height: 30)
+      //  subtitleText.frame = CGRect(x:0, y: titleText.frame.origin.y + 30, width: self.view.frame.size.width, height: 30)
         
     
         
         
         //         linkHexagonImage.frame = CGRect(x: 10, y: linkTextField.frame.origin.y + 30, width: self.view.frame.size.width - 20, height: 30)
-        previewImage.frame = CGRect(x: 40, y: titleText.frame.maxY + 15, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
+        previewImage.frame = CGRect(x: 40, y: navBarView.frame.maxY + 15, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
+        
         
         
         captionTextField.frame = CGRect(x: 10, y: previewImage.frame.maxY + 20, width: self.view.frame.size.width - 20, height: 30)
+        
+        let bottomLine = CALayer()
+        bottomLine.frame = CGRect(x: 0.0, y: captionTextField.frame.height, width: captionTextField.frame.width, height: 1.0)
+        bottomLine.backgroundColor = UIColor.systemGray4.cgColor
+        captionTextField.borderStyle = UITextField.BorderStyle.none
+        captionTextField.layer.addSublayer(bottomLine)
+        captionTextField.backgroundColor = .clear
+        captionTextField.attributedPlaceholder = NSAttributedString(string: "Write A Caption...", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        
+        
       //   locationTextField.frame = CGRect(x: 10, y: captionTextField.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
 // tagTextField.frame = CGRect(x: 10, y: locationTextField.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
 //        captionTextField.attributedPlaceholder = NSAttributedString(string: "Caption",
 //        attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         
-        continueBtn.frame =  CGRect(x: 10.0, y: captionTextField.frame.maxY + 10, width: self.view.frame.width - 20, height: 24)
-        continueBtn.layer.cornerRadius = continueBtn.frame.size.width / 20
-        cancelBtn.frame =  CGRect(x: 10.0, y: continueBtn.frame.maxY + 10, width: continueBtn.frame.width, height: 24)
-        cancelBtn.layer.cornerRadius = cancelBtn.frame.size.width / 20
+//        postButton.frame =  CGRect(x: 10.0, y: captionTextField.frame.maxY + 10, width: self.view.frame.width - 20, height: 24)
+//        postButton.layer.cornerRadius = postButton.frame.size.width / 20
+//        backButton.frame =  CGRect(x: 10.0, y: postButton.frame.maxY + 10, width: postButton.frame.width, height: 24)
+        backButton.layer.cornerRadius = backButton.frame.size.width / 20
         previewImage.setupHexagonMask(lineWidth: previewImage.frame.width/15, color: myOrange, cornerRadius: previewImage.frame.width/15)
         // background
         let bg = UIImageView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height))
@@ -238,23 +250,23 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
     
     
     // clicked sign up
-    @IBAction func continueClicked(_ sender: AnyObject) {
+    @objc func postTapped(recognizer: UITapGestureRecognizer) {
         print("continue button pressed")
         
         // dismiss keyboard
         self.view.endEditing(true)
         
         // if fields are empty
-        if (captionTextField.text!.isEmpty) {
-            
-            // alert message
-            let alert = UIAlertController(title: "Hold up", message: "Fill in a field or hit \(cancelBtn.titleLabel?.text)", preferredStyle: UIAlertController.Style.alert)
-            let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
-            alert.addAction(ok)
-            self.present(alert, animated: true, completion: nil)
-            
-            return
-        }
+//        if (captionTextField.text!.isEmpty) {
+//
+//            // alert message
+//            let alert = UIAlertController(title: "Hold up", message: "Fill in a field or hit \(backButton.titleLabel?.text)", preferredStyle: UIAlertController.Style.alert)
+//            let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
+//            alert.addAction(ok)
+//            self.present(alert, animated: true, completion: nil)
+//
+//            return
+//        }
         
         let username = userData!.publicID
         var numPosts = userData!.numPosts
@@ -263,7 +275,7 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
         
         
         //let group = DispatchGroup()
-        if (!captionTextField.text!.isEmpty) {
+  //      if (!captionTextField.text!.isEmpty) {
             
             let loadingIndicator = storyboard?.instantiateViewController(withIdentifier: "loading")
             let blurEffectView = { () -> UIVisualEffectView in
@@ -355,8 +367,8 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
                         })
                     })
                 })
+        // }
             }
-        }
     }
     
     
@@ -383,11 +395,76 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
         self.dismiss(animated: true, completion: nil)
     }
     
+    func setUpNavBarView() {
+        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        print("This is status bar height \(statusBarHeight)")
+        self.view.addSubview(navBarView)
+        self.navBarView.addSubview(backButton)
+        self.navBarView.addSubview(postButton)
+        self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
+       
+        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        navBarView.backButton.isHidden = true
+        navBarView.postButton.isHidden = true
+//        self.navBarView.addSubview(toSettingsButton)
+//        self.navBarView.addSubview(toSearchButton)
+      //  self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 30)/2, width: 25, height: 30)
+        
+        // handle skip stuff here
+        // i commented it out
+        
+//        if cancelLbl != nil {
+//            backButton.setTitle(cancelLbl, for: .normal)
+//            backButton.sizeToFit()
+//            backButton.setTitleColor(.systemBlue, for: .normal)
+//            backButton.titleLabel?.font = UIFont(name: "poppins-SemiBold", size: 14)
+//            //navBarView.backButton.setImage(UIImage(), for: .normal)
+//            let backTap = UITapGestureRecognizer(target: self, action: #selector(backButtonpressed))
+//            backButton.addGestureRecognizer(backTap)
+//        }
+//        else {
+            let backTap = UITapGestureRecognizer(target: self, action: #selector(self.backButtonpressed))
+            backTap.numberOfTapsRequired = 1
+            backButton.isUserInteractionEnabled = true
+            backButton.addGestureRecognizer(backTap)
+            backButton.setImage(UIImage(named: "whiteChevron"), for: .normal)
+     //   }
+        
+        let postTap = UITapGestureRecognizer(target: self, action: #selector(self.postTapped))
+        postTap.numberOfTapsRequired = 1
+        postButton.isUserInteractionEnabled = true
+        postButton.addGestureRecognizer(postTap)
+        postButton.setTitle("Post", for: .normal)
+        postButton.setTitleColor(.systemBlue, for: .normal)
+      //  postButton.frame = CGRect(x: (self.view.frame.width) - (topBar.frame.height) - 5, y: 0, width: topBar.frame.height, height: topBar.frame.height)
+        postButton.titleLabel?.sizeToFit()
+        postButton.titleLabel?.textAlignment = .right
+        
     
+   //     self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+        
+      //  backButton.sizeToFit()
+        postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 30)/2, width: 40, height: 30)
+        //navBarView.postButton.titleLabel?.sizeToFit()
+        navBarView.postButton.titleLabel?.textAlignment = .right
+        let yOffset = navBarView.frame.maxY
+        backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+       // postButton.frame = CGRect(x: navBarView.frame.width - 35, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+        
+        postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 40, height: 25)
+        
+        self.navBarView.addBehavior()
+        self.navBarView.titleLabel.text = "Add A Photo Or Video"
+       // self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
+        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: postButton.frame.minY, width: 200, height: 25)
+        print("This is navBarView.")
+      
+      
+    }
     
     
     // clicked cancel
-    @IBAction func cancelBtn_click(_ sender: AnyObject) {
+    @objc func backButtonpressed(recognizer: UITapGestureRecognizer) {
         self.items = []
         self.dismiss(animated: false, completion: nil)
     }

@@ -371,6 +371,7 @@ PODS:
   - MBVideoPlayer (0.1.1)
   - MessageKit (3.0.0):
     - InputBarAccessoryView (~> 4.2.2)
+  - MRCountryPicker (0.0.8)
   - nanopb (2.30906.0):
     - nanopb/decode (= 2.30906.0)
     - nanopb/encode (= 2.30906.0)
@@ -401,6 +402,7 @@ DEPENDENCIES:
   - IQKeyboardManagerSwift
   - MBVideoPlayer (from `https://github.com/mwaqasbhati/MBVideoPlayer.git`)
   - MessageKit (~> 3.0.0)
+  - MRCountryPicker (~> 0.0.8)
   - QuickTableViewController
   - YPImagePicker
 
@@ -431,6 +433,7 @@ SPEC REPOS:
     - IQKeyboardManagerSwift
     - leveldb-library
     - MessageKit
+    - MRCountryPicker
     - nanopb
     - PromisesObjC
     - PryntTrimmerView
@@ -475,6 +478,7 @@ SPEC CHECKSUMS:
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   MBVideoPlayer: 521a2a0c83bf7b1bb913d189b1c151f338c35054
   MessageKit: e892a9ca49ebe6d82684d3a93ad84021fa23e2c6
+  MRCountryPicker: 1aeea66de25cdef79dce3b91d8ad9db643c1cc01
   nanopb: 1bf24dd71191072e120b83dd02d08f3da0d65e53
   PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
   PryntTrimmerView: 6a43cc90df5d99addeabd33d4ba09b1365322130
@@ -483,6 +487,6 @@ SPEC CHECKSUMS:
   SteviaLayout: c2ecdcff57d44e38fd2f65e54ad52aeae28ca0c4
   YPImagePicker: 15aed8bcaa4dad976e11b6114126d731a2f9f3c9
 
-PODFILE CHECKSUM: 7f3aa7fc497e206ea1ff0cec40d2d8338b2ffe3e
+PODFILE CHECKSUM: b8fffc0c0045a0b106644c2095ff16241afdd738
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.10.0

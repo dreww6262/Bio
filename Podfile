@@ -22,4 +22,5 @@ pod 'YPImagePicker'
 pod 'QuickTableViewController'
 pod 'MessageKit', '~> 3.0.0'
 pod 'IQKeyboardManagerSwift'
+pod 'MRCountryPicker', '~> 0.0.8'
 end

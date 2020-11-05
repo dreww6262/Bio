@@ -1011,10 +1011,14 @@ var navBarView = NavBarView()
             imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myCoolBlue, cornerRadius: imageView.frame.width/15)
         }
         else if type.contains("social") {
-       // chooseSpecificSocialMedia(type: type, imageView: imageView)
+            if type.contains("tik") {
+                //white border for tik tok with black logo
+                imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: .white, cornerRadius: imageView.frame.width/15)
+            }
+            else {
             //clear border
             imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: .clear, cornerRadius: imageView.frame.width/15)
-        
+            }
         }
         else if type.contains("youtube") {
        // chooseSpecificSocialMedia(type: type, imageView: imageView)
@@ -1211,17 +1215,27 @@ var navBarView = NavBarView()
     }
     
     func createContextMenu() -> UIMenu {
-    let shareAction = UIAction(title: "View Profile Picture", image: UIImage(systemName: "square.and.arrow.up")) { _ in
+        let shareAction = UIAction(title: "View Profile Picture", image: .none) { _ in
 //    print("View Profile Picture")
         self.handleProfilePicTap(UITapGestureRecognizer())
     }
-    let copy = UIAction(title: "Change Profile Picture", image: UIImage(systemName: "doc.on.doc")) { _ in
-//    print("Change")
+        let copy = UIAction(title: "Change Profile Picture", image: .none) { _ in
         let editProfilePhotoVC = self.storyboard?.instantiateViewController(identifier: "editProfilePhotoVC2") as! EditProfilePhotoVC2
         editProfilePhotoVC.userData = self.userData
         self.present(editProfilePhotoVC, animated: false)
-    
     }
+        let followers = UIAction(title: "Followers", image: .none) { _ in
+            let followersTableView = self.storyboard?.instantiateViewController(identifier: "followersTableView") as! FollowersTableView
+            followersTableView.userData = self.userData
+            self.present(followersTableView, animated: false)
+        }
+        let following = UIAction(title: "Following", image: .none) { _ in
+            let followingTableView = self.storyboard?.instantiateViewController(identifier: "followingTableView") as! FollowingTableView
+            followingTableView.userData = self.userData
+            self.present(followingTableView, animated: false)
+        }
+        
+        
 //    let saveToPhotos = UIAction(title: "Cancel", image: UIImage(systemName: "photo")) { _ in
 //    print("Save to Photos")
 //    }
@@ -1229,7 +1243,7 @@ var navBarView = NavBarView()
              // Delete this photo 😢
          }
         
-    return UIMenu(title: "", children: [shareAction, copy, cancelAction])
+    return UIMenu(title: "", children: [shareAction, copy, followers,following, cancelAction])
     }
     
     func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {

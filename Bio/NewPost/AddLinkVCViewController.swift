@@ -246,7 +246,8 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
   
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Add A Link"
-        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
+     //   self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
+        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: postButton.frame.minY, width: 200, height: 25)
         print("This is navBarView.")
       
       
@@ -339,7 +340,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
             if (linkTextField.text!.isEmpty) {
                 
                 // alert message
-                let alert = UIAlertController(title: "Hold up", message: "Fill in a field or hit Cancel", preferredStyle: UIAlertController.Style.alert)
+                let alert = UIAlertController(title: "Hold up", message: "Paste a Link or Hit Cancel", preferredStyle: UIAlertController.Style.alert)
                 let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
                 alert.addAction(ok)
                 self.present(alert, animated: true, completion: nil)
@@ -357,6 +358,12 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
             else {
                 print("linkString is not valid URL \(linkString)")
                 validURL = false
+                let alert = UIAlertController(title: "Invalid URL", message: "Please Enter a Valid Url", preferredStyle: UIAlertController.Style.alert)
+                let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
+                alert.addAction(ok)
+                self.present(alert, animated: true, completion: nil)
+                
+                return
             }
             
             //let group = DispatchGroup()

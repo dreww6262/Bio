@@ -12,8 +12,39 @@ import FirebaseFirestore
 import FirebaseAuth
 import FirebaseUI
 import Photos
+import MRCountryPicker
 
-class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MRCountryPickerDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
+    
+    var countries: [String] = []
+    var GDPRCountries: [String] = ["Austria", "Belgium", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Germany", "Greece", "Hungary", "Ireland", "Italy", "Latvia", "Lithuania", "Luxembourg", "Malta", "Netherlands", "Poland", "Portugal", "Romania", "Slovakia", "Slovenia", "Spain", "Sweden"]
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return self.countries.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return self.countries[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        self.countryTextField.text = self.countries[row]
+    }
+    
+    func getCountryList() -> [String]{
+        var countries: [String] = []
+        for code in NSLocale.isoCountryCodes {
+            let id = NSLocale.localeIdentifier(fromComponents: [NSLocale.Key.countryCode.rawValue: code])
+            let name = NSLocale(localeIdentifier: "en_UK").displayName(forKey: NSLocale.Key.identifier, value: id) ?? "Country Not Found \(code)"
+            countries.append(name)
+        }
+        return countries
+    }
+    
     
     // scrollView
     @IBOutlet weak var scrollView: UIScrollView!
@@ -30,6 +61,7 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     @IBOutlet weak var usernameTxt: UITextField!
     @IBOutlet weak var passwordTxt: UITextField!
     @IBOutlet weak var repeatPassword: UITextField!
+    @IBOutlet weak var countryPicker: MRCountryPicker!
     // buttons
     var signUpBtn = UIButton()
     var cancelBtn = UIButton()
@@ -51,11 +83,62 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     var titleLabel1 = UILabel()
     var age = 0
     
+ //  var countryPicker = MRCountryPicker()
+   var countryName = UILabel()
+  var countryCode = UILabel()
+var countryFlag = UIImageView()
+ var phoneCode = UILabel()
+    
+    lazy var countryTextField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "Country"
+        textField.borderStyle = .none
+        let pickerView = UIPickerView()
+        pickerView.dataSource = self
+        pickerView.delegate = self
+        textField.inputView = pickerView
+        
+        return textField
+        
+    }()
+    
+    
+    
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//        countryPicker.countryPickerDelegate = self
+//        countryPicker.showPhoneNumbers = true
+//
+//        // set country by its code
+//        countryPicker.setCountry("SI")
+//
+//        // optionally set custom locale; defaults to system's locale
+//        countryPicker.setLocale("sl_SI")
+//
+//        // set country by its name
+//        countryPicker.setCountryByName("Canada")
+//    }
+    
+    // a picker item was selected
+    func countryPhoneCodePicker(_ picker: MRCountryPicker, didSelectCountryWithName name: String, countryCode: String, phoneCode: String, flag: UIImage) {
+        self.countryName.text = name
+        self.countryCode.text = countryCode
+        self.phoneCode.text = phoneCode
+        self.countryFlag.image = flag
+    }
+    
+    
+    
+    
 
     // default func
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        self.countries = self.getCountryList()
+        self.countries = self.countries.sorted(by: <)
+        self.countries.insert("United States", at: 0)
+        view.addSubview(countryTextField)
+        countryPicker.isHidden = true
         avaImg.image = UIImage(named: "boyprofile")
         let gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
         let gray = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
@@ -87,6 +170,17 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         view.addSubview(txtDatePicker)
         txtDatePicker.backgroundColor = .clear
 
+        countryPicker.countryPickerDelegate = self
+        countryPicker.showPhoneNumbers = true
+
+        // set country by its code
+        countryPicker.setCountry("SI")
+
+        // optionally set custom locale; defaults to system's locale
+        countryPicker.setLocale("sl_SI")
+
+        // set country by its name
+        countryPicker.setCountryByName("Canada")
       
         // alignment
         avaImg.frame = CGRect(x: self.view.frame.size.width / 2 - 60, y: 80, width: 120, height: 120)
@@ -99,8 +193,9 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         passwordTxt.frame = CGRect(x: 10, y: displayNameTxt.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
         repeatPassword.frame = CGRect(x: 10, y: passwordTxt.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
         txtDatePicker.frame = CGRect(x: 10, y: repeatPassword.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
+        countryTextField.frame = CGRect(x: 10, y: txtDatePicker.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
         
-        signUpBtn.frame = CGRect(x: 10, y: txtDatePicker.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 40)
+        signUpBtn.frame = CGRect(x: 10, y: countryTextField.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 40)
         signUpBtn.layer.cornerRadius = signUpBtn.frame.size.width / 20
         cancelBtn.frame = CGRect(x: 5, y: 40, width: 24, height: 23)
         cancelBtn.layer.cornerRadius = cancelBtn.frame.size.width / 20
@@ -112,6 +207,7 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         self.view.addSubview(bg)
         formatPhotoLabel()
         formatBottomLines()
+        
     }
     
     func showDatePicker(){
@@ -180,10 +276,16 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     repeatPassword.borderStyle = UITextField.BorderStyle.none
     repeatPassword.layer.addSublayer(bottomLine5)
     let bottomLine6 = CALayer()
-    bottomLine6.frame = CGRect(x: 0, y: txtDatePicker.frame.height, width: txtDatePicker.frame.width, height: 1.0)
+    bottomLine6.frame = CGRect(x: 0, y: self.txtDatePicker.frame.height, width: txtDatePicker.frame.width, height: 1.0)
     bottomLine6.backgroundColor = UIColor.systemGray4.cgColor
-    txtDatePicker.borderStyle = UITextField.BorderStyle.none
-    txtDatePicker.layer.addSublayer(bottomLine6)
+    self.txtDatePicker.borderStyle = UITextField.BorderStyle.none
+    self.txtDatePicker.layer.addSublayer(bottomLine6)
+    
+    let bottomLine7 = CALayer()
+    bottomLine7.frame = CGRect(x: 0, y: countryTextField.frame.height, width: countryPicker.frame.width, height: 1.0)
+    bottomLine7.backgroundColor = UIColor.systemGray4.cgColor
+    countryTextField.borderStyle = UITextField.BorderStyle.none
+    countryTextField.layer.addSublayer(bottomLine7)
     
     emailTxt.attributedPlaceholder = NSAttributedString(string: "Email Address",
                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
@@ -204,6 +306,10 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     self.txtDatePicker.attributedPlaceholder = NSAttributedString(string: "Birthday",
                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
     self.txtDatePicker.textColor = .white
+    
+    self.countryTextField.attributedPlaceholder = NSAttributedString(string: "Country",
+                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+    self.countryTextField.textColor = .white
 //    self.txtDatePicker.attributedPlaceholder = NSAttributedString(string: "Repeat Password",
 //                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
     
@@ -327,10 +433,30 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
             
             return
         }
+        var country = self.countryTextField.text
+        var minimumAge = 13
         print("This is age \(age)")
         print("This is birthday \(birthday)")
+        print("This is country \(country)")
+        if GDPRCountries.contains(country!) {
+            print("GDPR country! 16 and up")
+            minimumAge = 16
+        } else {
+            minimumAge = 13
+        }
         
-        if age < 13 {
+        
+        if age < minimumAge && age >= 13 {
+            // alert message
+            let alert = UIAlertController(title: "👶🏼", message: "You must be at least 16 years old to join Bio", preferredStyle: UIAlertController.Style.alert)
+            let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
+            alert.addAction(ok)
+            self.present(alert, animated: true, completion: nil)
+            
+            return
+        }
+        
+       else if age < minimumAge {
             // alert message
             let alert = UIAlertController(title: "👶🏼", message: "You must be at least 13 years old to join Bio", preferredStyle: UIAlertController.Style.alert)
             let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
@@ -497,7 +623,9 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
   
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Create An Account"
-        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
+       //self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y:  statusBarHeight + (navBarHeightRemaining - 25)/2, width: 200, height: 25)
+       // self.navBarView.titleLabel.sizet
+        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: signUpBtn.frame.minY, width: 200, height: 25)
         print("This is navBarView.")
       
       
