@@ -14,7 +14,7 @@ import FirebaseUI
 import FirebaseStorage
 import YPImagePicker
 
-class AddSocialMediaTableView: UIViewController {
+class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
     var navBarView = NavBarView()
     var titleLabel1 = UILabel()
     @IBOutlet weak var doneButton: UIButton!
@@ -32,11 +32,10 @@ class AddSocialMediaTableView: UIViewController {
     var loadUserDataArray = ThreadSafeArray<UserData>()
     var searchString: String = ""
     var userData: UserData?
-    var textFieldArray = [UITextField]()
+//    var textFieldArray = [UITextField]()
     
     var followList = [String]()
     var followListener: ListenerRegistration?
-    var isCompletelyEmpty = true
     
     var cancelLbl: String?
     
@@ -176,13 +175,20 @@ class AddSocialMediaTableView: UIViewController {
         
         
         // if fields are empty
-        self.isCompletelyEmpty = true
+        var isCompletelyEmpty = true
         
-        for txtField in self.textFieldArray {
-            if txtField.text!.isEmpty {
-                print("nothing here")
-            } else {
-                self.isCompletelyEmpty = false
+        var count = 0
+        var numAccounts = 0
+        var cellList = [AddSocialMediaCell]()
+        while count < socialMediaArray.count {
+            let indexPath = NSIndexPath(row: count, section: 0)
+            let cell = tableView.cellForRow(at: indexPath as IndexPath) as! AddSocialMediaCell
+            cellList.append(cell)
+            if (!cell.interactiveTextField.text!.isEmpty) {
+                isCompletelyEmpty = false
+            }
+            else {
+                numAccounts += 1
             }
         }
         
@@ -201,15 +207,10 @@ class AddSocialMediaTableView: UIViewController {
         let username = userData!.publicID
         var numPosts = userData!.numPosts
         
-        var count = 0
-        for field in textFieldArray {
-            if !field.text!.isEmpty {
-                count += 1
-            }
-        }
-        if numPosts + count > 37 {
+
+        if numPosts + numAccounts > 37 {
             // too many posts
-            let overflow = numPosts + count - 37
+            let overflow = numPosts + numAccounts - 37
             let alert = UIAlertController(title: "Not Enough Space :/", message: "Either clear out \(overflow) field\(overflow > 1 ? "s" : "") or delete \(overflow) post\(overflow > 1 ? "s" : "") from your home grid.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
@@ -245,9 +246,9 @@ class AddSocialMediaTableView: UIViewController {
         view.addSubview(loadingIndicator!.view)
         
         //let group = DispatchGroup()
-        if (!textFieldArray[0].text!.isEmpty) {
+        if (cellList[0].interactiveTextField.text!.isEmpty) {
             numPosts += 1
-            var myText = textFieldArray[0].text!
+            var myText = cellList[0].interactiveTextField.text!
             let trimmedText = myText.trimmingCharacters(in: .whitespaces)
             print("This is trimmedText \(trimmedText)")
             let instaHex = HexagonStructData(resource: "https://instagram.com/\(trimmedText)", type: "socialmedia_instagram", location: numPosts, thumbResource: "icons/instagramLogo.png", createdAt: NSDate.now.description, postingUserID: username, text: "", views: 0, isArchived: false, docID: "WillBeSetLater")
@@ -257,9 +258,9 @@ class AddSocialMediaTableView: UIViewController {
             })
         }
         
-        if (!textFieldArray[1].text!.isEmpty) {
+        if (!cellList[1].interactiveTextField.text!.isEmpty) {
             numPosts += 1
-            var myText = textFieldArray[1].text!
+            var myText = cellList[1].interactiveTextField.text!
             let trimmedText = myText.trimmingCharacters(in: .whitespaces)
             print("This is trimmedText \(trimmedText)")
             let snapHex = HexagonStructData(resource: "https://www.snapchat.com/add/\(trimmedText)", type: "socialmedia_snapchat", location: numPosts, thumbResource: "icons/snapchatlogo.jpg", createdAt: NSDate.now.description, postingUserID: username, text: "", views: 0, isArchived: false, docID: "WillBeSetLater")
@@ -269,9 +270,9 @@ class AddSocialMediaTableView: UIViewController {
             })
         }
         
-        if (!textFieldArray[2].text!.isEmpty) {
+        if (!cellList[2].interactiveTextField.text!.isEmpty) {
             numPosts += 1
-            var myText = textFieldArray[2].text!
+            var myText = cellList[2].interactiveTextField.text!
             let trimmedText = myText.trimmingCharacters(in: .whitespaces)
             print("This is trimmedText \(trimmedText)")
             let tikTokHex = HexagonStructData(resource: trimmedText, type: "socialmedia_tiktok", location: numPosts, thumbResource: "icons/tikTokLogo4.png", createdAt: NSDate.now.description, postingUserID: username, text: "", views: 0, isArchived: false, docID: "WillBeSetLater")
@@ -281,9 +282,9 @@ class AddSocialMediaTableView: UIViewController {
             })
         }
         
-        if (!textFieldArray[3].text!.isEmpty) {
+        if (!cellList[3].interactiveTextField.text!.isEmpty) {
             numPosts += 1
-            var myText = textFieldArray[3].text!
+            var myText = cellList[3].interactiveTextField.text!
             let trimmedText = myText.trimmingCharacters(in: .whitespaces)
             print("This is trimmedText \(trimmedText)")
             let twitterHex = HexagonStructData(resource: "https://twitter.com/\(trimmedText)", type: "socialmedia_twitter", location: numPosts, thumbResource: "icons/twitter.png", createdAt: NSDate.now.description, postingUserID: username, text: "", views: 0, isArchived: false, docID: "WillBeSetLater")
@@ -293,9 +294,9 @@ class AddSocialMediaTableView: UIViewController {
             })
         }
         
-        if (!textFieldArray[4].text!.isEmpty) {
+        if (!cellList[4].interactiveTextField.text!.isEmpty) {
             numPosts += 1
-            var myText = textFieldArray[4].text!
+            var myText = cellList[4].interactiveTextField.text!
             let trimmedText = myText.trimmingCharacters(in: .whitespaces)
             print("This is trimmedText \(trimmedText)")
             let youtubeHex = HexagonStructData(resource: "\(trimmedText)", type: "socialmedia_youtube", location: numPosts, thumbResource: "icons/youtube3 .png", createdAt: NSDate.now.description, postingUserID: username, text: "", views: 0, isArchived: false, docID: "WillBeSetLater")
@@ -305,9 +306,9 @@ class AddSocialMediaTableView: UIViewController {
             })
         }
         
-        if (!textFieldArray[5].text!.isEmpty) {
+        if (!cellList[5].interactiveTextField.text!.isEmpty) {
             numPosts += 1
-            var myText = textFieldArray[5].text!
+            var myText = cellList[5].interactiveTextField.text!
             let trimmedText = myText.trimmingCharacters(in: .whitespaces)
             print("This is trimmedText \(trimmedText)")
             let vscoHex = HexagonStructData(resource: "https://www.vsco.co/\(trimmedText)/gallery", type: "socialmedia_vsco", location: numPosts, thumbResource: "icons/vscologo1.png", createdAt: NSDate.now.description, postingUserID: username, text: "", views: 0, isArchived: false, docID: "WillBeSetLater")
@@ -317,9 +318,9 @@ class AddSocialMediaTableView: UIViewController {
             })
         }
         
-        if (!textFieldArray[6].text!.isEmpty) {
+        if (!cellList[6].interactiveTextField.text!.isEmpty) {
             numPosts += 1
-            var myText = textFieldArray[6].text!
+            var myText = cellList[6].interactiveTextField.text!
             let trimmedText = myText.trimmingCharacters(in: .whitespaces)
             print("This is trimmedText \(trimmedText)")
             let soundCloudHex = HexagonStructData(resource: trimmedText, type: "socialmedia_soundCloud", location: numPosts, thumbResource: "icons/soundCloudLogo.png", createdAt: NSDate.now.description, postingUserID: username, text: "", views: 0, isArchived: false, docID: "WillBeSetLater")
@@ -329,9 +330,9 @@ class AddSocialMediaTableView: UIViewController {
             })
         }
         
-        if (!textFieldArray[7].text!.isEmpty) {
+        if (!cellList[7].interactiveTextField.text!.isEmpty) {
             numPosts += 1
-            var myText = textFieldArray[7].text!
+            var myText = cellList[7].interactiveTextField.text!
             let trimmedText = myText.trimmingCharacters(in: .whitespaces)
             print("This is trimmedText \(trimmedText)")
             let twitchHex = HexagonStructData(resource: "https://m.twitch.tv/\(trimmedText)/profile", type: "socialmedia_twitch", location: numPosts, thumbResource: "icons/twitch1.png", createdAt: NSDate.now.description, postingUserID: username, text: "", views: 0, isArchived: false, docID: "WillBeSetLater")
@@ -341,9 +342,9 @@ class AddSocialMediaTableView: UIViewController {
             })
         }
         
-        if (!textFieldArray[8].text!.isEmpty) {
+        if (!cellList[8].interactiveTextField.text!.isEmpty) {
             numPosts += 1
-            var myText = textFieldArray[8].text!
+            var myText = cellList[8].interactiveTextField.text!
             let trimmedText = myText.trimmingCharacters(in: .whitespaces)
             print("This is trimmedText \(trimmedText)")
             let linkedInHex = HexagonStructData(resource: "\(trimmedText)", type: "socialmedia_linkedIn", location: numPosts, thumbResource: "icons/linkedInLogo.jpg", createdAt: NSDate.now.description, postingUserID: username, text: "", views: 0,isArchived: false, docID: "WillBeSetLater")
@@ -353,9 +354,9 @@ class AddSocialMediaTableView: UIViewController {
             })
         }
      
-        if (!textFieldArray[9].text!.isEmpty) {
+        if (!cellList[9].interactiveTextField.text!.isEmpty) {
             numPosts += 1
-            var myText = textFieldArray[9].text!
+            var myText = cellList[9].interactiveTextField.text!
             let trimmedText = myText.trimmingCharacters(in: .whitespaces)
             print("This is trimmedText \(trimmedText)")
             let etsyHex = HexagonStructData(resource: "https://etsy.com/shop/\(trimmedText)", type: "socialmedia_etsy", location: numPosts, thumbResource: "icons/etsyLogoCircle.png", createdAt: NSDate.now.description, postingUserID: username, text: "", views: 0, isArchived: false, docID: "WillBeSetLater")
@@ -365,10 +366,10 @@ class AddSocialMediaTableView: UIViewController {
             })
         }
     
-        if (!textFieldArray[10].text!.isEmpty) {
+        if (!cellList[10].interactiveTextField.text!.isEmpty) {
             print("Trying to add a poshmark link")
             numPosts += 1
-            var myText = textFieldArray[10].text!
+            var myText = cellList[10].interactiveTextField.text!
             let trimmedText = myText.trimmingCharacters(in: .whitespaces)
             print("This is trimmedText \(trimmedText)")
             let poshmarkHex = HexagonStructData(resource: "https://poshmark.com/closet/\(trimmedText)", type: "socialmedia_poshmark", location: numPosts, thumbResource: "icons/poshmarkLogo.png", createdAt: NSDate.now.description, postingUserID: username, text: "", views: 0, isArchived: false, docID: "WillBeSetLater")
@@ -378,9 +379,9 @@ class AddSocialMediaTableView: UIViewController {
             })
         }
         
-        if (!textFieldArray[11].text!.isEmpty) {
+        if (!cellList[11].interactiveTextField.text!.isEmpty) {
             numPosts += 1
-            var myText = textFieldArray[11].text!
+            var myText = cellList[11].interactiveTextField.text!
             let trimmedText = myText.trimmingCharacters(in: .whitespaces)
             print("This is trimmedText \(trimmedText)")
             let hudlHex = HexagonStructData(resource: "\(trimmedText)/", type: "socialmedia_hudl", location: numPosts, thumbResource: "icons/hudl.png", createdAt: NSDate.now.description, postingUserID: username, text: "", views: 0, isArchived: false, docID: "WillBeSetLater")
@@ -391,9 +392,9 @@ class AddSocialMediaTableView: UIViewController {
         }
      
         
-        if (!textFieldArray[12].text!.isEmpty) {
+        if (!cellList[12].interactiveTextField.text!.isEmpty) {
             numPosts += 1
-            var myText = textFieldArray[12].text!
+            var myText = cellList[12].interactiveTextField.text!
             let trimmedText = myText.trimmingCharacters(in: .whitespaces)
             print("This is trimmedText \(trimmedText)")
             print("should be a venmo hex!")
@@ -404,9 +405,9 @@ class AddSocialMediaTableView: UIViewController {
             })
         }
         
-        if (!textFieldArray[13].text!.isEmpty) {
+        if (!cellList[13].interactiveTextField.text!.isEmpty) {
             numPosts += 1
-            var myText = textFieldArray[13].text!
+            var myText = cellList[13].interactiveTextField.text!
             let trimmedText = myText.trimmingCharacters(in: .whitespaces)
             while trimmedText.hasPrefix("$") {
                 "hello".chopPrefix()
@@ -422,9 +423,9 @@ class AddSocialMediaTableView: UIViewController {
         }
         
         
-        if (!textFieldArray[14].text!.isEmpty) {
+        if (!cellList[14].interactiveTextField.text!.isEmpty) {
             numPosts += 1
-            var myText = textFieldArray[13].text!
+            var myText = cellList[13].interactiveTextField.text!
             let trimmedText = myText.trimmingCharacters(in: .whitespaces)
             print("This is trimmedText \(trimmedText)")
             print("should be a cameo hex!")
@@ -558,13 +559,21 @@ class AddSocialMediaTableView: UIViewController {
         self.navBarView.titleLabel.text = "Add Social Media"
        // self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
         self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: postButton.frame.minY, width: 200, height: 25)
-        print("This is navBarView.")
       
       
     }
     
+    
+    var textFieldData = [String]()
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        if (textFieldData.count < socialMediaArray.count) {
+            textFieldData = Array(repeating: "", count: socialMediaArray.count)
+        }
+        textFieldData[textField.tag] = textField.text!
+    }
+    
+    
    
-    var listenerList: [ListenerRegistration]?
     
   
 //    @objc func cellTapped(_ sender : UITapGestureRecognizer) {
@@ -674,14 +683,12 @@ extension AddSocialMediaTableView: UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print("socialMediaArray: \(socialMediaArray.count)")
         let cell = tableView.dequeueReusableCell(withIdentifier: "addSocialMediaCell", for: indexPath) as! AddSocialMediaCell
         cell.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/8)
        // let cellTappedRecognizer = UITapGestureRecognizer(target: self, action: #selector(cellTapped))
        // cell.addGestureRecognizer(cellTappedRecognizer)
         cell.userData = userData
         //  Configure the cell...
-        print("This is cell \(cell)")
         cell.socialMediaIcon.image = iconArray[indexPath.row] ?? UIImage(named: "instagramLogo")
         cell.socialMediaIcon.layer.cornerRadius = cell.socialMediaIcon.frame.size.width / 2
         cell.socialMediaIcon.clipsToBounds = true
@@ -714,7 +721,13 @@ extension AddSocialMediaTableView: UITableViewDelegate, UITableViewDataSource {
                                                                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
         cell.circularMask.frame = cell.socialMediaIcon.frame
         cell.interactiveTextField.textColor = .white
-        self.textFieldArray.append(cell.interactiveTextField)
+        cell.interactiveTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+
+        cell.interactiveTextField.tag = indexPath.row
+        if (textFieldData.count > indexPath.row) {
+            cell.interactiveTextField.text = textFieldData[indexPath.row]
+        }
+//        self.textFieldArray.append(cell.interactiveTextField)
        
         
         

@@ -13,19 +13,11 @@ import AVFoundation
 
 class AddSocialMediaCell: UITableViewCell {
     
-    @IBOutlet weak var verifyView: UIView!
-    
-    @IBOutlet weak var verifyLabel: UILabel!
-    
-    @IBOutlet weak var verifyImage: UIImageView!
-    
     //  UI objects
     @IBOutlet weak var socialMediaIcon: UIImageView!
 
-    @IBOutlet weak var textField: UITextField!
-    @IBOutlet weak var interactiveTextField: UITextField!
+    let interactiveTextField = UITextField()
 
-    var cellHeight = CGFloat()
     var userData: UserData?
     
     let db = Firestore.firestore()
@@ -33,54 +25,55 @@ class AddSocialMediaCell: UITableViewCell {
     let circularMask = UIImageView()
     
     // default func
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override func layoutSubviews() {
         self.backgroundColor = .black
         
+        contentView.addSubview(interactiveTextField)
+        
         // alignment
-        let width = UIScreen.main.bounds.width
        // cellHeight =  self.frame.height
-        cellHeight = 66
+        let cellHeight: CGFloat = self.contentView.frame.height
         print("This is cellHeight \(cellHeight)")
         
-        socialMediaIcon.frame = CGRect(x: self.frame.width*(3/48), y: self.frame.height*(6/48), width: cellHeight*(36/48), height: cellHeight*(36/48))
+        socialMediaIcon.frame = CGRect(x: 16, y: 0.125 * cellHeight, width: cellHeight*(3/4), height: cellHeight*(3/4))
         //socialMediaIcon.setupHexagonMask(lineWidth: socialMediaIcon.frame.height/15, color: gold, cornerRadius: socialMediaIcon.frame.height/15)
-        textField.frame = CGRect(x: socialMediaIcon.frame.maxX + (self.frame.width/24), y: self.frame.height/3, width: width - (2*socialMediaIcon.frame.maxX), height: self.frame.height*(1/3))
-        interactiveTextField.frame = textField.frame
-        textField.isHidden = true 
+        interactiveTextField.frame = CGRect(x: socialMediaIcon.frame.maxX + 16, y: cellHeight/3, width: contentView.frame.width - socialMediaIcon.frame.maxX - 16, height: cellHeight / 3)
         
         let bottomLine = CALayer()
-        bottomLine.frame = CGRect(x: 0.0, y: 22, width: interactiveTextField.frame.width, height: 1.0)
+        bottomLine.frame = CGRect(x: 0.0, y: interactiveTextField.frame.height + 4, width: interactiveTextField.frame.width, height: 1.0)
         bottomLine.backgroundColor = UIColor.systemGray4.cgColor
         interactiveTextField.borderStyle = UITextField.BorderStyle.none
         interactiveTextField.layer.addSublayer(bottomLine)
        
-        print("This is textfield.frame \(textField.frame)")
         print("This is interactivetextfield.frame \(interactiveTextField.frame)")
        
-        verifyView.frame = CGRect(x: width - (width/4.5), y: interactiveTextField.frame.minY - (self.frame.height/8), width: width/7, height: interactiveTextField.frame.height)
-        verifyView.layer.cornerRadius = verifyView.frame.size.width / 20
-        verifyView.addSubview(verifyImage)
-        verifyView.addSubview(verifyLabel)
-        verifyView.isHidden = true
-        verifyImage.frame = CGRect(x: 0, y: 0, width: verifyView.frame.height, height: verifyView.frame.height)
-        //let followTap = UITapGestureRecognizer(target: self, action: #selector(followPressed))
-        //verifyView.addGestureRecognizer(followTap)
-        verifyLabel.frame = CGRect(x: verifyImage.frame.maxX + (verifyView.frame.width/20), y: verifyImage.frame.minY - (verifyView.frame.height/5), width: 44, height: 20)
-         verifyView.layer.cornerRadius = verifyView.frame.size.width/10
-        print("THis is followView.frame \(verifyView.frame)")
-        print("This is followimage.frame \(verifyImage.frame)")
-        print("This is follow label.frame \(verifyLabel.frame)")
+//        verifyView.frame = CGRect(x: width - (width/4.5), y: interactiveTextField.frame.minY - (self.frame.height/8), width: width/7, height: interactiveTextField.frame.height)
+//        verifyView.layer.cornerRadius = verifyView.frame.size.width / 20
+//        verifyView.addSubview(verifyImage)
+//        verifyView.addSubview(verifyLabel)
+//        verifyView.isHidden = true
+//        verifyImage.frame = CGRect(x: 0, y: 0, width: verifyView.frame.height, height: verifyView.frame.height)
+//        //let followTap = UITapGestureRecognizer(target: self, action: #selector(followPressed))
+//        //verifyView.addGestureRecognizer(followTap)
+//        verifyLabel.frame = CGRect(x: verifyImage.frame.maxX + (verifyView.frame.width/20), y: verifyImage.frame.minY - (verifyView.frame.height/5), width: 44, height: 20)
+//         verifyView.layer.cornerRadius = verifyView.frame.size.width/10
+//        print("THis is followView.frame \(verifyView.frame)")
+//        print("This is followimage.frame \(verifyImage.frame)")
+//        print("This is follow label.frame \(verifyLabel.frame)")
         
         // round ava
        // socialMediaIcon.layer.cornerRadius = socialMediaIcon.frame.size.width / 2
         socialMediaIcon.clipsToBounds = true
-        circularMask.frame = socialMediaIcon.frame
-        circularMask.backgroundColor = white
-        self.bringSubviewToFront(circularMask)
-        
-        
+        socialMediaIcon.layer.cornerRadius = socialMediaIcon.frame.height / 2
+        socialMediaIcon.layer.borderColor = UIColor.white.cgColor
+        socialMediaIcon.layer.borderWidth = 1.5
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        interactiveTextField.text = ""
+    }
+    
     
     
     
