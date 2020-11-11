@@ -88,15 +88,6 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         
         let previousIndex  = vcIndex - 1
         
-//        guard previousIndex >= 0 else {
-//            print("0 > previndex = \(previousIndex)")
-//            currentIndex = viewControllers.count - 1
-//            return viewControllers.last
-//        }
-//        guard viewControllers.count > previousIndex else {
-//            print("bad viewcontrollers.count <= previndex = \(previousIndex)")
-//            return nil
-//        }
         if previousIndex < 0 {
             return nil
         }
@@ -114,16 +105,7 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         guard let vcIndex = viewControllers.firstIndex(of: viewController) else {return nil}
         
         let nextIndex  = vcIndex + 1
-        
-//        guard viewControllers.count != nextIndex else {
-//            print("viewcontrollers.count = nextindex = \(nextIndex)")
-//            currentIndex = 0
-//            return viewControllers.first
-//        }
-//        guard viewControllers.count > nextIndex else {
-//            print(" bad viewcontrollers.count <= nextIndex = \(nextIndex)")
-//            return nil
-//        }
+ 
         if nextIndex >= viewControllers.count {
             return nil
         }
@@ -133,9 +115,7 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         
         print("viewcontroller: \(nextIndex)")
         
-      //  viewControllers[nextIndex].
-      //  viewControllers[nextIndex].showOpenAppButton = showBool
-        
+   
         return viewControllers[nextIndex]
     }
     
@@ -174,9 +154,6 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         
         let backButton = UIButton()
         topBar.addSubview(backButton)
-     //  backButton.setTitle("Back", for: .normal)
-    //    backButton.setTitleColor(.white, for: .normal)
-     //   backButton.backgroundColor = .black
         backButton.imageView?.image?.withTintColor(.white)
         backButton.tintColor = .white
         backButton.imageView?.tintColor = white
@@ -194,8 +171,6 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         currentIndexLabel.font.withSize(25)
         currentIndexLabel.textAlignment = .center
 
-       // backButton.imageView?.frame = backButton.frame
-       // backButton.imageView?.image = UIImage(named: "whiteChevron")
         let commentButton = UIButton()
         //bottomBar.addSubview(commentButton)
         commentButton.setTitleColor(.white, for: .normal)

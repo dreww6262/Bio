@@ -67,6 +67,7 @@ class TagUserTableView: UIViewController, UISearchBarDelegate {
         let clearButton = textField.value(forKey: "clearButton") as! UIButton
         clearButton.setImage(clearButton.imageView?.image?.withRenderingMode(.alwaysTemplate), for: .normal)
         clearButton.tintColor = .white
+        tableView.keyboardDismissMode = .onDrag
         
         //let textField2 = searchBar.value(forKey: "cancelButton") as! UITextField
 //        let cancelButton = searchBar.value(forKey: "cancelButton") as! UIButton

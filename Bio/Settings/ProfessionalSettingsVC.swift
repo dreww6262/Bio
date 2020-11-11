@@ -468,8 +468,8 @@ class ProfessionalSettingsVC: QuickTableViewController {
             let home = presenter as! HomeHexagonGrid
             home.menuView.userData = nil
         }
-        else if (presenter is DiscoverGrid) {
-            let prof = presenter as! DiscoverGrid
+        else if (presenter is FriendsAndFeaturedVC) {
+            let prof = presenter as! FriendsAndFeaturedVC
             prof.menuView.userData = nil
         }
         else if (presenter is NotificationsVC) {

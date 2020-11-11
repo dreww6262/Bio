@@ -144,6 +144,7 @@ class SignInVC: UIViewController {
         auth.signIn(withEmail: emailText.text!, password: passwordText.text!, completion: { result, error in
             if error == nil {
                 if result?.user != nil {
+                    print("success should segue")
                     self.performSegue(withIdentifier: "unwindFromSignIn", sender: nil)
                 }
                 

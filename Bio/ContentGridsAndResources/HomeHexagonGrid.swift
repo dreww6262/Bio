@@ -1012,8 +1012,18 @@ var navBarView = NavBarView()
         }
         else if type.contains("social") {
             if type.contains("tik") {
+                //example label
+                let nameLabel = UILabel()
+                self.contentView.addSubview(nameLabel)
+                nameLabel.text = "@username"
+                nameLabel.frame = CGRect(x: imageView.frame.minX + 15, y: imageView.frame.midY - 10, width: 120, height: 20)
+                nameLabel.textAlignment = .center
                 //white border for tik tok with black logo
                 imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: .white, cornerRadius: imageView.frame.width/15)
+         
+                nameLabel.textColor = .white
+             
+       
             }
             else {
             //clear border

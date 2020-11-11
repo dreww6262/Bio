@@ -84,8 +84,9 @@ class FollowingTableView: UIViewController, UISearchBarDelegate {
         let searchItem = UIBarButtonItem(customView: searchBar)
         self.navigationItem.leftBarButtonItem = searchItem
         searchBar.showsCancelButton = true
-        searchBar.becomeFirstResponder()
+     //   searchBar.becomeFirstResponder()
         searchBar.autocapitalizationType = UITextAutocapitalizationType.none
+        tableView.keyboardDismissMode = .onDrag
         tableView.delegate = self
         tableView.dataSource = self
         tableView.frame = CGRect(x: 0, y: searchBar.frame.height + 20, width: view.frame.width, height: view.frame.height - searchBar.frame.height)
@@ -252,6 +253,7 @@ class FollowingTableView: UIViewController, UISearchBarDelegate {
     
     
     
+
     func loadUserData() {
         loadUserDataArray.removeAll()
         //searchString = searchBar.text
@@ -259,30 +261,13 @@ class FollowingTableView: UIViewController, UISearchBarDelegate {
             startWithFollowers()
             return
         }
-        // find by username
-        //var success = true
-        searchString = searchString.lowercased()
-        let usernameQuery = db.collection("UserData1").whereField("publicID", isGreaterThanOrEqualTo: searchString).whereField("publicID", isLessThan: searchString+"\u{F8FF}")
-        usernameQuery.addSnapshotListener({snapshots,error in
-            if (error != nil) {
-                print("god damnit")
-                //success = false
-                return
+        
+        // right here we need to search within loaduserdataarray using searchString
+        else {
+            print("Present substring of following based on searchString Here")
             }
-            print("success, search bar pulled data")
-            for doc in snapshots!.documents {
-                //self.usernameArray.append(doc.value(forKey: "publicID") as! String)
-                let userdata = UserData(dictionary: doc.data())
-                if (!self.loadUserDataArray.readOnlyArray().contains(where: { u in
-                    return u.publicID == userdata.publicID
-                })) {
-                    self.loadUserDataArray.append(newElement: userdata)
-                }
-            }
-            self.sortUserDataArray()
-            self.tableView.reloadData()
-        })
-    }
+        self.tableView.reloadData()
+        }
     
     @objc func cellTapped(_ sender : UITapGestureRecognizer) {
         let cell  = sender.view as! UserCell

@@ -14,7 +14,7 @@ class ContentImageVC: UIViewController, UIScrollViewDelegate {
     var scrollView = UIScrollView()
     var newImageView: UIImageView?
     var userData: UserData?
-    var captionTextField = UITextField()
+   // var captionTextField = UITextField()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,9 +36,9 @@ class ContentImageVC: UIViewController, UIScrollViewDelegate {
         
         let frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - 65)
         let captionFrame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 66)
-        captionTextField.font = UIFont(name: "DINAlternate-Bold", size: 28)
-        captionTextField.textAlignment = .center
-        captionTextField.isUserInteractionEnabled = false
+//        captionTextField.font = UIFont(name: "DINAlternate-Bold", size: 28)
+//        captionTextField.textAlignment = .center
+//        captionTextField.isUserInteractionEnabled = false
         newImageView!.frame = frame
         newImageView!.backgroundColor = .black
         
@@ -53,17 +53,23 @@ class ContentImageVC: UIViewController, UIScrollViewDelegate {
         textView.textColor = .red
         // Do any additional setup after loading the view.
         
-        captionTextField.frame = captionFrame
+      //  captionTextField.frame = captionFrame
         
     }
     
     func setUpCaption() {
+        var captionTextField = UITextField()
         scrollView.addSubview(captionTextField)
         var captionText = photoHex?.text
         captionTextField.text = captionText
+        let captionFrame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 66)
+        captionTextField.font = UIFont(name: "DINAlternate-Bold", size: 28)
+        captionTextField.textAlignment = .center
+        captionTextField.isUserInteractionEnabled = false
         print("This is caption text \(captionText)")
         print("This is text field text \(captionTextField.text)")
         captionTextField.textColor = .white
+        captionTextField.frame = captionFrame
     //    captionTextField.size
         
         print()

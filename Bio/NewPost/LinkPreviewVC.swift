@@ -13,13 +13,15 @@ import FirebaseStorage
 import FirebaseAuth
 
 class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
+    
+    var webConfig = WKWebViewConfiguration()
     var navBarView = NavBarView()
-    var webView: WKWebView?
+    var webView = WKWebView()
     var webHex: HexagonStructData?
     var thumbImage: UIImage?
     var userData: UserData?
     var user = Auth.auth().currentUser
-    
+    var captionTextField = UITextField()
     var cancelLbl: String?
     
     var backButton = UIButton()
@@ -31,61 +33,65 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-       // let navBarView = NavBarView()
-       // view.addSubview(navBarView)
-       // navBarView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: self.view.frame.height/12)
-        
+      
         setUpNavBarView()
         
         navBarView.backgroundColor = .black
         
-//        var backButton = UIButton()
-//        backButton.setImage(UIImage(named: "whiteChevron"), for: .normal)
-//        backButton.sizeToFit()
-//        backButton.frame = CGRect(x: 5, y: navBarView.frame.midY - backButton.frame.height/2 + 5, width: backButton.frame.width, height: backButton.frame.height)
-//        backButton.backgroundColor = .clear
-//        backButton.setTitleColor(.systemBlue, for: .normal)
-//        view.addSubview(backButton)
-//        let backTapped = UITapGestureRecognizer(target: self, action: #selector(backPressed))
-//        backButton.addGestureRecognizer(backTapped)
-//
-//        let finishButton = UIButton()
-//        finishButton.setTitle("Post", for: .normal)
-//        finishButton.sizeToFit()
-//        finishButton.frame = CGRect(x: view.frame.width - finishButton.frame.width - 5, y: backButton.frame.minY, width: finishButton.frame.width, height: finishButton.frame.height)
-//        finishButton.backgroundColor = .clear
-//        finishButton.setTitleColor(.systemBlue, for: .normal)
-//        view.addSubview(finishButton)
-//        let finishTapped = UITapGestureRecognizer(target: self, action: #selector(finishPressed))
-//        finishButton.addGestureRecognizer(finishTapped)
-//
-//        let label = UILabel()
-//        label.text = "Preview"
-//        label.sizeToFit()
-//        label.frame = CGRect(x: view.frame.midX - label.frame.width/2, y: finishButton.frame.minY, width: label.frame.width, height: label.frame.height)
-//        view.addSubview(label)
+
         
         
-        let webConfig = WKWebViewConfiguration()
         let frame = CGRect(x: 0, y: navBarView.frame.maxY, width: view.frame.width, height: view.frame.height - navBarView.frame.height)
         webView = WKWebView(frame: frame, configuration: webConfig)
-        webView?.uiDelegate = self
-        webView?.navigationDelegate = self
-        webView?.allowsBackForwardNavigationGestures = false
-        view.addSubview(webView!)
-        
-        
-
+        webView.uiDelegate = self
+        webView.navigationDelegate = self
+        webView.allowsBackForwardNavigationGestures = false
+        view.addSubview(webView)
         
         let link = webHex!.resource
         let myUrl = URL(string: link)
+        
+        if webHex?.text != "" {
+            self.captionTextField.isHidden = false
+            print("This is web hex text \(webHex?.text)")
+        setUpCaption()
+            
+        }
+        else {
+           self.captionTextField.isHidden = true
+            print("This is web hex text \(webHex?.text)")
+            webView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - 66)
+        }
+        
         if (myUrl != nil) {
             let myRequest = URLRequest(url: myUrl!)
-            webView?.load(myRequest)
+            print("should be loading url!")
+            webView.load(myRequest)
         }
-        // Do any additional setup after loading the view.
+        print("This is webView.frame \(webView.frame)")
+
+
+       
+        
     }
     
+    func setUpCaption() {
+        view.addSubview(self.captionTextField)
+        var captionText = webHex?.text
+        self.captionTextField.text = captionText
+        let captionFrame = CGRect(x: 0, y: navBarView.frame.maxY, width: view.bounds.width, height: 66)
+        self.captionTextField.font = UIFont(name: "DINAlternate-Bold", size: 28)
+        self.captionTextField.textAlignment = .center
+        self.captionTextField.isUserInteractionEnabled = false
+        self.captionTextField.backgroundColor = .black
+        print("This is caption text \(captionText)")
+        print("This is text field text \(captionTextField.text)")
+        self.captionTextField.textColor = .white
+            self.captionTextField.frame = captionFrame
+            let webFrame = CGRect(x: 0, y: self.captionTextField.frame.maxY, width: view.frame.width, height: view.frame.height - 65 - 66)
+        webView.frame = webFrame
+        print("This is webView.frame \(webView.frame)")
+    }
     
     func setUpNavBarView() {
         var statusBarHeight = UIApplication.shared.statusBarFrame.height

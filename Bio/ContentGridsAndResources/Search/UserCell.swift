@@ -42,7 +42,11 @@ class UserCell: UITableViewCell {
         print("This is cellHeight \(cellHeight)")
         
         avaImg.frame = CGRect(x: self.frame.width*(3/48), y: self.frame.height*(3/48), width: cellHeight*(42/48), height: cellHeight*(42/48))
-        avaImg.setupHexagonMask(lineWidth: avaImg.frame.height/15, color: white, cornerRadius: avaImg.frame.height/15)
+      //  avaImg.setupHexagonMask(lineWidth: avaImg.frame.height/15, color: white, cornerRadius: avaImg.frame.height/15)
+        avaImg.layer.cornerRadius = avaImg.frame.width/2
+        avaImg.layer.borderWidth = 1.0
+        avaImg.layer.borderColor = white.cgColor
+        
         displayNameLabel.frame = CGRect(x: avaImg.frame.maxX + (self.frame.width/24), y: self.frame.height/3, width: width - avaImg.frame.maxX, height: self.frame.height*(1/4))
         
         usernameLbl.frame = CGRect(x: avaImg.frame.maxX + (self.frame.width/24), y: displayNameLabel.frame.maxY+(self.frame.height*(1/72)), width: width - avaImg.frame.maxX, height: self.frame.height/4)

@@ -24,7 +24,7 @@ var viewController: UIViewController {
             return homeVC
     
         case .friends:
-            let friendsVC = storyboard.instantiateViewController(identifier: "ProfileHexGrid") as! DiscoverGrid
+            let friendsVC = storyboard.instantiateViewController(identifier: "friendsAndFeaturedVC") as! FriendsAndFeaturedVC
             friendsVC.loadView()
             friendsVC.viewDidLoad()
             return friendsVC

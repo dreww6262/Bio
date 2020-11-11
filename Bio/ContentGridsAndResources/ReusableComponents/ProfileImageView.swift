@@ -8,6 +8,7 @@
 
 import UIKit
 
-class ProfileImageView: UIImageView {
+class ProfileImageView: UIView {
     var userData: UserData?
+    var imageView: UIImageView?
 }

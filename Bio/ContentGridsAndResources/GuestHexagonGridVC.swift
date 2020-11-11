@@ -281,7 +281,6 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         self.followView.addGestureRecognizer(tapped)
         
         
-        
     }
     
     

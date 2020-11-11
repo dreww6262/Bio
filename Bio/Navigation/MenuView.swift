@@ -26,7 +26,7 @@ class MenuView: UIView {
                 (viewControllers[0] as! NotificationsVC).userData = userData
                 (viewControllers[2] as! HomeHexagonGrid).userData = userData
                 (viewControllers[2] as! HomeHexagonGrid).setUpPageViewListener()
-                (viewControllers[3] as! DiscoverGrid).userData = userData
+                (viewControllers[3] as! FriendsAndFeaturedVC).userData = userData
                 (viewControllers[4] as! NewPostColorfulVC).userData = userData
             }
         }
@@ -235,7 +235,7 @@ class MenuView: UIView {
     
     @objc func friendsButtonClicked(_ sender: UIButton) {
         let viewControllers = tabController!.customizableViewControllers!
-        let profileGrid = (viewControllers[3] as! DiscoverGrid)
+        let profileGrid = (viewControllers[3] as! FriendsAndFeaturedVC)
         profileGrid.menuView.dmButton.isHidden = true
         profileGrid.menuView.newPostButton.isHidden = true
         profileGrid.menuView.friendsButton.isHidden = true

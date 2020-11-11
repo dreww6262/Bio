@@ -17,7 +17,8 @@ import FirebaseFirestore
 
 class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     var navBarView = NavBarView()
-    let bottomLine = CALayer()
+    var bottomLine = CALayer()
+    var bottomLine2 = CALayer()
     var hasChosenThumbnailImage = false
     var lowTitleTextFrame = CGRect()
     var validURL = false
@@ -50,6 +51,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     
     // textfields
     @IBOutlet weak var linkTextField: UITextField!
+    var captionTextField = UITextField()
     
     @IBOutlet weak var linkHexagonImage: UIImageView!
     // buttons
@@ -74,6 +76,9 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     
     // default func
     override func viewDidLoad() {
+        linkLogo.isHidden = true
+        scrollView.addSubview(captionTextField)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboard(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboard(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboard(notification:)), name:UIResponder.keyboardWillChangeFrameNotification, object: nil)
@@ -150,9 +155,20 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     
         
     //    linkHexagonImage.frame = CGRect(x: 40, y: linkTextField.frame.minY, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
-        linkTextField.frame = CGRect(x: 10, y: linkHexagonImage.frame.maxY, width: self.view.frame.size.width - 20, height: 30)
+//        linkTextField.frame = CGRect(x: 10, y: linkHexagonImage.frame.maxY, width: self.view.frame.size.width - 20, height: 30)
+//
+//        captionTextField.frame = CGRect(x: 10, y: linkTextField.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
+        
      //   linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: linkTextField.frame.minY, width: 30, height: 30)
       
+        
+        linkHexagonImage.frame = CGRect(x: 40, y: navBarView.frame.maxY + 10, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
+        changeCoverLabel.frame = CGRect(x: 10, y: linkHexagonImage.frame.origin.y + scrollView.frame.width/2, width: self.view.frame.size.width - 20, height: 30)
+        linkTextField.frame = CGRect(x: 10, y: linkHexagonImage.frame.maxY, width: self.view.frame.size.width - 20, height: 30)
+        
+        captionTextField.frame = CGRect(x: 10, y: linkTextField.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
+        
+        
         self.bottomLine.frame = CGRect(x: 0.0, y: linkTextField.frame.height, width: linkTextField.frame.width, height: 1.0)
         self.bottomLine.backgroundColor = UIColor.systemGray4.cgColor
         linkTextField.borderStyle = UITextField.BorderStyle.none
@@ -161,13 +177,20 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         linkTextField.font = UIFont(name: "Poppins", size: 20)
         linkTextField.textColor = .white
         
+        self.bottomLine2.frame = CGRect(x: 0.0, y: captionTextField.frame.height, width: captionTextField.frame.width, height: 1.0)
+        self.bottomLine2.backgroundColor = UIColor.systemGray4.cgColor
+        captionTextField.borderStyle = UITextField.BorderStyle.none
+        captionTextField.layer.addSublayer(self.bottomLine2)
+        captionTextField.backgroundColor = .clear
+        captionTextField.font = UIFont(name: "Poppins", size: 20)
+        captionTextField.textColor = .white
         
-        linkHexagonImage.frame = CGRect(x: 40, y: navBarView.frame.maxY + 10, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
-        changeCoverLabel.frame = CGRect(x: 10, y: linkHexagonImage.frame.origin.y + scrollView.frame.width/2, width: self.view.frame.size.width - 20, height: 30)
         
         
-        linkTextField.frame = CGRect(x: 10, y: linkHexagonImage.frame.maxY, width: self.view.frame.size.width - 20, height: 30)
+      //  linkTextField.frame = CGRect(x: 10, y: linkHexagonImage.frame.maxY, width: self.view.frame.size.width - 20, height: 30)
         linkTextField.attributedPlaceholder = NSAttributedString(string: "Paste Link Here",
+                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        captionTextField.attributedPlaceholder = NSAttributedString(string: "Write a Caption... (Optional)",
                                                                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: linkTextField.frame.minY, width: 30, height: 30)
         linkHexagonImage.setupHexagonMask(lineWidth: linkHexagonImage.frame.width/15, color: myCoolBlue, cornerRadius: linkHexagonImage.frame.width/15)
@@ -371,7 +394,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
                 let timestamp = Timestamp.init().seconds
                 let imageFileName = "\(username)_\(timestamp)_link.png"
                 let refText = "userFiles/\(username)/\(imageFileName)"
-                let linkHex = HexagonStructData(resource: linkTextField.text!, type: "link", location: numPosts + 1, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: "\(linkTextField.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+                let linkHex = HexagonStructData(resource: linkTextField.text!, type: "link", location: numPosts + 1, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: captionTextField.text ?? "", views: 0, isArchived: false, docID: "WillBeSetLater")
                 let previewVC = storyboard?.instantiateViewController(identifier: "linkPreview") as! LinkPreviewVC
                 previewVC.webHex = linkHex
                 previewVC.thumbImage = linkHexagonImage.image

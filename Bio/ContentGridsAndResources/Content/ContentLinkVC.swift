@@ -10,52 +10,65 @@ import UIKit
 import WebKit
 
 class ContentLinkVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
-
+    var captionTextField = UITextField()
     var webHex: HexagonStructData?
     var userData: UserData?
     
-    var webView: WKWebView?
+    var webView = WKWebView()
     var showOpenAppButton = false
+    let webConfig = WKWebViewConfiguration()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        var newSafeArea = UIEdgeInsets()
-//        newSafeArea.bottom = 10
-//        newSafeArea.top = 50
-//        newSafeArea.right = 0
-//        newSafeArea.left = 0
-//        self.additionalSafeAreaInsets = newSafeArea
-        
-        let webConfig = WKWebViewConfiguration()
-
-        let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - 65)
-        webView = WKWebView(frame: frame, configuration: webConfig)
-        webView?.uiDelegate = self
-        webView?.navigationDelegate = self
-        webView?.allowsBackForwardNavigationGestures = false
-        view.addSubview(webView!)
+        webView.uiDelegate = self
+        webView.navigationDelegate = self
+        webView.allowsBackForwardNavigationGestures = false
+        view.addSubview(webView)
         
         
         let link = webHex!.resource
         let myUrl = URL(string: link)
+        
+        if webHex?.text != "" {
+            self.captionTextField.isHidden = false
+            print("This is web hex text \(webHex?.text)")
+        setUpCaption()
+            
+        }
+        else {
+           self.captionTextField.isHidden = true
+            print("This is web hex text \(webHex?.text)")
+            webView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - 66)
+        }
+        
         if (myUrl != nil) {
             let myRequest = URLRequest(url: myUrl!)
-            webView?.load(myRequest)
+            print("should be loading url!")
+            webView.load(myRequest)
         }
-        // Do any additional setup after loading the view.
+        print("This is webView.frame \(webView.frame)")
+        
+    
     }
     
 
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func setUpCaption() {
+        view.addSubview(self.captionTextField)
+        var captionText = webHex?.text
+        self.captionTextField.text = captionText
+        let captionFrame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 66)
+        self.captionTextField.font = UIFont(name: "DINAlternate-Bold", size: 28)
+        self.captionTextField.textAlignment = .center
+        self.captionTextField.isUserInteractionEnabled = false
+        self.captionTextField.backgroundColor = .black
+        print("This is caption text \(captionText)")
+        print("This is text field text \(captionTextField.text)")
+        self.captionTextField.textColor = .white
+            self.captionTextField.frame = captionFrame
+            let webFrame = CGRect(x: 0, y: self.captionTextField.frame.maxY, width: view.frame.width, height: view.frame.height - 65 - 66)
+        self.webView.frame = webFrame
+        print("This is webView.frame \(self.webView.frame)")
     }
-    */
+
 
 }

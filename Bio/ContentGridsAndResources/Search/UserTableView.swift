@@ -85,6 +85,7 @@ class UserTableView: UIViewController, UISearchBarDelegate {
         searchBar.showsCancelButton = true
         searchBar.becomeFirstResponder()
         searchBar.autocapitalizationType = UITextAutocapitalizationType.none
+        tableView.keyboardDismissMode = .onDrag
         tableView.delegate = self
         tableView.dataSource = self
         tableView.frame = CGRect(x: 0, y: searchBar.frame.height + 20, width: view.frame.width, height: view.frame.height - searchBar.frame.height)

@@ -2269,6 +2269,39 @@
             </objects>
             <point key="canvasLocation" x="-4752" y="-5267"/>
         </scene>
+        <!--Friends And FeaturedVC-->
+        <scene sceneID="gtv-f1-KdI">
+            <objects>
+                <viewController restorationIdentifier="friendsAndFeaturedVC" storyboardIdentifier="friendsAndFeaturedVC" id="cRW-oY-XxS" customClass="FriendsAndFeaturedVC" customModule="Bio" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="E6A-wO-O6L">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="uYu-mf-6Hn">
+                                <rect key="frame" x="182" y="423" width="25" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="lightGrayGearFinal"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I3p-wM-xfL">
+                                <rect key="frame" x="182" y="423" width="25" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button" image="lightGrayMagnifyingGlassFinal"/>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="MGG-ba-Xzy"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Q3D-Vy-Jf5"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7t3-W9-srg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="9JM-ks-Z4j">
+                    <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" image="boyprofile"/>
+                </button>
+            </objects>
+            <point key="canvasLocation" x="-4517.391304347826" y="-5894.1964285714284"/>
+        </scene>
     </scenes>
     <resources>
         <image name="addCover" width="1242" height="2208"/>

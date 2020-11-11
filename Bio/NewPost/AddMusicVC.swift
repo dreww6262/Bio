@@ -84,6 +84,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
     
     // default func
     override func viewDidLoad() {
+        linkLogo.isHidden = true
         linkHexagonImage.isHidden = false
 //        confirmLinkButton.isHidden = true
         setUpNavBarView()
