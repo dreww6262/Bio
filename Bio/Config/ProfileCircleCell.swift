@@ -10,7 +10,15 @@ import UIKit
 
 class ProfileCircleCell: UICollectionViewCell {
     
-    @IBOutlet weak var imageView: UIImageView!
+    var imageView = UIImageView()
     
-    @IBOutlet weak var label: UILabel!
+     var label = UILabel()
+    
+    override func layoutSubviews() {
+        contentView.addSubview(imageView)
+        contentView.addSubview(label)
+//        imageView.layer.cornerRadius = imageView.frame.width/2
+//        imageView.clipsToBounds = true 
+    }
+    
 }

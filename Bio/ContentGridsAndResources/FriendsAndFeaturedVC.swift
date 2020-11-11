@@ -49,8 +49,9 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         cell.label.lineBreakMode = NSLineBreakMode.byWordWrapping
         cell.imageView.frame = CGRect(x: cell.frame.width*(2/16), y: 0, width: cell.frame.width*(12/16), height: cell.frame.height*(12/16))
         //cell.label.sizeToFit()
+        cell.imageView.clipsToBounds = true 
         cell.label.frame = CGRect(x: 0, y: cell.imageView.frame.maxY, width: cell.frame.width, height: cell.frame.height - cell.imageView.frame.maxY)
-        
+        cell.imageView.layer.cornerRadius = cell.imageView.frame.width/2
         cell.tag = indexPath.row
         cell.imageView.tag = indexPath.row
         cell.label.tag = indexPath.row
@@ -120,6 +121,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        profileCollectionView.register(ProfileCircleCell.self, forCellWithReuseIdentifier: "profileCircleCell")
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         contentView.addSubview(profileCollectionView)
@@ -135,7 +137,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         addMenuButtons()
         setUpNavBarView()
      //   setUpCollectionView()
-        self.navBarView.backgroundColor = .clear
+        self.navBarView.backgroundColor = .black
         self.navBarView.layer.borderWidth = 0.0
         // insertFollowView()
         
@@ -232,7 +234,8 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         self.friendsLabel.text = "Friends"
         self.friendsLabel.font = UIFont(name: "Poppins-SemiBold", size: 20)
         self.friendsLabel.textColor = white
-        self.friendsLabel.frame = CGRect(x: 7, y: self.navBarView.frame.maxY, width: 100, height: 20)
+   //     self.friendsLabel.frame = CGRect(x: 7, y: self.navBarView.frame.maxY, width: 100, height: 20)
+        self.friendsLabel.frame = CGRect(x: 7, y: 0, width: 100, height: 20)
         print("This is friendsLabel.frame \(friendsLabel.frame)")
       
       
@@ -268,7 +271,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
     
     func setUpScrollView() {
        // scrollView.frame = view.frame
-        scrollView.frame = CGRect(x: 0, y: self.navBarView.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - profileCollectionView.frame.maxY)
+        scrollView.frame = CGRect(x: 0, y: self.navBarView.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - self.navBarView.frame.maxY)
         scrollView.delegate = self
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
@@ -419,7 +422,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         navBarView.postButton.isHidden = true
         self.navBarView.addSubview(toSettingsButton)
         self.navBarView.addSubview(toSearchButton)
-        self.navBarView.backgroundColor = .clear
+        self.navBarView.backgroundColor = .black
         self.navBarView.layer.borderWidth = 0.0
         
         let settingsTap = UITapGestureRecognizer(target: self, action: #selector(self.toSettingsButtonClicked))
@@ -769,6 +772,10 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
     }
     
     func setUpProfileCells() {
+
+     
+        
+        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleProfileCellTap))
        // var featuredLabel = UILabel()
         var heightSpacing = CGFloat(25.0)
@@ -889,13 +896,16 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
     }
     
     func loadPopularHexagons() {
-//        var featuredLabel = UILabel()
-//        self.contentView.addSubview(featuredLabel)
-//        featuredLabel.text = "Featured"
-//        featuredLabel.frame = CGRect(x: 7, y:0, width: self.view.frame.width - 7, height: 22)
-//        featuredLabel.font = UIFont(name: "Poppins-SemiBold", size: 20)
-//        featuredLabel.textColor = white
-//        featuredLabel.backgroundColor = .red
+        self.contentView.addSubview(self.featuredLabel)
+        self.featuredLabel.text = "Featured"
+        self.featuredLabel.frame = CGRect(x: 7, y: self.profileCollectionView.frame.maxY, width: 100, height: 20)
+     //   print("This is featuredLabel.frame \(featuredLabel.frame)")
+        self.featuredLabel.font = UIFont(name: "Poppins-SemiBold", size: 20)
+        self.featuredLabel.textColor = white
+        
+        
+        
+        
         
         db.collection("PopularUserData").getDocuments(completion: { [self] obj, error in
             if error == nil {
@@ -915,12 +925,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
                 
                 
                 
-                self.contentView.addSubview(self.featuredLabel)
-                self.featuredLabel.text = "Featured"
-                self.featuredLabel.frame = CGRect(x: 7, y: self.profileCollectionView.frame.maxY, width: 100, height: 20)
-             //   print("This is featuredLabel.frame \(featuredLabel.frame)")
-                self.featuredLabel.font = UIFont(name: "Poppins-SemiBold", size: 20)
-                self.featuredLabel.textColor = white
+         
                 
                 
                 
