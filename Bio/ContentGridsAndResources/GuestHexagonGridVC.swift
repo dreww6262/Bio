@@ -615,21 +615,21 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         image.addGestureRecognizer(tapGesture)
         image.isUserInteractionEnabled = true
         let myType = hexData.type
-        var placeHolderImage = UIImage(named: "blueLink")
+        var placeHolderImage = UIImage(named: "linkCenter")
         createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
         switch myType {
         case "photo":
-            placeHolderImage = UIImage(named: "photoPrev")
+            placeHolderImage = UIImage(named: "cameraCenter")
         case "video":
-            placeHolderImage = UIImage(named: "photoPrev")
+            placeHolderImage = UIImage(named: "cameraCenter")
         case "link":
-            placeHolderImage = UIImage(named: "linkprev")
+            placeHolderImage = UIImage(named: "linkCenter")
         case "music":
-            placeHolderImage = UIImage(named: "musicprev")
+            placeHolderImage = UIImage(named: "musicCenter")
         case "social_media":
-            placeHolderImage = UIImage(named: "socialprev")
+            placeHolderImage = UIImage(named: "soicalMediaCenter")
         default:
-            placeHolderImage = UIImage(named: "socialprev")
+            placeHolderImage = UIImage(named: "socialMediaCenter")
         }
         
         

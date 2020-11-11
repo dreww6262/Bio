@@ -610,12 +610,36 @@ var navBarView = NavBarView()
             let textOverlayLabelWidth = image.frame.width*(7.5/10)
             let textOverlayLabelHeight = image.frame.height*(7.5/10)
             hexTextOverlayLabel.frame = CGRect(x: (image.frame.midX-textOverlayLabelWidth)/2, y: (image.frame.midY-textOverlayLabelHeight)/2, width: textOverlayLabelWidth, height: textOverlayLabelHeight)
+            var hexText = image.hexData!.text
             hexTextOverlayLabel.text = "\( image.hexData!.text)"
             hexTextOverlayLabel.font.withSize(18)
             hexTextOverlayLabel.numberOfLines = 0
             hexTextOverlayLabel.font = UIFont(name: "DINAternate-Bold", size: 18)
             hexTextOverlayLabel.textColor = white
             hexTextOverlayLabel.center = image.center
+            
+            let strokeTextAttributes = [
+                NSAttributedString.Key.strokeColor : UIColor.black,
+                NSAttributedString.Key.foregroundColor : UIColor.white,
+                NSAttributedString.Key.strokeWidth : -4.0,
+                NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 25)]
+                as [NSAttributedString.Key : Any]
+            
+//            let strokeTextAttributes = [
+//                NSAttributedString.Key.strokeColor : UIColor.black,
+//                NSAttributedString.Key.foregroundColor : UIColor.white,
+//                NSAttributedString.Key.strokeWidth : -4.0,
+//                NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 30)]
+//                as [NSAttributedString.Key : Any]
+            
+            //Making outline here
+            hexTextOverlayLabel.attributedText = NSMutableAttributedString(string: hexText, attributes: strokeTextAttributes)
+            
+            
+            
+            
+            
+            
             self.textOverlayArray.append(hexTextOverlayLabel)
             
             
@@ -686,21 +710,21 @@ var navBarView = NavBarView()
 //        print("This is the type of hexagon: \(hexData.type)")
         let myType = hexData.type
         //change this to photo one when we make that
-        var placeHolderImage = UIImage(named: "blueLink")
+        var placeHolderImage = UIImage(named: "linkCenter")
         
         switch myType {
         case "photo":
-            placeHolderImage = UIImage(named: "photoPrev")
+            placeHolderImage = UIImage(named: "cameraCenter")
         case "video":
-            placeHolderImage = UIImage(named: "photoPrev")
+            placeHolderImage = UIImage(named: "cameraCenter")
         case "link":
-            placeHolderImage = UIImage(named: "linkprev")
+            placeHolderImage = UIImage(named: "linkCenter")
         case "music":
-            placeHolderImage = UIImage(named: "musicprev")
+            placeHolderImage = UIImage(named: "musicCenter")
         case "social_media":
-            placeHolderImage = UIImage(named: "socialprev")
+            placeHolderImage = UIImage(named: "socialMediaCenter")
         default:
-            placeHolderImage = UIImage(named: "socialprev")
+            placeHolderImage = UIImage(named: "socialMediaCenter")
         }
         
         

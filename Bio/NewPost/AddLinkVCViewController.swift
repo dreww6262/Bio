@@ -15,7 +15,8 @@ import FirebaseStorage
 import FirebaseUI
 import FirebaseFirestore
 
-class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+    var textOverlayLabel = UILabel()
     var navBarView = NavBarView()
     var bottomLine = CALayer()
     var bottomLine2 = CALayer()
@@ -81,6 +82,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         linkLogo.isHidden = true
         scrollView.addSubview(captionTextField)
         scrollView.addSubview(textOverlayTextField)
+        textOverlayTextField.delegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboard(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboard(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -105,7 +107,6 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         linkTap.numberOfTapsRequired = 1
         linkHexagonImage.isUserInteractionEnabled = true
         linkHexagonImage.addGestureRecognizer(linkTap)
-        
         
         
         //poshmarkLogo.image = UIImage(named: "poshmarkLogo")
@@ -213,6 +214,33 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         addLinkLabel.font = UIFont(name: "DINAlternate-Bold", size: 22)
         postButton.titleLabel!.font = UIFont(name: "DINAlternate-Bold", size: 19)
         
+        setUpTextOverlayLabel()
+    
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        print("I recognize that it is ending")
+        if textOverlayTextField.text != "" {
+            textOverlayLabel.text = textOverlayTextField.text!
+        }
+        else {
+            print("text overlay textfield empty")
+        }
+    }
+    
+    func setUpTextOverlayLabel(){
+        self.textOverlayLabel.textAlignment = .center
+        self.scrollView.addSubview(self.textOverlayLabel)
+        let textOverlayLabelWidth = self.linkHexagonImage.frame.width*(7.5/10)
+        let textOverlayLabelHeight = self.linkHexagonImage.frame.height*(7.5/10)
+        textOverlayLabel.frame = CGRect(x: (self.linkHexagonImage.frame.midX-textOverlayLabelWidth)/2, y: (self.linkHexagonImage.frame.midY-textOverlayLabelHeight)/2, width: textOverlayLabelWidth, height: textOverlayLabelHeight)
+      // self.textOverlayLabel.text = "\(self.textOverlayTextField.text ?? "")"
+        self.textOverlayLabel.text = "Fake example text!!"
+        textOverlayLabel.font.withSize(18)
+        textOverlayLabel.numberOfLines = 0
+        textOverlayLabel.font = UIFont(name: "DINAternate-Bold", size: 18)
+        textOverlayLabel.textColor = white
+        textOverlayLabel.center = self.linkHexagonImage.center
     }
     
     

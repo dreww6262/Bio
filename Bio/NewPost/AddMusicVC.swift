@@ -25,7 +25,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
     //    label.font = UIFontMetrics.default.scaledFont(for: customFont)
     //    label.adjustsFontForContentSizeCategory = true
     
-    
+    var textOverlayLabel = UILabel()
     
     var bottomLine = CALayer()
     var badMusicLink = false
@@ -129,37 +129,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         self.view.isUserInteractionEnabled = true
         self.view.addGestureRecognizer(hideTap)
         
-        // round ava
-        //  avaImg.layer.cornerRadius = avaImg.frame.size.width / 2
-        //hexagonAva
         
-        //cancelBtn.frame = CGRect(x: 5, y: 15, width: 24, height: 24)
-//        cancelBtn.layer.cornerRadius = cancelBtn.frame.size.width / 20
-//        titleText.frame = CGRect(x: 0,y:60, width: self.view.frame.size.width, height: 30)
-//        subtitleText.frame = CGRect(x:0, y: titleText.frame.origin.y + 30, width: self.view.frame.size.width, height: 30)
-        
-        
-        
-        
-        //         linkHexagonImage.frame = CGRect(x: 10, y: linkTextField.frame.origin.y + 30, width: self.view.frame.size.width - 20, height: 30)
-        
-        
-        
-//        linkTextField.frame = CGRect(x: 10, y: subtitleText.frame.maxY + 20, width: self.view.frame.size.width - 20, height: 30)
-//        linkTextField.attributedPlaceholder = NSAttributedString(string: "Artist",
-//                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
-//        linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: linkTextField.frame.minY, width: 30, height: 30)
-//
-//        songNameTextField.frame = CGRect(x: 10, y: linkTextField.frame.maxY + 5, width: self.view.frame.size.width - 20, height: 30)
-//        songNameTextField.attributedPlaceholder = NSAttributedString(string: "Song/Album Name (Optional)",
-//                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
-        //               linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: linkTextField.frame.minY, width: 30, height: 30)
-        //
-        //    changeCoverLabel.frame = CGRect(x: 10, y: songNameTextField.frame.origin.y + 10, width: self.view.frame.size.width - 20, height: 30)
-        
-        
-       // confirmLinkButton.frame =  CGRect(x: 10.0, y: linkTextField.frame.maxY + 10, width: self.view.frame.width - 20, height: 24)
-    //    confirmLinkButton.layer.cornerRadius = continueBtn.frame.size.width / 20
         linkHexagonImage.frame = CGRect(x: 40, y: navBarView.frame.maxY + 10, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
         
         linkHexagonImage.setupHexagonMask(lineWidth: linkHexagonImage.frame.width/15, color: myBlueGreen, cornerRadius: linkHexagonImage.frame.width/15)
@@ -172,55 +142,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         songNameTextField.attributedPlaceholder = NSAttributedString(string: "Song/Album Name (Optional)",
                                                                      attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
    
-    
-        
-        
-        // set up Top View
-//        let topBar = UIView()
-//        view.addSubview(topBar)
-//        topBar.backgroundColor = .clear
-//        // topBar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/15)
-//        topBar.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/10)+5)
-//        topBar.backgroundColor = UIColor(cgColor: CGColor(gray: 0.05, alpha: 1.0))
-//        topBar.layer.borderWidth = 0.25
-//        topBar.layer.borderColor = CGColor(gray: 2/3, alpha: 1.0)
-//        let backButton = UIButton()
-//        topBar.addSubview(backButton)
-//        backButton.imageView?.image?.withTintColor(.white)
-//        backButton.tintColor = .white
-//        backButton.imageView?.tintColor = white
-//        let backTap = UITapGestureRecognizer(target: self, action: #selector(backTapped))
-//        let postTap = UITapGestureRecognizer(target: self, action: #selector(postTapped))
-//        var addMusicLabel = UILabel()
-//        backButton.addGestureRecognizer(backTap)
-//        backButton.sizeToFit()
-//      //  backButton.frame = CGRect(x: 5, y: (topBar.frame.height/4), width: topBar.frame.height/2, height: topBar.frame.height/2)
-//        backButton.frame = CGRect(x: 15, y: topBar.frame.maxY - 25, width: 20, height: 20)
-//        backButton.setBackgroundImage(UIImage(named: "whiteBack"), for: .normal)
-//
-//        topBar.addSubview(addMusicLabel)
-//       // addMusicLabel.frame = CGRect(x: (topBar.frame.width/2) - 60, y: 0, width: 120, height: topBar.frame.height)
-//        addMusicLabel.frame = CGRect(x: (topBar.frame.width/2) - 60, y: topBar.frame.maxY - 25, width: 120, height: 25)
-//        addMusicLabel.text = "Add Music"
-//        addMusicLabel.textColor = white
-//        addMusicLabel.font.withSize(40)
-//        // addLinkLabel.
-//
-//        addMusicLabel.textAlignment = .center
-//
-//        backButton.imageView?.frame = backButton.frame
-//        // backButton.imageView?.image = UIImage(named: "whiteBack")
-//
-//        let postButton = UIButton()
-//        topBar.addSubview(postButton)
-//        postButton.addGestureRecognizer(postTap)
-//        postButton.setTitle("Next", for: .normal)
-//        postButton.setTitleColor(.systemBlue, for: .normal)
-//      //  postButton.frame = CGRect(x: (self.view.frame.width) - (topBar.frame.height) - 5, y: 0, width: topBar.frame.height, height: topBar.frame.height)
-//      //  postButton.frame = CGRect(x: (self.view.frame.width) - 40, y: topBar.frame.maxY - 25, width: 40, height: 25)
-//        postButton.titleLabel?.sizeToFit()
-//        postButton.titleLabel?.textAlignment = .right
-        
+
         setUpNavBarView()
         
         
@@ -296,7 +218,24 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         postButton.titleLabel?.font = UIFontMetrics.default.scaledFont(for: poppinsSemiBold ?? UIFont(name: "DINAlternate-Bold", size: 20)!)
         postButton.titleLabel!.adjustsFontForContentSizeCategory = true
         
+        setUpTextOverlayLabel()
         
+        
+    }
+    
+    func setUpTextOverlayLabel(){
+        self.textOverlayLabel.textAlignment = .center
+        self.scrollView.addSubview(self.textOverlayLabel)
+        let textOverlayLabelWidth = self.linkHexagonImage.frame.width*(7.5/10)
+        let textOverlayLabelHeight = self.linkHexagonImage.frame.height*(7.5/10)
+        textOverlayLabel.frame = CGRect(x: (self.linkHexagonImage.frame.midX-textOverlayLabelWidth)/2, y: (self.linkHexagonImage.frame.midY-textOverlayLabelHeight)/2, width: textOverlayLabelWidth, height: textOverlayLabelHeight)
+      // self.textOverlayLabel.text = "\(self.textOverlayTextField.text ?? "")"
+        self.textOverlayLabel.text = "Fake example text!!"
+        textOverlayLabel.font.withSize(18)
+        textOverlayLabel.numberOfLines = 0
+        textOverlayLabel.font = UIFont(name: "DINAternate-Bold", size: 18)
+        textOverlayLabel.textColor = white
+        textOverlayLabel.center = self.linkHexagonImage.center
     }
     
     func setUpNavBarView() {
