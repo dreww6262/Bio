@@ -76,6 +76,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
 //    @IBOutlet weak var textField: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
+        textFieldData = Array(repeating: "", count: socialMediaArray.count)
         cancelButton.isHidden = true
         doneButton.isHidden = true
         titleLabel1.isHidden = true
@@ -179,17 +180,14 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
         
         var count = 0
         var numAccounts = 0
-        var cellList = [AddSocialMediaCell]()
         while count < socialMediaArray.count {
-            let indexPath = NSIndexPath(row: count, section: 0)
-            let cell = tableView.cellForRow(at: indexPath as IndexPath) as! AddSocialMediaCell
-            cellList.append(cell)
-            if (!cell.interactiveTextField.text!.isEmpty) {
+            if (textFieldData[count] != "") {
                 isCompletelyEmpty = false
             }
             else {
                 numAccounts += 1
             }
+            count += 1
         }
         
         
@@ -566,9 +564,6 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
     
     var textFieldData = [String]()
     @objc func textFieldDidChange(_ textField: UITextField) {
-        if (textFieldData.count < socialMediaArray.count) {
-            textFieldData = Array(repeating: "", count: socialMediaArray.count)
-        }
         textFieldData[textField.tag] = textField.text!
     }
     
