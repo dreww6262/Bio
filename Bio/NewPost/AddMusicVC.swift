@@ -51,8 +51,6 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
     var highCancelButtonFrame = CGRect()
     var highSongTextFieldFrame = CGRect()
     
-    
-    
     @IBOutlet weak var linkLogo: UIImageView!
     
     // scrollView
@@ -75,6 +73,9 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
     
     @IBOutlet weak var changeCoverLabel: UILabel!
     
+    var captionTextField = UITextField()
+    var textOverlayTextField = UITextField()
+    
     // reset default size
     var scrollViewHeight : CGFloat = 0
     
@@ -88,10 +89,8 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         linkHexagonImage.isHidden = false
 //        confirmLinkButton.isHidden = true
         setUpNavBarView()
-        //        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboard(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        //        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboard(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        //                NotificationCenter.default.addObserver(self, selector: #selector(self.keyboard(notification:)), name:UIResponder.keyboardWillChangeFrameNotification, object: nil)
-        
+        scrollView.addSubview(captionTextField)
+        scrollView.addSubview(textOverlayTextField)
         
         var alreadySnapped = false
         super.viewDidLoad()
@@ -173,8 +172,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         songNameTextField.attributedPlaceholder = NSAttributedString(string: "Song/Album Name (Optional)",
                                                                      attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
    
-     
-        
+    
         
         
         // set up Top View
@@ -238,6 +236,18 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         linkTextField.frame = CGRect(x: 10, y: linkHexagonImage.frame.maxY, width: self.view.frame.size.width - 20, height: 30)
         songNameTextField.frame = CGRect(x: 10, y: linkTextField.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
         
+        captionTextField.frame = CGRect(x: 10, y: songNameTextField.frame.maxY + 5, width: self.view.frame.size.width - 20, height: 30)
+        captionTextField.attributedPlaceholder = NSAttributedString(string: "Write a Caption... (Optional)",
+                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        textOverlayTextField.frame = CGRect(x: 10, y: captionTextField.frame.maxY + 5, width: self.view.frame.size.width - 20, height: 30)
+        textOverlayTextField.attributedPlaceholder = NSAttributedString(string: "Add Text To Cover Photo (Optional)",
+                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+   
+     
+        
+        
+        
+        
         // let bottomLine = CALayer()
         self.bottomLine.frame = CGRect(x: 0.0, y: linkTextField.frame.height, width: linkTextField.frame.width, height: 1.0)
         self.bottomLine.backgroundColor = UIColor.systemGray4.cgColor
@@ -255,13 +265,33 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         
         linkTextField.font = UIFont(name: "Poppins", size: 20)
         
+        var bottomLine3 = CALayer()
+        bottomLine3.backgroundColor = UIColor.systemGray4.cgColor
+        captionTextField.borderStyle = UITextField.BorderStyle.none
+        captionTextField.layer.addSublayer(bottomLine3)
+        bottomLine3.frame = CGRect(x: 0.0, y: captionTextField.frame.height, width: captionTextField.frame.width, height: 1.0)
+        captionTextField.backgroundColor = .clear
+        captionTextField.borderStyle = UITextField.BorderStyle.none
+        captionTextField.font = UIFont(name: "Poppins", size: 20)
+        captionTextField.textColor = .white
+        
+        var bottomLine4 = CALayer()
+        bottomLine4.backgroundColor = UIColor.systemGray4.cgColor
+        textOverlayTextField.borderStyle = UITextField.BorderStyle.none
+        textOverlayTextField.layer.addSublayer(bottomLine4)
+        bottomLine4.frame = CGRect(x: 0.0, y: textOverlayTextField.frame.height, width: textOverlayTextField.frame.width, height: 1.0)
+        textOverlayTextField.backgroundColor = .clear
+        textOverlayTextField.borderStyle = UITextField.BorderStyle.none
+        textOverlayTextField.font = UIFont(name: "Poppins", size: 20)
+        textOverlayTextField.textColor = .white
+        
+        
+        
         
     
         linkTextField.textColor = .white
         songNameTextField.textColor = .white
-        
-//        addMusicLabel.font = UIFontMetrics.default.scaledFont(for: poppinsSemiBold ?? UIFont(name: "DINAlternate-Bold", size: 22)!)
-//        addMusicLabel.adjustsFontForContentSizeCategory = true
+       
         
         postButton.titleLabel?.font = UIFontMetrics.default.scaledFont(for: poppinsSemiBold ?? UIFont(name: "DINAlternate-Bold", size: 20)!)
         postButton.titleLabel!.adjustsFontForContentSizeCategory = true
@@ -533,7 +563,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
                 musicLink = musicLink.replacingOccurrences(of: "'", with: "")
                 musicLink.trimmingCharacters(in: ["'", "!", "?"])
                 print("music Link after \(musicLink)")
-                let musicHex = HexagonStructData(resource: musicLink, type: "music", location: numPosts, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: musicLink, views: 0, isArchived: false, docID: "WillBeSetLater")
+                let musicHex = HexagonStructData(resource: musicLink, type: "music", location: numPosts, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: captionTextField.text ?? "", views: 0, isArchived: false, docID: "WillBeSetLater", coverText: textOverlayTextField.text ?? "")
                 let previewVC = storyboard?.instantiateViewController(identifier: "linkPreview") as! LinkPreviewVC
                 previewVC.webHex = musicHex
                 previewVC.thumbImage = linkHexagonImage.image
@@ -600,7 +630,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
                 musicLink = musicLink.replacingOccurrences(of: "'", with: "")
                 musicLink.trimmingCharacters(in: ["'", "!", "?"])
                 print("music Link after \(musicLink)")
-                let musicHex = HexagonStructData(resource: musicLink, type: "music", location: numPosts, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: musicLink, views: 0, isArchived: false, docID: "WillBeSetLater")
+                let musicHex = HexagonStructData(resource: musicLink, type: "music", location: numPosts, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: musicLink, views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "")
                 
                 
                 

@@ -317,7 +317,7 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
             
             
             
-            let photoHex = HexagonStructData(resource: photoLocation, type: type, location: numPosts, thumbResource: photoLocation, createdAt: NSDate.now.description, postingUserID: username, text: "\(captionTextField.text!)", views: 0, isArchived: false, docID: "WillBeSetLater")
+            let photoHex = HexagonStructData(resource: photoLocation, type: type, location: numPosts, thumbResource: photoLocation, createdAt: NSDate.now.description, postingUserID: username, text: "\(captionTextField.text!)", views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "")
             
             switch(items![0]) {
                 case .photo(let photo):

@@ -62,6 +62,7 @@ var navBarView = NavBarView()
     var curvedLayer = UIImageView()
     
     var indexLabelArray: [UILabel] = []
+    var textOverlayArray: [UILabel] = []
     
     // Flags and tags
     var firstLoad  = true
@@ -159,23 +160,6 @@ var navBarView = NavBarView()
         
     }
     
-    
-//    func insertFakeViewCounter() {
-//        self.view.addSubview(followView)
-//        self.followView.backgroundColor = .white
-//        self.followView.frame = CGRect(x: self.view.frame.midX - 45, y: 25, width: 90, height: 30)
-//        self.followView.layer.cornerRadius = followView.frame.size.width / 20
-//        self.followView.addSubview(followImage)
-//        self.followView.addSubview(followLabel)
-//        self.followImage.frame = CGRect(x: 5, y: 0, width: followView.frame.height, height: followView.frame.height)
-//        self.followView.layer.cornerRadius = followView.frame.size.width/10
-//        //self.followView.clipsToBounds()
-//        self.followImage.image = UIImage(named: "eye")
-//        self.followLabel.frame = CGRect(x: followImage.frame.maxX + 5, y: 0.0, width: followView.frame.width - 10, height: followView.frame.height)
-//        self.followLabel.text = "1568"
-//        self.followLabel.textColor = .black
-//
-//    }
     
     func setUpViewCounter() {
         self.view.addSubview(followView)
@@ -500,12 +484,15 @@ var navBarView = NavBarView()
                     self.contentView.bringSubviewToFront(self.indexLabelArray[imageIndex])
                     self.indexLabelArray[imageIndex].center = image.center
                     self.indexLabelArray[imageIndex].isHidden = true
-                    
+                    self.textOverlayArray[imageIndex].center = image.center
+                    self.contentView.bringSubviewToFront(self.textOverlayArray[imageIndex])
                    // self.contentView.bringSubviewToFront(hexLocationLabel)
                     image.isHidden = false
                     imageIndex = imageIndex + 1
+                
                 }
                 self.contentView.bringSubviewToFront(self.avaImage!)
+               
             }
             completion()
         })
@@ -615,6 +602,23 @@ var navBarView = NavBarView()
             self.contentView.bringSubviewToFront(imageCopy)
             self.contentView.bringSubviewToFront(hexLocationLabel)
             self.indexLabelArray.append(hexLocationLabel)
+            
+            let hexTextOverlayLabel = UILabel()
+            hexTextOverlayLabel.textAlignment = .center
+            self.contentView.addSubview(hexTextOverlayLabel)
+            //self.contentView.addSubview(imageCopy)
+            let textOverlayLabelWidth = image.frame.width*(7.5/10)
+            let textOverlayLabelHeight = image.frame.height*(7.5/10)
+            hexTextOverlayLabel.frame = CGRect(x: (image.frame.midX-textOverlayLabelWidth)/2, y: (image.frame.midY-textOverlayLabelHeight)/2, width: textOverlayLabelWidth, height: textOverlayLabelHeight)
+            hexTextOverlayLabel.text = "\( image.hexData!.text)"
+            hexTextOverlayLabel.font.withSize(18)
+            hexTextOverlayLabel.numberOfLines = 0
+            hexTextOverlayLabel.font = UIFont(name: "DINAternate-Bold", size: 18)
+            hexTextOverlayLabel.textColor = white
+            hexTextOverlayLabel.center = image.center
+            self.textOverlayArray.append(hexTextOverlayLabel)
+            
+            
             hexLocationLabel.isHidden = true
             imageCopy.isHidden = true
             
@@ -790,6 +794,7 @@ var navBarView = NavBarView()
             dragView?.center = sender.location(in: contentView)
 //            print("yo: this is dragView.center before \(dragView!.center)")
             contentView.bringSubviewToFront(dragView!)
+            contentView.bringSubviewToFront(textOverlayArray[sender.view!.tag])
             trashButton.isHidden = false
             menuView.menuButton.isHidden = true
             

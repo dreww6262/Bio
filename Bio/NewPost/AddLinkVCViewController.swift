@@ -19,6 +19,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     var navBarView = NavBarView()
     var bottomLine = CALayer()
     var bottomLine2 = CALayer()
+    var bottomLine3 = CALayer()
     var hasChosenThumbnailImage = false
     var lowTitleTextFrame = CGRect()
     var validURL = false
@@ -52,6 +53,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     // textfields
     @IBOutlet weak var linkTextField: UITextField!
     var captionTextField = UITextField()
+    var textOverlayTextField = UITextField()
     
     @IBOutlet weak var linkHexagonImage: UIImageView!
     // buttons
@@ -78,6 +80,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     override func viewDidLoad() {
         linkLogo.isHidden = true
         scrollView.addSubview(captionTextField)
+        scrollView.addSubview(textOverlayTextField)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboard(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboard(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -168,6 +171,8 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         
         captionTextField.frame = CGRect(x: 10, y: linkTextField.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
         
+        textOverlayTextField.frame = CGRect(x: 10, y: captionTextField.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
+        
         
         self.bottomLine.frame = CGRect(x: 0.0, y: linkTextField.frame.height, width: linkTextField.frame.width, height: 1.0)
         self.bottomLine.backgroundColor = UIColor.systemGray4.cgColor
@@ -185,6 +190,14 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         captionTextField.font = UIFont(name: "Poppins", size: 20)
         captionTextField.textColor = .white
         
+        self.bottomLine3.frame = CGRect(x: 0.0, y: textOverlayTextField.frame.height, width: textOverlayTextField.frame.width, height: 1.0)
+        self.bottomLine3.backgroundColor = UIColor.systemGray4.cgColor
+        textOverlayTextField.borderStyle = UITextField.BorderStyle.none
+        textOverlayTextField.layer.addSublayer(self.bottomLine3)
+        textOverlayTextField.backgroundColor = .clear
+        textOverlayTextField.font = UIFont(name: "Poppins", size: 20)
+        textOverlayTextField.textColor = .white
+        
         
         
       //  linkTextField.frame = CGRect(x: 10, y: linkHexagonImage.frame.maxY, width: self.view.frame.size.width - 20, height: 30)
@@ -192,6 +205,9 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
                                                                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         captionTextField.attributedPlaceholder = NSAttributedString(string: "Write a Caption... (Optional)",
                                                                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        textOverlayTextField.attributedPlaceholder = NSAttributedString(string: "Add Text To Cover Photo (Optional)",
+                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        
         linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: linkTextField.frame.minY, width: 30, height: 30)
         linkHexagonImage.setupHexagonMask(lineWidth: linkHexagonImage.frame.width/15, color: myCoolBlue, cornerRadius: linkHexagonImage.frame.width/15)
         addLinkLabel.font = UIFont(name: "DINAlternate-Bold", size: 22)
@@ -394,7 +410,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
                 let timestamp = Timestamp.init().seconds
                 let imageFileName = "\(username)_\(timestamp)_link.png"
                 let refText = "userFiles/\(username)/\(imageFileName)"
-                let linkHex = HexagonStructData(resource: linkTextField.text!, type: "link", location: numPosts + 1, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: captionTextField.text ?? "", views: 0, isArchived: false, docID: "WillBeSetLater")
+                let linkHex = HexagonStructData(resource: linkTextField.text!, type: "link", location: numPosts + 1, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: captionTextField.text ?? "", views: 0, isArchived: false, docID: "WillBeSetLater", coverText: textOverlayTextField.text ?? "")
                 let previewVC = storyboard?.instantiateViewController(identifier: "linkPreview") as! LinkPreviewVC
                 previewVC.webHex = linkHex
                 previewVC.thumbImage = linkHexagonImage.image

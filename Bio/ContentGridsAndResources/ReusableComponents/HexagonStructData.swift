@@ -21,6 +21,7 @@ struct HexagonStructData {  // : Codable { //Codable {
     var views: Int
     var isArchived: Bool
     var docID: String
+    var coverText: String
     
     
 //    var text: String
@@ -48,11 +49,11 @@ struct HexagonStructData {  // : Codable { //Codable {
 
 
 var dictionary: [String: Any] {
-    return ["resource": resource, "type": type, "location": location, "thumbResource": thumbResource, "createdAt": createdAt, "postingUserID": postingUserID, "text": text, "views": views, "isArchived": isArchived, "docID": docID]
+    return ["resource": resource, "type": type, "location": location, "thumbResource": thumbResource, "createdAt": createdAt, "postingUserID": postingUserID, "text": text, "views": views, "isArchived": isArchived, "docID": docID, "coverText": coverText]
    }
    
    
-    init(resource: String, type: String, location: Int, thumbResource: String, createdAt: String, postingUserID: String, text: String, views: Int, isArchived: Bool, docID: String)  {
+    init(resource: String, type: String, location: Int, thumbResource: String, createdAt: String, postingUserID: String, text: String, views: Int, isArchived: Bool, docID: String, coverText: String)  {
        self.resource = resource
        self.type = type
        self.location = location
@@ -63,6 +64,7 @@ var dictionary: [String: Any] {
        self.views = views
         self.isArchived = isArchived
         self.docID = docID
+        self.coverText = coverText
    }
 
    
@@ -77,9 +79,11 @@ var dictionary: [String: Any] {
         let views = dictionary["views"] as! Int? ?? 0
         let isArchived = dictionary["isArchived"] as! Bool? ?? true
         let docID = dictionary["docID"] as! String? ?? ""
+        let coverText = dictionary["coverText"] as! String? ?? ""
+        
        
     
-        self.init(resource: resource,type: type, location: location, thumbResource: thumbResource, createdAt: createdAt, postingUserID: postingUserID, text: text, views: views, isArchived: isArchived, docID: docID)
+        self.init(resource: resource,type: type, location: location, thumbResource: thumbResource, createdAt: createdAt, postingUserID: postingUserID, text: text, views: views, isArchived: isArchived, docID: docID, coverText: coverText)
        
    
    }

@@ -26,15 +26,15 @@ class UserData {
     var blockedUsers: [String]
     var isBlockedBy: [String]
     var pageViews: Int
-    
+    var bio: String
     
     
     var dictionary: [String: Any] {
-        return ["email": email, "publicID": publicID, "privateID": privateID, "avaRef": avaRef, "hexagonGridID": hexagonGridID, "userPage": userPage, "subscribedUsers": subscribedUsers, "subscriptions":  subscriptions, "numPosts": numPosts, "displayName": displayName, "birthday": birthday, "blockedUsers": blockedUsers, "isBlockedBy": isBlockedBy, "pageViews": pageViews]
+        return ["email": email, "publicID": publicID, "privateID": privateID, "avaRef": avaRef, "hexagonGridID": hexagonGridID, "userPage": userPage, "subscribedUsers": subscribedUsers, "subscriptions":  subscriptions, "numPosts": numPosts, "displayName": displayName, "birthday": birthday, "blockedUsers": blockedUsers, "isBlockedBy": isBlockedBy, "pageViews": pageViews, "bio": bio]
     }
     
     
-    init(email: String, publicID: String, privateID: String, avaRef: String, hexagonGridID: String, userPage: String, subscribedUsers:  [String], subscriptions: [String], numPosts: Int, displayName: String, birthday: String, blockedUsers: [String], isBlockedBy: [String], pageViews: Int) {
+    init(email: String, publicID: String, privateID: String, avaRef: String, hexagonGridID: String, userPage: String, subscribedUsers:  [String], subscriptions: [String], numPosts: Int, displayName: String, birthday: String, blockedUsers: [String], isBlockedBy: [String], pageViews: Int, bio: String) {
         self.email = email
         self.publicID = publicID
         self.privateID = privateID
@@ -49,6 +49,7 @@ class UserData {
         self.blockedUsers = blockedUsers
         self.isBlockedBy = isBlockedBy
         self.pageViews = pageViews
+        self.bio = bio
     }
     
     
@@ -76,11 +77,12 @@ class UserData {
         if dictionary["pageViews"] != nil {
             pageViews = dictionary["pageViews"] as! Int? ?? 0
         }
+        let bio = dictionary["bio"] as! String? ?? ""
         
         
         
         
-        self.init(email: email, publicID: publicID,privateID: privateID, avaRef: avaRef, hexagonGridID: hexagonGridID, userPage: userPage, subscribedUsers: subscribedUsers, subscriptions: subscriptions, numPosts: numPosts, displayName: displayName, birthday: birthday, blockedUsers: blockedUsers, isBlockedBy: isBlockedBy, pageViews: pageViews)
+        self.init(email: email, publicID: publicID,privateID: privateID, avaRef: avaRef, hexagonGridID: hexagonGridID, userPage: userPage, subscribedUsers: subscribedUsers, subscriptions: subscriptions, numPosts: numPosts, displayName: displayName, birthday: birthday, blockedUsers: blockedUsers, isBlockedBy: isBlockedBy, pageViews: pageViews, bio: bio)
     }
 }
 

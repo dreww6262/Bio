@@ -483,7 +483,8 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
         cell.avaImg.sd_setImage(with: ref)
         cell.avaImg.frame = CGRect(x: 5, y: 2, width: cell.frame.height-15, height: cell.frame.height-15)
         cell.avaImg.clipsToBounds = true
-        cell.avaImg.setupHexagonMask(lineWidth: cell.avaImg.frame.width/15, color: gold, cornerRadius: cell.avaImg.frame.width/15)
+      //  cell.avaImg.setupHexagonMask(lineWidth: cell.avaImg.frame.width/15, color: gold, cornerRadius: cell.avaImg.frame.width/15)
+        cell.avaImg.layer.cornerRadius = cell.avaImg.frame.width/2
         cell.infoLbl.frame = CGRect(x: cell.avaImg.frame.maxX + 5, y: 5, width: 140, height: 30)
         cell.dateLbl.frame = CGRect(x: cell.infoLbl.frame.maxX + 5, y: 5, width: 50
                                     , height: 30)

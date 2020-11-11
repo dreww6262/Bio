@@ -15,7 +15,7 @@ import Photos
 import MRCountryPicker
 
 class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MRCountryPickerDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
-    
+    var bioCharacterLimit = 20
     var countries: [String] = []
     var GDPRCountries: [String] = ["Austria", "Belgium", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Germany", "Greece", "Hungary", "Ireland", "Italy", "Latvia", "Lithuania", "Luxembourg", "Malta", "Netherlands", "Poland", "Portugal", "Romania", "Slovakia", "Slovenia", "Spain", "Sweden"]
     
@@ -62,6 +62,9 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     @IBOutlet weak var passwordTxt: UITextField!
     @IBOutlet weak var repeatPassword: UITextField!
     @IBOutlet weak var countryPicker: MRCountryPicker!
+    @IBOutlet weak var bioTxt: UITextField!
+    
+    
     // buttons
     var signUpBtn = UIButton()
     var cancelBtn = UIButton()
@@ -137,7 +140,7 @@ var countryFlag = UIImageView()
         self.countries = self.getCountryList()
         self.countries = self.countries.sorted(by: <)
         self.countries.insert("United States", at: 0)
-        view.addSubview(countryTextField)
+        self.scrollView.addSubview(countryTextField)
         countryPicker.isHidden = true
         avaImg.image = UIImage(named: "boyprofile")
         let gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
@@ -167,7 +170,7 @@ var countryFlag = UIImageView()
         avaTap.numberOfTapsRequired = 1
         avaImg.isUserInteractionEnabled = true
         avaImg.addGestureRecognizer(avaTap)
-        view.addSubview(txtDatePicker)
+        self.scrollView.addSubview(txtDatePicker)
         txtDatePicker.backgroundColor = .clear
 
         countryPicker.countryPickerDelegate = self
@@ -194,8 +197,9 @@ var countryFlag = UIImageView()
         repeatPassword.frame = CGRect(x: 10, y: passwordTxt.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
         txtDatePicker.frame = CGRect(x: 10, y: repeatPassword.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
         countryTextField.frame = CGRect(x: 10, y: txtDatePicker.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
+        bioTxt.frame = CGRect(x: 10, y: countryTextField.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
         
-        signUpBtn.frame = CGRect(x: 10, y: countryTextField.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 40)
+        signUpBtn.frame = CGRect(x: 10, y: bioTxt.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 40)
         signUpBtn.layer.cornerRadius = signUpBtn.frame.size.width / 20
         cancelBtn.frame = CGRect(x: 5, y: 40, width: 24, height: 23)
         cancelBtn.layer.cornerRadius = cancelBtn.frame.size.width / 20
@@ -287,6 +291,12 @@ var countryFlag = UIImageView()
     countryTextField.borderStyle = UITextField.BorderStyle.none
     countryTextField.layer.addSublayer(bottomLine7)
     
+    let bottomLine8 = CALayer()
+    bottomLine8.frame = CGRect(x: 0, y: bioTxt.frame.height, width: bioTxt.frame.width, height: 1.0)
+    bottomLine8.backgroundColor = UIColor.systemGray4.cgColor
+    bioTxt.borderStyle = UITextField.BorderStyle.none
+    bioTxt.layer.addSublayer(bottomLine8)
+    
     emailTxt.attributedPlaceholder = NSAttributedString(string: "Email Address",
                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
     emailTxt.textColor = .white
@@ -310,6 +320,11 @@ var countryFlag = UIImageView()
     self.countryTextField.attributedPlaceholder = NSAttributedString(string: "Country",
                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
     self.countryTextField.textColor = .white
+    
+    self.bioTxt.attributedPlaceholder = NSAttributedString(string: "Bio",
+                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+    self.bioTxt.textColor = .white
+    
 //    self.txtDatePicker.attributedPlaceholder = NSAttributedString(string: "Repeat Password",
 //                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
     
@@ -363,7 +378,7 @@ var countryFlag = UIImageView()
     }
     
     func formatPhotoLabel() {
-        self.view.addSubview(self.profileImageLabel)
+        self.scrollView.addSubview(self.profileImageLabel)
         var photoFrame = self.avaImg.frame
         self.profileImageLabel.frame = CGRect(x: self.view.frame.width/32, y: photoFrame.minY - 10, width: self.view.frame.width/2, height: 44)
         self.profileImageLabel.text = "Choose A Profile Picture:"
@@ -445,6 +460,17 @@ var countryFlag = UIImageView()
             minimumAge = 13
         }
         
+        if bioTxt.text!.count > bioCharacterLimit {
+            // alert message
+            let alert = UIAlertController(title: "Bio is too long!", message: "Your bio can only be up to 20 characters long", preferredStyle: UIAlertController.Style.alert)
+            let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
+            alert.addAction(ok)
+            self.present(alert, animated: true, completion: nil)
+            
+            return
+        }
+        
+        
         
         if age < minimumAge && age >= 13 {
             // alert message
@@ -482,6 +508,7 @@ var countryFlag = UIImageView()
         let username = usernameTxt.text!
         let email = emailTxt.text!
         let password = passwordTxt.text!
+        let bio = bioTxt.text ?? ""
         var signedInUser: User?
         
         print("about to create new user")
@@ -531,7 +558,7 @@ var countryFlag = UIImageView()
             let avaFileRef = userDataStorageRef.child(filename)
             avaFileRef.putData(self.avaImg.image!.pngData()!, metadata: nil, completion: { meta, error in
                 if (error == nil) {
-                    self.userData = UserData(email: email, publicID: self.usernameTxt.text!.lowercased(), privateID: signedInUser!.uid, avaRef: reference, hexagonGridID: "", userPage: "", subscribedUsers: [""], subscriptions: [""], numPosts: 0, displayName: self.displayNameTxt.text!, birthday: self.birthday, blockedUsers: [String](), isBlockedBy: [String](), pageViews: 0)
+                    self.userData = UserData(email: email, publicID: self.usernameTxt.text!.lowercased(), privateID: signedInUser!.uid, avaRef: reference, hexagonGridID: "", userPage: "", subscribedUsers: [""], subscriptions: [""], numPosts: 0, displayName: self.displayNameTxt.text!, birthday: self.birthday, blockedUsers: [String](), isBlockedBy: [String](), pageViews: 0, bio: bio)
                     let db = Firestore.firestore()
                     let userDataCollection = db.collection("UserData1")
                     let docRef = userDataCollection.document(user!.uid)
