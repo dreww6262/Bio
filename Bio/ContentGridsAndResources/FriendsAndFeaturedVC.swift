@@ -22,11 +22,29 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
     let db = Firestore.firestore()
     let storageRef = Storage.storage().reference()
     
-    var profileCellArray : [ProfileCell] = []
+    var profileCollectionView: UICollectionView?
+    var popularCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
+    
+    var navBarView = NavBarView()
+    let menuView = MenuView()
+    var user = Auth.auth().currentUser
+    var storage = Storage.storage().reference()
+    
+    var followArray = [String]()
+    var followingUserDataArray = ThreadSafeArray<UserData>()
+    var popList = ThreadSafeArray<UserData>()
+
+    var userData: UserData?
+    
+    var toSearchButton = UIButton()
+    var toSettingsButton = UIButton()
+
+    var customTabBar: TabNavigationMenu!
+        
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         if collectionView == profileCollectionView {
-            return CGSize(width: profileCollectionView.frame.height, height: profileCollectionView.frame.height)
+            return CGSize(width: profileCollectionView!.frame.height, height: profileCollectionView!.frame.height)
         }
 
        let padding: CGFloat =  50
@@ -182,12 +200,12 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
             headerView.collectionView.delegate = self
             headerView.collectionView.register(ProfileCircleCell.self, forCellWithReuseIdentifier: "profileCircleCell")
             headerView.collectionView.alwaysBounceHorizontal = true
-            let layout = (profileCollectionView.collectionViewLayout as! UICollectionViewFlowLayout)
+            let layout = (headerView.collectionView.collectionViewLayout as! UICollectionViewFlowLayout)
             layout.scrollDirection = .horizontal
-            layout.itemSize = CGSize(width: profileCollectionView.frame.height, height: profileCollectionView.frame.height)
+            layout.itemSize = CGSize(width: headerView.collectionView.frame.height, height: headerView.collectionView.frame.height)
             headerView.collectionView.collectionViewLayout = layout
             profileCollectionView = headerView.collectionView
-            profileCollectionView.reloadData()
+            profileCollectionView!.reloadData()
             
                 // Customize headerView here
             return headerView
@@ -197,44 +215,6 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         }
     }
     
-    var contentView = UIView()
-    var profileCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-    var popularCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-    
-    
-    var navBarView = NavBarView()
-    let menuView = MenuView()
-    var user = Auth.auth().currentUser
-    var storage = Storage.storage().reference()
-    var contentViewer = UIView()
-    
-    var followArray = [String]()
-    var followingUserDataArray = ThreadSafeArray<UserData>()
-
-    var userData: UserData?
-
-    
-    
-    
-    var toSearchButton = UIButton()
-    var toSettingsButton = UIButton()
-
-    var scrollView = UIScrollView()
-    var coordinateArray: [[CGFloat]] = []
-    var coordinate: [CGFloat] = []
-    var imageViewArray: [UIImageView] = []
-    
-    //@IBOutlet weak var expandedView: UIImageView!
-    
-    let hexaDiameter : CGFloat = 150
-    
-    
-    var customTabBar: TabNavigationMenu!
-    
-    
-    var firstLoad = true
-    
-    var collectionFollowing = true
     
     
     override func viewDidLoad() {
@@ -411,13 +391,11 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        scrollView.zoomScale = 1
         menuView.tabController = (tabBarController! as! NavigationMenuBaseController)
         menuView.userData = userData
         refresh()
         toSearchButton.isHidden = false
         toSettingsButton.isHidden = false
-        //     followView.isHidden = false
     }
     
     
@@ -469,7 +447,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
     func doneLoading() {
         //self.removeCurrentProfileHexagons()
         //self.loadProfileHexagons()
-        profileCollectionView.reloadData()
+        profileCollectionView?.reloadData()
     }
     
     // loading followings
@@ -480,7 +458,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
             //            if (profileCollectionView == nil) {
             //                return
             //            }
-            profileCollectionView.reloadData()
+            profileCollectionView?.reloadData()
         }
         createFollowingArray(completion: { newFollowArray, success in
             //            print("loadFollowings: new follow array: \(newFollowArray)")
@@ -594,22 +572,22 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
 //    }
  
     
-    @objc func followersTapped(_ recognizer: UITapGestureRecognizer) {
-        print("followers tapped")
-        let followersTableVC = storyboard?.instantiateViewController(identifier: "followersTableView") as! FollowersTableView
-        followersTableVC.userData = self.userData
-        present(followersTableVC, animated: false)
-    }
-    
-    @objc func followingTapped(_ recognizer: UITapGestureRecognizer) {
-        print("following tapped")
-        let followingTableVC = storyboard?.instantiateViewController(identifier: "followingTableView") as! FollowingTableView
-        followingTableVC.userData = self.userData
-        present(followingTableVC, animated: false)
-        // print("frame after pressed \(toSearchButton.frame)")
-        
-        
-    }
+//    @objc func followersTapped(_ recognizer: UITapGestureRecognizer) {
+//        print("followers tapped")
+//        let followersTableVC = storyboard?.instantiateViewController(identifier: "followersTableView") as! FollowersTableView
+//        followersTableVC.userData = self.userData
+//        present(followersTableVC, animated: false)
+//    }
+//
+//    @objc func followingTapped(_ recognizer: UITapGestureRecognizer) {
+//        print("following tapped")
+//        let followingTableVC = storyboard?.instantiateViewController(identifier: "followingTableView") as! FollowingTableView
+//        followingTableVC.userData = self.userData
+//        present(followingTableVC, animated: false)
+//        // print("frame after pressed \(toSearchButton.frame)")
+//
+//
+//    }
     
     @objc func handleProfileCellTap(_ sender: UITapGestureRecognizer) {
         print("Profile Cell Tap sender \(sender)")
@@ -623,23 +601,6 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         guestVC.myUserData = userData
         //guestVC.profileImage = self.
         guestVC.guestUserData = profCell.userData
-        guestVC.isFollowing = true
-        show(guestVC, sender: nil)
-        // TODO: use tag to get index of userdata to go to new hex grid as guest.
-        
-    }
-    
-    @objc func handleTap(_ sender: UITapGestureRecognizer) {
-        //        print("🎯🎯🎯🎯🎯Hello World")
-        //        print("🎯🎯🎯🎯🎯🎯🎯I tapped image with tag \(sender.view!.tag)")
-        //let username = popularUserDataArray[sender.view!.tag].publicID
-        //        print("🎯🎯🎯🎯🎯🎯🎯 I tapped image with associated username: \(username)")
-        let profImage = sender.view as! ProfileImageView
-        let guestVC = storyboard?.instantiateViewController(identifier: "guestGridVC") as! GuestHexagonGridVC
-        //guestVC.user = user
-        guestVC.myUserData = userData
-        //guestVC.profileImage = self.
-        guestVC.guestUserData = profImage.userData
         guestVC.isFollowing = true
         show(guestVC, sender: nil)
         // TODO: use tag to get index of userdata to go to new hex grid as guest.
@@ -667,9 +628,6 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         userTableVC.currentUser = user
         userTableVC.loadUserDataArray.setArray(array: followingUserDataArray.readOnlyArray())
     }
-    
-
-    var popList = ThreadSafeArray<UserData>()
     
     func loadPopularHexagons() {
         db.collection("PopularUserData").getDocuments(completion: { [self] obj, error in
