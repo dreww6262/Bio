@@ -2247,18 +2247,6 @@
                     <view key="view" contentMode="scaleToFill" id="E6A-wO-O6L">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="uYu-mf-6Hn">
-                                <rect key="frame" x="182" y="423" width="25" height="25"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="lightGrayGearFinal"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I3p-wM-xfL">
-                                <rect key="frame" x="182" y="423" width="25" height="25"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button" image="lightGrayMagnifyingGlassFinal"/>
-                            </button>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="MGG-ba-Xzy"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
