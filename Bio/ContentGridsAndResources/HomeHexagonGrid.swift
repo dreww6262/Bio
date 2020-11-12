@@ -1548,6 +1548,9 @@ var navBarView = NavBarView()
     
     func setUpPageViewListener() {
         pageViewListener?.remove()
+        if (userData == nil) {
+            return
+        }
         pageViewListener = db.collection("PageViews").whereField("viewed", isEqualTo: userData!.publicID).addSnapshotListener({ objects, error in
             if error == nil {
                 self.followLabel.text = "\(objects?.documents.count ?? 0)"
