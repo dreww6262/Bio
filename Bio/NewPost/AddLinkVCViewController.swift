@@ -235,7 +235,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         let textOverlayLabelHeight = self.linkHexagonImage.frame.height*(7.5/10)
         textOverlayLabel.frame = CGRect(x: (self.linkHexagonImage.frame.midX-textOverlayLabelWidth)/2, y: (self.linkHexagonImage.frame.midY-textOverlayLabelHeight)/2, width: textOverlayLabelWidth, height: textOverlayLabelHeight)
       // self.textOverlayLabel.text = "\(self.textOverlayTextField.text ?? "")"
-        self.textOverlayLabel.text = "Fake example text!!"
+        self.textOverlayLabel.text = ""
         textOverlayLabel.font.withSize(18)
         textOverlayLabel.numberOfLines = 0
         textOverlayLabel.font = UIFont(name: "DINAternate-Bold", size: 18)
