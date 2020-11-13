@@ -671,8 +671,7 @@ extension UIImageView {
     func addCircleGradiendBorder(_ width: CGFloat) {
         let gradient = CAGradientLayer()
         gradient.frame =  CGRect(origin: CGPoint.zero, size: bounds.size)
-        let colors: [CGColor] = [myPink.cgColor, myBlueGreen.cgColor,
-                                 myOrange.cgColor, myCoolBlue.cgColor]
+        let colors: [CGColor] = [myCoolBlue.cgColor, myPink.cgColor, myBlueGreen.cgColor]
         gradient.colors = colors
         gradient.startPoint = CGPoint(x: 1, y: 0.5)
         gradient.endPoint = CGPoint(x: 0, y: 0.5)
