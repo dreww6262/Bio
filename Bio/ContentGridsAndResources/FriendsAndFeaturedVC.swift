@@ -76,14 +76,17 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
             cell.imageView.frame = CGRect(x: cell.frame.width*(2/16), y: 0, width: cell.frame.width*(12/16), height: cell.frame.height*(12/16))
             //cell.label.sizeToFit()
             cell.imageView.clipsToBounds = true
+            cell.imageView.layer.borderWidth = 2.0
+          //  cell.imageView.layer.borderColor = myBlueGreen.cgColor
             cell.label.frame = CGRect(x: 0, y: cell.imageView.frame.maxY, width: cell.frame.width, height: cell.frame.height - cell.imageView.frame.maxY)
-            cell.imageView.layer.cornerRadius = cell.imageView.frame.width/2
+            //cell.imageView.layer.cornerRadius = cell.imageView.frame.width/2
+            cell.imageView.addCircleGradiendBorder(10.0)
             cell.tag = indexPath.row
             cell.imageView.tag = indexPath.row
             cell.label.tag = indexPath.row
             let tapCellGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleCollectionViewTap))
             cell.addGestureRecognizer(tapCellGesture)
-            cell.imageView.layer.cornerRadius = cell.imageView.frame.width/2
+          //  cell.imageView.layer.cornerRadius = cell.imageView.frame.width/2
             // let ref = array[indexPath.row].avaRef as! StorageReference
             cell.imageView.sd_setImage(with: storageRef.child(array[indexPath.row].avaRef))
             //cell.imageView.sd_setImage(with: ref)
@@ -125,14 +128,15 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         cell.displayNameLabel.frame = CGRect(x: 5, y: 5, width: 100, height: 30)
         cell.isUserInteractionEnabled = true
         
-        cell.image.layer.borderWidth = 1.0
-        cell.image.layer.borderColor = myTikTokBlack.cgColor
+     //   cell.image.layer.borderWidth = 1.0
+     //   cell.image.layer.borderColor = myTikTokBlack.cgColor
         
         cell.image.frame = CGRect(x: cell.frame.width/4, y: cell.frame.width/16, width: cell.frame.width/2, height: cell.frame.width/2)
 
         cell.image.clipsToBounds = true
-        cell.image.layer.cornerRadius = cell.image.frame.width/2
-        
+       // cell.image.layer.cornerRadius = cell.image.frame.width/2
+    //    cell.image.add
+        cell.image.addCircleGradiendBorder(10.0)
         cell.displayNameLabel.text = cell.userData?.displayName
         let spaceRemaining = cell.frame.height - cell.image.frame.maxY
         //set up display name frame
@@ -140,12 +144,16 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         let spaceToBottom = cell.frame.height - cell.displayNameLabel.frame.maxY
         cell.displayNameLabel.textAlignment = .center
         cell.displayNameLabel.textColor = .black
+        cell.displayNameLabel.font = UIFont(name: "DINAlternate", size: 28)
         
         cell.followLabel.textColor = .black
         cell.followView.layer.cornerRadius = cell.followView.frame.size.width / 20
         
         cell.userDescriptionLabel.frame = CGRect(x: 0, y: cell.displayNameLabel.frame.maxY, width: cell.frame.width, height: spaceToBottom)
-        cell.userDescriptionLabel.text = "Artist, Activist"
+        
+        var bioArray: [String] = ["Artist", "Activist", "Photographer", "Producer", "Musician", "Student-Athlete", "Entrepreneur", "Teacher", "Professional Athlete", "Just For Fun"]
+        cell.userDescriptionLabel.font = UIFont.italicSystemFont(ofSize: 16)
+        cell.userDescriptionLabel.text = "\(bioArray.randomElement()!)"
         cell.userDescriptionLabel.textColor = .black
         cell.userDescriptionLabel.textAlignment = .center
         
@@ -656,4 +664,33 @@ extension UIView {
         self.clipsToBounds = true
         self.layer.cornerRadius = cornerRadious
     }
+}
+
+extension UIImageView {
+    
+    func addCircleGradiendBorder(_ width: CGFloat) {
+        let gradient = CAGradientLayer()
+        gradient.frame =  CGRect(origin: CGPoint.zero, size: bounds.size)
+        let colors: [CGColor] = [myPink.cgColor, myBlueGreen.cgColor,
+                                 myOrange.cgColor, myCoolBlue.cgColor]
+        gradient.colors = colors
+        gradient.startPoint = CGPoint(x: 1, y: 0.5)
+        gradient.endPoint = CGPoint(x: 0, y: 0.5)
+        
+        let cornerRadius = frame.size.width / 2
+        layer.cornerRadius = cornerRadius
+        clipsToBounds = true
+        
+        let shape = CAShapeLayer()
+        let path = UIBezierPath(ovalIn: bounds)
+        
+        shape.lineWidth = width
+        shape.path = path.cgPath
+        shape.strokeColor = UIColor.black.cgColor
+        shape.fillColor = UIColor.clear.cgColor // clear
+        gradient.mask = shape
+        
+        layer.insertSublayer(gradient, below: layer)
+    }
+    
 }
