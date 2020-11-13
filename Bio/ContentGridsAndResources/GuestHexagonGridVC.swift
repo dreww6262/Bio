@@ -10,10 +10,6 @@
 import UIKit
 import AVKit
 import Firebase
-import FirebaseFirestore
-import FirebaseStorage
-import FirebaseAuth
-import FirebaseUI
 import SDWebImage
 import WebKit
 
@@ -59,7 +55,6 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var targetHexagons: [Int] = []
     //var hexagonStructArray: [HexagonStructData] = []
     var imageViewArray: [PostImageView] = []
-    var textOverlayArray: [UILabel] = []
     
     var reOrderedCoordinateArrayPoints: [CGPoint] = [CGPoint(x: 946.8266739736607,y: 902.5),CGPoint(x: 1081.7304845413264,y: 902.5),CGPoint(x: 1014.2785792574934,y: 1020.0), CGPoint(x: 879.3747686898278,y: 1020.0),CGPoint(x:811.9228634059948,y: 902.5), CGPoint(x: 879.3747686898278,y: 785.0),CGPoint(x: 1014.2785792574934,y: 785.0),CGPoint(x:946.8266739736607,y: 667.5),CGPoint(x:1081.7304845413264,y:667.5), CGPoint(x:1149.1823898251594,y:785.0),CGPoint(x: 1216.6342951089923,y: 902.5),CGPoint(x:1149.1823898251594,y: 1020.0), CGPoint(x:1081.7304845413264, y: 1137.5),CGPoint(x:946.8266739736607,y: 1137.5),CGPoint(x: 811.9228634059948, y: 1137.5),CGPoint(x: 744.4709581221618, y: 1020.0), CGPoint(x: 677.0190528383291, y: 902.5),CGPoint(x: 744.4709581221618, y: 785.0), CGPoint(x: 811.9228634059948, y: 667.5),CGPoint(x: 879.3747686898278, y: 550.0),CGPoint(x: 1014.2785792574934, y: 550.0),CGPoint(x: 1149.1823898251594,y: 550.0),CGPoint(x:1216.6342951089923,y: 667.5),CGPoint(x:1284.0862003928253, y: 785.0),CGPoint(x:1351.5381056766582,y: 902.5), CGPoint(x:1284.0862003928253, y: 1020.0),CGPoint(x: 1216.6342951089923, y: 1137.5),CGPoint(x: 1149.1823898251594, y: 1255.0), CGPoint(x:1014.2785792574934,y:1255.0),CGPoint(x:879.3747686898278, y:1255.0),CGPoint(x:744.4709581221618, y:1255.0),CGPoint(x:677.0190528383291, y:1137.5),CGPoint(x:609.5671475544962,y: 1020.0),CGPoint(x:542.1152422706632, y: 902.5),CGPoint(x: 609.5671475544962, y: 785.0),CGPoint(x: 677.0190528383291, y: 667.5),CGPoint(x: 744.4709581221618, y: 550.0)]
     var fourthRowArray: [CGPoint] = [CGPoint(x: 744.4709581221618, y: 315.0), CGPoint(x: 879.3747686898278,y: 315.0), CGPoint(x: 1014.2785792574934,y: 315.0), CGPoint(x: 1149.1823898251594,y: 315.0), CGPoint(x:1284.0862003928253,y: 315.0),CGPoint(x: 1351.5381056766582, y: 432.5), CGPoint(x: 1418.990010960491, y: 550.0),CGPoint(x: 1486.441916244324, y: 667.5), CGPoint(x: 1553.8938215281566, y: 785.0),CGPoint(x: 1621.3457268119896, y: 902.5), CGPoint(x: 1553.8938215281566, y: 1020.0), CGPoint(x: 1486.441916244324, y: 1137.5), CGPoint(x: 1418.990010960491, y: 1255.0), CGPoint(x: 1351.5381056766582, y: 1372.5), CGPoint(x: 1284.0862003928253, y: 1490.0), CGPoint(x: 1149.1823898251594,y: 1490.0), CGPoint(x: 1014.2785792574934, y: 1490.0), CGPoint(x: 879.3747686898278,y: 1490.0), CGPoint(x: 744.4709581221618,y: 1490.0), CGPoint(x: 609.5671475544962, y: 1490.0),      CGPoint(x: 542.1152422706632, y: 1372.5), CGPoint(x: 474.6633369868303, y: 1255.0), CGPoint(x: 407.2114317029974, y: 1137.5), CGPoint(x: 339.7595264191645, y: 1020.0), CGPoint(x: 272.3076211353316, y: 902.5),CGPoint(x: 339.7595264191645, y: 785.0), CGPoint(x: 407.2114317029974, y: 667.5), CGPoint(x: 474.6633369868303, y: 550.0), CGPoint(x: 542.1152422706632,y: 432.5),CGPoint(x: 609.5671475544962,y: 315.0)]
@@ -426,23 +421,6 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     
-    //    func loadFollows(completion: @escaping() -> ()) {
-    //        followListener = db.collection("Followings").whereField("follower", isEqualTo: userData!.publicID).addSnapshotListener({ objects, error in
-    //            if error == nil {
-    //                self.followList.removeAll(keepingCapacity: true)
-    //                guard let docs = objects?.documents else {
-    //                    return
-    //                }
-    //                for doc in docs {
-    //                    print("follow item \(doc.data())")
-    //                    self.followList.append(doc["following"] as! String)
-    //                }
-    //            }
-    //            completion()
-    //        })
-    //    }
-    
-    
     // refresh logic when view will appear
     func refresh() {
         //loadView()
@@ -516,8 +494,6 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
                 for image in self.imageViewArray {
                     self.contentView.addSubview(image)
                     self.contentView.bringSubviewToFront(image)
-                    self.textOverlayArray[imageIndex].center = image.center
-                    self.contentView.bringSubviewToFront(self.textOverlayArray[imageIndex])
                     image.isHidden = false
                     imageIndex = imageIndex + 1
                 }
@@ -577,22 +553,6 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
             
             image.frame = CGRect(x: self.reOrderedCoordinateArrayPoints[image.hexData!.location].x,
                                  y: self.reOrderedCoordinateArrayPoints[image.hexData!.location].y, width: hexaDiameter, height: hexaDiameter)
-            let hexTextOverlayLabel = UILabel()
-            hexTextOverlayLabel.textAlignment = .center
-            self.contentView.addSubview(hexTextOverlayLabel)
-            //self.contentView.addSubview(imageCopy)
-            let textOverlayLabelWidth = image.frame.width*(7.5/10)
-            let textOverlayLabelHeight = image.frame.height*(7.5/10)
-            hexTextOverlayLabel.frame = CGRect(x: (image.frame.midX-textOverlayLabelWidth)/2, y: (image.frame.midY-textOverlayLabelHeight)/2, width: textOverlayLabelWidth, height: textOverlayLabelHeight)
-            hexTextOverlayLabel.text = "\( image.hexData!.text)"
-            hexTextOverlayLabel.font.withSize(18)
-            hexTextOverlayLabel.numberOfLines = 0
-            hexTextOverlayLabel.font = UIFont(name: "DINAternate-Bold", size: 18)
-            hexTextOverlayLabel.textColor = white
-            hexTextOverlayLabel.center = image.center
-            self.textOverlayArray.append(hexTextOverlayLabel)
-            
-            
             
             //image.setupHexagonMask(lineWidth: 10.0, color: .darkGray, cornerRadius: 10.0)
         }
@@ -647,6 +607,18 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
                 print(error!.localizedDescription)
                 image.image = placeHolderImage
             }
+        }
+        
+        image.textOverlay.textAlignment = .center
+        image.bringSubviewToFront(image.textOverlay)
+        //self.contentView.addSubview(imageCopy)
+        image.textOverlay.frame = CGRect(x: 0, y: image.frame.height / 2 + 4, width: image.frame.width, height: 20)
+        image.textOverlay.text = image.hexData!.text
+        image.textOverlay.numberOfLines = 1
+        image.textOverlay.font = UIFont(name: "DINAternate-Bold", size: 10)
+        image.textOverlay.textColor = white
+        if image.hexData!.text != "" {
+            image.textOverlay.backgroundColor = .systemGray
         }
         
         return image

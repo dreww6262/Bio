@@ -638,6 +638,11 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
                     let popData = UserData(dictionary: doc.data())
                     popList.append(newElement: popData)
                 }
+                var list = popList.readOnlyArray()
+                list.sort(by: { x, y in
+                    return x.pageViews > y.pageViews
+                })
+                popList.setArray(array: list)
                 popularCollectionView.reloadData()
             }
         })

@@ -11,4 +11,10 @@ import UIKit
 
 class PostImageView: UIImageView {
     var hexData: HexagonStructData? = nil
+    let textOverlay = UILabel()
+    
+    override func layoutSubviews() {
+        self.addSubview(textOverlay)
+        bringSubviewToFront(textOverlay)
+    }
 }
