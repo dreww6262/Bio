@@ -83,19 +83,22 @@ setUpNavBarView()
                                                 
         
         view.bringSubviewToFront(cancelButton)
-        doneButton.sizeToFit()
-        doneButton.addGestureRecognizer(submitTap)
-        cancelButton.addGestureRecognizer(dismissTap)
-        doneButton.setTitle("Submit", for: .normal)
-        doneButton.titleLabel?.textAlignment = .right
-        doneButton.titleLabel?.font = UIFont(name: "DINAlternate-Bold", size: 17)
+        self.navBarView.postButton.sizeToFit()
+        self.navBarView.postButton.addGestureRecognizer(submitTap)
+        self.navBarView.backButton.addGestureRecognizer(dismissTap)
+        self.navBarView.postButton.setTitle("Submit", for: .normal)
+        self.navBarView.postButton.titleLabel?.textAlignment = .right
+        self.navBarView.postButton.titleLabel?.font = UIFont(name: "DINAlternate-Bold", size: 17)
         cancelButton.setBackgroundImage(UIImage(systemName: "chevron.left"), for: .normal)
-        doneButton.setTitleColor(.systemBlue, for: .normal)
+        self.navBarView.postButton.setTitleColor(.systemBlue, for: .normal)
         cancelButton.setTitleColor(.white, for: .normal)
         cancelButton.tintColor = white
+        cancelButton.isHidden = true
+        self.navBarView.postButton.isHidden = false
+        doneButton.isHidden = true
         
-        doneButton.frame = CGRect(x: self.view.frame.width - 88, y: (navBarView.frame.height/4) + 5, width: 88, height: navBarView.frame.height/2)
-        doneButton.titleLabel?.textAlignment = .right
+        self.navBarView.postButton.frame = CGRect(x: self.view.frame.width - 88, y: (navBarView.frame.height/4) + 5, width: 88, height: navBarView.frame.height/2)
+        self.navBarView.postButton.titleLabel?.textAlignment = .right
        // doneButton.frame = CGRect(x: view.frame.width - cancelButton.frame.width - 10, y: navBarView.frame.midY - cancelButton.frame.height/2 + 10, width: cancelButton.frame.width, height: cancelButton.frame.height)
         view.bringSubviewToFront(doneButton)
 //        doneButton.titleLabel!.font = UIFont(name: "DINAlternate-Bold", size: 20)
@@ -111,6 +114,13 @@ setUpNavBarView()
         print("I hit submit!")
         if self.textView.text.isEmpty {
             print("But text is empty give an alert :( ")
+            // alert message
+            let alert = UIAlertController(title: "PLEASE", message: "Fill All Fields", preferredStyle: UIAlertController.Style.alert)
+            let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
+            alert.addAction(ok)
+            self.present(alert, animated: true, completion: nil)
+            
+            return
         }
         else {
             let newSuggestion = self.textView.text

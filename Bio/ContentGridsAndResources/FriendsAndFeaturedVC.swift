@@ -125,37 +125,52 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleProfileCellTap))
         
         cell.addGestureRecognizer(tapGesture)
-        cell.displayNameLabel.frame = CGRect(x: 5, y: 5, width: 100, height: 30)
+     //   cell.displayNameLabel.frame = CGRect(x: 5, y: 5, width: 100, height: 30)
         cell.isUserInteractionEnabled = true
         
      //   cell.image.layer.borderWidth = 1.0
      //   cell.image.layer.borderColor = myTikTokBlack.cgColor
         
-        cell.image.frame = CGRect(x: cell.frame.width/4, y: cell.frame.width/16, width: cell.frame.width/2, height: cell.frame.width/2)
+        //real frame
+    //    cell.image.frame = CGRect(x: cell.frame.width/4, y: cell.frame.width/16, width: cell.frame.width/2, height: cell.frame.width/2)
+        
+        cell.image.frame = CGRect(x: 0.0, y: 0.0, width: cell.frame.width, height: cell.frame.height)
 
         cell.image.clipsToBounds = true
        // cell.image.layer.cornerRadius = cell.image.frame.width/2
     //    cell.image.add
-        cell.image.addCircleGradiendBorder(10.0)
+        
+        //set up gradient
+      //  cell.image.addCircleGradiendBorder(10.0)
+        
         cell.displayNameLabel.text = cell.userData?.displayName
         let spaceRemaining = cell.frame.height - cell.image.frame.maxY
+        
         //set up display name frame
-        cell.displayNameLabel.frame = CGRect(x: 0, y: cell.image.frame.maxY + (spaceRemaining/16), width: cell.frame.width, height: spaceRemaining/2)
-        let spaceToBottom = cell.frame.height - cell.displayNameLabel.frame.maxY
+       // cell.displayNameLabel.frame = CGRect(x: 0, y: cell.image.frame.maxY + (spaceRemaining/16), width: cell.frame.width, height: spaceRemaining/2)
+        cell.displayNameLabel.frame = CGRect(x: 0, y: cell.frame.height*(6/10), width: cell.frame.width, height: cell.frame.height*(2/10))
+
         cell.displayNameLabel.textAlignment = .center
         cell.displayNameLabel.textColor = .black
-        cell.displayNameLabel.font = UIFont(name: "DINAlternate", size: 28)
+        cell.displayNameLabel.font = UIFont(name: "DINAlternate-SemiBold", size: 28)
+       cell.bringSubviewToFront(cell.displayNameLabel)
+        //cell.bringSubviewToFront(cell.userDescriptionLabel)
         
         cell.followLabel.textColor = .black
         cell.followView.layer.cornerRadius = cell.followView.frame.size.width / 20
         
-        cell.userDescriptionLabel.frame = CGRect(x: 0, y: cell.displayNameLabel.frame.maxY, width: cell.frame.width, height: spaceToBottom)
+        //set up user Description label / bio label
+        let spaceToBottom = cell.frame.height - cell.displayNameLabel.frame.maxY
+        cell.userDescriptionLabel.frame = CGRect(x: 0, y: cell.displayNameLabel.frame.maxY, width: cell.frame.width, height: cell.frame.height*(2/10))
+        
+        //cell.displayNameLabel.frame = CGRect(x: 0, y: cell.frame.height/2, width: cell.frame.width, height: spaceToBottom)
         
         var bioArray: [String] = ["Artist", "Activist", "Photographer", "Producer", "Musician", "Student-Athlete", "Entrepreneur", "Teacher", "Professional Athlete", "Just For Fun"]
         cell.userDescriptionLabel.font = UIFont.italicSystemFont(ofSize: 16)
         cell.userDescriptionLabel.text = "\(bioArray.randomElement()!)"
         cell.userDescriptionLabel.textColor = .black
         cell.userDescriptionLabel.textAlignment = .center
+        cell.sendSubviewToBack(cell.image)
         
         var isFollowing = false
         
@@ -191,7 +206,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         if (kind == UICollectionView.elementKindSectionHeader) {
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as! HorizontalCircleCollectionViewHeader
             headerView.friendsLabel.text = "Friends"
-            headerView.friendsLabel.font = UIFont(name: "Poppins-SemiBold", size: 20)
+            headerView.friendsLabel.font = UIFont(name: "DINAlternate-Bold", size: 17)
             headerView.friendsLabel.sizeToFit()
             headerView.friendsLabel.frame = CGRect(x: 8, y: 10, width: headerView.friendsLabel.frame.width, height: headerView.friendsLabel.frame.height)
             headerView.friendsLabel.textColor = .white
@@ -199,7 +214,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
             headerView.collectionView.frame = CGRect(x: 0, y: headerView.friendsLabel.frame.maxY + 10, width: view.frame.width, height: view.frame.height / 8)
             
             headerView.featuredLabel.text = "Featured"
-            headerView.featuredLabel.font = UIFont(name: "Poppins-SemiBold", size: 20)
+            headerView.featuredLabel.font = UIFont(name: "DINAlternate-Bold", size: 17)
             headerView.featuredLabel.sizeToFit()
             headerView.featuredLabel.frame = CGRect(x: 8, y: headerView.collectionView.frame.maxY + 10, width: headerView.featuredLabel.frame.width, height: headerView.featuredLabel.frame.height)
             headerView.featuredLabel.textColor = .white
@@ -277,6 +292,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         let layout = (popularCollectionView.collectionViewLayout as! UICollectionViewFlowLayout)
         layout.headerReferenceSize = CGSize(width: view.frame.width, height: self.view.frame.height*(1/8) + 60)
         layout.scrollDirection = .vertical
+      //  layout.itemSize = CGSize(width: view.frame.width * 4.5 / 10, height: view.frame.width * 4.5/10)
         layout.itemSize = CGSize(width: view.frame.width * 4.5 / 10, height: view.frame.width * 4.5/12)
         layout.sectionInset = UIEdgeInsets(top: 40, left: 10, bottom: 85, right: 10)
         popularCollectionView.collectionViewLayout = layout
@@ -286,6 +302,8 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         
         
     }
+    
+    
     
     
     func addMenuButtons() {
@@ -315,8 +333,54 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         present(settingsVC, animated: false)
     }
     
-    
     func setUpNavBarView() {
+        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        print("This is status bar height \(statusBarHeight)")
+        self.view.addSubview(navBarView)
+        self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
+        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        navBarView.backButton.isHidden = true
+        navBarView.postButton.isHidden = true
+        self.navBarView.addSubview(toSettingsButton)
+        self.navBarView.addSubview(toSearchButton)
+        
+        let settingsTap = UITapGestureRecognizer(target: self, action: #selector(self.toSettingsButtonClicked))
+        settingsTap.numberOfTapsRequired = 1
+        toSettingsButton.isUserInteractionEnabled = true
+        toSettingsButton.addGestureRecognizer(settingsTap)
+        
+        let searchTap = UITapGestureRecognizer(target: self, action: #selector(self.toSearchButtonClicked))
+        searchTap.numberOfTapsRequired = 1
+        toSearchButton.isUserInteractionEnabled = true
+        toSearchButton.addGestureRecognizer(searchTap)
+        
+
+        self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
+        self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
+     
+        self.toSettingsButton.frame = CGRect(x: 10, y: navBarView.frame.height - 30, width: 25, height: 25)
+        self.toSettingsButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+        self.toSearchButton.frame = CGRect(x: navBarView.frame.width - 35, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+        let yOffset = navBarView.frame.maxY
+      //  self.tableView.frame = CGRect(x: 0, y: yOffset, width: self.view.frame.width, height: self.view.frame.height - yOffset)
+      //  self.navBarView.addSubview(titleLabel1)
+        self.navBarView.addBehavior()
+        self.navBarView.titleLabel.text = "Discover"
+        //self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
+        print("This is navBarView.")
+        self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
+        self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
+
+        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: self.toSearchButton.frame.minY, width: 200, height: 25)
+
+        //self.titleLabel1.text = "Notifications"
+      //  self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
+       // let yOffset = navBarView.frame.maxY
+      //  self.tableView.frame = CGRect(x: 0, y: yOffset, width: self.view.frame.width, height: self.view.frame.height - yOffset)
+
+    }
+    
+    func setUpNavBarViewold() {
         let statusBarHeight = UIApplication.shared.statusBarFrame.height
         print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
@@ -327,7 +391,8 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         self.navBarView.addSubview(toSettingsButton)
         self.navBarView.addSubview(toSearchButton)
         self.navBarView.backgroundColor = .black
-        self.navBarView.layer.borderWidth = 0.0
+        //self.navBarView.layer.borderWidth = 1.0
+    //    self.navBarView.layer.borderColor = white.cgColor
         
         let settingsTap = UITapGestureRecognizer(target: self, action: #selector(self.toSettingsButtonClicked))
         settingsTap.numberOfTapsRequired = 1
@@ -671,7 +736,7 @@ extension UIImageView {
     func addCircleGradiendBorder(_ width: CGFloat) {
         let gradient = CAGradientLayer()
         gradient.frame =  CGRect(origin: CGPoint.zero, size: bounds.size)
-        let colors: [CGColor] = [myCoolBlue.cgColor, myPink.cgColor, myBlueGreen.cgColor]
+        let colors: [CGColor] = [myPink.cgColor, myBlueGreen.cgColor]
         gradient.colors = colors
         gradient.startPoint = CGPoint(x: 1, y: 0.5)
         gradient.endPoint = CGPoint(x: 0, y: 0.5)
@@ -691,5 +756,54 @@ extension UIImageView {
         
         layer.insertSublayer(gradient, below: layer)
     }
+    
+    func addHexagonGradiendBorder(_ width: CGFloat) {
+        let gradient = CAGradientLayer()
+        gradient.frame =  CGRect(origin: CGPoint.zero, size: bounds.size)
+        let colors: [CGColor] = [myPink.cgColor, myBlueGreen.cgColor]
+        gradient.colors = colors
+        gradient.startPoint = CGPoint(x: 1, y: 0.5)
+        gradient.endPoint = CGPoint(x: 0, y: 0.5)
+        
+       // let cornerRadius = frame.size.width / 2
+       // layer.cornerRadius = cornerRadius
+        
+        clipsToBounds = true
+        
+        let mask = CAShapeLayer()
+      // let path = UIBezierPath(ovalIn: bounds)
+        let path = UIBezierPath(roundedPolygonPathInRect: bounds, lineWidth: 10.0, sides: 6, cornerRadius: 10.0, rotationOffset: CGFloat.pi / 2.0).cgPath
+        
+        mask.lineWidth = 10.0
+        mask.path = path
+        mask.strokeColor = UIColor.clear.cgColor
+        mask.fillColor = UIColor.white.cgColor // clear
+        gradient.mask = mask
+        
+        layer.insertSublayer(gradient, below: layer)
+    }
+    
+//    func setupHexagonMask(lineWidth: CGFloat, color: UIColor, cornerRadius: CGFloat) {
+//        let path = UIBezierPath(roundedPolygonPathInRect: bounds, lineWidth: lineWidth, sides: 6, cornerRadius: cornerRadius, rotationOffset: CGFloat.pi / 2.0).cgPath
+//
+//        let mask = CAShapeLayer()
+//        mask.path = path
+//        mask.lineWidth = lineWidth
+//        mask.strokeColor = UIColor.clear.cgColor
+//        mask.fillColor = UIColor.white.cgColor
+//        layer.mask = mask
+//
+//        let border = CAShapeLayer()
+//        border.path = path
+//        border.lineWidth = lineWidth
+//        border.strokeColor = color.cgColor
+//        border.fillColor = UIColor.clear.cgColor
+//        layer.addSublayer(border)
+//    }
+    
+    
+    
+    
+    
     
 }

@@ -161,7 +161,8 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         let backTap = UITapGestureRecognizer(target: self, action: #selector(backTapped))
         backButton.addGestureRecognizer(backTap)
         //backButton.sizeToFit()
-        backButton.frame = CGRect(x: 5, y: topBar.frame.maxY - 30, width: 25, height: 25)
+    backButton.frame = CGRect(x: 5, y: topBar.frame.maxY - 34, width: 34, height: 34)
+      //  backButton.frame = CGRect(x: 5, y: (topBar.frame.height - 34)/2, width: 34, height: 34)
         backButton.setBackgroundImage(UIImage(named:"whiteChevron"), for: .normal)
        
         topBar.addSubview(currentIndexLabel)

@@ -18,7 +18,7 @@ import FirebaseFirestore
 
 class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     var navBarView = NavBarView()
-    
+    var changedProfilePic = false
     var poppinsBlack = UIFont(name: "poppins-Black", size: UIFont.labelFontSize)
     var poppinsSemiBold = UIFont(name: "poppins-SemiBold", size: UIFont.labelFontSize)
     
@@ -249,7 +249,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
         navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
-        self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 30)/2, width: 25, height: 30)
+        self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 34, height: 34)
 //        self.navBarView.addSubview(toSettingsButton)
 //        self.navBarView.addSubview(toSearchButton)
         
@@ -285,7 +285,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         //self.backButton.frame = CGRect(x: 10, y: (navBarView.frame.height - 25)/2, width: 25, height: 25)
         
         //backButton.sizeToFit()
-        postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 30)/2, width: 40, height: 30)
+        postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 40, height: 34)
         //navBarView.postButton.titleLabel?.sizeToFit()
         navBarView.postButton.titleLabel?.textAlignment = .right
         let yOffset = navBarView.frame.maxY
@@ -505,7 +505,14 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
                 let musicHex = HexagonStructData(resource: musicLink, type: "music", location: numPosts, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: captionTextField.text ?? "", views: 0, isArchived: false, docID: "WillBeSetLater", coverText: textOverlayTextField.text ?? "")
                 let previewVC = storyboard?.instantiateViewController(identifier: "linkPreview") as! LinkPreviewVC
                 previewVC.webHex = musicHex
+                
+                if changedProfilePic == true {
                 previewVC.thumbImage = linkHexagonImage.image
+                }
+                else {
+                    previewVC.thumbImage = UIImage(named: "musicCenter")
+                }
+    
                 previewVC.userData = userData
                 previewVC.modalPresentationStyle = .fullScreen
                 previewVC.cancelLbl = cancelLbl
@@ -625,11 +632,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         // Local variable inserted by Swift 4.2 migrator.
         let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         linkHexagonImage.image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
-        //        if let imageURL = info[UIImagePickerController.InfoKey.referenceURL.rawValue] as? URL {
-        //            let result = PHAsset.fetchAssets(withALAssetURLs: [imageURL], options: nil)
-        //            avaImageExtension = String((result.firstObject?.value(forKey: "filename") as! String).split(separator: ".")[1])
-        //            print("extension \(avaImageExtension)")
-        //        }
+        changedProfilePic = true
         self.dismiss(animated: true, completion: nil)
     }
     

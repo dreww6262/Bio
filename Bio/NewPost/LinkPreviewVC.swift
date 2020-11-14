@@ -13,7 +13,7 @@ import FirebaseStorage
 import FirebaseAuth
 
 class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
-    
+    var changedProfilePic = false
     var webConfig = WKWebViewConfiguration()
     var navBarView = NavBarView()
     var webView = WKWebView()
@@ -37,17 +37,18 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
         setUpNavBarView()
         
         navBarView.backgroundColor = .black
-        
-
-        
-        
-        let frame = CGRect(x: 0, y: navBarView.frame.maxY, width: view.frame.width, height: view.frame.height - navBarView.frame.height)
+        let frame = CGRect(x: 0, y: self.view.frame.height/12, width: view.frame.width, height: view.frame.height - navBarView.frame.height)
         webView = WKWebView(frame: frame, configuration: webConfig)
+        view.addSubview(webView)
+        webView.frame = frame
+        
+      //  webView = WKWebView(frame: frame, configuration: webConfig)
         webView.uiDelegate = self
         webView.navigationDelegate = self
         webView.allowsBackForwardNavigationGestures = false
-        view.addSubview(webView)
+       
         
+    
         let link = webHex!.resource
         let myUrl = URL(string: link)
         
@@ -60,7 +61,7 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
         else {
            self.captionTextField.isHidden = true
             print("This is web hex text \(webHex?.text)")
-            webView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - 66)
+            webView.frame = CGRect(x: 0, y: self.view.frame.height/12, width: view.frame.width, height: view.frame.height*(11/12))
         }
         
         if (myUrl != nil) {
@@ -70,8 +71,8 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
         }
         print("This is webView.frame \(webView.frame)")
 
-
-       
+        view.bringSubviewToFront(navBarView)
+        navBarView.bringSubviewToFront(navBarView.titleLabel)
         
     }
     
@@ -88,7 +89,7 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
         print("This is text field text \(captionTextField.text)")
         self.captionTextField.textColor = .white
             self.captionTextField.frame = captionFrame
-            let webFrame = CGRect(x: 0, y: self.captionTextField.frame.maxY, width: view.frame.width, height: view.frame.height - 65 - 66)
+            let webFrame = CGRect(x: 0, y: self.captionTextField.frame.maxY, width: view.frame.width, height: view.frame.height*(11/12) - 66)
         webView.frame = webFrame
         print("This is webView.frame \(webView.frame)")
     }
@@ -117,7 +118,7 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
         postTap.numberOfTapsRequired = 1
         postButton.isUserInteractionEnabled = true
         postButton.addGestureRecognizer(postTap)
-        postButton.setTitle("Next", for: .normal)
+        postButton.setTitle("Post", for: .normal)
         postButton.setTitleColor(.systemBlue, for: .normal)
       //  postButton.frame = CGRect(x: (self.view.frame.width) - (topBar.frame.height) - 5, y: 0, width: topBar.frame.height, height: topBar.frame.height)
         postButton.titleLabel?.sizeToFit()
@@ -132,6 +133,7 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
   
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Preview"
+        self.navBarView.titleLabel.textColor = .white
     //    self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
         self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: postButton.frame.minY, width: 200, height: 25)
         print("This is navBarView.")

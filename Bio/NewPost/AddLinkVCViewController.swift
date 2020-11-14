@@ -16,6 +16,7 @@ import FirebaseUI
 import FirebaseFirestore
 
 class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+    var changedProfilePic = false
     var textOverlayLabel = UILabel()
     var navBarView = NavBarView()
     var bottomLine = CALayer()
@@ -273,7 +274,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
 //        self.navBarView.addSubview(toSettingsButton)
 //        self.navBarView.addSubview(toSearchButton)
         
-        self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 30)/2, width: 30, height: 30)
+        self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 34, height: 34)
         
         if cancelLbl != nil {
             backButton.setTitle(cancelLbl, for: .normal)
@@ -306,7 +307,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
       //  self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
         
     //    backButton.sizeToFit()
-        postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 30)/2, width: 40, height: 30)
+        postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 40, height: 34)
         //navBarView.postButton.titleLabel?.sizeToFit()
         navBarView.postButton.titleLabel?.textAlignment = .right
         let yOffset = navBarView.frame.maxY
@@ -441,7 +442,12 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
                 let linkHex = HexagonStructData(resource: linkTextField.text!, type: "link", location: numPosts + 1, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: captionTextField.text ?? "", views: 0, isArchived: false, docID: "WillBeSetLater", coverText: textOverlayTextField.text ?? "")
                 let previewVC = storyboard?.instantiateViewController(identifier: "linkPreview") as! LinkPreviewVC
                 previewVC.webHex = linkHex
+                if changedProfilePic == true {
                 previewVC.thumbImage = linkHexagonImage.image
+                }
+                else {
+                    previewVC.thumbImage = UIImage(named: "linkCenter")
+                }
                 previewVC.userData = userData
                 previewVC.modalPresentationStyle = .fullScreen
                 self.present(previewVC, animated: false, completion: nil)
@@ -466,11 +472,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         // Local variable inserted by Swift 4.2 migrator.
         let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         linkHexagonImage.image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
-        //        if let imageURL = info[UIImagePickerController.InfoKey.referenceURL.rawValue] as? URL {
-        //            let result = PHAsset.fetchAssets(withALAssetURLs: [imageURL], options: nil)
-        //            avaImageExtension = String((result.firstObject?.value(forKey: "filename") as! String).split(separator: ".")[1])
-        //            print("extension \(avaImageExtension)")
-        //        }
+        self.changedProfilePic = true
         self.dismiss(animated: true, completion: nil)
     }
     

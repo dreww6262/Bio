@@ -515,7 +515,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
         navBarView.postButton.isHidden = true
 //        self.navBarView.addSubview(toSettingsButton)
 //        self.navBarView.addSubview(toSearchButton)
-        self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 30)/2, width: 25, height: 30)
+        self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 34, height: 34)
         
         if cancelLbl != nil {
             backButton.setTitle(cancelLbl, for: .normal)
@@ -548,7 +548,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
    //     self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
         
       //  backButton.sizeToFit()
-        postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 30)/2, width: 40, height: 30)
+        postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 40, height: 34)
         //navBarView.postButton.titleLabel?.sizeToFit()
         navBarView.postButton.titleLabel?.textAlignment = .right
         let yOffset = navBarView.frame.maxY

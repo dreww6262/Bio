@@ -1024,6 +1024,8 @@ var navBarView = NavBarView()
     
     func createHexagonMaskWithCorrespondingColor(imageView: UIImageView, type: String) {
         if type == "photo" {
+          //  imageView.addHexagonGradiendBorder(10.0)
+            //imageView.bringSubviewToFront(imageView.image)
             imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myOrange, cornerRadius: imageView.frame.width/15)
         }
         else if type == "video" {

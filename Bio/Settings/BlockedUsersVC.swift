@@ -11,6 +11,10 @@ import Firebase
 import FirebaseFirestore
 
 class BlockedUsersVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
+    var navBarView = NavBarView()
+    
+    var backButton = UIButton()
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return searchArray.count
     }
@@ -211,9 +215,11 @@ class BlockedUsersVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         searchBar.backgroundColor = UIColor.black
         searchBar.barStyle = .blackOpaque
         searchBar.delegate = self
-        searchBar.frame = CGRect(x: 10, y: view.frame.height/4 - searchBar.frame.height, width: view.frame.width - 20, height: searchBar.frame.height)
+        setUpNavBarView()
+        searchBar.frame = CGRect(x: 10, y: self.navBarView.frame.maxY, width: view.frame.width - 20, height: searchBar.frame.height)
         
-        tableView.frame = CGRect(x: 10, y: view.frame.height/4, width: view.frame.width - 20, height: view.frame.height * 0.75)
+        
+        tableView.frame = CGRect(x: 10, y: searchBar.frame.maxY, width: view.frame.width - 20, height: view.frame.height - searchBar.frame.maxY)
         
         tableView.backgroundColor = .systemGray6
         tableView.rowHeight = 45
@@ -229,6 +235,71 @@ class BlockedUsersVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         reloadBlockedUserData()
         tableView.reloadData()
+    }
+    
+    func setUpNavBarView() {
+        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        print("This is status bar height \(statusBarHeight)")
+        self.view.addSubview(navBarView)
+        self.navBarView.addSubview(backButton)
+       // self.navBarView.addSubview(postButton)
+        self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
+       
+        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        navBarView.backButton.isHidden = true
+        navBarView.postButton.isHidden = true
+
+        self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 30)/2, width: 30, height: 30)
+        
+
+            let backTap = UITapGestureRecognizer(target: self, action: #selector(self.backButtonpressed))
+            backTap.numberOfTapsRequired = 1
+            backButton.isUserInteractionEnabled = true
+            backButton.addGestureRecognizer(backTap)
+            backButton.setImage(UIImage(named: "whiteChevron"), for: .normal)
+        
+        
+
+        
+        //navBarView.postButton.titleLabel?.sizeToFit()
+        navBarView.postButton.titleLabel?.textAlignment = .right
+        let yOffset = navBarView.frame.maxY
+  
+        self.navBarView.addBehavior()
+        self.navBarView.titleLabel.text = "Block Users"
+     //   self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
+        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: self.backButton.frame.minY, width: 200, height: 25)
+        print("This is navBarView.")
+      
+      
+    }
+    
+    @objc func backButtonpressed() {
+        print("It should dismiss here")
+        self.dismiss(animated: true)
+     }
+    
+    
+    func setUpNavBarViewold2() {
+        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        print("This is status bar height \(statusBarHeight)")
+        self.view.addSubview(navBarView)
+        self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
+        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        navBarView.backButton.isHidden = true
+        navBarView.postButton.isHidden = true
+    
+        let yOffset = navBarView.frame.maxY
+     //   self.tableView.frame = CGRect(x: 0, y: yOffset, width: self.view.frame.width, height: self.view.frame.height - yOffset)
+      //  self.navBarView.addSubview(titleLabel1)
+        self.navBarView.addBehavior()
+        self.navBarView.titleLabel.text = "Notifications"
+
+        print("This is navBarView.")
+ 
+
+       // self.tableView.frame = CGRect(x: 0, y: yOffset, width: self.view.frame.width, height: self.view.frame.height - yOffset)
+
     }
     
     func reloadBlockedUserData() {
