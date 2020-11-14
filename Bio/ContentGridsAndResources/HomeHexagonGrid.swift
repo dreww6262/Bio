@@ -62,7 +62,6 @@ var navBarView = NavBarView()
     var curvedLayer = UIImageView()
     
     var indexLabelArray: [UILabel] = []
-    var textOverlayArray: [UILabel] = []
     
     // Flags and tags
     var firstLoad  = true
@@ -484,8 +483,6 @@ var navBarView = NavBarView()
                     self.contentView.bringSubviewToFront(self.indexLabelArray[imageIndex])
                     self.indexLabelArray[imageIndex].center = image.center
                     self.indexLabelArray[imageIndex].isHidden = true
-                    self.textOverlayArray[imageIndex].center = image.center
-                    self.contentView.bringSubviewToFront(self.textOverlayArray[imageIndex])
                    // self.contentView.bringSubviewToFront(hexLocationLabel)
                     image.isHidden = false
                     imageIndex = imageIndex + 1
@@ -603,46 +600,6 @@ var navBarView = NavBarView()
             self.contentView.bringSubviewToFront(hexLocationLabel)
             self.indexLabelArray.append(hexLocationLabel)
             
-            let hexTextOverlayLabel = UILabel()
-            hexTextOverlayLabel.textAlignment = .center
-            self.contentView.addSubview(hexTextOverlayLabel)
-            //self.contentView.addSubview(imageCopy)
-            let textOverlayLabelWidth = image.frame.width*(7.5/10)
-            let textOverlayLabelHeight = image.frame.height*(7.5/10)
-            hexTextOverlayLabel.frame = CGRect(x: (image.frame.midX-textOverlayLabelWidth)/2, y: (image.frame.midY-textOverlayLabelHeight)/2, width: textOverlayLabelWidth, height: textOverlayLabelHeight)
-            var hexText = image.hexData!.text
-            hexTextOverlayLabel.text = "\( image.hexData!.text)"
-            hexTextOverlayLabel.font.withSize(18)
-            hexTextOverlayLabel.numberOfLines = 0
-            hexTextOverlayLabel.font = UIFont(name: "DINAternate-Bold", size: 18)
-            hexTextOverlayLabel.textColor = white
-            hexTextOverlayLabel.center = image.center
-            
-            let strokeTextAttributes = [
-                NSAttributedString.Key.strokeColor : UIColor.black,
-                NSAttributedString.Key.foregroundColor : UIColor.white,
-                NSAttributedString.Key.strokeWidth : -4.0,
-                NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 25)]
-                as [NSAttributedString.Key : Any]
-            
-//            let strokeTextAttributes = [
-//                NSAttributedString.Key.strokeColor : UIColor.black,
-//                NSAttributedString.Key.foregroundColor : UIColor.white,
-//                NSAttributedString.Key.strokeWidth : -4.0,
-//                NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 30)]
-//                as [NSAttributedString.Key : Any]
-            
-            //Making outline here
-            hexTextOverlayLabel.attributedText = NSMutableAttributedString(string: hexText, attributes: strokeTextAttributes)
-            
-            
-            
-            
-            
-            
-            self.textOverlayArray.append(hexTextOverlayLabel)
-            
-            
             hexLocationLabel.isHidden = true
             imageCopy.isHidden = true
             
@@ -735,9 +692,20 @@ var navBarView = NavBarView()
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
         image.sd_setImage(with: url!, placeholderImage: placeHolderImage, options: .refreshCached) { (_, error, _, _) in
             if (error != nil) {
-                print(error?.localizedDescription)
+                print(error!.localizedDescription)
                 image.image = placeHolderImage
             }
+        }
+        image.textOverlay.textAlignment = .center
+        image.bringSubviewToFront(image.textOverlay)
+        //self.contentView.addSubview(imageCopy)
+        image.textOverlay.frame = CGRect(x: 0, y: image.frame.height / 2 + 4, width: image.frame.width, height: 20)
+        image.textOverlay.text = image.hexData!.text
+        image.textOverlay.numberOfLines = 1
+        image.textOverlay.font = UIFont(name: "DINAternate-Bold", size: 10)
+        image.textOverlay.textColor = white
+        if image.hexData!.text != "" {
+            image.textOverlay.backgroundColor = .systemGray
         }
         
         
@@ -818,7 +786,6 @@ var navBarView = NavBarView()
             dragView?.center = sender.location(in: contentView)
 //            print("yo: this is dragView.center before \(dragView!.center)")
             contentView.bringSubviewToFront(dragView!)
-            contentView.bringSubviewToFront(textOverlayArray[sender.view!.tag])
             trashButton.isHidden = false
             menuView.menuButton.isHidden = true
             
