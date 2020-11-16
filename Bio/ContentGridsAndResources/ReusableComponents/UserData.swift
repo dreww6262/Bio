@@ -19,7 +19,7 @@ class UserData {
     var hexagonGridID: String
     var userPage: String
     var subscribedUsers: [String]
-    var subscriptions: [String]
+    var subscriptions: [String: String]
     var numPosts: Int
     var displayName: String
     var birthday: String
@@ -34,7 +34,7 @@ class UserData {
     }
     
     
-    init(email: String, publicID: String, privateID: String, avaRef: String, hexagonGridID: String, userPage: String, subscribedUsers:  [String], subscriptions: [String], numPosts: Int, displayName: String, birthday: String, blockedUsers: [String], isBlockedBy: [String], pageViews: Int, bio: String) {
+    init(email: String, publicID: String, privateID: String, avaRef: String, hexagonGridID: String, userPage: String, subscribedUsers:  [String], subscriptions: [String: String], numPosts: Int, displayName: String, birthday: String, blockedUsers: [String], isBlockedBy: [String], pageViews: Int, bio: String) {
         self.email = email
         self.publicID = publicID
         self.privateID = privateID
@@ -61,7 +61,10 @@ class UserData {
         let hexagonGridID = dictionary["hexagonGridID"] as! String? ?? ""
         let userPage = dictionary["userPage"] as! String? ?? ""
         let subscribedUsers = dictionary["subscribedUsers"] as! [String]? ?? [""]
-        let subscriptions = dictionary["subscriptions"] as! [String]? ?? [""]
+        var subscriptions = [String: String]()
+        if (dictionary["subscriptions"] is [String: String]) {
+            subscriptions = dictionary["subscriptions"] as! [String: String]? ?? ["": ""]
+        }
         let numPosts = Int(dictionary["numPosts"] as! Int? ?? 0)
         let displayName = dictionary["displayName"] as! String? ?? ""
         let birthday = dictionary["birthday"] as! String? ?? ""
