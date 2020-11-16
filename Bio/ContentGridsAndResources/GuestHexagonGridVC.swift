@@ -57,6 +57,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     //var hexagonStructArray: [HexagonStructData] = []
     var imageViewArray: [PostImageView] = []
     
+    // use .compare to compare dates
     var lastDateViewed: NSDate?
     
     var reOrderedCoordinateArrayPoints: [CGPoint] = [CGPoint(x: 946.8266739736607,y: 902.5),CGPoint(x: 1081.7304845413264,y: 902.5),CGPoint(x: 1014.2785792574934,y: 1020.0), CGPoint(x: 879.3747686898278,y: 1020.0),CGPoint(x:811.9228634059948,y: 902.5), CGPoint(x: 879.3747686898278,y: 785.0),CGPoint(x: 1014.2785792574934,y: 785.0),CGPoint(x:946.8266739736607,y: 667.5),CGPoint(x:1081.7304845413264,y:667.5), CGPoint(x:1149.1823898251594,y:785.0),CGPoint(x: 1216.6342951089923,y: 902.5),CGPoint(x:1149.1823898251594,y: 1020.0), CGPoint(x:1081.7304845413264, y: 1137.5),CGPoint(x:946.8266739736607,y: 1137.5),CGPoint(x: 811.9228634059948, y: 1137.5),CGPoint(x: 744.4709581221618, y: 1020.0), CGPoint(x: 677.0190528383291, y: 902.5),CGPoint(x: 744.4709581221618, y: 785.0), CGPoint(x: 811.9228634059948, y: 667.5),CGPoint(x: 879.3747686898278, y: 550.0),CGPoint(x: 1014.2785792574934, y: 550.0),CGPoint(x: 1149.1823898251594,y: 550.0),CGPoint(x:1216.6342951089923,y: 667.5),CGPoint(x:1284.0862003928253, y: 785.0),CGPoint(x:1351.5381056766582,y: 902.5), CGPoint(x:1284.0862003928253, y: 1020.0),CGPoint(x: 1216.6342951089923, y: 1137.5),CGPoint(x: 1149.1823898251594, y: 1255.0), CGPoint(x:1014.2785792574934,y:1255.0),CGPoint(x:879.3747686898278, y:1255.0),CGPoint(x:744.4709581221618, y:1255.0),CGPoint(x:677.0190528383291, y:1137.5),CGPoint(x:609.5671475544962,y: 1020.0),CGPoint(x:542.1152422706632, y: 902.5),CGPoint(x: 609.5671475544962, y: 785.0),CGPoint(x: 677.0190528383291, y: 667.5),CGPoint(x: 744.4709581221618, y: 550.0)]
@@ -509,11 +510,25 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
                 self.imageViewArray = newPostImageArray
                 self.changePostImageCoordinates()
                 var imageIndex = 0
+                
+                let dateFormatter = DateFormatter()
+               // dateFormatter.dateFormat = "yyyy-MM-dd' 'HH:mm:ssZ"
+                dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZZ"
+                dateFormatter.locale = Locale.init(identifier: "en_GB")
+                dateFormatter.timeZone = NSTimeZone(name: "GMT") as TimeZone?
+                
+                
                 for image in self.imageViewArray {
                     self.contentView.addSubview(image)
                     self.contentView.bringSubviewToFront(image)
                     image.isHidden = false
                     imageIndex = imageIndex + 1
+                    
+                    
+                    let date = dateFormatter.date(from: image.hexData!.createdAt)
+                    if date != nil && self.lastDateViewed?.compare(date!) == ComparisonResult.orderedDescending {
+                        // @PAT do image change things here
+                    }
                 }
                 //}
             }
