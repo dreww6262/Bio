@@ -16,8 +16,9 @@ import FirebaseStorage
 
 
 
-class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
-    
+class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIContextMenuInteractionDelegate {
+  var isFollowing = false
+    var interactiveUserData: UserData?
     
     let db = Firestore.firestore()
     let storageRef = Storage.storage().reference()
@@ -105,6 +106,9 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         cell.userData = popData
         cell.usernameLabel.text = popData.publicID
         cell.displayNameLabel.text = popData.displayName
+        let interaction = UIContextMenuInteraction(delegate: self)
+        cell.addInteraction(interaction)
+        self.interactiveUserData = popData
         
         cell.image.contentMode = .scaleAspectFill
         let cleanRef = popData.avaRef.replacingOccurrences(of: "/", with: "%2F")
@@ -167,7 +171,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         
         var bioArray: [String] = ["Artist", "Activist", "Photographer", "Producer", "Musician", "Student-Athlete", "Entrepreneur", "Teacher", "Professional Athlete", "Just For Fun"]
         cell.userDescriptionLabel.font = UIFont.italicSystemFont(ofSize: 16)
-        cell.userDescriptionLabel.text = "\(bioArray.randomElement()!)"
+        cell.userDescriptionLabel.text = "\(cell.userData!.bio)" ?? "\(bioArray.randomElement()!)"
         cell.userDescriptionLabel.textColor = .black
         cell.userDescriptionLabel.textAlignment = .center
         cell.sendSubviewToBack(cell.image)
@@ -201,6 +205,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         
         
     }
+    
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if (kind == UICollectionView.elementKindSectionHeader) {
@@ -517,6 +522,94 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
     }
     
     
+    @objc func followTapped(_ sender: UITapGestureRecognizer) {
+        print("Follow tapped")
+//        if guestUserData != nil {
+//            if !isFollowing {
+//                let newFollow = ["follower": myUserData!.publicID, "following": guestUserData!.publicID]
+//                db.collection("Followings").addDocument(data: newFollow as [String : Any])
+//                UIDevice.vibrate()
+//
+//                let notificationObjectref = db.collection("News2")
+//                let notificationDoc = notificationObjectref.document()
+//                let notificationObject = NewsObject(ava: myUserData!.avaRef, type: "follow", currentUser: myUserData!.publicID, notifyingUser: guestUserData!.publicID, thumbResource: myUserData!.avaRef, createdAt: NSDate.now.description, checked: false, notificationID: notificationDoc.documentID)
+//                notificationDoc.setData(notificationObject.dictionary){ error in
+//                    //     group.leave()
+//                    if error == nil {
+//                        //                           print("added notification: \(notificationObject)")
+//
+//                    }
+//                    else {
+//                        print("failed to add notification \(notificationObject)")
+//
+//                    }
+//                }
+//            }
+//            else {
+//                db.collection("Followings").whereField("follower", isEqualTo: myUserData!.publicID).whereField("following", isEqualTo: guestUserData!.publicID).getDocuments(completion: { objects, error in
+//                    if error == nil {
+//                        guard let docs = objects?.documents else {
+//                            return
+//                        }
+//                        for doc in docs {
+//                            doc.reference.delete()
+//                        }
+//                    }
+//                })
+//
+//            }
+//        }
+    }
+    
+    
+    func createContextMenu() -> UIMenu {
+        let followAction = UIAction(title: "Follow \(interactiveUserData!.publicID)", image: nil) { _ in
+            print("follow \(self.interactiveUserData!.publicID)")
+       // self.handleProfilePicTap(UITapGestureRecognizer())
+            self.followTapped(UITapGestureRecognizer())
+    }
+        
+        let unfollowAction = UIAction(title: "Unfollow \(self.interactiveUserData!.publicID)", image: nil) { _ in
+            print("Unfollow \(self.interactiveUserData!.publicID)")
+            let alert = UIAlertController(title: "Are you sure?", message: nil, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
+                self.followTapped(UITapGestureRecognizer())
+            }))
+            alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            
+    }
+        let featuredFollowingList = UIAction(title: "View Who \(self.interactiveUserData!.publicID) Follows", image: nil) { _ in
+    print("TODO: View their users")
+            let featuredUserFollowingTableView = self.storyboard?.instantiateViewController(identifier: "followingTableView") as! FollowingTableView
+           featuredUserFollowingTableView.userData = self.interactiveUserData
+            self.present(featuredUserFollowingTableView, animated: false)
+    }
+        
+     
+
+    let cancelAction = UIAction(title: "Cancel", image: .none, attributes: .destructive) { action in
+             // Delete this photo 😢
+         }
+        
+        
+        if isFollowing {
+            return UIMenu(title: "", children: [unfollowAction, featuredFollowingList, cancelAction])
+        }
+        else {
+            return UIMenu(title: "", children: [followAction, featuredFollowingList, cancelAction])
+        }
+        
+   
+    }
+    
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+    return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ -> UIMenu? in
+    return self.createContextMenu()
+        }
+    }
+    
+    
     func doneLoading() {
         //self.removeCurrentProfileHexagons()
         //self.loadProfileHexagons()
@@ -742,6 +835,30 @@ extension UIImageView {
         let gradient = CAGradientLayer()
         gradient.frame =  CGRect(origin: CGPoint.zero, size: bounds.size)
         let colors: [CGColor] = [myPink.cgColor, myBlueGreen.cgColor]
+        gradient.colors = colors
+        gradient.startPoint = CGPoint(x: 1, y: 0.5)
+        gradient.endPoint = CGPoint(x: 0, y: 0.5)
+        
+        let cornerRadius = frame.size.width / 2
+        layer.cornerRadius = cornerRadius
+        clipsToBounds = true
+        
+        let shape = CAShapeLayer()
+        let path = UIBezierPath(ovalIn: bounds)
+        
+        shape.lineWidth = width
+        shape.path = path.cgPath
+        shape.strokeColor = UIColor.black.cgColor
+        shape.fillColor = UIColor.clear.cgColor // clear
+        gradient.mask = shape
+        
+        layer.insertSublayer(gradient, below: layer)
+    }
+    
+    func addGrayCircleGradiendBorder(_ width: CGFloat) {
+        let gradient = CAGradientLayer()
+        gradient.frame =  CGRect(origin: CGPoint.zero, size: bounds.size)
+        let colors: [CGColor] = [ UIColor.lightGray.cgColor]
         gradient.colors = colors
         gradient.startPoint = CGPoint(x: 1, y: 0.5)
         gradient.endPoint = CGPoint(x: 0, y: 0.5)

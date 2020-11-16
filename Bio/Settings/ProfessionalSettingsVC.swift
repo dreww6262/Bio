@@ -52,7 +52,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
     var user = "\(Auth.auth().currentUser?.email ?? "")"
     var name = "\(Auth.auth().currentUser?.displayName ?? "")"
     var birthday = "1/1/2020"
-    var country = "USA"
+ //   var country = Auth.auth().currentUser?.
     var phoneNumber = "xxx-xxx-xxxx"
     var email = "\(Auth.auth().currentUser?.email ?? "")"
     var password = "xxxxxxxxxxxxxx"
@@ -64,6 +64,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
     var titleLabel1 = UILabel()
     let db = Firestore.firestore()
     let storage = Storage.storage().reference()
+    var bio = ""
     
     override func viewDidLoad() {
         //        view.addSubview(navBarView)
@@ -84,8 +85,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
                         NavigationRow(text: "Username", detailText: .value1(email)!, icon: .named("globe")), NavigationRow(text: "Followers", detailText: .none, icon: .none, action: didToggleSelection()),
                         NavigationRow(text: "Following", detailText: .none, icon: .none, action: didToggleSelection()),
                         NavigationRow(text: "Birthday", detailText: .value1(myBirthday ?? ""), icon: .none, action: { _ in }),
-                        NavigationRow(text: "Country", detailText: .value1(country)), NavigationRow(text: "Terms of Service", detailText: .none, icon: .named("time"), action: { _ in }),
-                        NavigationRow(text: "Email", detailText: .value1(email)!, icon: .named("time"), action: { _ in }),
+                        NavigationRow(text: "Country", detailText: .value1(userData?.country ?? "")), NavigationRow(text: "Bio", detailText: .value1(userData?.bio ?? "")), NavigationRow(text: "Email", detailText: .value1(email)!, icon: .named("time"), action: { _ in }),
                         NavigationRow(text: "Change Profile Picture", detailText: .none, icon: .none, action: didToggleSelection()), NavigationRow(text: "Change Password", detailText: .none, icon: .none, action: didToggleSelection())]),
             Section(title: "Support", rows: [NavigationRow(text: "Blocked Users", detailText: .none, icon: .named("gear"), action: didToggleSelection()),
                         NavigationRow(text: "FAQ's", detailText: .none, icon: .named("gear")),

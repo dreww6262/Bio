@@ -592,8 +592,8 @@ var navBarView = NavBarView()
             let LabelHeight = image.frame.height/3
             hexLocationLabel.frame = CGRect(x: (image.frame.midX-LabelWidth)/2, y: (image.frame.midY-LabelHeight)/2, width: LabelWidth, height: LabelHeight)
             hexLocationLabel.text = "\( image.hexData!.location)"
-            hexLocationLabel.font.withSize(45)
-            hexLocationLabel.font = UIFont(name: "DINAternate-Bold", size: 45)
+        //    hexLocationLabel.font.withSize(45)
+            hexLocationLabel.font = UIFont(name: "DINAternate-SemiBold", size: 90)
             hexLocationLabel.textColor = white
             hexLocationLabel.center = image.center
             self.contentView.bringSubviewToFront(imageCopy)
@@ -696,16 +696,30 @@ var navBarView = NavBarView()
                 image.image = placeHolderImage
             }
         }
+       
         image.textOverlay.textAlignment = .center
         image.bringSubviewToFront(image.textOverlay)
         //self.contentView.addSubview(imageCopy)
-        image.textOverlay.frame = CGRect(x: 0, y: image.frame.height / 2 + 4, width: image.frame.width, height: 20)
-        image.textOverlay.text = image.hexData!.text
+    //    image.textOverlay.frame = CGRect(x: 0, y: image.frame.height*(5/10) + 4, width: image.frame.width, height: 20)
+        image.textOverlay.frame = CGRect(x: 0, y: image.frame.height*(6/10), width: image.frame.width, height: 20)
+        image.textOverlay.text = image.hexData!.coverText
         image.textOverlay.numberOfLines = 1
         image.textOverlay.font = UIFont(name: "DINAternate-Bold", size: 10)
         image.textOverlay.textColor = white
-        if image.hexData!.text != "" {
-            image.textOverlay.backgroundColor = .systemGray
+        
+      
+        
+        
+        
+        if image.hexData!.coverText != "" {
+            image.textOverlay.backgroundColor = UIColor(white: 0.25, alpha: 0.5)
+//            let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
+//            visualEffectView.backgroundColor = .clear
+//            image.textOverlay.addSubview(visualEffectView)
+//            visualEffectView.frame = CGRect(x: 0, y: 0, width: image.textOverlay.frame.width, height: image.textOverlay.frame.height)
+            
+//            visualEffectView.backgroundColor = UIColor(white: 0.1, alpha: 0.3)
+//            image.sendSubviewToBack(visualEffectView)
         }
         
         
@@ -1011,18 +1025,23 @@ var navBarView = NavBarView()
         else if type.contains("social") {
             if type.contains("tik") {
                 //example label
-                let nameLabel = UILabel()
-                self.contentView.addSubview(nameLabel)
-                nameLabel.text = "@username"
-                nameLabel.frame = CGRect(x: imageView.frame.minX + 15, y: imageView.frame.midY - 10, width: 120, height: 20)
-                nameLabel.textAlignment = .center
+//                let nameLabel = UILabel()
+//                self.contentView.addSubview(nameLabel)
+//                nameLabel.text = "@username"
+//                nameLabel.frame = CGRect(x: imageView.frame.minX + 15, y: imageView.frame.midY - 10, width: 120, height: 20)
+//                nameLabel.textAlignment = .center
                 //white border for tik tok with black logo
                 imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: .white, cornerRadius: imageView.frame.width/15)
          
-                nameLabel.textColor = .white
+            //    nameLabel.textColor = .white
              
        
             }
+            if type.contains("cameo") {
+                    imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: white, cornerRadius: imageView.frame.width/15)
+            }
+            
+            
             else {
             //clear border
             imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: .clear, cornerRadius: imageView.frame.width/15)

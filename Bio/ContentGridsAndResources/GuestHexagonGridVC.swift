@@ -645,13 +645,15 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         image.textOverlay.textAlignment = .center
         image.bringSubviewToFront(image.textOverlay)
         //self.contentView.addSubview(imageCopy)
-        image.textOverlay.frame = CGRect(x: 0, y: image.frame.height / 2 + 4, width: image.frame.width, height: 20)
-        image.textOverlay.text = image.hexData!.text
+        //image.textOverlay.frame = CGRect(x: 0, y: image.frame.height / 2 + 4, width: image.frame.width, height: 20)
+        image.textOverlay.frame = CGRect(x: 0, y: image.frame.height*(6/10), width: image.frame.width, height: 20)
+        image.textOverlay.text = image.hexData!.coverText
         image.textOverlay.numberOfLines = 1
         image.textOverlay.font = UIFont(name: "DINAternate-Bold", size: 10)
         image.textOverlay.textColor = white
-        if image.hexData!.text != "" {
-            image.textOverlay.backgroundColor = .systemGray
+        if image.hexData!.coverText != "" {
+          //  image.textOverlay.backgroundColor = UIColor(white: 0.5, alpha: 0.5)
+            image.textOverlay.backgroundColor = UIColor(white: 0.25, alpha: 0.5)
         }
         
         return image
@@ -1015,6 +1017,11 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
                 //white border for tik tok with black logo
                 imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: .white, cornerRadius: imageView.frame.width/15)
             }
+            if type.contains("cameo") {
+                //white border for tik tok with black logo
+                imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: .white, cornerRadius: imageView.frame.width/15)
+            }
+            
             else {
             //clear border
             imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: .clear, cornerRadius: imageView.frame.width/15)

@@ -107,6 +107,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         linkHexagonImage.isUserInteractionEnabled = true
         linkHexagonImage.addGestureRecognizer(linkTap)
         
+    // insertTextOverlay()
         
         
         //poshmarkLogo.image = UIImage(named: "poshmarkLogo")
@@ -221,6 +222,22 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         setUpTextOverlayLabel()
         
         
+    }
+    
+    func insertTextOverlay() {
+    var textOverlayLabel = UILabel()
+    linkHexagonImage.addSubview(textOverlayLabel)
+    textOverlayLabel.clipsToBounds = true
+    textOverlayLabel.textAlignment = .center
+    linkHexagonImage.bringSubviewToFront(textOverlayLabel)
+    //self.contentView.addSubview(imageCopy)
+//    image.textOverlay.frame = CGRect(x: 0, y: image.frame.height*(5/10) + 4, width: image.frame.width, height: 20)
+    textOverlayLabel.frame = CGRect(x: 0, y: linkHexagonImage.frame.height*(6/10), width: linkHexagonImage.frame.width, height: 20)
+        textOverlayLabel.text = textOverlayTextField.text!
+    textOverlayLabel.numberOfLines = 1
+    textOverlayLabel.font = UIFont(name: "DINAternate-Bold", size: 10)
+    textOverlayLabel.textColor = white
+     //   textOverlayLabel.text = "YOOOOOOOOOO"
     }
     
     func setUpTextOverlayLabel(){
