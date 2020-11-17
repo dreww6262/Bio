@@ -34,6 +34,16 @@ class EditProfilePhotoVC2: UIViewController, UIImagePickerControllerDelegate & U
         imageView.isUserInteractionEnabled = true
         imageView.addGestureRecognizer(avaTap)
         imageView.contentMode = .scaleToFill
+        let cleanRef = userData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
+        let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
+        
+        imageView!.sd_setImage(with: url!, completed: {_, error, _, _ in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+        })
+            
+      //  imageView.image = 
         signInButton.layer.cornerRadius = signInButton.frame.width/20
         // Do any additional setup after loading the view.
        var rect1 = signInButton.frame
@@ -73,7 +83,7 @@ class EditProfilePhotoVC2: UIViewController, UIImagePickerControllerDelegate & U
         let yOffset = navBarView.frame.maxY
       //  self.navBarView.addSubview(titleLabel1)
         self.navBarView.addBehavior()
-        self.navBarView.titleLabel.text = "Edit Profile Picture"
+        self.navBarView.titleLabel.text = "Change Profile Picture"
         print("This is navBarView.")
         self.backButton.setImage(UIImage(named: "whiteChevron"), for: .normal)
         self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: self.backButton.frame.minY, width: 200, height: 25)

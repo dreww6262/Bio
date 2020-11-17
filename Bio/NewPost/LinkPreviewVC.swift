@@ -100,6 +100,8 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
         self.view.addSubview(navBarView)
         self.navBarView.addSubview(backButton)
         self.navBarView.addSubview(postButton)
+        var alternateTitleLabel = UILabel()
+        self.navBarView.addSubview(alternateTitleLabel)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
        
         var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
@@ -136,7 +138,16 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
         self.navBarView.titleLabel.textColor = .white
     //    self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
         self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: postButton.frame.minY, width: 200, height: 25)
+        self.navBarView.titleLabel.isHidden = true
+        
         print("This is navBarView.")
+        
+        alternateTitleLabel.text = "Preview"
+       alternateTitleLabel.textColor = .white
+        alternateTitleLabel.textAlignment = .center
+    //    self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
+      alternateTitleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: postButton.frame.minY, width: 200, height: 25)
+        alternateTitleLabel.font = UIFont(name: "DINAlternate-Bold", size: 20)
       
       
     }

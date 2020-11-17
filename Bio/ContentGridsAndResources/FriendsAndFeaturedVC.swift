@@ -297,9 +297,11 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         let layout = (popularCollectionView.collectionViewLayout as! UICollectionViewFlowLayout)
         layout.headerReferenceSize = CGSize(width: view.frame.width, height: self.view.frame.height*(1/8) + 60)
         layout.scrollDirection = .vertical
-      //  layout.itemSize = CGSize(width: view.frame.width * 4.5 / 10, height: view.frame.width * 4.5/10)
-        layout.itemSize = CGSize(width: view.frame.width * 4.5 / 10, height: view.frame.width * 4.5/12)
-        layout.sectionInset = UIEdgeInsets(top: 40, left: 10, bottom: 85, right: 10)
+        layout.itemSize = CGSize(width: view.frame.width * 4/10, height: view.frame.width * 4/10)
+//        layout.itemSize = CGSize(width: view.frame.width * 4.5 / 10, height: view.frame.width * 4.5/10)
+   //     layout.itemSize = CGSize(width: view.frame.width * 4.5 / 10, height: view.frame.width * 4.5/12)
+//        layout.sectionInset = UIEdgeInsets(top: 40, left: 10, bottom: 85, right: 10)
+        layout.sectionInset = UIEdgeInsets(top: 40, left: view.frame.width*1.5/20, bottom: 85, right: view.frame.width*1.5/20)
         popularCollectionView.collectionViewLayout = layout
         
         
@@ -377,55 +379,9 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
 
         self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: self.toSearchButton.frame.minY, width: 200, height: 25)
-
-        //self.titleLabel1.text = "Notifications"
-      //  self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
-       // let yOffset = navBarView.frame.maxY
-      //  self.tableView.frame = CGRect(x: 0, y: yOffset, width: self.view.frame.width, height: self.view.frame.height - yOffset)
-
     }
     
-    func setUpNavBarViewold() {
-        let statusBarHeight = UIApplication.shared.statusBarFrame.height
-        print("This is status bar height \(statusBarHeight)")
-        self.view.addSubview(navBarView)
-        self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
-        let navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
-        navBarView.backButton.isHidden = true
-        navBarView.postButton.isHidden = true
-        self.navBarView.addSubview(toSettingsButton)
-        self.navBarView.addSubview(toSearchButton)
-        self.navBarView.backgroundColor = .black
-        //self.navBarView.layer.borderWidth = 1.0
-    //    self.navBarView.layer.borderColor = white.cgColor
-        
-        let settingsTap = UITapGestureRecognizer(target: self, action: #selector(self.toSettingsButtonClicked))
-        settingsTap.numberOfTapsRequired = 1
-        toSettingsButton.isUserInteractionEnabled = true
-        toSettingsButton.addGestureRecognizer(settingsTap)
-        
-        let searchTap = UITapGestureRecognizer(target: self, action: #selector(self.toSearchButtonClicked))
-        searchTap.numberOfTapsRequired = 1
-        toSearchButton.isUserInteractionEnabled = true
-        toSearchButton.addGestureRecognizer(searchTap)
-        
-        
-        self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
-        self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
-        
-        self.toSettingsButton.frame = CGRect(x: 10, y: navBarView.frame.height - 30, width: 25, height: 25)
-        self.toSettingsButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
-        self.toSearchButton.frame = CGRect(x: navBarView.frame.width - 35, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
-        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: 0, width: 200, height: self.navBarView.frame.height)
-        self.navBarView.titleLabel.text = "Discover"
-        //  self.navBarView.addSubview(titleLabel1)
-        self.navBarView.addBehavior()
-        self.navBarView.titleLabel.isHidden = false
-        print("This is navBarView.")
-        self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
-        self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
-        
-    }
+
     
     
     func refresh() {
@@ -562,15 +518,15 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
     }
     
     
-    func createContextMenu() -> UIMenu {
-        let followAction = UIAction(title: "Follow \(interactiveUserData!.publicID)", image: nil) { _ in
-            print("follow \(self.interactiveUserData!.publicID)")
+    func createContextMenu(userData: UserData) -> UIMenu {
+        let followAction = UIAction(title: "Follow \(userData.publicID)", image: nil) { _ in
+            print("follow \(userData.publicID)")
        // self.handleProfilePicTap(UITapGestureRecognizer())
             self.followTapped(UITapGestureRecognizer())
     }
         
-        let unfollowAction = UIAction(title: "Unfollow \(self.interactiveUserData!.publicID)", image: nil) { _ in
-            print("Unfollow \(self.interactiveUserData!.publicID)")
+        let unfollowAction = UIAction(title: "Unfollow \(userData)", image: nil) { _ in
+            print("Unfollow \(userData.publicID)")
             let alert = UIAlertController(title: "Are you sure?", message: nil, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
                 self.followTapped(UITapGestureRecognizer())
@@ -579,10 +535,10 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
             self.present(alert, animated: true, completion: nil)
             
     }
-        let featuredFollowingList = UIAction(title: "View Who \(self.interactiveUserData!.publicID) Follows", image: nil) { _ in
+        let featuredFollowingList = UIAction(title: "View Who \(userData.publicID) Follows", image: nil) { _ in
     print("TODO: View their users")
             let featuredUserFollowingTableView = self.storyboard?.instantiateViewController(identifier: "followingTableView") as! FollowingTableView
-           featuredUserFollowingTableView.userData = self.interactiveUserData
+           featuredUserFollowingTableView.userData = userData
             self.present(featuredUserFollowingTableView, animated: false)
     }
         
@@ -593,7 +549,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
          }
         
         
-        if isFollowing {
+        if followArray.contains(userData.publicID) {
             return UIMenu(title: "", children: [unfollowAction, featuredFollowingList, cancelAction])
         }
         else {
@@ -604,8 +560,10 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
     }
     
     func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        let popCell = interaction.view as! PopularCell
+        self.interactiveUserData = popCell.userData
     return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ -> UIMenu? in
-    return self.createContextMenu()
+        return self.createContextMenu(userData: popCell.userData!)
         }
     }
     
@@ -767,7 +725,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         guestVC.myUserData = userData
         //guestVC.profileImage = self.
         guestVC.guestUserData = profCell.userData
-        guestVC.isFollowing = true
+        //guestVC.isFollowing = true
         show(guestVC, sender: nil)
         // TODO: use tag to get index of userdata to go to new hex grid as guest.
         

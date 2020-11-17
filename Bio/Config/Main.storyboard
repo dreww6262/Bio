@@ -1893,19 +1893,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QAp-h5-aYT">
-                                <rect key="frame" x="20" y="44" width="25" height="25"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" image="whiteChevron">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <color key="titleShadowColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="cancelButtonClicked:" destination="Y6W-Qv-RaA" eventType="touchUpInside" id="JE5-eB-jlD"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A4C-PG-RDz">
                                 <rect key="frame" x="55" y="362" width="304" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1919,7 +1906,7 @@
                                     <action selector="signInClicked:" destination="Y6W-Qv-RaA" eventType="touchUpInside" id="C4B-xu-irY"/>
                                 </connections>
                             </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="boyprofile" translatesAutoresizingMaskIntoConstraints="NO" id="xK6-pH-Usa">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="boyprofile" translatesAutoresizingMaskIntoConstraints="NO" id="xK6-pH-Usa">
                                 <rect key="frame" x="87" y="127" width="200" height="200"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -1929,9 +1916,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="IKR-wi-ZdR"/>
                     <connections>
-                        <outlet property="cancelButton" destination="QAp-h5-aYT" id="Pdr-m2-4aD"/>
+                        <outlet property="addProfilePictureButton" destination="A4C-PG-RDz" id="OOW-lQ-82L"/>
                         <outlet property="imageView" destination="xK6-pH-Usa" id="WEn-0f-0kJ"/>
-                        <outlet property="signInButton" destination="A4C-PG-RDz" id="OOW-lQ-82L"/>
                         <segue destination="CcP-gT-3tW" kind="unwind" identifier="unwindFromSignIn" unwindAction="unvindSegueToMenuWithSegue:" id="4S5-5K-saz"/>
                     </connections>
                 </viewController>

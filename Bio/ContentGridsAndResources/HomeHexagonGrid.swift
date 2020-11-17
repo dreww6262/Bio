@@ -690,13 +690,16 @@ var navBarView = NavBarView()
         //let ref = storage.child(hexData.thumbResource)
         let cleanRef = hexData.thumbResource.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
+        if url != nil {
+        
         image.sd_setImage(with: url!, placeholderImage: placeHolderImage, options: .refreshCached) { (_, error, _, _) in
             if (error != nil) {
                 print(error!.localizedDescription)
                 image.image = placeHolderImage
             }
         }
-       
+        }
+        
         image.textOverlay.textAlignment = .center
         image.bringSubviewToFront(image.textOverlay)
         //self.contentView.addSubview(imageCopy)

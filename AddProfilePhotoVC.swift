@@ -12,11 +12,11 @@ import FirebaseAuth
 
 class AddProfilePhotoVC: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     var hasOpenedImagePickerAlready = false
-    @IBOutlet weak var signInButton: UIButton!
+    @IBOutlet weak var addProfilePictureButton: UIButton!
     
     @IBOutlet weak var imageView: UIImageView!
     
-    @IBOutlet weak var cancelButton: UIButton!
+
     
     let auth = Auth.auth()
     var navBarView = NavBarView()
@@ -28,10 +28,10 @@ class AddProfilePhotoVC: UIViewController, UIImagePickerControllerDelegate & UIN
         avaTap.numberOfTapsRequired = 1
         imageView.isUserInteractionEnabled = true
         imageView.addGestureRecognizer(avaTap)
-        signInButton.layer.cornerRadius = signInButton.frame.width/20
+        addProfilePictureButton.layer.cornerRadius = addProfilePictureButton.frame.width/20
         // Do any additional setup after loading the view.
-       var rect1 = signInButton.frame
-        signInButton.frame = CGRect(x: rect1.minX, y: rect1.minY, width: rect1.width, height: rect1
+       var rect1 = addProfilePictureButton.frame
+        addProfilePictureButton.frame = CGRect(x: rect1.minX, y: rect1.minY, width: rect1.width, height: rect1
                                         .height*(5/4))
         setUpNavBarView()
         formatStuff()
@@ -44,7 +44,7 @@ class AddProfilePhotoVC: UIViewController, UIImagePickerControllerDelegate & UIN
         picker.sourceType = .photoLibrary
         picker.allowsEditing = true
         present(picker, animated: true, completion: nil)
-        self.signInButton.setTitle("Confirm Profile Picture", for: .normal)
+        self.addProfilePictureButton.setTitle("Add Profile Picture", for: .normal)
     }
     
     // connect selected image to our ImageView
@@ -59,33 +59,36 @@ class AddProfilePhotoVC: UIViewController, UIImagePickerControllerDelegate & UIN
     func formatStuff() {
         self.imageView.frame = CGRect(x: self.view.frame.width/4, y: self.navBarView.frame.maxY + 30, width: self.view.frame.width/2, height: self.view.frame.width/2)
         self.imageView.layer.cornerRadius = self.imageView.frame.width / 2
-        self.imageView.layer.borderWidth = 1.0
+        self.imageView.layer.borderWidth = 10.0
         self.imageView.layer.borderColor = white.cgColor
     }
     
     func setUpNavBarView() {
-        self.view.addSubview(self.navBarView)
-        self.navBarView.addSubview(self.titleLabel1)
+        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        print("This is status bar height \(statusBarHeight)")
+        self.view.addSubview(navBarView)
+        self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
+        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        navBarView.backButton.isHidden = true
+        navBarView.postButton.isHidden = true
+
+        let yOffset = navBarView.frame.maxY
+      //  self.tableView.frame = CGRect(x: 0, y: yOffset, width: self.view.frame.width, height: self.view.frame.height - yOffset)
+      //  self.navBarView.addSubview(titleLabel1)
         self.navBarView.addBehavior()
-       
-        self.titleLabel1.text = "Choose A Profile Picture"
-        self.titleLabel1.font = UIFont(name: "DINAlternate-Bold", size: 28)
-        self.navBarView.frame = CGRect(x: 0, y: self.cancelButton.frame.minY/2, width: self.view.frame.width, height: self.view.frame.height/12)
-        self.titleLabel1.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/12)
-        self.titleLabel1.textAlignment = .center
-       
-        
-        self.titleLabel1.textColor = .white
-        self.navBarView.backgroundColor = .clear
-        self.navBarView.isUserInteractionEnabled = false
+        self.navBarView.titleLabel.text = "Choose A Profile Picture"
+        //self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
+        print("This is navBarView.")
+        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 150, y: (self.navBarView.frame.height - 25)/2, width: 300, height: 25)
     }
+    
     
     
     @IBAction func signInClicked(_ sender: Any) {
         if hasOpenedImagePickerAlready == false {
             print("You havent tried to pick an image yet.")
             loadImg(UITapGestureRecognizer())
-            signInButton.setTitle("Confirm Profile Picture", for: .normal)
+            addProfilePictureButton.setTitle("Add Profile Picture", for: .normal)
         }
         else {
             print("Set the user's profile picture as the current image")
@@ -93,8 +96,7 @@ class AddProfilePhotoVC: UIViewController, UIImagePickerControllerDelegate & UIN
         }
     }
     
-    @IBAction func cancelButtonClicked(_ sender: Any) {
-       
+    @objc func cancelButtonClicked(_ sender: UITapGestureRecognizer) {
             self.view.endEditing(true)
             
             self.dismiss(animated: true, completion: nil)

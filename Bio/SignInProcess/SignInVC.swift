@@ -113,7 +113,9 @@ class SignInVC: UIViewController {
   
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Sign In"
-        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
+        
+        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: self.cancelButton.frame.minY, width: 200, height: 25)
+        //self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
         print("This is navBarView.")
       
       

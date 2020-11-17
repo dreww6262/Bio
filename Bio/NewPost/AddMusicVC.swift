@@ -16,7 +16,7 @@ import FirebaseFirestore
 
 
 
-class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     var navBarView = NavBarView()
     var changedProfilePic = false
     var poppinsBlack = UIFont(name: "poppins-Black", size: UIFont.labelFontSize)
@@ -25,7 +25,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
     //    label.font = UIFontMetrics.default.scaledFont(for: customFont)
     //    label.adjustsFontForContentSizeCategory = true
     
-    var textOverlayLabel = UILabel()
+   var textOverlayLabel = UILabel()
     
     var bottomLine = CALayer()
     var badMusicLink = false
@@ -91,6 +91,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         setUpNavBarView()
         scrollView.addSubview(captionTextField)
         scrollView.addSubview(textOverlayTextField)
+        textOverlayTextField.delegate = self
         
         var alreadySnapped = false
         super.viewDidLoad()
@@ -219,41 +220,65 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         postButton.titleLabel?.font = UIFontMetrics.default.scaledFont(for: poppinsSemiBold ?? UIFont(name: "DINAlternate-Bold", size: 20)!)
         postButton.titleLabel!.adjustsFontForContentSizeCategory = true
         
-        setUpTextOverlayLabel()
-        
+     //   setUpTextOverlayLabel()
+      insertTextOverlay()
         
     }
     
     func insertTextOverlay() {
-    var textOverlayLabel = UILabel()
     linkHexagonImage.addSubview(textOverlayLabel)
     textOverlayLabel.clipsToBounds = true
     textOverlayLabel.textAlignment = .center
     linkHexagonImage.bringSubviewToFront(textOverlayLabel)
     //self.contentView.addSubview(imageCopy)
-//    image.textOverlay.frame = CGRect(x: 0, y: image.frame.height*(5/10) + 4, width: image.frame.width, height: 20)
-    textOverlayLabel.frame = CGRect(x: 0, y: linkHexagonImage.frame.height*(6/10), width: linkHexagonImage.frame.width, height: 20)
+        textOverlayLabel.frame = CGRect(x: 0, y: linkHexagonImage.frame.height*(6/10), width: linkHexagonImage.frame.width, height: 20*(linkHexagonImage.frame.height/150))
+   // textOverlayLabel.frame = CGRect(x: 0, y: linkHexagonImage.frame.height*(6/10), width: linkHexagonImage.frame.width, height: 20)
         textOverlayLabel.text = textOverlayTextField.text!
     textOverlayLabel.numberOfLines = 1
     textOverlayLabel.font = UIFont(name: "DINAternate-Bold", size: 10)
     textOverlayLabel.textColor = white
+        
+    textOverlayLabel.textAlignment = .center
+      //  image.bringSubviewToFront(image.textOverlay)
+        //self.contentView.addSubview(imageCopy)
+    //    image.textOverlay.frame = CGRect(x: 0, y: image.frame.height*(5/10) + 4, width: image.frame.width, height: 20)
+        //textOverlayLabel.frame = CGRect(x: self.linkHexagonImage.frame.minX, y:self.linkHexagonImage.frame.minY + linkHexagonImage.frame.height*(6/10), width: linkHexagonImage.frame.width, height: 20)
+      textOverlayLabel.text = "image.hexData!.coverText"
+        textOverlayLabel.numberOfLines = 1
+        textOverlayLabel.font = UIFont(name: "DINAternate-Bold", size: 10)
+        textOverlayLabel.textColor = white
+        
+      
+        
+        
+        
+  //      if image.hexData!.coverText != "" {
+            textOverlayLabel.backgroundColor = UIColor(white: 0.25, alpha: 0.5)
+//            let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
+//            visualEffectView.backgroundColor = .clear
+//            image.textOverlay.addSubview(visualEffectView)
+//            visualEffectView.frame = CGRect(x: 0, y: 0, width: image.textOverlay.frame.width, height: image.textOverlay.frame.height)
+            
+//            visualEffectView.backgroundColor = UIColor(white: 0.1, alpha: 0.3)
+//            image.sendSubviewToBack(visualEffectView)
+      //  }
+
+        
      //   textOverlayLabel.text = "YOOOOOOOOOO"
     }
     
-    func setUpTextOverlayLabel(){
-        self.textOverlayLabel.textAlignment = .center
-        self.scrollView.addSubview(self.textOverlayLabel)
-        let textOverlayLabelWidth = self.linkHexagonImage.frame.width*(7.5/10)
-        let textOverlayLabelHeight = self.linkHexagonImage.frame.height*(7.5/10)
-        textOverlayLabel.frame = CGRect(x: (self.linkHexagonImage.frame.midX-textOverlayLabelWidth)/2, y: (self.linkHexagonImage.frame.midY-textOverlayLabelHeight)/2, width: textOverlayLabelWidth, height: textOverlayLabelHeight)
-      // self.textOverlayLabel.text = "\(self.textOverlayTextField.text ?? "")"
-        self.textOverlayLabel.text = ""
-        textOverlayLabel.font.withSize(18)
-        textOverlayLabel.numberOfLines = 0
-        textOverlayLabel.font = UIFont(name: "DINAternate-Bold", size: 18)
-        textOverlayLabel.textColor = white
-        textOverlayLabel.center = self.linkHexagonImage.center
+    func textViewDidEndEditing(_ textView: UITextView) {
+        print("I recognize that it is ending")
+        if textOverlayTextField.text != "" {
+            textOverlayLabel.isHidden = false
+            textOverlayLabel.text = textOverlayTextField.text!
+        }
+        else {
+            print("text overlay textfield empty")
+            textOverlayLabel.isHidden = true
+        }
     }
+
     
     func setUpNavBarView() {
         var statusBarHeight = UIApplication.shared.statusBarFrame.height

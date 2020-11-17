@@ -105,6 +105,23 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         myUserData?.subscriptions[guestUserData?.publicID ?? ""] = NSDate.now.description
         db.collection("UserData1").document(myUserData!.privateID).setData(myUserData!.dictionary)
         
+        db.collection("Followings").whereField("follower", isEqualTo: myUserData!.publicID).whereField("following", isEqualTo: guestUserData!.publicID).getDocuments(completion: { obj, error in
+            guard let docs = obj?.documents else {
+                return
+            }
+            if docs.count > 0 {
+                print("Isfollowing is true")
+                self.isFollowing = true
+                self.followView.isHidden = true
+            }
+            else {
+                print("isfollowing is false")
+                self.isFollowing = false
+                self.followView.isHidden = false
+            }
+        })
+    
+        
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -528,6 +545,12 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
                     let date = dateFormatter.date(from: image.hexData!.createdAt)
                     if date != nil && self.lastDateViewed?.compare(date!) == ComparisonResult.orderedDescending {
                         // @PAT do image change things here
+                        // this means its seen
+                  
+                    }
+                    else {
+                        image.setupHexagonMask(lineWidth: image.frame.width/15, color: .gray, cornerRadius: image.frame.width/15)
+                        
                     }
                 }
                 //}

@@ -302,7 +302,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
             trimmedText = trimmedText.lowercased()
             print("This is trimmedText \(trimmedText)")
-            let youtubeHex = HexagonStructData(resource: "\(trimmedText)", type: "socialmedia_youtube", location: numPosts, thumbResource: "icons/youtube3 .png", createdAt: NSDate.now.description, postingUserID: username, text: "", views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "")
+            let youtubeHex = HexagonStructData(resource: "\(trimmedText)", type: "socialmedia_youtube", location: numPosts, thumbResource: "icons/youtube3.png", createdAt: NSDate.now.description, postingUserID: username, text: "", views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "")
             addHex(hexData: youtubeHex, completion: {bool in
                 success = success && bool
                 
@@ -367,7 +367,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
             trimmedText = trimmedText.lowercased()
             print("This is trimmedText \(trimmedText)")
-            let etsyHex = HexagonStructData(resource: "https://etsy.com/shop/\(trimmedText)", type: "socialmedia_etsy", location: numPosts, thumbResource: "icons/etsyLogoCircle.png", createdAt: NSDate.now.description, postingUserID: username, text: "", views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "@\(trimmedText)")
+            let etsyHex = HexagonStructData(resource: "https://etsy.com/shop/\(trimmedText)", type: "socialmedia_etsy", location: numPosts, thumbResource: "icons/etsyLogoCircle.png", createdAt: NSDate.now.description, postingUserID: username, text: "", views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "\(trimmedText)")
             addHex(hexData: etsyHex, completion: {bool in
                 success = success && bool
                 
