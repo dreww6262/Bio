@@ -106,6 +106,8 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         cell.userData = popData
         cell.usernameLabel.text = popData.publicID
         cell.displayNameLabel.text = popData.displayName
+        var cellBio = cell.userData!.bio ?? ""
+        cell.userDescriptionLabel.text = cellBio
         let interaction = UIContextMenuInteraction(delegate: self)
         cell.addInteraction(interaction)
         self.interactiveUserData = popData
@@ -152,7 +154,22 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         
         //set up display name frame
        // cell.displayNameLabel.frame = CGRect(x: 0, y: cell.image.frame.maxY + (spaceRemaining/16), width: cell.frame.width, height: spaceRemaining/2)
+        if cellBio != "" {
+            cell.displayNameLabel.isHidden = false
+            cell.userDescriptionLabel.isHidden = false
         cell.displayNameLabel.frame = CGRect(x: 0, y: cell.frame.height*(6/10), width: cell.frame.width, height: cell.frame.height*(2/10))
+        let spaceToBottom = cell.frame.height - cell.displayNameLabel.frame.maxY
+        cell.userDescriptionLabel.frame = CGRect(x: 0, y: cell.displayNameLabel.frame.maxY, width: cell.frame.width, height: cell.frame.height*(2/10))
+        }
+        else {
+            cell.displayNameLabel.isHidden = true
+            cell.userDescriptionLabel.isHidden = true
+            cell.displayNameLabel.frame = CGRect(x: 0, y: cell.frame.height*(6/10), width: cell.frame.width, height: cell.frame.height*(2/10))
+            let spaceToBottom = cell.frame.height - cell.displayNameLabel.frame.maxY
+            cell.userDescriptionLabel.frame = CGRect(x: 0, y: cell.displayNameLabel.frame.maxY, width: cell.frame.width, height: cell.frame.height*(2/10))
+            cell.displayNameLabel.frame = cell.userDescriptionLabel.frame
+            cell.displayNameLabel.isHidden = false
+        }
 
         cell.displayNameLabel.textAlignment = .center
         cell.displayNameLabel.textColor = .black
@@ -164,17 +181,42 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         cell.followView.layer.cornerRadius = cell.followView.frame.size.width / 20
         
         //set up user Description label / bio label
-        let spaceToBottom = cell.frame.height - cell.displayNameLabel.frame.maxY
-        cell.userDescriptionLabel.frame = CGRect(x: 0, y: cell.displayNameLabel.frame.maxY, width: cell.frame.width, height: cell.frame.height*(2/10))
+      
         
         //cell.displayNameLabel.frame = CGRect(x: 0, y: cell.frame.height/2, width: cell.frame.width, height: spaceToBottom)
         
         var bioArray: [String] = ["Artist", "Activist", "Photographer", "Producer", "Musician", "Student-Athlete", "Entrepreneur", "Teacher", "Professional Athlete", "Just For Fun"]
         cell.userDescriptionLabel.font = UIFont.italicSystemFont(ofSize: 16)
-        cell.userDescriptionLabel.text = "\(cell.userData!.bio)" ?? "\(bioArray.randomElement()!)"
         cell.userDescriptionLabel.textColor = .black
         cell.userDescriptionLabel.textAlignment = .center
         cell.sendSubviewToBack(cell.image)
+      
+        let strokeTextAttributes1 = [
+            NSAttributedString.Key.strokeColor : UIColor.black,
+            NSAttributedString.Key.foregroundColor : UIColor.white,
+            NSAttributedString.Key.strokeWidth : -2.0,
+            NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 18)
+        ] as! [NSAttributedString.Key : Any]
+        
+        let strokeTextAttributes2 = [
+            NSAttributedString.Key.strokeColor : UIColor.black,
+            NSAttributedString.Key.foregroundColor : UIColor.white,
+            NSAttributedString.Key.strokeWidth : -1.5,
+            NSAttributedString.Key.font : UIFont.init(name: "DINAlternate-Bold", size: 20)
+        ] as! [NSAttributedString.Key : Any]
+        
+//        let strokeTextAttributes2 = [
+//            NSAttributedString.Key.strokeColor : UIColor.black,
+//            NSAttributedString.Key.foregroundColor : UIColor.white,
+//            NSAttributedString.Key.strokeWidth : -4.0,
+//            NSAttributedString.Key.font : UIFont.(descriptor: "DINAlternate-Bold", size: 18)
+//        ] as! [NSAttributedString.Key : Any]
+
+        cell.displayNameLabel.attributedText = NSMutableAttributedString(string: cell.userData!.displayName, attributes: strokeTextAttributes1)
+        
+        cell.userDescriptionLabel.attributedText = NSMutableAttributedString(string: cell.userData!.bio, attributes: strokeTextAttributes2)
+       // cell.userDescriptionLabel.attributedText = NSMutableAttributedString(string: cell.userData?.bio, attributes: strokeTextAttributes)
+        
         
         var isFollowing = false
         
@@ -720,6 +762,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         //let username = popularUserDataArray[sender.view!.tag].publicID
         //        print("🎯🎯🎯🎯🎯🎯🎯 I tapped image with associated username: \(username)")
         let profCell = sender.view as! PopularCell
+     //   sender.view?.layer = CALayer()
         let guestVC = storyboard?.instantiateViewController(identifier: "guestGridVC") as! GuestHexagonGridVC
         //guestVC.user = user
         guestVC.myUserData = userData
@@ -735,6 +778,11 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         //        print("🎯🎯🎯🎯🎯Hello World")
         //        print("🎯🎯🎯🎯🎯🎯🎯I tapped image with tag \(sender.view!.tag)")
         //        print("🎯🎯🎯🎯🎯🎯🎯 I tapped image with associated username: \(username)")
+        let profCell = sender.view as! ProfileCircleCell
+        
+        profCell.imageView.addGrayCircleGradiendBorder(10.0)
+   
+        
         let guestVC = storyboard?.instantiateViewController(identifier: "guestGridVC") as! GuestHexagonGridVC
         //guestVC.user = user
         guestVC.myUserData = userData

@@ -13,13 +13,14 @@ import AVKit
 import Firebase
 import SDWebImage
 import WebKit
+import FirebaseFirestore
 
 class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, WKUIDelegate, UIContextMenuInteractionDelegate  {
     var navBarView = NavBarView()
     var isFollowing = false
     var profileImage = UIImage()
     var navBarY = CGFloat(39)
-    
+    var newImageView = UIImageView()
     // Content presentation
     var player = AVAudioPlayer()
     var contentViewer = UIView()
@@ -33,6 +34,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var myUserData: UserData?
     let db = Firestore.firestore()
     let storage = Storage.storage().reference()
+    var profilePicCancelButton = UIButton()
     
     // UI stuff
     @objc var panGesture  = UIPanGestureRecognizer()
@@ -955,9 +957,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         })
     }
     
-    @objc func dismissFullscreenImageHandler(_ sender: UITapGestureRecognizer) {
-        dismissFullscreenImage(view: sender.view!)
-    }
+
     
     func dismissFullscreenImage(view: UIView) {
         self.navigationController?.isNavigationBarHidden = true
@@ -1018,6 +1018,11 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
     }
     
+    @objc func dismissFullscreenImageHandler(_ sender: UITapGestureRecognizer) {
+        dismissFullscreenImage(view: sender.view!)
+        newImageView.removeFromSuperview()
+        dismissFullscreenImage(view: newImageView)
+    }
     
     func createHexagonMaskWithCorrespondingColor(imageView: UIImageView, type: String) {
         if type == "photo" {
@@ -1062,11 +1067,22 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
     }
     
-    
     @objc func handleProfilePicTap(_ sender: UITapGestureRecognizer) {
+        let guestProfileVC = self.storyboard!.instantiateViewController(identifier: "guestProfileVC") as! GuestProfileVC
+        guestProfileVC.guestUserData = guestUserData
+        guestProfileVC.userData = myUserData
+     //   guestProfileVC.isFollowing = sender.view?.tag == 1
+        self.present(guestProfileVC, animated: false)
+        self.modalPresentationStyle = .fullScreen
+
+    }
+    
+    
+    
+    @objc func handleProfilePicTapView(_ sender: UITapGestureRecognizer) {
         //            print("Tried to click profile pic handle later")
         //  menuView.menuButton.isHidden = true
-        let newImageView = UIImageView(image: UIImage(named: "kbit"))
+        newImageView = UIImageView(image: UIImage(named: "kbit"))
         let cleanRef = guestUserData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
         newImageView.sd_setImage(with: url!, completed: {_, error, _, _ in
@@ -1085,11 +1101,15 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         newImageView.contentMode = .scaleAspectFit
         newImageView.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImageHandler))
-        newImageView.addGestureRecognizer(tap)
-        
-        let textView = UITextView()
-        textView.text = "asdfkjlasdfjasdf"
-        textView.textColor = .red
+        profilePicCancelButton.addGestureRecognizer(tap)
+        profilePicCancelButton.isUserInteractionEnabled = true
+        view.addSubview(profilePicCancelButton)
+        profilePicCancelButton.frame = CGRect(x: view.frame.width/2-40, y: view.frame.height-112, width: 80, height: 80)
+        profilePicCancelButton.setImage(UIImage(named: "cancel2"), for: .normal)
+        view.bringSubviewToFront(profilePicCancelButton)
+        profilePicCancelButton.layer.cornerRadius = profilePicCancelButton.frame.size.width / 2
+        //returnButton.setBackgroundImage(UIImage(named: "cancel11"), for: .normal)
+        profilePicCancelButton.clipsToBounds = true
     }
     
     

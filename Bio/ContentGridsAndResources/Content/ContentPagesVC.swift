@@ -369,7 +369,22 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
             let linkVC = currentVC as! ContentLinkVC
             pasteboard.string = linkVC.webHex?.resource
         }
-        
+    }
+    
+    func prioritizeThisPost() {
+        let currentVC = viewControllers[currentIndex]
+        if currentVC is ContentLinkVC {
+            let linkVC = currentVC as! ContentLinkVC
+            linkVC.webHex?.isPrioritized = true
+        }
+        else if currentVC is ContentVideoVC {
+            let linkVC = currentVC as! ContentVideoVC
+            linkVC.videoHex?.isPrioritized = true
+        }
+        else if currentVC is ContentImageVC {
+            let linkVC = currentVC as! ContentImageVC
+            linkVC.photoHex?.isPrioritized = true
+        }
     }
     
     @objc func backTapped(_ sender: UITapGestureRecognizer) {
@@ -388,6 +403,12 @@ print("More tapped")
               print("User click Copy Link button")
             self.copyTextToResource()
           }))
+        
+        
+        alert.addAction(UIAlertAction(title: "Prioritize This Post", style: .default , handler:{ (UIAlertAction)in
+            print("User click Prioritize button")
+          self.prioritizeThisPost()
+        }))
         
         alert.addAction(UIAlertAction(title: "Report Post", style: .default , handler:{ (UIAlertAction)in
             print("User click Report button")
@@ -413,10 +434,11 @@ print("More tapped")
             
         }))
 
-//          alert.addAction(UIAlertAction(title: "Report", style: .destructive , handler:{ (UIAlertAction)in
-//              print("User click Report button")
-//          }))
+//        let prioritize = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
+     
+        
+        
           alert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler:{ (UIAlertAction)in
               print("User click Dismiss button")
           }))

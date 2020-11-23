@@ -40,7 +40,8 @@ var navBarY = CGFloat(39)
 
 class HomeHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, WKUIDelegate, UIContextMenuInteractionDelegate  {
     var indexImageViewArray : [UIImageView] = []
-    
+    var profilePicCancelButton = UIButton()
+    var newImageView = UIImageView()
 var navBarView = NavBarView()
     // Firebase stuff
     var pageViewListener: ListenerRegistration?
@@ -69,7 +70,7 @@ var navBarView = NavBarView()
     var followView = UIView()
     var followImage = UIImageView()
     var followLabel = UILabel()
-    
+    var plusHexagon = PostImageView()
     
     // arrays
     var targetHexagons: [Int] = []
@@ -92,6 +93,8 @@ var navBarView = NavBarView()
         super.viewDidLoad()
         contentPages = storyboard?.instantiateViewController(identifier: "contentPagesVC")
         contentPages!.userData = userData
+        let addTap = UITapGestureRecognizer(target: self, action: #selector(addHexagonTapped))
+        plusHexagon.addGestureRecognizer(addTap)
         //print("This is reordered count before append \(reOrderedCoordinateArrayPoints.count)")
         reOrderedCoordinateArrayPoints.append(contentsOf: fourthRowArray)
         //print("This is reordered count after append \(reOrderedCoordinateArrayPoints.count)")
@@ -101,18 +104,12 @@ var navBarView = NavBarView()
         self.navBarView.backgroundColor = .clear
         self.navBarView.layer.borderWidth = 0.0
         addMenuButtons()
-       // addSearchButton()
-      //  addSettingsButton()
-//        insertFakeViewCounter()
-     //   setUpViewCounter()
         addTrashButton()
         
         followView.isHidden = false
         toSearchButton.isHidden = false
         toSettingsButton.isHidden = false
         
-//        let contentTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleContentViewerTap))
-//        contentViewer.addGestureRecognizer(contentTapGesture)
         
         if userData == nil {
             user = Auth.auth().currentUser
@@ -464,22 +461,15 @@ var navBarView = NavBarView()
                 self.imageViewArray = newPostImageArray
                 self.changePostImageCoordinates()
                 var imageIndex = 0
+                var prioritizedPosts: [PostImageView] = []
                 for image in self.imageViewArray {
                     self.contentView.addSubview(image)
-//                    let hexLocationLabel = UILabel()
-//                    hexLocationLabel.textAlignment = .center
-//                    self.contentView.addSubview(hexLocationLabel)
-//                    let LabelWidth = image.frame.width/3
-//                    let LabelHeight = image.frame.height/3
-//                    hexLocationLabel.frame = CGRect(x: (image.frame.midX-LabelWidth)/2, y: (image.frame.midY-LabelHeight)/2, width: LabelWidth, height: LabelHeight)
-//                    hexLocationLabel.text = "\( image.hexData!.location)"
-//                    hexLocationLabel.font.withSize(14)
-//                    hexLocationLabel.textColor = red
-//                    self.indexLabelArray.append(hexLocationLabel)
-                    
-                    
                     shakebleImages.append(image)
                     self.contentView.bringSubviewToFront(image)
+                    if image.hexData?.isPrioritized == true {
+                    prioritizedPosts.append(image)
+                    image.pulse(withIntensity: 0.8, withDuration: 1.5, loop: true)
+                    }
                     self.contentView.bringSubviewToFront(self.indexLabelArray[imageIndex])
                     self.indexLabelArray[imageIndex].center = image.center
                     self.indexLabelArray[imageIndex].isHidden = true
@@ -490,10 +480,27 @@ var navBarView = NavBarView()
                 }
                 self.contentView.bringSubviewToFront(self.avaImage!)
                
+                //add plusHexagon
+                self.contentView.addSubview(self.plusHexagon)
+           
+                self.plusHexagon.image = UIImage(named: "whitehexplusbig")
+                self.plusHexagon.backgroundColor = UIColor(cgColor: CGColor(gray: 0.10, alpha: 0.6))
+                //self.plusHexagon.backgroundColor = UIColor(white: 0.25, alpha: 0.5)
+               
+                self.plusHexagon.frame = CGRect(x: self.reOrderedCoordinateArrayPoints[self.imageViewArray.count+1].x,
+                                                y: self.reOrderedCoordinateArrayPoints[self.imageViewArray.count+1].y, width: self.hexaDiameter, height: self.hexaDiameter)
+                
+                self.plusHexagon.setupHexagonMask(lineWidth: self.plusHexagon.frame.width/15, color: .clear, cornerRadius: self.plusHexagon.frame.width/15)
+               // shakebleImages.append(plusHexagon)
+                self.contentView.bringSubviewToFront(self.plusHexagon)
+                
             }
             completion()
         })
     }
+    
+    
+
     
     func updatePages(posts: [PostImageView]) {
         var hexDatas = [HexagonStructData?](repeating: nil, count: posts.count)
@@ -1166,6 +1173,21 @@ var navBarView = NavBarView()
         }
     }
     
+    @objc func addHexagonTapped() {
+        print("I recognized this")
+        let viewControllers = menuView.tabController!.customizableViewControllers!
+        let newPostVC = (viewControllers[4] as! NewPostColorfulVC)
+        newPostVC.menuView.dmButton.isHidden = true
+        newPostVC.menuView.newPostButton.isHidden = true
+        newPostVC.menuView.friendsButton.isHidden = true
+        newPostVC.menuView.notificationsButton.isHidden = true
+        newPostVC.menuView.homeProfileButton.isHidden = true
+        newPostVC.menuView.notificationLabel.isHidden = true
+        newPostVC.userData = userData
+        menuView.tabController!.viewControllers![4] = newPostVC
+        menuView.tabController!.customTabBar.switchTab(from: menuView.currentTab, to: 4)
+    }
+    
     func openSpotifySong() {
         //  UIApplication.shared.open(URL(string: "spotify:artist:4gzpq5DPGxSnKTe4SA8HAU")!, options: [:], completionHandler: nil)
         // UIApplication.shared.openURL(URL(string: "spotify:track:1dNIEtp7AY3oDAKCGg2XkH")!)
@@ -1316,12 +1338,16 @@ var navBarView = NavBarView()
         }
         let cleanRef = userData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
-        
+        if url != nil {
         avaImage!.sd_setImage(with: url!, completed: {_, error, _, _ in
             if error != nil {
                 print(error!.localizedDescription)
             }
         })
+        }
+        else {
+            avaImage?.image = UIImage(named: "boyprofile")
+        }
         
         
         
@@ -1387,9 +1413,6 @@ var navBarView = NavBarView()
         dragView!.center = center
     }
     
-    @objc func dismissFullscreenImageHandler(_ sender: UITapGestureRecognizer) {
-        dismissFullscreenImage(view: sender.view!)
-    }
     
     func dismissFullscreenImage(view: UIView) {
         self.navigationController?.isNavigationBarHidden = true
@@ -1399,9 +1422,21 @@ var navBarView = NavBarView()
     }
     
     @objc func handleProfilePicTap(_ sender: UITapGestureRecognizer) {
+        let guestProfileVC = self.storyboard!.instantiateViewController(identifier: "guestProfileVC") as! GuestProfileVC
+        guestProfileVC.guestUserData = userData
+        guestProfileVC.userData = userData
+     //   guestProfileVC.isFollowing = sender.view?.tag == 1
+        self.present(guestProfileVC, animated: false)
+        self.modalPresentationStyle = .fullScreen
+
+    }
+    
+    
+    
+    @objc func handleProfilePicTapView(_ sender: UITapGestureRecognizer) {
 //        print("Tried to click profile pic handle later")
         menuView.menuButton.isHidden = true
-        let newImageView = UIImageView(image: UIImage(named: "kbit"))
+        newImageView = UIImageView(image: UIImage(named: "kbit"))
         let cleanRef = userData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
         newImageView.sd_setImage(with: url!, completed: {_, error, _, _ in
@@ -1420,11 +1455,23 @@ var navBarView = NavBarView()
         newImageView.contentMode = .scaleAspectFit
         newImageView.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImageHandler))
-        newImageView.addGestureRecognizer(tap)
+        profilePicCancelButton.addGestureRecognizer(tap)
         
         let textView = UITextView()
         textView.text = "asdfkjlasdfjasdf"
         textView.textColor = .red
+        profilePicCancelButton.addGestureRecognizer(tap)
+        profilePicCancelButton.isUserInteractionEnabled = true
+        view.addSubview(profilePicCancelButton)
+        profilePicCancelButton.frame = CGRect(x: view.frame.width/2-40, y: view.frame.height-112, width: 80, height: 80)
+        profilePicCancelButton.setImage(UIImage(named: "cancel2"), for: .normal)
+        view.bringSubviewToFront(profilePicCancelButton)
+        profilePicCancelButton.layer.cornerRadius = profilePicCancelButton.frame.size.width / 2
+        //returnButton.setBackgroundImage(UIImage(named: "cancel11"), for: .normal)
+        profilePicCancelButton.clipsToBounds = true
+        
+        
+        
     }
     
     
@@ -1520,7 +1567,11 @@ var navBarView = NavBarView()
     }
     
 
-
+    @objc func dismissFullscreenImageHandler(_ sender: UITapGestureRecognizer) {
+        dismissFullscreenImage(view: sender.view!)
+        newImageView.removeFromSuperview()
+        dismissFullscreenImage(view: newImageView)
+    }
     
         
         

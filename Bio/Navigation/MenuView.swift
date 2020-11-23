@@ -13,6 +13,7 @@ import FirebaseFirestore
 class MenuView: UIView {
     var blurEffectViewArray: [UIView] = []
     var menuButton: UIButton = UIButton()
+    var closeMenuButton: UIButton = UIButton()
     var newPostButton: UIButton = UIButton()
     var friendsButton: UIButton = UIButton()
     var notificationsButton: UIButton = UIButton()
@@ -110,6 +111,9 @@ class MenuView: UIView {
         superView.addSubview(dmButton)
         superView.addSubview(homeProfileButton)
         superView.addSubview(notificationLabel)
+        closeMenuButton.isHidden = true
+        superView.addSubview(closeMenuButton)
+     
         
         let buttonWidth = CGFloat(60)
         let halfButtonWidth = CGFloat(30)
@@ -122,6 +126,12 @@ class MenuView: UIView {
         // round ava
         menuButton.layer.cornerRadius = menuButton.frame.size.width / 2
         menuButton.clipsToBounds = true
+        
+        closeMenuButton.frame = CGRect(x: superFrame.width/2-40, y: superFrame.height-112, width: 80, height: 80)
+        // round ava
+        closeMenuButton.layer.cornerRadius = closeMenuButton.frame.size.width / 2
+        closeMenuButton.clipsToBounds = true
+        
 //        print ("menuButton frame \(menuButton.frame)")
         
         //newPostButton.frame = CGRect(x: superFrame.width/5 - halfButtonWidth, y: menuButton.frame.minY, width: buttonWidth, height: buttonWidth)
@@ -169,12 +179,14 @@ class MenuView: UIView {
 
         
         let menuTapped = UITapGestureRecognizer(target: self, action: #selector(tappedMenuButton))
+        let closeMenuTapped = UITapGestureRecognizer(target: self, action: #selector(tappedCloseMenuButton))
         let menuDragged = UIPanGestureRecognizer(target: self, action: #selector(draggedMenuButton))
         let menuLongPressed = UILongPressGestureRecognizer(target: self, action: #selector(longPressMenuButton))
 
         menuButton.addGestureRecognizer(menuTapped)
         menuButton.addGestureRecognizer(menuDragged)
         menuButton.addGestureRecognizer(menuLongPressed)
+        closeMenuButton.addGestureRecognizer(closeMenuTapped)
 
         
         dmButton.addTarget(self, action: #selector(dmsButtonClicked), for: .touchUpInside)
@@ -198,6 +210,7 @@ class MenuView: UIView {
         dmButton.setImage(UIImage(named: "email1"), for: .normal)
         homeProfileButton.setImage(UIImage(named: "clearHouse"), for: .normal)
         menuButton.imageView!.image = nil
+        closeMenuButton.imageView!.image = nil
         
         newPostButton.tintColor = .black
         notificationsButton.tintColor = .white
@@ -207,6 +220,11 @@ class MenuView: UIView {
         menuButton.tintColor = .clear
         menuButton.layer.borderColor = white.cgColor
         menuButton.layer.borderWidth = menuButton.frame.width/10
+        
+        closeMenuButton.tintColor = .clear
+        closeMenuButton.layer.borderColor = white.cgColor
+        closeMenuButton.layer.borderWidth = closeMenuButton.frame.width/10
+        closeMenuButton.backgroundColor = .clear
         
         newPostButton.backgroundColor = .clear
         notificationsButton.backgroundColor = .clear
@@ -292,19 +310,19 @@ class MenuView: UIView {
         tabController!.customTabBar.switchTab(from: currentTab, to: 2)
     }
     
-    @objc func tappedMenuButton(sender: UITapGestureRecognizer) {
-//        if (dmButton.isHidden == true) {
-//            //makeAllMenuButtonsBlack()
-//            makeAllMenuButtonsClear()
-//            showMenuOptions()
-//        }
-//            //sleep(3000)
-//        else {
-//            hideMenuOptions()
-//        }
+    func showMenuOptions() {
+        newPostButton.isHidden = false
+        homeProfileButton.isHidden = false
+        dmButton.isHidden = false
+        notificationsButton.isHidden = false
+        friendsButton.isHidden = false
+        setNotificationAlertText()
+        //notificationLabel.isHidden = false
+        
+        
+        //curvedLayer.isHidden = false
     }
     
-    // TODO: TO DO Redo this for circular border
     func makeAllMenuButtonsBlack() {
         newPostButton.imageView?.makeRoundedBlack()
         homeProfileButton.imageView?.makeRoundedBlack()
@@ -321,6 +339,51 @@ class MenuView: UIView {
         notificationsButton.imageView?.makeSquareClear()
         friendsButton.imageView?.makeSquareClear()
         menuButton.imageView?.makeSquareClear()
+    }
+    
+    @objc func tappedMenuButton(sender: UITapGestureRecognizer) {
+        print("I tapped menu button")
+        makeAllMenuButtonsClear()
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+          //hide menu button and replace with close button
+   closeMenuButton = menuButton
+     menuButton.isHidden = true
+        closeMenuButton.isHidden = false
+  let closeMenuTapped = UITapGestureRecognizer(target: self, action: #selector(tappedCloseMenuButton))
+ closeMenuButton.addGestureRecognizer(closeMenuTapped)
+          
+            
+            blurEffectViewArray.append(blurEffectView)
+            superview!.addSubview(blurEffectView)
+            blurEffectView.frame = superview!.frame
+            superview!.bringSubviewToFront(homeProfileButton)
+            superview!.bringSubviewToFront(notificationsButton)
+            superview!.bringSubviewToFront(dmButton)
+            superview!.bringSubviewToFront(friendsButton)
+            superview!.bringSubviewToFront(newPostButton)
+            superview!.bringSubviewToFront(menuButton)
+            superview!.bringSubviewToFront(notificationLabel)
+            setNotificationAlertText()
+            showMenuOptions()
+    
+    
+    }
+    // TODO: TO DO Redo this for circular border
+    @objc func tappedCloseMenuButton(sender: UITapGestureRecognizer) {
+        print("I tapped close menu button")
+        menuButton = closeMenuButton
+        let menuTapped = UITapGestureRecognizer(target: self, action: #selector(tappedMenuButton))
+        menuButton.addGestureRecognizer(menuTapped)
+        hideMenuOptions()
+        makeAllMenuButtonsClear()
+        for blurview in blurEffectViewArray {
+        blurview.removeFromSuperview()
+        }
+        closeMenuButton.isHidden = true
+        menuButton.isHidden = false
+   
+        
     }
     
     @objc func draggedMenuButton(sender: UIPanGestureRecognizer) {
@@ -446,18 +509,7 @@ class MenuView: UIView {
         
     }
     
-    func showMenuOptions() {
-        newPostButton.isHidden = false
-        homeProfileButton.isHidden = false
-        dmButton.isHidden = false
-        notificationsButton.isHidden = false
-        friendsButton.isHidden = false
-        setNotificationAlertText()
-        //notificationLabel.isHidden = false
-        
-        
-        //curvedLayer.isHidden = false
-    }
+
     
     func hideMenuOptions() {
         newPostButton.isHidden = true

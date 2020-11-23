@@ -81,18 +81,18 @@ class ProfessionalSettingsVC: QuickTableViewController {
         //
         tableContents = [
             Section(title: "My Account", rows: [
-                        NavigationRow(text: "Name", detailText: .value1(name)!, icon: .named("gear")),
+                        NavigationRow(text: "Name", detailText: .value1(name)!, icon: .named("gear"), action: didToggleSelection()),
                         NavigationRow(text: "Username", detailText: .value1(email)!, icon: .named("globe")), NavigationRow(text: "Followers", detailText: .none, icon: .none, action: didToggleSelection()),
                         NavigationRow(text: "Following", detailText: .none, icon: .none, action: didToggleSelection()),
                         NavigationRow(text: "Birthday", detailText: .value1(myBirthday ?? ""), icon: .none, action: { _ in }),
-                        NavigationRow(text: "Country", detailText: .value1(userData?.country ?? "")), NavigationRow(text: "Bio", detailText: .value1(userData?.bio ?? "")), NavigationRow(text: "Email", detailText: .value1(email)!, icon: .named("time"), action: { _ in }),
+                        NavigationRow(text: "Country", detailText: .value1(userData?.country ?? ""), action: didToggleSelection()), NavigationRow(text: "Bio", detailText: .value1(userData?.bio ?? ""), action: didToggleSelection()), NavigationRow(text: "Email", detailText: .value1(email)!, icon: .named("time"), action: didToggleSelection()),
                         NavigationRow(text: "Change Profile Picture", detailText: .none, icon: .none, action: didToggleSelection()), NavigationRow(text: "Change Password", detailText: .none, icon: .none, action: didToggleSelection())]),
             Section(title: "Support", rows: [NavigationRow(text: "Blocked Users", detailText: .none, icon: .named("gear"), action: didToggleSelection()),
                         NavigationRow(text: "FAQ's", detailText: .none, icon: .named("gear")),
                         NavigationRow(text: "I Spotted a Bug", detailText: .none, icon: .named("globe"), action: didToggleSelection()),
                         NavigationRow(text: "I Have a Suggestion", detailText: .none, icon: .named("time"), action: didToggleSelection()),
                         NavigationRow(text: "Privacy Policy", detailText: .none),
-                        NavigationRow(text: "Terms of Service", detailText: .none, icon: .named("time"), action: { _ in })]),
+                        NavigationRow(text: "Terms of Service", detailText: .none, icon: .named("time"), action: { _ in }), NavigationRow(text: "Acknowledgements", detailText: .none, icon: .named("time"), action: didToggleSelection())]),
             Section(title: "Account Actions", rows: [NavigationRow(text: "Log Out", detailText: .none, icon: .named("gear"), action: didToggleSelection()),NavigationRow(text: "Delete Account", detailText: .none, icon: .none, action: didToggleSelection())])
         ]
         
@@ -239,6 +239,35 @@ class ProfessionalSettingsVC: QuickTableViewController {
            //     editProfilePhotoVC.userData = self?.userData
                 editProfilePhotoVC.userData = self!.userData
                 self!.present(editProfilePhotoVC, animated: false)
+            }
+            
+            if row.text == "Email" {
+                let editVC = self?.storyboard?.instantiateViewController(identifier: "editProfileVC") as! EditProfileVC
+                editVC.userData = self!.userData
+                self!.present(editVC, animated: false)
+            }
+            
+            if row.text == "Name" {
+                let editVC = self?.storyboard?.instantiateViewController(identifier: "editProfileVC") as! EditProfileVC
+                editVC.userData = self!.userData
+                self!.present(editVC, animated: false)
+            }
+            
+            if row.text == "Username" {
+                let editVC = self?.storyboard?.instantiateViewController(identifier: "editProfileVC") as! EditProfileVC
+                editVC.userData = self!.userData
+                self!.present(editVC, animated: false)
+            }
+            
+            if row.text == "Bio" {
+                let editVC = self?.storyboard?.instantiateViewController(identifier: "editProfileVC") as! EditProfileVC
+                editVC.userData = self!.userData
+                self!.present(editVC, animated: false)
+            }
+            if row.text == "Country" {
+                let editVC = self?.storyboard?.instantiateViewController(identifier: "editProfileVC") as! EditProfileVC
+                editVC.userData = self!.userData
+                self!.present(editVC, animated: false)
             }
             
             if row.text == "Followers" {

@@ -9,11 +9,14 @@
 import UIKit
 import Firebase
 import FirebaseAuth
+import SDWebImage
 
 class AddProfilePhotoVC: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+    var currentUser: User?
+    var userData: UserData?
     var hasOpenedImagePickerAlready = false
     @IBOutlet weak var addProfilePictureButton: UIButton!
-    
+    let storage = Storage.storage().reference()
     @IBOutlet weak var imageView: UIImageView!
     
 
@@ -85,15 +88,61 @@ class AddProfilePhotoVC: UIViewController, UIImagePickerControllerDelegate & UIN
     
     
     @IBAction func signInClicked(_ sender: Any) {
+        let loadingIndicator = storyboard?.instantiateViewController(withIdentifier: "loading")
+        let blurEffectView: UIVisualEffectView = {
+            let blurEffect = UIBlurEffect(style: .dark)
+            let blurEffectView = UIVisualEffectView(effect: blurEffect)
+            
+            blurEffectView.alpha = 0.8
+
+            blurEffectView.autoresizingMask = [
+                .flexibleWidth, .flexibleHeight
+            ]
+            blurEffectView.frame = view.bounds
+            
+            return blurEffectView
+        }()
+        
         if hasOpenedImagePickerAlready == false {
             print("You havent tried to pick an image yet.")
             loadImg(UITapGestureRecognizer())
-            addProfilePictureButton.setTitle("Add Profile Picture", for: .normal)
+            addProfilePictureButton.setTitle("Confirm Profile Picture", for: .normal)
         }
         else {
             print("Set the user's profile picture as the current image")
+            var username = self.userData?.publicID
+            let userDataStorageRef = self.storage.child(self.userData!.avaRef)
+            view.addSubview(blurEffectView)
             
+            addChild(loadingIndicator!)
+            view.addSubview(loadingIndicator!.view)
+            
+            userDataStorageRef.putData(self.imageView.image!.pngData()!, metadata: nil, completion: { meta, error in
+                if (error == nil) {
+         
+                    SDImageCache.shared.clearMemory()
+                    SDImageCache.shared.clearDisk(onCompletion: {
+                            self.performSegue(withIdentifier: "unwindFromEditVC", sender: self)
+                    })
+
+                    
+                }
+                else {
+                    print("could not upload profile photo")
+                    
+                }
+                blurEffectView.removeFromSuperview()
+                loadingIndicator?.view.removeFromSuperview()
+                loadingIndicator?.removeFromParent()
+                let addsocialmediaVC = self.storyboard?.instantiateViewController(withIdentifier: "addSocialMediaTableView") as! AddSocialMediaTableView
+                addsocialmediaVC.userData = self.userData
+                addsocialmediaVC.currentUser = Auth.auth().currentUser
+                addsocialmediaVC.cancelLbl = "Skip"
+                self.present(addsocialmediaVC, animated: false, completion: nil)
+            })
+        
         }
+
     }
     
     @objc func cancelButtonClicked(_ sender: UITapGestureRecognizer) {

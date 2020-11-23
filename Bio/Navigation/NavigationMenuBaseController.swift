@@ -64,7 +64,7 @@ class NavigationMenuBaseController: UITabBarController, UINavigationControllerDe
         ])
         for i in 0 ..< menuItems.count {
             controllers.append(menuItems[i].viewController) // we fetch the matching view controller and append here
-        }
+    }
         self.view.layoutIfNeeded() // important step
         completion(controllers) // setup complete. handoff here
     }

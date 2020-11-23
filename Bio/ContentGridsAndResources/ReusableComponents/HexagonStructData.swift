@@ -22,7 +22,7 @@ struct HexagonStructData {  // : Codable { //Codable {
     var isArchived: Bool
     var docID: String
     var coverText: String
-    
+    var isPrioritized: Bool
     
 //    var text: String
 //    var type: Type
@@ -49,11 +49,11 @@ struct HexagonStructData {  // : Codable { //Codable {
 
 
 var dictionary: [String: Any] {
-    return ["resource": resource, "type": type, "location": location, "thumbResource": thumbResource, "createdAt": createdAt, "postingUserID": postingUserID, "text": text, "views": views, "isArchived": isArchived, "docID": docID, "coverText": coverText]
+    return ["resource": resource, "type": type, "location": location, "thumbResource": thumbResource, "createdAt": createdAt, "postingUserID": postingUserID, "text": text, "views": views, "isArchived": isArchived, "docID": docID, "coverText": coverText, "isPrioritized": isPrioritized]
    }
    
    
-    init(resource: String, type: String, location: Int, thumbResource: String, createdAt: String, postingUserID: String, text: String, views: Int, isArchived: Bool, docID: String, coverText: String)  {
+    init(resource: String, type: String, location: Int, thumbResource: String, createdAt: String, postingUserID: String, text: String, views: Int, isArchived: Bool, docID: String, coverText: String, isPrioritized: Bool)  {
        self.resource = resource
        self.type = type
        self.location = location
@@ -65,6 +65,7 @@ var dictionary: [String: Any] {
         self.isArchived = isArchived
         self.docID = docID
         self.coverText = coverText
+        self.isPrioritized = isPrioritized
    }
 
    
@@ -80,10 +81,11 @@ var dictionary: [String: Any] {
         let isArchived = dictionary["isArchived"] as! Bool? ?? true
         let docID = dictionary["docID"] as! String? ?? ""
         let coverText = dictionary["coverText"] as! String? ?? ""
+        let isPrioritized = dictionary["isPrioritized"] as! Bool? ?? false
         
        
     
-        self.init(resource: resource,type: type, location: location, thumbResource: thumbResource, createdAt: createdAt, postingUserID: postingUserID, text: text, views: views, isArchived: isArchived, docID: docID, coverText: coverText)
+        self.init(resource: resource,type: type, location: location, thumbResource: thumbResource, createdAt: createdAt, postingUserID: postingUserID, text: text, views: views, isArchived: isArchived, docID: docID, coverText: coverText, isPrioritized: isPrioritized)
        
    
    }

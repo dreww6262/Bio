@@ -2284,6 +2284,161 @@
             </objects>
             <point key="canvasLocation" x="-4349" y="-3875"/>
         </scene>
+        <!--Edit ProfileVC-->
+        <scene sceneID="Kl8-bR-uxk">
+            <objects>
+                <viewController storyboardIdentifier="editProfileVC" modalPresentationStyle="fullScreen" id="Czh-CE-5dU" customClass="EditProfileVC" customModule="Bio" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="K7Y-Y4-4eO"/>
+                        <viewControllerLayoutGuide type="bottom" id="dI1-gb-iYg"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="FcI-4s-K7w">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DFb-BW-UGj">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <subviews>
+                                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="gradBG" translatesAutoresizingMaskIntoConstraints="NO" id="YHq-ce-Qes">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="boyprofile" translatesAutoresizingMaskIntoConstraints="NO" id="oB7-Af-g6I">
+                                        <rect key="frame" x="120" y="32" width="80" height="80"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </imageView>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="username" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="xjq-OX-ndp">
+                                        <rect key="frame" x="8" y="171" width="304" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="display name (ex: John Smith)" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="m0S-Vb-xOg">
+                                        <rect key="frame" x="9" y="209" width="304" height="34"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="tkt-PR-30B">
+                                        <rect key="frame" x="8" y="251" width="304" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="repeat password" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="qrL-F5-8N4">
+                                        <rect key="frame" x="9" y="289" width="304" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email address" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="aV4-XA-lLu">
+                                        <rect key="frame" x="8" y="133" width="304" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8AL-U5-GwP" customClass="MRCountryPicker" customModule="MRCountryPicker">
+                                        <rect key="frame" x="9" y="340" width="414" height="162"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    </pickerView>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="bio (optional)" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="nZP-ay-ue5">
+                                        <rect key="frame" x="9" y="510" width="304" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </scrollView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="yi3-zE-feX"/>
+                        <color key="backgroundColor" systemColor="systemOrangeColor"/>
+                        <constraints>
+                            <constraint firstItem="DFb-BW-UGj" firstAttribute="trailing" secondItem="yi3-zE-feX" secondAttribute="trailing" id="K7o-Gu-8gB"/>
+                            <constraint firstItem="DFb-BW-UGj" firstAttribute="leading" secondItem="yi3-zE-feX" secondAttribute="leading" id="QLj-Fr-SGg"/>
+                            <constraint firstItem="DFb-BW-UGj" firstAttribute="top" secondItem="FcI-4s-K7w" secondAttribute="top" id="lGO-dZ-Ndx"/>
+                            <constraint firstAttribute="bottom" secondItem="DFb-BW-UGj" secondAttribute="bottom" id="tLJ-gb-09x"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="aZe-Jh-CSZ"/>
+                    <connections>
+                        <outlet property="avaImg" destination="oB7-Af-g6I" id="HgY-Dq-Mvc"/>
+                        <outlet property="bioTxt" destination="nZP-ay-ue5" id="Agp-ic-SRB"/>
+                        <outlet property="countryPicker" destination="8AL-U5-GwP" id="Ipn-rI-jUM"/>
+                        <outlet property="displayNameTxt" destination="m0S-Vb-xOg" id="iaj-tH-NNO"/>
+                        <outlet property="emailTxt" destination="aV4-XA-lLu" id="6pz-Df-3vQ"/>
+                        <outlet property="gradientImage" destination="YHq-ce-Qes" id="xQl-im-XEF"/>
+                        <outlet property="scrollView" destination="DFb-BW-UGj" id="6r7-K5-rry"/>
+                        <outlet property="usernameTxt" destination="xjq-OX-ndp" id="zgg-qC-eUm"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qfj-Be-807" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-7003" y="-4073"/>
+        </scene>
+        <!--Guest ProfileVC-->
+        <scene sceneID="eyV-A8-Ybt">
+            <objects>
+                <viewController storyboardIdentifier="guestProfileVC" modalPresentationStyle="fullScreen" id="JSP-hN-FGF" customClass="GuestProfileVC" customModule="Bio" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="lHl-RG-kHW"/>
+                        <viewControllerLayoutGuide type="bottom" id="7A8-NR-xCX"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="nDM-oG-b9g">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tX1-Mf-z1G">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <subviews>
+                                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="gradBG" translatesAutoresizingMaskIntoConstraints="NO" id="Tde-wF-XVk">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="boyprofile" translatesAutoresizingMaskIntoConstraints="NO" id="If1-dT-U11">
+                                        <rect key="frame" x="120" y="32" width="80" height="80"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </scrollView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="tCD-si-ptl"/>
+                        <color key="backgroundColor" systemColor="systemOrangeColor"/>
+                        <constraints>
+                            <constraint firstItem="tX1-Mf-z1G" firstAttribute="leading" secondItem="tCD-si-ptl" secondAttribute="leading" id="3Tb-ir-RbT"/>
+                            <constraint firstItem="tX1-Mf-z1G" firstAttribute="top" secondItem="nDM-oG-b9g" secondAttribute="top" id="6jQ-8e-vxK"/>
+                            <constraint firstAttribute="bottom" secondItem="tX1-Mf-z1G" secondAttribute="bottom" id="ohA-Tj-YsL"/>
+                            <constraint firstItem="tX1-Mf-z1G" firstAttribute="trailing" secondItem="tCD-si-ptl" secondAttribute="trailing" id="yvE-rs-um3"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="0cn-kk-3l0"/>
+                    <connections>
+                        <outlet property="avaImg" destination="If1-dT-U11" id="MuU-Jb-MCu"/>
+                        <outlet property="gradientImage" destination="Tde-wF-XVk" id="pad-tY-vg9"/>
+                        <outlet property="scrollView" destination="tX1-Mf-z1G" id="joB-p4-HK2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aeS-Ij-Qc1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-7680" y="-4073"/>
+        </scene>
     </scenes>
     <resources>
         <image name="addCover" width="1242" height="2208"/>

@@ -15,12 +15,13 @@ import FirebaseFirestore
 import YPImagePicker
 import Photos
 
-class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITextFieldDelegate {
   //  @IBOutlet weak var titleText: UILabel!
    // @IBOutlet weak var subtitleText: UILabel!
     var items: [YPMediaItem]?
     var navBarView = NavBarView()
-    
+    var textOverlayLabel = UILabel()
+    var prioritizeLabel = UILabel()
     // scrollView
     @IBOutlet weak var scrollView: UIScrollView!
     
@@ -28,7 +29,7 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
     
     // textfields
     @IBOutlet weak var captionTextField: UITextField!
-    
+    var textOverlayTextField = UITextField()
     @IBOutlet weak var locationTextField: UITextField!
     @IBOutlet weak var tagTextField: UITextField!
     
@@ -56,15 +57,30 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
     
     let filterSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ1234567890/_-."
     
+    var checkBox = UIButton()
+    var checkBoxStatus = false
+    
     
     // default func
     override func viewDidLoad() {
         captionTextField.textColor = .white
+        textOverlayTextField.delegate = self
+        
+        textOverlayLabel.isHidden = true
         var alreadySnapped = false
         super.viewDidLoad()
         locationTextField.isHidden = true
         tagTextField.isHidden = true
         setUpNavBarView()
+        scrollView.addSubview(textOverlayTextField)
+        scrollView.addSubview(prioritizeLabel)
+        scrollView.addSubview(checkBox)
+       
+        let checkBoxTap = UITapGestureRecognizer(target: self, action: #selector(checkBoxTapped(_:)))
+        checkBox.addGestureRecognizer(checkBoxTap)
+        checkBox.setImage(UIImage(named: "blueEmpty"), for: .normal)
+        
+        
         switch items![0] {
         case .photo(let photo):
             previewImage.image = photo.image
@@ -76,31 +92,7 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
             print("bad")
         }
         
-        
-        //        let group = DispatchGroup()
-        //
-        //
-        //        DispatchQueue.global().async {
-        //            group.enter()
-        //            self.db.collection("UserData").whereField("email", isEqualTo: "zetully@gmail.com").addSnapshotListener({objects,error in
-        //                if (!alreadySnapped) {
-        //                    alreadySnapped = true
-        //                    print("Currently in snapshot listener 2")
-        //                    if (error == nil) {
-        //                        self.userData = UserData(dictionary: objects!.documents[0].data())
-        //                        self.userDataRef = objects!.documents[0].reference
-        //                        print("got user \(self.userData!.publicID)")
-        //
-        //                    }
-        //                    else {
-        //                        print("user data not loaded bc of error: \(error?.localizedDescription)")
-        //                    }
-        //                    group.leave()
-        //                }
-        //            })
-        //        }
-        //group.wait()
-        //print("passed wait 1")
+    
         
         if (userData == nil) {
             print("userdata is nil")
@@ -109,11 +101,7 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
             print("loaded addVC with userdata: \(userData!.publicID) and user \(currentUser!.email)")
         }
         
-       // let linkTap = UITapGestureRecognizer(target: self, action: #selector(AddLinkVCViewController.loadImg(_:)))
-      //  linkTap.numberOfTapsRequired = 1
-      //  previewImage.isUserInteractionEnabled = true
-      //  previewImage.addGestureRecognizer(linkTap)
-        
+    
         
         
         //poshmarkLogo.image = UIImage(named: "poshmarkLogo")
@@ -155,6 +143,14 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
         
         captionTextField.frame = CGRect(x: 10, y: previewImage.frame.maxY + 20, width: self.view.frame.size.width - 20, height: 30)
         
+        textOverlayTextField.frame = CGRect(x: 10, y: captionTextField.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
+
+        prioritizeLabel.frame = CGRect(x: 10, y: textOverlayTextField.frame.maxY + 5, width: self.view.frame.size.width - 20, height: 30)
+        prioritizeLabel.text = "Prioritize This Post?"
+                checkBox.frame = CGRect(x: 165, y: textOverlayTextField.frame.maxY + 5, width: 30, height: 30)
+        prioritizeLabel.textColor = .white
+        
+        
         let bottomLine = CALayer()
         bottomLine.frame = CGRect(x: 0.0, y: captionTextField.frame.height, width: captionTextField.frame.width, height: 1.0)
         bottomLine.backgroundColor = UIColor.systemGray4.cgColor
@@ -163,15 +159,30 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
         captionTextField.backgroundColor = .clear
         captionTextField.attributedPlaceholder = NSAttributedString(string: "Write A Caption...", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         
+        textOverlayTextField.attributedPlaceholder = NSAttributedString(string: "Add Text To Cover Photo (Optional)",
+                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         
-      //   locationTextField.frame = CGRect(x: 10, y: captionTextField.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
-// tagTextField.frame = CGRect(x: 10, y: locationTextField.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
-//        captionTextField.attributedPlaceholder = NSAttributedString(string: "Caption",
-//        attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         
-//        postButton.frame =  CGRect(x: 10.0, y: captionTextField.frame.maxY + 10, width: self.view.frame.width - 20, height: 24)
-//        postButton.layer.cornerRadius = postButton.frame.size.width / 20
-//        backButton.frame =  CGRect(x: 10.0, y: postButton.frame.maxY + 10, width: postButton.frame.width, height: 24)
+    
+        var bottomLine3 = CALayer()
+        bottomLine3.frame = CGRect(x: 0.0, y: textOverlayTextField.frame.height, width: textOverlayTextField.frame.width, height: 1.0)
+        bottomLine3.backgroundColor = UIColor.systemGray4.cgColor
+        textOverlayTextField.borderStyle = UITextField.BorderStyle.none
+        textOverlayTextField.layer.addSublayer(bottomLine3)
+        textOverlayTextField.backgroundColor = .clear
+        textOverlayTextField.font = UIFont(name: "Poppins", size: 20)
+        textOverlayTextField.textColor = .white
+        
+        
+        var bottomLine5 = CALayer()
+        bottomLine5.backgroundColor = UIColor.systemGray4.cgColor
+        //prioritizeLabel.borderStyle = UITextField.BorderStyle.none
+        prioritizeLabel.layer.addSublayer(bottomLine5)
+        bottomLine5.frame = CGRect(x: 0.0, y: prioritizeLabel.frame.height, width: prioritizeLabel.frame.width, height: 1.0)
+        
+      prioritizeLabel.backgroundColor = .clear
+        
+    
         backButton.layer.cornerRadius = backButton.frame.size.width / 20
         previewImage.setupHexagonMask(lineWidth: previewImage.frame.width/15, color: myOrange, cornerRadius: previewImage.frame.width/15)
         // background
@@ -179,27 +190,11 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
         bg.image = UIImage(named: "manaloghourglass")
         bg.layer.zPosition = -1
         self.view.addSubview(bg)
+        
+        insertTextOverlay()
     }
     
-    //
-    //    // call picker to select image
-    //    @objc func loadImg(_ recognizer:UITapGestureRecognizer) {
-    //        let picker = UIImagePickerController()
-    //        picker.delegate = self
-    //        picker.sourceType = .photoLibrary
-    //        picker.allowsEditing = true
-    //        present(picker, animated: true, completion: nil)
-    //    }
-    //
-    //
-    //    // connect selected image to our ImageView
-    //    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-    //        // Local variable inserted by Swift 4.2 migrator.
-    //        let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
-    //
-    //        //    avaImg.image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
-    //        self.dismiss(animated: true, completion: nil)
-    //    }
+  
     
     
     // hide keyboard if tapped
@@ -229,6 +224,19 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
             self.scrollView.frame.size.height = self.view.frame.height
         })
     }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        print("I recognize that it is ending")
+        if textOverlayTextField.text != "" {
+            textOverlayLabel.isHidden = false
+            textOverlayLabel.text = textOverlayTextField.text!
+        }
+        else {
+            print("text overlay textfield empty")
+            textOverlayLabel.isHidden = true
+        }
+    }
+    
     
     func addHex(hexData: HexagonStructData, completion: @escaping (Bool) -> Void) {
         let hexCollectionRef = db.collection("Hexagons2")
@@ -317,7 +325,9 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
             
             
             
-            let photoHex = HexagonStructData(resource: photoLocation, type: type, location: numPosts, thumbResource: photoLocation, createdAt: NSDate.now.description, postingUserID: username, text: "\(captionTextField.text!)", views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "")
+        let photoHex = HexagonStructData(resource: photoLocation, type: type, location: numPosts, thumbResource: photoLocation, createdAt: NSDate.now.description, postingUserID: username, text: "\(captionTextField.text!)" ?? "", views: 0, isArchived: false, docID: "WillBeSetLater", coverText: textOverlayTextField.text ?? "", isPrioritized: checkBoxStatus)
+        
+        
             
             switch(items![0]) {
                 case .photo(let photo):
@@ -406,23 +416,6 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
         var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
         navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
-//        self.navBarView.addSubview(toSettingsButton)
-//        self.navBarView.addSubview(toSearchButton)
-      //  self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 30)/2, width: 25, height: 30)
-        
-        // handle skip stuff here
-        // i commented it out
-        
-//        if cancelLbl != nil {
-//            backButton.setTitle(cancelLbl, for: .normal)
-//            backButton.sizeToFit()
-//            backButton.setTitleColor(.systemBlue, for: .normal)
-//            backButton.titleLabel?.font = UIFont(name: "poppins-SemiBold", size: 14)
-//            //navBarView.backButton.setImage(UIImage(), for: .normal)
-//            let backTap = UITapGestureRecognizer(target: self, action: #selector(backButtonpressed))
-//            backButton.addGestureRecognizer(backTap)
-//        }
-//        else {
             let backTap = UITapGestureRecognizer(target: self, action: #selector(self.backButtonpressed))
             backTap.numberOfTapsRequired = 1
             backButton.isUserInteractionEnabled = true
@@ -440,26 +433,23 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
         postButton.titleLabel?.sizeToFit()
         postButton.titleLabel?.textAlignment = .right
         
-    
-   //     self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
-        
-      //  backButton.sizeToFit()
         postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 30)/2, width: 40, height: 30)
         //navBarView.postButton.titleLabel?.sizeToFit()
         navBarView.postButton.titleLabel?.textAlignment = .right
         let yOffset = navBarView.frame.maxY
-        backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+      //  backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+        self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 34, height: 34)
+        
        // postButton.frame = CGRect(x: navBarView.frame.width - 35, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
         
-        postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 40, height: 25)
+     //   postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 40, height: 25)
+        postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 40, height: 34)
         
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Add A Photo Or Video"
        // self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
         self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: postButton.frame.minY, width: 200, height: 25)
         print("This is navBarView.")
-      
-      
     }
     
     
@@ -469,7 +459,27 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
         self.dismiss(animated: false, completion: nil)
     }
     
-    
+    func insertTextOverlay() {
+   // var textOverlayLabel = UILabel()
+    previewImage.addSubview(textOverlayLabel)
+    textOverlayLabel.clipsToBounds = true
+    textOverlayLabel.textAlignment = .center
+    previewImage.bringSubviewToFront(textOverlayLabel)
+    //self.contentView.addSubview(imageCopy)
+        textOverlayLabel.frame = CGRect(x: 0, y: previewImage.frame.height*(6/10), width: previewImage.frame.width, height: 20*(previewImage.frame.height/150))
+        textOverlayLabel.text = textOverlayTextField.text!
+    textOverlayLabel.numberOfLines = 1
+    textOverlayLabel.font = UIFont(name: "DINAternate-Bold", size: 16)
+    textOverlayLabel.textColor = white
+        
+    textOverlayLabel.textAlignment = .center
+
+      textOverlayLabel.text = "image.hexData!.coverText"
+        textOverlayLabel.numberOfLines = 1
+        textOverlayLabel.font = UIFont(name: "DINAternate-Bold", size: 10)
+        textOverlayLabel.textColor = white
+        textOverlayLabel.backgroundColor = UIColor(white: 0.25, alpha: 0.5)
+    }
     
     
     func uploadPhoto(reference: String, image: YPMediaPhoto, completion: @escaping (Bool) -> Void) {
@@ -540,6 +550,19 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
         }
     }
     
+    
+    @objc func checkBoxTapped(_ sender: UITapGestureRecognizer) {
+        if checkBoxStatus == false {
+            checkBox.setImage(UIImage(named: "check-3"), for: .normal)
+            checkBoxStatus = true
+            previewImage.pulse(withIntensity: 0.8, withDuration: 1.5, loop: true)
+        }
+        else {
+            checkBox.setImage(UIImage(named: "blueEmpty"), for: .normal)
+            checkBoxStatus = false
+           previewImage.pulse(withIntensity: 1.0, withDuration: 0.1, loop: false)
+        }
+    }
     
     func convertVideo(toMPEG4FormatForVideo inputURL: URL, outputURL: URL, handler: @escaping (AVAssetExportSession) -> Void) {
         do{

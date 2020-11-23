@@ -20,10 +20,11 @@ class PopularCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         contentView.addSubview(usernameLabel)
-        contentView.addSubview(displayNameLabel)
+     //   contentView.addSubview(displayNameLabel)
         contentView.addSubview(image)
         contentView.addSubview(followView)
         contentView.addSubview(userDescriptionLabel)
+        contentView.addSubview(displayNameLabel)
         followView.addSubview(followImage)
         followView.addSubview(followLabel)
     }

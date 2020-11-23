@@ -75,6 +75,9 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
     
     var captionTextField = UITextField()
     var textOverlayTextField = UITextField()
+    var prioritizeLabel = UILabel()
+    var checkBox = UIButton()
+    var checkBoxStatus = false
     
     // reset default size
     var scrollViewHeight : CGFloat = 0
@@ -85,14 +88,23 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
     
     // default func
     override func viewDidLoad() {
+        textOverlayLabel.isHidden = true
+        checkBox.setImage(UIImage(named: "tealEmpty"), for: .normal)
         linkLogo.isHidden = true
         linkHexagonImage.isHidden = false
 //        confirmLinkButton.isHidden = true
         setUpNavBarView()
+        
+        let checkBoxTap = UITapGestureRecognizer(target: self, action: #selector(checkBoxTapped(_:)))
+     //   checkBoxTap.numberOfTapsRequired = 1
+        //checkBox.isUserInteractionEnabled = true
+        checkBox.addGestureRecognizer(checkBoxTap)
+        
         scrollView.addSubview(captionTextField)
         scrollView.addSubview(textOverlayTextField)
+        scrollView.addSubview(prioritizeLabel)
+        scrollView.addSubview(checkBox)
         textOverlayTextField.delegate = self
-        
         var alreadySnapped = false
         super.viewDidLoad()
         
@@ -166,7 +178,12 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         textOverlayTextField.frame = CGRect(x: 10, y: captionTextField.frame.maxY + 5, width: self.view.frame.size.width - 20, height: 30)
         textOverlayTextField.attributedPlaceholder = NSAttributedString(string: "Add Text To Cover Photo (Optional)",
                                                                      attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
-   
+        
+prioritizeLabel.frame = CGRect(x: 10, y: textOverlayTextField.frame.maxY + 5, width: self.view.frame.size.width - 20, height: 30)
+prioritizeLabel.text = "Prioritize This Post?"
+        checkBox.frame = CGRect(x: 165, y: textOverlayTextField.frame.maxY + 5, width: 30, height: 30)
+        
+
      
         
         
@@ -206,8 +223,22 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         bottomLine4.frame = CGRect(x: 0.0, y: textOverlayTextField.frame.height, width: textOverlayTextField.frame.width, height: 1.0)
         textOverlayTextField.backgroundColor = .clear
         textOverlayTextField.borderStyle = UITextField.BorderStyle.none
-        textOverlayTextField.font = UIFont(name: "Poppins", size: 20)
+        textOverlayLabel.font = UIFont(name: "DINAlternate-Bold", size: 50)
         textOverlayTextField.textColor = .white
+        
+        
+        var bottomLine5 = CALayer()
+        bottomLine5.backgroundColor = UIColor.systemGray4.cgColor
+        //prioritizeLabel.borderStyle = UITextField.BorderStyle.none
+        prioritizeLabel.layer.addSublayer(bottomLine5)
+        bottomLine5.frame = CGRect(x: 0.0, y: prioritizeLabel.frame.height, width: prioritizeLabel.frame.width, height: 1.0)
+        
+      prioritizeLabel.backgroundColor = .clear
+        
+    //    prioritizeLabel.borderStyle = UITextField.BorderStyle.none
+       // prio.font = UIFont(name: "DINAlternate-Bold", size: 50)
+        prioritizeLabel.textColor = .white
+
         
         
         
@@ -341,6 +372,17 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
       
     }
     
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        print("I recognize that it is ending")
+        if textOverlayTextField.text != "" {
+            textOverlayLabel.isHidden = false
+            textOverlayLabel.text = textOverlayTextField.text!
+        }
+        else {
+            print("text overlay textfield empty")
+            textOverlayLabel.isHidden = true
+        }
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         print("userData, view will appear: \(userData)")
@@ -354,6 +396,24 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         linkVC.cancelLbl = "Skip"
         self.present(linkVC, animated: false, completion: nil)
     }
+    
+    @objc func checkBoxTapped(_ sender: UITapGestureRecognizer) {
+        if checkBoxStatus == false {
+            checkBox.setImage(UIImage(named: "check-2"), for: .normal)
+            checkBoxStatus = true
+            linkHexagonImage.pulse(withIntensity: 0.8, withDuration: 1.5, loop: true)
+        }
+        else {
+            checkBox.setImage(UIImage(named: "tealEmpty"), for: .normal)
+            checkBoxStatus = false
+        //    linkHexagonImage.frame = CGRect(x: 40, y: navBarView.frame.maxY + 10, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
+           linkHexagonImage.pulse(withIntensity: 1.0, withDuration: 0.1, loop: false)
+        }
+    }
+    
+    
+    
+    
     // hide keyboard if tapped
     @objc func hideKeyboardTap(_ recoginizer:UITapGestureRecognizer) {
         //   pushEverythingDown()
@@ -544,7 +604,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
                 musicLink = musicLink.replacingOccurrences(of: "'", with: "")
                 musicLink.trimmingCharacters(in: ["'", "!", "?"])
                 print("music Link after \(musicLink)")
-                let musicHex = HexagonStructData(resource: musicLink, type: "music", location: numPosts, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: captionTextField.text ?? "", views: 0, isArchived: false, docID: "WillBeSetLater", coverText: textOverlayTextField.text ?? "")
+                let musicHex = HexagonStructData(resource: musicLink, type: "music", location: numPosts, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: captionTextField.text ?? "", views: 0, isArchived: false, docID: "WillBeSetLater", coverText: textOverlayTextField.text ?? "", isPrioritized: checkBoxStatus)
                 let previewVC = storyboard?.instantiateViewController(identifier: "linkPreview") as! LinkPreviewVC
                 previewVC.webHex = musicHex
                 
@@ -618,7 +678,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
                 musicLink = musicLink.replacingOccurrences(of: "'", with: "")
                 musicLink.trimmingCharacters(in: ["'", "!", "?"])
                 print("music Link after \(musicLink)")
-                let musicHex = HexagonStructData(resource: musicLink, type: "music", location: numPosts, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: musicLink, views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "")
+                let musicHex = HexagonStructData(resource: musicLink, type: "music", location: numPosts, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: musicLink, views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: checkBoxStatus)
                 
                 
                 

@@ -69,6 +69,11 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     let db = Firestore.firestore()
     let storageRef = Storage.storage().reference()
     
+    var prioritizeLabel = UILabel()
+    var checkBox = UIButton()
+    var checkBoxStatus = false
+    
+    
     @IBOutlet weak var changeCoverLabel: UILabel!
     
     // reset default size
@@ -80,9 +85,15 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     
     // default func
     override func viewDidLoad() {
+        textOverlayLabel.isHidden = true
         linkLogo.isHidden = true
         scrollView.addSubview(captionTextField)
         scrollView.addSubview(textOverlayTextField)
+        scrollView.addSubview(prioritizeLabel)
+        scrollView.addSubview(checkBox)
+        let checkBoxTap = UITapGestureRecognizer(target: self, action: #selector(checkBoxTapped(_:)))
+        checkBox.addGestureRecognizer(checkBoxTap)
+        checkBox.setImage(UIImage(named: "blueEmpty"), for: .normal)
         textOverlayTextField.delegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboard(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -130,41 +141,14 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         self.view.isUserInteractionEnabled = true
         self.view.addGestureRecognizer(hideTap)
         
-        // round ava
-        //  avaImg.layer.cornerRadius = avaImg.frame.size.width / 2
-        //hexagonAva
-        
-        //cancelBtn.frame = CGRect(x: 5, y: 15, width: 24, height: 24)
-    
         titleText.frame = CGRect(x: 0,y:60, width: self.view.frame.size.width, height: 30)
         subtitleText.frame = CGRect(x:0, y: titleText.frame.origin.y + 30, width: self.view.frame.size.width, height: 30)
         
         
-        
-        
-        //         linkHexagonImage.frame = CGRect(x: 10, y: linkTextField.frame.origin.y + 30, width: self.view.frame.size.width - 20, height: 30)
- 
-        
 
-
-        // background
-  
-        
-        
-        
-        
-        // set up link text Field
-       // linkTextField.frame = CGRect(x: 10, y: addLinkLabel.frame.maxY + 40, width: self.view.frame.size.width - 20, height: 30)
         linkTextField.attributedPlaceholder = NSAttributedString(string: "Paste Link Here",
                                                                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
     
-        
-    //    linkHexagonImage.frame = CGRect(x: 40, y: linkTextField.frame.minY, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
-//        linkTextField.frame = CGRect(x: 10, y: linkHexagonImage.frame.maxY, width: self.view.frame.size.width - 20, height: 30)
-//
-//        captionTextField.frame = CGRect(x: 10, y: linkTextField.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
-        
-     //   linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: linkTextField.frame.minY, width: 30, height: 30)
       
         
         linkHexagonImage.frame = CGRect(x: 40, y: navBarView.frame.maxY + 10, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
@@ -174,6 +158,11 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         captionTextField.frame = CGRect(x: 10, y: linkTextField.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
         
         textOverlayTextField.frame = CGRect(x: 10, y: captionTextField.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
+        
+        prioritizeLabel.frame = CGRect(x: 10, y: textOverlayTextField.frame.maxY + 5, width: self.view.frame.size.width - 20, height: 30)
+        prioritizeLabel.text = "Prioritize This Post?"
+                checkBox.frame = CGRect(x: 165, y: textOverlayTextField.frame.maxY + 5, width: 30, height: 30)
+        prioritizeLabel.textColor = .white
         
         
         self.bottomLine.frame = CGRect(x: 0.0, y: linkTextField.frame.height, width: linkTextField.frame.width, height: 1.0)
@@ -201,8 +190,14 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         textOverlayTextField.textColor = .white
         
         
+        var bottomLine5 = CALayer()
+        bottomLine5.backgroundColor = UIColor.systemGray4.cgColor
+        //prioritizeLabel.borderStyle = UITextField.BorderStyle.none
+        prioritizeLabel.layer.addSublayer(bottomLine5)
+        bottomLine5.frame = CGRect(x: 0.0, y: prioritizeLabel.frame.height, width: prioritizeLabel.frame.width, height: 1.0)
         
-      //  linkTextField.frame = CGRect(x: 10, y: linkHexagonImage.frame.maxY, width: self.view.frame.size.width - 20, height: 30)
+      prioritizeLabel.backgroundColor = .clear
+        
         linkTextField.attributedPlaceholder = NSAttributedString(string: "Paste Link Here",
                                                                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         captionTextField.attributedPlaceholder = NSAttributedString(string: "Write a Caption... (Optional)",
@@ -210,17 +205,19 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         textOverlayTextField.attributedPlaceholder = NSAttributedString(string: "Add Text To Cover Photo (Optional)",
                                                                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         
+        
+        
+        
         linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: linkTextField.frame.minY, width: 30, height: 30)
         linkHexagonImage.setupHexagonMask(lineWidth: linkHexagonImage.frame.width/15, color: myCoolBlue, cornerRadius: linkHexagonImage.frame.width/15)
         addLinkLabel.font = UIFont(name: "DINAlternate-Bold", size: 22)
         postButton.titleLabel!.font = UIFont(name: "DINAlternate-Bold", size: 19)
         
-    //    setUpTextOverlayLabel()
         insertTextOverlay()
     
     }
     
-    func textViewDidEndEditing(_ textView: UITextView) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         print("I recognize that it is ending")
         if textOverlayTextField.text != "" {
             textOverlayLabel.isHidden = false 
@@ -231,6 +228,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
             textOverlayLabel.isHidden = true
         }
     }
+    
     
 //    func setUpTextOverlayLabel(){
 //        self.textOverlayLabel.textAlignment = .center
@@ -311,7 +309,6 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         
     //    backButton.sizeToFit()
         postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 40, height: 34)
-        //navBarView.postButton.titleLabel?.sizeToFit()
         navBarView.postButton.titleLabel?.textAlignment = .right
         let yOffset = navBarView.frame.maxY
   
@@ -320,7 +317,6 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
      //   self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
         self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: postButton.frame.minY, width: 200, height: 25)
         print("This is navBarView.")
-      
       
     }
     
@@ -442,7 +438,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
                 let timestamp = Timestamp.init().seconds
                 let imageFileName = "\(username)_\(timestamp)_link.png"
                 let refText = "userFiles/\(username)/\(imageFileName)"
-                let linkHex = HexagonStructData(resource: linkTextField.text!, type: "link", location: numPosts + 1, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: captionTextField.text ?? "", views: 0, isArchived: false, docID: "WillBeSetLater", coverText: textOverlayTextField.text ?? "")
+                let linkHex = HexagonStructData(resource: linkTextField.text!, type: "link", location: numPosts + 1, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: captionTextField.text ?? "", views: 0, isArchived: false, docID: "WillBeSetLater", coverText: textOverlayTextField.text ?? "", isPrioritized: checkBoxStatus)
                 let previewVC = storyboard?.instantiateViewController(identifier: "linkPreview") as! LinkPreviewVC
                 previewVC.webHex = linkHex
                 if changedProfilePic == true {
@@ -479,6 +475,19 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         self.dismiss(animated: true, completion: nil)
     }
     
+    @objc func checkBoxTapped(_ sender: UITapGestureRecognizer) {
+        if checkBoxStatus == false {
+            checkBox.setImage(UIImage(named: "check-3"), for: .normal)
+            checkBoxStatus = true
+            linkHexagonImage.pulse(withIntensity: 0.8, withDuration: 1.5, loop: true)
+        }
+        else {
+            checkBox.setImage(UIImage(named: "blueEmpty"), for: .normal)
+            checkBoxStatus = false
+           linkHexagonImage.pulse(withIntensity: 1.0, withDuration: 0.1, loop: false)
+        }
+    }
+    
     
     func insertTextOverlay() {
    // var textOverlayLabel = UILabel()
@@ -495,32 +504,12 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     textOverlayLabel.textColor = white
         
     textOverlayLabel.textAlignment = .center
-      //  image.bringSubviewToFront(image.textOverlay)
-        //self.contentView.addSubview(imageCopy)
-    //    image.textOverlay.frame = CGRect(x: 0, y: image.frame.height*(5/10) + 4, width: image.frame.width, height: 20)
-        //textOverlayLabel.frame = CGRect(x: self.linkHexagonImage.frame.minX, y:self.linkHexagonImage.frame.minY + linkHexagonImage.frame.height*(6/10), width: linkHexagonImage.frame.width, height: 20)
+
       textOverlayLabel.text = "image.hexData!.coverText"
         textOverlayLabel.numberOfLines = 1
         textOverlayLabel.font = UIFont(name: "DINAternate-Bold", size: 10)
         textOverlayLabel.textColor = white
-        
-      
-        
-        
-        
-  //      if image.hexData!.coverText != "" {
-            textOverlayLabel.backgroundColor = UIColor(white: 0.25, alpha: 0.5)
-//            let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
-//            visualEffectView.backgroundColor = .clear
-//            image.textOverlay.addSubview(visualEffectView)
-//            visualEffectView.frame = CGRect(x: 0, y: 0, width: image.textOverlay.frame.width, height: image.textOverlay.frame.height)
-            
-//            visualEffectView.backgroundColor = UIColor(white: 0.1, alpha: 0.3)
-//            image.sendSubviewToBack(visualEffectView)
-      //  }
-
-        
-     //   textOverlayLabel.text = "YOOOOOOOOOO"
+        textOverlayLabel.backgroundColor = UIColor(white: 0.25, alpha: 0.5)
     }
     
     

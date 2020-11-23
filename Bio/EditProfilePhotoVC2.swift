@@ -37,11 +37,16 @@ class EditProfilePhotoVC2: UIViewController, UIImagePickerControllerDelegate & U
         let cleanRef = userData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
         
+        if url != nil {
         imageView!.sd_setImage(with: url!, completed: {_, error, _, _ in
             if error != nil {
                 print(error!.localizedDescription)
             }
         })
+        }
+        else {
+            imageView.image = UIImage(named: "boyprofile")
+        }
             
       //  imageView.image = 
         signInButton.layer.cornerRadius = signInButton.frame.width/20
@@ -140,11 +145,6 @@ class EditProfilePhotoVC2: UIViewController, UIImagePickerControllerDelegate & U
             var username = self.userData?.publicID
 //            var reference = "userFiles/\(username!)"
             let userDataStorageRef = self.storage.child(self.userData!.avaRef)
-//            let filename = "\(username!)_avatar.png"
-//            reference.append("/\(filename)")
-//            let avaFileRef = userDataStorageRef.child(filename)
-//            print("This is reference \(reference)")
-//            print("This is avaFileRef \(avaFileRef)")
             
             let loadingIndicator = storyboard?.instantiateViewController(withIdentifier: "loading")
             
@@ -153,10 +153,7 @@ class EditProfilePhotoVC2: UIViewController, UIImagePickerControllerDelegate & U
                 let blurEffectView = UIVisualEffectView(effect: blurEffect)
                 
                 blurEffectView.alpha = 0.8
-                
-                // Setting the autoresizing mask to flexible for
-                // width and height will ensure the blurEffectView
-                // is the same size as its parent view.
+
                 blurEffectView.autoresizingMask = [
                     .flexibleWidth, .flexibleHeight
                 ]
@@ -171,34 +168,16 @@ class EditProfilePhotoVC2: UIViewController, UIImagePickerControllerDelegate & U
             
             userDataStorageRef.putData(self.imageView.image!.pngData()!, metadata: nil, completion: { meta, error in
                 if (error == nil) {
-                    //self.userData = UserData(email: self.userData.email, publicID: username, privateID: self.userData.uid, avaRef: reference, hexagonGridID: self.userData?.hexagonGridID, userPage: self.userData?.userPage, subscribedUsers: self.userData?.subscribedUsers, subscriptions: self.userData?.subscriptions, numPosts: self.userData?.numPosts, displayName: self.userData?.displayName, birthday: self.userData.birthday)
-//                    self.userData?.avaRef = reference
-//                    let db = Firestore.firestore()
-//                    let userDataCollection = db.collection("UserData1")
-//                    let docRef = userDataCollection.document(self.user!.uid)
-//                    docRef.setData(self.userData!.dictionary, completion: { error in
-//                        if error == nil {
-//                            print("profile pic changed successfully!")
+         
                     SDImageCache.shared.clearMemory()
                     SDImageCache.shared.clearDisk(onCompletion: {
                             self.performSegue(withIdentifier: "unwindFromEditVC", sender: self)
                     })
-//                        }
-//                        else {
-//                            print("error 2")
-//                            print(error?.localizedDescription)
-////                            self.blurEffectView?.removeFromSuperview()
-////                            loadingIndicator!.view.removeFromSuperview()
-////                            loadingIndicator!.removeFromParent()
-//                        }
-//                    })
+
                     
                 }
                 else {
-                    print("could not upload profile photo \(error?.localizedDescription)")
-//                    self.blurEffectView?.removeFromSuperview()
-//                    loadingIndicator!.view.removeFromSuperview()
-//                    loadingIndicator!.removeFromParent()
+                    print("could not upload profile photo")
                     
                 }
                 blurEffectView.removeFromSuperview()
