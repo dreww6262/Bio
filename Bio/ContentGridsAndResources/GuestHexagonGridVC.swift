@@ -698,6 +698,12 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     
     func createContextMenu() -> UIMenu {
+        let shareAction = UIAction(title: "View Profile Picture", image: .none) { _ in
+//    print("View Profile Picture")
+        self.handleProfilePicTapView(UITapGestureRecognizer())
+        
+    }
+        
         let followAction = UIAction(title: "Follow \(guestUserData!.displayName)", image: nil) { _ in
     print("follow User")
        // self.handleProfilePicTap(UITapGestureRecognizer())
@@ -729,10 +735,10 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
         
         if isFollowing {
-            return UIMenu(title: "", children: [unfollowAction, guestFollowingList, cancelAction])
+            return UIMenu(title: "", children: [shareAction, unfollowAction, guestFollowingList, cancelAction])
         }
         else {
-            return UIMenu(title: "", children: [followAction, guestFollowingList, cancelAction])
+            return UIMenu(title: "", children: [shareAction, followAction, guestFollowingList, cancelAction])
         }
         
    

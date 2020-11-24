@@ -21,6 +21,7 @@ class BlockedUsersVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "blockedCell", for: indexPath) as! BlockedCell
+        //cell.backgroundColor = .black
         
         let cleanRef = searchArray[indexPath.row].avaRef.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
@@ -151,9 +152,13 @@ class BlockedUsersVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         if (index == nil) {
             userData?.blockedUsers.append(cell.usernameLabel.text!)
             blockedArray.append(newElement: cell.blockedUserData!)
+            cell.deleteButton.setImage(nil, for: .normal)
+            cell.deleteButton.setTitle("Unblock", for: .normal)
         }
         else {
             isBlocking = false
+            cell.deleteButton.setImage(UIImage(named: "cancel2"), for: .normal)
+           // cell.deleteButton.setTitle("Unblock", for: .normal)
             userData?.blockedUsers.remove(at: index!)
             var count = 0
             for i in searchArray.readOnlyArray() {
@@ -212,6 +217,8 @@ class BlockedUsersVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         view.addSubview(searchBar)
         searchBar.sizeToFit()
         searchBar.tintColor = UIColor.black
+       // view.backgroundColor = .black
+       // view.backgroundColor = UIColor(cgColor: CGColor(gray: 2/3, alpha: 1.0))
         searchBar.backgroundColor = UIColor.black
         searchBar.barStyle = .blackOpaque
         searchBar.delegate = self

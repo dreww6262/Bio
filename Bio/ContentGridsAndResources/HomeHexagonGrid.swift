@@ -1269,7 +1269,8 @@ var navBarView = NavBarView()
     func createContextMenu() -> UIMenu {
         let shareAction = UIAction(title: "View Profile Picture", image: .none) { _ in
 //    print("View Profile Picture")
-        self.handleProfilePicTap(UITapGestureRecognizer())
+        self.handleProfilePicTapView(UITapGestureRecognizer())
+        
     }
         let copy = UIAction(title: "Change Profile Picture", image: .none) { _ in
         let editProfilePhotoVC = self.storyboard?.instantiateViewController(identifier: "editProfilePhotoVC2") as! EditProfilePhotoVC2

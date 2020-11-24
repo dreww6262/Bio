@@ -525,10 +525,32 @@ prioritizeLabel.text = "Prioritize This Post?"
 //    }
     
     func createMusicLink() {
-        var artistTextBefore = linkTextField.text?.replacingOccurrences(of: "'", with: "")
-        artistText = artistTextBefore?.replacingOccurrences(of: " ", with: "-") as! String
-        var songTextBad = songNameTextField.text?.replacingOccurrences(of: " ", with: "-")
-        songText = songTextBad?.replacingOccurrences(of: "'", with: "") as! String
+        var artistText = linkTextField.text?.replacingOccurrences(of: "'", with: "") ?? ""
+        var songText = songNameTextField.text?.replacingOccurrences(of: "'", with: "") ?? ""
+        while artistText.hasPrefix(" ") {
+            artistText = artistText.chopPrefix()
+            print("This is trimmedText now 1 \(artistText)")
+        }
+        while artistText.hasSuffix(" ") {
+            artistText = artistText.chopSuffix()
+            print("This is trimmedText now 2 \(artistText)")
+        }
+        
+        while songText.hasPrefix(" ") {
+           songText = songText.chopPrefix()
+            print("This is trimmedText now 3 \(songText)")
+        }
+        while songText.hasSuffix(" ") {
+           songText = songText.chopSuffix()
+            print("This is trimmedText now 4 \(songText)")
+        }
+   
+        
+        artistText = artistText.replacingOccurrences(of: " ", with: "-") as! String
+        
+        
+         songText = songText.replacingOccurrences(of: " ", with: "-")
+        songText = songText.replacingOccurrences(of: "'", with: "") as! String
         while songText.contains("'") {
             songText.remove(at: songText.firstIndex(of: "'")!)
         }
@@ -604,7 +626,11 @@ prioritizeLabel.text = "Prioritize This Post?"
                 musicLink = musicLink.replacingOccurrences(of: "'", with: "")
                 musicLink.trimmingCharacters(in: ["'", "!", "?"])
                 print("music Link after \(musicLink)")
-                let musicHex = HexagonStructData(resource: musicLink, type: "music", location: numPosts, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: captionTextField.text ?? "", views: 0, isArchived: false, docID: "WillBeSetLater", coverText: textOverlayTextField.text ?? "", isPrioritized: checkBoxStatus)
+                print("This is music Link")
+                var trimmedMusicLink = musicLink.trimmingCharacters(in: .whitespaces)
+                
+                
+                let musicHex = HexagonStructData(resource: trimmedMusicLink, type: "music", location: numPosts, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: captionTextField.text ?? "", views: 0, isArchived: false, docID: "WillBeSetLater", coverText: textOverlayTextField.text ?? "", isPrioritized: checkBoxStatus)
                 let previewVC = storyboard?.instantiateViewController(identifier: "linkPreview") as! LinkPreviewVC
                 previewVC.webHex = musicHex
                 

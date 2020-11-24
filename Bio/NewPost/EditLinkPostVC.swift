@@ -1,11 +1,10 @@
 //
-//  AddLinkVCViewController.swift
+//  EditLinkPostVC.swift
 //  Bio
 //
-//  Created by Ann McDonough on 8/12/20.
+//  Created by Ann McDonough on 11/24/20.
 //  Copyright © 2020 Patrick McDonough. All rights reserved.
 //
-
 
 import UIKit
 //import Parse
@@ -15,7 +14,7 @@ import FirebaseStorage
 import FirebaseUI
 import FirebaseFirestore
 
-class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+class EditLinkPostVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     var changedProfilePic = false
     var textOverlayLabel = UILabel()
     var navBarView = NavBarView()
@@ -41,9 +40,15 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     var addLinkLabel = UILabel()
     var cancelLbl: String?
     
-    @IBOutlet weak var titleText: UILabel!
-    @IBOutlet weak var subtitleText: UILabel!
-    
+    var titleText = UILabel()
+    var subtitleText = UILabel()
+    var hexData: HexagonStructData?
+    var captionString = ""
+    var textOverlayString = ""
+    var originalCaption = ""
+    var originalTextOverlay = ""
+    var originalPriority = false
+    var changedPhoto = false
     @IBOutlet weak var linkLogo: UIImageView!
     
     
@@ -53,11 +58,11 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     // profile image
     
     // textfields
-    @IBOutlet weak var linkTextField: UITextField!
+    var linkTextField = UITextField()
     var captionTextField = UITextField()
     var textOverlayTextField = UITextField()
     
-    @IBOutlet weak var linkHexagonImage: UIImageView!
+    var linkHexagonImage = UIImageView()
     // buttons
     
     var postButton = UIButton()
@@ -90,7 +95,17 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         scrollView.addSubview(captionTextField)
         scrollView.addSubview(textOverlayTextField)
         scrollView.addSubview(prioritizeLabel)
+        scrollView.addSubview(linkHexagonImage)
+        scrollView.addSubview(linkTextField)
         scrollView.addSubview(checkBox)
+        captionTextField.text = captionString
+        originalTextOverlay = textOverlayString
+        originalCaption = captionString
+        originalPriority = checkBoxStatus
+        textOverlayLabel.text = textOverlayString
+        if textOverlayString != "" {
+            textOverlayLabel.isHidden = false
+        }
         let checkBoxTap = UITapGestureRecognizer(target: self, action: #selector(checkBoxTapped(_:)))
         checkBox.addGestureRecognizer(checkBoxTap)
         checkBox.setImage(UIImage(named: "blueEmpty"), for: .normal)
@@ -214,14 +229,19 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         postButton.titleLabel!.font = UIFont(name: "DINAlternate-Bold", size: 19)
         
         insertTextOverlay()
-    
+        if textOverlayString != "" {
+            textOverlayLabel.isHidden = false
+        }
+        else {
+        textOverlayLabel.isHidden = true
+        }
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         print("I recognize that it is ending")
         if textOverlayTextField.text != "" {
-            textOverlayLabel.isHidden = false 
-            textOverlayLabel.text = textOverlayTextField.text!
+            textOverlayLabel.isHidden = false
+            textOverlayLabel.text = textOverlayTextField.text
         }
         else {
             print("text overlay textfield empty")
@@ -229,26 +249,11 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         }
     }
     
-    
-//    func setUpTextOverlayLabel(){
-//        self.textOverlayLabel.textAlignment = .center
-//        self.scrollView.addSubview(self.textOverlayLabel)
-//        let textOverlayLabelWidth = self.linkHexagonImage.frame.width*(7.5/10)
-//        let textOverlayLabelHeight = self.linkHexagonImage.frame.height*(7.5/10)
-//        textOverlayLabel.frame = CGRect(x: (self.linkHexagonImage.frame.midX-textOverlayLabelWidth)/2, y: (self.linkHexagonImage.frame.midY-textOverlayLabelHeight)/2, width: textOverlayLabelWidth, height: textOverlayLabelHeight)
-//      // self.textOverlayLabel.text = "\(self.textOverlayTextField.text ?? "")"
-//        self.textOverlayLabel.text = ""
-//        textOverlayLabel.font.withSize(18)
-//        textOverlayLabel.numberOfLines = 0
-//        textOverlayLabel.font = UIFont(name: "DINAternate-Bold", size: 18)
-//        textOverlayLabel.textColor = white
-//        textOverlayLabel.center = self.linkHexagonImage.center
-//    }
-    
+
     
     override func viewWillAppear(_ animated: Bool) {
         print("userData, view will appear: \(userData)")
-        hasChosenThumbnailImage = false 
+        hasChosenThumbnailImage = false
     }
     
     @objc func skipTapped(_ sender: UITapGestureRecognizer) {
@@ -387,6 +392,16 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         let username = userData!.publicID
         let numPosts = userData!.numPosts
         
+        if (originalCaption == captionTextField.text! && originalTextOverlay == textOverlayTextField.text && originalPriority == checkBoxStatus && changedPhoto == false) {
+         print("Changed Nothing and Dismiss")
+            self.dismiss(animated: false, completion: nil)
+            return
+        }
+        
+        print("TODO: Something changed so archive the old one in this spot and replace with new one")
+        
+        
+        
         if numPosts + 1 > 37 {
             // too many posts
             let alert = UIAlertController(title: "Not Enough Space :/", message: "Either cancel this or delete a post from your home grid and try again.", preferredStyle: .alert)
@@ -440,7 +455,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
                 let refText = "userFiles/\(username)/\(imageFileName)"
                 var link = linkTextField.text!
                 var trimmedLink = link.trimmingCharacters(in: .whitespaces)
-                let linkHex = HexagonStructData(resource: trimmedLink, type: "link", location: numPosts + 1, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: captionTextField.text ?? "", views: 0, isArchived: false, docID: "WillBeSetLater", coverText: textOverlayTextField.text ?? "", isPrioritized: checkBoxStatus)
+                let linkHex = HexagonStructData(resource: trimmedLink, type: "link", location: hexData?.location ?? numPosts + 1, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: captionTextField.text ?? "", views: hexData?.views ?? 0, isArchived: false, docID: "WillBeSetLater", coverText: textOverlayTextField.text ?? "", isPrioritized: checkBoxStatus)
                 let previewVC = storyboard?.instantiateViewController(identifier: "linkPreview") as! LinkPreviewVC
                 previewVC.webHex = linkHex
                 if changedProfilePic == true {
@@ -474,6 +489,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         linkHexagonImage.image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
         self.changedProfilePic = true
+        changedPhoto = true 
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -507,7 +523,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         
     textOverlayLabel.textAlignment = .center
 
-      textOverlayLabel.text = "image.hexData!.coverText"
+      //textOverlayLabel.text = "image.hexData!.coverText"
         textOverlayLabel.numberOfLines = 1
         textOverlayLabel.font = UIFont(name: "DINAternate-Bold", size: 10)
         textOverlayLabel.textColor = white
@@ -529,5 +545,5 @@ fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [U
 // Helper function inserted by Swift 4.2 migrator.
 fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
     return input.rawValue
-} 
+}
 

@@ -371,6 +371,84 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         }
     }
     
+    func editPost() {
+        let currentVC = viewControllers[currentIndex]
+        if currentVC is ContentLinkVC {
+            let linkVC = currentVC as! ContentLinkVC
+        print("Go to add Link Post and feed current info")
+        }
+        else if currentVC is ContentVideoVC {
+            let linkVC = currentVC as! ContentVideoVC
+            print("Go to One Post Preview and feed currrent info")
+        }
+        else if currentVC is ContentImageVC {
+            let linkVC = currentVC as! ContentImageVC
+            print("Go to One Post Preview and feed currrent info")
+        }
+        print("To:Do an else if for music")
+    }
+ 
+    func editLinkPost() {
+        let currentVC = viewControllers[currentIndex] as! ContentLinkVC
+        let hex = currentVC.webHex
+        let onePostPreviewVC = self.storyboard?.instantiateViewController(identifier: "editLinkPostVC") as! EditLinkPostVC
+        onePostPreviewVC.userData = self.userData
+        onePostPreviewVC.hexData = hex
+        print("This is hex \(hex)")
+    let cleanRef = hex!.thumbResource.replacingOccurrences(of: "/", with: "%2F")
+        let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
+        onePostPreviewVC.linkHexagonImage.sd_setImage(with: url!, completed: {_, error, _, _ in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+        })
+        onePostPreviewVC.captionTextField.text = hex!.text
+        onePostPreviewVC.textOverlayTextField.text = hex!.coverText
+        onePostPreviewVC.captionString = hex!.text
+        onePostPreviewVC.textOverlayString = hex!.coverText
+        onePostPreviewVC.linkTextField.text = hex!.resource
+        var isPrioritized = currentVC.webHex?.isPrioritized ?? false
+        onePostPreviewVC.checkBoxStatus = isPrioritized
+        if isPrioritized {
+            onePostPreviewVC.checkBox.setImage(UIImage(named: "check-3"), for: .normal)
+        }
+        
+     //   onePostPreviewVC.items
+     //   picker.present(onePostPreviewVC, animated: false, completion: nil)
+        present(onePostPreviewVC, animated: false,completion: nil)
+        onePostPreviewVC.modalPresentationStyle = .fullScreen
+    }
+    
+    func editPhotoPost() {
+        let currentVC = viewControllers[currentIndex] as! ContentImageVC
+        let hex = currentVC.photoHex
+        let onePostPreviewVC = self.storyboard?.instantiateViewController(identifier: "editPhotoPostVC") as! EditPhotoPostVC
+        onePostPreviewVC.userData = self.userData
+        onePostPreviewVC.hexData = hex
+        print("This is hex \(hex)")
+    let cleanRef = hex!.thumbResource.replacingOccurrences(of: "/", with: "%2F")
+        let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
+        onePostPreviewVC.previewImage.sd_setImage(with: url!, completed: {_, error, _, _ in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+        })
+        onePostPreviewVC.captionTextField.text = hex!.text
+        onePostPreviewVC.textOverlayTextField.text = hex!.coverText
+        onePostPreviewVC.captionString = hex!.text
+        onePostPreviewVC.textOverlayString = hex!.coverText
+        var isPrioritized = currentVC.photoHex?.isPrioritized ?? false
+        onePostPreviewVC.checkBoxStatus = isPrioritized
+        if isPrioritized {
+            onePostPreviewVC.checkBox.setImage(UIImage(named: "check-3"), for: .normal)
+        }
+        
+     //   onePostPreviewVC.items
+     //   picker.present(onePostPreviewVC, animated: false, completion: nil)
+        present(onePostPreviewVC, animated: false,completion: nil)
+        onePostPreviewVC.modalPresentationStyle = .fullScreen
+    }
+    
     func prioritizeThisPost() {
         let currentVC = viewControllers[currentIndex]
         if currentVC is ContentLinkVC {
@@ -403,6 +481,12 @@ print("More tapped")
               print("User click Copy Link button")
             self.copyTextToResource()
           }))
+        
+        alert.addAction(UIAlertAction(title: "Edit Post", style: .default , handler:{ (UIAlertAction)in
+            print("User click Edit Post")
+            self.editLinkPost()
+      //    self.copyTextToResource()
+        }))
         
         
         alert.addAction(UIAlertAction(title: "Prioritize This Post", style: .default , handler:{ (UIAlertAction)in

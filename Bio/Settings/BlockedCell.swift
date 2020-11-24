@@ -29,6 +29,7 @@ class BlockedCell: UITableViewCell {
     }
     
     override func layoutSubviews() {
+      //  contentView.backgroundColor = .black
         contentView.addSubview(deleteButton)
         contentView.addSubview(avaImage)
         contentView.addSubview(usernameLabel)
