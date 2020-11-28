@@ -15,6 +15,7 @@ import Photos
 import MRCountryPicker
 
 class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MRCountryPickerDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
+    var changedProfilePic = false
     var bioCharacterLimit = 20
     var countries: [String] = []
     var GDPRCountries: [String] = ["Austria", "Belgium", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Germany", "Greece", "Hungary", "Ireland", "Italy", "Latvia", "Lithuania", "Luxembourg", "Malta", "Netherlands", "Poland", "Portugal", "Romania", "Slovakia", "Slovenia", "Spain", "Sweden"]
@@ -187,7 +188,10 @@ var countryFlag = UIImageView()
       
         // alignment
         avaImg.frame = CGRect(x: self.view.frame.size.width / 2 - 60, y: 80, width: 120, height: 120)
-        avaImg.setupHexagonMask(lineWidth: 7.5, color: gray, cornerRadius: 10.0)
+//        avaImg.setupHexagonMask(lineWidth: 7.5, color: gray, cornerRadius: 10.0)
+        avaImg.layer.cornerRadius = avaImg.frame.width/2
+        avaImg.layer.borderWidth = 5.0
+        avaImg.layer.borderColor = white.cgColor
      //   HexagonView.setupHexagonImageView(imageView: avaImg)
               avaImg.clipsToBounds = true
         emailTxt.frame = CGRect(x: 10, y: avaImg.frame.maxY + 20, width: self.view.frame.size.width - 20, height: 30)
@@ -355,6 +359,7 @@ var countryFlag = UIImageView()
         let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         avaImg.image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
 //        }
+        changedProfilePic = true
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -438,7 +443,7 @@ var countryFlag = UIImageView()
         self.view.endEditing(true)
         
         // if fields are empty
-        if (emailTxt.text!.isEmpty || usernameTxt.text!.isEmpty || passwordTxt.text!.isEmpty || repeatPassword.text!.isEmpty || displayNameTxt.text!.isEmpty) {
+        if (emailTxt.text!.isEmpty || usernameTxt.text!.isEmpty || passwordTxt.text!.isEmpty || repeatPassword.text!.isEmpty || countryTextField.text!.isEmpty || displayNameTxt.text!.isEmpty) {
             
             // alert message
             let alert = UIAlertController(title: "PLEASE", message: "fill all fields", preferredStyle: UIAlertController.Style.alert)
@@ -558,21 +563,46 @@ var countryFlag = UIImageView()
             let avaFileRef = userDataStorageRef.child(filename)
             avaFileRef.putData(self.avaImg.image!.pngData()!, metadata: nil, completion: { meta, error in
                 if (error == nil) {
-                    self.userData = UserData(email: email, publicID: self.usernameTxt.text!.lowercased(), privateID: signedInUser!.uid, avaRef: reference, hexagonGridID: "", userPage: "", subscribedUsers: [""], subscriptions: [String: String](), numPosts: 0, displayName: self.displayNameTxt.text!, birthday: self.birthday, blockedUsers: [String](), isBlockedBy: [String](), pageViews: 0, bio: bio)
+//<<<<<<< Updated upstream
+                    self.userData = UserData(email: email, publicID: self.usernameTxt.text!.lowercased(), privateID: signedInUser!.uid, avaRef: reference, hexagonGridID: "", userPage: "", subscribedUsers: [""], subscriptions: [String: String](), numPosts: 0, displayName: self.displayNameTxt.text!, birthday: self.birthday, blockedUsers: [String](), isBlockedBy: [String](), pageViews: 0, bio: bio, country: self.countryTextField.text! ?? "")
+//=======
+//                    self.userData = UserData(email: email, publicID: self.usernameTxt.text!.lowercased(), privateID: signedInUser!.uid, avaRef: reference, hexagonGridID: "", userPage: "", subscribedUsers: [""], subscriptions: [""], numPosts: 0, displayName: self.displayNameTxt.text!, birthday: self.birthday, blockedUsers: [String](), isBlockedBy: [String](), pageViews: 0, bio: bio, country: self.countryTextField.text! ?? "")
+//>>>>>>> Stashed changes
                     let db = Firestore.firestore()
                     let userDataCollection = db.collection("UserData1")
                     let docRef = userDataCollection.document(user!.uid)
                     docRef.setData(self.userData!.dictionary, completion: { error in
                         if error == nil {
                             print("userData posted")
-                            let addsocialmediaVC = self.storyboard?.instantiateViewController(withIdentifier: "addSocialMediaTableView") as! AddSocialMediaTableView
-                            addsocialmediaVC.userData = self.userData
-                            addsocialmediaVC.currentUser = self.user
-                            addsocialmediaVC.cancelLbl = "Skip"
-                            self.present(addsocialmediaVC, animated: false, completion: nil)
+                            
+                            if self.changedProfilePic == false {
+                                let addProfilePic = self.storyboard?.instantiateViewController(withIdentifier: "addProfilePhotoVC") as! AddProfilePhotoVC
+                                addProfilePic.currentUser = self.user
+                                addProfilePic.userData = self.userData
+                                self.present(addProfilePic, animated: false, completion: nil)
+                            }
+        // this triggers old/bad sign out process
+//                            else {
+//                            let addsocialmediaVC = self.storyboard?.instantiateViewController(withIdentifier: "addSocialMediaTableView") as! AddSocialMediaTableView
+//                            addsocialmediaVC.userData = self.userData
+//                            addsocialmediaVC.currentUser = self.user
+//                            addsocialmediaVC.cancelLbl = "Skip"
+//                            self.present(addsocialmediaVC, animated: false, completion: nil)
+//                            self.blurEffectView?.removeFromSuperview()
+//                            loadingIndicator!.view.removeFromSuperview()
+//                            loadingIndicator!.removeFromParent()
+//                            }
+                            else {
+                            let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "homeHexGrid420") as! HomeHexagonGrid
+                            homeVC.userData = self.userData
+                            homeVC.user = self.user
+                            self.present(homeVC, animated: false, completion: nil)
                             self.blurEffectView?.removeFromSuperview()
                             loadingIndicator!.view.removeFromSuperview()
                             loadingIndicator!.removeFromParent()
+                            }
+                            
+                            
                         }
                         else {
                             print(error?.localizedDescription)
@@ -595,10 +625,25 @@ var countryFlag = UIImageView()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        var addSocialMediaVC = segue.destination as! AddSocialMediaVC
-        addSocialMediaVC.currentUser = user
-        addSocialMediaVC.userData = userData
-        addSocialMediaVC.cancelLbl = "Skip"
+        if changedProfilePic == false {
+            var addProfilePic = segue.destination as! AddProfilePhotoVC
+            addProfilePic.currentUser = user
+            addProfilePic.userData = userData
+        }
+//this else triggers long/bad sign up process that we want to simplify
+//        else {
+//        var addSocialMediaVC = segue.destination as! AddSocialMediaVC
+//            addSocialMediaVC.currentUser = user
+//        addSocialMediaVC.userData = userData
+//        addSocialMediaVC.cancelLbl = "Skip"
+//        }
+        else {
+            performSegue(withIdentifier: "rewindToFront", sender: self)
+//            var homeHexGrid = segue.destination as! HomeHexagonGrid
+//            homeHexGrid.user = user
+//            homeHexGrid.userData = userData
+        }
+        
     }
     
     

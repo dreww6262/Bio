@@ -27,14 +27,18 @@ class UserData {
     var isBlockedBy: [String]
     var pageViews: Int
     var bio: String
-    
+    var country: String
     
     var dictionary: [String: Any] {
-        return ["email": email, "publicID": publicID, "privateID": privateID, "avaRef": avaRef, "hexagonGridID": hexagonGridID, "userPage": userPage, "subscribedUsers": subscribedUsers, "subscriptions":  subscriptions, "numPosts": numPosts, "displayName": displayName, "birthday": birthday, "blockedUsers": blockedUsers, "isBlockedBy": isBlockedBy, "pageViews": pageViews, "bio": bio]
+        return ["email": email, "publicID": publicID, "privateID": privateID, "avaRef": avaRef, "hexagonGridID": hexagonGridID, "userPage": userPage, "subscribedUsers": subscribedUsers, "subscriptions":  subscriptions, "numPosts": numPosts, "displayName": displayName, "birthday": birthday, "blockedUsers": blockedUsers, "isBlockedBy": isBlockedBy, "pageViews": pageViews, "bio": bio, "country": country]
     }
     
     
-    init(email: String, publicID: String, privateID: String, avaRef: String, hexagonGridID: String, userPage: String, subscribedUsers:  [String], subscriptions: [String: String], numPosts: Int, displayName: String, birthday: String, blockedUsers: [String], isBlockedBy: [String], pageViews: Int, bio: String) {
+//<<<<<<< Updated upstream
+    init(email: String, publicID: String, privateID: String, avaRef: String, hexagonGridID: String, userPage: String, subscribedUsers:  [String], subscriptions: [String: String], numPosts: Int, displayName: String, birthday: String, blockedUsers: [String], isBlockedBy: [String], pageViews: Int, bio: String, country: String) {
+//=======
+//    init(email: String, publicID: String, privateID: String, avaRef: String, hexagonGridID: String, userPage: String, subscribedUsers:  [String], subscriptions: [String], numPosts: Int, displayName: String, birthday: String, blockedUsers: [String], isBlockedBy: [String], pageViews: Int, bio: String, country: String) {
+//>>>>>>> Stashed changes
         self.email = email
         self.publicID = publicID
         self.privateID = privateID
@@ -50,6 +54,7 @@ class UserData {
         self.isBlockedBy = isBlockedBy
         self.pageViews = pageViews
         self.bio = bio
+        self.country = country
     }
     
     
@@ -81,11 +86,12 @@ class UserData {
             pageViews = dictionary["pageViews"] as! Int? ?? 0
         }
         let bio = dictionary["bio"] as! String? ?? ""
+        let country = dictionary["country"] as! String? ?? ""
         
         
         
         
-        self.init(email: email, publicID: publicID,privateID: privateID, avaRef: avaRef, hexagonGridID: hexagonGridID, userPage: userPage, subscribedUsers: subscribedUsers, subscriptions: subscriptions, numPosts: numPosts, displayName: displayName, birthday: birthday, blockedUsers: blockedUsers, isBlockedBy: isBlockedBy, pageViews: pageViews, bio: bio)
+        self.init(email: email, publicID: publicID,privateID: privateID, avaRef: avaRef, hexagonGridID: hexagonGridID, userPage: userPage, subscribedUsers: subscribedUsers, subscriptions: subscriptions, numPosts: numPosts, displayName: displayName, birthday: birthday, blockedUsers: blockedUsers, isBlockedBy: isBlockedBy, pageViews: pageViews, bio: bio, country: country)
     }
 }
 
