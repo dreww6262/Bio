@@ -613,6 +613,11 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
     func doneLoading() {
         //self.removeCurrentProfileHexagons()
         //self.loadProfileHexagons()
+        var array = followingUserDataArray.readOnlyArray()
+        array.sort(by: { x, y in
+            return x.lastTimePosted > y.lastTimePosted
+        })
+        followingUserDataArray.setArray(array: array)
         profileCollectionView?.reloadData()
     }
     
@@ -637,7 +642,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
                 for chunk in chunks {
                     group.enter()
                     self.loadUpToTenUserDatas(followers: chunk, completion: {
-                        //                        print("loadFollowings: loaded followers \(self.followingUserDataArray)")
+                        // print("loadFollowings: loaded followers \(self.followingUserDataArray)")
                         
                         group.leave()
                     }, following: true)

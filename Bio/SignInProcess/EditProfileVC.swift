@@ -8,9 +8,6 @@
 
 import UIKit
 import Firebase
-import FirebaseFirestore
-import FirebaseAuth
-import FirebaseUI
 import Photos
 import MRCountryPicker
 import SDWebImage
@@ -20,6 +17,7 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
     var bioCharacterLimit = 20
     var countries: [String] = []
     var GDPRCountries: [String] = ["Austria", "Belgium", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Germany", "Greece", "Hungary", "Ireland", "Italy", "Latvia", "Lithuania", "Luxembourg", "Malta", "Netherlands", "Poland", "Portugal", "Romania", "Slovakia", "Slovenia", "Spain", "Sweden"]
+    let db = Firestore.firestore()
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -466,8 +464,10 @@ var countryFlag = UIImageView()
             
             
         }
+        var emailChanged = false
         if ogEmail != emailTxt.text {
             userData?.email = emailTxt.text ?? ogEmail
+            emailChanged = true
         }
         if ogUsername != usernameTxt.text {
             userData?.publicID = usernameTxt.text ?? ogUsername
@@ -481,9 +481,27 @@ var countryFlag = UIImageView()
         if ogBio != bioTxt.text {
             userData?.bio = bioTxt.text ?? ogBio
         }
-        
+        let currentUser = Auth.auth().currentUser
         self.view.endEditing(true)
-        self.dismiss(animated: true, completion: nil)
+        if (userData?.displayName != currentUser?.displayName) {
+            let request = currentUser?.createProfileChangeRequest()
+            request?.displayName = userData?.displayName
+            request?.commitChanges(completion: nil)
+        }
+        
+        if emailChanged {
+            currentUser?.updateEmail(to: emailTxt.text!, completion: {_ in
+                self.db.collection("UserData1").document(self.userData!.privateID).setData(self.userData!.dictionary) { _ in
+                self.dismiss(animated: true, completion: nil)
+                }
+            })
+        }
+        
+        else {
+            db.collection("UserData1").document(userData!.privateID).setData(userData!.dictionary) { _ in
+            self.dismiss(animated: true, completion: nil)
+            }
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

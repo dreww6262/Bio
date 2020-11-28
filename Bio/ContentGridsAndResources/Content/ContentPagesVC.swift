@@ -8,8 +8,10 @@
 
 import UIKit
 import Foundation
+import Firebase
 
 class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource {
+    let db = Firestore.firestore()
     var currentIndexLabel = UILabel()
     let backImage = UIImage(named: "whiteBack")
     let shareImage = UIImage(named: "whiteShare1")
@@ -454,14 +456,17 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         if currentVC is ContentLinkVC {
             let linkVC = currentVC as! ContentLinkVC
             linkVC.webHex?.isPrioritized = true
+            db.collection("Hexagons2").document(linkVC.webHex!.docID).setData(linkVC.webHex!.dictionary)
         }
         else if currentVC is ContentVideoVC {
             let linkVC = currentVC as! ContentVideoVC
             linkVC.videoHex?.isPrioritized = true
+            db.collection("Hexagons2").document(linkVC.videoHex!.docID).setData(linkVC.videoHex!.dictionary)
         }
         else if currentVC is ContentImageVC {
             let linkVC = currentVC as! ContentImageVC
             linkVC.photoHex?.isPrioritized = true
+            db.collection("Hexagons2").document(linkVC.photoHex!.docID).setData(linkVC.photoHex!.dictionary)
         }
     }
     

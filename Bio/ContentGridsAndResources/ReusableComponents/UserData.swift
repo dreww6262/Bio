@@ -8,8 +8,6 @@
 
 import Foundation
 import UIKit
-//import Firebase
-//import FirebaseUI
 
 class UserData {
     var email: String
@@ -34,11 +32,8 @@ class UserData {
     }
     
     
-//<<<<<<< Updated upstream
     init(email: String, publicID: String, privateID: String, avaRef: String, hexagonGridID: String, userPage: String, subscribedUsers:  [String], subscriptions: [String: String], numPosts: Int, displayName: String, birthday: String, blockedUsers: [String], isBlockedBy: [String], pageViews: Int, bio: String, country: String) {
-//=======
-//    init(email: String, publicID: String, privateID: String, avaRef: String, hexagonGridID: String, userPage: String, subscribedUsers:  [String], subscriptions: [String], numPosts: Int, displayName: String, birthday: String, blockedUsers: [String], isBlockedBy: [String], pageViews: Int, bio: String, country: String) {
-//>>>>>>> Stashed changes
+        
         self.email = email
         self.publicID = publicID
         self.privateID = privateID
