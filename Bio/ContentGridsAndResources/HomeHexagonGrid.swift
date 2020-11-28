@@ -743,7 +743,9 @@ var navBarView = NavBarView()
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         firstLoad = true
-        menuView.tabController = (tabBarController! as! NavigationMenuBaseController)
+        if tabBarController != nil {
+            menuView.tabController = (tabBarController! as! NavigationMenuBaseController)
+        }
         scrollView.zoomScale = 1
         
         if (userData == nil) {

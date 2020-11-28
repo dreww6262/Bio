@@ -564,7 +564,7 @@ var countryFlag = UIImageView()
             avaFileRef.putData(self.avaImg.image!.pngData()!, metadata: nil, completion: { meta, error in
                 if (error == nil) {
 //<<<<<<< Updated upstream
-                    self.userData = UserData(email: email, publicID: self.usernameTxt.text!.lowercased(), privateID: signedInUser!.uid, avaRef: reference, hexagonGridID: "", userPage: "", subscribedUsers: [""], subscriptions: [String: String](), numPosts: 0, displayName: self.displayNameTxt.text!, birthday: self.birthday, blockedUsers: [String](), isBlockedBy: [String](), pageViews: 0, bio: bio, country: self.countryTextField.text! ?? "")
+                    self.userData = UserData(email: email, publicID: self.usernameTxt.text!.lowercased(), privateID: signedInUser!.uid, avaRef: reference, hexagonGridID: "", userPage: "", subscribedUsers: [""], subscriptions: [String: String](), numPosts: 0, displayName: self.displayNameTxt.text!, birthday: self.birthday, blockedUsers: [String](), isBlockedBy: [String](), pageViews: 0, bio: bio, country: self.countryTextField.text! ?? "", lastTimePosted: NSDate.now.description)
 //=======
 //                    self.userData = UserData(email: email, publicID: self.usernameTxt.text!.lowercased(), privateID: signedInUser!.uid, avaRef: reference, hexagonGridID: "", userPage: "", subscribedUsers: [""], subscriptions: [""], numPosts: 0, displayName: self.displayNameTxt.text!, birthday: self.birthday, blockedUsers: [String](), isBlockedBy: [String](), pageViews: 0, bio: bio, country: self.countryTextField.text! ?? "")
 //>>>>>>> Stashed changes
@@ -582,21 +582,12 @@ var countryFlag = UIImageView()
                                 self.present(addProfilePic, animated: false, completion: nil)
                             }
         // this triggers old/bad sign out process
-//                            else {
-//                            let addsocialmediaVC = self.storyboard?.instantiateViewController(withIdentifier: "addSocialMediaTableView") as! AddSocialMediaTableView
-//                            addsocialmediaVC.userData = self.userData
-//                            addsocialmediaVC.currentUser = self.user
-//                            addsocialmediaVC.cancelLbl = "Skip"
-//                            self.present(addsocialmediaVC, animated: false, completion: nil)
-//                            self.blurEffectView?.removeFromSuperview()
-//                            loadingIndicator!.view.removeFromSuperview()
-//                            loadingIndicator!.removeFromParent()
-//                            }
                             else {
-                            let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "homeHexGrid420") as! HomeHexagonGrid
-                            homeVC.userData = self.userData
-                            homeVC.user = self.user
-                            self.present(homeVC, animated: false, completion: nil)
+                            let addsocialmediaVC = self.storyboard?.instantiateViewController(withIdentifier: "addSocialMediaTableView") as! AddSocialMediaTableView
+                            addsocialmediaVC.userData = self.userData
+                            addsocialmediaVC.currentUser = self.user
+                            addsocialmediaVC.cancelLbl = "Skip"
+                            self.present(addsocialmediaVC, animated: false, completion: nil)
                             self.blurEffectView?.removeFromSuperview()
                             loadingIndicator!.view.removeFromSuperview()
                             loadingIndicator!.removeFromParent()

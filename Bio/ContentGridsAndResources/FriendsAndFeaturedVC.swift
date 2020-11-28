@@ -614,8 +614,18 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         //self.removeCurrentProfileHexagons()
         //self.loadProfileHexagons()
         var array = followingUserDataArray.readOnlyArray()
+        
+        let dateFormatter = DateFormatter()
+       // dateFormatter.dateFormat = "yyyy-MM-dd' 'HH:mm:ssZ"
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
+        dateFormatter.locale = Locale.init(identifier: "en_GB")
+        dateFormatter.timeZone = NSTimeZone(name: "GMT") as TimeZone?
         array.sort(by: { x, y in
-            return x.lastTimePosted > y.lastTimePosted
+            let xDate = dateFormatter.date(from: x.lastTimePosted)
+            
+            let yDate = dateFormatter.date(from: y.lastTimePosted)
+            
+            return xDate!.compare(yDate!) == ComparisonResult.orderedDescending
         })
         followingUserDataArray.setArray(array: array)
         profileCollectionView?.reloadData()

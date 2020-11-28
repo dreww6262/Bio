@@ -122,7 +122,6 @@ class AddProfilePhotoVC: UIViewController, UIImagePickerControllerDelegate & UIN
          
                     SDImageCache.shared.clearMemory()
                     SDImageCache.shared.clearDisk(onCompletion: {
-                            self.performSegue(withIdentifier: "unwindFromEditVC", sender: self)
                     })
 
                     
