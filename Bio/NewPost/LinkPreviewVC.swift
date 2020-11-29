@@ -213,6 +213,8 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
                 self.addHex(hexData: self.webHex!, completion: { bool in
                     if (bool) {
                         self.userData?.numPosts = self.webHex!.location
+                        self.userData?.lastTimePosted = NSDate.now.description
+
                         if (self.user != nil) {
                             self.db.collection("UserData1").document(self.user!.uid).setData(self.userData!.dictionary, completion: { error in
                                 if error == nil {

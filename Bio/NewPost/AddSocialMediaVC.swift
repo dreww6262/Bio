@@ -498,6 +498,7 @@ class AddSocialMediaVC: UIViewController {
         
         print("passed wait for social media tiles")
         userData?.numPosts = numPosts
+        userData?.lastTimePosted = NSDate.now.description
         db.collection("UserData1").document(currentUser!.uid).setData(self.userData!.dictionary, completion: { error in
             if error == nil {
                 //present Home View Controller Segue

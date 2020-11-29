@@ -335,6 +335,8 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
                         
                         self.addHex(hexData: photoHex, completion: { error in
                             self.userData?.numPosts = numPosts
+                            self.userData?.lastTimePosted = NSDate.now.description
+
                             self.db.collection("UserData1").document(self.currentUser!.uid).setData(self.userData!.dictionary, completion: { error in
                                 if error == nil {
                                     print("should navigate to homehexgrid")
@@ -359,6 +361,8 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
                     self.uploadPhoto(reference: thumbLocation, image: YPMediaPhoto(image: video.thumbnail), completion: { error in
                         self.addHex(hexData: photoHex, completion: { error in
                             self.userData?.numPosts = numPosts
+                            self.userData?.lastTimePosted = NSDate.now.description
+
                             self.db.collection("UserData1").document(self.currentUser!.uid).setData(self.userData!.dictionary, completion: { error in
                                 if error == nil {
                                     print("should navigate to homehexgrid")

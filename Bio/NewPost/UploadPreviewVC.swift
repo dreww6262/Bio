@@ -268,6 +268,7 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
         }
         
         self.userData!.numPosts += (hexes.count - failedHexes.count)
+        self.userData?.lastTimePosted = NSDate.now.description
         self.db.collection("UserData1").document(Auth.auth().currentUser!.uid).setData(self.userData!.dictionary, completion: { error in
             if error == nil {
                 print("should navigate to homehexgrid")
