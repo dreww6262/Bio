@@ -13,7 +13,7 @@ class ContentLinkVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
     var captionTextField = UITextField()
     var webHex: HexagonStructData?
     var userDataVM: UserDataVM?
-    
+    var linkType = "link"
     var webView = WKWebView()
     var showOpenAppButton = false
     let webConfig = WKWebViewConfiguration()

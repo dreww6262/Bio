@@ -64,6 +64,7 @@ class EditPhotoPostVC: UIViewController, UINavigationControllerDelegate, UIImage
     
     var checkBox = UIButton()
     var checkBoxStatus = false
+    var linkHexagonImageCopy = UIImageView()
     
     
     // default func
@@ -93,10 +94,22 @@ class EditPhotoPostVC: UIViewController, UINavigationControllerDelegate, UIImage
         scrollView.addSubview(textOverlayTextField)
         scrollView.addSubview(prioritizeLabel)
         scrollView.addSubview(checkBox)
+        
+        linkHexagonImageCopy.contentMode = .scaleAspectFit
+       // linkHexagonImageCopy.image = UIImage(named: "addCover")
+        scrollView.addSubview(linkHexagonImageCopy)
+        previewImage.isHidden = false
+        linkHexagonImageCopy.isHidden = true
+        
+        let linkTapCopy = UITapGestureRecognizer(target: self, action: #selector(AddLinkVCViewController.loadImg(_:)))
+        linkHexagonImageCopy.isUserInteractionEnabled = true
+        linkHexagonImageCopy.addGestureRecognizer(linkTapCopy)
+        
+        
        
         let checkBoxTap = UITapGestureRecognizer(target: self, action: #selector(checkBoxTapped(_:)))
         checkBox.addGestureRecognizer(checkBoxTap)
-        checkBox.setImage(UIImage(named: "blueEmpty"), for: .normal)
+        checkBox.setImage(UIImage(named: "emptyOrange"), for: .normal)
 
         
         //poshmarkLogo.image = UIImage(named: "poshmarkLogo")
@@ -132,9 +145,11 @@ class EditPhotoPostVC: UIViewController, UINavigationControllerDelegate, UIImage
         
         
         //         linkHexagonImage.frame = CGRect(x: 10, y: linkTextField.frame.origin.y + 30, width: self.view.frame.size.width - 20, height: 30)
-        previewImage.frame = CGRect(x: 40, y: navBarView.frame.maxY + 15, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
+        previewImage.frame = CGRect(x: 40, y: navBarView.frame.maxY + 10, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
         
+        linkHexagonImageCopy.frame = CGRect(x: 40, y: navBarView.frame.maxY + 10, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
         
+        linkHexagonImageCopy.setupHexagonMask(lineWidth: linkHexagonImageCopy.frame.width/15, color: myOrange, cornerRadius: linkHexagonImageCopy.frame.width/15)
         
         captionTextField.frame = CGRect(x: 10, y: previewImage.frame.maxY + 20, width: self.view.frame.size.width - 20, height: 30)
         
@@ -186,7 +201,9 @@ class EditPhotoPostVC: UIViewController, UINavigationControllerDelegate, UIImage
         bg.layer.zPosition = -1
         self.view.addSubview(bg)
         
-        insertTextOverlay()
+        insertTextOverlay(previewImage: previewImage)
+        insertTextOverlay(previewImage: linkHexagonImageCopy)
+        
     }
     
   
@@ -381,6 +398,7 @@ class EditPhotoPostVC: UIViewController, UINavigationControllerDelegate, UIImage
         // Local variable inserted by Swift 4.2 migrator.
         let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         previewImage.image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
+        linkHexagonImageCopy.image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
     
         changedPhoto = true
         self.dismiss(animated: true, completion: nil)
@@ -427,7 +445,7 @@ class EditPhotoPostVC: UIViewController, UINavigationControllerDelegate, UIImage
         postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 40, height: 34)
         
         self.navBarView.addBehavior()
-        self.navBarView.titleLabel.text = "Add A Photo Or Video"
+        self.navBarView.titleLabel.text = "Edit Post"
        // self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
         self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: postButton.frame.minY, width: 200, height: 25)
         print("This is navBarView.")
@@ -440,7 +458,7 @@ class EditPhotoPostVC: UIViewController, UINavigationControllerDelegate, UIImage
         self.dismiss(animated: false, completion: nil)
     }
     
-    func insertTextOverlay() {
+    func insertTextOverlay(previewImage: UIImageView) {
    // var textOverlayLabel = UILabel()
     previewImage.addSubview(textOverlayLabel)
     textOverlayLabel.clipsToBounds = true
@@ -534,12 +552,16 @@ class EditPhotoPostVC: UIViewController, UINavigationControllerDelegate, UIImage
     
     @objc func checkBoxTapped(_ sender: UITapGestureRecognizer) {
         if checkBoxStatus == false {
-            checkBox.setImage(UIImage(named: "check-3"), for: .normal)
+            previewImage.isHidden = false
+            linkHexagonImageCopy.isHidden = true
+            checkBox.setImage(UIImage(named: "check-4"), for: .normal)
             checkBoxStatus = true
             previewImage.pulse(withIntensity: 0.8, withDuration: 1.5, loop: true)
         }
         else {
-            checkBox.setImage(UIImage(named: "blueEmpty"), for: .normal)
+            previewImage.isHidden = true
+            linkHexagonImageCopy.isHidden = false
+            checkBox.setImage(UIImage(named: "emptyOrange"), for: .normal)
             checkBoxStatus = false
            previewImage.pulse(withIntensity: 1.0, withDuration: 0.1, loop: false)
         }

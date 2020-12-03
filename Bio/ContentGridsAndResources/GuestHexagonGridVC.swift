@@ -14,6 +14,7 @@ import Firebase
 import SDWebImage
 import WebKit
 import FirebaseFirestore
+//import Twinkle
 
 class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, WKUIDelegate, UIContextMenuInteractionDelegate  {
     var navBarView = NavBarView()
@@ -27,7 +28,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     let menuView = MenuView()
     var toSearchButton = UIButton()
     var followView = UIView()
-    
+    var beenOnThisPageBefore = false
     // Firebase stuff
     var user = Auth.auth().currentUser
     var guestUserData: UserData?
@@ -53,6 +54,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     // Flags and tags
     var firstLoad  = true
+    var newPostArray: [PostImageView] = []
     
     // arrays
     var targetHexagons: [Int] = []
@@ -62,7 +64,9 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     // use .compare to compare dates
     var lastDateViewed: NSDate?
     
-    var reOrderedCoordinateArrayPoints: [CGPoint] = [CGPoint(x: 946.8266739736607,y: 902.5),CGPoint(x: 1081.7304845413264,y: 902.5),CGPoint(x: 1014.2785792574934,y: 1020.0), CGPoint(x: 879.3747686898278,y: 1020.0),CGPoint(x:811.9228634059948,y: 902.5), CGPoint(x: 879.3747686898278,y: 785.0),CGPoint(x: 1014.2785792574934,y: 785.0),CGPoint(x:946.8266739736607,y: 667.5),CGPoint(x:1081.7304845413264,y:667.5), CGPoint(x:1149.1823898251594,y:785.0),CGPoint(x: 1216.6342951089923,y: 902.5),CGPoint(x:1149.1823898251594,y: 1020.0), CGPoint(x:1081.7304845413264, y: 1137.5),CGPoint(x:946.8266739736607,y: 1137.5),CGPoint(x: 811.9228634059948, y: 1137.5),CGPoint(x: 744.4709581221618, y: 1020.0), CGPoint(x: 677.0190528383291, y: 902.5),CGPoint(x: 744.4709581221618, y: 785.0), CGPoint(x: 811.9228634059948, y: 667.5),CGPoint(x: 879.3747686898278, y: 550.0),CGPoint(x: 1014.2785792574934, y: 550.0),CGPoint(x: 1149.1823898251594,y: 550.0),CGPoint(x:1216.6342951089923,y: 667.5),CGPoint(x:1284.0862003928253, y: 785.0),CGPoint(x:1351.5381056766582,y: 902.5), CGPoint(x:1284.0862003928253, y: 1020.0),CGPoint(x: 1216.6342951089923, y: 1137.5),CGPoint(x: 1149.1823898251594, y: 1255.0), CGPoint(x:1014.2785792574934,y:1255.0),CGPoint(x:879.3747686898278, y:1255.0),CGPoint(x:744.4709581221618, y:1255.0),CGPoint(x:677.0190528383291, y:1137.5),CGPoint(x:609.5671475544962,y: 1020.0),CGPoint(x:542.1152422706632, y: 902.5),CGPoint(x: 609.5671475544962, y: 785.0),CGPoint(x: 677.0190528383291, y: 667.5),CGPoint(x: 744.4709581221618, y: 550.0)]
+    var reOrderedCoordinateArrayPoints: [CGPoint] = [CGPoint(x: 946.8266739736607,y: 902.5), CGPoint(x: 1081.7304845413264,y: 902.5), CGPoint(x: 1014.2785792574934,y: 1020.0), CGPoint(x: 879.3747686898278,y: 1020.0), CGPoint(x:811.9228634059948,y: 902.5), CGPoint(x: 879.3747686898278,y: 785.0), CGPoint(x: 1014.2785792574934,y: 785.0), CGPoint(x: 946.8266739736607, y: 1137.5), CGPoint(x: 744.4709581221618, y: 785.0), CGPoint(x:1149.1823898251594,y:785.0), CGPoint(x: 811.9228634059948, y: 667.5), CGPoint(x:946.8266739736607,y: 667.5), CGPoint(x:1081.7304845413264,y:667.5), CGPoint(x: 1216.6342951089923,y: 902.5), CGPoint(x:1149.1823898251594,y: 1020.0), CGPoint(x:1081.7304845413264, y: 1137.5), CGPoint(x: 811.9228634059948, y: 1137.5), CGPoint(x: 744.4709581221618, y: 1020.0), CGPoint(x: 677.0190528383291, y: 902.5), CGPoint(x: 879.3747686898278, y: 550.0), CGPoint(x: 1014.2785792574934, y: 550.0), CGPoint(x: 1149.1823898251594,y: 550.0), CGPoint(x:1216.6342951089923,y: 667.5), CGPoint(x:1284.0862003928253, y: 785.0), CGPoint(x:1351.5381056766582,y: 902.5), CGPoint(x:1284.0862003928253, y: 1020.0), CGPoint(x: 1216.6342951089923, y: 1137.5), CGPoint(x: 1149.1823898251594, y: 1255.0), CGPoint(x:1014.2785792574934,y:1255.0), CGPoint(x:879.3747686898278, y:1255.0), CGPoint(x:744.4709581221618, y:1255.0), CGPoint(x:677.0190528383291, y:1137.5), CGPoint(x:609.5671475544962,y: 1020.0), CGPoint(x:542.1152422706632, y: 902.5), CGPoint(x: 609.5671475544962, y: 785.0), CGPoint(x: 677.0190528383291, y: 667.5), CGPoint(x: 744.4709581221618, y: 550.0)]
+    
+    var reOrderedCoordinateArrayPointsCircular: [CGPoint] = [CGPoint(x: 946.8266739736607,y: 902.5),CGPoint(x: 1081.7304845413264,y: 902.5),CGPoint(x: 1014.2785792574934,y: 1020.0), CGPoint(x: 879.3747686898278,y: 1020.0),CGPoint(x:811.9228634059948,y: 902.5), CGPoint(x: 879.3747686898278,y: 785.0),CGPoint(x: 1014.2785792574934,y: 785.0),CGPoint(x:946.8266739736607,y: 667.5),CGPoint(x:1081.7304845413264,y:667.5), CGPoint(x:1149.1823898251594,y:785.0),CGPoint(x: 1216.6342951089923,y: 902.5),CGPoint(x:1149.1823898251594,y: 1020.0), CGPoint(x:1081.7304845413264, y: 1137.5),CGPoint(x:946.8266739736607,y: 1137.5),CGPoint(x: 811.9228634059948, y: 1137.5),CGPoint(x: 744.4709581221618, y: 1020.0), CGPoint(x: 677.0190528383291, y: 902.5),CGPoint(x: 744.4709581221618, y: 785.0), CGPoint(x: 811.9228634059948, y: 667.5),CGPoint(x: 879.3747686898278, y: 550.0),CGPoint(x: 1014.2785792574934, y: 550.0),CGPoint(x: 1149.1823898251594,y: 550.0),CGPoint(x:1216.6342951089923,y: 667.5),CGPoint(x:1284.0862003928253, y: 785.0),CGPoint(x:1351.5381056766582,y: 902.5), CGPoint(x:1284.0862003928253, y: 1020.0),CGPoint(x: 1216.6342951089923, y: 1137.5),CGPoint(x: 1149.1823898251594, y: 1255.0), CGPoint(x:1014.2785792574934,y:1255.0),CGPoint(x:879.3747686898278, y:1255.0),CGPoint(x:744.4709581221618, y:1255.0),CGPoint(x:677.0190528383291, y:1137.5),CGPoint(x:609.5671475544962,y: 1020.0),CGPoint(x:542.1152422706632, y: 902.5),CGPoint(x: 609.5671475544962, y: 785.0),CGPoint(x: 677.0190528383291, y: 667.5),CGPoint(x: 744.4709581221618, y: 550.0)]
     var fourthRowArray: [CGPoint] = [CGPoint(x: 744.4709581221618, y: 315.0), CGPoint(x: 879.3747686898278,y: 315.0), CGPoint(x: 1014.2785792574934,y: 315.0), CGPoint(x: 1149.1823898251594,y: 315.0), CGPoint(x:1284.0862003928253,y: 315.0),CGPoint(x: 1351.5381056766582, y: 432.5), CGPoint(x: 1418.990010960491, y: 550.0),CGPoint(x: 1486.441916244324, y: 667.5), CGPoint(x: 1553.8938215281566, y: 785.0),CGPoint(x: 1621.3457268119896, y: 902.5), CGPoint(x: 1553.8938215281566, y: 1020.0), CGPoint(x: 1486.441916244324, y: 1137.5), CGPoint(x: 1418.990010960491, y: 1255.0), CGPoint(x: 1351.5381056766582, y: 1372.5), CGPoint(x: 1284.0862003928253, y: 1490.0), CGPoint(x: 1149.1823898251594,y: 1490.0), CGPoint(x: 1014.2785792574934, y: 1490.0), CGPoint(x: 879.3747686898278,y: 1490.0), CGPoint(x: 744.4709581221618,y: 1490.0), CGPoint(x: 609.5671475544962, y: 1490.0),      CGPoint(x: 542.1152422706632, y: 1372.5), CGPoint(x: 474.6633369868303, y: 1255.0), CGPoint(x: 407.2114317029974, y: 1137.5), CGPoint(x: 339.7595264191645, y: 1020.0), CGPoint(x: 272.3076211353316, y: 902.5),CGPoint(x: 339.7595264191645, y: 785.0), CGPoint(x: 407.2114317029974, y: 667.5), CGPoint(x: 474.6633369868303, y: 550.0), CGPoint(x: 542.1152422706632,y: 432.5),CGPoint(x: 609.5671475544962,y: 315.0)]
     
     
@@ -75,6 +79,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        followView.isHidden = true
         contentPages = storyboard?.instantiateViewController(identifier: "contentPagesVC")
         reOrderedCoordinateArrayPoints.append(contentsOf: fourthRowArray)
      //   addSettingsButton()
@@ -87,6 +92,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         setUpScrollView()
         setZoomScale()
         addReturnButton()
+       
        // insertFollowButton()
       //  followView.isHidden = false
         
@@ -375,6 +381,54 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         returnButton.layer.cornerRadius = returnButton.frame.size.width / 2
         //returnButton.setBackgroundImage(UIImage(named: "cancel11"), for: .normal)
         returnButton.clipsToBounds = true
+        
+        //add left and right people
+        var rightButton = UIButton()
+        view.addSubview(rightButton)
+        rightButton.contentMode = .scaleAspectFit
+       // rightButton.setImage(UIImage(named: "kbit2"), for: .normal)
+        
+        let cleanRef = guestUserData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
+        let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
+        if (url == nil) {
+            //rightButton.image = UIImage(named: "boyprofile")
+            return
+        }
+        rightButton.sd_setImage(with: url!, for: .normal, completed: {_, error, _, _ in
+            if error != nil {
+                print(error!.localizedDescription)
+              //  rightButton?.image = UIImage(named: "boyprofile")
+            }
+        })
+        
+        
+        rightButton.frame = CGRect(x: view.frame.width - 100, y: view.frame.height-112, width: 80, height: 80)
+        view.bringSubviewToFront(rightButton)
+        rightButton.layer.cornerRadius = rightButton.frame.size.width / 2
+        //returnButton.setBackgroundImage(UIImage(named: "cancel11"), for: .normal)
+        rightButton.clipsToBounds = true
+      
+        
+        var leftButton = UIButton()
+        view.addSubview(leftButton)
+        leftButton.contentMode = .scaleAspectFit
+      //  leftButton.setImage(UIImage(named: "kbit2"), for: .normal)
+        leftButton.frame = CGRect(x: 20, y: view.frame.height-112, width: 80, height: 80)
+        leftButton.sd_setImage(with: url!, for: .normal, completed: {_, error, _, _ in
+            if error != nil {
+                print(error!.localizedDescription)
+              //  rightButton?.image = UIImage(named: "boyprofile")
+            }
+        })
+        view.bringSubviewToFront(leftButton)
+       leftButton.layer.cornerRadius = leftButton.frame.size.width / 2
+        //returnButton.setBackgroundImage(UIImage(named: "cancel11"), for: .normal)
+        leftButton.clipsToBounds = true
+        
+        rightButton.isHidden = true
+        leftButton.isHidden = true 
+        
+        
     }
     
     // Zoom Logic
@@ -538,24 +592,46 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
                 dateFormatter.locale = Locale.init(identifier: "en_GB")
                 dateFormatter.timeZone = NSTimeZone(name: "GMT") as TimeZone?
                 
-                
+                var prioritizedPosts: [PostImageView] = []
                 for image in self.imageViewArray {
                     self.contentView.addSubview(image)
                     self.contentView.bringSubviewToFront(image)
                     image.isHidden = false
                     imageIndex = imageIndex + 1
                     
+                    if image.hexData?.isPrioritized == true {
+                    let clearTapGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
+                    var clearImageView = PostImageView()
+                        clearImageView.isUserInteractionEnabled = true
+                        self.contentView.addSubview(clearImageView)
+                        clearImageView.hexData = image.hexData
+                        clearImageView.addGestureRecognizer(clearTapGesture)
+                        clearImageView.frame = image.frame
+                        clearImageView.backgroundColor = .clear
+                        clearImageView.setupHexagonMask(lineWidth: clearImageView.frame.width/15, color: .clear, cornerRadius: clearImageView.frame.width/15)
+                        
+                    prioritizedPosts.append(image)
+                    image.pulse(withIntensity: 0.8, withDuration: 1.5, loop: true)
+                    }
+                    
+                    
                     
                     let date = dateFormatter.date(from: image.hexData!.createdAt)
                     if date != nil && self.lastDateViewed?.compare(date!) == ComparisonResult.orderedDescending {
+                        self.beenOnThisPageBefore = true
                         // @PAT do image change things here
                         // this means its seen
                   
                     }
                     else {
-                        image.setupHexagonMask(lineWidth: image.frame.width/15, color: .gray, cornerRadius: image.frame.width/15)
-                        
+//                        image.setupHexagonMask(lineWidth: image.frame.width/15, color: .gray, cornerRadius: image.frame.width/15)
+                        self.newPostArray.append(image)
                     }
+                }
+                if self.beenOnThisPageBefore == true {
+                for newPost in self.newPostArray {
+                    newPost.flash()
+                }
                 }
                 //}
             }
@@ -694,6 +770,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         returnButton.isHidden = false
         toSearchButton.isHidden = false
         toSettingsButton.isHidden = false
+        followView.isHidden = true
       //  followView.isHidden = false
         refresh()
     }

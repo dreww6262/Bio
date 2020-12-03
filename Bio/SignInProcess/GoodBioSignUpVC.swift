@@ -577,10 +577,12 @@ var countryFlag = UIImageView()
                             }
         // this triggers old/bad sign out process
                             else {
-                            let addsocialmediaVC = self.storyboard?.instantiateViewController(withIdentifier: "addSocialMediaTableView") as! AddSocialMediaTableView
-                                addsocialmediaVC.userDataVM = self.userDataVM
-                            addsocialmediaVC.cancelLbl = "Skip"
-                            self.present(addsocialmediaVC, animated: false, completion: nil)
+//                            let addsocialmediaVC = self.storyboard?.instantiateViewController(withIdentifier: "addSocialMediaTableView") as! AddSocialMediaTableView
+//                            addsocialmediaVC.userData = self.userData
+//                            addsocialmediaVC.currentUser = self.user
+//                            addsocialmediaVC.cancelLbl = "Skip"
+//                            self.present(addsocialmediaVC, animated: false, completion: nil)
+                                self.performSegue(withIdentifier: "signUpSegue", sender: self)
                             self.blurEffectView?.removeFromSuperview()
                             loadingIndicator!.view.removeFromSuperview()
                             loadingIndicator!.removeFromParent()
@@ -621,7 +623,7 @@ var countryFlag = UIImageView()
 //        addSocialMediaVC.cancelLbl = "Skip"
 //        }
         else {
-            performSegue(withIdentifier: "rewindToFront", sender: self)
+            performSegue(withIdentifier: "signUpSegue", sender: self)
 //            var homeHexGrid = segue.destination as! HomeHexagonGrid
 //            homeHexGrid.user = user
 //            homeHexGrid.userData = userData

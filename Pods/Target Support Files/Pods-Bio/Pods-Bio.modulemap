@@ -1,0 +1,6 @@
+framework module Pods_Bio {
+  umbrella header "Pods-Bio-umbrella.h"
+
+  export *
+  module * { export * }
+}

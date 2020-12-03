@@ -195,6 +195,7 @@ class MenuView: UIView {
         newPostButton.addTarget(self, action: #selector(newPostButtonClicked), for: .touchUpInside)
           notificationsButton.addTarget(self, action: #selector(notificationsButtonClicked), for: .touchUpInside)
         
+
         
         //hide buttons
         newPostButton.isHidden = true
@@ -244,14 +245,34 @@ class MenuView: UIView {
     }
 
     @objc func dmsButtonClicked(_ sender: UIButton) {
+        for blurview in blurEffectViewArray {
+        blurview.removeFromSuperview()
+        }
+        hideMenuOptions()
+        //makeAllMenuButtonsClear()
+        changeBackToWhiteIcons()
         let alert = UIAlertController(title: "Coming Soon!", message: "DM's and Messenging Will Be Available in the Next Update.", preferredStyle: UIAlertController.Style.alert)
         let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: {_ in
     })
         alert.addAction(ok)
+        menuButton = closeMenuButton
+        let menuTapped = UITapGestureRecognizer(target: self, action: #selector(tappedMenuButton))
+        menuButton.addGestureRecognizer(menuTapped)
+        hideMenuOptions()
+        //makeAllMenuButtonsClear()
+    
+        //it goes to close menu button here when i want regular menu button!!!
+        closeMenuButton.isHidden = true
+        menuButton.isHidden = false
         parentContainerViewController()?.present(alert, animated: true, completion: nil)
     }
     
     @objc func friendsButtonClicked(_ sender: UIButton) {
+        for blurview in blurEffectViewArray {
+        blurview.removeFromSuperview()
+        }
+        //makeAllMenuButtonsClear()
+        changeBackToWhiteIcons()
         let viewControllers = tabController!.customizableViewControllers!
         let profileGrid = (viewControllers[3] as! FriendsAndFeaturedVC)
         profileGrid.menuView.dmButton.isHidden = true
@@ -269,6 +290,11 @@ class MenuView: UIView {
     }
     
     @objc func newPostButtonClicked(_ sender: UIButton) {
+        for blurview in blurEffectViewArray {
+        blurview.removeFromSuperview()
+        }
+      //  makeAllMenuButtonsClear()
+        changeBackToWhiteIcons()
         let viewControllers = tabController!.customizableViewControllers!
         let newPostVC = (viewControllers[4] as! NewPostColorfulVC)
         newPostVC.menuView.dmButton.isHidden = true
@@ -283,6 +309,11 @@ class MenuView: UIView {
     }
     
     @objc func notificationsButtonClicked(_ sender: UIButton) {
+        for blurview in blurEffectViewArray {
+        blurview.removeFromSuperview()
+        }
+        changeBackToWhiteIcons()
+     //   makeAllMenuButtonsClear()
         let viewControllers = tabController!.customizableViewControllers!
         let notificationsVC = (viewControllers[0] as! NotificationsVC)
         //notificationsVC.userData = userData
@@ -297,6 +328,11 @@ class MenuView: UIView {
     }
     
     @objc func homeButtonClicked(_ sender: Any) {
+        for blurview in blurEffectViewArray {
+        blurview.removeFromSuperview()
+        }
+      //  makeAllMenuButtonsClear()
+        changeBackToWhiteIcons()
         let viewControllers = tabController!.customizableViewControllers!
         let homeVC = (viewControllers[2] as! HomeHexagonGrid)
         //homeVC.userData = userData
@@ -366,7 +402,9 @@ class MenuView: UIView {
             superview!.bringSubviewToFront(notificationLabel)
             setNotificationAlertText()
             showMenuOptions()
-    
+        //makeAllMenuButtonsClear()
+        changeBackToWhiteIcons()
+
     
     }
     // TODO: TO DO Redo this for circular border
@@ -395,8 +433,8 @@ class MenuView: UIView {
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         if (sender.state == .began) {
            // makeAllMenuButtonsBlack()
-            makeAllMenuButtonsClear()
-            
+          //  makeAllMenuButtonsClear()
+            changeBackToWhiteIcons()
             blurEffectViewArray.append(blurEffectView)
             superview!.addSubview(blurEffectView)
             blurEffectView.frame = superview!.frame
@@ -409,6 +447,9 @@ class MenuView: UIView {
             superview!.bringSubviewToFront(notificationLabel)
             setNotificationAlertText()
             showMenuOptions()
+         //   makeAllMenuButtonsClear()
+            changeBackToWhiteIcons()
+
             
             
     
