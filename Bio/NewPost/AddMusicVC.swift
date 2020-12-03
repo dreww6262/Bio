@@ -64,9 +64,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
     var postButton = UIButton()
     var backButton = UIButton()
     
-    var currentUser: User? = Auth.auth().currentUser
-    var userData: UserData?
-    var userDataRef: DocumentReference? = nil
+    var userDataVM: UserDataVM?
     let db = Firestore.firestore()
     let storageRef = Storage.storage().reference()
     var cancelLbl: String?
@@ -107,13 +105,6 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         textOverlayTextField.delegate = self
         var alreadySnapped = false
         super.viewDidLoad()
-        
-        if (userData == nil) {
-            print("userdata is nil")
-        }
-        else {
-            print("loaded addVC with userdata: \(userData!.publicID) and user \(currentUser!.email)")
-        }
         
         let linkTap = UITapGestureRecognizer(target: self, action: #selector(AddLinkVCViewController.loadImg(_:)))
         linkTap.numberOfTapsRequired = 1
@@ -385,14 +376,12 @@ prioritizeLabel.text = "Prioritize This Post?"
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print("userData, view will appear: \(userData)")
         hasChosenThumbnailImage = false
     }
     
     @objc func skipTapped(_ sender: UITapGestureRecognizer) {
         let linkVC = storyboard?.instantiateViewController(withIdentifier: "linkVC") as! AddLinkVCViewController
-        linkVC.userData = userData
-        linkVC.currentUser = currentUser
+        linkVC.userDataVM = userDataVM
         linkVC.cancelLbl = "Skip"
         self.present(linkVC, animated: false, completion: nil)
     }
@@ -576,6 +565,11 @@ prioritizeLabel.text = "Prioritize This Post?"
     // call picker to select image
     @objc func postTapped(_ recognizer:UITapGestureRecognizer) {
         print("continue button pressed")
+        
+        let userData = userDataVM?.userData.value
+        if userData == nil {
+            return
+        }
         createMusicLink()
         
         let username = userData!.publicID
@@ -641,7 +635,7 @@ prioritizeLabel.text = "Prioritize This Post?"
                     previewVC.thumbImage = UIImage(named: "musicCenter")
                 }
     
-                previewVC.userData = userData
+                previewVC.userDataVM = userDataVM
                 previewVC.modalPresentationStyle = .fullScreen
                 previewVC.cancelLbl = cancelLbl
                 self.present(previewVC, animated: false, completion: nil)
@@ -655,6 +649,11 @@ prioritizeLabel.text = "Prioritize This Post?"
     // clicked sign up
     @IBAction func continueClicked(_ sender: AnyObject) {
         print("continue button pressed")
+        
+        let userData = userDataVM?.userData.value
+        if userData == nil {
+            return
+        }
         
         let username = userData!.publicID
         var numPosts = userData!.numPosts
@@ -728,14 +727,10 @@ prioritizeLabel.text = "Prioritize This Post?"
                 
                 
                 userData?.numPosts = numPosts
-                db.collection("UserData1").document(currentUser!.uid).setData(self.userData!.dictionary, completion: { error in
-                    if error == nil {
+                userDataVM?.updateUserData(newUserData: userData!, completion: { success in
+                    if success {}
                         print("userdata updated successfully")
                         self.performSegue(withIdentifier: "unwindFromLinkToHome", sender: nil)
-                    }
-                    else {
-                        print("userData not saved \(error?.localizedDescription)")
-                    }
                     
                 })
             }

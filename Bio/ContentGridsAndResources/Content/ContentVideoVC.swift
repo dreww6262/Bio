@@ -16,7 +16,7 @@ class ContentVideoVC: UIViewController {
     var player = AVPlayer()
     let contentViewer = UIView()
     var showOpenAppButton = false
-    var userData: UserData?
+    var userDataVM: UserDataVM?
     
     let storage = FirebaseStorage.Storage.storage().reference()
 

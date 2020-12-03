@@ -36,7 +36,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
     var followingUserDataArray = ThreadSafeArray<UserData>()
     var popList = ThreadSafeArray<UserData>()
 
-    var userData: UserData?
+    var userDataVM: UserDataVM?
     
     var toSearchButton = UIButton()
     var toSettingsButton = UIButton()
@@ -372,13 +372,13 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
     
     @objc func toSearchButtonClicked(_ recognizer: UITapGestureRecognizer) {
         let userTableVC = storyboard?.instantiateViewController(identifier: "userTableView") as! UserTableView
-        userTableVC.userData = userData
+        userTableVC.userDataVM = userDataVM
         present(userTableVC, animated: false)
     }
     
     @objc func toSettingsButtonClicked(_ recognizer: UITapGestureRecognizer) {
         let settingsVC = storyboard?.instantiateViewController(identifier: "settingsVC") as! ProfessionalSettingsVC
-        settingsVC.userData = userData
+        settingsVC.userDataVM = userDataVM
         present(settingsVC, animated: false)
     }
     
@@ -427,38 +427,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
     
     
     func refresh() {
-        //print("in refresh")
-        user = Auth.auth().currentUser
-        //        print("current user: \(user)")
-        if (user != nil) {
-            if (userData == nil || userData?.email != user?.email) {
-                db.collection("UserData1").document(user!.uid).getDocument(completion: {obj,error in
-                    if (error == nil) {
-                        let data = obj?.data()
-                        if data != nil {
-                            self.userData = UserData(dictionary: obj!.data()!)
-                            self.menuView.userData = self.userData
-                            //                        print("should load followings, userdata was found: \(self.userData?.email)")
-                            self.loadFollowings()
-                            //self.loadFollowers()
-                        }
-                        else {
-                            print("Userdata data was nil")
-                        }
-                    }
-                    else {
-                        print("could not load userdata from \(self.user?.email ?? "")")
-                        print(error!.localizedDescription)
-                    }
-                })
-            }
-            else {
-                //                print("userData wasnt nil \(userData?.email)")
-                loadFollowings()
-                //loadFollowers()
-            }
-
-        }
+        loadFollowings()
     }
     
     
@@ -468,7 +437,6 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         menuView.tabController = (tabBarController! as! NavigationMenuBaseController)
-        menuView.userData = userData
         refresh()
         toSearchButton.isHidden = false
         toSettingsButton.isHidden = false
@@ -476,6 +444,10 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
     
     
     func loadUpToTenUserDatas(followers: [String], completion: @escaping () -> (), following: Bool) {
+        let userData = userDataVM?.userData.value
+        if userData == nil {
+            return
+        }
         let userDataCollection = self.db.collection("UserData1")
         let userDataQuery = userDataCollection.whereField("publicID", in: followers)
         userDataQuery.getDocuments(completion: { (objects, error) -> Void in
@@ -499,7 +471,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
                     
                     if (!readOnlyArray.contains(where: { data in
                         data.publicID == newUserData.publicID
-                    }) && !self.userData!.isBlockedBy.contains(newUserData.publicID) && !self.userData!.blockedUsers.contains(newUserData.publicID)) {
+                    }) && !userData!.isBlockedBy.contains(newUserData.publicID) && !userData!.blockedUsers.contains(newUserData.publicID)) {
                         
                         //if (following) {
                             self.followingUserDataArray.append(newElement: newUserData)
@@ -580,7 +552,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         let featuredFollowingList = UIAction(title: "View Who \(userData.publicID) Follows", image: nil) { _ in
     print("TODO: View their users")
             let featuredUserFollowingTableView = self.storyboard?.instantiateViewController(identifier: "followingTableView") as! FollowingTableView
-           featuredUserFollowingTableView.userData = userData
+            featuredUserFollowingTableView.userDataVM = self.userDataVM
             self.present(featuredUserFollowingTableView, animated: false)
     }
         
@@ -633,6 +605,10 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
     
     // loading followings
     func loadFollowings() {
+        let userData = userDataVM?.userData.value
+        if userData == nil {
+            return
+        }
         print("I got here loadfollowings")
         if (self.followingUserDataArray.isEmpty()) {
             self.followingUserDataArray.append(newElement: userData!)
@@ -646,7 +622,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
             if success {
                 // using 5 for efficiency and less possibility of timeout
                 self.followingUserDataArray.removeAll()
-                self.followingUserDataArray.append(newElement: self.userData!)
+                self.followingUserDataArray.append(newElement: userData!)
                 let chunks = newFollowArray.chunked(into: 5)
                 let group = DispatchGroup()
                 for chunk in chunks {
@@ -666,6 +642,10 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
     }
     
     func createFollowingArray(completion: @escaping ([String], Bool) -> ()) {
+        let userData = userDataVM?.userData.value
+        if userData == nil {
+            return
+        }
         let followCollection = db.collection("Followings")
         let usernameText:String = userData!.publicID
         var newFollowArray = [String]()
@@ -780,7 +760,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
      //   sender.view?.layer = CALayer()
         let guestVC = storyboard?.instantiateViewController(identifier: "guestGridVC") as! GuestHexagonGridVC
         //guestVC.user = user
-        guestVC.myUserData = userData
+        guestVC.userDataVM = userDataVM
         //guestVC.profileImage = self.
         guestVC.guestUserData = profCell.userData
         //guestVC.isFollowing = true
@@ -800,7 +780,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         
         let guestVC = storyboard?.instantiateViewController(identifier: "guestGridVC") as! GuestHexagonGridVC
         //guestVC.user = user
-        guestVC.myUserData = userData
+        guestVC.userDataVM = userDataVM
         //guestVC.profileImage = self.
         guestVC.guestUserData = followingUserDataArray[sender.view!.tag]
         guestVC.isFollowing = true

@@ -31,7 +31,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
     var currentUser: User?
     var loadUserDataArray = ThreadSafeArray<UserData>()
     var searchString: String = ""
-    var userData: UserData?
+    var userDataVM: UserDataVM?
 //    var textFieldArray = [UITextField]()
     
     var followList = [String]()
@@ -132,7 +132,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
             
             if (items.count == 1) {
                 let onePostVC = self.storyboard?.instantiateViewController(identifier: "") as! OnePostPreview
-                onePostVC.userData = self.userData
+                onePostVC.userDataVM = self.userDataVM
                 onePostVC.items = items
                 onePostVC.cancelLbl = self.cancelLbl
                 
@@ -142,7 +142,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
             if (items.count > 1) {
                 let uploadPreviewVC = self.storyboard?.instantiateViewController(identifier: "newUploadPreviewVC") as! NewUploadPreviewVC
                 //print(photos)
-                uploadPreviewVC.userData = self.userData
+                uploadPreviewVC.userDataVM = self.userDataVM
                 uploadPreviewVC.cancelLbl = self.cancelLbl
                 uploadPreviewVC.items = items
                 //picker.dismiss(animated: false, completion: nil)
@@ -150,16 +150,16 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
                 uploadPreviewVC.modalPresentationStyle = .fullScreen
             }
             else {
-                if (self.cancelLbl == "Skip") {
-                    let musicVC = self.storyboard?.instantiateViewController(withIdentifier: "addMusicVC") as! AddMusicVC
-                    musicVC.userData = self.userData
-                    musicVC.currentUser = self.currentUser
-                    musicVC.cancelLbl = "Skip"
-                    picker.present(musicVC, animated: false, completion: nil)
-                }
-                else {
+//                if (self.cancelLbl == "Skip") {
+//                    let musicVC = self.storyboard?.instantiateViewController(withIdentifier: "addMusicVC") as! AddMusicVC
+//                    musicVC.userData = self.userData
+//                    musicVC.currentUser = self.currentUser
+//                    musicVC.cancelLbl = "Skip"
+//                    picker.present(musicVC, animated: false, completion: nil)
+//                }
+                //else {
                     picker.dismiss(animated: false, completion: nil)
-                }
+                //}
             }
             
         }
@@ -174,6 +174,10 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
         // dismiss keyboard
         self.view.endEditing(true)
         
+        let userData = userDataVM?.userData.value
+        if userData == nil {
+            return
+        }
         
         // if fields are empty
         var isCompletelyEmpty = true
@@ -456,20 +460,19 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
         print("passed wait for social media tiles")
         userData?.numPosts = numPosts
         userData?.lastTimePosted = NSDate.now.description
-        db.collection("UserData1").document(currentUser!.uid).setData(self.userData!.dictionary, completion: { error in
-            if error == nil {
+        userDataVM?.updateUserData(newUserData: userData!, completion: { success in
+            if success {
                 //present Home View Controller Segue
-                print("present home hex grid")
-                if (self.cancelLbl == nil) {
+//                if (self.cancelLbl == nil) {
                     self.performSegue(withIdentifier: "rewindToFront", sender: nil)
-                }
-                else {
-                    self.skipTapped(recognizer)
-                }
+//                }
+//                else {
+//                    self.skipTapped(recognizer)
+//                }
             }
-            else {
-                print("userData not saved \(error?.localizedDescription)")
-            }
+//            else {
+//                print("userData not saved \(error?.localizedDescription)")
+//            }
             
         })
     }
@@ -698,7 +701,6 @@ extension AddSocialMediaTableView: UITableViewDelegate, UITableViewDataSource {
         cell.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/8)
        // let cellTappedRecognizer = UITapGestureRecognizer(target: self, action: #selector(cellTapped))
        // cell.addGestureRecognizer(cellTappedRecognizer)
-        cell.userData = userData
         //  Configure the cell...
         cell.socialMediaIcon.image = iconArray[indexPath.row] ?? UIImage(named: "instagramLogo")
         cell.socialMediaIcon.layer.cornerRadius = cell.socialMediaIcon.frame.size.width / 2

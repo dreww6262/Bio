@@ -26,7 +26,7 @@ class TagUserCell: UITableViewCell {
     @IBOutlet weak var displayNameLabel: UILabel!
     @IBOutlet weak var followBtn: UIButton!
     var cellHeight = CGFloat()
-    var userData: UserData?
+    var userDataVM: UserDataVM?
     
     let db = Firestore.firestore()
     
@@ -38,7 +38,7 @@ class TagUserCell: UITableViewCell {
         
         // alignment
         let width = UIScreen.main.bounds.width
-       // cellHeight =  self.frame.height
+        // cellHeight =  self.frame.height
         cellHeight = 80
         print("This is cellHeight \(cellHeight)")
         
@@ -50,7 +50,7 @@ class TagUserCell: UITableViewCell {
         print("This is usernameLabel.frame \(usernameLbl.frame)")
         print("This is displayNameLabel.frame \(displayNameLabel.frame)")
         // followBtn.frame = CGRect(x: width - width / 3.5 - 40, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
-       // followBtn.frame = CGRect(x: width - (width/3), y: avaImg.frame.minY, width: width / 3.5, height: width/3.5)
+        // followBtn.frame = CGRect(x: width - (width/3), y: avaImg.frame.minY, width: width / 3.5, height: width/3.5)
         followView.frame = CGRect(x: width - (width/4.5), y: usernameLbl.frame.minY - (self.frame.height/8), width: width/7, height: displayNameLabel.frame.height)
         followView.layer.cornerRadius = followView.frame.size.width / 20
         followView.addSubview(followImage)
@@ -59,7 +59,7 @@ class TagUserCell: UITableViewCell {
         let followTap = UITapGestureRecognizer(target: self, action: #selector(followPressed))
         followView.addGestureRecognizer(followTap)
         followLabel.frame = CGRect(x: followImage.frame.maxX + (followView.frame.width/20), y: followImage.frame.minY - (followView.frame.height/5), width: 44, height: 20)
-         followView.layer.cornerRadius = followView.frame.size.width/10
+        followView.layer.cornerRadius = followView.frame.size.width/10
         print("THis is followView.frame \(followView.frame)")
         print("This is followimage.frame \(followImage.frame)")
         print("This is follow label.frame \(followLabel.frame)")
@@ -85,103 +85,51 @@ class TagUserCell: UITableViewCell {
         let cell = self
         let button = self.followView
         let username = cell.usernameLbl.text!
-        if userData != nil {
-            if button!.tag == 0 {
-                let newFollow = ["follower": userData!.publicID, "following": username]
-                db.collection("Followings").addDocument(data: newFollow as [String : Any])
-                UIDevice.vibrate()
-                button?.isHidden = true
-//                button?.imageView?.image = UIImage(named: "checkmark32x32")
-//                sender.imageView?.image = UIImage(named: "checkmark32x32")
-                button?.tag = 1
-                
-                
-                let notificationObjectref = db.collection("News2")
-                   let notificationDoc = notificationObjectref.document()
-                let notificationObject = NewsObject(ava: userData!.avaRef, type: "follow", currentUser: userData!.publicID, notifyingUser: cell.usernameLbl.text!, thumbResource: userData!.avaRef, createdAt: NSDate.now.description, checked: false, notificationID: notificationDoc.documentID)
-                   notificationDoc.setData(notificationObject.dictionary){ error in
-                       //     group.leave()
-                       if error == nil {
-                           print("added notification: \(notificationObject)")
-                           
-                       }
-                       else {
-                           print("failed to add notification \(notificationObject)")
-                           
-                       }
-                   }
-                
-                
-                
-                
-                
-                
-                //SEND A NOTIFICATION FOR FOLLOWING! SWITCH FROM PARSE TO FIREBASE
-//                if self.usernameBtn.titleLabel?.text != PFUser.current()?.username {
-//                                 let newsObj = PFObject(className: "News")
-//                                 newsObj["by"] = PFUser.current()?.username
-//                                 newsObj["ava"] = PFUser.current()?.object(forKey: "ava") as! PFFile
-//                                 newsObj["to"] = self.usernameBtn.titleLabel!.text
-//                                 newsObj["owner"] = self.usernameBtn.titleLabel!.text
-//                                 newsObj["uuid"] = self.uuidLbl.text
-//                                 newsObj["type"] = "like"
-//                                 newsObj["checked"] = "no"
-//                                 newsObj.saveEventually()
-//                             }
-                
-                
-                
-                
-//
-//                sender.imageView?.image = UIImage(named: "friendCheck")
-//                        button?.tag = 1
-//                        print("It's supposed to change to check")
-//                sender.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
-//                        sender.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
-                
-            }
-            else {
-                db.collection("Followings").whereField("follower", isEqualTo: userData!.publicID).whereField("following", isEqualTo: username).addSnapshotListener({ objects, error in
-                    if error == nil {
-                        guard let docs = objects?.documents else {
-                            return
-                        }
-                        for doc in docs {
-                            doc.reference.delete()
-                        }
-                    }
-                    })
-//                button?.imageView?.image = UIImage(named: "addFriend")
-//                button?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
-//                button?.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
-                button?.tag = 0
-            }
-//          button?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
-//                         button?.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
+        let userData = userDataVM?.userData.value
+        if userData == nil {
+            return
         }
+        if button!.tag == 0 {
+            let newFollow = ["follower": userData!.publicID, "following": username]
+            db.collection("Followings").addDocument(data: newFollow as [String : Any])
+            UIDevice.vibrate()
+            button?.isHidden = true
+            //                button?.imageView?.image = UIImage(named: "checkmark32x32")
+            //                sender.imageView?.image = UIImage(named: "checkmark32x32")
+            button?.tag = 1
+            
+            
+            let notificationObjectref = db.collection("News2")
+            let notificationDoc = notificationObjectref.document()
+            let notificationObject = NewsObject(ava: userData!.avaRef, type: "follow", currentUser: userData!.publicID, notifyingUser: cell.usernameLbl.text!, thumbResource: userData!.avaRef, createdAt: NSDate.now.description, checked: false, notificationID: notificationDoc.documentID)
+            notificationDoc.setData(notificationObject.dictionary){ error in
+                //     group.leave()
+                if error == nil {
+                    print("added notification: \(notificationObject)")
+                    
+                }
+                else {
+                    print("failed to add notification \(notificationObject)")
+                    
+                }
+            }
+            
+        }
+        else {
+            db.collection("Followings").whereField("follower", isEqualTo: userData!.publicID).whereField("following", isEqualTo: username).addSnapshotListener({ objects, error in
+                if error == nil {
+                    guard let docs = objects?.documents else {
+                        return
+                    }
+                    for doc in docs {
+                        doc.reference.delete()
+                    }
+                }
+            })
+            button?.tag = 0
+        }
+        
     }
-    
-    
-//    func addNotificationObject(notificationObject: NewsObject, completion: @escaping (Bool) -> Void) {
-//           let notificationObjectref = db.collection("News")
-//           let notificationDoc = notificationObjectref.document()
-//           var notificationCopy = NewsObject(dictionary: notificationObject.dictionary)
-//        notificationCopy.notificationID = notificationObject.notificationID
-//        notificationCopy.createdAt = Date()
-//        notificationCopy.
-//           notificationDoc.setData(notificationCopy.dictionary){ error in
-//               //     group.leave()
-//               if error == nil {
-//                   print("added notification: \(notificationObject)")
-//                   completion(true)
-//               }
-//               else {
-//                   print("failed to add notification \(notificationObject)")
-//                   completion(false)
-//               }
-//           }
-//       }
-    
     
 }
 

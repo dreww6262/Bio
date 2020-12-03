@@ -15,7 +15,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UISearchBarDelegat
     @IBOutlet weak var searchBar: UISearchBar!
     var spot: Spot!
     let regionDistance: CLLocationDistance = 750
-    var userData: UserData?
+    var userDataVM: UserDataVM?
     
     // MARK: - Outlets
     

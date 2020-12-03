@@ -369,37 +369,37 @@ class AlgorithmHexagonGrid: UIViewController, UIScrollViewDelegate, UIGestureRec
     }
     
     
-    @IBAction func friendsButtonClicked(_ sender: UIButton) {
-        
-        let viewControllers = tabBarController!.customizableViewControllers!
-        let profileGrid = (viewControllers[3] as! FriendsAndFeaturedVC)
-        let tabController = tabBarController! as! NavigationMenuBaseController
-        profileGrid.userData = userData
-        profileGrid.refresh()
-        tabController.viewControllers![3] = profileGrid
-        tabController.customTabBar.switchTab(from: 2, to: 3)
-    }
-    
-    @IBAction func settingsButtonClicked(_ sender: UIButton) {
-        
-        let viewControllers = tabBarController!.customizableViewControllers!
-        let settingsVC = (viewControllers[6] as! ProfessionalSettingsVC)
-        let tabController = tabBarController! as! NavigationMenuBaseController
-        settingsVC.userData = userData
-        //settingsVC.refresh()
-        tabController.viewControllers![6] = settingsVC
-        tabController.customTabBar.switchTab(from: 2, to: 6)
-    }
-    
-    @IBAction func newPostButtonClicked(_ sender: UIButton) {
-        
-        let viewControllers = tabBarController!.customizableViewControllers!
-        let newPostVC = (viewControllers[4] as! NewPostColorfulVC)
-        newPostVC.userData = userData
-        let tabController = tabBarController! as! NavigationMenuBaseController
-        tabController.viewControllers![4] = newPostVC
-        tabController.customTabBar.switchTab(from: 2, to: 4)
-    }
+//    @IBAction func friendsButtonClicked(_ sender: UIButton) {
+//
+//        let viewControllers = tabBarController!.customizableViewControllers!
+//        let profileGrid = (viewControllers[3] as! FriendsAndFeaturedVC)
+//        let tabController = tabBarController! as! NavigationMenuBaseController
+//        profileGrid.userDataVM = userDataVM
+//        profileGrid.refresh()
+//        tabController.viewControllers![3] = profileGrid
+//        tabController.customTabBar.switchTab(from: 2, to: 3)
+//    }
+//
+//    @IBAction func settingsButtonClicked(_ sender: UIButton) {
+//
+//        let viewControllers = tabBarController!.customizableViewControllers!
+//        let settingsVC = (viewControllers[6] as! ProfessionalSettingsVC)
+//        let tabController = tabBarController! as! NavigationMenuBaseController
+//        settingsVC.userDataVM = userDataVM
+//        //settingsVC.refresh()
+//        tabController.viewControllers![6] = settingsVC
+//        tabController.customTabBar.switchTab(from: 2, to: 6)
+//    }
+//
+//    @IBAction func newPostButtonClicked(_ sender: UIButton) {
+//
+//        let viewControllers = tabBarController!.customizableViewControllers!
+//        let newPostVC = (viewControllers[4] as! NewPostColorfulVC)
+//        newPostVC.userData = userData
+//        let tabController = tabBarController! as! NavigationMenuBaseController
+//        tabController.viewControllers![4] = newPostVC
+//        tabController.customTabBar.switchTab(from: 2, to: 4)
+//    }
     
     @objc func tappedMenuButton(sender: UITapGestureRecognizer) {
         if (dmButton.isHidden == true) {

@@ -25,7 +25,7 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
     
     var subtitleLabel = UILabel()
     @IBOutlet weak var tableView: UITableView!
-    var userData: UserData?
+    var userDataVM: UserDataVM?
     
     @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
@@ -110,19 +110,19 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if (userData == nil) {
-            print("userdata did not get passed through")
-            let privateID = Auth.auth().currentUser?.uid
-            db.collection("UserData1").document(privateID ?? "").getDocument(completion: { doc, error in
-                if error == nil {
-                    guard let data = doc?.data() else {
-                        print("Could not get userdata")
-                        return
-                    }
-                    self.userData = UserData(dictionary: data)
-                }
-            })
-        }
+//        if (userData == nil) {
+//            print("userdata did not get passed through")
+//            let privateID = Auth.auth().currentUser?.uid
+//            db.collection("UserData1").document(privateID ?? "").getDocument(completion: { doc, error in
+//                if error == nil {
+//                    guard let data = doc?.data() else {
+//                        print("Could not get userdata")
+//                        return
+//                    }
+//                    self.userData = UserData(dictionary: data)
+//                }
+//            })
+//        }
     }
     
     var loadingIndicator: UIViewController?
@@ -130,9 +130,13 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
     
     
     @IBAction func donePressed(_ sender: UIButton) {
+        let userData = userDataVM?.userData.value
+        if userData == nil {
+            return
+        }
         var success = true
         var count = 0
-        let numPosts = self.userData!.numPosts
+        let numPosts = userData!.numPosts
         
         if numPosts + cellArray.count > 37 {
             // too many posts
@@ -182,7 +186,7 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
                 //print(photo)
                 let rawPhotoLocation = "userFiles/\(userData!.publicID)/\(count)_\(timestamp.dateValue()).png"
                 let photoLocation = rawPhotoLocation.filter{filterSet.contains($0)}
-                var photoHex = HexagonStructData(resource: photoLocation, type: "photo", location: numPosts + count, thumbResource: photoLocation, createdAt: NSDate.now.description, postingUserID: self.userData!.publicID, text: "\(cell.captionField!.text!)", views: 0, isArchived: false, docID: "willBeSetLater", coverText: "", isPrioritized: false)
+                var photoHex = HexagonStructData(resource: photoLocation, type: "photo", location: numPosts + count, thumbResource: photoLocation, createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: "\(cell.captionField!.text!)", views: 0, isArchived: false, docID: "willBeSetLater", coverText: "", isPrioritized: false)
                 uploadPhoto(reference: photoLocation, image: photo, completion: { upComplete in
                     if (upComplete) {
                         print("uploaded shid")
@@ -201,7 +205,7 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
                 let rawThumbLocation = "userFiles/\(userData!.publicID)/\(count)_\(timestamp.dateValue())_thumb.png"
                 let videoLocation = rawVideoLocation.filter{filterSet.contains($0)}
                 let thumbLocation = rawThumbLocation.filter{filterSet.contains($0)}
-                let videoHex = HexagonStructData(resource: videoLocation, type: "video", location: numPosts + count, thumbResource: thumbLocation, createdAt: NSDate.now.description, postingUserID: self.userData!.publicID, text: "\(cell.captionField!.text!)", views: 0, isArchived: false, docID: "willBeSetLater", coverText: "",  isPrioritized: false)
+                let videoHex = HexagonStructData(resource: videoLocation, type: "video", location: numPosts + count, thumbResource: thumbLocation, createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: "\(cell.captionField!.text!)", views: 0, isArchived: false, docID: "willBeSetLater", coverText: "",  isPrioritized: false)
                 uploadVideo(reference: videoLocation, video: video, completion: { upComplete in
                     if (upComplete) {
                         print("uploaded shid")
@@ -245,7 +249,10 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
     }
     
     func uploadHexagons(hexes: ThreadSafeArray<HexagonStructData>) {
-        
+        let userData = userDataVM?.userData.value
+        if userData == nil {
+            return
+        }
         
         var readHexes = hexes.readOnlyArray()
         var failedHexes = [HexagonStructData]()
@@ -267,13 +274,11 @@ class UploadPreviewVC: UIViewController { //}, UITableViewDelegate, UITableViewD
             }
         }
         
-        self.userData!.numPosts += (hexes.count - failedHexes.count)
-        self.userData?.lastTimePosted = NSDate.now.description
-        self.db.collection("UserData1").document(Auth.auth().currentUser!.uid).setData(self.userData!.dictionary, completion: { error in
-            if error == nil {
-                print("should navigate to homehexgrid")
-                self.performSegue(withIdentifier: "unwindFromUpload", sender: nil)
-            }
+        userData!.numPosts += (hexes.count - failedHexes.count)
+        userData?.lastTimePosted = NSDate.now.description
+        userDataVM?.updateUserData(newUserData: userData!, completion: { success in
+            if success {}
+            self.performSegue(withIdentifier: "unwindFromUpload", sender: nil)
         })
     }
     

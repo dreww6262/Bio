@@ -24,7 +24,7 @@ class UserTableView: UIViewController, UISearchBarDelegate {
     var currentUser: User?
     var loadUserDataArray = ThreadSafeArray<UserData>()
     var searchString: String = ""
-    var userData: UserData?
+    var userDataVM: UserDataVM?
     
     var followList = [String]()
     
@@ -152,10 +152,10 @@ class UserTableView: UIViewController, UISearchBarDelegate {
                     let readOnlyArray = self.loadUserDataArray.readOnlyArray()
                     
                     // TODO: Very inefficient.  Use database operations to make sure data is clean.  Followers shouldnt be too many.  < 100 elements
-                    
+                    let userData = self.userDataVM?.userData.value
                     if (!readOnlyArray.contains(where: { data in
                         data.publicID == newUserData.publicID
-                    }) && !self.userData!.isBlockedBy.contains(newUserData.publicID) && !self.userData!.blockedUsers.contains(newUserData.publicID)) {
+                    }) && !userData!.isBlockedBy.contains(newUserData.publicID) && !userData!.blockedUsers.contains(newUserData.publicID)) {
                         self.loadUserDataArray.append(newElement: newUserData)
                     }
                 }
@@ -186,7 +186,11 @@ class UserTableView: UIViewController, UISearchBarDelegate {
     }
     
     func loadFollows(completion: @escaping() -> ()) {
-        db.collection("Followings").whereField("follower", isEqualTo: userData!.publicID).getDocuments(completion: { objects, error in
+        let username = userDataVM?.userData.value?.publicID
+        if username == nil {
+            return
+        }
+        db.collection("Followings").whereField("follower", isEqualTo: username!).getDocuments(completion: { objects, error in
             if error == nil {
                 self.followList.removeAll(keepingCapacity: true)
                 guard let docs = objects?.documents else {
@@ -300,7 +304,7 @@ class UserTableView: UIViewController, UISearchBarDelegate {
                     let userdata = UserData(dictionary: docs[0].data())
                     let guestVC = self.storyboard!.instantiateViewController(identifier: "guestGridVC") as! GuestHexagonGridVC
                     guestVC.guestUserData = userdata
-                    guestVC.myUserData = self.userData
+                    guestVC.userDataVM = self.userDataVM
                     guestVC.isFollowing = sender.view?.tag == 1
                     self.present(guestVC, animated: false)
                     self.modalPresentationStyle = .fullScreen
@@ -395,7 +399,7 @@ extension UserTableView: UITableViewDelegate, UITableViewDataSource {
         cell.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/8)
         let cellTappedRecognizer = UITapGestureRecognizer(target: self, action: #selector(cellTapped))
         cell.addGestureRecognizer(cellTappedRecognizer)
-        cell.userData = userData
+        cell.userDataVM = userDataVM
         //  Configure the cell...
         print("This is cell \(cell)")
         cell.avaImg.sd_setImage(with: storageRef.child(loadUserDataArray[indexPath.row].avaRef))
@@ -408,7 +412,7 @@ extension UserTableView: UITableViewDelegate, UITableViewDataSource {
             cell.followView.tag = 1
             cell.tag = 1
         }
-        else if (userData?.publicID == loadUserDataArray[indexPath.row].publicID) {
+        else if (userDataVM?.userData.value?.publicID == loadUserDataArray[indexPath.row].publicID) {
             cell.followView.isHidden = true
         }
         else {

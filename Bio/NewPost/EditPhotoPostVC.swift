@@ -46,8 +46,7 @@ class EditPhotoPostVC: UIViewController, UINavigationControllerDelegate, UIImage
     var backButton = UIButton()
     
     var currentUser: User? = Auth.auth().currentUser
-    var userData: UserData?
-    var userDataRef: DocumentReference? = nil
+    var userDataVM: UserDataVM?
     let db = Firestore.firestore()
     let storageRef = Storage.storage().reference()
     
@@ -98,30 +97,7 @@ class EditPhotoPostVC: UIViewController, UINavigationControllerDelegate, UIImage
         let checkBoxTap = UITapGestureRecognizer(target: self, action: #selector(checkBoxTapped(_:)))
         checkBox.addGestureRecognizer(checkBoxTap)
         checkBox.setImage(UIImage(named: "blueEmpty"), for: .normal)
-        
-        
-//        switch items![0] {
-//        case .photo(let photo):
-//            previewImage.image = photo.image
-//            photoBool = true
-//        case .video(let video) :
-//            previewImage.image = video.thumbnail
-//            photoBool = false
-//        default:
-//            print("bad")
-//        }
-        
-    
-        
-        if (userData == nil) {
-            print("userdata is nil")
-        }
-        else {
-            print("loaded addVC with userdata: \(userData!.publicID) and user \(currentUser!.email)")
-        }
-        
-    
-        
+
         
         //poshmarkLogo.image = UIImage(named: "poshmarkLogo")
         let gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
@@ -282,6 +258,11 @@ class EditPhotoPostVC: UIViewController, UINavigationControllerDelegate, UIImage
         
         // dismiss keyboard
         self.view.endEditing(true)
+        
+        let userData = userDataVM?.userData.value
+        if userData == nil {
+            return
+        }
     
         let username = userData!.publicID
         var numPosts = userData!.numPosts

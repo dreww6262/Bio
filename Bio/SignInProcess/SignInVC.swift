@@ -23,6 +23,7 @@ class SignInVC: UIViewController {
     let auth = Auth.auth()
     var navBarView = NavBarView()
     var titleLabel1 = UILabel()
+    var userDataVM: UserDataVM?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -147,6 +148,10 @@ class SignInVC: UIViewController {
             if error == nil {
                 if result?.user != nil {
                     print("success should segue")
+                    if (result?.user.email == nil) {
+                        return
+                    }
+                    self.userDataVM?.retreiveUserData(email: result!.user.email!)
                     self.performSegue(withIdentifier: "unwindFromSignIn", sender: nil)
                 }
                 
@@ -158,20 +163,6 @@ class SignInVC: UIViewController {
         })
     }
     
-//    @objc func signInClicked(_ recognizer: UITapGestureRecognizer) {
-//        auth.signIn(withEmail: emailText.text!, password: passwordText.text!, completion: { result, error in
-//            if error == nil {
-//                if result?.user != nil {
-//                    self.performSegue(withIdentifier: "unwindFromSignIn", sender: nil)
-//                }
-//
-//            }
-//            else {
-//                print("error during signin: \(error?.localizedDescription)")
-//                // make toast
-//            }
-//        })
-//    }
     
     @objc func cancelButtonClicked(_ recognizer: UITapGestureRecognizer) {
        
@@ -181,14 +172,5 @@ class SignInVC: UIViewController {
             
             self.dismiss(animated: true, completion: nil)
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

@@ -80,8 +80,7 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
     var profileImageLabel = UILabel()
     var birthday = ""
     
-    var user: User?
-    var userData: UserData?
+    var userDataVM: UserDataVM?
     //var avaImageExtension = ".jpg"
     
     let storage = Storage.storage().reference()
@@ -146,12 +145,13 @@ var countryFlag = UIImageView()
     // default func
     override func viewDidLoad() {
         super.viewDidLoad()
+        let userData = userDataVM?.userData.value
         ogAvaImg = avaImg.image!
-        ogEmail = userData!.email ?? ""
-        ogUsername = userData!.publicID ?? ""
-        ogDisplayName = userData!.displayName ?? ""
+        ogEmail = userData?.email ?? ""
+        ogUsername = userData?.publicID ?? ""
+        ogDisplayName = userData?.displayName ?? ""
         ogCountry = userData?.country ?? ""
-        ogBio = userData!.bio ?? ""
+        ogBio = userData?.bio ?? ""
         
         scrollView.addSubview(emailLabel)
         scrollView.addSubview(usernameLabel)
@@ -380,23 +380,6 @@ var countryFlag = UIImageView()
         })
     }
     
-    
-    func createUser(email: String, password: String, completion: @escaping (User?) -> Void) {
-        Auth.auth().createUser(withEmail: email, password: password, completion: { obj, error in
-            if error == nil {
-                guard let obj = obj else { return }
-                self.user = obj.user
-                print("\(self.user!) successfully added")
-                completion(self.user!)
-            }
-            else {
-                print("failed to create user \(error?.localizedDescription)")
-                completion(nil)
-            }
-            print("completed")
-        })
-    }
-    
     func calcAge(birthday: String) -> Int {
         let dateFormater = DateFormatter()
         dateFormater.dateFormat = "MM/dd/yyyy"
@@ -414,13 +397,16 @@ var countryFlag = UIImageView()
     var blurEffectView: UIVisualEffectView?
     // clicked sign up
     @objc func signUpTapped(_ recognizer: UITapGestureRecognizer) {
-        print("done pressed")
+        var userData = self.userDataVM?.userData.value
+        if userData == nil {
+            return
+        }
         if changedProfilePic == true {
             print("change ava")
                 print("Set the user's profile picture as the current image")
-                var username = self.userData?.publicID
+            
     //            var reference = "userFiles/\(username!)"
-                let userDataStorageRef = self.storage.child(self.userData!.avaRef)
+                let userDataStorageRef = self.storage.child(userData!.avaRef)
                 
                 let loadingIndicator = storyboard?.instantiateViewController(withIdentifier: "loading")
                 
@@ -491,9 +477,9 @@ var countryFlag = UIImageView()
         
         if emailChanged {
             currentUser?.updateEmail(to: emailTxt.text!, completion: {_ in
-                self.db.collection("UserData1").document(self.userData!.privateID).setData(self.userData!.dictionary) { _ in
+                self.userDataVM?.updateUserData(newUserData: userData!, completion: { _ in
                 self.dismiss(animated: true, completion: nil)
-                }
+                })
             })
         }
         
@@ -507,18 +493,18 @@ var countryFlag = UIImageView()
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if changedProfilePic == false {
             var addProfilePic = segue.destination as! AddProfilePhotoVC
-            addProfilePic.currentUser = user
-            addProfilePic.userData = userData
+            addProfilePic.userDataVM = userDataVM
         }
         else {
         var addSocialMediaVC = segue.destination as! AddSocialMediaVC
-        addSocialMediaVC.currentUser = user
-        addSocialMediaVC.userData = userData
+            addSocialMediaVC.currentUser = Auth.auth().currentUser
+        addSocialMediaVC.userDataVM = userDataVM
         addSocialMediaVC.cancelLbl = "Skip"
         }
     }
     
     func fillTextFields() {
+        let userData = userDataVM?.userData.value
         emailTxt.text = userData?.email
         usernameTxt.text = userData?.publicID
         displayNameTxt.text = userData?.displayName

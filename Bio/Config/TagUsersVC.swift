@@ -16,7 +16,7 @@ class TagUsersVC: UIViewController {
     var titleLabel1 = UILabel()
     var doneButton = UIButton()
     var cancelButton = UIButton()
-    var userData: UserData?
+    var userDataVM: UserDataVM?
     var item: YPMediaItem?
     
     override func viewDidLoad() {
@@ -50,7 +50,7 @@ class TagUsersVC: UIViewController {
         print("This is touchPoint \(touchPoint)")
         let tagUserTableView = storyboard?.instantiateViewController(identifier: "tagUserTableView") as! TagUserTableView
        // let currentUsernameText : String = userData!.publicID
-        tagUserTableView.userData = self.userData
+        tagUserTableView.userDataVM = self.userDataVM
         tagUserTableView.tagCGPoint = touchPoint
         tagUserTableView.scaleCGPoint = CGPoint(x: self.tagImage.frame.width, y: self.tagImage.frame.height)
         var percentWidthX = touchPoint.x/tagUserTableView.scaleCGPoint!.x

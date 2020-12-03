@@ -20,18 +20,18 @@ class MenuView: UIView {
     var dmButton: UIButton = UIButton()
     var homeProfileButton: UIButton =  UIButton()
     var tabController: NavigationMenuBaseController?
-    var userData: UserData? {
-        didSet {
-            if (tabController != nil) {
-                let viewControllers = tabController!.customizableViewControllers!
-                (viewControllers[0] as! NotificationsVC).userData = userData
-                (viewControllers[2] as! HomeHexagonGrid).userData = userData
-                (viewControllers[2] as! HomeHexagonGrid).setUpPageViewListener()
-                (viewControllers[3] as! FriendsAndFeaturedVC).userData = userData
-                (viewControllers[4] as! NewPostColorfulVC).userData = userData
-            }
-        }
-    }
+//    var userData: UserData? {
+//        didSet {
+//            if (tabController != nil) {
+//                let viewControllers = tabController!.customizableViewControllers!
+//                (viewControllers[0] as! NotificationsVC).userData = userData
+//                (viewControllers[2] as! HomeHexagonGrid).userData = userData
+//                (viewControllers[2] as! HomeHexagonGrid).setUpPageViewListener()
+//                (viewControllers[3] as! FriendsAndFeaturedVC).userData = userData
+//                (viewControllers[4] as! NewPostColorfulVC).userData = userData
+//            }
+//        }
+//    }
     var db = Firestore.firestore()
     var user = Auth.auth().currentUser
     
@@ -59,45 +59,45 @@ class MenuView: UIView {
     
     func addBehavior() {
         
-        if userData == nil {
-            user = Auth.auth().currentUser
-            if user != nil {
-                db.collection("UserData1").whereField("email", isEqualTo: user!.email!).addSnapshotListener({ objects, error in
-                    if error == nil {
-                        guard let docs = objects?.documents
-                            else{
-                                print("bad docs")
-                                return
-                        }
-                        
-                        if docs.count == 0 {
-                            print("no userdata found for this user.  Return to sign in")
-                            do {
-                                try Auth.auth().signOut()
-                            }
-                            catch {
-                                print("could not sign out from firebase")
-                            }
-                            self.user = nil
-                            self.userData = nil
-                            self.tabController?.customTabBar.switchTab(from: self.currentTab, to: 5)
-                        }
-                        else if docs.count > 1 {
-                            print("multiple user data.... fix this")
-                        }
-                        else {
-                            self.userData = UserData(dictionary: docs[0].data())
-                        }
-                    }
-                })
-            }
-            else {
-                print("no user signed in.  Transitioning to sign in")
-                self.user = nil
-                self.userData = nil
-                self.tabController?.customTabBar.switchTab(from: self.currentTab, to: 5)
-            }
-        }
+//        if userData == nil {
+//            user = Auth.auth().currentUser
+//            if user != nil {
+//                db.collection("UserData1").whereField("email", isEqualTo: user!.email!).addSnapshotListener({ objects, error in
+//                    if error == nil {
+//                        guard let docs = objects?.documents
+//                            else{
+//                                print("bad docs")
+//                                return
+//                        }
+//
+//                        if docs.count == 0 {
+//                            print("no userdata found for this user.  Return to sign in")
+//                            do {
+//                                try Auth.auth().signOut()
+//                            }
+//                            catch {
+//                                print("could not sign out from firebase")
+//                            }
+//                            self.user = nil
+//                            self.userData = nil
+//                            self.tabController?.customTabBar.switchTab(from: self.currentTab, to: 5)
+//                        }
+//                        else if docs.count > 1 {
+//                            print("multiple user data.... fix this")
+//                        }
+//                        else {
+//                            self.userData = UserData(dictionary: docs[0].data())
+//                        }
+//                    }
+//                })
+//            }
+//            else {
+//                print("no user signed in.  Transitioning to sign in")
+//                self.user = nil
+//                self.userData = nil
+//                self.tabController?.customTabBar.switchTab(from: self.currentTab, to: 5)
+//            }
+//        }
         
         
         self.isUserInteractionEnabled = false
@@ -262,7 +262,7 @@ class MenuView: UIView {
         profileGrid.menuView.notificationLabel.isHidden = true
         
         
-        profileGrid.userData = userData
+        //profileGrid.userData = userData
         tabController!.viewControllers![3] = profileGrid
        // tabController!.viewControllers![currentTab]
         tabController!.customTabBar.switchTab(from: currentTab, to: 3)
@@ -277,7 +277,7 @@ class MenuView: UIView {
         newPostVC.menuView.notificationsButton.isHidden = true
         newPostVC.menuView.homeProfileButton.isHidden = true
         newPostVC.menuView.notificationLabel.isHidden = true
-        newPostVC.userData = userData
+        //newPostVC.userData = userData
         tabController!.viewControllers![4] = newPostVC
         tabController!.customTabBar.switchTab(from: currentTab, to: 4)
     }
@@ -285,7 +285,7 @@ class MenuView: UIView {
     @objc func notificationsButtonClicked(_ sender: UIButton) {
         let viewControllers = tabController!.customizableViewControllers!
         let notificationsVC = (viewControllers[0] as! NotificationsVC)
-        notificationsVC.userData = userData
+        //notificationsVC.userData = userData
         notificationsVC.menuView.dmButton.isHidden = true
         notificationsVC.menuView.newPostButton.isHidden = true
         notificationsVC.menuView.friendsButton.isHidden = true
@@ -299,7 +299,7 @@ class MenuView: UIView {
     @objc func homeButtonClicked(_ sender: Any) {
         let viewControllers = tabController!.customizableViewControllers!
         let homeVC = (viewControllers[2] as! HomeHexagonGrid)
-        homeVC.userData = userData
+        //homeVC.userData = userData
         homeVC.menuView.dmButton.isHidden = true
         homeVC.menuView.newPostButton.isHidden = true
         homeVC.menuView.friendsButton.isHidden = true

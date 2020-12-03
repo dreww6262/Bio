@@ -14,7 +14,7 @@ class ReportPostTableView: QuickTableViewController {
     var navBarView = NavBarView()
     
     //var tabController = NavigationMenuBaseController()
-    var userData: UserData? = nil
+    var userDataVM: UserDataVM?
     //var menuView = MenuView()
     var reportOptions = ["Nudity or sexual activity", "Hate speech or symbols", "Violence or dangerous organizations", "Sale of illegal or regulated goods", "Bullying or harassment", "Intellectual property violation", "Suicide, self-injury or eating disorders", "Scam or fraud", "false information", "Other"]
     var titleLabel1 = UILabel()

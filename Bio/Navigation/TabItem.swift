@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Firebase
+
 enum TabItem: String, CaseIterable {
     case home = "Home"
     case friends = "Friends"
@@ -16,35 +18,48 @@ enum TabItem: String, CaseIterable {
     case signIn
 var viewController: UIViewController {
     let storyboard = UIStoryboard(name: "Main", bundle: nil)
+    let currentEmail = Auth.auth().currentUser?.email
+    let userDataVM = { () -> UserDataVM in
+        if currentEmail != nil {
+            return UserDataVM(email: currentEmail!)
+        }
+        return UserDataVM()
+    }()
         switch self {
         case .home:
             let homeVC = storyboard.instantiateViewController(identifier: "homeHexGrid420") as! HomeHexagonGrid
+            homeVC.userDataVM = userDataVM
             homeVC.loadView()
             homeVC.viewDidLoad()
             return homeVC
     
         case .friends:
             let friendsVC = storyboard.instantiateViewController(identifier: "friendsAndFeaturedVC") as! FriendsAndFeaturedVC
+            friendsVC.userDataVM = userDataVM
             friendsVC.loadView()
             friendsVC.viewDidLoad()
             return friendsVC
         case .addPost:
             let newPostVC = storyboard.instantiateViewController(identifier: "newPostVC") as! NewPostColorfulVC
+            newPostVC.userDataVM = userDataVM
             newPostVC.loadView()
             newPostVC.viewDidLoad()
             return newPostVC
         case .notifications:
             let notifications = storyboard.instantiateViewController(identifier: "newsVC") as! NotificationsVC
+            notifications.userDataVM = userDataVM
             notifications.loadView()
             notifications.viewDidLoad()
             return notifications
         case .dms:
             let homeVC = storyboard.instantiateViewController(identifier: "newPostVC") as! NewPostColorfulVC
+            homeVC.userDataVM = userDataVM
             homeVC.loadView()
             homeVC.viewDidLoad()
             return homeVC
         case .signIn:
             let signInVC = storyboard.instantiateViewController(identifier:"phoneSignIn") as! PhoneSignInVC
+            signInVC.userDataVM = userDataVM
             signInVC.loadView()
             signInVC.viewDidLoad()
             return signInVC

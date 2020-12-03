@@ -64,7 +64,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     var backButton = UIButton()
     
     var currentUser: User? = Auth.auth().currentUser
-    var userData: UserData?
+    var userDataVM: UserDataVM?
     var userDataRef: DocumentReference? = nil
     let db = Firestore.firestore()
     let storageRef = Storage.storage().reference()
@@ -108,12 +108,6 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         
         setUpNavBarView()
         
-        if (userData == nil) {
-            print("userdata is nil")
-        }
-        else {
-            print("loaded addVC with userdata: \(userData!.publicID) and user \(currentUser!.email)")
-        }
         
         let linkTap = UITapGestureRecognizer(target: self, action: #selector(AddLinkVCViewController.loadImg(_:)))
         linkTap.numberOfTapsRequired = 1
@@ -247,8 +241,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     
     
     override func viewWillAppear(_ animated: Bool) {
-        print("userData, view will appear: \(userData)")
-        hasChosenThumbnailImage = false 
+        hasChosenThumbnailImage = false
     }
     
     @objc func skipTapped(_ sender: UITapGestureRecognizer) {
@@ -384,6 +377,10 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     
     // clicked sign up
     @objc func postTapped(_ sender: UITapGestureRecognizer) {
+        let userData = userDataVM?.userData.value
+        if userData == nil {
+            return
+        }
         let username = userData!.publicID
         let numPosts = userData!.numPosts
         
@@ -449,7 +446,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
                 else {
                     previewVC.thumbImage = UIImage(named: "linkCenter")
                 }
-                previewVC.userData = userData
+                previewVC.userDataVM = userDataVM
                 previewVC.modalPresentationStyle = .fullScreen
                 self.present(previewVC, animated: false, completion: nil)
             }

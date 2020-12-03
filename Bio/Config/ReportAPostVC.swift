@@ -20,7 +20,7 @@ class ReportAPostVC: QuickTableViewController {
     
     var hexData: HexagonStructData?
     //var tabController = NavigationMenuBaseController()
-    var userData: UserData? = nil
+    var userDataVM: UserDataVM? = nil
     //var menuView = MenuView()
  var myAccountArray = ["Name",
  "Username",
@@ -75,7 +75,6 @@ var titleLabel1 = UILabel()
 //        backButton1.setTitleColor(.systemBlue, for: .normal)
 //        titleLabel1.text = "Settings"
         super.viewDidLoad()
-        print("Report A Post VC userdata: \(userData)")
         setUpNavBarView()
 //
 
@@ -183,7 +182,7 @@ let dismissTap = UITapGestureRecognizer(target: self, action: #selector(self.bac
                 print("This is the reason: \(reason)")
                 let reportObjectref = self!.db.collection("ReportedPosts")
                    let reportDoc = reportObjectref.document()
-                let reportObject = ReportedPostObject(reason: reason,post: (self?.hexData?.thumbResource)!, userReporting: self!.userData?.publicID ?? "unable to find userData.publicID", userWhoWasReported: (self?.hexData!.postingUserID)!)
+                let reportObject = ReportedPostObject(reason: reason,post: (self?.hexData?.thumbResource)!, userReporting: self!.userDataVM?.userData.value?.publicID ?? "unable to find userData.publicID", userWhoWasReported: (self?.hexData!.postingUserID)!)
                    reportDoc.setData(reportObject.dictionary){ error in
                        if error == nil {
                         UIDevice.vibrate()

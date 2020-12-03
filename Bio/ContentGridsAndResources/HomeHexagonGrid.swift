@@ -46,7 +46,7 @@ var navBarView = NavBarView()
     // Firebase stuff
     var pageViewListener: ListenerRegistration?
     var user = Auth.auth().currentUser
-    var userData: UserData?
+    var userDataVM: UserDataVM?
     let db = Firestore.firestore()
     let storage = Storage.storage().reference()
     var contentPages: ContentPagesVC?
@@ -92,7 +92,7 @@ var navBarView = NavBarView()
     override func viewDidLoad() {
         super.viewDidLoad()
         contentPages = storyboard?.instantiateViewController(identifier: "contentPagesVC")
-        contentPages!.userData = userData
+        contentPages!.userDataVM = userDataVM
         let addTap = UITapGestureRecognizer(target: self, action: #selector(addHexagonTapped))
         plusHexagon.addGestureRecognizer(addTap)
         //print("This is reordered count before append \(reOrderedCoordinateArrayPoints.count)")
@@ -110,31 +110,12 @@ var navBarView = NavBarView()
         toSearchButton.isHidden = false
         toSettingsButton.isHidden = false
         
-        
-        if userData == nil {
-            user = Auth.auth().currentUser
-            if (user != nil) {
-                db.collection("UserData1").whereField("email", isEqualTo: user!.email!).getDocuments(completion: { objects, error in
-                    if error == nil {
-                        guard let docs = objects?.documents
-                        else{
-                            print("bad docs")
-                            return
-                        }
-                        
-                        if docs.count == 0 {
-                            print("no userdata found.... fix this")
-                        }
-                        else if docs.count > 1 {
-                            print("multiple user data.... fix this")
-                        }
-                        else {
-                            self.userData = UserData(dictionary: docs[0].data())
-                        }
-                    }
-                    
-                })
+        userDataVM?.userData.observe { userData in
+            if (userData == nil) {
+                return
             }
+            // do changes? maybe refresh
+            self.refresh()
         }
         
     }
@@ -372,52 +353,51 @@ var navBarView = NavBarView()
     func refresh() {
         //loadView()
         
-        if (userData != nil) {
+        if (userDataVM?.userData.value != nil) {
 //            print("populates without getting userdata")
             populateUserAvatar()
-            menuView.userData = userData
+            //menuView.userData = userData
             createImageViews(completion: {
             })
             
             return
         }
-        user = Auth.auth().currentUser
-        if (user != nil) {
-            db.collection("UserData1").whereField("email", isEqualTo: user!.email!).getDocuments(completion: { objects, error in
-                if (error == nil) {
-                    if (objects!.documents.capacity > 0) {
-                        let newData = UserData(dictionary: objects!.documents[0].data())
-                        if (self.userData == nil || !NSDictionary(dictionary: newData.dictionary).isEqual(to: self.userData!.dictionary)) {
-                            self.userData = newData
-//                            print("populates after getting userdata")
-                            if (self.userData != nil) {
-                                self.populateUserAvatar()
-                                self.menuView.userData = newData
-                                self.createImageViews(completion: {
-                                })
-                            }
-                            //                        print("created image views")
-                        }
-                        else {
-                            //                        print("nothing changed")
-                        }
-                        
-                    }
-                    else {
-                        print("getting userdata failed: no users by that email")
-                    }
-                }
-                else {
-                    print("error on getting userdata before adding image views")
-                }
-            })
-        }
+//        user = Auth.auth().currentUser
+//        if (user != nil) {
+//            db.collection("UserData1").whereField("email", isEqualTo: user!.email!).getDocuments(completion: { objects, error in
+//                if (error == nil) {
+//                    if (objects!.documents.capacity > 0) {
+//                        let newData = UserData(dictionary: objects!.documents[0].data())
+//                        if (self.userData == nil || !NSDictionary(dictionary: newData.dictionary).isEqual(to: self.userData!.dictionary)) {
+//                            self.userData = newData
+//                            if (self.userData != nil) {
+//                                self.populateUserAvatar()
+//                                self.menuView.userData = newData
+//                                self.createImageViews(completion: {
+//                                })
+//                            }
+//                            //                        print("created image views")
+//                        }
+//                        else {
+//                            //                        print("nothing changed")
+//                        }
+//
+//                    }
+//                    else {
+//                        print("getting userdata failed: no users by that email")
+//                    }
+//                }
+//                else {
+//                    print("error on getting userdata before adding image views")
+//                }
+//            })
+//        }
     }
     
     // search button logic
     @objc func toSearchButtonClicked(_ recognizer: UITapGestureRecognizer) {
         let userTableVC = storyboard?.instantiateViewController(identifier: "userTableView") as! UserTableView
-        userTableVC.userData = userData
+        userTableVC.userDataVM = userDataVM
         present(userTableVC, animated: false)
         //        print("frame after pressed \(toSearchButton.frame)")
         
@@ -425,9 +405,8 @@ var navBarView = NavBarView()
     
     @objc func toSettingsButtonClicked(_ recognizer: UITapGestureRecognizer) {
         
-        let userdata = self.userData
         let settingsVC = self.storyboard!.instantiateViewController(identifier: "settingsVC") as! ProfessionalSettingsVC
-        settingsVC.userData = userdata
+        settingsVC.userDataVM = userDataVM
     
         self.present(settingsVC, animated: false)
         settingsVC.modalPresentationStyle = .fullScreen
@@ -435,7 +414,7 @@ var navBarView = NavBarView()
     
     func createImageViews(completion: @escaping () -> ()) {
         var newPostImageArray = [PostImageView]()
-        db.collection("Hexagons2").whereField("postingUserID", isEqualTo: userData!.publicID).getDocuments(completion: { objects, error in
+        db.collection("Hexagons2").whereField("postingUserID", isEqualTo: userDataVM!.userData.value!.publicID).getDocuments(completion: { objects, error in
             if error == nil {
                 guard let docs = objects?.documents else {
                     print("get hex failed")
@@ -535,7 +514,7 @@ var navBarView = NavBarView()
             c += 1
         }
         contentPages!.hexData = hexDatas
-        contentPages!.userData = self.userData
+        contentPages!.userDataVM = userDataVM
         
         DispatchQueue.global().async {
             let dispatchGroup = DispatchGroup()
@@ -547,8 +526,11 @@ var navBarView = NavBarView()
             }
             if (repeats.count > 0) {
                 dispatchGroup.notify(queue: .main) {
-                    self.userData?.numPosts = posts.count
-                    self.db.collection("UserData1").document(self.user!.uid).setData(self.userData!.dictionary)
+                    let userData = self.userDataVM?.userData.value
+                    userData?.numPosts = posts.count
+                    if (userData != nil) {
+                        self.userDataVM?.updateUserData(newUserData: userData!, completion: {_ in})
+                    }
                 }
             }
         }
@@ -747,26 +729,7 @@ var navBarView = NavBarView()
             menuView.tabController = (tabBarController! as! NavigationMenuBaseController)
         }
         scrollView.zoomScale = 1
-        
-        if (userData == nil) {
-            user = Auth.auth().currentUser
-            if (user != nil) {
-                db.collection("UserData1").whereField("email", isEqualTo: user!.email!).getDocuments(completion: { objects, error in
-                    if (error == nil) {
-                        if (objects!.documents.capacity > 0) {
-                            let newData = UserData(dictionary: objects!.documents[0].data())
-                            self.menuView.userData = newData
-                            self.userData = newData
-                            self.refresh()
-                        }
-                    }
-                })
-            }
-        }
-        else {
-            menuView.userData = userData
-            refresh()
-        }
+        refresh()
         toSearchButton.isHidden = false
         toSettingsButton.isHidden = false
         followView.isHidden = false
@@ -1001,8 +964,11 @@ var navBarView = NavBarView()
         let docRef = db.collection("Hexagons2").document(hexImage.hexData!.docID)
         docRef.setData(hexImage.hexData!.dictionary) { error in
             if error == nil {
-                self.userData!.numPosts -= 1
-                self.db.collection("UserData1").document(self.userData!.privateID).setData(self.userData!.dictionary)
+                let userData = self.userDataVM?.userData.value
+                userData?.numPosts -= 1
+                if userData != nil {
+                    self.userDataVM?.updateUserData(newUserData: userData!, completion: {_ in})
+                }
             }
         }
         for hex in imageViewArray {
@@ -1185,7 +1151,6 @@ var navBarView = NavBarView()
         newPostVC.menuView.notificationsButton.isHidden = true
         newPostVC.menuView.homeProfileButton.isHidden = true
         newPostVC.menuView.notificationLabel.isHidden = true
-        newPostVC.userData = userData
         menuView.tabController!.viewControllers![4] = newPostVC
         menuView.tabController!.customTabBar.switchTab(from: menuView.currentTab, to: 4)
     }
@@ -1276,17 +1241,17 @@ var navBarView = NavBarView()
     }
         let copy = UIAction(title: "Change Profile Picture", image: .none) { _ in
         let editProfilePhotoVC = self.storyboard?.instantiateViewController(identifier: "editProfilePhotoVC2") as! EditProfilePhotoVC2
-        editProfilePhotoVC.userData = self.userData
+            editProfilePhotoVC.userDataVM = self.userDataVM
         self.present(editProfilePhotoVC, animated: false)
     }
         let followers = UIAction(title: "Followers", image: .none) { _ in
             let followersTableView = self.storyboard?.instantiateViewController(identifier: "followersTableView") as! FollowersTableView
-            followersTableView.userData = self.userData
+            followersTableView.userDataVM = self.userDataVM
             self.present(followersTableView, animated: false)
         }
         let following = UIAction(title: "Following", image: .none) { _ in
             let followingTableView = self.storyboard?.instantiateViewController(identifier: "followingTableView") as! FollowingTableView
-            followingTableView.userData = self.userData
+            followingTableView.userDataVM = self.userDataVM
             self.present(followingTableView, animated: false)
         }
         
@@ -1336,13 +1301,13 @@ var navBarView = NavBarView()
 //        shrinkImage(imageView: avaImage!)
        // var mySize = avaImage?.bounds*
         
-        if (userData == nil) {
+        if (userDataVM?.userData.value == nil) {
             return
         }
-        let cleanRef = userData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
-        let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
-        if url != nil {
-        avaImage!.sd_setImage(with: url!, completed: {_, error, _, _ in
+        let cleanRef = userDataVM?.userData.value?.avaRef.replacingOccurrences(of: "/", with: "%2F")
+        let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef ?? "")?alt=media")
+        if cleanRef != nil && url != nil {
+        avaImage!.sd_setImage(with: url!, placeholderImage: UIImage(named: "boyprofile"), completed: {_, error, _, _ in
             if error != nil {
                 print(error!.localizedDescription)
             }
@@ -1351,11 +1316,6 @@ var navBarView = NavBarView()
         else {
             avaImage?.image = UIImage(named: "boyprofile")
         }
-        
-        
-        
-   
-    
     }
     
     func scrollIfNeeded(location: CGPoint, xDelta: CGFloat, yDelta: CGFloat) {
@@ -1426,8 +1386,8 @@ var navBarView = NavBarView()
     
     @objc func handleProfilePicTap(_ sender: UITapGestureRecognizer) {
         let guestProfileVC = self.storyboard!.instantiateViewController(identifier: "guestProfileVC") as! GuestProfileVC
-        guestProfileVC.guestUserData = userData
-        guestProfileVC.userData = userData
+        guestProfileVC.guestUserData = userDataVM?.userData.value
+        guestProfileVC.userDataVM = userDataVM
      //   guestProfileVC.isFollowing = sender.view?.tag == 1
         self.present(guestProfileVC, animated: false)
         self.modalPresentationStyle = .fullScreen
@@ -1440,13 +1400,18 @@ var navBarView = NavBarView()
 //        print("Tried to click profile pic handle later")
         menuView.menuButton.isHidden = true
         newImageView = UIImageView(image: UIImage(named: "kbit"))
-        let cleanRef = userData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
-        let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
-        newImageView.sd_setImage(with: url!, completed: {_, error, _, _ in
-            if error != nil {
-                print(error!.localizedDescription)
-            }
-        })
+        let cleanRef = userDataVM?.userData.value?.avaRef.replacingOccurrences(of: "/", with: "%2F")
+        let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef ?? "")?alt=media")
+        if cleanRef != nil && url != nil {
+            newImageView.sd_setImage(with: url!, completed: {_, error, _, _ in
+                if error != nil {
+                    print(error!.localizedDescription)
+                }
+            })
+        }
+        else {
+            newImageView.image = UIImage(named: "boyprofile")
+        }
         
         self.view.addSubview(newImageView)
         
@@ -1555,7 +1520,7 @@ var navBarView = NavBarView()
         else {
             contentPages!.currentIndex = hexItem.location - 1
             contentPages!.modalPresentationStyle = .fullScreen
-            contentPages!.userData = self.userData
+            contentPages!.userDataVM = userDataVM
             self.present(contentPages!, animated: false, completion: nil)
             
         }
@@ -1579,8 +1544,6 @@ var navBarView = NavBarView()
         
         
     @IBAction func unvindSegueSignOut(segue: UIStoryboardSegue) {
-        menuView.userData = nil
-        user = nil
         do {
             try Auth.auth().signOut()
         }
@@ -1593,6 +1556,7 @@ var navBarView = NavBarView()
     
     func setUpPageViewListener() {
         pageViewListener?.remove()
+        let userData = userDataVM?.userData.value
         if (userData == nil) {
             return
         }

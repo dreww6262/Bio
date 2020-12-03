@@ -19,7 +19,7 @@ class EditProfilePhotoVC: UIViewController, UIImagePickerControllerDelegate & UI
     let auth = Auth.auth()
     var navBarView = NavBarView()
     var titleLabel1 = UILabel()
-    var userData: UserData?
+    var userDataVM: UserDataVM?
     
     override func viewDidLoad() {
         super.viewDidLoad()

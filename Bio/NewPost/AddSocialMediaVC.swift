@@ -80,8 +80,7 @@ class AddSocialMediaVC: UIViewController {
     @IBOutlet weak var interactivePoshmarkTxt: UITextField!
     
     var currentUser: User? = Auth.auth().currentUser
-    var userData: UserData?
-    var userDataRef: DocumentReference? = nil
+    var userDataVM: UserDataVM?
     let db = Firestore.firestore()
     var cancelLbl: String?
     
@@ -169,13 +168,6 @@ class AddSocialMediaVC: UIViewController {
         
         
         super.viewDidLoad()
-        
-        if (userData == nil) {
-            print("userdata is nil")
-        }
-        else {
-            print("loaded addVC with userdata: \(userData!.publicID) and user \(currentUser!.email)")
-        }
         
         //poshmarkLogo.image = UIImage(named: "poshmarkLogo")
         let gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
@@ -352,10 +344,13 @@ class AddSocialMediaVC: UIViewController {
     
     // clicked sign up
     @IBAction func continueClicked(_ sender: AnyObject) {
-        print("continue button pressed")
         
         // dismiss keyboard
         self.view.endEditing(true)
+        let userData = userDataVM?.userData.value
+        if userData == nil {
+            return
+        }
         
         // if fields are empty
         if (interactiveInstagramTxt.text!.isEmpty && interactiveSnapchatUsernameTxt.text!.isEmpty && interactiveTwitterHandleTxt.text!.isEmpty && interactiveSoundCloudText.text!.isEmpty && interactiveLinkedInText.text!.isEmpty && interactiveVenmoTxt.text!.isEmpty && interactiveTikTokText.text!.isEmpty && interactivePoshmarkTxt.text!.isEmpty && interactiveHudlText.text!.isEmpty && interactiveTwitchText.text!.isEmpty) {
@@ -499,15 +494,12 @@ class AddSocialMediaVC: UIViewController {
         print("passed wait for social media tiles")
         userData?.numPosts = numPosts
         userData?.lastTimePosted = NSDate.now.description
-        db.collection("UserData1").document(currentUser!.uid).setData(self.userData!.dictionary, completion: { error in
-            if error == nil {
+        userDataVM?.updateUserData(newUserData: userData!, completion: { success in
+            if success {
+                
+            }
                 //present Home View Controller Segue
-                print("present home hex grid")
-                self.performSegue(withIdentifier: "rewindToFront", sender: nil)
-            }
-            else {
-                print("userData not saved \(error?.localizedDescription)")
-            }
+            self.performSegue(withIdentifier: "rewindToFront", sender: nil)
             
         })
         

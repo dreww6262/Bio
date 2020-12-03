@@ -144,6 +144,7 @@ class BlockedUsersVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     
     @objc func deletePressed(_ sender: UITapGestureRecognizer) {
+        let userData = userDataVM?.userData.value
         let cell = sender.view?.superview?.superview as! BlockedCell
         let index = userData!.blockedUsers.firstIndex(of: cell.usernameLabel.text!)
         
@@ -179,7 +180,7 @@ class BlockedUsersVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             tableView.reloadData()
             
         }
-        db.collection("UserData1").document(userData!.privateID).setData(userData!.dictionary)
+        userDataVM?.updateUserData(newUserData: userData!, completion: {_ in })
         
         var blockedUser: UserData?
         var blockedRef: DocumentReference?
@@ -190,9 +191,9 @@ class BlockedUsersVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             if docs.count > 0 {
                 blockedUser = UserData(dictionary: docs[0].data())
                 blockedRef = docs[0].reference
-                let blockedIndex = blockedUser?.isBlockedBy.firstIndex(of: self.userData!.publicID)
+                let blockedIndex = blockedUser?.isBlockedBy.firstIndex(of: userData!.publicID)
                 if blockedIndex == nil  && isBlocking{
-                    blockedUser?.isBlockedBy.append(self.userData!.publicID)
+                    blockedUser?.isBlockedBy.append(userData!.publicID)
                 }
                 else if (!isBlocking && blockedIndex != nil) {
                     blockedUser?.isBlockedBy.remove(at: blockedIndex!)
@@ -205,7 +206,7 @@ class BlockedUsersVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     
     @IBOutlet weak var tableView: UITableView!
-    var userData: UserData?
+    var userDataVM: UserDataVM?
     let db = Firestore.firestore()
     var searchString = ""
     var searchArray = ThreadSafeArray<UserData>()
@@ -310,7 +311,11 @@ class BlockedUsersVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func reloadBlockedUserData() {
-        let chunks = self.userData!.blockedUsers.chunked(into: 5)
+        let userData = userDataVM?.userData.value
+        if userData == nil {
+            return
+        }
+        let chunks = userData!.blockedUsers.chunked(into: 5)
         let group = DispatchGroup()
         for chunk in chunks {
             group.enter()

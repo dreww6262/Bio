@@ -12,8 +12,7 @@ import FirebaseAuth
 import SDWebImage
 
 class AddProfilePhotoVC: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
-    var currentUser: User?
-    var userData: UserData?
+    var userDataVM: UserDataVM?
     var hasOpenedImagePickerAlready = false
     @IBOutlet weak var addProfilePictureButton: UIButton!
     let storage = Storage.storage().reference()
@@ -88,6 +87,10 @@ class AddProfilePhotoVC: UIViewController, UIImagePickerControllerDelegate & UIN
     
     
     @IBAction func signInClicked(_ sender: Any) {
+        let userData = userDataVM?.userData.value
+        if userData == nil {
+            return
+        }
         let loadingIndicator = storyboard?.instantiateViewController(withIdentifier: "loading")
         let blurEffectView: UIVisualEffectView = {
             let blurEffect = UIBlurEffect(style: .dark)
@@ -110,8 +113,9 @@ class AddProfilePhotoVC: UIViewController, UIImagePickerControllerDelegate & UIN
         }
         else {
             print("Set the user's profile picture as the current image")
-            var username = self.userData?.publicID
-            let userDataStorageRef = self.storage.child(self.userData!.avaRef)
+            
+            var username = userData?.publicID
+            let userDataStorageRef = self.storage.child(userData!.avaRef)
             view.addSubview(blurEffectView)
             
             addChild(loadingIndicator!)
@@ -134,7 +138,7 @@ class AddProfilePhotoVC: UIViewController, UIImagePickerControllerDelegate & UIN
                 loadingIndicator?.view.removeFromSuperview()
                 loadingIndicator?.removeFromParent()
                 let addsocialmediaVC = self.storyboard?.instantiateViewController(withIdentifier: "addSocialMediaTableView") as! AddSocialMediaTableView
-                addsocialmediaVC.userData = self.userData
+                addsocialmediaVC.userDataVM = self.userDataVM
                 addsocialmediaVC.currentUser = Auth.auth().currentUser
                 addsocialmediaVC.cancelLbl = "Skip"
                 self.present(addsocialmediaVC, animated: false, completion: nil)

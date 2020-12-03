@@ -25,7 +25,7 @@ class UserCell: UITableViewCell {
     @IBOutlet weak var displayNameLabel: UILabel!
     @IBOutlet weak var followBtn: UIButton!
     var cellHeight = CGFloat()
-    var userData: UserData?
+    var userDataVM: UserDataVM?
     
     let db = Firestore.firestore()
     
@@ -88,6 +88,7 @@ class UserCell: UITableViewCell {
         let cell = self
         let button = self.followView
         let username = cell.usernameLbl.text!
+        let userData = userDataVM?.userData.value
         if userData != nil {
             if button!.tag == 0 {
                 let newFollow = ["follower": userData!.publicID, "following": username]
@@ -115,33 +116,6 @@ class UserCell: UITableViewCell {
                    }
                 
                 
-                
-                
-                
-                
-                //SEND A NOTIFICATION FOR FOLLOWING! SWITCH FROM PARSE TO FIREBASE
-//                if self.usernameBtn.titleLabel?.text != PFUser.current()?.username {
-//                                 let newsObj = PFObject(className: "News")
-//                                 newsObj["by"] = PFUser.current()?.username
-//                                 newsObj["ava"] = PFUser.current()?.object(forKey: "ava") as! PFFile
-//                                 newsObj["to"] = self.usernameBtn.titleLabel!.text
-//                                 newsObj["owner"] = self.usernameBtn.titleLabel!.text
-//                                 newsObj["uuid"] = self.uuidLbl.text
-//                                 newsObj["type"] = "like"
-//                                 newsObj["checked"] = "no"
-//                                 newsObj.saveEventually()
-//                             }
-                
-                
-                
-                
-//
-//                sender.imageView?.image = UIImage(named: "friendCheck")
-//                        button?.tag = 1
-//                        print("It's supposed to change to check")
-//                sender.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
-//                        sender.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
-                
             }
             else {
                 db.collection("Followings").whereField("follower", isEqualTo: userData!.publicID).whereField("following", isEqualTo: username).getDocuments(completion: { objects, error in
@@ -154,36 +128,11 @@ class UserCell: UITableViewCell {
                         }
                     }
                     })
-//                button?.imageView?.image = UIImage(named: "addFriend")
-//                button?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
-//                button?.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
+
                 button?.tag = 0
             }
-//          button?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
-//                         button?.imageView?.frame = CGRect(x: width - width / 3.5 + 20, y: usernameLbl.frame.height - 20, width: width / 3.5, height: width/3.5)
         }
     }
-    
-    
-//    func addNotificationObject(notificationObject: NewsObject, completion: @escaping (Bool) -> Void) {
-//           let notificationObjectref = db.collection("News")
-//           let notificationDoc = notificationObjectref.document()
-//           var notificationCopy = NewsObject(dictionary: notificationObject.dictionary)
-//        notificationCopy.notificationID = notificationObject.notificationID
-//        notificationCopy.createdAt = Date()
-//        notificationCopy.
-//           notificationDoc.setData(notificationCopy.dictionary){ error in
-//               //     group.leave()
-//               if error == nil {
-//                   print("added notification: \(notificationObject)")
-//                   completion(true)
-//               }
-//               else {
-//                   print("failed to add notification \(notificationObject)")
-//                   completion(false)
-//               }
-//           }
-//       }
     
     
 }

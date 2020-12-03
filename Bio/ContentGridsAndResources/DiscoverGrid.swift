@@ -78,7 +78,7 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
     var followingUserDataArray = ThreadSafeArray<UserData>()
     var followerUserDataArray = ThreadSafeArray<UserData>()
     //let db = Firestore.firestore()
-    var userData: UserData?
+    var userDataVM: UserDataVM?
     //var loadUserDataArray: [UserData] = []
     var followersButton = UIButton()
     var followingButton = UIButton()
@@ -379,13 +379,13 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
     
     @objc func toSearchButtonClicked(_ recognizer: UITapGestureRecognizer) {
         let userTableVC = storyboard?.instantiateViewController(identifier: "userTableView") as! UserTableView
-        userTableVC.userData = userData
+        userTableVC.userDataVM = userDataVM
         present(userTableVC, animated: false)
     }
     
     @objc func toSettingsButtonClicked(_ recognizer: UITapGestureRecognizer) {
         let settingsVC = storyboard?.instantiateViewController(identifier: "settingsVC") as! ProfessionalSettingsVC
-        settingsVC.userData = userData
+        settingsVC.userDataVM = userDataVM
         present(settingsVC, animated: false)
     }
     
@@ -432,36 +432,10 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
     
     
     func refresh() {
-        //print("in refresh")
-        user = Auth.auth().currentUser
-        //        print("current user: \(user)")
-        if (user != nil) {
-            if (userData == nil || userData?.email != user?.email) {
-                db.collection("UserData1").document(user!.uid).getDocument(completion: {obj,error in
-                    if (error == nil) {
-                        let data = obj?.data()
-                        if data != nil {
-                            self.userData = UserData(dictionary: obj!.data()!)
-                            self.menuView.userData = self.userData
-                            //                        print("should load followings, userdata was found: \(self.userData?.email)")
-                            self.loadFollowings()
-                            self.loadFollowers()
-                        }
-                        else {
-                            print("Userdata data was nil")
-                        }
-                    }
-                    else {
-                        print("could not load userdata from \(self.user?.email)")
-                        print(error?.localizedDescription)
-                    }
-                })
-            }
-            else {
-                //                print("userData wasnt nil \(userData?.email)")
-                loadFollowings()
-                loadFollowers()
-            }
+        
+        if userDataVM?.userData.value != nil {
+            loadFollowings()
+            loadFollowers()
             loadPopularHexagons()
         }
     }
@@ -471,7 +445,6 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
         super.viewWillAppear(true)
         scrollView.zoomScale = 1
         menuView.tabController = (tabBarController! as! NavigationMenuBaseController)
-        menuView.userData = userData
         refresh()
         toSearchButton.isHidden = false
         toSettingsButton.isHidden = false
@@ -480,6 +453,10 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
     
     
     func loadUpToTenUserDatas(followers: [String], completion: @escaping () -> (), following: Bool) {
+        let userData = userDataVM?.userData.value
+        if userData == nil {
+            return
+        }
         let userDataCollection = self.db.collection("UserData1")
         let userDataQuery = userDataCollection.whereField("publicID", in: followers)
         userDataQuery.getDocuments(completion: { (objects, error) -> Void in
@@ -503,7 +480,7 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
                     
                     if (!readOnlyArray.contains(where: { data in
                         data.publicID == newUserData.publicID
-                    }) && !self.userData!.isBlockedBy.contains(newUserData.publicID) && !self.userData!.blockedUsers.contains(newUserData.publicID)) {
+                    }) && !userData!.isBlockedBy.contains(newUserData.publicID) && !userData!.blockedUsers.contains(newUserData.publicID)) {
                         
                         if (following) {
                             self.followingUserDataArray.append(newElement: newUserData)
@@ -532,6 +509,10 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
     
     // loading followings
     func loadFollowings() {
+        let userData = userDataVM?.userData.value
+        if userData == nil {
+            return
+        }
         if (self.followingUserDataArray.isEmpty()) {
             self.followingUserDataArray.append(newElement: userData!)
             profileCollectionView.reloadData()
@@ -541,7 +522,7 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
             if success {
                 // using 5 for efficiency and less possibility of timeout
                 self.followingUserDataArray.removeAll()
-                self.followingUserDataArray.append(newElement: self.userData!)
+                self.followingUserDataArray.append(newElement: userData!)
                 let chunks = newFollowArray.chunked(into: 5)
                 let group = DispatchGroup()
                 for chunk in chunks {
@@ -561,6 +542,10 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
     }
     
     func createFollowingArray(completion: @escaping ([String], Bool) -> ()) {
+        let userData = userDataVM?.userData.value
+        if userData == nil {
+            return
+        }
         let followCollection = db.collection("Followings")
         let usernameText:String = userData!.publicID
         var newFollowArray = [String]()
@@ -592,6 +577,10 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
     
     // loading followings
     func loadFollowers() {
+        let userData = userDataVM?.userData.value
+        if userData == nil {
+            return
+        }
         if (self.followerUserDataArray.isEmpty()) {
             self.followerUserDataArray.append(newElement: userData!)
             profileCollectionView.reloadData()
@@ -600,7 +589,7 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
             if success {
                 // using 5 for efficiency and less possibility of timeout
                 self.followerUserDataArray.removeAll()
-                self.followerUserDataArray.append(newElement: self.userData!)
+                self.followerUserDataArray.append(newElement: userData!)
                 let chunks = newFollowArray.chunked(into: 5)
                 let group = DispatchGroup()
                 for chunk in chunks {
@@ -617,6 +606,10 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
     }
     
     func createFollowerArray(completion: @escaping ([String], Bool) -> ()) {
+        let userData = userDataVM?.userData.value
+        if userData == nil {
+            return
+        }
         let followCollection = db.collection("Followings")
         let usernameText:String = userData!.publicID
         var newFollowArray = [String]()
@@ -662,14 +655,14 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
     @objc func followersTapped(_ recognizer: UITapGestureRecognizer) {
         print("followers tapped")
         let followersTableVC = storyboard?.instantiateViewController(identifier: "followersTableView") as! FollowersTableView
-        followersTableVC.userData = self.userData
+        followersTableVC.userDataVM = self.userDataVM
         present(followersTableVC, animated: false)
     }
     
     @objc func followingTapped(_ recognizer: UITapGestureRecognizer) {
         print("following tapped")
         let followingTableVC = storyboard?.instantiateViewController(identifier: "followingTableView") as! FollowingTableView
-        followingTableVC.userData = self.userData
+        followingTableVC.userDataVM = self.userDataVM
         present(followingTableVC, animated: false)
         // print("frame after pressed \(toSearchButton.frame)")
         
@@ -685,7 +678,7 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
         let profImage = sender.view as! ProfileImageView
         let guestVC = storyboard?.instantiateViewController(identifier: "guestGridVC") as! GuestHexagonGridVC
         //guestVC.user = user
-        guestVC.myUserData = userData
+        guestVC.userDataVM = userDataVM
         //guestVC.profileImage = self.
         guestVC.guestUserData = profImage.userData
         guestVC.isFollowing = true
@@ -701,7 +694,7 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
         //        print("🎯🎯🎯🎯🎯🎯🎯 I tapped image with associated username: \(username)")
         let guestVC = storyboard?.instantiateViewController(identifier: "guestGridVC") as! GuestHexagonGridVC
         //guestVC.user = user
-        guestVC.myUserData = userData
+        guestVC.userDataVM = userDataVM
         //guestVC.profileImage = self.
         guestVC.guestUserData = followingUserDataArray[sender.view!.tag]
         guestVC.isFollowing = true
@@ -792,6 +785,10 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
     }
     var avaImage: UIImageView?
     func populateUserAvatar() {
+        let userData = userDataVM?.userData.value
+        if userData == nil {
+            return
+        }
         // to for hexstruct array once algorithm done
         if avaImage != nil {
             avaImage?.removeFromSuperview()
@@ -820,9 +817,6 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
         //        shrinkImage(imageView: avaImage!)
         // var mySize = avaImage?.bounds*
         
-        if (userData == nil) {
-            return
-        }
         let cleanRef = userData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
         
@@ -842,7 +836,7 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
     
     @objc func followersButtonPressedToTable(_ sender: UITapGestureRecognizer) {
         let followersTableView = storyboard?.instantiateViewController(identifier: "followersTableView") as! FollowersTableView
-        followersTableView.userData = userData
+        followersTableView.userDataVM = userDataVM
         present(followersTableView, animated: false)
     }
     
@@ -855,7 +849,7 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
     
     @objc func followingButtonPressedToTable(_ sender: UITapGestureRecognizer) {
         let followingTableView = storyboard?.instantiateViewController(identifier: "followingTableView") as! FollowingTableView
-        followingTableView.userData = userData
+        followingTableView.userDataVM = userDataVM
         present(followingTableView, animated: false)
     }
     

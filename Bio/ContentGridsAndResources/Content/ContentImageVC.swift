@@ -13,7 +13,7 @@ class ContentImageVC: UIViewController, UIScrollViewDelegate {
     var showOpenAppButton = false
     var scrollView = UIScrollView()
     var newImageView: UIImageView?
-    var userData: UserData?
+    var userDataVM: UserDataVM?
    // var captionTextField = UITextField()
     
     override func viewDidLoad() {

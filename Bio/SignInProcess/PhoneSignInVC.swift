@@ -27,7 +27,7 @@ class PhoneSignInVC: UIViewController {
     @IBOutlet weak var signUpLabel: UILabel!
     
     @IBOutlet weak var signUpMottoLabel: UILabel!
-    var userData: UserData?
+    var userDataVM: UserDataVM?
     
     //private var loginButton: FBLoginButton!
     
@@ -143,14 +143,14 @@ class PhoneSignInVC: UIViewController {
     
     @IBAction func signInPressed(_ sender: UIButton) {
         let signInVC = storyboard?.instantiateViewController(identifier: "signInVC") as! SignInVC
-               //signUpVC.userData = userData
+               signInVC.userDataVM = userDataVM
                self.present(signInVC, animated: false)
                signInVC.modalPresentationStyle = .fullScreen
     }
     
     @IBAction func createAccountPressed(_ sender: UIButton) {
         let signUpVC = storyboard?.instantiateViewController(identifier: "signUpID") as! GoodBioSignUpVC
-               //signUpVC.userData = userData
+               signUpVC.userDataVM = userDataVM
                self.present(signUpVC, animated: false)
                signUpVC.modalPresentationStyle = .fullScreen
     }
@@ -171,7 +171,7 @@ class PhoneSignInVC: UIViewController {
     @IBAction func unvindSegueToMenu(segue:UIStoryboardSegue) {
         let tabBar = self.tabBarController! as! NavigationMenuBaseController
         let homeHexGrid = (tabBar.viewControllers![2] as! HomeHexagonGrid)
-        homeHexGrid.userData = userData
+        homeHexGrid.userDataVM = userDataVM
         tabBar.viewControllers![2] = homeHexGrid
         tabBar.customTabBar.switchTab(from: 5, to: 2) // to home controller
     }

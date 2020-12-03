@@ -17,7 +17,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
     
     
     //var tabController = NavigationMenuBaseController()
-    var userData: UserData? = nil
+    var userDataVM: UserDataVM?
     //var menuView = MenuView()
     var myAccountArray = ["Name",
                           "Username",
@@ -75,6 +75,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
         //        backButton1.setTitleColor(.systemBlue, for: .normal)
         //        titleLabel1.text = "Settings"
         super.viewDidLoad()
+        let userData = userDataVM?.userData.value
         setUpNavBarView()
         navBarView.backgroundColor = .systemGray6
         var myBirthday = userData?.birthday
@@ -237,48 +238,48 @@ class ProfessionalSettingsVC: QuickTableViewController {
             if row.text == "Change Profile Picture" {
                 let editProfilePhotoVC = self?.storyboard?.instantiateViewController(identifier: "editProfilePhotoVC2") as! EditProfilePhotoVC2
            //     editProfilePhotoVC.userData = self?.userData
-                editProfilePhotoVC.userData = self!.userData
+                editProfilePhotoVC.userDataVM = self!.userDataVM
                 self!.present(editProfilePhotoVC, animated: false)
             }
             
             if row.text == "Email" {
                 let editVC = self?.storyboard?.instantiateViewController(identifier: "editProfileVC") as! EditProfileVC
-                editVC.userData = self!.userData
+                editVC.userDataVM = self!.userDataVM
                 self!.present(editVC, animated: false)
             }
             
             if row.text == "Name" {
                 let editVC = self?.storyboard?.instantiateViewController(identifier: "editProfileVC") as! EditProfileVC
-                editVC.userData = self!.userData
+                editVC.userDataVM = self!.userDataVM
                 self!.present(editVC, animated: false)
             }
             
             if row.text == "Username" {
                 let editVC = self?.storyboard?.instantiateViewController(identifier: "editProfileVC") as! EditProfileVC
-                editVC.userData = self!.userData
+                editVC.userDataVM = self!.userDataVM
                 self!.present(editVC, animated: false)
             }
             
             if row.text == "Bio" {
                 let editVC = self?.storyboard?.instantiateViewController(identifier: "editProfileVC") as! EditProfileVC
-                editVC.userData = self!.userData
+                editVC.userDataVM = self!.userDataVM
                 self!.present(editVC, animated: false)
             }
             if row.text == "Country" {
                 let editVC = self?.storyboard?.instantiateViewController(identifier: "editProfileVC") as! EditProfileVC
-                editVC.userData = self!.userData
+                editVC.userDataVM = self!.userDataVM
                 self!.present(editVC, animated: false)
             }
             
             if row.text == "Followers" {
                 let followersVC = self?.storyboard?.instantiateViewController(identifier: "followersTableView") as! FollowersTableView
-                followersVC.userData = self!.userData
+                followersVC.userDataVM = self!.userDataVM
                 self!.present(followersVC, animated: false)
             }
 
             if row.text == "Following" {
                 let followingVC = self?.storyboard?.instantiateViewController(identifier: "followingTableView") as! FollowingTableView
-                followingVC.userData = self!.userData
+                followingVC.userDataVM = self!.userDataVM
                 self!.present(followingVC, animated: false)
             }
 
@@ -286,14 +287,18 @@ class ProfessionalSettingsVC: QuickTableViewController {
             if row.text == "Change Password" {
                 let changePasswordVC = self?.storyboard?.instantiateViewController(identifier: "changePasswordVC") as! ChangePasswordVC
            //     editProfilePhotoVC.userData = self?.userData
-                changePasswordVC.userData = self!.userData
+                changePasswordVC.userDataVM = self!.userDataVM
                 self!.present(changePasswordVC, animated: false)
             }
             
             if row.text == "Delete Account" {
+                let userData = self!.userDataVM?.userData.value
+                if userData == nil {
+                    return
+                }
                 let alert = UIAlertController(title: "Please, Baby", message: "It'll be different this time.  I promise, I can change.  Just don't delete me.", preferredStyle: UIAlertController.Style.alert)
                 let ok = UIAlertAction(title: "It's Over", style: UIAlertAction.Style.cancel, handler: {_ in
-                    self?.storage.child("userFiles/\(self!.userData!.publicID)")
+                    self?.storage.child("userFiles/\(userData!.publicID)")
                     
                     let loadingIndicator = self?.storyboard?.instantiateViewController(withIdentifier: "loading")
                     
@@ -334,7 +339,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
                         group.leave()
                         // idk if we need to handle anything specifically
                     })
-                    self?.db.collection("Followings").whereField("following", isEqualTo: self!.userData!.publicID).getDocuments(completion: { objects, error in
+                    self?.db.collection("Followings").whereField("following", isEqualTo: userData!.publicID).getDocuments(completion: { objects, error in
                         guard let docs = objects?.documents else {
                             print("left following")
                             group.leave()
@@ -346,7 +351,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
                         print("left following")
                         group.leave()
                     })
-                    self?.db.collection("Followings").whereField("follower", isEqualTo: self!.userData!.publicID).getDocuments(completion: { objects, error in
+                    self?.db.collection("Followings").whereField("follower", isEqualTo: userData!.publicID).getDocuments(completion: { objects, error in
                         guard let docs = objects?.documents else {
                             group.leave()
                             print("left follower")
@@ -360,7 +365,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
 
                         group.leave()
                     })
-                    self?.db.collection("Hexagons2").whereField("postingUserID", isEqualTo: self!.userData!.publicID).getDocuments(completion: { objects, error in
+                    self?.db.collection("Hexagons2").whereField("postingUserID", isEqualTo: userData!.publicID).getDocuments(completion: { objects, error in
                         guard let docs = objects?.documents else {
                             group.leave()
                             print("left hex")
@@ -374,7 +379,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
 
                         group.leave()
                     })
-                    self?.db.collection("News2").whereField("notifyingUser", isEqualTo: self!.userData!.publicID).getDocuments(completion: { objects, error in
+                    self?.db.collection("News2").whereField("notifyingUser", isEqualTo: userData!.publicID).getDocuments(completion: { objects, error in
                         guard let docs = objects?.documents else {
                             print("left news notifying")
 
@@ -388,7 +393,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
 
                         group.leave()
                     })
-                    self?.db.collection("News2").whereField("currentUser", isEqualTo: self!.userData!.publicID).getDocuments(completion: { objects, error in
+                    self?.db.collection("News2").whereField("currentUser", isEqualTo: userData!.publicID).getDocuments(completion: { objects, error in
                         guard let docs = objects?.documents else {
                             group.leave()
                             print("left news current")
@@ -402,7 +407,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
 
                         group.leave()
                     })
-                    self?.db.collection("Tags").whereField("postingUserID", isEqualTo: self!.userData!.publicID).getDocuments(completion: { objects, error in
+                    self?.db.collection("Tags").whereField("postingUserID", isEqualTo: userData!.publicID).getDocuments(completion: { objects, error in
                         guard let docs = objects?.documents else {
                             group.leave()
                             print("left tags posting")
@@ -416,7 +421,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
 
                         group.leave()
                     })
-                    self?.db.collection("Tags").whereField("taggedUser", isEqualTo: self!.userData!.publicID).getDocuments(completion: { objects, error in
+                    self?.db.collection("Tags").whereField("taggedUser", isEqualTo: userData!.publicID).getDocuments(completion: { objects, error in
                         guard let docs = objects?.documents else {
                             print("left tags tagged")
 
@@ -430,7 +435,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
 
                         group.leave()
                     })
-                    self?.db.collection("UserData1").whereField("publicID", isEqualTo: self!.userData!.publicID).getDocuments(completion: { obj, error  in
+                    self?.db.collection("UserData1").whereField("publicID", isEqualTo: userData!.publicID).getDocuments(completion: { obj, error  in
                         guard let docs = obj?.documents else {
                             print("left userdata")
                             group.leave()
@@ -450,6 +455,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
                     print("waiting to notify")
                     group.notify(queue: .main) {
                         print("should sign out")
+                        self?.userDataVM?.kill()
                         self?.performSignout()
                     }
                     
@@ -463,7 +469,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
             
             if row.text == "Blocked Users" {
                 let blockedVC = self?.storyboard?.instantiateViewController(identifier: "blockedVC") as! BlockedUsersVC
-                blockedVC.userData = self?.userData
+                blockedVC.userDataVM = self?.userDataVM
                 self?.present(blockedVC, animated: false, completion: nil)
                 
             }
@@ -492,23 +498,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
     }
     
     @objc func performSignout() {
-        let presenter = presentingViewController
-        if (presenter is HomeHexagonGrid) {
-            let home = presenter as! HomeHexagonGrid
-            home.menuView.userData = nil
-        }
-        else if (presenter is FriendsAndFeaturedVC) {
-            let prof = presenter as! FriendsAndFeaturedVC
-            prof.menuView.userData = nil
-        }
-        else if (presenter is NotificationsVC) {
-            let noti = presenter as! NotificationsVC
-            noti.menuView.userData = nil
-        }
-        else if (presenter is NewPostColorfulVC) {
-            let new = presenter as! NewPostColorfulVC
-            new.menuView.userData = nil
-        }
+        userDataVM?.kill()
         self.performSegue(withIdentifier: "rewindSignOut", sender: self)
     }
     

@@ -21,7 +21,7 @@ class ChangePasswordVC: UIViewController {
     var navBarView = NavBarView()
     var backButton: UIButton?
 
-    var userData: UserData?
+    var userDataVM: UserDataVM?
 
     override func viewDidLoad() {
         super.viewDidLoad()

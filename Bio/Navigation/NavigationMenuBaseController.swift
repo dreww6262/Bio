@@ -29,6 +29,7 @@ class NavigationMenuBaseController: UITabBarController, UINavigationControllerDe
     
     func loadTabBar() {
         let tabItems: [TabItem] = [.notifications, .dms, .home, .friends, .addPost, .signIn]
+        
         self.setupCustomTabMenu(tabItems) { (controllers) in
             self.viewControllers = controllers
         }

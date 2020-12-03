@@ -31,7 +31,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     // Firebase stuff
     var user = Auth.auth().currentUser
     var guestUserData: UserData?
-    var myUserData: UserData?
+    var userDataVM: UserDataVM?
     let db = Firestore.firestore()
     let storage = Storage.storage().reference()
     var profilePicCancelButton = UIButton()
@@ -92,6 +92,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
         addPageView()
         
+        let myUserData = userDataVM?.userData.value
         if (myUserData == nil) {
             return
         }
@@ -105,7 +106,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
             lastDateViewed = dateFormatter.date(from: dateLastViewed!) as NSDate?
         }
         myUserData?.subscriptions[guestUserData?.publicID ?? ""] = NSDate.now.description
-        db.collection("UserData1").document(myUserData!.privateID).setData(myUserData!.dictionary)
+        userDataVM?.updateUserData(newUserData: myUserData!, completion: {_ in })
         
         db.collection("Followings").whereField("follower", isEqualTo: myUserData!.publicID).whereField("following", isEqualTo: guestUserData!.publicID).getDocuments(completion: { obj, error in
             guard let docs = obj?.documents else {
@@ -184,6 +185,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func addPageView() {
+        let myUserData = userDataVM?.userData.value
         db.collection("PageViews").document().setData(["viewer": myUserData?.publicID ?? "no_username", "viewed": guestUserData!.publicID, "viewedAt": Date()]) { _ in
             self.db.collection("PageViews").whereField("viewed", isEqualTo: self.guestUserData!.publicID).getDocuments(completion: { obj, error in
                 if error == nil {
@@ -322,7 +324,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         //        if followLabel.text == "Add" {
         //            print("Follow the user :)")
         
-        
+        let myUserData = userDataVM?.userData.value
         if guestUserData != nil {
             if !isFollowing {
                 let newFollow = ["follower": myUserData!.publicID, "following": guestUserData!.publicID]
@@ -723,7 +725,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         let guestFollowingList = UIAction(title: "View Who \(guestUserData!.displayName) Follows", image: nil) { _ in
     print("TODO: View their users")
             let guestFollowingTableView = self.storyboard?.instantiateViewController(identifier: "followingTableView") as! FollowingTableView
-            guestFollowingTableView.userData = self.guestUserData
+            guestFollowingTableView.userDataVM = self.userDataVM
             self.present(guestFollowingTableView, animated: false)
     }
         
@@ -754,7 +756,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     @IBAction func toSearchButtonClicked(_ sender: UIButton) {
         print("clicked search!")
         let userTableVC = storyboard?.instantiateViewController(identifier: "userTableView") as! UserTableView
-        userTableVC.userData = guestUserData
+        userTableVC.userDataVM = userDataVM
         present(userTableVC, animated: false)
         //        print("frame after pressed \(toSearchButton.frame)")
         
@@ -834,9 +836,8 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     
     @objc func toSettingsClicked(_ recognizer: UITapGestureRecognizer) {
-        let userdata = self.guestUserData
         let settingsVC = self.storyboard!.instantiateViewController(identifier: "settingsVC") as! ProfessionalSettingsVC
-        settingsVC.userData = userdata
+        settingsVC.userDataVM = userDataVM
         
         self.present(settingsVC, animated: false)
         settingsVC.modalPresentationStyle = .fullScreen
@@ -1076,7 +1077,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     @objc func handleProfilePicTap(_ sender: UITapGestureRecognizer) {
         let guestProfileVC = self.storyboard!.instantiateViewController(identifier: "guestProfileVC") as! GuestProfileVC
         guestProfileVC.guestUserData = guestUserData
-        guestProfileVC.userData = myUserData
+        guestProfileVC.userDataVM = userDataVM
      //   guestProfileVC.isFollowing = sender.view?.tag == 1
         self.present(guestProfileVC, animated: false)
         self.modalPresentationStyle = .fullScreen

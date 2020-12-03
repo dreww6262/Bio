@@ -24,25 +24,7 @@ class NotificationsVC: UIViewController {
     var db = Firestore.firestore()
     var listener: ListenerRegistration?
     var unreadNotifications = 0
-    var userData: UserData? {
-        didSet {
-            if (userData != nil) {
-                listener?.remove()
-                listener = db.collection("News2").whereField("notifyingUser", isEqualTo: userData!.publicID).addSnapshotListener({obj, error in
-                    guard let docs = obj?.documents else {
-                        return
-                    }
-                    self.unreadNotifications = 0
-                    for doc in docs {
-                        let checked = doc.get("checked") as! Bool
-                        if (!checked) {
-                            self.unreadNotifications += 1
-                        }
-                    }
-                })
-            }
-        }
-    }
+    var userDataVM: UserDataVM?
     @IBOutlet weak var tableView: UITableView!
     
     var navBarView = NavBarView()
@@ -116,6 +98,10 @@ class NotificationsVC: UIViewController {
     func loadData(completed: @escaping () -> ()) {
 //        print("in load notifications funtion")
         //le;t notificationsQuery = db.collection("News").whereField("currentUser", isEqualTo: userData?.publicID)
+        let userData = userDataVM?.userData.value
+        if userData == nil {
+            return
+        }
         let notificationsQuery = db.collection("News2").whereField("notifyingUser", isEqualTo: userData!.publicID)
 //        print("This is notification query \(notificationsQuery)")
         notificationsQuery.getDocuments(completion: { (querySnapshot, error) in
@@ -311,7 +297,7 @@ class NotificationsVC: UIViewController {
     
     @objc func toSettingsButtonClicked(_ recognizer: UITapGestureRecognizer) {
         let settingsVC = storyboard?.instantiateViewController(identifier: "settingsVC") as! ProfessionalSettingsVC
-        settingsVC.userData = userData
+        settingsVC.userDataVM = userDataVM
         present(settingsVC, animated: false)
     }
     
@@ -327,7 +313,7 @@ class NotificationsVC: UIViewController {
     
     @objc func toSearchButtonClicked(_ recognizer: UITapGestureRecognizer) {
         let userTableVC = storyboard?.instantiateViewController(identifier: "userTableView") as! UserTableView
-        userTableVC.userData = userData
+        userTableVC.userDataVM = userDataVM
         present(userTableVC, animated: false)
     }
     
@@ -363,7 +349,7 @@ class NotificationsVC: UIViewController {
                 else {
                     let userdata = UserData(dictionary: docs[0].data())
                     let guestVC = self.storyboard!.instantiateViewController(identifier: "guestGridVC") as! GuestHexagonGridVC
-                    guestVC.myUserData = self.userData
+                    guestVC.userDataVM = self.userDataVM
                     guestVC.guestUserData = userdata
                     self.present(guestVC, animated: false)
                     self.modalPresentationStyle = .fullScreen
@@ -404,7 +390,7 @@ class NotificationsVC: UIViewController {
                     let userdata = UserData(dictionary: docs[0].data())
                     let guestVC = self.storyboard!.instantiateViewController(identifier: "guestGridVC") as! GuestHexagonGridVC
                     guestVC.guestUserData = userdata
-                    guestVC.myUserData = self.userData
+                    guestVC.userDataVM = self.userDataVM
                     self.present(guestVC, animated: false)
                     self.modalPresentationStyle = .fullScreen
                 }
@@ -446,7 +432,7 @@ class NotificationsVC: UIViewController {
                     let userdata = UserData(dictionary: docs[0].data())
                     let guestVC = self.storyboard!.instantiateViewController(identifier: "guestGridVC") as! GuestHexagonGridVC
                     guestVC.guestUserData = userdata
-                    guestVC.myUserData = self.userData
+                    guestVC.userDataVM = self.userDataVM
                     self.present(guestVC, animated: false)
                     self.modalPresentationStyle = .fullScreen
                 }
@@ -595,7 +581,7 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
             // go guest
             let guest = self.storyboard?.instantiateViewController(withIdentifier: "guestVC") as! GuestHexagonGridVC
             // SET USERDATA
-            guest.myUserData = userData
+            guest.userDataVM = userDataVM
             self.navigationController?.pushViewController(guest, animated: true)
         }
         

@@ -22,7 +22,7 @@ class EditProfilePhotoVC2: UIViewController, UIImagePickerControllerDelegate & U
     
     var backButton = UIButton()
     
-    var userData : UserData?
+    var userDataVM : UserDataVM?
     let auth = Auth.auth()
     var navBarView = NavBarView()
     var titleLabel1 = UILabel()
@@ -34,6 +34,10 @@ class EditProfilePhotoVC2: UIViewController, UIImagePickerControllerDelegate & U
         imageView.isUserInteractionEnabled = true
         imageView.addGestureRecognizer(avaTap)
         imageView.contentMode = .scaleToFill
+        let userData = userDataVM?.userData.value
+        if userData == nil {
+            return
+        }
         let cleanRef = userData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
         
@@ -141,10 +145,8 @@ class EditProfilePhotoVC2: UIViewController, UIImagePickerControllerDelegate & U
             signInButton.setTitle("Confirm New Profile Picture", for: .normal)
         }
         else {
-            print("Set the user's profile picture as the current image 3")
-            var username = self.userData?.publicID
-//            var reference = "userFiles/\(username!)"
-            let userDataStorageRef = self.storage.child(self.userData!.avaRef)
+            let userData = userDataVM?.userData.value
+            let userDataStorageRef = self.storage.child(userData!.avaRef)
             
             let loadingIndicator = storyboard?.instantiateViewController(withIdentifier: "loading")
             

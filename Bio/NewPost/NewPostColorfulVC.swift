@@ -52,7 +52,7 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
     
     let config = FMPhotoPickerConfig()
     
-    var userData: UserData?
+    var userDataVM: UserDataVM?
     
     let menuView = MenuView()
     
@@ -117,12 +117,11 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         super.viewWillAppear(animated)
         menuView.tabController = (tabBarController! as! NavigationMenuBaseController)
-        menuView.userData = userData
         navigationController?.navigationBar.isHidden = true
     }
     @objc func toSettingsButtonClicked(_ recognizer: UITapGestureRecognizer) {
         let settingsVC = storyboard?.instantiateViewController(identifier: "settingsVC") as! ProfessionalSettingsVC
-        settingsVC.userData = userData
+        settingsVC.userDataVM = userDataVM
         present(settingsVC, animated: false)
     }
     
@@ -131,7 +130,7 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
     
     @objc func toSearchButtonClicked(_ recognizer: UITapGestureRecognizer) {
         let userTableVC = storyboard?.instantiateViewController(identifier: "userTableView") as! UserTableView
-        userTableVC.userData = userData
+        userTableVC.userDataVM = userDataVM
         present(userTableVC, animated: false)
     }
     
@@ -230,7 +229,7 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
 
     @objc func tappedSocialMediaView(sender: UITapGestureRecognizer) {
         let addSocialMediaVC = storyboard?.instantiateViewController(identifier: "addSocialMediaTableView") as! AddSocialMediaTableView
-        addSocialMediaVC.userData = userData
+        addSocialMediaVC.userDataVM = userDataVM
         //addSocialMediaVC.cancelLbl = "Cancel"
         //print("This is addSocialMedia.userData \(addSocialMediaVC.userData)")
        // print("2 This is userData from NewPostOptionsVC \(userData)")
@@ -241,7 +240,7 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
     
     @objc func tappedlinkView(sender: UITapGestureRecognizer) {
         let linkVC = storyboard?.instantiateViewController(identifier: "linkVC") as! AddLinkVCViewController
-        linkVC.userData = userData
+        linkVC.userDataVM = userDataVM
         present(linkVC, animated: false)
         modalPresentationStyle = .fullScreen
     }
@@ -249,7 +248,7 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
     @objc func tappedMusicView(sender: UITapGestureRecognizer) {
       //  print("add music pressed want to switch to social media ")
             let musicVC = storyboard?.instantiateViewController(identifier: "addMusicVC") as! AddMusicVC
-            musicVC.userData = userData
+            musicVC.userDataVM = userDataVM
             present(musicVC, animated: false)
             modalPresentationStyle = .fullScreen
     }
@@ -268,7 +267,7 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
            
             if items.count == 1 {
                 let onePostPreviewVC = self.storyboard?.instantiateViewController(identifier: "onePostPreview") as! OnePostPreview
-                onePostPreviewVC.userData = self.userData
+                onePostPreviewVC.userDataVM = self.userDataVM
                 onePostPreviewVC.items = items
                 picker.present(onePostPreviewVC, animated: false, completion: nil)
                 onePostPreviewVC.modalPresentationStyle = .fullScreen
@@ -278,7 +277,7 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
             else if (items.count > 0) {
                 let uploadPreviewVC = self.storyboard?.instantiateViewController(identifier: "newUploadPreviewVC") as! NewUploadPreviewVC
                 //print(photos)
-                uploadPreviewVC.userData = self.userData
+                uploadPreviewVC.userDataVM = self.userDataVM
                 uploadPreviewVC.items = items
                 //picker.dismiss(animated: false, completion: nil)
                 picker.present(uploadPreviewVC, animated: false, completion: nil)

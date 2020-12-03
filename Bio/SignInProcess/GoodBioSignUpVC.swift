@@ -72,8 +72,7 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     var profileImageLabel = UILabel()
     var birthday = ""
     
-    var user: User?
-    var userData: UserData?
+    var userDataVM: UserDataVM?
     //var avaImageExtension = ".jpg"
     
     let storage = Storage.storage().reference()
@@ -408,9 +407,7 @@ var countryFlag = UIImageView()
         Auth.auth().createUser(withEmail: email, password: password, completion: { obj, error in
             if error == nil {
                 guard let obj = obj else { return }
-                self.user = obj.user
-                print("\(self.user!) successfully added")
-                completion(self.user!)
+                completion(obj.user)
             }
             else {
                 print("failed to create user \(error?.localizedDescription)")
@@ -563,29 +560,25 @@ var countryFlag = UIImageView()
             let avaFileRef = userDataStorageRef.child(filename)
             avaFileRef.putData(self.avaImg.image!.pngData()!, metadata: nil, completion: { meta, error in
                 if (error == nil) {
-//<<<<<<< Updated upstream
-                    self.userData = UserData(email: email, publicID: self.usernameTxt.text!.lowercased(), privateID: signedInUser!.uid, avaRef: reference, hexagonGridID: "", userPage: "", subscribedUsers: [""], subscriptions: [String: String](), numPosts: 0, displayName: self.displayNameTxt.text!, birthday: self.birthday, blockedUsers: [String](), isBlockedBy: [String](), pageViews: 0, bio: bio, country: self.countryTextField.text! ?? "", lastTimePosted: NSDate.now.description)
-//=======
-//                    self.userData = UserData(email: email, publicID: self.usernameTxt.text!.lowercased(), privateID: signedInUser!.uid, avaRef: reference, hexagonGridID: "", userPage: "", subscribedUsers: [""], subscriptions: [""], numPosts: 0, displayName: self.displayNameTxt.text!, birthday: self.birthday, blockedUsers: [String](), isBlockedBy: [String](), pageViews: 0, bio: bio, country: self.countryTextField.text! ?? "")
-//>>>>>>> Stashed changes
+                    let userData = UserData(email: email, publicID: self.usernameTxt.text!.lowercased(), privateID: signedInUser!.uid, avaRef: reference, hexagonGridID: "", userPage: "", subscribedUsers: [""], subscriptions: [String: String](), numPosts: 0, displayName: self.displayNameTxt.text!, birthday: self.birthday, blockedUsers: [String](), isBlockedBy: [String](), pageViews: 0, bio: bio, country: self.countryTextField.text ?? "", lastTimePosted: NSDate.now.description)
                     let db = Firestore.firestore()
                     let userDataCollection = db.collection("UserData1")
                     let docRef = userDataCollection.document(user!.uid)
-                    docRef.setData(self.userData!.dictionary, completion: { error in
+                    docRef.setData(userData.dictionary, completion: { error in
                         if error == nil {
                             print("userData posted")
+                            self.userDataVM?.userData.value = userData
+                            self.userDataVM?.retreiveUserData(username: userData.publicID)
                             
                             if self.changedProfilePic == false {
                                 let addProfilePic = self.storyboard?.instantiateViewController(withIdentifier: "addProfilePhotoVC") as! AddProfilePhotoVC
-                                addProfilePic.currentUser = self.user
-                                addProfilePic.userData = self.userData
+                                addProfilePic.userDataVM = self.userDataVM
                                 self.present(addProfilePic, animated: false, completion: nil)
                             }
         // this triggers old/bad sign out process
                             else {
                             let addsocialmediaVC = self.storyboard?.instantiateViewController(withIdentifier: "addSocialMediaTableView") as! AddSocialMediaTableView
-                            addsocialmediaVC.userData = self.userData
-                            addsocialmediaVC.currentUser = self.user
+                                addsocialmediaVC.userDataVM = self.userDataVM
                             addsocialmediaVC.cancelLbl = "Skip"
                             self.present(addsocialmediaVC, animated: false, completion: nil)
                             self.blurEffectView?.removeFromSuperview()
@@ -618,8 +611,7 @@ var countryFlag = UIImageView()
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if changedProfilePic == false {
             var addProfilePic = segue.destination as! AddProfilePhotoVC
-            addProfilePic.currentUser = user
-            addProfilePic.userData = userData
+            addProfilePic.userDataVM = userDataVM
         }
 //this else triggers long/bad sign up process that we want to simplify
 //        else {

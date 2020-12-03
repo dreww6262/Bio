@@ -25,7 +25,7 @@ class FollowersTableView: UIViewController, UISearchBarDelegate {
     var currentUser: User?
     var loadUserDataArray = ThreadSafeArray<UserData>()
     var searchString: String = ""
-    var userData: UserData?
+    var userDataVM: UserDataVM?
     
     var followList = [String]()
     var followListener: ListenerRegistration?
@@ -152,10 +152,13 @@ class FollowersTableView: UIViewController, UISearchBarDelegate {
                     let readOnlyArray = self.loadUserDataArray.readOnlyArray()
                     
                     // TODO: Very inefficient.  Use database operations to make sure data is clean.  Followers shouldnt be too many.  < 100 elements
-                    
+                    let userData = self.userDataVM?.userData.value
+                    if (userData == nil) {
+                        return
+                    }
                     if (!readOnlyArray.contains(where: { data in
                         data.publicID == newUserData.publicID
-                    }) && !self.userData!.isBlockedBy.contains(newUserData.publicID) && !self.userData!.blockedUsers.contains(newUserData.publicID)) {
+                    }) && userData!.isBlockedBy.contains(newUserData.publicID) && userData!.blockedUsers.contains(newUserData.publicID)) {
                         self.loadUserDataArray.append(newElement: newUserData)
                     }
                 }
@@ -192,7 +195,11 @@ class FollowersTableView: UIViewController, UISearchBarDelegate {
     }
     
     func loadFollows(completion: @escaping() -> ()) {
-        followListener = db.collection("Followings").whereField("following", isEqualTo: userData!.publicID).addSnapshotListener({ objects, error in
+        let username = userDataVM?.userData.value?.publicID
+        if (username == nil) {
+            return
+        }
+        followListener = db.collection("Followings").whereField("following", isEqualTo: username).addSnapshotListener({ objects, error in
             if error == nil {
                 self.followList.removeAll(keepingCapacity: true)
                 guard let docs = objects?.documents else {
@@ -290,7 +297,7 @@ class FollowersTableView: UIViewController, UISearchBarDelegate {
                     let userdata = UserData(dictionary: docs[0].data())
                     let guestVC = self.storyboard!.instantiateViewController(identifier: "guestGridVC") as! GuestHexagonGridVC
                     guestVC.guestUserData = userdata
-                    guestVC.myUserData = self.userData
+                    guestVC.userDataVM = self.userDataVM
                     guestVC.isFollowing = sender.view?.tag == 1
                     self.present(guestVC, animated: false)
                     self.modalPresentationStyle = .fullScreen
@@ -379,13 +386,12 @@ extension FollowersTableView: UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print("loadUserDataArray: \(loadUserDataArray.count)")
         let cell = tableView.dequeueReusableCell(withIdentifier: "userCell", for: indexPath) as! UserCell
        // cell.frame.height = self.view.frame.height/10
         cell.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/8)
         let cellTappedRecognizer = UITapGestureRecognizer(target: self, action: #selector(cellTapped))
         cell.addGestureRecognizer(cellTappedRecognizer)
-        cell.userData = userData
+        cell.userDataVM = userDataVM
         //  Configure the cell...
         print("This is cell \(cell)")
         cell.avaImg.sd_setImage(with: storageRef.child(loadUserDataArray[indexPath.row].avaRef))
@@ -398,7 +404,7 @@ extension FollowersTableView: UITableViewDelegate, UITableViewDataSource {
             cell.followView.tag = 1
             cell.tag = 1
         }
-        else if (userData?.publicID == loadUserDataArray[indexPath.row].publicID) {
+        else if (self.userDataVM?.userData.value?.publicID == loadUserDataArray[indexPath.row].publicID) {
             cell.followView.isHidden = true
         }
         else {

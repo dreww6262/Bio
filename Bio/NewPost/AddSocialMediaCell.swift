@@ -18,7 +18,6 @@ class AddSocialMediaCell: UITableViewCell {
 
     let interactiveTextField = UITextField()
 
-    var userData: UserData?
     
     let db = Firestore.firestore()
     

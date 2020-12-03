@@ -69,8 +69,7 @@ class EditLinkPostVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     var backButton = UIButton()
     
     var currentUser: User? = Auth.auth().currentUser
-    var userData: UserData?
-    var userDataRef: DocumentReference? = nil
+    var userDataVM: UserDataVM?
     let db = Firestore.firestore()
     let storageRef = Storage.storage().reference()
     
@@ -122,13 +121,6 @@ class EditLinkPostVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         subtitleText.isHidden = true
         
         setUpNavBarView()
-        
-        if (userData == nil) {
-            print("userdata is nil")
-        }
-        else {
-            print("loaded addVC with userdata: \(userData!.publicID) and user \(currentUser!.email)")
-        }
         
         let linkTap = UITapGestureRecognizer(target: self, action: #selector(AddLinkVCViewController.loadImg(_:)))
         linkTap.numberOfTapsRequired = 1
@@ -252,7 +244,6 @@ class EditLinkPostVC: UIViewController, UIImagePickerControllerDelegate, UINavig
 
     
     override func viewWillAppear(_ animated: Bool) {
-        print("userData, view will appear: \(userData)")
         hasChosenThumbnailImage = false
     }
     
@@ -389,6 +380,11 @@ class EditLinkPostVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     // clicked sign up
     @objc func postTapped(_ sender: UITapGestureRecognizer) {
+        
+        let userData = userDataVM?.userData.value
+        if userData == nil {
+            return
+        }
         let username = userData!.publicID
         let numPosts = userData!.numPosts
         
@@ -464,7 +460,7 @@ class EditLinkPostVC: UIViewController, UIImagePickerControllerDelegate, UINavig
                 else {
                     previewVC.thumbImage = UIImage(named: "linkCenter")
                 }
-                previewVC.userData = userData
+                previewVC.userDataVM = userDataVM
                 previewVC.modalPresentationStyle = .fullScreen
                 self.present(previewVC, animated: false, completion: nil)
             }

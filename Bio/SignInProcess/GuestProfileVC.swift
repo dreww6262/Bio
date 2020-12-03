@@ -50,9 +50,8 @@ var newImageView = UIImageView()
     var profileImageLabel = UILabel()
     var birthday = ""
     
-    var user: User?
     //var userData: UserData?
-    var userData: UserData?
+    var userDataVM: UserDataVM?
     var guestUserData: UserData?
     //var avaImageExtension = ".jpg"
     
@@ -84,13 +83,14 @@ var countryFlag = UIImageView()
     // default func
     override func viewDidLoad() {
         super.viewDidLoad()
+        let userData = userDataVM?.userData.value
         addReturnButton()
         ogAvaImg = avaImg.image!
-        ogEmail = userData!.email ?? ""
-        ogUsername = userData!.publicID ?? ""
-        ogDisplayName = userData!.displayName ?? ""
+        ogEmail = userData?.email ?? ""
+        ogUsername = userData?.publicID ?? ""
+        ogDisplayName = userData?.displayName ?? ""
         ogCountry = userData?.country ?? ""
-        ogBio = userData!.bio ?? ""
+        ogBio = userData?.bio ?? ""
         
         scrollView.addSubview(emailLabel)
         scrollView.addSubview(usernameLabel)
@@ -262,21 +262,21 @@ var countryFlag = UIImageView()
     }
     
     
-    func createUser(email: String, password: String, completion: @escaping (User?) -> Void) {
-        Auth.auth().createUser(withEmail: email, password: password, completion: { obj, error in
-            if error == nil {
-                guard let obj = obj else { return }
-                self.user = obj.user
-                print("\(self.user!) successfully added")
-                completion(self.user!)
-            }
-            else {
-                print("failed to create user \(error?.localizedDescription)")
-                completion(nil)
-            }
-            print("completed")
-        })
-    }
+//    func createUser(email: String, password: String, completion: @escaping (User?) -> Void) {
+//        Auth.auth().createUser(withEmail: email, password: password, completion: { obj, error in
+//            if error == nil {
+//                guard let obj = obj else { return }
+//                self.user = obj.user
+//                print("\(self.user!) successfully added")
+//                completion(self.user!)
+//            }
+//            else {
+//                print("failed to create user \(error?.localizedDescription)")
+//                completion(nil)
+//            }
+//            print("completed")
+//        })
+//    }
     
     func calcAge(birthday: String) -> Int {
         let dateFormater = DateFormatter()

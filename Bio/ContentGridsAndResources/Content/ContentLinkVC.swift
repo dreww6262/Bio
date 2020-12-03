@@ -12,7 +12,7 @@ import WebKit
 class ContentLinkVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
     var captionTextField = UITextField()
     var webHex: HexagonStructData?
-    var userData: UserData?
+    var userDataVM: UserDataVM?
     
     var webView = WKWebView()
     var showOpenAppButton = false

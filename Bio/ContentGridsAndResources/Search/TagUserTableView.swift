@@ -21,7 +21,7 @@ class TagUserTableView: UIViewController, UISearchBarDelegate {
     let db = Firestore.firestore()
     let storageRef = Storage.storage().reference()
     
-    var userData: UserData?
+    var userDataVM: UserDataVM?
     var currentUser: User?
     var loadUserDataArray = ThreadSafeArray<UserData>()
     var searchString = ""
@@ -199,6 +199,11 @@ class TagUserTableView: UIViewController, UISearchBarDelegate {
     }
     
     func loadFollows(completion: @escaping() -> ()) {
+        let userData = userDataVM?.userData.value
+        if userData == nil {
+            return
+        }
+        
         followListener = db.collection("Followings").whereField("follower", isEqualTo: userData!.publicID).addSnapshotListener({ objects, error in
             if error == nil {
                 self.followList.removeAll(keepingCapacity: true)
@@ -295,6 +300,10 @@ class TagUserTableView: UIViewController, UISearchBarDelegate {
     }
     
     @objc func cellTapped(_ sender : UITapGestureRecognizer) {
+        let userData = userDataVM?.userData.value
+        if userData == nil {
+            return
+        }
         let cell  = sender.view as! TagUserCell
         let username = cell.usernameLbl.text!
         let tagPoint =  self.tagCGPoint ?? CGPoint(x: 0, y: 0)
@@ -309,7 +318,7 @@ class TagUserTableView: UIViewController, UISearchBarDelegate {
            let tagDoc = tagObjectref.document()
         //let tagObject1 = NewsObject(ava: userData!.avaRef, type: "follow", currentUser: userData!.publicID, notifyingUser: cell.usernameLbl.text!, thumbResource: userData!.avaRef, createdAt: NSDate.now.description, checked: false, notificationID: tagDoc.documentID)
         
-        let tagObject = TagObject(postingUserID: userData?.publicID ?? "", type: "photo", taggedUser: username, thumbResource: "", createdAt: NSDate.now.description, notificationID: tagDoc.documentID, percentWidthX: percentWidthX, percentHeightY: percentHeightY)
+        let tagObject = TagObject(postingUserID: userData!.publicID, type: "photo", taggedUser: username, thumbResource: "", createdAt: NSDate.now.description, notificationID: tagDoc.documentID, percentWidthX: percentWidthX, percentHeightY: percentHeightY)
         
         
            tagDoc.setData(tagObject.dictionary){ error in
@@ -408,11 +417,12 @@ extension TagUserTableView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         print("loadUserDataArray: \(loadUserDataArray.count)")
         let cell = tableView.dequeueReusableCell(withIdentifier: "tagUserCell", for: indexPath) as! TagUserCell
+        let userData = userDataVM?.userData.value
        // cell.frame.height = self.view.frame.height/10
         cell.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/8)
         let cellTappedRecognizer = UITapGestureRecognizer(target: self, action: #selector(cellTapped))
         cell.addGestureRecognizer(cellTappedRecognizer)
-        cell.userData = userData
+        cell.userDataVM = userDataVM
         cell.followView.isHidden = true
         //  Configure the cell...
         print("This is cell \(cell)")
