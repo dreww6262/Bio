@@ -63,6 +63,7 @@ class EditLinkPostVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     var textOverlayTextField = UITextField()
     
     var linkHexagonImage = UIImageView()
+    var linkHexagonImageCopy = UIImageView()
     // buttons
     
     var postButton = UIButton()
@@ -110,6 +111,18 @@ class EditLinkPostVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         checkBox.addGestureRecognizer(checkBoxTap)
         checkBox.setImage(UIImage(named: "blueEmpty"), for: .normal)
         textOverlayTextField.delegate = self
+        
+        linkHexagonImageCopy.contentMode = .scaleAspectFit
+       // linkHexagonImageCopy.image = UIImage(named: "addCover")
+        scrollView.addSubview(linkHexagonImageCopy)
+        linkHexagonImage.isHidden = false
+        linkHexagonImageCopy.isHidden = true
+        
+        let linkTapCopy = UITapGestureRecognizer(target: self, action: #selector(AddLinkVCViewController.loadImg(_:)))
+        linkHexagonImageCopy.isUserInteractionEnabled = true
+        linkHexagonImageCopy.addGestureRecognizer(linkTapCopy)
+        
+        
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboard(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboard(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -167,6 +180,11 @@ class EditLinkPostVC: UIViewController, UIImagePickerControllerDelegate, UINavig
       
         
         linkHexagonImage.frame = CGRect(x: 40, y: navBarView.frame.maxY + 10, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
+        
+        linkHexagonImageCopy.frame = CGRect(x: 40, y: navBarView.frame.maxY + 10, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
+        
+        linkHexagonImageCopy.setupHexagonMask(lineWidth: linkHexagonImageCopy.frame.width/15, color: myCoolBlue, cornerRadius: linkHexagonImageCopy.frame.width/15)
+        
         changeCoverLabel.frame = CGRect(x: 10, y: linkHexagonImage.frame.origin.y + scrollView.frame.width/2, width: self.view.frame.size.width - 20, height: 30)
         linkTextField.frame = CGRect(x: 10, y: linkHexagonImage.frame.maxY, width: self.view.frame.size.width - 20, height: 30)
         
@@ -228,7 +246,9 @@ class EditLinkPostVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         addLinkLabel.font = UIFont(name: "DINAlternate-Bold", size: 22)
         postButton.titleLabel!.font = UIFont(name: "DINAlternate-Bold", size: 19)
         
-        insertTextOverlay()
+       // insertTextOverlay()
+        insertTextOverlay(linkHexagonImage: linkHexagonImage)
+     //   insertTextOverlay(linkHexagonImage: linkHexagonImageCopy)
         if textOverlayString != "" {
             textOverlayLabel.isHidden = false
         }
@@ -318,7 +338,7 @@ class EditLinkPostVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         let yOffset = navBarView.frame.maxY
   
         self.navBarView.addBehavior()
-        self.navBarView.titleLabel.text = "Add A Link"
+        self.navBarView.titleLabel.text = "Edit Post"
      //   self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
         self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: postButton.frame.minY, width: 200, height: 25)
         print("This is navBarView.")
@@ -488,6 +508,7 @@ class EditLinkPostVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         // Local variable inserted by Swift 4.2 migrator.
         let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         linkHexagonImage.image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
+        linkHexagonImageCopy.image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
         self.changedProfilePic = true
         changedPhoto = true 
         self.dismiss(animated: true, completion: nil)
@@ -495,11 +516,17 @@ class EditLinkPostVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     @objc func checkBoxTapped(_ sender: UITapGestureRecognizer) {
         if checkBoxStatus == false {
+            linkHexagonImage.isHidden = false
+            linkHexagonImageCopy.isHidden = true
+            insertTextOverlay(linkHexagonImage: linkHexagonImage)
             checkBox.setImage(UIImage(named: "check-3"), for: .normal)
             checkBoxStatus = true
             linkHexagonImage.pulse(withIntensity: 0.8, withDuration: 1.5, loop: true)
         }
         else {
+            insertTextOverlay(linkHexagonImage: linkHexagonImageCopy)
+            linkHexagonImage.isHidden = true
+            linkHexagonImageCopy.isHidden = false
             checkBox.setImage(UIImage(named: "blueEmpty"), for: .normal)
             checkBoxStatus = false
            linkHexagonImage.pulse(withIntensity: 1.0, withDuration: 0.1, loop: false)
@@ -507,7 +534,7 @@ class EditLinkPostVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     
-    func insertTextOverlay() {
+    func insertTextOverlay(linkHexagonImage: UIImageView) {
    // var textOverlayLabel = UILabel()
     linkHexagonImage.addSubview(textOverlayLabel)
     textOverlayLabel.clipsToBounds = true

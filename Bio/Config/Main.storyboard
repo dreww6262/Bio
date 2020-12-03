@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="AGA-wN-m2B">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="SoT-LW-F6X">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -411,9 +411,11 @@
                         <outlet property="repeatPassword" destination="bnE-yE-gvE" id="UBn-PP-l54"/>
                         <outlet property="scrollView" destination="vgc-Ux-feZ" id="Jf9-cX-xSf"/>
                         <outlet property="usernameTxt" destination="Sdl-wR-yEQ" id="ThK-Of-NPd"/>
+                        <segue destination="hat-3M-qlo" kind="unwind" identifier="signUpSegue" unwindAction="unvindSegueFromAddToHomeWithSegue:" id="OY8-WW-Jck"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Igx-oy-a7d" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="hat-3M-qlo" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-6243" y="-4408"/>
         </scene>
@@ -1421,7 +1423,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kxV-ku-XiI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3572" y="-6632"/>
+            <point key="canvasLocation" x="-3572.4637681159425" y="-6632.1428571428569"/>
         </scene>
         <!--Add MusicVC-->
         <scene sceneID="838-3V-2nO">
@@ -1945,6 +1947,42 @@
                 <exit id="ajn-UR-L1K" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-5677" y="-5894"/>
+        </scene>
+        <!--Person Detail View Controller-->
+        <scene sceneID="LM0-qo-yYe">
+            <objects>
+                <viewController restorationIdentifier="personalDetailVC" id="SoT-LW-F6X" customClass="PersonDetailViewController" customModule="Bio" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Rym-RW-sc3">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2hd-vm-KCR">
+                                <rect key="frame" x="186" y="97" width="42" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vgb-Pk-f1d">
+                                <rect key="frame" x="87" y="233" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="k10" translatesAutoresizingMaskIntoConstraints="NO" id="jGk-cD-uS4">
+                                <rect key="frame" x="105" y="170" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="FKd-pb-tQK"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <connections>
+                        <outlet property="image1" destination="jGk-cD-uS4" id="NVh-bu-nfm"/>
+                        <outlet property="titleLabel" destination="2hd-vm-KCR" id="zKv-pw-FcN"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="toN-0l-oiz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-9078" y="-4740"/>
         </scene>
         <!--Edit Profile PhotoVC2-->
         <scene sceneID="t60-dl-Hxg">
@@ -2540,6 +2578,61 @@
             </objects>
             <point key="canvasLocation" x="-7230" y="-3366"/>
         </scene>
+        <!--Edit Music PostVC-->
+        <scene sceneID="LII-92-ijT">
+            <objects>
+                <viewController storyboardIdentifier="editMusicPostVC" modalPresentationStyle="fullScreen" id="Ogi-8N-MqS" customClass="EditMusicPostVC" customModule="Bio" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="vIx-qf-REK"/>
+                        <viewControllerLayoutGuide type="bottom" id="hlU-Hf-CyG"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="2vF-wD-IvX">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ONx-bc-VV0">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="link.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="XoI-K5-NXO">
+                                        <rect key="frame" x="291" y="160" width="15" height="15"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" red="1" green="0.80004686120000001" blue="0.40029424429999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </imageView>
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Click To Change Cover Of Link Post:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cBr-Pv-mZR">
+                                        <rect key="frame" x="0.0" y="190" width="414" height="35"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="ChalkboardSE-Regular" family="Chalkboard SE" pointSize="23"/>
+                                        <color key="textColor" red="0.24137573039999999" green="0.59946803420000006" blue="0.97166035380000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="highlightedColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="shadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </scrollView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6PN-OK-hbv"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="ONx-bc-VV0" firstAttribute="trailing" secondItem="6PN-OK-hbv" secondAttribute="trailing" id="YPu-uu-vOA"/>
+                            <constraint firstItem="ONx-bc-VV0" firstAttribute="top" secondItem="2vF-wD-IvX" secondAttribute="top" id="apY-kH-99z"/>
+                            <constraint firstAttribute="bottom" secondItem="ONx-bc-VV0" secondAttribute="bottom" id="for-pH-wu5"/>
+                            <constraint firstItem="ONx-bc-VV0" firstAttribute="leading" secondItem="6PN-OK-hbv" secondAttribute="leading" id="lQn-8q-DOe"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="RCL-X1-rCG"/>
+                    <connections>
+                        <outlet property="changeCoverLabel" destination="cBr-Pv-mZR" id="wPp-7x-Vpi"/>
+                        <outlet property="linkLogo" destination="XoI-K5-NXO" id="KMF-Bn-XS4"/>
+                        <outlet property="scrollView" destination="ONx-bc-VV0" id="WLe-cL-1Jq"/>
+                        <segue destination="f1s-AU-zhD" kind="unwind" identifier="unwindFromLinkToHome" unwindAction="unvindSegueFromAddToHomeWithSegue:" id="4ZY-ZH-GGu"/>
+                        <segue destination="f1s-AU-zhD" kind="unwind" identifier="rewindToFront" unwindAction="unvindSegueFromAddToHomeWithSegue:" id="ugz-jZ-WtM"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1UP-3B-Zk8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="f1s-AU-zhD" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="-8007" y="-3366"/>
+        </scene>
     </scenes>
     <resources>
         <image name="addCover" width="1242" height="2208"/>
@@ -2553,6 +2646,7 @@
         <image name="gradBG" width="488" height="780"/>
         <image name="hudlapp" width="921" height="921"/>
         <image name="instagramLogo" width="250" height="250"/>
+        <image name="k10" width="320" height="240"/>
         <image name="lightGrayGearFinal" width="64" height="64"/>
         <image name="lightGrayMagnifyingGlassFinal" width="48" height="48"/>
         <image name="link.circle.fill" catalog="system" width="128" height="121"/>

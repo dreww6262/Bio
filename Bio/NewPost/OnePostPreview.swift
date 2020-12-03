@@ -34,6 +34,7 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
     @IBOutlet weak var tagTextField: UITextField!
     
     @IBOutlet weak var previewImage: UIImageView!
+    var linkHexagonImageCopy = UIImageView()
     
     // buttons
     var postButton = UIButton()
@@ -75,10 +76,20 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
         scrollView.addSubview(textOverlayTextField)
         scrollView.addSubview(prioritizeLabel)
         scrollView.addSubview(checkBox)
+        
+        linkHexagonImageCopy.contentMode = .scaleAspectFit
+        linkHexagonImageCopy.image = UIImage(named: "addCover")
+        scrollView.addSubview(linkHexagonImageCopy)
+        previewImage.isHidden = false
+        linkHexagonImageCopy.isHidden = true
        
         let checkBoxTap = UITapGestureRecognizer(target: self, action: #selector(checkBoxTapped(_:)))
         checkBox.addGestureRecognizer(checkBoxTap)
-        checkBox.setImage(UIImage(named: "blueEmpty"), for: .normal)
+        checkBox.setImage(UIImage(named: "emptyOrange"), for: .normal)
+        
+        let linkTapCopy = UITapGestureRecognizer(target: self, action: #selector(AddLinkVCViewController.loadImg(_:)))
+        linkHexagonImageCopy.isUserInteractionEnabled = true
+        linkHexagonImageCopy.addGestureRecognizer(linkTapCopy)
         
         
         switch items![0] {
@@ -137,8 +148,11 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
         
         
         //         linkHexagonImage.frame = CGRect(x: 10, y: linkTextField.frame.origin.y + 30, width: self.view.frame.size.width - 20, height: 30)
-        previewImage.frame = CGRect(x: 40, y: navBarView.frame.maxY + 15, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
+        previewImage.frame = CGRect(x: 40, y: navBarView.frame.maxY + 10, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
         
+        linkHexagonImageCopy.frame = CGRect(x: 40, y: navBarView.frame.maxY + 10, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
+        
+        linkHexagonImageCopy.setupHexagonMask(lineWidth: linkHexagonImageCopy.frame.width/15, color: myOrange, cornerRadius: linkHexagonImageCopy.frame.width/15)
         
         
         captionTextField.frame = CGRect(x: 10, y: previewImage.frame.maxY + 20, width: self.view.frame.size.width - 20, height: 30)
@@ -401,6 +415,7 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
         // Local variable inserted by Swift 4.2 migrator.
         let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         previewImage.image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
+        linkHexagonImageCopy.image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
         //        if let imageURL = info[UIImagePickerController.InfoKey.referenceURL.rawValue] as? URL {
         //            let result = PHAsset.fetchAssets(withALAssetURLs: [imageURL], options: nil)
         //            avaImageExtension = String((result.firstObject?.value(forKey: "filename") as! String).split(separator: ".")[1])
@@ -557,12 +572,18 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
     
     @objc func checkBoxTapped(_ sender: UITapGestureRecognizer) {
         if checkBoxStatus == false {
-            checkBox.setImage(UIImage(named: "check-3"), for: .normal)
+            linkHexagonImageCopy.image = previewImage.image
+            previewImage.isHidden = false
+            linkHexagonImageCopy.isHidden = true
+            checkBox.setImage(UIImage(named: "check-4"), for: .normal)
             checkBoxStatus = true
             previewImage.pulse(withIntensity: 0.8, withDuration: 1.5, loop: true)
         }
         else {
-            checkBox.setImage(UIImage(named: "blueEmpty"), for: .normal)
+            linkHexagonImageCopy.image = previewImage.image
+            previewImage.isHidden = true
+            linkHexagonImageCopy.isHidden = false
+            checkBox.setImage(UIImage(named: "emptyOrange"), for: .normal)
             checkBoxStatus = false
            previewImage.pulse(withIntensity: 1.0, withDuration: 0.1, loop: false)
         }

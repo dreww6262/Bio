@@ -133,11 +133,20 @@ class AddProfilePhotoVC: UIViewController, UIImagePickerControllerDelegate & UIN
                 blurEffectView.removeFromSuperview()
                 loadingIndicator?.view.removeFromSuperview()
                 loadingIndicator?.removeFromParent()
-                let addsocialmediaVC = self.storyboard?.instantiateViewController(withIdentifier: "addSocialMediaTableView") as! AddSocialMediaTableView
-                addsocialmediaVC.userData = self.userData
-                addsocialmediaVC.currentUser = Auth.auth().currentUser
-                addsocialmediaVC.cancelLbl = "Skip"
-                self.present(addsocialmediaVC, animated: false, completion: nil)
+        // this triggers old bad sign up method
+//                let addsocialmediaVC = self.storyboard?.instantiateViewController(withIdentifier: "addSocialMediaTableView") as! AddSocialMediaTableView
+//                addsocialmediaVC.userData = self.userData
+//                addsocialmediaVC.currentUser = Auth.auth().currentUser
+//                addsocialmediaVC.cancelLbl = "Skip"
+//                self.present(addsocialmediaVC, animated: false, completion: nil)
+                
+                self.performSegue(withIdentifier: "signUpSegue", sender: self)
+                
+//                let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "homeHexGrid420") as! HomeHexagonGrid
+//                homeVC.userData = self.userData
+//                homeVC.user = Auth.auth().currentUser
+//                self.present(homeVC, animated: false, completion: nil)
+                
             })
         
         }

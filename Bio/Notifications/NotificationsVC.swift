@@ -65,10 +65,6 @@ class NotificationsVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         menuView.tabController = (tabBarController! as! NavigationMenuBaseController)
-        //        var navBarHeight = CGFloat(50)
-        //        var navBarBounds = self.navBar.bounds
-        //        navBar.frame = CGRect(x: 0, y: 0, width: navBarBounds.width, height: navBarBounds.height + navBarHeight)
-        //tableView.frame = CGRect(x: 0, y: navBarHeight + 20, width: self.view.frame.width, height: self.view.frame.height - navBarHeight)
         
         loadData {
 //            print("Should be loading notifications!!")
@@ -85,21 +81,9 @@ class NotificationsVC: UIViewController {
         addMenuButtons()
         
         setUpNavBarView()
-      //  addSearchButton()
-       // addSettingsButton()
-//        print("This is current user email \(Auth.auth().currentUser?.email)")
+
         super.viewDidLoad()
-        //        var navBarHeight = CGFloat(66.0)
-        //        navBar.backgroundColor = .black
-        //        navBar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: navBarHeight)
-        
-        
-        
-        // dynamic tableView height - dynamic cell
-        //        tableView.rowHeight = UITableView.automaticDimension
-        //        tableView.estimatedRowHeight = 60
-        
-        // title at the top
+
         self.navigationItem.title = "NOTIFICATIONS"
         
         // request notifications
@@ -132,17 +116,7 @@ class NotificationsVC: UIViewController {
                 newNotification.checked = true
                 self.notificationArray.append(newNotification)
                 document.reference.setData(newNotification.dictionary)
-//                print("Loaded: \(newNotification)")
-                //                var success = true
-                //                 self.addNotificationObject(notificationObject: newNotification, completion: {    bool in
-                //                                           success = success && bool
-                //                                           if (bool) {
-                //                                               print("notification successfully added!")
-                //                                           }
-                //                                           else {
-                //                                               print("notificatoin failed to add :(")
-                //                                           }
-                //                                       })
+
             }
             let dateFormatter = DateFormatter()
            // dateFormatter.dateFormat = "yyyy-MM-dd' 'HH:mm:ssZ"
@@ -169,92 +143,6 @@ class NotificationsVC: UIViewController {
         //completed()
     }
     
-    
-    
-    
-    
-    //    extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
-    //    // cell numb
-    //    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    //        print("This is notificationArray count \(notificationArray.count)")
-    //        return notificationArray.count
-    //    }
-    //
-    //
-    //    // cell config
-    // func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    //        // declare cell
-    //        let cell = tableView.dequeueReusableCell(withIdentifier: "newsCell") as! newsCell
-    //        // connect cell objects with received data from server
-    //        cell.usernameBtn.setTitle(notificationArray[indexPath.row].notifyingUser, for: UIControl.State())
-    //
-    //        let ref = storage.child(notificationArray[indexPath.row].thumbResource)
-    //        cell.avaImg.sd_setImage(with: ref)
-    //        cell.avaImg.frame = CGRect(x: 5, y: 2, width: cell.frame.height-15, height: cell.frame.height-15)
-    //        cell.avaImg.setupHexagonMask(lineWidth: cell.avaImg.frame.width/15, color: gold, cornerRadius: cell.avaImg.frame.width/15)
-    //        cell.infoLbl.frame = CGRect(x: cell.avaImg.frame.maxX + 5, y: 5, width: 140, height: 30)
-    //         cell.dateLbl.frame = CGRect(x: cell.infoLbl.frame.maxX + 5, y: 5, width: 50
-    //            , height: 30)
-    //
-    //
-    ////        avaArray[indexPath.row].getDataInBackground { (data, error) -> Void in
-    ////            if error == nil {
-    ////                cell.avaImg.image = UIImage(data: data!)
-    ////            } else {
-    ////                print(error!.localizedDescription)
-    ////            }
-    ////        }
-    //
-    //        // calculate post date
-    //        let fromString = notificationArray[indexPath.row].createdAt
-    //        let from = DateFormatter.init().date(from: fromString)
-    //        let now = Date()
-    //        let components : NSCalendar.Unit = [.second, .minute, .hour, .day, .weekOfMonth]
-    //        let difference = (Calendar.current as NSCalendar).components(components, from: from ?? Date(), to: now, options: [])
-    //
-    //        // logic what to show: seconds, minuts, hours, days or weeks
-    //        if difference.second! <= 0 {
-    //            cell.dateLbl.text = "now"
-    //        }
-    //        if difference.second! > 0 && difference.minute! == 0 {
-    //            cell.dateLbl.text = "\(String(describing: difference.second))s."
-    //        }
-    //        if difference.minute! > 0 && difference.hour! == 0 {
-    //            cell.dateLbl.text = "\(String(describing: difference.minute))m."
-    //        }
-    //        if difference.hour! > 0 && difference.day! == 0 {
-    //            cell.dateLbl.text = "\(String(describing: difference.hour))h."
-    //        }
-    //        if difference.day! > 0 && difference.weekOfMonth! == 0 {
-    //            cell.dateLbl.text = "\(String(describing: difference.day))d."
-    //        }
-    //        if difference.weekOfMonth! > 0 {
-    //            cell.dateLbl.text = "\(String(describing: difference.weekOfMonth))w."
-    //        }
-    //
-    //        // define info text
-    //        if notificationArray[indexPath.row].type == "mention" {
-    //            cell.infoLbl.text = "has mentioned you."
-    //        }
-    //        if notificationArray[indexPath.row].type == "comment" {
-    //            cell.infoLbl.text = "has commented your post."
-    //        }
-    //        if notificationArray[indexPath.row].type == "follow" {
-    //            cell.infoLbl.text = "is now following you."
-    //            print("its a follow")
-    //        }
-    //        if notificationArray[indexPath.row].type == "like" {
-    //            cell.infoLbl.text = "likes your post."
-    //        }
-    //
-    //
-    //        // asign index of button
-    //        cell.usernameBtn.layer.setValue(indexPath, forKey: "index")
-    //
-    //        return cell
-    //    }
-    //
-    //    }
     
     func addMenuButtons() {
         view.addSubview(menuView)
@@ -374,10 +262,10 @@ class NotificationsVC: UIViewController {
             }
         })
     }
-    
 
-    // clicked photo button
-    @IBAction func photo_click(_ sender: UIImageView) {
+    
+    
+@IBAction func photo_click(_ sender: UIImageView) {
 //        print("UserName Clicked")
         // call index of button
         let i = sender.layer.value(forKey: "index") as! IndexPath
