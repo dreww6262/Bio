@@ -611,23 +611,7 @@ var countryFlag = UIImageView()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if changedProfilePic == false {
-            var addProfilePic = segue.destination as! AddProfilePhotoVC
-            addProfilePic.userDataVM = userDataVM
-        }
-//this else triggers long/bad sign up process that we want to simplify
-//        else {
-//        var addSocialMediaVC = segue.destination as! AddSocialMediaVC
-//            addSocialMediaVC.currentUser = user
-//        addSocialMediaVC.userData = userData
-//        addSocialMediaVC.cancelLbl = "Skip"
-//        }
-        else {
-            performSegue(withIdentifier: "signUpSegue", sender: self)
-//            var homeHexGrid = segue.destination as! HomeHexagonGrid
-//            homeHexGrid.user = user
-//            homeHexGrid.userData = userData
-        }
+
         
     }
     

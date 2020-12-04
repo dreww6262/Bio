@@ -144,7 +144,7 @@ class AddProfilePhotoVC: UIViewController, UIImagePickerControllerDelegate & UIN
 //                addsocialmediaVC.cancelLbl = "Skip"
 //                self.present(addsocialmediaVC, animated: false, completion: nil)
                 
-                self.performSegue(withIdentifier: "signUpSegue", sender: self)
+                self.performSegue(withIdentifier: "unwindFromSignIn", sender: self)
                 
 //                let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "homeHexGrid420") as! HomeHexagonGrid
 //                homeVC.userData = self.userData

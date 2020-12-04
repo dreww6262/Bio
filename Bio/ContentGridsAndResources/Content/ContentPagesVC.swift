@@ -395,7 +395,7 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
             let currentVC = viewControllers[currentIndex] as! ContentLinkVC
             let hex = currentVC.webHex
             let onePostPreviewVC = self.storyboard?.instantiateViewController(identifier: "editMusicPostVC") as! EditMusicPostVC
-            onePostPreviewVC.userData = self.userData
+            onePostPreviewVC.userDataVM = self.userDataVM
             onePostPreviewVC.hexData = hex
             print("This is hex \(hex)")
         let cleanRef = hex!.thumbResource.replacingOccurrences(of: "/", with: "%2F")
