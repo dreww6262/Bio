@@ -391,6 +391,53 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         }
     }
     
+    func editMusicPost() {
+            let currentVC = viewControllers[currentIndex] as! ContentLinkVC
+            let hex = currentVC.webHex
+            let onePostPreviewVC = self.storyboard?.instantiateViewController(identifier: "editMusicPostVC") as! EditMusicPostVC
+            onePostPreviewVC.userData = self.userData
+            onePostPreviewVC.hexData = hex
+            print("This is hex \(hex)")
+        let cleanRef = hex!.thumbResource.replacingOccurrences(of: "/", with: "%2F")
+            let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
+            onePostPreviewVC.linkHexagonImage.sd_setImage(with: url!, completed: {_, error, _, _ in
+                if error != nil {
+                    print(error!.localizedDescription)
+                }
+            })
+            onePostPreviewVC.linkHexagonImageCopy.sd_setImage(with: url!, completed: {_, error, _, _ in
+                if error != nil {
+                    print(error!.localizedDescription)
+                }
+            })
+            var entireMusicString = hex!.resource
+            var artistSongString = hex!.resource.chopPrefix(21)
+            print("This is artistSongString \(artistSongString)")
+            var artistSongComponents = artistSongString.components(separatedBy: "/")
+            var artist = artistSongComponents[0] as! String
+            var song = artistSongComponents[1] as! String
+            var finalArist = artist.replacingOccurrences(of: "-", with: " ")
+            var finalSong = song.replacingOccurrences(of: "-", with: " ")
+            print("final artist \(finalArist)")
+        print("final song \(finalSong)")
+            onePostPreviewVC.captionTextField.text = hex!.text
+            onePostPreviewVC.textOverlayTextField.text = hex!.coverText
+            onePostPreviewVC.captionString = hex!.text
+            onePostPreviewVC.textOverlayString = hex!.coverText
+            onePostPreviewVC.linkTextField.text = finalArist
+            onePostPreviewVC.songNameTextField.text = finalSong
+            var isPrioritized = currentVC.webHex?.isPrioritized ?? false
+            onePostPreviewVC.checkBoxStatus = isPrioritized
+            if isPrioritized {
+                onePostPreviewVC.checkBox.setImage(UIImage(named: "check-2"), for: .normal)
+            }
+            
+         //   onePostPreviewVC.items
+         //   picker.present(onePostPreviewVC, animated: false, completion: nil)
+            present(onePostPreviewVC, animated: false,completion: nil)
+            onePostPreviewVC.modalPresentationStyle = .fullScreen
+        }
+    
     func editPost() {
         let currentVC = viewControllers[currentIndex]
         if currentVC is ContentLinkVC {
@@ -418,6 +465,11 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         let cleanRef = hex!.thumbResource.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
         onePostPreviewVC.linkHexagonImage.sd_setImage(with: url!, completed: {_, error, _, _ in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+        })
+        onePostPreviewVC.linkHexagonImageCopy.sd_setImage(with: url!, completed: {_, error, _, _ in
             if error != nil {
                 print(error!.localizedDescription)
             }
@@ -453,6 +505,11 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
                 print(error!.localizedDescription)
             }
         })
+        onePostPreviewVC.linkHexagonImageCopy.sd_setImage(with: url!, completed: {_, error, _, _ in
+                    if error != nil {
+                        print(error!.localizedDescription)
+                    }
+                })
         onePostPreviewVC.captionTextField.text = hex!.text
         onePostPreviewVC.textOverlayTextField.text = hex!.coverText
         onePostPreviewVC.captionString = hex!.text
