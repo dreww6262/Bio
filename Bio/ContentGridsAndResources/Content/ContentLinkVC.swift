@@ -18,22 +18,22 @@ class ContentLinkVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
     var showOpenAppButton = false
     let webConfig = WKWebViewConfiguration()
     
+    var myRequest: URLRequest?
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         webView.uiDelegate = self
         webView.navigationDelegate = self
         webView.allowsBackForwardNavigationGestures = false
         view.addSubview(webView)
-        
-        
-        let link = webHex!.resource
-        let myUrl = URL(string: link)
+        loadLink()
         
         if webHex?.text != "" {
             self.captionTextField.isHidden = false
             print("This is web hex text \(webHex?.text)")
-        setUpCaption()
-            
+            setUpCaption()
         }
         else {
            self.captionTextField.isHidden = true
@@ -41,14 +41,27 @@ class ContentLinkVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
             webView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - 66)
         }
         
-        if (myUrl != nil) {
-            let myRequest = URLRequest(url: myUrl!)
-            print("should be loading url!")
-            webView.load(myRequest)
-        }
+        
         print("This is webView.frame \(webView.frame)")
         
     
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+//        if myRequest != nil {
+//            webView.load(myRequest!)
+//        }
+    }
+    
+    func loadLink() {
+        let link = webHex!.resource
+        let myUrl = URL(string: link)
+        if (myUrl != nil) {
+            myRequest = URLRequest(url: myUrl!)
+            print("should be loading url!")
+            webView.load(myRequest!)
+        }
     }
     
 

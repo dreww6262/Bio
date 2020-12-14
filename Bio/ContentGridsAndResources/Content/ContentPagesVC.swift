@@ -57,6 +57,7 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
                             vc.webHex = data
                             vc.showOpenAppButton = false
                             showBool = false
+                            vc.viewDidLoad()
                             viewControllers.append(vc)
                         default:
                             let vc = ContentLinkVC()
@@ -64,6 +65,7 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
                             vc.userDataVM = userDataVM
                             vc.showOpenAppButton = true
                             showBool = true
+                            vc.viewDidLoad()
                             viewControllers.append(vc)
                         }
                         //pageView.setViewControllers(viewControllers, direction: .forward, animated: false, completion: nil)
