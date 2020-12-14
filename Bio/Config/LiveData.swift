@@ -7,22 +7,28 @@
 //
 import Foundation
 
-class LiveData<T> {
-    typealias Listener = (T) -> Void
+class LiveData<T: Equatable> {
+    typealias Listener = ((T?) -> ())
     var listener: Listener?
+    
+    private let thread : DispatchQueue
 
     var value: T {
-        didSet {
-            listener?(value)
+        willSet(newValue) {
+            if value != newValue {
+                thread.async {
+                    self.listener?(newValue)
+                }
+            }
         }
     }
     
-    init(_ value: T) {
+    init(_ value: T, thread dispatcherThread: DispatchQueue = DispatchQueue.main) {
+        self.thread = dispatcherThread
         self.value = value
     }
     
     func observe(listener: Listener?) {
         self.listener = listener
-        listener?(value)
     }
 }

@@ -110,14 +110,21 @@ var navBarView = NavBarView()
         toSearchButton.isHidden = false
         toSettingsButton.isHidden = false
         
+        observeUserData()
+        
+    }
+    
+    func observeUserData() {
         userDataVM?.userData.observe { userData in
             if (userData == nil) {
+                self.observeUserData()
                 return
             }
             // do changes? maybe refresh
             self.refresh()
+            self.setUpPageViewListener()
+            self.observeUserData()
         }
-        
     }
     
     // viewdidload helper functions
@@ -139,9 +146,10 @@ var navBarView = NavBarView()
     
     
     func setUpViewCounter() {
-        self.view.addSubview(followView)
+        self.navBarView.addSubview(followView)
         self.followView.backgroundColor = .white
-        self.followView.frame = CGRect(x: self.view.frame.midX - 45, y: navBarY, width: 90, height: 30)
+        self.followView.frame = CGRect(x: navBarView.frame.midX - 45, y: toSettingsButton.frame.minY, width: 90, height: 30)
+        
         self.followView.layer.cornerRadius = followView.frame.size.width / 20
         self.followView.addSubview(followImage)
         self.followView.addSubview(followLabel)
@@ -152,7 +160,7 @@ var navBarView = NavBarView()
         self.followLabel.frame = CGRect(x: followImage.frame.maxX + 5, y: 0.0, width: followView.frame.width - 10, height: followView.frame.height)
 //        self.followLabel.text = profileViews
         self.followLabel.textColor = .black
-        
+        setUpPageViewListener()
     }
     
     func setZoomScale() {
@@ -733,6 +741,7 @@ var navBarView = NavBarView()
         toSearchButton.isHidden = false
         toSettingsButton.isHidden = false
         followView.isHidden = false
+        setUpPageViewListener()
     }
     
     
@@ -934,20 +943,7 @@ var navBarView = NavBarView()
         self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
         self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
 
-        self.navBarView.addSubview(followView)
-        self.followView.backgroundColor = .white
-        self.followView.frame = CGRect(x: navBarView.frame.midX - 45, y: toSettingsButton.frame.minY, width: 90, height: 30)
-        
-        self.followView.layer.cornerRadius = followView.frame.size.width / 20
-        self.followView.addSubview(followImage)
-        self.followView.addSubview(followLabel)
-        self.followImage.frame = CGRect(x: 5, y: 0, width: followView.frame.height, height: followView.frame.height)
-        self.followView.layer.cornerRadius = followView.frame.size.width/10
-        //self.followView.clipsToBounds()
-        self.followImage.image = UIImage(named: "eyeFinal")
-        self.followLabel.frame = CGRect(x: followImage.frame.maxX + 5, y: 0.0, width: followView.frame.width - 10, height: followView.frame.height)
-//        self.followLabel.text = profileViews
-        self.followLabel.textColor = .black
+        setUpViewCounter()
         
 
         //self.titleLabel1.text = "Notifications"

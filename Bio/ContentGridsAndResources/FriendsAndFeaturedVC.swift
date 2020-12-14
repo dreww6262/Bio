@@ -801,9 +801,18 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
             if error == nil {
                 let docs = obj!.documents
                 popList.removeAll()
+                let fakeImage = UIImageView()
                 for doc in docs {
                     let popData = UserData(dictionary: doc.data())
                     popList.append(newElement: popData)
+                    let cleanRef = popData.avaRef.replacingOccurrences(of: "/", with: "%2F")
+                    let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
+                    if (url != nil) {
+                        DispatchQueue.main.async {
+                            fakeImage.sd_setImage(with: url, completed: nil)
+                        }
+                        
+                    }
                 }
                 var list = popList.readOnlyArray()
                 list.sort(by: { x, y in

@@ -9,7 +9,11 @@
 import Foundation
 import UIKit
 
-class UserData {
+class UserData: Equatable {
+    static func == (lhs: UserData, rhs: UserData) -> Bool {
+        return lhs.dictionary.description == rhs.dictionary.description
+    }
+    
     var email: String
     var publicID: String
     var privateID: String
