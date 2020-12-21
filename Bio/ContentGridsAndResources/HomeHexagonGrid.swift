@@ -422,6 +422,9 @@ var navBarView = NavBarView()
     
     func createImageViews(completion: @escaping () -> ()) {
         var newPostImageArray = [PostImageView]()
+        if userDataVM?.userData.value == nil {
+            return
+        }
         db.collection("Hexagons2").whereField("postingUserID", isEqualTo: userDataVM!.userData.value!.publicID).getDocuments(completion: { objects, error in
             if error == nil {
                 guard let docs = objects?.documents else {

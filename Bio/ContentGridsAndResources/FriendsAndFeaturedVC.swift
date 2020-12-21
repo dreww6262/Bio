@@ -308,6 +308,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         toSearchButton.isHidden = false
         
 
+        observeUserData()
         loadPopularHexagons()
         
     }
@@ -437,9 +438,21 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         menuView.tabController = (tabBarController! as! NavigationMenuBaseController)
-        refresh()
+        observeUserData()
         toSearchButton.isHidden = false
         toSettingsButton.isHidden = false
+    }
+    
+    func observeUserData() {
+        userDataVM?.userData.observe { userData in
+            if (userData == nil) {
+                self.observeUserData()
+                return
+            }
+            // do changes? maybe refresh
+            self.refresh()
+            self.observeUserData()
+        }
     }
     
     

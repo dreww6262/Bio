@@ -147,7 +147,7 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
         // var unique = reOrderedCoordinateArrayPoints.removingDuplicates()
         //  print("This is the new unique one \(reOrderedCoordinateArrayPoints.count)")
         
-        populateUserAvatar()
+        observeUserData()
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -437,6 +437,19 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
             loadFollowings()
             loadFollowers()
             loadPopularHexagons()
+        }
+    }
+    
+    func observeUserData() {
+        userDataVM?.userData.observe { userData in
+            if (userData == nil) {
+                self.observeUserData()
+                return
+            }
+            // do changes? maybe refresh
+            self.populateUserAvatar()
+            self.refresh()
+            self.observeUserData()
         }
     }
     

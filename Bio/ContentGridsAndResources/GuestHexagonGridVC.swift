@@ -74,13 +74,16 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var reOrderedCoordinateArrayPointsCentered: [CGPoint] = []
     let hexaDiameter : CGFloat = 150
     var avaImage: UIImageView?
-    var contentPages: ContentPagesVC?
+//    var contentPages: ContentPagesVC?
+    var contentPages: CustomPageView?
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         followView.isHidden = true
-        contentPages = storyboard?.instantiateViewController(identifier: "contentPagesVC")
+//        contentPages = storyboard?.instantiateViewController(identifier: "contentPagesVC")
+        contentPages = storyboard?.instantiateViewController(identifier: "customPageView")
+        contentPages?.userDataVM = userDataVM
         reOrderedCoordinateArrayPoints.append(contentsOf: fourthRowArray)
      //   addSettingsButton()
      //   addSearchButton()
@@ -1058,47 +1061,53 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         let postImage = sender.view as! PostImageView
         let hexItem = postImage.hexData!
         
-        
-        
-        //TO DO: Tap to Play Video
-        if hexItem.type.contains("video") {
-            //TO DO: play a video here!!
-            let videoVC = ContentVideoVC()
-            videoVC.videoHex = hexItem
-            present(videoVC, animated: false, completion: nil)
-            
-        }
-        
-        
-        
-        else if hexItem.type.contains("photo") {
-            //            let contentImageVC = ContentImageVC()
-            //            contentImageVC.photoHex = hexItem
-            //            present(contentImageVC, animated: false, completion: nil)
-            contentPages!.currentIndex = hexItem.location - 1
-            contentPages!.modalPresentationStyle = .fullScreen
-            self.present(contentPages!, animated: false, completion: nil)
-            
-        }
-        else if hexItem.type.contains("link") {
-            //            openLinkVC(hex: hexItem)
-            contentPages!.currentIndex = hexItem.location - 1
+//        contentPages!.currentIndex = hexItem.location - 1
+        if contentPages!.setPresentedViewControllers(vcIndex: hexItem.location - 1) {
             contentPages!.modalPresentationStyle = .fullScreen
             self.present(contentPages!, animated: false, completion: nil)
         }
-        else if hexItem.type.contains("music") {
-            //            openLinkVC(hex: hexItem)
-            contentPages!.currentIndex = hexItem.location - 1
-            contentPages!.modalPresentationStyle = .fullScreen
-            self.present(contentPages!, animated: false, completion: nil)
-        }
- 
-        else {
-            contentPages!.currentIndex = hexItem.location - 1
-            contentPages!.modalPresentationStyle = .fullScreen
-            self.present(contentPages!, animated: false, completion: nil)
-            
-        }
+        
+        
+        
+//        //TO DO: Tap to Play Video
+//        if hexItem.type.contains("video") {
+//            //TO DO: play a video here!!
+//            let videoVC = ContentVideoVC()
+//            videoVC.videoHex = hexItem
+//            present(videoVC, animated: false, completion: nil)
+//
+//        }
+//
+//
+//
+//        else if hexItem.type.contains("photo") {
+//            //            let contentImageVC = ContentImageVC()
+//            //            contentImageVC.photoHex = hexItem
+//            //            present(contentImageVC, animated: false, completion: nil)
+//            contentPages!.currentIndex = hexItem.location - 1
+//            contentPages!.modalPresentationStyle = .fullScreen
+//            self.present(contentPages!, animated: false, completion: nil)
+//
+//        }
+//        else if hexItem.type.contains("link") {
+//            //            openLinkVC(hex: hexItem)
+//            contentPages!.currentIndex = hexItem.location - 1
+//            contentPages!.modalPresentationStyle = .fullScreen
+//            self.present(contentPages!, animated: false, completion: nil)
+//        }
+//        else if hexItem.type.contains("music") {
+//            //            openLinkVC(hex: hexItem)
+//            contentPages!.currentIndex = hexItem.location - 1
+//            contentPages!.modalPresentationStyle = .fullScreen
+//            self.present(contentPages!, animated: false, completion: nil)
+//        }
+//
+//        else {
+//            contentPages!.currentIndex = hexItem.location - 1
+//            contentPages!.modalPresentationStyle = .fullScreen
+//            self.present(contentPages!, animated: false, completion: nil)
+//
+//        }
         
     }
     
