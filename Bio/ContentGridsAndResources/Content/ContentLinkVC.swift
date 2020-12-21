@@ -22,14 +22,17 @@ class ContentLinkVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
     
     
     override func viewDidLoad() {
-        let jscript = "var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width'); document.getElementsByTagName('head')[0].appendChild(meta);"
-        let userScript = WKUserScript(source: jscript, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
-        let wkUController = WKUserContentController()
-        wkUController.addUserScript(userScript)
-        let wkWebConfig = WKWebViewConfiguration()
-        wkWebConfig.userContentController = wkUController
-        webView = WKWebView(frame: self.view.bounds, configuration: wkWebConfig)
-        view = webView
+        
+        DispatchQueue.main.async {
+            let jscript = "var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width'); document.getElementsByTagName('head')[0].appendChild(meta);"
+            let userScript = WKUserScript(source: jscript, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
+            let wkUController = WKUserContentController()
+            wkUController.addUserScript(userScript)
+            let wkWebConfig = WKWebViewConfiguration()
+            wkWebConfig.userContentController = wkUController
+            self.webView = WKWebView(frame: self.view.bounds, configuration: wkWebConfig)
+            self.view = self.webView
+        }
         super.viewDidLoad()
         
         webView.uiDelegate = self

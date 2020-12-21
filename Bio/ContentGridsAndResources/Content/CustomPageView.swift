@@ -84,19 +84,26 @@ class CustomPageView: UIViewController {
         
         setPositions()
         
-//        let leftView = UIView(frame: leftBox)
-//        let rightView = UIView(frame: rightBox)
-//        let centerView = UIView(frame: centerBox)
-//
-//        view.addSubview(leftView)
-//        view.addSubview(rightView)
-//        view.addSubview(centerView)
-//
-//        leftView.backgroundColor = .black
-//        rightView.backgroundColor = .black
-//        centerView.backgroundColor = .black
+        let swipeLeftGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeHorizontally))
+        swipeLeftGesture.direction = .left
+        let swipeRightGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeHorizontally))
+        swipeRightGesture.direction = .right
+        view.addGestureRecognizer(swipeLeftGesture)
+        view.addGestureRecognizer(swipeRightGesture)
+        
+        
+        let returnButton = UIButton(frame: CGRect(x: view.frame.width/2-40, y: view.frame.height-112, width: 80, height: 80))
+        view.addSubview(returnButton)
+        returnButton.setImage(UIImage(named: "cancel2"), for: .normal)
+        returnButton.layer.cornerRadius = returnButton.frame.size.width / 2
+        //returnButton.setBackgroundImage(UIImage(named: "cancel11"), for: .normal)
+        returnButton.clipsToBounds = true
+        returnButton.tintColor = .white
+        returnButton.backgroundColor = .clear
+        
+        let returnTap = UITapGestureRecognizer(target: self, action: #selector(returnTapped))
+        returnButton.addGestureRecognizer(returnTap)
     }
-    
     
     private func setBoxes() {
         let smallWidth = 7/12 * self.view.frame.width
@@ -162,47 +169,82 @@ class CustomPageView: UIViewController {
     }
     
     func setPositions() {
-        visibleVCs[0]?.view.frame = centerBox
-        visibleVCs[1]?.view.frame = leftBox
-        visibleVCs[2]?.view.frame = rightBox
         
         visibleVCs[0]?.view.clipsToBounds = true
         visibleVCs[1]?.view.clipsToBounds = true
         visibleVCs[2]?.view.clipsToBounds = true
+        
+        visibleVCs[0]?.view.isUserInteractionEnabled = true
+        visibleVCs[1]?.view.isUserInteractionEnabled = false
+        visibleVCs[2]?.view.isUserInteractionEnabled = false
+        
+        UIView.animate(withDuration: 0.25, animations:  {
+            self.visibleVCs[0]?.view.frame = CGRect(x: self.centerBox.minX, y: self.centerBox.minY, width: self.centerBox.width, height: self.centerBox.height)
+            self.visibleVCs[1]?.view.frame = CGRect(x: self.leftBox.minX, y: self.leftBox.minY, width: self.leftBox.width, height: self.leftBox.height)
+            self.visibleVCs[2]?.view.frame = CGRect(x: self.rightBox.minX, y: self.rightBox.minY, width: self.rightBox.width, height: self.rightBox.height)
+        })
+        
+        print("cpv: visible vcs \(visibleVCs)")
     }
     
     
     func moveLeft() {
-        popLeft()
-        let vc = fetchRight()
-        visibleVCs[1] = visibleVCs[0]
-        visibleVCs[0] = visibleVCs[2]
-        visibleVCs[2] = vc
-        setPositions()
-    }
-    
-    
-    func moveRight() {
-        popRight()
+        print("cpv move left")
+        if currentIndex! <= 0 {
+            return
+        }
+        currentIndex! -= 1
+        popRight(vc: visibleVCs[2])
         let vc = fetchLeft()
         visibleVCs[2] = visibleVCs[0]
         visibleVCs[0] = visibleVCs[1]
         visibleVCs[1] = vc
         setPositions()
+        
     }
     
-    func popLeft() {
-        visibleVCs[1]?.view.removeFromSuperview()
-        visibleVCs[1]?.removeFromParent()
+    
+    func moveRight() {
+        print("cpv move right")
+        if currentIndex! >= viewControllers.count - 1 {
+            return
+        }
+        currentIndex! += 1
+        popLeft(vc: visibleVCs[1])
+        let vc = fetchRight()
+        visibleVCs[1] = visibleVCs[0]
+        visibleVCs[0] = visibleVCs[2]
+        visibleVCs[2] = vc
+        setPositions()
+        
     }
     
-    func popRight() {
-        visibleVCs[2]?.view.removeFromSuperview()
-        visibleVCs[2]?.removeFromParent()
+    func popLeft(vc: UIViewController?) {
+        print("cpv pop left")
+        
+        UIView.animate(withDuration: 0.25, animations: {
+            vc?.view.frame = CGRect(x: self.leftBox.minX - self.leftBox.width, y: self.leftBox.minY, width: self.leftBox.width, height: self.leftBox.height)
+        }, completion: { _ in
+            vc?.view.removeFromSuperview()
+            vc?.removeFromParent()
+        })
+        
+    }
+    
+    func popRight(vc: UIViewController?) {
+        print("cpv pop right")
+        
+        UIView.animate(withDuration: 0.25, animations: {
+            vc?.view.frame = CGRect(x: self.rightBox.maxX, y: self.rightBox.minY, width: self.rightBox.width, height: self.rightBox.height)
+        }, completion: { _ in
+            vc?.view.removeFromSuperview()
+            vc?.removeFromParent()
+        })
+        
     }
     
     func fetchLeft() -> UIViewController? {
-        
+        print("cpv fetch left")
         if currentIndex == nil || currentIndex! <= 0 || currentIndex! - 1 >= viewControllers.count {
             return nil
         }
@@ -210,20 +252,38 @@ class CustomPageView: UIViewController {
         let vc = viewControllers[currentIndex! - 1]
         addChild(vc)
         view.addSubview(vc.view)
+        vc.view.frame = CGRect(x: leftBox.minX - leftBox.width, y: leftBox.minY, width: leftBox.width, height: leftBox.height)
         
         return vc
     }
     
     func fetchRight() -> UIViewController? {
+        print("cpv fetch right")
         if currentIndex == nil || currentIndex! + 1 < 0 || currentIndex! + 1 >= viewControllers.count {
             return nil
         }
         let vc = viewControllers[currentIndex! + 1]
         addChild(vc)
         view.addSubview(vc.view)
+        vc.view.frame = CGRect(x: rightBox.maxX, y: rightBox.minY, width: rightBox.width, height: rightBox.height)
         
         return vc
     }
     
+    @objc func swipeHorizontally(_ sender: UISwipeGestureRecognizer) {
+        
+        print("cpv swipe \(sender.direction)")
+        
+        if sender.direction == .left {
+            moveRight()
+        }
+        
+        else if sender.direction == .right {
+            moveLeft()
+        }
+    }
     
+    @objc func returnTapped(_ sender: UITapGestureRecognizer) {
+        self.dismiss(animated: true, completion: nil)
+    }
 }
