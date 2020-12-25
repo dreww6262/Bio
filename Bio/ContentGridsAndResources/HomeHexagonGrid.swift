@@ -93,6 +93,7 @@ var navBarView = NavBarView()
         super.viewDidLoad()
         contentPages = storyboard?.instantiateViewController(identifier: "contentPagesVC")
         contentPages!.userDataVM = userDataVM
+        plusHexagon.isUserInteractionEnabled = true
         let addTap = UITapGestureRecognizer(target: self, action: #selector(addHexagonTapped))
         plusHexagon.addGestureRecognizer(addTap)
         //print("This is reordered count before append \(reOrderedCoordinateArrayPoints.count)")
@@ -454,6 +455,7 @@ var navBarView = NavBarView()
                     shakebleImages.append(image)
                     self.contentView.bringSubviewToFront(image)
                     if image.hexData?.isPrioritized == true {
+                    
                     prioritizedPosts.append(image)
                     image.pulse(withIntensity: 0.8, withDuration: 1.5, loop: true)
                     }
@@ -989,7 +991,16 @@ var navBarView = NavBarView()
         else if type == "tik" {
             imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: white, cornerRadius: imageView.frame.width/15)
         }
-        
+        else if type == "pin_phone" {
+            imageView.backgroundColor = white
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: white, cornerRadius: imageView.frame.width/15)
+        }
+        else if type == "pin_country" {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: .clear, cornerRadius: imageView.frame.width/15)
+        }
+        else if type == "pin_birthday" {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: .clear, cornerRadius: imageView.frame.width/15)
+        }
         else if type == "music" {
             imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myBlueGreen, cornerRadius: imageView.frame.width/15)
         }

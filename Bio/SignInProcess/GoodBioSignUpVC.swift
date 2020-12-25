@@ -18,6 +18,8 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     var changedProfilePic = false
     var bioCharacterLimit = 20
     var countries: [String] = []
+    var userData: UserData?
+    var country = ""
     var GDPRCountries: [String] = ["Austria", "Belgium", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Germany", "Greece", "Hungary", "Ireland", "Italy", "Latvia", "Lithuania", "Luxembourg", "Malta", "Netherlands", "Poland", "Portugal", "Romania", "Slovakia", "Slovenia", "Spain", "Sweden"]
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -450,12 +452,12 @@ var countryFlag = UIImageView()
             
             return
         }
-        var country = self.countryTextField.text
+        self.country = self.countryTextField.text!
         var minimumAge = 13
         print("This is age \(age)")
         print("This is birthday \(birthday)")
         print("This is country \(country)")
-        if GDPRCountries.contains(country!) {
+        if GDPRCountries.contains(country) {
             print("GDPR country! 16 and up")
             minimumAge = 16
         } else {
@@ -507,10 +509,23 @@ var countryFlag = UIImageView()
             return
         }
         
-        let username = usernameTxt.text!
-        let email = emailTxt.text!
-        let password = passwordTxt.text!
-        let bio = bioTxt.text ?? ""
+        var username = usernameTxt.text!
+        while username.last == " " {
+            username = "\(username.removeLast())"
+            print(username)
+        }
+        
+        var email = emailTxt.text!
+        while email.last == " " {
+            email = "\(email.removeLast())"
+            print(email)
+        }
+        var password = passwordTxt.text!
+        while password.last == " " {
+            password = "\(password.removeLast())"
+            print(password)
+        }
+        var bio = bioTxt.text ?? ""
         var signedInUser: User?
         
         print("about to create new user")
@@ -569,6 +584,7 @@ var countryFlag = UIImageView()
                             print("userData posted")
                             self.userDataVM?.userData.value = userData
                             self.userDataVM?.retreiveUserData(username: userData.publicID)
+                            self.userData = userData
                             
                             if self.changedProfilePic == false {
                                 let addProfilePic = self.storyboard?.instantiateViewController(withIdentifier: "addProfilePhotoVC") as! AddProfilePhotoVC
@@ -577,16 +593,18 @@ var countryFlag = UIImageView()
                             }
         // this triggers old/bad sign out process
                             else {
-//                            let addsocialmediaVC = self.storyboard?.instantiateViewController(withIdentifier: "addSocialMediaTableView") as! AddSocialMediaTableView
-//                            addsocialmediaVC.userData = self.userData
-//                            addsocialmediaVC.currentUser = self.user
-//                            addsocialmediaVC.cancelLbl = "Skip"
-//                            self.present(addsocialmediaVC, animated: false, completion: nil)
-                                self.performSegue(withIdentifier: "signUpSegue", sender: self)
-                            self.blurEffectView?.removeFromSuperview()
-                            loadingIndicator!.view.removeFromSuperview()
-                            loadingIndicator!.removeFromParent()
+                                let personalDetailTableViewVC = self.storyboard?.instantiateViewController(withIdentifier: "personalDetailTableViewVC") as! PersonalDetailTableViewVC
+                                personalDetailTableViewVC.userDataVM = self.userDataVM
+                                personalDetailTableViewVC.myCountry = self.country
+                                personalDetailTableViewVC.userData = self.userData
+                                self.present(personalDetailTableViewVC, animated: false, completion: nil)
                             }
+                            
+//                                self.performSegue(withIdentifier: "signUpSegue", sender: self)
+//                            self.blurEffectView?.removeFromSuperview()
+//                            loadingIndicator!.view.removeFromSuperview()
+//                            loadingIndicator!.removeFromParent()
+//                            }
                             
                             
                         }
@@ -609,6 +627,9 @@ var countryFlag = UIImageView()
             })
         })
     }
+    
+    
+
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 

@@ -1124,6 +1124,16 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         else if type == "link" {
             imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myCoolBlue, cornerRadius: imageView.frame.width/15)
         }
+        else if type == "pin_phone" {
+            imageView.backgroundColor = white
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: white, cornerRadius: imageView.frame.width/15)
+        }
+        else if type == "pin_country" {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: .clear, cornerRadius: imageView.frame.width/15)
+        }
+        else if type == "pin_birthday" {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: .clear, cornerRadius: imageView.frame.width/15)
+        }
         else if type.contains("social") {
             if type.contains("tik") {
                 //white border for tik tok with black logo
