@@ -17,7 +17,7 @@ class AddProfilePhotoVC: UIViewController, UIImagePickerControllerDelegate & UIN
     @IBOutlet weak var addProfilePictureButton: UIButton!
     let storage = Storage.storage().reference()
     @IBOutlet weak var imageView: UIImageView!
-    
+    var country = ""
 
     
     let auth = Auth.auth()
@@ -144,7 +144,14 @@ class AddProfilePhotoVC: UIViewController, UIImagePickerControllerDelegate & UIN
 //                addsocialmediaVC.cancelLbl = "Skip"
 //                self.present(addsocialmediaVC, animated: false, completion: nil)
                 
-                self.performSegue(withIdentifier: "unwindFromSignIn", sender: self)
+            //    self.performSegue(withIdentifier: "unwindFromSignIn", sender: self)
+                
+                let personalDetailTableViewVC = self.storyboard?.instantiateViewController(withIdentifier: "personalDetailTableViewVC") as! PersonalDetailTableViewVC
+                personalDetailTableViewVC.userDataVM = self.userDataVM
+                personalDetailTableViewVC.myCountry = self.country
+                personalDetailTableViewVC.myCountries.append(self.country)
+                self.present(personalDetailTableViewVC, animated: false, completion: nil)
+                
                 
 //                let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "homeHexGrid420") as! HomeHexagonGrid
 //                homeVC.userData = self.userData

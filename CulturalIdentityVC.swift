@@ -25,11 +25,23 @@ class CulturalIdentityVC: UIViewController, UITextFieldDelegate, MRCountryPicker
         countries.count
     }
     
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return self.countries[row]
+    }
+    
+    var selectedCountry: String?
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        selectedCountry = countries[row]
+    }
+    
+    var delegate: isAbleToReceiveData?
+    
     var countryName = UILabel()
    var countryCode = UILabel()
  var countryFlag = UIImageView()
   var phoneCode = UILabel()
-    var countries: [String] = []
+   var countries: [String] = []
     func countryPhoneCodePicker(_ picker: MRCountryPicker, didSelectCountryWithName name: String, countryCode: String, phoneCode: String, flag: UIImage) {
         self.countryName.text = name
         self.countryCode.text = countryCode
@@ -37,7 +49,7 @@ class CulturalIdentityVC: UIViewController, UITextFieldDelegate, MRCountryPicker
         self.countryFlag.image = flag
     }
     var countryPicker = MRCountryPicker()
-    var userCountries: [String] = ["United States", "Ireland", "Poland", "Australia", "Mexico"]
+    var userCountries: [String] = []
     var maxCountriesAllowed = 6
     
     var navBarView = NavBarView()
@@ -94,9 +106,10 @@ class CulturalIdentityVC: UIViewController, UITextFieldDelegate, MRCountryPicker
 //    @IBOutlet weak var textField: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.addSubview(countryPicker)
         countryPicker.dataSource = self
-        countryPicker.delegate = self
+      countryPicker.delegate = self
         self.countries = self.getCountryList()
         self.countries = self.countries.sorted(by: <)
         self.countries.insert("United States", at: 0)
@@ -109,13 +122,13 @@ class CulturalIdentityVC: UIViewController, UITextFieldDelegate, MRCountryPicker
         setUpNavBarView()
         countryPicker.countryPickerDelegate = self
         countryPicker.showPhoneNumbers = true
-       // countryPicker.setCountry("SI")
+        countryPicker.setCountry("SI")
 
         // optionally set custom locale; defaults to system's locale
-     //   countryPicker.setLocale("sl_SI")
+        countryPicker.setLocale("sl_SI")
 
-        // set country by its name
-     //   countryPicker.setCountryByName("Canada")
+    //     set country by its name
+        countryPicker.setCountryByName("Canada")
         
         view.addSubview(tableView)
 //        textField.isUserInteractionEnabled = false
@@ -132,7 +145,13 @@ class CulturalIdentityVC: UIViewController, UITextFieldDelegate, MRCountryPicker
         tableView.reloadData()
        // showDatePicker()
    setUpContinueButton()
+        
+       
+        
     }
+    
+    
+
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -166,10 +185,15 @@ class CulturalIdentityVC: UIViewController, UITextFieldDelegate, MRCountryPicker
         continueButton.setTitle("Save", for: .normal)
         continueButton.titleLabel!.font = UIFont(name: "DINAlternate-Bold", size: 20)
         
+        let savePressed = UITapGestureRecognizer(target: self, action: #selector(saveButtonPressed))
+        continueButton.addGestureRecognizer(savePressed)
         //continueButt
     }
     
-    
+    @objc func saveButtonPressed(_ sender: UITapGestureRecognizer) {
+        delegate?.passArray(dataArray: userCountries)
+        self.dismiss(animated: true, completion: nil)
+    }
     
     
     
@@ -533,6 +557,18 @@ class CulturalIdentityVC: UIViewController, UITextFieldDelegate, MRCountryPicker
     }
     
     
+    @objc func doneCountryPressed() {
+        if (selectedCountry != nil && !userCountries.contains(selectedCountry!)) {
+            userCountries.append(selectedCountry!)
+        }
+        countryPicker.resignFirstResponder()
+        tableView.reloadData()
+    }
+    
+    @objc func cancelCountry() {
+        countryPicker.resignFirstResponder()
+    }
+    
     @IBAction func cancelPressed(_ sender: UIButton) {
         print("hit cancel button")
         // hide keyboard when pressed cancel
@@ -574,6 +610,13 @@ class CulturalIdentityVC: UIViewController, UITextFieldDelegate, MRCountryPicker
         print("It should dismiss here")
         self.dismiss(animated: true)
      }
+    
+    @objc func xButtonPressed(_ sender: UITapGestureRecognizer) {
+        let cell = sender.view?.superview?.superview as! PersonalDetailCell
+        print("cell tag: \(cell.interactiveTextField) \(cell.tag)")
+        userCountries.remove(at: cell.tag)
+        tableView.reloadData()
+    }
     
     func formatCountryToImage(myCountry: String) -> String {
         var success = true
@@ -675,48 +718,49 @@ extension CulturalIdentityVC: UITableViewDelegate, UITableViewDataSource {
     
 
   
-     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
-        tableView.deselectRow(at: indexPath, animated: true)
-        print("This is number cell tapped \(indexPath.row)")
-        let cell = tableView.dequeueReusableCell(withIdentifier: "personalDetailCell", for: indexPath) as! PersonalDetailCell
-        //birthday cell tapped
-        
-        //this is the add country Cell
-     
-        
-        
-        if indexPath.row == 0 {
-          
-        }
-        
-        //current city cell tapped
-        if indexPath.row == 1 {
-            
-        }
-        //gender cell tapped
-        if indexPath.row == 2 {
-            
-        }
-        //cultural identity cell tapped
-        if indexPath.row == 3 {
-    
-            
-        }
-        //phone number cell tapped
-        if indexPath.row == 4 {
-            
-        }
-        //relationship cell tapped
-        if indexPath.row == 5 {
-            
-        }
-        
-   
-    }
+//     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//
+//        tableView.deselectRow(at: indexPath, animated: true)
+//        print("This is number cell tapped \(indexPath.row)")
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "personalDetailCell", for: indexPath) as! PersonalDetailCell
+//        //birthday cell tapped
+//
+//        //this is the add country Cell
+//
+//
+//
+//        if indexPath.row == 0 {
+//
+//        }
+//
+//        //current city cell tapped
+//        if indexPath.row == 1 {
+//
+//        }
+//        //gender cell tapped
+//        if indexPath.row == 2 {
+//
+//        }
+//        //cultural identity cell tapped
+//        if indexPath.row == 3 {
+//
+//
+//        }
+//        //phone number cell tapped
+//        if indexPath.row == 4 {
+//
+//        }
+//        //relationship cell tapped
+//        if indexPath.row == 5 {
+//
+//        }
+//
+//
+//    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "personalDetailCell", for: indexPath) as! PersonalDetailCell
+        cell.tag = indexPath.row
         cell.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/8)
         cell.backgroundColor = .systemGray6
         var myGray = cell.backgroundColor
@@ -742,33 +786,21 @@ extension CulturalIdentityVC: UITableViewDelegate, UITableViewDataSource {
         cell.interactiveTextField.text = userCountries[indexPath.row] ?? "Add Another Cultural Identity"
             cell.xButton.isHidden = false
             cell.xButton.setImage(UIImage(named: "x"), for: .normal)
+            let xtap = UITapGestureRecognizer(target: self, action: #selector(xButtonPressed))
+            cell.xButton.addGestureRecognizer(xtap)
         var countryText = formatCountryToImage(myCountry: userCountries[indexPath.row]) ?? ""
             var countryName = userCountries[indexPath.row] ?? ""
             if countryText != "" {
                 countryText = "icons/Flags/\(countryText).png"
-                print("This is countryText")
+//                print("This is countryText")
         }
             cell.interactiveTextField.isUserInteractionEnabled = false
-            let cleanRef = countryText.replacingOccurrences(of: "/", with: "%2F")
-            let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
-            print("This is url \(url)")
-//            if url != nil && countryText != "" {
-//                print("This is the url for index \(indexPath.row) \(url)")
-//                cell.socialMediaIcon!.sd_setImage(with: url, placeholderImage: UIImage(named: "unity"), options: .refreshCached) { (_, error, _, _) in
-//                if (error != nil) {
-//                    print(error!.localizedDescription)
-//                    cell.socialMediaIcon!.image = UIImage(named: "unity")
-//
-//                }
-//
-//            }
-//
-//            }
+
             if countryName != "" {
                 countryName = countryName.lowercased()
                 countryName = countryName.replacingOccurrences(of: " ", with: "-")
             cell.socialMediaIcon.image = UIImage(named: "\(countryName).png") ?? UIImage(named: "unity")
-                print("This should be chaning the image and this is country name \(countryName)")
+//                print("This should be chaning the image and this is country name \(countryName)")
             }
             
         }
@@ -789,6 +821,19 @@ extension CulturalIdentityVC: UITableViewDelegate, UITableViewDataSource {
           //  let cellTap = UITapGestureRecognizer(target: self, action: #selector(relationshipCellTap))
            //     cell.addGestureRecognizer(cellTap)
             cell.interactiveTextField.inputView = countryPicker
+            //ToolBar
+            let toolbar = UIToolbar();
+            toolbar.sizeToFit()
+            let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneCountryPressed));
+             let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+           let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelCountry));
+
+          toolbar.setItems([cancelButton, spaceButton, doneButton], animated: false)
+
+            cell.interactiveTextField.inputAccessoryView = toolbar
+             cell.interactiveTextField.inputView = countryPicker
+            
+            cell.socialMediaIcon.image = UIImage(named: "unity")
             
         }
         

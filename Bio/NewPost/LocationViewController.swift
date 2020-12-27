@@ -9,84 +9,67 @@
 import UIKit
 import MapKit
 
-class LocationViewController : UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource {
+class LocationViewController : UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, MKLocalSearchCompleterDelegate {
     
-//    var resultSearchController:UISearchController? = nil
     var searchBar = UISearchBar()
-    var searchArray = [String]()
-    var matchingItems:[MKMapItem] = []
-    var mapView = MKMapView()
-  //  var tableView = UITableView()
     @IBOutlet weak var tableView: UITableView!
     var userDataVM: UserDataVM?
-     let locationManager = CLLocationManager()
-  //  var mapView = MKMapView()
-     
-     override func viewDidLoad() {
-         super.viewDidLoad()
+    let locationManager = CLLocationManager()
+    var delegate: isAbleToReceiveData?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
         view.addSubview(searchBar)
         searchBar.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height/12)
         searchBar.delegate = self
-         locationManager.delegate = self
-         locationManager.desiredAccuracy = kCLLocationAccuracyBest
-         locationManager.requestWhenInUseAuthorization()
-         locationManager.requestLocation()
-//         resultSearchController = UISearchController(searchResultsController: tableView!)
+        
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestLocation()
         view.addSubview(tableView)
         tableView.frame = CGRect(x: 0, y: view.frame.height/12, width: view.frame.width, height: view.frame.height*(11/12))
         tableView.delegate = self
         tableView.dataSource = self
-        //resultSearchController?.searchResultsUpdater = locationSearchTable as? UISearchResultsUpdating
-//         let searchBar = resultSearchController!.searchBar
-//         searchBar.sizeToFit()
-//         searchBar.placeholder = "Search for places"
-//         navigationItem.titleView = resultSearchController?.searchBar
-//         resultSearchController?.hidesNavigationBarDuringPresentation = false
-//         resultSearchController?.dimsBackgroundDuringPresentation = true
-//         definesPresentationContext = true
-  //      present(locationSearchTable, animated: false)
-         //locationSearchTable.mapView = mapView
-     }
+    }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        delegate?.pass(data: selectedLocation ?? "")
+    }
     
-
+    private var completer: MKLocalSearchCompleter = MKLocalSearchCompleter()
+    var searchTerms: [String] = []
+    
+    func searchFor(term: String) {
+        completer.delegate = self
+        completer.region = MKCoordinateRegion(.world)
+        completer.pointOfInterestFilter = MKPointOfInterestFilter.excludingAll
+        completer.queryFragment = term
+    }
+    
+    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
+        let results = completer.results.filter { result in
+            guard result.title.contains(",") || !result.subtitle.isEmpty else { return false }
+            guard !result.subtitle.contains("Nearby") else { return false }
+            return true
+        }
+        self.searchTerms = results.map { $0.title + ($0.subtitle.isEmpty ? "" : ", " + $0.subtitle) }
+        tableView.reloadData()
+    }
+    
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-   updateSearchResultsForSearchController()
+        searchFor(term: searchText)
     }
     
     
     
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-      //  searchArray = blockedArray
-   //     sortSearchArray()
+        searchBar.resignFirstResponder()
         tableView.reloadData()
     }
-    
-
-    
-    
-    func updateSearchResultsForSearchController() {
-        print("in update search results")
-            //guard let mapView = mapView,
-           guard let searchBarText = searchBar.text else { return }
-        let request = MKLocalSearch.Request()
-        request.naturalLanguageQuery = searchBarText
-        request.region = mapView.region
-        let search = MKLocalSearch(request: request)
-        search.start { response, _ in
-            guard let response = response else {
-                print("returning")
-                return
-            }
-            self.matchingItems = response.mapItems
-            print("This is matching items \(self.matchingItems)")
-            self.tableView.reloadData()
-        }
-    }
-    
     
     
     func parseAddress(selectedItem:MKPlacemark) -> String {
@@ -113,26 +96,12 @@ class LocationViewController : UIViewController, UISearchBarDelegate, UITableVie
         return addressLine
     }
     
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
-        guard let searchBarText = searchBar.text else { return }
-        let request = MKLocalSearch.Request()
-        request.naturalLanguageQuery = searchBarText
-        request.region = mapView.region
-        let search = MKLocalSearch(request: request)
-        search.start { response, _ in
-            guard let response = response else {
-                return
-            }
-            self.matchingItems = response.mapItems
-            self.tableView.reloadData()
-        }
-    }
+    var selectedLocation: String?
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedLocation = self.matchingItems[indexPath.row]
-        print("This is selected Location \(selectedLocation)")
+        selectedLocation = self.searchTerms[indexPath.row]
+        self.dismiss(animated: true, completion: nil)
         
-  
     }
     
     
@@ -144,57 +113,46 @@ class LocationViewController : UIViewController, UISearchBarDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return matchingItems.count
+        return searchTerms.count
     }
     
     // cell height
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-     //   print("This is height for row at: \(self.view.frame.height/8)")
-    //    return self.view.frame.height/8
         return view.frame.height/10
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "locationCell", for: indexPath) as! LocationCell
-       // cell.frame.height = self.view.frame.height/10
-      //  cell.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/10)
-        //let cellTappedRecognizer = UITapGestureRecognizer(target: self, action: #selector(cellTapped))
-
-      //  print("l \(cell)")
-       
-        cell.label.text = matchingItems[indexPath.row].name
-     //   cell.textLabel.text = matchingItems[indexPath.row].placemark ?? ""
-  
+        cell.label.text = searchTerms[indexPath.row]  
         return cell
     }
+    
+    
+    
+    
+    
+    
+}
 
-    
-    
-    
-    
-    
- }
-
- extension LocationViewController : CLLocationManagerDelegate {
+extension LocationViewController : CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if status == .authorizedWhenInUse {
-             locationManager.requestLocation()
-         }
-     }
-     
-     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-         if let location = locations.first {
-//            let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
-//            let region = MKCoordinateRegion(center: location.coordinate, span: span)
-//            mapView.setRegion(region, animated: true)
-         //   mapView = MKMapView()
-            print("Location data received.")
-                   print(location)
-         }
-     }
-     
+            locationManager.requestLocation()
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.first {
+            //            let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+            //            let region = MKCoordinateRegion(center: location.coordinate, span: span)
+            //            mapView.setRegion(region, animated: true)
+            //   mapView = MKMapView()
+            //            print("Location data received.")
+            //                   print(location)
+        }
+    }
+    
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-         print("error:: \(error)")
-     }
- }
+    }
+}

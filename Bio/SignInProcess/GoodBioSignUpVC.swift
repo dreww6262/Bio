@@ -18,7 +18,8 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     var changedProfilePic = false
     var bioCharacterLimit = 20
     var countries: [String] = []
-    var userData: UserData?
+   // var myCountry = ""
+//    var userData: UserData?
     var country = ""
     var GDPRCountries: [String] = ["Austria", "Belgium", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Germany", "Greece", "Hungary", "Ireland", "Italy", "Latvia", "Lithuania", "Luxembourg", "Malta", "Netherlands", "Poland", "Portugal", "Romania", "Slovakia", "Slovenia", "Spain", "Sweden"]
     
@@ -452,6 +453,9 @@ var countryFlag = UIImageView()
             
             return
         }
+        
+        
+        
         self.country = self.countryTextField.text!
         var minimumAge = 13
         print("This is age \(age)")
@@ -553,7 +557,7 @@ var countryFlag = UIImageView()
         addChild(loadingIndicator!)
         view.addSubview(loadingIndicator!.view)
         
-        createUser(email: email, password: password, completion: {user in
+        createUser(email: email, password: password, completion: { [self]user in
             if (user == nil) {
                 self.blurEffectView?.removeFromSuperview()
                 loadingIndicator!.view.removeFromSuperview()
@@ -573,9 +577,10 @@ var countryFlag = UIImageView()
             let filename = "\(username)_avatar.png"
             reference.append("/\(filename)")
             let avaFileRef = userDataStorageRef.child(filename)
+           // country = self.countryTextField.text ?? ""
             avaFileRef.putData(self.avaImg.image!.pngData()!, metadata: nil, completion: { meta, error in
                 if (error == nil) {
-                    let userData = UserData(email: email, publicID: self.usernameTxt.text!.lowercased(), privateID: signedInUser!.uid, avaRef: reference, hexagonGridID: "", userPage: "", subscribedUsers: [""], subscriptions: [String: String](), numPosts: 0, displayName: self.displayNameTxt.text!, birthday: self.birthday, blockedUsers: [String](), isBlockedBy: [String](), pageViews: 0, bio: bio, country: self.countryTextField.text ?? "", lastTimePosted: NSDate.now.description)
+                    let userData = UserData(email: email, publicID: self.usernameTxt.text!.lowercased(), privateID: signedInUser!.uid, avaRef: reference, hexagonGridID: "", userPage: "", subscribedUsers: [""], subscriptions: [String: String](), numPosts: 0, displayName: self.displayNameTxt.text!, birthday: self.birthday, blockedUsers: [String](), isBlockedBy: [String](), pageViews: 0, bio: bio, country: country, lastTimePosted: NSDate.now.description, currentCity: "", gender: "", phoneNumber: "")
                     let db = Firestore.firestore()
                     let userDataCollection = db.collection("UserData1")
                     let docRef = userDataCollection.document(user!.uid)
@@ -584,11 +589,12 @@ var countryFlag = UIImageView()
                             print("userData posted")
                             self.userDataVM?.userData.value = userData
                             self.userDataVM?.retreiveUserData(username: userData.publicID)
-                            self.userData = userData
                             
                             if self.changedProfilePic == false {
                                 let addProfilePic = self.storyboard?.instantiateViewController(withIdentifier: "addProfilePhotoVC") as! AddProfilePhotoVC
                                 addProfilePic.userDataVM = self.userDataVM
+                                addProfilePic.country = country
+                                
                                 self.present(addProfilePic, animated: false, completion: nil)
                             }
         // this triggers old/bad sign out process
@@ -596,7 +602,7 @@ var countryFlag = UIImageView()
                                 let personalDetailTableViewVC = self.storyboard?.instantiateViewController(withIdentifier: "personalDetailTableViewVC") as! PersonalDetailTableViewVC
                                 personalDetailTableViewVC.userDataVM = self.userDataVM
                                 personalDetailTableViewVC.myCountry = self.country
-                                personalDetailTableViewVC.userData = self.userData
+                                personalDetailTableViewVC.myCountries.append(self.country)
                                 self.present(personalDetailTableViewVC, animated: false, completion: nil)
                             }
                             

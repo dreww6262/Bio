@@ -126,6 +126,7 @@ class ContentBirthdayVC: UIViewController, UIScrollViewDelegate {
     }
     
     func formatBirthday(date: String) -> String {
+        print("This is date \(date)")
         var dateArray = date.components(separatedBy: "/")
         var month = dateArray[0]
         var day = dateArray[1]

@@ -15,16 +15,17 @@ import FirebaseUI
 import FirebaseStorage
 import YPImagePicker
 
-class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
+class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource, isAbleToReceiveData {
+    
+    
     var userDataVM: UserDataVM?
-    var userData: UserData?
+    //var userData: UserData?
     var myZodiac = ""
     var myBirthday = ""
     var myAgeLimit = 13
     var myCountry = ""
+    var myCountries: [String] = []
     var GDPRCountries: [String] = ["Austria", "Belgium", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Germany", "Greece", "Hungary", "Ireland", "Italy", "Latvia", "Lithuania", "Luxembourg", "Malta", "Netherlands", "Poland", "Portugal", "Romania", "Slovakia", "Slovenia", "Spain", "Sweden"]
-    var loadingIndicator: UIViewController?
-    var blurEffectView: UIVisualEffectView?
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -55,16 +56,16 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
     var currentUser: User?
     var loadUserDataArray = ThreadSafeArray<UserData>()
     var searchString: String = ""
-//    var textFieldArray = [UITextField]()
+    //    var textFieldArray = [UITextField]()
     
     var followList = [String]()
     var followListener: ListenerRegistration?
     
     var cancelLbl: String?
     
-
     
-
+    
+    
     var image1 = UIImage(named: "unity")
     var birthdayImage = UIImage(named: "birthday")
     var houseImage = UIImage(named: "homeCircle")
@@ -72,14 +73,14 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
     var cultureImage = UIImage(named: "unity")
     var phoneImage = UIImage(named: "smartphone")
     var relationshipImage = UIImage(named: "heart-1")
-
+    
     var iconArray: [UIImage] = []
-
-
+    
+    
     var placeHolderTextArray: [String] = ["Birthday (Required)", "Current City (Required)", "Gender (Required)", "Cultural Identity", "Phone Number", "Relationship Status"]
-
+    
     override func viewDidLoad() {
-    super.viewDidLoad()
+        super.viewDidLoad()
         setUpNavBarView()
         tableView.delegate = self
         tableView.dataSource = self
@@ -94,36 +95,25 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
         relationshipPickerView.dataSource = self
         genderPickerView.tag = 1
         relationshipPickerView.tag = 2
-     //   textFieldData = Array(repeating: "", count: socialMediaArray.count)
+        //   textFieldData = Array(repeating: "", count: socialMediaArray.count)
         cancelButton.isHidden = true
         doneButton.isHidden = true
         titleLabel1.isHidden = true
-        view.addSubview(genderPickerView)
-       genderPickerView.frame = CGRect(x: 0, y: view.frame.height - 300, width: view.frame.width, height: 300)
-        view.addSubview(relationshipPickerView)
-       relationshipPickerView.frame = CGRect(x: 0, y: view.frame.height - 300, width: view.frame.width, height: 300)
         
         view.backgroundColor = .systemGray6
         doneButton.titleLabel!.font = UIFont(name: "DINAlternate-Bold", size: 19)
-    
+        
         view.addSubview(tableView)
-//        textField.isUserInteractionEnabled = false
-//        interactiveTextField.isUserInteractionEnabled = true
-//
-     
-
-   
-       // showDatePicker()
-       // showDatePicker()
-   setUpContinueButton()
+        
+        setUpContinueButton()
     }
     
     func getZodiacSign(_ date:Date) -> String{
-
+        
         let calendar = Calendar.current
         let d = calendar.component(.day, from: date)
         let m = calendar.component(.month, from: date)
-
+        
         switch (d,m) {
         case (21...31,1),(1...19,2):
             return "aquarius"
@@ -150,17 +140,17 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
         default:
             return "capricorn"
         }
-
+        
     }
     
     func addBirthdayHex() {
-    //    userDataVM?.userData.listener
+        let userData = userDataVM?.userData.value
         var success = true
         var myText = cellArray[0].interactiveTextField.text ?? ""
         var trimmedText = myText.trimmingCharacters(in: .whitespaces)
         trimmedText = trimmedText.lowercased()
-        print("This is trimmedText \(trimmedText)")
-        let birthdayHex = HexagonStructData(resource: "\(userData!.publicID)Birthday", type: "pin_birthday", location: userData!.numPosts + 1, thumbResource: "icons/AstrologicalSigns/\(myZodiac).png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myZodiac, views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: [])
+        //        print("This is trimmedText \(trimmedText)")
+        let birthdayHex = HexagonStructData(resource: myText, type: "pin_birthday", location: userData!.numPosts + 1, thumbResource: "icons/AstrologicalSigns/\(myZodiac).png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myZodiac, views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: [])
         addHex(hexData: birthdayHex, completion: { bool in
             success = success && bool
             
@@ -168,12 +158,12 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
     }
     
     func addRelationshipHex() {
-    //    userDataVM?.userData.listener
+        let userData = userDataVM?.userData.value
         var success = true
         var myText = cellArray[5].interactiveTextField.text ?? ""
         var trimmedText = myText.trimmingCharacters(in: .whitespaces)
         trimmedText = trimmedText.lowercased()
-        print("This is trimmedText \(trimmedText)")
+        //        print("This is trimmedText \(trimmedText)")
         let relationshipHex = HexagonStructData(resource: "\(userData!.publicID)Relationship", type: "pin_relationship", location: userData!.numPosts + 1, thumbResource: "icons/Relationships/\(trimmedText).png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myText, views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: [])
         addHex(hexData: relationshipHex, completion: { bool in
             success = success && bool
@@ -182,14 +172,19 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
     }
     
     func addCultureHex() {
-    //    userDataVM?.userData.listener
+        let userData = userDataVM?.userData.value
         var success = true
-        var myText = cellArray[3].interactiveTextField.text ?? ""
-        var myCountries = userData!.country
-        var trimmedText = myText.trimmingCharacters(in: .whitespaces)
+     //   var myText = cellArray[3].interactiveTextField.text ?? ""
+      //  var myCountries = userData!.country
+        var myText = myCountry
+        if !myCountries.isEmpty {
+        var myText = myCountries[0]
+        }
+        var trimmedText = myText.replacingOccurrences(of: " ", with: "-") as! String
+      //  var trimmedText = myText.trimmingCharacters(in: .whitespaces)
         trimmedText = trimmedText.lowercased()
-        print("This is trimmedText \(trimmedText)")
-        let cultureHex = HexagonStructData(resource: "\(userData!.publicID)Culture", type: "pin_country", location: userData!.numPosts + 1, thumbResource: "icons/Flags/\(trimmedText).png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myText, views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: [])
+        //        print("This is trimmedText \(trimmedText)")
+        let cultureHex = HexagonStructData(resource: "\(userData!.publicID)Culture", type: "pin_country", location: userData!.numPosts + 1, thumbResource: "icons/Flags/\(trimmedText).png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myText, views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: myCountries)
         addHex(hexData: cultureHex, completion: { bool in
             success = success && bool
             
@@ -197,12 +192,12 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
     }
     
     func addPhoneHex() {
-    //    userDataVM?.userData.listener
+        let userData = userDataVM?.userData.value
         var success = true
         var myText = cellArray[4].interactiveTextField.text ?? ""
         var trimmedText = myText.trimmingCharacters(in: .whitespaces)
         trimmedText = trimmedText.lowercased()
-        print("This is trimmedText \(trimmedText)")
+        //        print("This is trimmedText \(trimmedText)")
         let phoneHex = HexagonStructData(resource: "\(userData!.publicID)Phone", type: "pin_phone", location: userData!.numPosts + 1, thumbResource: "icons/smartphone.png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myText, views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: [])
         addHex(hexData: phoneHex, completion: { bool in
             success = success && bool
@@ -211,13 +206,13 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
     }
     
     func addCityHex() {
-    //    userDataVM?.userData.listener
+        let userData = userDataVM?.userData.value
         var success = true
         var myText = cellArray[1].interactiveTextField.text ?? ""
-       // var trimmedText = myText.trimmingCharacters(in: .whitespaces)
-      //  trimmedText = trimmedText.lowercased()
-      //  print("This is trimmedText \(trimmedText)")
-        let cityHex = HexagonStructData(resource: "\(userData!.publicID)City", type: "pin_city", location: userData!.numPosts + 1, thumbResource: "icons/smartphone.png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myText, views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: [])
+        // var trimmedText = myText.trimmingCharacters(in: .whitespaces)
+        //  trimmedText = trimmedText.lowercased()
+        //  print("This is trimmedText \(trimmedText)")
+        let cityHex = HexagonStructData(resource: "\(userData!.publicID)City", type: "pin_city", location: userData!.numPosts + 1, thumbResource: "icons/home.png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myText, views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: [])
         addHex(hexData: cityHex, completion: { bool in
             success = success && bool
             
@@ -230,12 +225,12 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
         dateFormater.dateFormat = "MM/dd/yyyy"
         let birthdayDate = dateFormater.date(from: birthday)
         self.myZodiac = getZodiacSign(birthdayDate!)
-        print("This is my zodiac \(self.myZodiac)")
+        //        print("This is my zodiac \(self.myZodiac)")
         let calendar: NSCalendar! = NSCalendar(calendarIdentifier: .gregorian)
         let now = Date()
         let calcAge = calendar.components(.year, from: birthdayDate!, to: now, options: [])
         let age = calcAge.year
-        print("This is age: \(age)")
+        //        print("This is age: \(age)")
         return age!
     }
     
@@ -243,7 +238,6 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-         loadingIndicator = storyboard?.instantiateViewController(withIdentifier: "loading")
         currentUser = Auth.auth().currentUser
         if GDPRCountries.contains(myCountry) {
             myAgeLimit = 16
@@ -251,9 +245,9 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
             myAgeLimit = 13
         }
         
-         iconArray = [birthdayImage ?? UIImage(), houseImage ?? UIImage(), genderImage ?? UIImage(), cultureImage ?? UIImage(), phoneImage ?? UIImage(), relationshipImage ?? UIImage()]
-      //  genderPickerView.isHidden = true
-       // relationshipPickerView.isHidden = true
+        iconArray = [birthdayImage ?? UIImage(), houseImage ?? UIImage(), genderImage ?? UIImage(), cultureImage ?? UIImage(), phoneImage ?? UIImage(), relationshipImage ?? UIImage()]
+        //  genderPickerView.isHidden = true
+        // relationshipPickerView.isHidden = true
         genderPickerView.endEditing(true)
         relationshipPickerView.endEditing(true)
     }
@@ -261,36 +255,34 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
     func showDatePicker(){
         //Formate Date
         datePicker.datePickerMode = .date
-
-       //ToolBar
-       let toolbar = UIToolbar();
-       toolbar.sizeToFit()
-       let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker));
+        
+        //ToolBar
+        let toolbar = UIToolbar();
+        toolbar.sizeToFit()
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker));
         let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
-      let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker));
-
-     toolbar.setItems([spaceButton,doneButton], animated: false)
-
-  //      cellArray[0].interactiveTextField.inputAccessoryView = toolbar
-   //     cellArray[0].interactiveTextField.inputView = datePicker
-
-     }
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker));
+        
+        toolbar.setItems([spaceButton,doneButton], animated: false)
+        
+        
+    }
     
     
     @objc func cancelDatePicker(){
-       self.view.endEditing(true)
-     }
+        self.view.endEditing(true)
+    }
     @objc func donedatePicker(){
-
-     let formatter = DateFormatter()
-     formatter.dateFormat = "MM/dd/yyyy"
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/dd/yyyy"
         cellArray[0].interactiveTextField.text = formatter.string(from: datePicker.date)
         var birthdaySubmitted = cellArray[0].interactiveTextField.text
-      self.birthday = birthdaySubmitted!
-    age = calcAge(birthday: birthdaySubmitted!)
+        self.birthday = birthdaySubmitted!
+        age = calcAge(birthday: birthdaySubmitted!)
         cellArray[0].socialMediaIcon.image = UIImage(named: self.myZodiac)
-     self.view.endEditing(true)
-   }
+        self.view.endEditing(true)
+    }
     
     
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
@@ -298,51 +290,34 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-            var countrows : Int = genderArray.count
-            if pickerView == relationshipPickerView {
-                countrows = self.relationshipStatusArray.count
-            }
-
-            return countrows
+        var countrows : Int = genderArray.count
+        if pickerView == relationshipPickerView {
+            countrows = self.relationshipStatusArray.count
         }
-
-        func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-            if pickerView == genderPickerView {
-                let titleRow = genderArray[row]
-                 return titleRow
-            } else if pickerView == relationshipPickerView {
-                let titleRow = relationshipStatusArray[row]
-                return titleRow
-            }
-
-            return ""
+        
+        return countrows
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        if pickerView == genderPickerView {
+            let titleRow = genderArray[row]
+            return titleRow
+        } else if pickerView == relationshipPickerView {
+            let titleRow = relationshipStatusArray[row]
+            return titleRow
         }
-
-        func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-            if pickerView == genderPickerView {
-                cellArray[2].interactiveTextField.text = self.genderArray[row]
-            } else if pickerView == relationshipPickerView {
-                cellArray[5].interactiveTextField.text = self.relationshipStatusArray[row]
-            }
+        
+        return ""
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if pickerView == genderPickerView {
+            cellArray[2].interactiveTextField.text = self.genderArray[row]
+        } else if pickerView == relationshipPickerView {
+            cellArray[5].interactiveTextField.text = self.relationshipStatusArray[row]
         }
-
-//    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-//        if pickerView.tag == 1 {
-//            return genderArray.count
-//        } else {
-//            return relationshipStatusArray.count
-//        }
-//    }
-//
-//    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
-//        if pickerView.tag == 1 {
-//            return "\(genderArray[row])"
-//        } else {
-//            return "\(relationshipStatusArray[row])"
-//        }
-//    }
-//
-//
+    }
+  
     
     func setUpContinueButton() {
         view.addSubview(continueButton)
@@ -352,13 +327,13 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
         continueButton.layer.cornerRadius = continueButton.frame.width/40
         continueButton.backgroundColor = .systemBlue
         continueButton.titleLabel!.textColor = .white
-        continueButton.setTitle("Save", for: .normal)
+        continueButton.setTitle("Create Account", for: .normal)
         continueButton.titleLabel!.font = UIFont(name: "DINAlternate-Bold", size: 20)
         let continueTap = UITapGestureRecognizer(target: self, action: #selector(continueTapped))
         continueButton.addGestureRecognizer(continueTap)
         //continueButt
     }
-
+    
     
     
     @IBAction func cancelPressed(_ sender: UIButton) {
@@ -390,31 +365,74 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
         
     }
     
+    func formatCountryToImage(myCountry: String) -> String {
+        var success = true
+        
+        var hyphenCountry = myCountry.replacingOccurrences(of: " ", with: "-") as! String
+        hyphenCountry = hyphenCountry.lowercased()
+        return hyphenCountry
+    }
+    
+    func pass(data: String) {
+        cellArray[1].interactiveTextField.text = data
+    }
+    
+    func passArray(dataArray: [String]) {
+        myCountries = dataArray
+        if !myCountries.isEmpty {
+            let unformattedCountry = myCountries[0]
+            var formattedCountry = formatCountryToImage(myCountry: unformattedCountry)
+            formattedCountry = formattedCountry.lowercased()
+            formattedCountry = formattedCountry.replacingOccurrences(of: " ", with: "-")
+            print("formatted country: \(formattedCountry)")
+            cellArray[3].socialMediaIcon.image = UIImage(named: formattedCountry) ?? UIImage(named: "unity")
+        }
+        
+    }
+    
     
     @objc func continueTapped(_ sender: UITapGestureRecognizer) {
-     //    age = calcAge(birthday: myBirthday)
+        let userData = userDataVM?.userData.value
         if cellArray[0].interactiveTextField.text == "" || cellArray[1].interactiveTextField.text == "" || cellArray[2].interactiveTextField.text == "" {
-           // print("Fill in all required fields")//
-            let alert = UIAlertController(title: "👶🏼", message: "Fill in all required fields.", preferredStyle: .alert)
+            // print("Fill in all required fields")//
+            let alert = UIAlertController(title: "Required", message: "Fill in all required fields.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
             return
         }
         print("All required fields are filled in. Now create hexagons")
         if age < myAgeLimit {
-       //     print("You are too young. You must be \(myAgeLimit) years old")
+            //     print("You are too young. You must be \(myAgeLimit) years old")
             let alert = UIAlertController(title: "👶🏼", message: "You must be \(myAgeLimit) to join Bio.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
             return
         }
         
+        //save birthday, current city, gender, cultural identity, phonenumber, relationship status
+        let myBirthday = cellArray[0].interactiveTextField.text
+        let myCurrentCity = cellArray[1].interactiveTextField.text
+        let myGender = cellArray[2].interactiveTextField.text
+        let myCulturalIdentity = myCountries
+        let myPhoneNumber = cellArray[4].interactiveTextField.text ?? ""
+        let myRelationship = cellArray[5].interactiveTextField.text ?? ""
+        
+        userData?.birthday = myBirthday ?? ""
+        userData?.currentCity = myCurrentCity ?? ""
+        userData?.gender = myGender ?? ""
+        userData?.phoneNumber = myPhoneNumber
+        
         addBirthdayHex()
         userData?.numPosts += 1
-        addCityHex()
-        userData?.numPosts += 1
         
-        if cellArray[3].interactiveTextField.text != "" {
+        var myCity = cellArray[1].interactiveTextField.text ?? ""
+        if myCity.contains("United States") {
+            addCityHex()
+            userData?.numPosts += 1
+        }
+            
+  
+        if !myCountries.isEmpty {
             addCultureHex()
             userData?.numPosts += 1
         }
@@ -429,14 +447,40 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
             userData?.numPosts += 1
         }
         
-        //segue to home screen
-        self.performSegue(withIdentifier: "signUpSegue2", sender: self)
-    self.blurEffectView?.removeFromSuperview()
-    loadingIndicator!.view.removeFromSuperview()
-    loadingIndicator!.removeFromParent()
+        let loadingIndicator = storyboard?.instantiateViewController(withIdentifier: "loading")
         
-     }
+        let blurEffectView: UIVisualEffectView = {
+            let blurEffect = UIBlurEffect(style: .dark)
+            let blurEffectView = UIVisualEffectView(effect: blurEffect)
+            
+            blurEffectView.alpha = 0.8
+            
+            // Setting the autoresizing mask to flexible for
+            // width and height will ensure the blurEffectView
+            // is the same size as its parent view.
+            blurEffectView.autoresizingMask = [
+                .flexibleWidth, .flexibleHeight
+            ]
+            blurEffectView.frame = view.bounds
+            
+            return blurEffectView
+        }()
+        view.addSubview(blurEffectView)
+        
+        addChild(loadingIndicator!)
+        view.addSubview(loadingIndicator!.view)
+        
+        userDataVM?.updateUserData(newUserData: userData!, completion: {_ in
+            //segue to home screen
+            self.performSegue(withIdentifier: "signUpSegue2", sender: self)
+            blurEffectView.removeFromSuperview()
+            loadingIndicator!.view.removeFromSuperview()
+            loadingIndicator!.removeFromParent()
+        })
+    }
     
+    
+   
     @objc func backTapped(_ sender: UITapGestureRecognizer) {
         print("back hit!")
         for v in view.subviews {
@@ -448,31 +492,34 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
     @objc func backButtonpressed() {
         print("It should dismiss here")
         self.dismiss(animated: true)
-     }
+    }
     
     @objc func birthdayCellTap(_ sender: UITapGestureRecognizer) {
-       print("I tapped birthday cell")
-       // pickerView.tag = 1
+        print("I tapped birthday cell")
+        // pickerView.tag = 1
         cellArray[0].interactiveTextField.becomeFirstResponder()
     }
     @objc func cityCellTap(_ sender: UITapGestureRecognizer) {
-       print("I tapped city cell")
+        print("I tapped city cell")
         let citySearchVC = storyboard?.instantiateViewController(withIdentifier: "locationViewController") as! LocationViewController
+        citySearchVC.delegate = self
         citySearchVC.userDataVM = userDataVM
         citySearchVC.modalPresentationStyle = .fullScreen
         self.present(citySearchVC, animated: false, completion: nil)
     }
     
     @objc func genderCellTap(_ sender: UITapGestureRecognizer) {
-       print("I tapped gender cell")
-      //  pickerView.tag = 1
+        print("I tapped gender cell")
         cellArray[2].interactiveTextField.becomeFirstResponder()
+        
     }
     
     @objc func cultureCell(_ sender: UITapGestureRecognizer) {
-       print("I tapped culture cell")
+        print("I tapped culture cell")
         let cultureVC = storyboard?.instantiateViewController(withIdentifier: "culturalIdentityVC") as! CulturalIdentityVC
+        cultureVC.delegate = self
         cultureVC.userDataVM = userDataVM
+        cultureVC.userCountries = myCountries
         cultureVC.modalPresentationStyle = .fullScreen
         self.present(cultureVC, animated: false, completion: nil)
     }
@@ -480,94 +527,66 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
     
     
     @objc func phoneCellTap(_ sender: UITapGestureRecognizer) {
-       print("I tapped phone cell")
+        print("I tapped phone cell")
         cellArray[4].interactiveTextField.becomeFirstResponder()
     }
     
     
     @objc func relationshipCellTap(_ sender: UITapGestureRecognizer) {
-       print("I tapped relationship cell")
-       // pickerView.tag = 0
         cellArray[5].interactiveTextField.becomeFirstResponder()
     }
     
     
     
-    func formatCountryToImage(myCountry: String) -> String {
-        var success = true
-
-        var hyphenCountry = myCountry.replacingOccurrences(of: " ", with: "-") as! String
-        hyphenCountry = hyphenCountry.lowercased()
-        print("This is hypehenCountry \(hyphenCountry)")
-        print("should be a country hex!")
-        var countryString = "icons/Flags/\(hyphenCountry).png"
-  return countryString
-    }
-    
-    
     func setUpNavBarView() {
         var statusBarHeight = UIApplication.shared.statusBarFrame.height
-        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.addSubview(backButton)
         self.navBarView.addSubview(postButton)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
-       
+        
         var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
         navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
-//        self.navBarView.addSubview(toSettingsButton)
-//        self.navBarView.addSubview(toSearchButton)
         var backButtonWidth = CGFloat(30)
         self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - backButtonWidth)/2, width: backButtonWidth, height: backButtonWidth)
         
+        
+        let backTap = UITapGestureRecognizer(target: self, action: #selector(self.backButtonpressed))
+        backTap.numberOfTapsRequired = 1
+        backButton.isUserInteractionEnabled = true
+        backButton.addGestureRecognizer(backTap)
+        backButton.setImage(UIImage(named: "blackChevron"), for: .normal)
+        
+        
 
-            let backTap = UITapGestureRecognizer(target: self, action: #selector(self.backButtonpressed))
-            backTap.numberOfTapsRequired = 1
-            backButton.isUserInteractionEnabled = true
-            backButton.addGestureRecognizer(backTap)
-            backButton.setImage(UIImage(named: "blackChevron"), for: .normal)
-        
-        
-  //      let postTap = UITapGestureRecognizer(target: self, action: #selector(self.postTapped))
-//        postTap.numberOfTapsRequired = 1
-//        postButton.isUserInteractionEnabled = true
-//        postButton.addGestureRecognizer(postTap)
         postButton.setTitle("Next", for: .normal)
         postButton.setTitleColor(.systemBlue, for: .normal)
         postButton.isHidden = true
-      //  postButton.frame = CGRect(x: (self.view.frame.width) - (topBar.frame.height) - 5, y: 0, width: topBar.frame.height, height: topBar.frame.height)
         postButton.titleLabel?.sizeToFit()
         postButton.titleLabel?.textAlignment = .right
         
-    
-   //     self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
         
-      //  backButton.sizeToFit()
+        
         postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 40, height: 34)
-        //navBarView.postButton.titleLabel?.sizeToFit()
         navBarView.postButton.titleLabel?.textAlignment = .right
         let yOffset = navBarView.frame.maxY
-  
+        
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Add Your Cultural Identities"
         
-       // self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
         self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 140, y: postButton.frame.minY, width: 280, height: 25)
         navBarView.backgroundColor = .white
         navBarView.titleLabel.textColor = .black
-      
+        
     }
     
     
     var textFieldData = [String]()
-//    @objc func textFieldDidChange(_ textField: UITextField) {
-//        textFieldData[textField.tag] = textField.text!
-//    }
-    
-    
-   
 
+    
+    
+    
 }
 
 
@@ -585,53 +604,12 @@ extension PersonalDetailTableViewVC: UITableViewDelegate, UITableViewDataSource 
     
     // cell height
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-     //   print("This is height for row at: \(self.view.frame.height/8)")
-    //    return self.view.frame.height/8
-   // return 66
+        //   print("This is height for row at: \(self.view.frame.height/8)")
+        //    return self.view.frame.height/8
+        // return 66
         return 90
     }
-    
 
-  
-     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
-        tableView.deselectRow(at: indexPath, animated: true)
-        print("This is number cell tapped \(indexPath.row)")
-        let cell = tableView.dequeueReusableCell(withIdentifier: "personalDetailCell", for: indexPath) as! PersonalDetailCell
-        //birthday cell tapped
-        
-        //this is the add country Cell
-     
-        
-        
-        if indexPath.row == 0 {
-          
-        }
-        
-        //current city cell tapped
-        if indexPath.row == 1 {
-            
-        }
-        //gender cell tapped
-        if indexPath.row == 2 {
-            
-        }
-        //cultural identity cell tapped
-        if indexPath.row == 3 {
-
-            
-        }
-        //phone number cell tapped
-        if indexPath.row == 4 {
-            
-        }
-        //relationship cell tapped
-        if indexPath.row == 5 {
-            
-        }
-        
-   
-    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "personalDetailCell", for: indexPath) as! PersonalDetailCell
@@ -640,10 +618,7 @@ extension PersonalDetailTableViewVC: UITableViewDelegate, UITableViewDataSource 
         var myGray = cell.backgroundColor
         cell.layer.borderColor = myGray?.cgColor
         cell.layer.borderWidth = 10
-       // let cellTappedRecognizer = UITapGestureRecognizer(target: self, action: #selector(cellTapped))
-       // cell.addGestureRecognizer(cellTappedRecognizer)
-        //  Configure the cell...
-        //cell.socialMediaIcon.image = UIImage(named: "unity")
+
         cell.socialMediaIcon.layer.cornerRadius = cell.socialMediaIcon.frame.size.width / 2
         cell.socialMediaIcon.clipsToBounds = true
         cell.socialMediaIcon.layer.borderWidth = 1.0
@@ -651,41 +626,38 @@ extension PersonalDetailTableViewVC: UITableViewDelegate, UITableViewDataSource 
         cell.interactiveTextField.isUserInteractionEnabled = true
         cell.interactiveTextField.textColor = .black
         
-   
+        
         cell.interactiveTextField.attributedPlaceholder = NSAttributedString(string: "Cultural Identity",
-                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+                                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         
         
-       // cell.interactiveTextField.text = placeHolderTextArray[indexPath.row] ?? "Add Personal Details"
         cell.socialMediaIcon.image = iconArray[indexPath.row] ?? UIImage(named: "unity")
-    
-            
+        
+        
         cell.circularMask.frame = cell.socialMediaIcon.frame
         cell.interactiveTextField.textColor = .black
-       // cell.interactiveTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
 
-        cell.interactiveTextField.tag = indexPath.row
-//        if (textFieldData.count > indexPath.row) {
-//            cell.interactiveTextField.text = textFieldData[indexPath.row]
-//        }
         
-    //do birthday stuff
+        cell.interactiveTextField.tag = indexPath.row
+
+        
+        //do birthday stuff
         if indexPath.row == 0 {
             //show datePicker
             datePicker.datePickerMode = .date
-
-           //ToolBar
-           let toolbar = UIToolbar();
-           toolbar.sizeToFit()
-           let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker));
+            
+            //ToolBar
+            let toolbar = UIToolbar();
+            toolbar.sizeToFit()
+            let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker));
             let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
-          let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker));
-
-         toolbar.setItems([spaceButton,doneButton], animated: false)
+            let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker));
+            
+            toolbar.setItems([spaceButton,doneButton], animated: false)
             let cellTap = UITapGestureRecognizer(target: self, action: #selector(birthdayCellTap))
-                cell.addGestureRecognizer(cellTap)
-
-           cell.interactiveTextField.inputAccessoryView = toolbar
+            cell.addGestureRecognizer(cellTap)
+            
+            cell.interactiveTextField.inputAccessoryView = toolbar
             cell.interactiveTextField.inputView = datePicker
         }
         
@@ -694,57 +666,52 @@ extension PersonalDetailTableViewVC: UITableViewDelegate, UITableViewDataSource 
             //send to chooseCityVC
             cell.interactiveTextField.isUserInteractionEnabled = false
             let cellTap = UITapGestureRecognizer(target: self, action: #selector(cityCellTap))
-                cell.addGestureRecognizer(cellTap)
+            cell.addGestureRecognizer(cellTap)
         }
         
         //do gender stuff
-           else if indexPath.row == 2 {
-             //show gender picker
+        else if indexPath.row == 2 {
+            //show gender picker
             cell.interactiveTextField.inputView = genderPickerView
             let cellTap = UITapGestureRecognizer(target: self, action: #selector(genderCellTap))
-                cell.addGestureRecognizer(cellTap)
+            cell.addGestureRecognizer(cellTap)
             
-            }
-            
-            // do cultural  stuff
-           else if indexPath.row == 3 {
+        }
+        
+        // do cultural  stuff
+        else if indexPath.row == 3 {
             cell.interactiveTextField.isUserInteractionEnabled = false
             let cellTap = UITapGestureRecognizer(target: self, action: #selector(cultureCell))
-                cell.addGestureRecognizer(cellTap)
-            }
-        // do phone stuff
-       else if indexPath.row == 4 {
-            //type in phoneNumber
-        cell.interactiveTextField.keyboardType = UIKeyboardType.numberPad
-        let cellTap = UITapGestureRecognizer(target: self, action: #selector(phoneCellTap))
             cell.addGestureRecognizer(cellTap)
-    
+        }
+        // do phone stuff
+        else if indexPath.row == 4 {
+            //type in phoneNumber
+            cell.interactiveTextField.keyboardType = UIKeyboardType.numberPad
+            let cellTap = UITapGestureRecognizer(target: self, action: #selector(phoneCellTap))
+            cell.addGestureRecognizer(cellTap)
+            
         }
         
         //do relationship
-           else if indexPath.row == 5 {
-                //show relationshipPicker
+        else if indexPath.row == 5 {
+            //show relationshipPicker
             let cellTap = UITapGestureRecognizer(target: self, action: #selector(relationshipCellTap))
-                cell.addGestureRecognizer(cellTap)
+            cell.addGestureRecognizer(cellTap)
             cell.interactiveTextField.inputView = relationshipPickerView
-            }
-            
-          
+        }
         
-    
         
-            cell.xButton.isHidden = true
+        cell.xButton.isHidden = true
         cell.interactiveTextField.attributedPlaceholder = NSAttributedString(string: placeHolderTextArray[indexPath.row],
-                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
-        
-        
-        
-
-       // cell.frame = cell.frame.offsetBy(dx: 10, dy: 10)
-      //  cell.socialMediaIcon.image = UIImage(named: "united-states")
+                                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
         cellArray.append(cell)
         
         return cell
     }
+}
+protocol isAbleToReceiveData {
+    func pass(data: String)  //data: string is an example parameter
+    func passArray(dataArray: [String])
 }
 
