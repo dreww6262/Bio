@@ -23,24 +23,27 @@ class ContentLinkVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
     
     override func viewDidLoad() {
         
-        DispatchQueue.main.async {
-            let jscript = "var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width'); document.getElementsByTagName('head')[0].appendChild(meta);"
-            let userScript = WKUserScript(source: jscript, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
-            let wkUController = WKUserContentController()
-            wkUController.addUserScript(userScript)
-            let wkWebConfig = WKWebViewConfiguration()
-            wkWebConfig.userContentController = wkUController
-            self.webView = WKWebView(frame: self.view.bounds, configuration: wkWebConfig)
-            self.view = self.webView
-        }
         super.viewDidLoad()
+        DispatchQueue.main.async {
+
+            let wkWebConfig = WKWebViewConfiguration()
+            self.webView = WKWebView(frame: self.view.bounds, configuration: wkWebConfig)
+            self.view.addSubview(self.webView)
+            self.webView.uiDelegate = self
+            self.webView.navigationDelegate = self
+            self.webView.allowsBackForwardNavigationGestures = false
+            self.webView.autoresizesSubviews = true
+            self.webView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//            let topConstraint = NSLayoutConstraint(item: self.webView, attribute: .centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 1, constant: 0)
+//            let leftConstraint = NSLayoutConstraint(item: self.webView, attribute: .centerX, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1, constant: 0)
+//            let widthConstraint = NSLayoutConstraint(item: self.webView, attribute: .width, relatedBy: .equal, toItem: self.view, attribute: .width, multiplier: 1, constant: 0)
+//            let heightConstraint = NSLayoutConstraint(item: self.webView, attribute: .height, relatedBy: .equal, toItem: self.view, attribute: .height, multiplier: 1, constant: 0)
+//            NSLayoutConstraint.activate([topConstraint, leftConstraint, widthConstraint, heightConstraint])
+            self.loadLink()
+        }
         
-        webView.uiDelegate = self
-        webView.navigationDelegate = self
-        webView.allowsBackForwardNavigationGestures = false
-        webView.scrollView
         //view.addSubview(webView)
-        loadLink()
+        
         
 //        if webHex?.text != "" {
 //            self.captionTextField.isHidden = false
@@ -61,23 +64,21 @@ class ContentLinkVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        if myRequest != nil {
-//            webView.load(myRequest!)
-//        }
+        webView.contentMode = .scaleAspectFit
     }
     
     func loadLink() {
-        DispatchQueue.main.async {
-            let link = self.webHex!.resource
-            let myUrl = URL(string: link)
-            if (myUrl != nil) {
-                self.myRequest = URLRequest(url: myUrl!)
-                print("should be loading url!")
-                self.webView.load(self.myRequest!)
-            }
+        let link = self.webHex!.resource
+        let myUrl = URL(string: link)
+        if (myUrl != nil) {
+            self.myRequest = URLRequest(url: myUrl!)
+            self.webView.load(self.myRequest!)
         }
     }
     
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        print(error.localizedDescription)
+    }
 
 //    func setUpCaption() {
 //        view.addSubview(self.captionTextField)

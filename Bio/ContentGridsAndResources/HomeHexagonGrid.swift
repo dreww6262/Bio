@@ -49,7 +49,7 @@ var navBarView = NavBarView()
     var userDataVM: UserDataVM?
     let db = Firestore.firestore()
     let storage = Storage.storage().reference()
-    var contentPages: ContentPagesVC?
+    var contentPages: CustomPageView?
     
     // UI stuff
     @objc var panGesture  = UIPanGestureRecognizer()
@@ -65,7 +65,6 @@ var navBarView = NavBarView()
     var indexLabelArray: [UILabel] = []
     
     // Flags and tags
-    var firstLoad  = true
     
     var followView = UIView()
     var followImage = UIImageView()
@@ -91,7 +90,7 @@ var navBarView = NavBarView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        contentPages = storyboard?.instantiateViewController(identifier: "contentPagesVC")
+        contentPages = storyboard?.instantiateViewController(identifier: "customPageView")
         contentPages!.userDataVM = userDataVM
         let addTap = UITapGestureRecognizer(target: self, action: #selector(addHexagonTapped))
         plusHexagon.addGestureRecognizer(addTap)
@@ -735,12 +734,11 @@ var navBarView = NavBarView()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        firstLoad = true
         if tabBarController != nil {
             menuView.tabController = (tabBarController! as! NavigationMenuBaseController)
         }
         scrollView.zoomScale = 1
-        refresh()
+        observeUserData()
         toSearchButton.isHidden = false
         toSettingsButton.isHidden = false
         followView.isHidden = false
@@ -1449,80 +1447,84 @@ var navBarView = NavBarView()
         let postImage = sender.view as! PostImageView
         let hexItem = postImage.hexData!
         
-        
-        
-        //TO DO: Tap to Play Video
-        if hexItem.type.contains("video") {
-            //TO DO: play a video here!!
-            let videoVC = ContentVideoVC()
-            videoVC.videoHex = hexItem
-            present(videoVC, animated: false, completion: nil)
-
-        }
-        
-        
-        
-        else if hexItem.type.contains("photo") {
-//            let contentImageVC = ContentImageVC()
-//            contentImageVC.photoHex = hexItem
-//            present(contentImageVC, animated: false, completion: nil)
-            contentPages!.currentIndex = hexItem.location - 1
-            contentPages!.modalPresentationStyle = .fullScreen
-            self.present(contentPages!, animated: false, completion: nil)
-            
-        }
-        else if hexItem.type.contains("link") {
-//            openLinkVC(hex: hexItem)
-            contentPages!.currentIndex = hexItem.location - 1
-            contentPages!.modalPresentationStyle = .fullScreen
-            self.present(contentPages!, animated: false, completion: nil)
-        }
-        else if hexItem.type.contains("music") {
-//            openLinkVC(hex: hexItem)
-            contentPages!.currentIndex = hexItem.location - 1
+        if contentPages!.setPresentedViewControllers(vcIndex: hexItem.location - 1) {
             contentPages!.modalPresentationStyle = .fullScreen
             self.present(contentPages!, animated: false, completion: nil)
         }
         
-//        else if hexItem.type.contains("social") {
-//            let theType = hexItem.type
-//            if theType.contains("instagram") {
-//                openInstagram(instagramHandle: hexItem.text)
-//            }
-//            if theType.contains("twitter") {
-//                openTwitter(twitterHandle: hexItem.text)
-//            }
-//            if theType.contains("tik") {
-//                openTikTok(tikTokHandle: hexItem.text)
-//            }
-//            if theType.contains("snapchat") {
-//                openSnapchat(snapchatUsername: hexItem.text)
-//            }
-//            if theType.contains("youtube") {
-//                openLink(link: hexItem.text)
-//            }
-//            if theType.contains("hudl") {
-//                openLink(link: hexItem.text)
-//            }
-//            if theType.contains("venmo") {
-//                openLink(link: hexItem.text)
-//            }
-//            if theType.contains("sound") {
-//                openLink(link: hexItem.text)
-//            }
-//            if theType.contains("linked") {
-//                openLink(link: hexItem.text)
-//            }
-//            if theType.contains("posh") {
-//                openLink(link: hexItem.text)
-//            }
-        else {
-            contentPages!.currentIndex = hexItem.location - 1
-            contentPages!.modalPresentationStyle = .fullScreen
-            contentPages!.userDataVM = userDataVM
-            self.present(contentPages!, animated: false, completion: nil)
-            
-        }
+        
+//        //TO DO: Tap to Play Video
+//        if hexItem.type.contains("video") {
+//            //TO DO: play a video here!!
+//            let videoVC = ContentVideoVC()
+//            videoVC.videoHex = hexItem
+//            present(videoVC, animated: false, completion: nil)
+//
+//        }
+//
+//
+//
+//        else if hexItem.type.contains("photo") {
+////            let contentImageVC = ContentImageVC()
+////            contentImageVC.photoHex = hexItem
+////            present(contentImageVC, animated: false, completion: nil)
+//            contentPages!.currentIndex = hexItem.location - 1
+//            contentPages!.modalPresentationStyle = .fullScreen
+//            self.present(contentPages!, animated: false, completion: nil)
+//
+//        }
+//        else if hexItem.type.contains("link") {
+////            openLinkVC(hex: hexItem)
+//            contentPages!.currentIndex = hexItem.location - 1
+//            contentPages!.modalPresentationStyle = .fullScreen
+//            self.present(contentPages!, animated: false, completion: nil)
+//        }
+//        else if hexItem.type.contains("music") {
+////            openLinkVC(hex: hexItem)
+//            contentPages!.currentIndex = hexItem.location - 1
+//            contentPages!.modalPresentationStyle = .fullScreen
+//            self.present(contentPages!, animated: false, completion: nil)
+//        }
+//
+////        else if hexItem.type.contains("social") {
+////            let theType = hexItem.type
+////            if theType.contains("instagram") {
+////                openInstagram(instagramHandle: hexItem.text)
+////            }
+////            if theType.contains("twitter") {
+////                openTwitter(twitterHandle: hexItem.text)
+////            }
+////            if theType.contains("tik") {
+////                openTikTok(tikTokHandle: hexItem.text)
+////            }
+////            if theType.contains("snapchat") {
+////                openSnapchat(snapchatUsername: hexItem.text)
+////            }
+////            if theType.contains("youtube") {
+////                openLink(link: hexItem.text)
+////            }
+////            if theType.contains("hudl") {
+////                openLink(link: hexItem.text)
+////            }
+////            if theType.contains("venmo") {
+////                openLink(link: hexItem.text)
+////            }
+////            if theType.contains("sound") {
+////                openLink(link: hexItem.text)
+////            }
+////            if theType.contains("linked") {
+////                openLink(link: hexItem.text)
+////            }
+////            if theType.contains("posh") {
+////                openLink(link: hexItem.text)
+////            }
+//        else {
+//            contentPages!.currentIndex = hexItem.location - 1
+//            contentPages!.modalPresentationStyle = .fullScreen
+//            contentPages!.userDataVM = userDataVM
+//            self.present(contentPages!, animated: false, completion: nil)
+//
+//        }
         
     }
     

@@ -23,8 +23,6 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var navBarY = CGFloat(39)
     var newImageView = UIImageView()
     // Content presentation
-    var player = AVAudioPlayer()
-    var contentViewer = UIView()
     let menuView = MenuView()
     var toSearchButton = UIButton()
     var followView = UIView()
@@ -38,7 +36,6 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var profilePicCancelButton = UIButton()
     
     // UI stuff
-    @objc var panGesture  = UIPanGestureRecognizer()
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var contentView: UIView!
     
@@ -57,8 +54,6 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var newPostArray: [PostImageView] = []
     
     // arrays
-    var targetHexagons: [Int] = []
-    //var hexagonStructArray: [HexagonStructData] = []
     var imageViewArray: [PostImageView] = []
     
     // use .compare to compare dates

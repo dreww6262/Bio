@@ -69,18 +69,28 @@ class CustomPageView: UIViewController {
     private var rightBox = CGRect()
     private var centerBox = CGRect()
     
+    let caption = UILabel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setBoxes()
         
-        view.backgroundColor = .gray
+        view.backgroundColor = .systemGray6
         
         if currentIndex == nil {
             if (!setPresentedViewControllers(vcIndex: 0)) {
                 return
             }
         }
+        
+        view.addSubview(caption)
+        caption.frame = CGRect(x: centerBox.minX, y: centerBox.minY - 96, width: centerBox.width, height: 80)
+        caption.textColor = .black
+        caption.font = UIFont(name: "Poppins-SemiBold", size: 16)
+        caption.textAlignment = .center
+        //caption.backgroundColor = .white
+        caption.numberOfLines = 0
         
         setPositions()
         
@@ -112,7 +122,7 @@ class CustomPageView: UIViewController {
         rightBox = CGRect(x: 11/12 * self.view.frame.width, y: leftBox.minY, width: smallWidth, height: smallHeight)
         
         let largeWidth = view.frame.width * 3/4
-        let largeHeight = view.frame.height * 3/4
+        let largeHeight = view.frame.height * 5/8
         
         centerBox = CGRect(x: view.frame.midX - largeWidth / 2, y: view.frame.midY - largeHeight / 2, width: largeWidth, height: largeHeight)
     }
@@ -161,6 +171,8 @@ class CustomPageView: UIViewController {
             }
             addChild(vc!)
             view.addSubview(vc!.view)
+            vc!.view.layer.cornerRadius = vc!.view.frame.width / 20
+            vc!.view.clipsToBounds = true
         }
         
         setPositions()
@@ -169,6 +181,24 @@ class CustomPageView: UIViewController {
     }
     
     func setPositions() {
+        
+        var text = ""
+        
+        switch visibleVCs[0] {
+            case (is ContentLinkVC):
+                let linkVC = visibleVCs[0] as! ContentLinkVC
+                text = linkVC.webHex?.text ?? ""
+                
+            case (is ContentImageVC):
+                let imageVC = visibleVCs[0] as! ContentImageVC
+                text = imageVC.photoHex?.text ?? ""
+                
+            default:
+                let videoVC = visibleVCs[0] as! ContentVideoVC
+                text = videoVC.videoHex?.text ?? ""
+        }
+        
+        caption.text = text
         
         visibleVCs[0]?.view.clipsToBounds = true
         visibleVCs[1]?.view.clipsToBounds = true
@@ -183,13 +213,8 @@ class CustomPageView: UIViewController {
             self.visibleVCs[1]?.view.frame = CGRect(x: self.leftBox.minX, y: self.leftBox.minY, width: self.leftBox.width, height: self.leftBox.height)
             self.visibleVCs[2]?.view.frame = CGRect(x: self.rightBox.minX, y: self.rightBox.minY, width: self.rightBox.width, height: self.rightBox.height)
         })
-        
-        print("cpv: visible vcs \(visibleVCs)")
     }
-    
-    
     func moveLeft() {
-        print("cpv move left")
         if currentIndex! <= 0 {
             return
         }
@@ -205,7 +230,6 @@ class CustomPageView: UIViewController {
     
     
     func moveRight() {
-        print("cpv move right")
         if currentIndex! >= viewControllers.count - 1 {
             return
         }
@@ -220,8 +244,6 @@ class CustomPageView: UIViewController {
     }
     
     func popLeft(vc: UIViewController?) {
-        print("cpv pop left")
-        
         UIView.animate(withDuration: 0.25, animations: {
             vc?.view.frame = CGRect(x: self.leftBox.minX - self.leftBox.width, y: self.leftBox.minY, width: self.leftBox.width, height: self.leftBox.height)
         }, completion: { _ in
@@ -232,8 +254,6 @@ class CustomPageView: UIViewController {
     }
     
     func popRight(vc: UIViewController?) {
-        print("cpv pop right")
-        
         UIView.animate(withDuration: 0.25, animations: {
             vc?.view.frame = CGRect(x: self.rightBox.maxX, y: self.rightBox.minY, width: self.rightBox.width, height: self.rightBox.height)
         }, completion: { _ in
@@ -244,7 +264,6 @@ class CustomPageView: UIViewController {
     }
     
     func fetchLeft() -> UIViewController? {
-        print("cpv fetch left")
         if currentIndex == nil || currentIndex! <= 0 || currentIndex! - 1 >= viewControllers.count {
             return nil
         }
@@ -253,12 +272,13 @@ class CustomPageView: UIViewController {
         addChild(vc)
         view.addSubview(vc.view)
         vc.view.frame = CGRect(x: leftBox.minX - leftBox.width, y: leftBox.minY, width: leftBox.width, height: leftBox.height)
+        vc.view.layer.cornerRadius = vc.view.frame.width / 20
+        vc.view.clipsToBounds = true
         
         return vc
     }
     
     func fetchRight() -> UIViewController? {
-        print("cpv fetch right")
         if currentIndex == nil || currentIndex! + 1 < 0 || currentIndex! + 1 >= viewControllers.count {
             return nil
         }
@@ -266,14 +286,13 @@ class CustomPageView: UIViewController {
         addChild(vc)
         view.addSubview(vc.view)
         vc.view.frame = CGRect(x: rightBox.maxX, y: rightBox.minY, width: rightBox.width, height: rightBox.height)
+        vc.view.layer.cornerRadius = vc.view.frame.width / 20
+        vc.view.clipsToBounds = true
         
         return vc
     }
     
     @objc func swipeHorizontally(_ sender: UISwipeGestureRecognizer) {
-        
-        print("cpv swipe \(sender.direction)")
-        
         if sender.direction == .left {
             moveRight()
         }
