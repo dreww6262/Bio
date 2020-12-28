@@ -349,6 +349,8 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "newsCell") as! newsCell
         cell.frame = CGRect(x: cell.frame.minX, y: cell.frame.minY, width: view.frame.width, height: 43.5)
         // connect cell objects with received data from server
+        let userData = userDataVM?.userData.value
+        cell.currentPostingUserID = userData!.publicID
         cell.usernameBtn.setTitle(notificationArray[indexPath.row].currentUser, for: UIControl.State())
         //print("cell frame: \(cell.frame)")
         let ref = storage.child(notificationArray[indexPath.row].thumbResource)
@@ -360,8 +362,9 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
         cell.infoLbl.frame = CGRect(x: cell.avaImg.frame.maxX + 5, y: 5, width: 140, height: 30)
         cell.dateLbl.frame = CGRect(x: cell.infoLbl.frame.maxX + 5, y: 5, width: 50
                                     , height: 30)
-        
-        
+   
+        cell.acceptButton.frame = CGRect(x: cell.frame.width - 35, y: (cell.frame.height - 30)/2, width: 30, height: 30)
+        cell.rejectButton.frame = CGRect(x: cell.acceptButton.frame.minX - 35, y: (cell.frame.height - 30)/2, width: 30, height: 30)
         
         // calculate post date
         let times = ["now", "now", "5m", "7m", "21m", "30m", "1hr", "1hr", "1hr", "1hr", "2hr", "2hr", "2hr", "2hr", "4hr", "4hr", "4hr", "4hr", "5hr", "5hr", "6hr", "7hr", "12hr", "1d", "1d", "1d", "1d", "1d", "1d", "1d", "1d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d"]
@@ -416,6 +419,28 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
         //cell.dateLbl.text = times[indexPath.row]
         
         // define info text
+        if notificationArray[indexPath.row].type == "requestPhoneNumber" {
+            cell.infoLbl.text = "asked for your phone number."
+//            cell.rejectButton.frame = CGRect(x: cell.dateLbl.frame.maxX + 10, y: (cell.frame.height - 30)/2, width: 30, height: 30)
+//            cell.acceptButton.frame = CGRect(x: cell.rejectButton.frame.maxX + 10, y: (cell.frame.height - 30)/2, width: 30, height: 30)
+            cell.rejectButton.isHidden = false
+            cell.acceptButton.isHidden = false
+        }
+        if notificationArray[indexPath.row].type == "approvePhoneNumber" {
+            let phoneNumber = UserDataVM(username: cell.usernameBtn.titleLabel!.text!).userData.value?.phoneNumber
+       //     let phoneNumber = phoneNumberUserData.value!.phoneNumber
+            cell.infoLbl.text = "gave you their phone number."
+            var phoneNumberButton = UIButton()
+            phoneNumberButton.setTitle(notificationArray[indexPath.row].ava, for: .normal)
+            phoneNumberButton.titleLabel?.textColor = .blue
+            phoneNumberButton.tintColor = .blue
+            cell.addSubview(phoneNumberButton)
+            phoneNumberButton.frame = CGRect(x: cell.dateLbl.frame.maxX + 5, y: cell.infoLbl.frame.minY, width: view.frame.width - cell.dateLbl.frame.maxX - 5, height: 30)
+        }
+     
+                                     
+        
+        
         if notificationArray[indexPath.row].type == "mention" {
             cell.infoLbl.text = "has mentioned you."
         }

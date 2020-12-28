@@ -18,6 +18,9 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     var changedProfilePic = false
     var bioCharacterLimit = 20
     var countries: [String] = []
+   // var myCountry = ""
+//    var userData: UserData?
+    var country = ""
     var GDPRCountries: [String] = ["Austria", "Belgium", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Germany", "Greece", "Hungary", "Ireland", "Italy", "Latvia", "Lithuania", "Luxembourg", "Malta", "Netherlands", "Poland", "Portugal", "Romania", "Slovakia", "Slovenia", "Spain", "Sweden"]
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -450,12 +453,15 @@ var countryFlag = UIImageView()
             
             return
         }
-        var country = self.countryTextField.text
+        
+        
+        
+        self.country = self.countryTextField.text!
         var minimumAge = 13
         print("This is age \(age)")
         print("This is birthday \(birthday)")
         print("This is country \(country)")
-        if GDPRCountries.contains(country!) {
+        if GDPRCountries.contains(country) {
             print("GDPR country! 16 and up")
             minimumAge = 16
         } else {
@@ -507,10 +513,23 @@ var countryFlag = UIImageView()
             return
         }
         
-        let username = usernameTxt.text!
-        let email = emailTxt.text!
-        let password = passwordTxt.text!
-        let bio = bioTxt.text ?? ""
+        var username = usernameTxt.text!
+        while username.last == " " {
+            username = "\(username.removeLast())"
+            print(username)
+        }
+        
+        var email = emailTxt.text!
+        while email.last == " " {
+            email = "\(email.removeLast())"
+            print(email)
+        }
+        var password = passwordTxt.text!
+        while password.last == " " {
+            password = "\(password.removeLast())"
+            print(password)
+        }
+        var bio = bioTxt.text ?? ""
         var signedInUser: User?
         
         print("about to create new user")
@@ -538,7 +557,7 @@ var countryFlag = UIImageView()
         addChild(loadingIndicator!)
         view.addSubview(loadingIndicator!.view)
         
-        createUser(email: email, password: password, completion: {user in
+        createUser(email: email, password: password, completion: { [self]user in
             if (user == nil) {
                 self.blurEffectView?.removeFromSuperview()
                 loadingIndicator!.view.removeFromSuperview()
@@ -558,9 +577,10 @@ var countryFlag = UIImageView()
             let filename = "\(username)_avatar.png"
             reference.append("/\(filename)")
             let avaFileRef = userDataStorageRef.child(filename)
+           // country = self.countryTextField.text ?? ""
             avaFileRef.putData(self.avaImg.image!.pngData()!, metadata: nil, completion: { meta, error in
                 if (error == nil) {
-                    let userData = UserData(email: email, publicID: self.usernameTxt.text!.lowercased(), privateID: signedInUser!.uid, avaRef: reference, hexagonGridID: "", userPage: "", subscribedUsers: [""], subscriptions: [String: String](), numPosts: 0, displayName: self.displayNameTxt.text!, birthday: self.birthday, blockedUsers: [String](), isBlockedBy: [String](), pageViews: 0, bio: bio, country: self.countryTextField.text ?? "", lastTimePosted: NSDate.now.description)
+                    let userData = UserData(email: email, publicID: self.usernameTxt.text!.lowercased(), privateID: signedInUser!.uid, avaRef: reference, hexagonGridID: "", userPage: "", subscribedUsers: [""], subscriptions: [String: String](), numPosts: 0, displayName: self.displayNameTxt.text!, birthday: self.birthday, blockedUsers: [String](), isBlockedBy: [String](), pageViews: 0, bio: bio, country: country, lastTimePosted: NSDate.now.description, currentCity: "", gender: "", phoneNumber: "")
                     let db = Firestore.firestore()
                     let userDataCollection = db.collection("UserData1")
                     let docRef = userDataCollection.document(user!.uid)
@@ -573,20 +593,25 @@ var countryFlag = UIImageView()
                             if self.changedProfilePic == false {
                                 let addProfilePic = self.storyboard?.instantiateViewController(withIdentifier: "addProfilePhotoVC") as! AddProfilePhotoVC
                                 addProfilePic.userDataVM = self.userDataVM
+                                addProfilePic.country = country
+                                addProfilePic.minimumAge = minimumAge
                                 self.present(addProfilePic, animated: false, completion: nil)
                             }
         // this triggers old/bad sign out process
                             else {
-//                            let addsocialmediaVC = self.storyboard?.instantiateViewController(withIdentifier: "addSocialMediaTableView") as! AddSocialMediaTableView
-//                            addsocialmediaVC.userData = self.userData
-//                            addsocialmediaVC.currentUser = self.user
-//                            addsocialmediaVC.cancelLbl = "Skip"
-//                            self.present(addsocialmediaVC, animated: false, completion: nil)
-                                self.performSegue(withIdentifier: "signUpSegue", sender: self)
-                            self.blurEffectView?.removeFromSuperview()
-                            loadingIndicator!.view.removeFromSuperview()
-                            loadingIndicator!.removeFromParent()
+                                let personalDetailTableViewVC = self.storyboard?.instantiateViewController(withIdentifier: "personalDetailTableViewVC") as! PersonalDetailTableViewVC
+                                personalDetailTableViewVC.userDataVM = self.userDataVM
+                                personalDetailTableViewVC.myCountry = self.country
+                                personalDetailTableViewVC.myCountries.append(self.country)
+                                personalDetailTableViewVC.myAgeLimit = minimumAge
+                                self.present(personalDetailTableViewVC, animated: false, completion: nil)
                             }
+                            
+//                                self.performSegue(withIdentifier: "signUpSegue", sender: self)
+//                            self.blurEffectView?.removeFromSuperview()
+//                            loadingIndicator!.view.removeFromSuperview()
+//                            loadingIndicator!.removeFromParent()
+//                            }
                             
                             
                         }
@@ -609,6 +634,9 @@ var countryFlag = UIImageView()
             })
         })
     }
+    
+    
+
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 

@@ -30,6 +30,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     // Firebase stuff
     var user = Auth.auth().currentUser
     var guestUserData: UserData?
+    var myUserData: UserData?
     var userDataVM: UserDataVM?
     let db = Firestore.firestore()
     let storage = Storage.storage().reference()
@@ -96,7 +97,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
         addPageView()
         
-        let myUserData = userDataVM?.userData.value
+        myUserData = userDataVM?.userData.value
         if (myUserData == nil) {
             return
         }
@@ -189,7 +190,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func addPageView() {
-        let myUserData = userDataVM?.userData.value
+         myUserData = userDataVM?.userData.value
         db.collection("PageViews").document().setData(["viewer": myUserData?.publicID ?? "no_username", "viewed": guestUserData!.publicID, "viewedAt": Date()]) { _ in
             self.db.collection("PageViews").whereField("viewed", isEqualTo: self.guestUserData!.publicID).getDocuments(completion: { obj, error in
                 if error == nil {
@@ -323,12 +324,11 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     
-    
     @objc func followTapped(_ sender: UITapGestureRecognizer) {
         //        if followLabel.text == "Add" {
         //            print("Follow the user :)")
         
-        let myUserData = userDataVM?.userData.value
+         myUserData = userDataVM?.userData.value
         if guestUserData != nil {
             if !isFollowing {
                 let newFollow = ["follower": myUserData!.publicID, "following": guestUserData!.publicID]
@@ -1127,6 +1127,22 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         }
         else if type == "link" {
             imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myCoolBlue, cornerRadius: imageView.frame.width/15)
+        }
+        else if type == "pin_phone" {
+            imageView.backgroundColor = white
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: white, cornerRadius: imageView.frame.width/15)
+        }
+        else if type == "pin_country" {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: .clear, cornerRadius: imageView.frame.width/15)
+        }
+        else if type == "pin_city" {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: .clear, cornerRadius: imageView.frame.width/15)
+        }
+        else if type == "pin_relationship" {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: .clear, cornerRadius: imageView.frame.width/15)
+        }
+        else if type == "pin_birthday" {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: .clear, cornerRadius: imageView.frame.width/15)
         }
         else if type.contains("social") {
             if type.contains("tik") {

@@ -89,7 +89,33 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
             cell.addGestureRecognizer(tapCellGesture)
           //  cell.imageView.layer.cornerRadius = cell.imageView.frame.width/2
             // let ref = array[indexPath.row].avaRef as! StorageReference
-            cell.imageView.sd_setImage(with: storageRef.child(array[indexPath.row].avaRef))
+           cell.imageView.sd_setImage(with: storageRef.child(array[indexPath.row].avaRef))
+            
+            //put in placeholders
+            
+//            var placeHolderImage = UIImage(named: "boyProfile")
+//            if storageRef.child(array[indexPath.row].avaRef) != nil {
+//                if array[indexPath.row].gender == "I am a man" {
+//                    print("recognized man")
+//                    placeHolderImage = UIImage(named: "boyProfile")
+//                }
+//               else if array[indexPath.row].gender == "I am a woman" {
+//                    print("recognized woman")
+//                placeHolderImage = UIImage(named: "kbit1")
+//                }
+//               else {
+//                placeHolderImage = UIImage(named: "cameo")
+//               }
+//                cell.imageView.sd_setImage(with: storageRef.child(array[indexPath.row].avaRef), maxImageSize: 10, placeholderImage: placeHolderImage, options: .refreshCached) { (_, error, _, _) in
+//                if (error != nil) {
+//                    print(error!.localizedDescription)
+//                    cell.imageView.image = placeHolderImage
+//                }
+//            }
+//            }
+            
+            
+            
             //cell.imageView.sd_setImage(with: ref)
             
             
@@ -115,14 +141,37 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         cell.image.contentMode = .scaleAspectFill
         let cleanRef = popData.avaRef.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
-        if (url != nil) {
-            cell.image.sd_setImage(with: url!, completed: {_, error, _, _ in
-                if error != nil {
-                    print(error!.localizedDescription)
-                    cell.image.image = UIImage(named: "boyprofile")
-                }
-            })
+//        if (url != nil) {
+//            cell.image.sd_setImage(with: url!, completed: {_, error, _, _ in
+//                if error != nil {
+//                    print(error!.localizedDescription)
+//                    cell.image.image = UIImage(named: "boyprofile")
+//                }
+//            })
+//        }
+        var placeHolderImage = UIImage(named: "boyProfile")
+        if url != nil {
+            if cell.userData?.gender == "I am a man" {
+                print("recognized man")
+                placeHolderImage = UIImage(named: "boyProfile")
+            }
+           else if cell.userData?.gender == "I am a woman" {
+                print("recognized woman")
+            placeHolderImage = UIImage(named: "kbit1")
+            }
+           else {
+            placeHolderImage = UIImage(named: "cameo")
+           }
+            
+        
+            cell.image.sd_setImage(with: url!, placeholderImage: placeHolderImage, options: .refreshCached) { (_, error, _, _) in
+            if (error != nil) {
+                print(error!.localizedDescription)
+                cell.image.image = placeHolderImage
+            }
         }
+        }
+        
         else {
             cell.image.image = UIImage(named: "boyprofile")
         }

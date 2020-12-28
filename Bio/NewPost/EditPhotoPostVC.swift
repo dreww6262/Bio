@@ -336,7 +336,7 @@ class EditPhotoPostVC: UIViewController, UINavigationControllerDelegate, UIImage
             
             
             
-        let photoHex = HexagonStructData(resource: photoLocation, type: type, location: hexData?.location ?? numPosts, thumbResource: photoLocation, createdAt: NSDate.now.description, postingUserID: username, text: "\(captionTextField.text!)" ?? "", views: hexData?.views ?? 0, isArchived: false, docID: "WillBeSetLater", coverText: textOverlayTextField.text ?? "", isPrioritized: checkBoxStatus)
+        let photoHex = HexagonStructData(resource: photoLocation, type: type, location: hexData?.location ?? numPosts, thumbResource: photoLocation, createdAt: NSDate.now.description, postingUserID: username, text: "\(captionTextField.text!)" ?? "", views: hexData?.views ?? 0, isArchived: false, docID: "WillBeSetLater", coverText: textOverlayTextField.text ?? "", isPrioritized: checkBoxStatus, array: [])
         
         if photoHex.type == "photo" {
             print("add a photo with this code")

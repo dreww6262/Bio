@@ -40,7 +40,7 @@ var viewController: UIViewController {
             friendsVC.viewDidLoad()
             return friendsVC
         case .addPost:
-            let newPostVC = storyboard.instantiateViewController(identifier: "newPostVC") as! NewPostColorfulVC
+            let newPostVC = storyboard.instantiateViewController(identifier: "newPost5OptionsVC") as! NewPost5OptionsVC
             newPostVC.userDataVM = userDataVM
             newPostVC.loadView()
             newPostVC.viewDidLoad()
@@ -52,7 +52,7 @@ var viewController: UIViewController {
             notifications.viewDidLoad()
             return notifications
         case .dms:
-            let homeVC = storyboard.instantiateViewController(identifier: "newPostVC") as! NewPostColorfulVC
+            let homeVC = storyboard.instantiateViewController(identifier: "newPost5OptionsVC") as! NewPost5OptionsVC
             homeVC.userDataVM = userDataVM
             homeVC.loadView()
             homeVC.viewDidLoad()

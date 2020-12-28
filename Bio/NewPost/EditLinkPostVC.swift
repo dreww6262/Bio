@@ -471,7 +471,7 @@ class EditLinkPostVC: UIViewController, UIImagePickerControllerDelegate, UINavig
                 let refText = "userFiles/\(username)/\(imageFileName)"
                 var link = linkTextField.text!
                 var trimmedLink = link.trimmingCharacters(in: .whitespaces)
-                let linkHex = HexagonStructData(resource: trimmedLink, type: "link", location: hexData?.location ?? numPosts + 1, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: captionTextField.text ?? "", views: hexData?.views ?? 0, isArchived: false, docID: "WillBeSetLater", coverText: textOverlayTextField.text ?? "", isPrioritized: checkBoxStatus)
+                let linkHex = HexagonStructData(resource: trimmedLink, type: "link", location: hexData?.location ?? numPosts + 1, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: captionTextField.text ?? "", views: hexData?.views ?? 0, isArchived: false, docID: "WillBeSetLater", coverText: textOverlayTextField.text ?? "", isPrioritized: checkBoxStatus, array: [])
                 let previewVC = storyboard?.instantiateViewController(identifier: "linkPreview") as! LinkPreviewVC
                 previewVC.webHex = linkHex
                 if changedProfilePic == true {

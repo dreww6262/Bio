@@ -39,6 +39,10 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
     
     @IBOutlet weak var pic3: UIButton!
     
+    var view5 = UIView()
+    var pic5 = UIButton()
+    var l5 = UILabel()
+    
     
     @IBOutlet weak var l1: UILabel!
     @IBOutlet weak var l2: UILabel!
@@ -372,25 +376,18 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         view3.layer.cornerRadius = 25.0
         view4.layer.cornerRadius = 25.0
         
+        view5.isHidden = true
+        view.addSubview(view5)
+       
+        view5.backgroundColor = .white
+        view5.frame = CGRect(x: (view.frame.width - view4.frame.width)/2, y: (view.frame.height - view4.frame.width)/2, width: view4.frame.width, height: view4.frame.height)
+        view5.layer.cornerRadius = view5.frame.width/2
+        pic5.frame = CGRect(x: view4.frame.width/4, y: view4.frame.height/12, width: view4.frame.width/2, height: view4.frame.width/2)
+        l5.frame =  CGRect(x: 0, y: self.pic4.frame.maxY + 10, width: self.view4.frame.width, height: 44)
+        l5.text = "Person Details"
+        l5.textColor = .black
         
-        //reformat
-//        var totalHeight = menuView.menuButton.frame.minY - navBarView.titleLabel.frame.maxY
-//        var gridHeight = view3.frame.maxY - view1.frame.minY
-//        var correctSpacing = (totalHeight - gridHeight)/2
-//        var newView1Frame = CGRect(x: view1.frame.minX, y: navBarView.titleLabel.frame.maxY + correctSpacing, width: view1.frame.width, height: view1.frame.height)
-//        var oldView1Frame = view1.frame
-//        var adjustedHeight = newView1Frame.minX - oldView1Frame.minX
-//        view1.frame = newView1Frame
-//        
-//        var newView2Frame = CGRect(x: view2.frame.minX, y: navBarView.titleLabel.frame.maxY + correctSpacing, width: view2.frame.width, height: view2.frame.height)
-//        view2.frame = newView2Frame
-//        
-//        var newView3Frame = CGRect(x: view3.frame.minX, y: view3.frame.minY + adjustedHeight, width: view3.frame.width, height: view3.frame.height)
-//        view3.frame = newView3Frame
-//    
-//        var newView4Frame = CGRect(x: view4.frame.minX, y: view4.frame.minY + adjustedHeight, width: view4.frame.width, height: view4.frame.height)
-//        view4.frame = newView4Frame
-//    
+      
         
     }
     

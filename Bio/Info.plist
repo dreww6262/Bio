@@ -60,6 +60,8 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>MKDirectionsApplicationSupportedModes</key>
+	<array/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -69,6 +71,8 @@
 	<string>Allow bio to use the camera.</string>
 	<key>NSHumanReadableCopyright</key>
 	<string></string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Allow Bio to access location when in use</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Allow bio to access your microphone to take videos.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
@@ -102,6 +106,7 @@
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
+		<string>location</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>

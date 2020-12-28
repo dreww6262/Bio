@@ -47,6 +47,7 @@ var navBarView = NavBarView()
     var pageViewListener: ListenerRegistration?
     var user = Auth.auth().currentUser
     var userDataVM: UserDataVM?
+    var currentPostingUserID = ""
     let db = Firestore.firestore()
     let storage = Storage.storage().reference()
     var contentPages: CustomPageView?
@@ -92,6 +93,9 @@ var navBarView = NavBarView()
         super.viewDidLoad()
         contentPages = storyboard?.instantiateViewController(identifier: "customPageView")
         contentPages!.userDataVM = userDataVM
+       // currentPostingUserID = (userDataVM!.userData.value!.publicID)
+       // contentPages!.currentUserPostingID = currentPostingUserID
+        plusHexagon.isUserInteractionEnabled = true
         let addTap = UITapGestureRecognizer(target: self, action: #selector(addHexagonTapped))
         plusHexagon.addGestureRecognizer(addTap)
         //print("This is reordered count before append \(reOrderedCoordinateArrayPoints.count)")
@@ -456,6 +460,16 @@ var navBarView = NavBarView()
                     shakebleImages.append(image)
                     self.contentView.bringSubviewToFront(image)
                     if image.hexData?.isPrioritized == true {
+                        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
+                    let clearHexagon = PostImageView()
+                        clearHexagon.isUserInteractionEnabled = true
+                        clearHexagon.hexData = image.hexData
+                        self.contentView.addSubview(clearHexagon)
+                        clearHexagon.frame = image.frame
+                        clearHexagon.setupHexagonMask(lineWidth: image.frame.width/15, color: .clear, cornerRadius: image.frame.width/15)
+                        clearHexagon.addGestureRecognizer(tapGesture)
+                        clearHexagon.backgroundColor = .clear
+                        self.contentView.bringSubviewToFront(clearHexagon)
                     prioritizedPosts.append(image)
                     image.pulse(withIntensity: 0.8, withDuration: 1.5, loop: true)
                     }
@@ -990,7 +1004,22 @@ var navBarView = NavBarView()
         else if type == "tik" {
             imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: white, cornerRadius: imageView.frame.width/15)
         }
-        
+        else if type == "pin_phone" {
+            imageView.backgroundColor = white
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: white, cornerRadius: imageView.frame.width/15)
+        }
+        else if type == "pin_country" {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: .clear, cornerRadius: imageView.frame.width/15)
+        }
+        else if type == "pin_city" {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: .clear, cornerRadius: imageView.frame.width/15)
+        }
+        else if type == "pin_relationship" {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: .clear, cornerRadius: imageView.frame.width/15)
+        }
+        else if type == "pin_birthday" {
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: .clear, cornerRadius: imageView.frame.width/15)
+        }
         else if type == "music" {
             imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myBlueGreen, cornerRadius: imageView.frame.width/15)
         }
@@ -1141,7 +1170,7 @@ var navBarView = NavBarView()
     @objc func addHexagonTapped() {
         print("I recognized this")
         let viewControllers = menuView.tabController!.customizableViewControllers!
-        let newPostVC = (viewControllers[4] as! NewPostColorfulVC)
+        let newPostVC = (viewControllers[4] as! NewPost5OptionsVC)
         newPostVC.menuView.dmButton.isHidden = true
         newPostVC.menuView.newPostButton.isHidden = true
         newPostVC.menuView.friendsButton.isHidden = true
@@ -1442,7 +1471,7 @@ var navBarView = NavBarView()
     
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
         //        print("🎯🎯🎯🎯🎯Hello World")
-//        print("🎯🎯🎯🎯🎯🎯🎯I tapped image with tag \(sender.view!.tag)")
+    print("🎯🎯🎯🎯🎯🎯🎯I tapped image with tag \(sender.view!.tag)")
         
         let postImage = sender.view as! PostImageView
         let hexItem = postImage.hexData!

@@ -210,7 +210,7 @@ var cancelButton = UIButton()
                 //print(photo)
                 let rawPhotoLocation = "userFiles/\(userData!.publicID)/\(count)_\(timestamp.dateValue()).png"
                 let photoLocation = rawPhotoLocation.filter{filterSet.contains($0)}
-                var photoHex = HexagonStructData(resource: photoLocation, type: "photo", location: numPosts + count, thumbResource: photoLocation, createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: "\(cell.captionField!.text!)", views: 0, isArchived: false, docID: "willBeSetLater", coverText: "", isPrioritized: false)
+                var photoHex = HexagonStructData(resource: photoLocation, type: "photo", location: numPosts + count, thumbResource: photoLocation, createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: "\(cell.captionField!.text!)", views: 0, isArchived: false, docID: "willBeSetLater", coverText: "", isPrioritized: false, array: [])
                 uploadPhoto(reference: photoLocation, image: photo, completion: { upComplete in
                     if (upComplete) {
                         print("uploaded shid")
@@ -229,7 +229,7 @@ var cancelButton = UIButton()
                 let rawThumbLocation = "userFiles/\(userData!.publicID)/\(count)_\(timestamp.dateValue())_thumb.png"
                 let videoLocation = rawVideoLocation.filter{filterSet.contains($0)}
                 let thumbLocation = rawThumbLocation.filter{filterSet.contains($0)}
-                let videoHex = HexagonStructData(resource: videoLocation, type: "video", location: numPosts + count, thumbResource: thumbLocation, createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: "\(cell.captionField!.text!)", views: 0, isArchived: false, docID: "willBeSetLater", coverText: "", isPrioritized: false)
+                let videoHex = HexagonStructData(resource: videoLocation, type: "video", location: numPosts + count, thumbResource: thumbLocation, createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: "\(cell.captionField!.text!)", views: 0, isArchived: false, docID: "willBeSetLater", coverText: "", isPrioritized: false, array: [])
                 uploadVideo(reference: videoLocation, video: video, completion: { upComplete in
                     if (upComplete) {
                         print("uploaded shid")
