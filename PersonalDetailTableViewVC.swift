@@ -164,7 +164,7 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
         var trimmedText = myText.trimmingCharacters(in: .whitespaces)
         trimmedText = trimmedText.lowercased()
         //        print("This is trimmedText \(trimmedText)")
-        let relationshipHex = HexagonStructData(resource: "\(userData!.publicID)Relationship", type: "pin_relationship", location: userData!.numPosts + 1, thumbResource: "icons/Relationships/\(trimmedText).png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myText, views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: [])
+        let relationshipHex = HexagonStructData(resource: "\(userData!.displayName)", type: "pin_relationship", location: userData!.numPosts + 1, thumbResource: "icons/RelationshipSigns/\(trimmedText).png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myText, views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: [])
         addHex(hexData: relationshipHex, completion: { bool in
             success = success && bool
             
@@ -184,7 +184,7 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
       //  var trimmedText = myText.trimmingCharacters(in: .whitespaces)
         trimmedText = trimmedText.lowercased()
         //        print("This is trimmedText \(trimmedText)")
-        let cultureHex = HexagonStructData(resource: "\(userData!.publicID)Culture", type: "pin_country", location: userData!.numPosts + 1, thumbResource: "icons/Flags/\(trimmedText).png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myText, views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: myCountries)
+        let cultureHex = HexagonStructData(resource: "\(userData!.displayName)", type: "pin_country", location: userData!.numPosts + 1, thumbResource: "icons/StateIcons/\(trimmedText).png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myText, views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: myCountries)
         addHex(hexData: cultureHex, completion: { bool in
             success = success && bool
             
@@ -198,7 +198,7 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
         var trimmedText = myText.trimmingCharacters(in: .whitespaces)
         trimmedText = trimmedText.lowercased()
         //        print("This is trimmedText \(trimmedText)")
-        let phoneHex = HexagonStructData(resource: "\(userData!.publicID)Phone", type: "pin_phone", location: userData!.numPosts + 1, thumbResource: "icons/smartphone.png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myText, views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: [])
+        let phoneHex = HexagonStructData(resource: "\(userData!.displayName)", type: "pin_phone", location: userData!.numPosts + 1, thumbResource: "icons/smartphone.png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myText, views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: [])
         addHex(hexData: phoneHex, completion: { bool in
             success = success && bool
             
@@ -212,7 +212,7 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
         // var trimmedText = myText.trimmingCharacters(in: .whitespaces)
         //  trimmedText = trimmedText.lowercased()
         //  print("This is trimmedText \(trimmedText)")
-        let cityHex = HexagonStructData(resource: "\(userData!.publicID)City", type: "pin_city", location: userData!.numPosts + 1, thumbResource: "icons/home.png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myText, views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: [])
+        let cityHex = HexagonStructData(resource: "\(userData!.displayName)", type: "pin_city", location: userData!.numPosts + 1, thumbResource: "icons/home.png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myText, views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: [])
         addHex(hexData: cityHex, completion: { bool in
             success = success && bool
             

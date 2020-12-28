@@ -18,7 +18,7 @@ class AddProfilePhotoVC: UIViewController, UIImagePickerControllerDelegate & UIN
     let storage = Storage.storage().reference()
     @IBOutlet weak var imageView: UIImageView!
     var country = ""
-
+var minimumAge = 13
     
     let auth = Auth.auth()
     var navBarView = NavBarView()
@@ -150,6 +150,7 @@ class AddProfilePhotoVC: UIViewController, UIImagePickerControllerDelegate & UIN
                 personalDetailTableViewVC.userDataVM = self.userDataVM
                 personalDetailTableViewVC.myCountry = self.country
                 personalDetailTableViewVC.myCountries.append(self.country)
+                personalDetailTableViewVC.myAgeLimit = self.minimumAge
                 self.present(personalDetailTableViewVC, animated: false, completion: nil)
                 
                 

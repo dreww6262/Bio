@@ -19,6 +19,7 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
     let reportImage = UIImage(named: "elipsis")
     let openAppImage = UIImage(named: "bioBlue")
     var userDataVM: UserDataVM?
+    var currentUserPostingID = ""
     
     var showBool = false
     
@@ -70,6 +71,7 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
                         case "pin_phone":
                             let vc = ContentPhoneVC()
                             vc.userDataVM = userDataVM
+                            vc.currentPostingUserID = currentUserPostingID
                             vc.birthdayHex = data
                             vc.showOpenAppButton = false
                             showBool = false
@@ -79,6 +81,22 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
                             let vc = ContentCulturalVC()
                             vc.userDataVM = userDataVM
                             vc.cultureHex = data
+                            vc.showOpenAppButton = false
+                            showBool = false
+                            vc.viewDidLoad()
+                            viewControllers.append(vc)
+                        case "pin_relationship":
+                            let vc = ContentRelationship()
+                            vc.userDataVM = userDataVM
+                            vc.relationshipHex = data
+                            vc.showOpenAppButton = false
+                            showBool = false
+                            vc.viewDidLoad()
+                            viewControllers.append(vc)
+                        case "pin_city":
+                            let vc = ContentCityVC()
+                            vc.userDataVM = userDataVM
+                            vc.cityHex = data
                             vc.showOpenAppButton = false
                             showBool = false
                             vc.viewDidLoad()

@@ -6,14 +6,16 @@
 //  Copyright © 2020 Patrick McDonough. All rights reserved.
 //
 import UIKit
-
+import Firebase
 class ContentPhoneVC: UIViewController, UIScrollViewDelegate {
     
     var birthdayHex: HexagonStructData?
     var showOpenAppButton = false
     var scrollView = UIScrollView()
     var newImageView = UIImageView()
+    var currentPostingUserID = ""
     var userDataVM: UserDataVM?
+    let db = Firestore.firestore()
    // var captionTextField = UITextField()
     
     override func viewDidLoad() {
@@ -72,6 +74,10 @@ class ContentPhoneVC: UIViewController, UIScrollViewDelegate {
         var ageLabel = UILabel()
         var zodiacLabel = UILabel()
         var requestButton = UIButton()
+        requestButton.tag = 0
+        let requestTap = UITapGestureRecognizer(target: self, action: #selector(requestPhoneNumberPressed))
+        requestButton.isUserInteractionEnabled = true
+        requestButton.addGestureRecognizer(requestTap)
         birthdayLabel.isHidden = true
         ageLabel.isHidden = true
         zodiacLabel.isHidden = true
@@ -137,6 +143,45 @@ class ContentPhoneVC: UIViewController, UIScrollViewDelegate {
         scrollView.contentMode = .scaleAspectFit
         scrollView.bouncesZoom = false
         
+    }
+    
+    @objc func requestPhoneNumberPressed(_ sender: UITapGestureRecognizer) {
+            //let width = UIScreen.main.bounds.width//
+        print("trying to request phone number")
+        let vc = self
+        let button = sender.view as! UIButton
+        let displayName = vc.birthdayHex!.resource
+            let userData = userDataVM?.userData.value
+        print("This is userData \(userData) and tag \(button.tag)")
+            if userData != nil {
+                if button.tag == 0 {
+                    let newRequest = ["requester": currentPostingUserID, "requesting": birthdayHex?.postingUserID]
+                    db.collection("PhoneNumberRequests").addDocument(data: newRequest as [String : Any])
+                    UIDevice.vibrate()
+                    button.setTitle("Requested \(displayName)'s Phone Number", for: .normal)
+    //                button?.imageView?.image = UIImage(named: "checkmark32x32")
+    //                sender.imageView?.image = UIImage(named: "checkmark32x32")
+                    button.tag = 1
+                    print("This is newRequest \(newRequest)")
+                    
+                    let notificationObjectref = db.collection("News2")
+                       let notificationDoc = notificationObjectref.document()
+                    let notificationObject = NewsObject(ava: "userFiles/\(currentPostingUserID)/\(currentPostingUserID)_avatar.png", type: "requestPhoneNumber", currentUser: currentPostingUserID, notifyingUser: birthdayHex!.postingUserID, thumbResource: "userFiles/\(currentPostingUserID)/\(currentPostingUserID)_avatar.png", createdAt: NSDate.now.description, checked: false, notificationID: notificationDoc.documentID)
+                       notificationDoc.setData(notificationObject.dictionary){ error in
+                           //     group.leave()
+                           if error == nil {
+                               print("added notification: \(notificationObject)")
+                               
+                           }
+                           else {
+                               print("failed to add notification \(notificationObject)")
+                               
+                           }
+                       }
+                    
+                }
+            }
+    
     }
     
     func setZoomScale() {

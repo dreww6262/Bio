@@ -296,7 +296,7 @@ class MenuView: UIView {
       //  makeAllMenuButtonsClear()
         changeBackToWhiteIcons()
         let viewControllers = tabController!.customizableViewControllers!
-        let newPostVC = (viewControllers[4] as! NewPostColorfulVC)
+        let newPostVC = (viewControllers[4] as! NewPost5OptionsVC)
         newPostVC.menuView.dmButton.isHidden = true
         newPostVC.menuView.newPostButton.isHidden = true
         newPostVC.menuView.friendsButton.isHidden = true

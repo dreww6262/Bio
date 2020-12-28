@@ -594,7 +594,7 @@ var countryFlag = UIImageView()
                                 let addProfilePic = self.storyboard?.instantiateViewController(withIdentifier: "addProfilePhotoVC") as! AddProfilePhotoVC
                                 addProfilePic.userDataVM = self.userDataVM
                                 addProfilePic.country = country
-                                
+                                addProfilePic.minimumAge = minimumAge
                                 self.present(addProfilePic, animated: false, completion: nil)
                             }
         // this triggers old/bad sign out process
@@ -603,6 +603,7 @@ var countryFlag = UIImageView()
                                 personalDetailTableViewVC.userDataVM = self.userDataVM
                                 personalDetailTableViewVC.myCountry = self.country
                                 personalDetailTableViewVC.myCountries.append(self.country)
+                                personalDetailTableViewVC.myAgeLimit = minimumAge
                                 self.present(personalDetailTableViewVC, animated: false, completion: nil)
                             }
                             
