@@ -16,6 +16,10 @@ class ContentImageVC: UIViewController, UIScrollViewDelegate {
     var userDataVM: UserDataVM?
    // var captionTextField = UITextField()
     
+    override func loadView() {
+        view = scrollView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,8 +38,8 @@ class ContentImageVC: UIViewController, UIScrollViewDelegate {
         scrollView.addSubview(newImageView!)
         scrollView.bringSubviewToFront(newImageView!)
         
-        let frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - 65)
-        let captionFrame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 66)
+        let frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height)
+//        let captionFrame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 66)
 //        captionTextField.font = UIFont(name: "DINAlternate-Bold", size: 28)
 //        captionTextField.textAlignment = .center
 //        captionTextField.isUserInteractionEnabled = false
@@ -55,6 +59,10 @@ class ContentImageVC: UIViewController, UIScrollViewDelegate {
         
       //  captionTextField.frame = captionFrame
         
+    }
+    
+    override func viewDidLayoutSubviews() {
+        newImageView!.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height)
     }
     
     func setUpCaption() {
@@ -77,8 +85,8 @@ class ContentImageVC: UIViewController, UIScrollViewDelegate {
     
     // viewdidload helper functions
     func setUpScrollView() {
-        view.addSubview(scrollView)
-        scrollView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - 65)
+        //view.addSubview(scrollView)
+        //scrollView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - 65)
         scrollView.delegate = self
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
@@ -110,23 +118,5 @@ class ContentImageVC: UIViewController, UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return newImageView
     }
-    
-//    @objc func handleTap(_ sender: UITapGestureRecognizer) {
-//        for view in view.subviews {
-//            view.removeFromSuperview()
-//        }
-//        self.dismiss(animated: false, completion: nil)
-//    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

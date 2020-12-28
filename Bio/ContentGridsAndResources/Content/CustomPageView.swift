@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class CustomPageView: UIViewController {
     var userDataVM: UserDataVM?
@@ -71,6 +72,8 @@ class CustomPageView: UIViewController {
     
     let caption = UILabel()
     
+    let db = Firestore.firestore()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -86,7 +89,14 @@ class CustomPageView: UIViewController {
         
         view.addSubview(caption)
         caption.frame = CGRect(x: centerBox.minX, y: centerBox.minY - 96, width: centerBox.width, height: 80)
-        caption.textColor = .black
+        
+        switch traitCollection.userInterfaceStyle {
+        case .light, .unspecified:
+            caption.textColor = .black
+        case .dark:
+            caption.textColor = .white
+        }
+        
         caption.font = UIFont(name: "Poppins-SemiBold", size: 16)
         caption.textAlignment = .center
         //caption.backgroundColor = .white
@@ -113,6 +123,49 @@ class CustomPageView: UIViewController {
         
         let returnTap = UITapGestureRecognizer(target: self, action: #selector(returnTapped))
         returnButton.addGestureRecognizer(returnTap)
+        
+        
+        if userDataVM?.userData.value?.publicID != hexData?[0]?.postingUserID {
+            let reportButton = UIButton()
+            view.addSubview(reportButton)
+            reportButton.setTitleColor(.white, for: .normal)
+            reportButton.backgroundColor = .clear
+            reportButton.imageView?.image?.withTintColor(.white)
+            reportButton.isUserInteractionEnabled = true
+            let reportTapped = UITapGestureRecognizer(target: self, action: #selector(reportButtonPressed))
+            reportButton.addGestureRecognizer(reportTapped)
+            reportButton.tintColor = .white
+            reportButton.imageView?.tintColor = white
+            reportButton.sizeToFit()
+            switch traitCollection.userInterfaceStyle {
+            case .light, .unspecified:
+                reportButton.setBackgroundImage(UIImage(named: "more"), for: .normal)
+            case .dark:
+                reportButton.setBackgroundImage(UIImage(named: "whiteDots"), for: .normal)
+            }
+            reportButton.frame = CGRect(x: self.view.frame.width-45, y: (centerBox.minY - 25)/2, width: 25, height: 25)
+            
+        }
+        else {
+            let crudButton = UIButton()
+            view.addSubview(crudButton)
+            crudButton.setTitleColor(.white, for: .normal)
+            crudButton.backgroundColor = .clear
+            crudButton.imageView?.image?.withTintColor(.black)
+            crudButton.isUserInteractionEnabled = true
+            let crudTapped = UITapGestureRecognizer(target: self, action: #selector(crudButtonPressed))
+            crudButton.addGestureRecognizer(crudTapped)
+            crudButton.tintColor = .white
+            crudButton.imageView?.tintColor = white
+            crudButton.sizeToFit()
+            switch traitCollection.userInterfaceStyle {
+            case .light, .unspecified:
+                crudButton.setBackgroundImage(UIImage(named: "more"), for: .normal)
+            case .dark:
+                crudButton.setBackgroundImage(UIImage(named: "whiteDots"), for: .normal)
+            }
+            crudButton.frame = CGRect(x: self.view.frame.width-45, y: (centerBox.minY - 25)/2, width: 25, height: 25)
+        }
     }
     
     private func setBoxes() {
@@ -304,5 +357,285 @@ class CustomPageView: UIViewController {
     
     @objc func returnTapped(_ sender: UITapGestureRecognizer) {
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    func prioritizeThisPost() {
+        let currentVC = viewControllers[currentIndex!]
+        if currentVC is ContentLinkVC {
+            let linkVC = currentVC as! ContentLinkVC
+            linkVC.webHex?.isPrioritized = true
+            db.collection("Hexagons2").document(linkVC.webHex!.docID).setData(linkVC.webHex!.dictionary)
+        }
+        else if currentVC is ContentVideoVC {
+            let linkVC = currentVC as! ContentVideoVC
+            linkVC.videoHex?.isPrioritized = true
+            db.collection("Hexagons2").document(linkVC.videoHex!.docID).setData(linkVC.videoHex!.dictionary)
+        }
+        else if currentVC is ContentImageVC {
+            let linkVC = currentVC as! ContentImageVC
+            linkVC.photoHex?.isPrioritized = true
+            db.collection("Hexagons2").document(linkVC.photoHex!.docID).setData(linkVC.photoHex!.dictionary)
+        }
+    }
+    
+    func copyTextToResource() {
+        let pasteboard = UIPasteboard.general
+        let currentVC = viewControllers[currentIndex!]
+        if currentVC is ContentLinkVC {
+            let linkVC = currentVC as! ContentLinkVC
+            pasteboard.string = linkVC.webHex?.resource
+        }
+    }
+    
+    func editMusicPost() {
+            let currentVC = viewControllers[currentIndex!] as! ContentLinkVC
+            let hex = currentVC.webHex
+            let onePostPreviewVC = self.storyboard?.instantiateViewController(identifier: "editMusicPostVC") as! EditMusicPostVC
+            onePostPreviewVC.userDataVM = self.userDataVM
+            onePostPreviewVC.hexData = hex
+        let cleanRef = hex!.thumbResource.replacingOccurrences(of: "/", with: "%2F")
+            let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
+            onePostPreviewVC.linkHexagonImage.sd_setImage(with: url!, completed: {_, error, _, _ in
+                if error != nil {
+                    print(error!.localizedDescription)
+                }
+            })
+            onePostPreviewVC.linkHexagonImageCopy.sd_setImage(with: url!, completed: {_, error, _, _ in
+                if error != nil {
+                    print(error!.localizedDescription)
+                }
+            })
+//            let entireMusicString = hex!.resource
+            let artistSongString = hex!.resource.chopPrefix(21)
+            print("This is artistSongString \(artistSongString)")
+            let artistSongComponents = artistSongString.components(separatedBy: "/")
+            let artist = artistSongComponents[0]
+            let song = artistSongComponents[1]
+            let finalArist = artist.replacingOccurrences(of: "-", with: " ")
+            let finalSong = song.replacingOccurrences(of: "-", with: " ")
+            print("final artist \(finalArist)")
+        print("final song \(finalSong)")
+            onePostPreviewVC.captionTextField.text = hex!.text
+            onePostPreviewVC.textOverlayTextField.text = hex!.coverText
+            onePostPreviewVC.captionString = hex!.text
+            onePostPreviewVC.textOverlayString = hex!.coverText
+            onePostPreviewVC.linkTextField.text = finalArist
+            onePostPreviewVC.songNameTextField.text = finalSong
+            let isPrioritized = currentVC.webHex?.isPrioritized ?? false
+            onePostPreviewVC.checkBoxStatus = isPrioritized
+            if isPrioritized {
+                onePostPreviewVC.checkBox.setImage(UIImage(named: "check-2"), for: .normal)
+            }
+            
+         //   onePostPreviewVC.items
+         //   picker.present(onePostPreviewVC, animated: false, completion: nil)
+            present(onePostPreviewVC, animated: false,completion: nil)
+            onePostPreviewVC.modalPresentationStyle = .fullScreen
+        }
+    
+    func editPost() {
+        let currentVC = viewControllers[currentIndex!]
+        if currentVC is ContentLinkVC {
+            let linkVC = currentVC as! ContentLinkVC
+            print("Go to add Link Post and feed current info")
+        }
+        else if currentVC is ContentVideoVC {
+            let linkVC = currentVC as! ContentVideoVC
+            print("Go to One Post Preview and feed currrent info")
+        }
+        else if currentVC is ContentImageVC {
+            let linkVC = currentVC as! ContentImageVC
+            print("Go to One Post Preview and feed currrent info")
+        }
+        print("To:Do an else if for music")
+    }
+    
+    func editLinkPost() {
+        let currentVC = viewControllers[currentIndex!] as! ContentLinkVC
+        let hex = currentVC.webHex
+        let onePostPreviewVC = self.storyboard?.instantiateViewController(identifier: "editLinkPostVC") as! EditLinkPostVC
+        onePostPreviewVC.userDataVM = userDataVM
+        onePostPreviewVC.hexData = hex
+        let cleanRef = hex!.thumbResource.replacingOccurrences(of: "/", with: "%2F")
+        let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
+        onePostPreviewVC.linkHexagonImage.sd_setImage(with: url!, completed: {_, error, _, _ in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+        })
+        onePostPreviewVC.linkHexagonImageCopy.sd_setImage(with: url!, completed: {_, error, _, _ in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+        })
+        onePostPreviewVC.captionTextField.text = hex!.text
+        onePostPreviewVC.textOverlayTextField.text = hex!.coverText
+        onePostPreviewVC.captionString = hex!.text
+        onePostPreviewVC.textOverlayString = hex!.coverText
+        onePostPreviewVC.linkTextField.text = hex!.resource
+        let isPrioritized = currentVC.webHex?.isPrioritized ?? false
+        onePostPreviewVC.checkBoxStatus = isPrioritized
+        if isPrioritized {
+            onePostPreviewVC.checkBox.setImage(UIImage(named: "check-3"), for: .normal)
+        }
+        
+        //   onePostPreviewVC.items
+        //   picker.present(onePostPreviewVC, animated: false, completion: nil)
+        present(onePostPreviewVC, animated: false,completion: nil)
+        onePostPreviewVC.modalPresentationStyle = .fullScreen
+    }
+    
+    func editPhotoPost() {
+        let currentVC = viewControllers[currentIndex!] as! ContentImageVC
+        let hex = currentVC.photoHex
+        let onePostPreviewVC = self.storyboard?.instantiateViewController(identifier: "editPhotoPostVC") as! EditPhotoPostVC
+        onePostPreviewVC.userDataVM = userDataVM
+        onePostPreviewVC.hexData = hex
+        let cleanRef = hex!.thumbResource.replacingOccurrences(of: "/", with: "%2F")
+        let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
+        onePostPreviewVC.previewImage.sd_setImage(with: url!, completed: {_, error, _, _ in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+        })
+        onePostPreviewVC.linkHexagonImageCopy.sd_setImage(with: url!, completed: {_, error, _, _ in
+                    if error != nil {
+                        print(error!.localizedDescription)
+                    }
+                })
+        onePostPreviewVC.captionTextField.text = hex!.text
+        onePostPreviewVC.textOverlayTextField.text = hex!.coverText
+        onePostPreviewVC.captionString = hex!.text
+        onePostPreviewVC.textOverlayString = hex!.coverText
+        let isPrioritized = currentVC.photoHex?.isPrioritized ?? false
+        onePostPreviewVC.checkBoxStatus = isPrioritized
+        if isPrioritized {
+            onePostPreviewVC.checkBox.setImage(UIImage(named: "check-3"), for: .normal)
+        }
+        
+        //   onePostPreviewVC.items
+        //   picker.present(onePostPreviewVC, animated: false, completion: nil)
+        present(onePostPreviewVC, animated: false,completion: nil)
+        onePostPreviewVC.modalPresentationStyle = .fullScreen
+    }
+    
+    
+    
+    @objc func reportButtonPressed(_ sender: UITapGestureRecognizer) {
+        print("More tapped")
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        alert.addAction(UIAlertAction(title: "Copy Link", style: .default , handler:{ (UIAlertAction)in
+            print("User click Copy Link button")
+            self.copyTextToResource()
+        }))
+        
+        
+        
+        alert.addAction(UIAlertAction(title: "Report Post", style: .default , handler:{ (UIAlertAction)in
+            print("User click Report button")
+            let reportVC = self.storyboard?.instantiateViewController(withIdentifier: "reportVC") as! ReportAPostVC
+            reportVC.userDataVM = self.userDataVM
+            let currentVC = self.viewControllers[self.currentIndex!]
+            if currentVC is ContentLinkVC {
+                let linkVC = currentVC as! ContentLinkVC
+                reportVC.hexData = linkVC.webHex
+                reportVC.userDataVM = self.userDataVM
+            }
+            else if currentVC is ContentImageVC {
+                let imageVC = currentVC as! ContentImageVC
+                reportVC.hexData = imageVC.photoHex
+                reportVC.userDataVM = self.userDataVM
+            }
+            else if currentVC is ContentVideoVC {
+                let videoVC = currentVC as! ContentVideoVC
+                reportVC.hexData = videoVC.videoHex
+                reportVC.userDataVM = self.userDataVM
+            }
+            self.present(reportVC, animated: false, completion: nil)
+            
+        }))
+        
+        //        let prioritize = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        
+        
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler:{ (UIAlertAction)in
+            print("User click Dismiss button")
+        }))
+        
+        self.present(alert, animated: true, completion: {
+            print("completion block")
+        })
+        
+    }
+    
+    @objc func crudButtonPressed(_ sender: UITapGestureRecognizer) {
+        print("More tapped crud")
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        alert.addAction(UIAlertAction(title: "Copy Link", style: .default , handler:{ (UIAlertAction)in
+            print("User click Copy Link button")
+            self.copyTextToResource()
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Edit Post", style: .default , handler:{ (UIAlertAction)in
+            print("User click Edit Post")
+            self.editLinkPost()
+            //    self.copyTextToResource()
+        }))
+        
+        
+        alert.addAction(UIAlertAction(title: "Prioritize This Post", style: .default , handler:{ (UIAlertAction)in
+            print("User click Prioritize button")
+            self.prioritizeThisPost()
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Delete This Post", style: .default, handler:  { (UIAlertAction)in
+            
+            let sureAlert = UIAlertController(title: "Are you sure you want to delete this post?", message: "It cannot be undone", preferredStyle: .alert)
+            
+            sureAlert.addAction(UIKit.UIAlertAction(title: "Yes", style: .default, handler: { (UIAlertAction) in
+                let currentVC = self.viewControllers[self.currentIndex!]
+                if currentVC is ContentLinkVC {
+                    let linkVC = currentVC as! ContentLinkVC
+                    linkVC.webHex?.isArchived = true
+                    self.db.collection("Hexagons2").document(linkVC.webHex!.docID).setData(linkVC.webHex!.dictionary)
+                }
+                else if currentVC is ContentImageVC {
+                    let imageVC = currentVC as! ContentImageVC
+                    imageVC.photoHex?.isArchived = true
+                    self.db.collection("Hexagons2").document(imageVC.photoHex!.docID).setData(imageVC.photoHex!.dictionary)
+                }
+                else if currentVC is ContentVideoVC {
+                    let videoVC = currentVC as! ContentVideoVC
+                    videoVC.videoHex?.isArchived = true
+                    self.db.collection("Hexagons2").document(videoVC.videoHex!.docID).setData(videoVC.videoHex!.dictionary)
+                }
+                self.viewControllers.remove(at: self.currentIndex!)
+                if self.currentIndex == self.viewControllers.count {
+                    self.currentIndex! -= 1
+                }
+                if (self.currentIndex == -1 || self.viewControllers.count == 0) {
+                    self.dismiss(animated: true, completion: nil)
+                }
+                else {
+                    self.setPresentedViewControllers(vcIndex: self.currentIndex!)
+                }
+            }))
+            
+            sureAlert.addAction(UIKit.UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            self.present(sureAlert, animated: true, completion: nil)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler:{ (UIAlertAction)in
+            print("User click Dismiss button")
+        }))
+        
+        self.present(alert, animated: true, completion: {
+            print("completion block")
+        })
+        
     }
 }
