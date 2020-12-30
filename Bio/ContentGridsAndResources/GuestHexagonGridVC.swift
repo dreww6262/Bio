@@ -30,7 +30,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     // Firebase stuff
     var user = Auth.auth().currentUser
     var guestUserData: UserData?
-    var myUserData: UserData?
+    //var myUserData: UserData?
     var userDataVM: UserDataVM?
     let db = Firestore.firestore()
     let storage = Storage.storage().reference()
@@ -97,7 +97,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
         addPageView()
         
-        myUserData = userDataVM?.userData.value
+        let myUserData = userDataVM?.userData.value
         if (myUserData == nil) {
             return
         }
@@ -190,7 +190,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func addPageView() {
-         myUserData = userDataVM?.userData.value
+        let myUserData = userDataVM?.userData.value
         db.collection("PageViews").document().setData(["viewer": myUserData?.publicID ?? "no_username", "viewed": guestUserData!.publicID, "viewedAt": Date()]) { _ in
             self.db.collection("PageViews").whereField("viewed", isEqualTo: self.guestUserData!.publicID).getDocuments(completion: { obj, error in
                 if error == nil {
@@ -328,7 +328,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         //        if followLabel.text == "Add" {
         //            print("Follow the user :)")
         
-         myUserData = userDataVM?.userData.value
+        let myUserData = userDataVM?.userData.value
         if guestUserData != nil {
             if !isFollowing {
                 let newFollow = ["follower": myUserData!.publicID, "following": guestUserData!.publicID]

@@ -666,8 +666,6 @@ var navBarView = NavBarView()
         
         let image = PostImageView(frame: CGRect(x: self.reOrderedCoordinateArrayPoints[hexData.location].x,
                                                 y: self.reOrderedCoordinateArrayPoints[hexData.location].y, width: hexaDiameter, height: hexaDiameter))
-        //print("This is contentView.center \(contentView.center)")
-        //print("This is profile Pic Center \(self.reOrderedCoordinateArrayPoints[0].x), \(self.reOrderedCoordinateArrayPoints[0].y)")
         image.contentMode = .scaleAspectFill
         image.image = UIImage()
         image.hexData = hexData

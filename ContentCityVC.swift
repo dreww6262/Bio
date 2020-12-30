@@ -106,10 +106,30 @@ class ContentCityVC: UIViewController, UIScrollViewDelegate {
         print()
     }
     
+    override func loadView() {
+        view = scrollView
+    }
+    override func viewDidLayoutSubviews() {
+        let frame = CGRect(x: view.frame.width/6, y: view.frame.height/12, width: view.frame.width*(2/3), height: view.frame.width*(2/3))
+        let birthdayFrame = CGRect(x: 0, y: frame.maxY + 5, width: view.frame.width, height: 20)
+        let ageFrame = CGRect(x: 0, y: birthdayFrame.maxY + 5, width: view.frame.width, height: 20)
+        let zodiacFrame = CGRect(x: 0, y: ageFrame.maxY + 5, width: view.frame.width, height: 20)
+//        captionTextField.font = UIFont(name: "DINAlternate-Bold", size: 28)
+//        captionTextField.textAlignment = .center
+//        captionTextField.isUserInteractionEnabled = false
+        newImageView!.frame = frame
+        newImageView?.layer.cornerRadius = (frame.width)/2
+        newImageView!.backgroundColor = .black
+        
+        newImageView!.contentMode = .scaleAspectFit
+        newImageView!.isUserInteractionEnabled = true
+    }
+    
+    
     // viewdidload helper functions
     func setUpScrollView() {
-        view.addSubview(scrollView)
-        scrollView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - 65)
+        //view.addSubview(scrollView)
+        //scrollView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - 65)
         scrollView.delegate = self
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false

@@ -20,10 +20,13 @@ class newsCell: UITableViewCell {
     @IBOutlet weak var rejectButton: UIButton!
     
     @IBOutlet weak var acceptButton: UIButton!
+    
+    let phoneButton = UIButton()
+
     // default func
     override func awakeFromNib() {
         super.awakeFromNib()
-
+        contentView.addSubview(phoneButton)
         // constraints
         avaImg.translatesAutoresizingMaskIntoConstraints = false
         usernameBtn.translatesAutoresizingMaskIntoConstraints = false
@@ -54,6 +57,8 @@ class newsCell: UITableViewCell {
        // avaImg.layer.cornerRadius = avaImg.frame.size.width / 2
         avaImg.clipsToBounds = true
     }
+    
+    
 
     @IBAction func rejectButtonPressed(_ sender: UIButton) {
         //delete this notification from the backend and reload table view

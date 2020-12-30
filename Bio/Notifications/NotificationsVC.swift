@@ -248,6 +248,25 @@ class NotificationsVC: UIViewController {
             }
         })
     }
+    
+    @objc func acceptTapped(_ sender: UITapGestureRecognizer) {
+        let cell = sender.view?.superview?.superview as! newsCell
+        print(notificationArray[cell.tag])
+        let userData = userDataVM?.userData.value
+        let document = db.collection("News2").document()
+        let news = NewsObject(ava: userData?.phoneNumber ?? "", type: "approvePhoneNumber", currentUser: userData?.publicID ?? "", notifyingUser: cell.currentPostingUserID, thumbResource: userData?.avaRef ?? "", createdAt: NSDate.now.description, checked: false, notificationID: document.documentID)
+        document.setData(news.dictionary)
+        notificationArray[cell.tag].type = "requestCompleted"
+        db.collection("News2").document(notificationArray[cell.tag].notificationID).setData(notificationArray[cell.tag].dictionary)
+        tableView.reloadData()
+    }
+    
+    @objc func rejectTapped(_ sender: UITapGestureRecognizer) {
+        let cell = sender.view?.superview?.superview as! newsCell
+        db.collection("News2").document(notificationArray[cell.tag].notificationID).delete()
+        notificationArray.remove(at: cell.tag)
+        tableView.reloadData()
+    }
 
     
     
@@ -347,10 +366,10 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // declare cell
         let cell = tableView.dequeueReusableCell(withIdentifier: "newsCell") as! newsCell
+        cell.tag = indexPath.row
         cell.frame = CGRect(x: cell.frame.minX, y: cell.frame.minY, width: view.frame.width, height: 43.5)
         // connect cell objects with received data from server
-        let userData = userDataVM?.userData.value
-        cell.currentPostingUserID = userData!.publicID
+        cell.currentPostingUserID = notificationArray[indexPath.row].currentUser
         cell.usernameBtn.setTitle(notificationArray[indexPath.row].currentUser, for: UIControl.State())
         //print("cell frame: \(cell.frame)")
         let ref = storage.child(notificationArray[indexPath.row].thumbResource)
@@ -379,6 +398,7 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
         dateFormatter.locale = Locale.init(identifier: "en_GB")
         dateFormatter.timeZone = NSTimeZone(name: "GMT") as TimeZone?
+        cell.phoneButton.isHidden = true
 
         //"yyyy-MM-dd HH:mm:ss.SSSZ" // "yyyy-MM-dd HH:mm:ss"
         
@@ -400,19 +420,19 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
         if difference.second! <= 0 {
             cell.dateLbl.text = "now"
         }
-        if difference.second! > 0 && difference.minute! == 0 {
+        else if difference.second! > 0 && difference.minute! == 0 {
             cell.dateLbl.text = "\(String(describing: difference.second!))s."
         }
-        if difference.minute! > 0 && difference.hour! == 0 {
+        else if difference.minute! > 0 && difference.hour! == 0 {
             cell.dateLbl.text = "\(String(describing: difference.minute!))m."
         }
-        if difference.hour! > 0 && difference.day! == 0 {
+        else if difference.hour! > 0 && difference.day! == 0 {
             cell.dateLbl.text = "\(String(describing: difference.hour!))h."
         }
-        if difference.day! > 0 && difference.weekOfMonth! == 0 {
+        else if difference.day! > 0 && difference.weekOfMonth! == 0 {
             cell.dateLbl.text = "\(String(describing: difference.day!))d."
         }
-        if difference.weekOfMonth! > 0 {
+        else if difference.weekOfMonth! > 0 {
             cell.dateLbl.text = "\(String(describing: difference.weekOfMonth!))w."
         }
         
@@ -425,33 +445,49 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
 //            cell.acceptButton.frame = CGRect(x: cell.rejectButton.frame.maxX + 10, y: (cell.frame.height - 30)/2, width: 30, height: 30)
             cell.rejectButton.isHidden = false
             cell.acceptButton.isHidden = false
+            
+            let rejectTap = UITapGestureRecognizer(target: self, action: #selector(rejectTapped))
+            let acceptTap = UITapGestureRecognizer(target: self, action: #selector(acceptTapped))
+            cell.rejectButton.addGestureRecognizer(rejectTap)
+            cell.acceptButton.addGestureRecognizer(acceptTap)
         }
-        if notificationArray[indexPath.row].type == "approvePhoneNumber" {
-            let phoneNumber = UserDataVM(username: cell.usernameBtn.titleLabel!.text!).userData.value?.phoneNumber
+        else if notificationArray[indexPath.row].type == "requestCompleted" {
+            cell.infoLbl.text = "has been sent your number"
+//            cell.rejectButton.frame = CGRect(x: cell.dateLbl.frame.maxX + 10, y: (cell.frame.height - 30)/2, width: 30, height: 30)
+//            cell.acceptButton.frame = CGRect(x: cell.rejectButton.frame.maxX + 10, y: (cell.frame.height - 30)/2, width: 30, height: 30)
+            cell.rejectButton.isHidden = true
+            cell.acceptButton.isHidden = true
+        }
+        
+        else if notificationArray[indexPath.row].type == "approvePhoneNumber" {
+            //let phoneNumber = UserDataVM(username: cell.usernameBtn.titleLabel!.text!).userData.value?.phoneNumber
+            
        //     let phoneNumber = phoneNumberUserData.value!.phoneNumber
             cell.infoLbl.text = "gave you their phone number."
-            var phoneNumberButton = UIButton()
+            cell.phoneButton.isHidden = false
+            let phoneNumberButton = cell.phoneButton
+            phoneNumberButton.isHidden = false
             phoneNumberButton.setTitle(notificationArray[indexPath.row].ava, for: .normal)
             phoneNumberButton.titleLabel?.textColor = .blue
             phoneNumberButton.tintColor = .blue
-            cell.addSubview(phoneNumberButton)
+//            cell.addSubview(phoneNumberButton)
             phoneNumberButton.frame = CGRect(x: cell.dateLbl.frame.maxX + 5, y: cell.infoLbl.frame.minY, width: view.frame.width - cell.dateLbl.frame.maxX - 5, height: 30)
         }
      
                                      
         
         
-        if notificationArray[indexPath.row].type == "mention" {
+        else if notificationArray[indexPath.row].type == "mention" {
             cell.infoLbl.text = "has mentioned you."
         }
-        if notificationArray[indexPath.row].type == "comment" {
+        else if notificationArray[indexPath.row].type == "comment" {
             cell.infoLbl.text = "has commented your post."
         }
-        if notificationArray[indexPath.row].type == "follow" {
+        else if notificationArray[indexPath.row].type == "follow" {
             cell.infoLbl.text = "is now following you."
             //print("its a follow")
         }
-        if notificationArray[indexPath.row].type == "like" {
+        else if notificationArray[indexPath.row].type == "like" {
             cell.infoLbl.text = "likes your post."
         }
         
@@ -511,10 +547,4 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
         }
         
     }
-    
-    
-    
-    
-    
-    
 }

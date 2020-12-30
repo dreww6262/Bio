@@ -19,6 +19,7 @@ class ContentPhoneVC: UIViewController, UIScrollViewDelegate {
    // var captionTextField = UITextField()
     
     override func viewDidLoad() {
+        print("im in")
         super.viewDidLoad()
         view.backgroundColor = .black
         setUpScrollView()
@@ -45,7 +46,6 @@ class ContentPhoneVC: UIViewController, UIScrollViewDelegate {
         let frame = CGRect(x: view.frame.width/6, y: view.frame.height/12, width: view.frame.width*(2/3), height: view.frame.width*(2/3))
         let birthdayFrame = CGRect(x: 0, y: frame.maxY + 5, width: view.frame.width, height: 20)
         let ageFrame = CGRect(x: 0, y: birthdayFrame.maxY + 5, width: view.frame.width, height: 20)
-        let zodiacFrame = CGRect(x: 0, y: ageFrame.maxY + 5, width: view.frame.width, height: 20)
 //        captionTextField.font = UIFont(name: "DINAlternate-Bold", size: 28)
 //        captionTextField.textAlignment = .center
 //        captionTextField.isUserInteractionEnabled = false
@@ -68,12 +68,12 @@ class ContentPhoneVC: UIViewController, UIScrollViewDelegate {
         
     }
     
-    
+    let requestButton = UIButton()
     func setUpCaption() {
         var birthdayLabel = UILabel()
         var ageLabel = UILabel()
         var zodiacLabel = UILabel()
-        var requestButton = UIButton()
+        
         requestButton.tag = 0
         let requestTap = UITapGestureRecognizer(target: self, action: #selector(requestPhoneNumberPressed))
         requestButton.isUserInteractionEnabled = true
@@ -129,10 +129,27 @@ class ContentPhoneVC: UIViewController, UIScrollViewDelegate {
         print()
     }
     
+    override func loadView() {
+        view = scrollView
+    }
+    
+    override func viewDidLayoutSubviews() {
+        let frame = CGRect(x: view.frame.width/6, y: view.frame.height/12, width: view.frame.width*(2/3), height: view.frame.width*(2/3))
+        newImageView.frame = frame
+        newImageView.layer.cornerRadius = (frame.width)/2
+        
+        let birthdayFrame = CGRect(x: 0, y: (newImageView.frame.maxY) + 20, width: view.frame.width, height: 30)
+        let ageFrame = CGRect(x: view.frame.width/8, y: birthdayFrame.maxY + 10, width: view.frame.width*(6/8), height: 50)
+        requestButton.frame = ageFrame
+        requestButton.layer.cornerRadius = requestButton.frame.width/20
+        
+
+    }
+    
     // viewdidload helper functions
     func setUpScrollView() {
-        view.addSubview(scrollView)
-        scrollView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - 65)
+        //view.addSubview(scrollView)
+        //scrollView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - 65)
         scrollView.delegate = self
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
@@ -158,7 +175,7 @@ class ContentPhoneVC: UIViewController, UIScrollViewDelegate {
                     let newRequest = ["requester": currentPostingUserID, "requesting": birthdayHex?.postingUserID]
                     db.collection("PhoneNumberRequests").addDocument(data: newRequest as [String : Any])
                     UIDevice.vibrate()
-                    button.setTitle("Requested \(displayName)'s Phone Number", for: .normal)
+                    button.setTitle("Requested", for: .normal)
     //                button?.imageView?.image = UIImage(named: "checkmark32x32")
     //                sender.imageView?.image = UIImage(named: "checkmark32x32")
                     button.tag = 1
@@ -166,7 +183,7 @@ class ContentPhoneVC: UIViewController, UIScrollViewDelegate {
                     
                     let notificationObjectref = db.collection("News2")
                        let notificationDoc = notificationObjectref.document()
-                    let notificationObject = NewsObject(ava: "userFiles/\(currentPostingUserID)/\(currentPostingUserID)_avatar.png", type: "requestPhoneNumber", currentUser: currentPostingUserID, notifyingUser: birthdayHex!.postingUserID, thumbResource: "userFiles/\(currentPostingUserID)/\(currentPostingUserID)_avatar.png", createdAt: NSDate.now.description, checked: false, notificationID: notificationDoc.documentID)
+                    let notificationObject = NewsObject(ava: userData!.avaRef, type: "requestPhoneNumber", currentUser: userData!.publicID, notifyingUser: birthdayHex!.postingUserID, thumbResource: userData!.avaRef, createdAt: NSDate.now.description, checked: false, notificationID: notificationDoc.documentID)
                        notificationDoc.setData(notificationObject.dictionary){ error in
                            //     group.leave()
                            if error == nil {

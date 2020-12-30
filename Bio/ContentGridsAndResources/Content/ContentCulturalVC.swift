@@ -483,10 +483,14 @@ class ContentCulturalVC: UIViewController, UIScrollViewDelegate {
         print()
     }
     
+    override func loadView() {
+        view = scrollView
+    }
+    
     // viewdidload helper functions
     func setUpScrollView() {
-        view.addSubview(scrollView)
-        scrollView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - 65)
+        //view.addSubview(scrollView)
+        //scrollView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - 65)
         scrollView.delegate = self
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false

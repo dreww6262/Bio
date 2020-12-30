@@ -65,11 +65,12 @@ class ContentRelationship: UIViewController, UIScrollViewDelegate {
     }
     
 
+    let label1 = UILabel()
+    let label2 = UILabel()
+    let label3 = UILabel()
     
     func setUpCaption() {
-        var label1 = UILabel()
-        var label2 = UILabel()
-        var label3 = UILabel()
+        
         scrollView.addSubview(label1)
         scrollView.addSubview(label2)
         scrollView.addSubview(label3)
@@ -113,10 +114,38 @@ class ContentRelationship: UIViewController, UIScrollViewDelegate {
         print()
     }
     
+    override func loadView() {
+        view = scrollView
+    }
+    
+    override func viewDidLayoutSubviews() {
+        let frame = CGRect(x: view.frame.width/6, y: view.frame.height/12, width: view.frame.width*(2/3), height: view.frame.width*(2/3))
+        let birthdayFrame = CGRect(x: 0, y: frame.maxY + 5, width: view.frame.width, height: 20)
+        let ageFrame = CGRect(x: 0, y: birthdayFrame.maxY + 5, width: view.frame.width, height: 20)
+        let zodiacFrame = CGRect(x: 0, y: ageFrame.maxY + 5, width: view.frame.width, height: 20)
+//        captionTextField.font = UIFont(name: "DINAlternate-Bold", size: 28)
+//        captionTextField.textAlignment = .center
+//        captionTextField.isUserInteractionEnabled = false
+        newImageView!.frame = frame
+        newImageView?.layer.cornerRadius = (frame.width)/2
+        newImageView!.backgroundColor = .black
+        
+        newImageView!.contentMode = .scaleAspectFit
+        newImageView!.isUserInteractionEnabled = true
+        
+        
+        let label1Frame = CGRect(x: 0, y: (newImageView?.frame.maxY)! + 20, width: view.frame.width, height: 30)
+        let label2Frame = CGRect(x: 0, y: label1Frame.maxY + 20, width: view.frame.width, height: 30)
+        let label3Frame = CGRect(x: 0, y: label2Frame.maxY + 20, width: view.frame.width, height: 30)
+        label1.frame = label1Frame
+        label2.frame = label2Frame
+        label3.frame = label3Frame
+    }
+    
     // viewdidload helper functions
     func setUpScrollView() {
-        view.addSubview(scrollView)
-        scrollView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - 65)
+        //view.addSubview(scrollView)
+        //scrollView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - 65)
         scrollView.delegate = self
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false

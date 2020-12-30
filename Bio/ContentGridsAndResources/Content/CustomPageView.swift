@@ -47,6 +47,54 @@ class CustomPageView: UIViewController {
                             showBool = false
                             vc.viewDidLoad()
                             viewControllers.append(vc)
+                        case "pin_phone":
+                            let vc = ContentPhoneVC()
+                            vc.userDataVM = userDataVM
+                            vc.birthdayHex = data
+                            vc.showOpenAppButton = false
+                            showBool = false
+                            vc.viewDidLoad()
+                            viewControllers.append(vc)
+                        case "pin_birthday":
+                            let vc = ContentBirthdayVC()
+                            vc.userDataVM = userDataVM
+                            vc.birthdayHex = data
+                            vc.showOpenAppButton = false
+                            showBool = false
+                            vc.viewDidLoad()
+                            viewControllers.append(vc)
+                        case "pin_city":
+                            let vc = ContentCityVC()
+                            vc.userDataVM = userDataVM
+                            vc.cityHex = data
+                            vc.showOpenAppButton = false
+                            showBool = false
+                            vc.viewDidLoad()
+                            viewControllers.append(vc)
+                        case "pin_country":
+                            let vc = ContentCityVC()
+                            vc.userDataVM = userDataVM
+                            vc.cityHex = data
+                            vc.showOpenAppButton = false
+                            showBool = false
+                            vc.viewDidLoad()
+                            viewControllers.append(vc)
+                        case "pin_relationship":
+                            let vc = ContentRelationship()
+                            vc.userDataVM = userDataVM
+                            vc.relationshipHex = data
+                            vc.showOpenAppButton = false
+                            showBool = false
+                            vc.viewDidLoad()
+                            viewControllers.append(vc)
+                        case "pin_state":
+                            let vc = ContentCityVC()
+                            vc.userDataVM = userDataVM
+                            vc.cityHex = data
+                            vc.showOpenAppButton = false
+                            showBool = false
+                            vc.viewDidLoad()
+                            viewControllers.append(vc)
                         default:
                             let vc = ContentLinkVC()
                             vc.webHex = data
@@ -245,7 +293,19 @@ class CustomPageView: UIViewController {
             case (is ContentImageVC):
                 let imageVC = visibleVCs[0] as! ContentImageVC
                 text = imageVC.photoHex?.text ?? ""
-                
+            case (is ContentPhoneVC):
+                let linkVC = visibleVCs[0] as! ContentPhoneVC
+                text = linkVC.birthdayHex?.text ?? ""
+            case (is ContentBirthdayVC):
+                let linkVC = visibleVCs[0] as! ContentBirthdayVC
+                text = linkVC.birthdayHex?.text ?? ""
+            case (is ContentCityVC):
+                let linkVC = visibleVCs[0] as! ContentCityVC
+                text = linkVC.cityHex?.text ?? ""
+            case (is ContentRelationship):
+                let linkVC = visibleVCs[0] as! ContentRelationship
+                text = linkVC.relationshipHex?.text ?? ""
+                    
             default:
                 let videoVC = visibleVCs[0] as! ContentVideoVC
                 text = videoVC.videoHex?.text ?? ""
