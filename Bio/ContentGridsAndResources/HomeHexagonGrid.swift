@@ -114,7 +114,7 @@ var navBarView = NavBarView()
         toSettingsButton.isHidden = false
         
         observeUserData()
-        
+        refresh()
     }
     
     func observeUserData() {
@@ -462,19 +462,7 @@ var navBarView = NavBarView()
                     if image.hexData?.isPrioritized == true {
                         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
                         let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.longTapPrioritized))
-                    let clearHexagon = PostImageView()
-                        clearHexagon.tag = image.tag
-                        clearHexagon.isUserInteractionEnabled = true
-                        clearHexagon.hexData = image.hexData
-                        self.contentView.addSubview(clearHexagon)
-                        clearHexagon.frame = image.frame
-                        clearHexagon.setupHexagonMask(lineWidth: image.frame.width/15, color: .clear, cornerRadius: image.frame.width/15)
-                        clearHexagon.addGestureRecognizer(tapGesture)
-                        clearHexagon.addGestureRecognizer(longGesture)
-                        clearHexagon.backgroundColor = .clear
-                        clearHexagon.alpha = 0.0
-                        clearHexagon.image = image.image
-                        self.contentView.bringSubviewToFront(clearHexagon)
+               
                     prioritizedPosts.append(image)
                     image.pulse(withIntensity: 0.8, withDuration: 1.5, loop: true)
                     }
@@ -762,6 +750,7 @@ var navBarView = NavBarView()
         toSettingsButton.isHidden = false
         followView.isHidden = false
         setUpPageViewListener()
+        refresh()
     }
     
     
@@ -776,7 +765,7 @@ var navBarView = NavBarView()
         var currentHexagonCenter = CGPoint(x:0.0, y:0.0)
         let hexImage = sender.view! as! PostImageView
         //make it not transparent anymore
-        hexImage.alpha = 1.0
+        //hexImage.alpha = 1.0
        
         var removedImageView = PostImageView()
         var removedImageLocation = Int()
@@ -904,7 +893,7 @@ var navBarView = NavBarView()
                 createHexagonMaskWithCorrespondingColor(imageView: hex, type: hex.hexData!.type)
             }
         //make it transparent again
-        hexImage.alpha = 0.0
+   //     hexImage.alpha = 0.0
             trashButton.isHidden = true
             menuView.menuButton.isHidden = false
             

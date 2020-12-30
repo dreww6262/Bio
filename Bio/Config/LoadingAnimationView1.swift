@@ -44,7 +44,7 @@ func doAnimation(image: UIImageView) {
 
 extension UIView {
     func pulse(withIntensity intensity: CGFloat, withDuration duration: Double, loop: Bool) {
-        UIView.animate(withDuration: duration, delay: 0, options: [.repeat, .autoreverse], animations: {
+        UIView.animate(withDuration: duration, delay: 0, options: [.repeat, .autoreverse, .allowUserInteraction], animations: {
             loop ? nil : UIView.setAnimationRepeatCount(10)
             self.transform = CGAffineTransform(scaleX: intensity, y: intensity)
         }) { (true) in
