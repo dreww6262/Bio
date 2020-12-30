@@ -493,7 +493,9 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         else {
             checkBox.setImage(UIImage(named: "blueEmpty"), for: .normal)
             checkBoxStatus = false
-           linkHexagonImage.pulse(withIntensity: 1.0, withDuration: 0.1, loop: false)
+            linkHexagonImage.isHidden = true
+         linkHexagonImage.pulse(withIntensity: 1.0, withDuration: 0.001, loop: false)
+            linkHexagonImage.isHidden = false
         }
     }
     
