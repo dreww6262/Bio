@@ -13,7 +13,7 @@ class CustomPageView: UIViewController {
     var userDataVM: UserDataVM?
     var viewControllers = [UIViewController]()
     var currentIndex: Int?
-    
+    var currentPostingUserID = ""
     var visibleVCs: [UIViewController?] = [nil, nil, nil]
     
     var showBool = false
@@ -47,14 +47,6 @@ class CustomPageView: UIViewController {
                             showBool = false
                             vc.viewDidLoad()
                             viewControllers.append(vc)
-                        case "pin_phone":
-                            let vc = ContentPhoneVC()
-                            vc.userDataVM = userDataVM
-                            vc.birthdayHex = data
-                            vc.showOpenAppButton = false
-                            showBool = false
-                            vc.viewDidLoad()
-                            viewControllers.append(vc)
                         case "pin_birthday":
                             let vc = ContentBirthdayVC()
                             vc.userDataVM = userDataVM
@@ -63,18 +55,19 @@ class CustomPageView: UIViewController {
                             showBool = false
                             vc.viewDidLoad()
                             viewControllers.append(vc)
-                        case "pin_city":
-                            let vc = ContentCityVC()
+                        case "pin_phone":
+                            let vc = ContentPhoneVC()
                             vc.userDataVM = userDataVM
-                            vc.cityHex = data
+                            vc.currentPostingUserID = currentPostingUserID
+                            vc.birthdayHex = data
                             vc.showOpenAppButton = false
                             showBool = false
                             vc.viewDidLoad()
                             viewControllers.append(vc)
                         case "pin_country":
-                            let vc = ContentCityVC()
+                            let vc = ContentCulturalVC()
                             vc.userDataVM = userDataVM
-                            vc.cityHex = data
+                            vc.cultureHex = data
                             vc.showOpenAppButton = false
                             showBool = false
                             vc.viewDidLoad()
@@ -87,7 +80,7 @@ class CustomPageView: UIViewController {
                             showBool = false
                             vc.viewDidLoad()
                             viewControllers.append(vc)
-                        case "pin_state":
+                        case "pin_city":
                             let vc = ContentCityVC()
                             vc.userDataVM = userDataVM
                             vc.cityHex = data
@@ -127,7 +120,9 @@ class CustomPageView: UIViewController {
         
         setBoxes()
         
-        view.backgroundColor = .systemGray6
+      //  view.backgroundColor = .systemGray6
+     //   view.backgroundColor = .darkGray
+        view.backgroundColor = .black
         
         if currentIndex == nil {
             if (!setPresentedViewControllers(vcIndex: 0)) {
@@ -141,6 +136,7 @@ class CustomPageView: UIViewController {
         switch traitCollection.userInterfaceStyle {
         case .light, .unspecified:
             caption.textColor = .black
+            caption.textColor = .white
         case .dark:
             caption.textColor = .white
         }
@@ -188,6 +184,7 @@ class CustomPageView: UIViewController {
             switch traitCollection.userInterfaceStyle {
             case .light, .unspecified:
                 reportButton.setBackgroundImage(UIImage(named: "more"), for: .normal)
+            //    reportButton.tintColor = .white
             case .dark:
                 reportButton.setBackgroundImage(UIImage(named: "whiteDots"), for: .normal)
             }
@@ -293,19 +290,23 @@ class CustomPageView: UIViewController {
             case (is ContentImageVC):
                 let imageVC = visibleVCs[0] as! ContentImageVC
                 text = imageVC.photoHex?.text ?? ""
-            case (is ContentPhoneVC):
-                let linkVC = visibleVCs[0] as! ContentPhoneVC
-                text = linkVC.birthdayHex?.text ?? ""
-            case (is ContentBirthdayVC):
-                let linkVC = visibleVCs[0] as! ContentBirthdayVC
-                text = linkVC.birthdayHex?.text ?? ""
-            case (is ContentCityVC):
-                let linkVC = visibleVCs[0] as! ContentCityVC
-                text = linkVC.cityHex?.text ?? ""
-            case (is ContentRelationship):
-                let linkVC = visibleVCs[0] as! ContentRelationship
-                text = linkVC.relationshipHex?.text ?? ""
-                    
+        
+        case (is ContentCityVC):
+            let imageVC = visibleVCs[0] as! ContentCityVC
+            text = imageVC.cityHex?.text ?? ""
+        case (is ContentBirthdayVC):
+            let imageVC = visibleVCs[0] as! ContentBirthdayVC
+            text = imageVC.birthdayHex?.text ?? ""
+        case (is ContentRelationship):
+            let imageVC = visibleVCs[0] as! ContentRelationship
+            text = imageVC.relationshipHex?.text ?? ""
+        case (is ContentCulturalVC):
+            let imageVC = visibleVCs[0] as! ContentCulturalVC
+            text = imageVC.cultureHex?.text ?? ""
+        case (is ContentPhoneVC):
+            let imageVC = visibleVCs[0] as! ContentPhoneVC
+            text = imageVC.birthdayHex?.text ?? ""
+                
             default:
                 let videoVC = visibleVCs[0] as! ContentVideoVC
                 text = videoVC.videoHex?.text ?? ""

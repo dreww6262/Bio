@@ -74,20 +74,24 @@ class NewPost5OptionsVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         let addMusicTapped = UITapGestureRecognizer(target: self, action: #selector(tappedMusicView))
         let addLinkTapped = UITapGestureRecognizer(target: self, action: #selector(tappedlinkView))
         let addSocialMediaTapped = UITapGestureRecognizer(target: self, action: #selector(tappedSocialMediaView))
+        let addPersonalDetailTapped = UITapGestureRecognizer(target: self, action: #selector(tappedPersonalDetailView))
         
         view1.addGestureRecognizer(addPhotoTapped)
         view2.addGestureRecognizer(addSocialMediaTapped)
         view3.addGestureRecognizer(addLinkTapped)
         view4.addGestureRecognizer(addMusicTapped)
+        view5.addGestureRecognizer(addPersonalDetailTapped)
         
         pic1.isUserInteractionEnabled = false
         pic2.isUserInteractionEnabled = false
         pic3.isUserInteractionEnabled = false
         pic4.isUserInteractionEnabled = false
+        pic5.isUserInteractionEnabled = false
         l1.isUserInteractionEnabled = false
         l2.isUserInteractionEnabled = false
         l3.isUserInteractionEnabled = false
         l4.isUserInteractionEnabled = false
+        l5.isUserInteractionEnabled = false
         
 //        l1.addGestureRecognizer(addPhotoTapped)
 //        l2.addGestureRecognizer(addSocialMediaTapped)
@@ -239,6 +243,14 @@ class NewPost5OptionsVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
        // print("2 This is userData from NewPostOptionsVC \(userData)")
         // addSocialMediaVC.publicID = userData?.publicID
         present(addSocialMediaVC, animated: false)
+        modalPresentationStyle = .fullScreen
+    }
+    
+    
+    @objc func tappedPersonalDetailView(sender: UITapGestureRecognizer) {
+        let addPersonalDetailVC = storyboard?.instantiateViewController(identifier: "addPersonalDetailTableViewVC") as! AddPersonalDetailTableViewVC
+        addPersonalDetailVC.userDataVM = userDataVM
+        present(addPersonalDetailVC, animated: false)
         modalPresentationStyle = .fullScreen
     }
     

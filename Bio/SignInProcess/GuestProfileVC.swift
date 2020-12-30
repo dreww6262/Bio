@@ -389,6 +389,7 @@ var countryFlag = UIImageView()
         profilePicCancelButton.setImage(UIImage(named: "cancel2"), for: .normal)
         view.bringSubviewToFront(profilePicCancelButton)
         profilePicCancelButton.layer.cornerRadius = profilePicCancelButton.frame.size.width / 2
+        profilePicCancelButton.backgroundColor = .clear
         //returnButton.setBackgroundImage(UIImage(named: "cancel11"), for: .normal)
         profilePicCancelButton.clipsToBounds = true
     }
@@ -413,6 +414,8 @@ var countryFlag = UIImageView()
         returnButton.setImage(UIImage(named: "cancel2"), for: .normal)
         returnButton.frame = CGRect(x: view.frame.width/2-40, y: view.frame.height-112, width: 80, height: 80)
         view.bringSubviewToFront(returnButton)
+        profilePicCancelButton.backgroundColor = .clear
+       // profilePicCancelButton.backgroundColor = .black
         returnButton.layer.cornerRadius = returnButton.frame.size.width / 2
         //returnButton.setBackgroundImage(UIImage(named: "cancel11"), for: .normal)
         returnButton.clipsToBounds = true

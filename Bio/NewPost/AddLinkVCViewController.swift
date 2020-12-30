@@ -60,7 +60,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     @IBOutlet weak var linkHexagonImage: UIImageView!
     // buttons
     
-    var linkHexagonImageCopy = UIImageView()
+
     
     var postButton = UIButton()
     var backButton = UIButton()
@@ -93,12 +93,8 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         scrollView.addSubview(textOverlayTextField)
         scrollView.addSubview(prioritizeLabel)
         scrollView.addSubview(checkBox)
-        linkHexagonImageCopy.contentMode = .scaleAspectFit
-        linkHexagonImageCopy.image = UIImage(named: "addCover")
-        scrollView.addSubview(linkHexagonImageCopy)
         linkLogo.isHidden = true
-        linkHexagonImage.isHidden = false
-        linkHexagonImageCopy.isHidden = true
+    
         
         
         let checkBoxTap = UITapGestureRecognizer(target: self, action: #selector(checkBoxTapped(_:)))
@@ -106,10 +102,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         checkBox.setImage(UIImage(named: "blueEmpty"), for: .normal)
         textOverlayTextField.delegate = self
         
-        let linkTapCopy = UITapGestureRecognizer(target: self, action: #selector(AddLinkVCViewController.loadImg(_:)))
-        linkHexagonImageCopy.isUserInteractionEnabled = true
-        linkHexagonImageCopy.addGestureRecognizer(linkTapCopy)
-        
+  
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboard(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboard(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboard(notification:)), name:UIResponder.keyboardWillChangeFrameNotification, object: nil)
@@ -161,9 +154,6 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         
         linkHexagonImage.frame = CGRect(x: 40, y: navBarView.frame.maxY + 10, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
         
-        linkHexagonImageCopy.frame = CGRect(x: 40, y: navBarView.frame.maxY + 10, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
-        
-        linkHexagonImageCopy.setupHexagonMask(lineWidth: linkHexagonImage.frame.width/15, color: myCoolBlue, cornerRadius: linkHexagonImage.frame.width/15)
         
         changeCoverLabel.frame = CGRect(x: 10, y: linkHexagonImage.frame.origin.y + scrollView.frame.width/2, width: self.view.frame.size.width - 20, height: 30)
         linkTextField.frame = CGRect(x: 10, y: linkHexagonImage.frame.maxY, width: self.view.frame.size.width - 20, height: 30)
@@ -227,7 +217,6 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         postButton.titleLabel!.font = UIFont(name: "DINAlternate-Bold", size: 19)
         
         insertTextOverlay(linkHexagonImage: linkHexagonImage)
-      insertTextOverlay(linkHexagonImage: linkHexagonImageCopy)
     
     }
     
@@ -490,22 +479,18 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         // Local variable inserted by Swift 4.2 migrator.
         let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         linkHexagonImage.image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
-        linkHexagonImageCopy.image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
         self.changedProfilePic = true
         self.dismiss(animated: true, completion: nil)
     }
     
     @objc func checkBoxTapped(_ sender: UITapGestureRecognizer) {
         if checkBoxStatus == false {
-            linkHexagonImage.isHidden = false
-            linkHexagonImageCopy.isHidden = true
+ 
             checkBox.setImage(UIImage(named: "check-3"), for: .normal)
             checkBoxStatus = true
             linkHexagonImage.pulse(withIntensity: 0.8, withDuration: 1.5, loop: true)
         }
         else {
-            linkHexagonImage.isHidden = true
-            linkHexagonImageCopy.isHidden = false
             checkBox.setImage(UIImage(named: "blueEmpty"), for: .normal)
             checkBoxStatus = false
            linkHexagonImage.pulse(withIntensity: 1.0, withDuration: 0.1, loop: false)

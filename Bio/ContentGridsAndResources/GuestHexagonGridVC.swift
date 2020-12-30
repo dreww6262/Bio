@@ -598,15 +598,6 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
                     imageIndex = imageIndex + 1
                     
                     if image.hexData?.isPrioritized == true {
-                    let clearTapGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
-                    var clearImageView = PostImageView()
-                        clearImageView.isUserInteractionEnabled = true
-                        self.contentView.addSubview(clearImageView)
-                        clearImageView.hexData = image.hexData
-                        clearImageView.addGestureRecognizer(clearTapGesture)
-                        clearImageView.frame = image.frame
-                        clearImageView.backgroundColor = .clear
-                        clearImageView.setupHexagonMask(lineWidth: clearImageView.frame.width/15, color: .clear, cornerRadius: clearImageView.frame.width/15)
                         
                     prioritizedPosts.append(image)
                     image.pulse(withIntensity: 0.8, withDuration: 1.5, loop: true)
@@ -1212,6 +1203,8 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         profilePicCancelButton.setImage(UIImage(named: "cancel2"), for: .normal)
         view.bringSubviewToFront(profilePicCancelButton)
         profilePicCancelButton.layer.cornerRadius = profilePicCancelButton.frame.size.width / 2
+        profilePicCancelButton.backgroundColor = .clear
+        //profilePicCancelButton.backgroundColor = .black
         //returnButton.setBackgroundImage(UIImage(named: "cancel11"), for: .normal)
         profilePicCancelButton.clipsToBounds = true
     }
