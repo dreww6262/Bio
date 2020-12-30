@@ -353,7 +353,7 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
         let hexCollectionRef = db.collection("Hexagons2")
         let hexDoc = hexCollectionRef.document()
         let userData = userDataVM?.userData.value
-        userData?.identityValues.append("\(hexData.type):\(hexData.text):\(hexData.resource)")
+        userData?.identityValues.append("\(hexData.type):\(hexData.text):\(hexData.resource):\(hexDoc.documentID)")
         userDataVM?.updateUserData(newUserData: userData!, completion: {_ in})
         var hexCopy = HexagonStructData(dictionary: hexData.dictionary)
         hexCopy.docID = hexDoc.documentID
