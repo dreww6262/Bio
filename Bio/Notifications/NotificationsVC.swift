@@ -471,7 +471,8 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
             phoneNumberButton.titleLabel?.textColor = .blue
             phoneNumberButton.tintColor = .blue
 //            cell.addSubview(phoneNumberButton)
-            phoneNumberButton.frame = CGRect(x: cell.dateLbl.frame.maxX + 5, y: cell.infoLbl.frame.minY, width: view.frame.width - cell.dateLbl.frame.maxX - 5, height: 30)
+            phoneNumberButton.frame = CGRect(x: cell.infoLbl.frame.minX + 16, y: cell.infoLbl.frame.maxY, width: cell.frame.width - cell.infoLbl.frame.minX, height: 30)
+            phoneNumberButton.sizeToFit()
         }
      
                                      
