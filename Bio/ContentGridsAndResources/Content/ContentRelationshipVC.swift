@@ -28,11 +28,13 @@ class ContentRelationship: UIViewController, UIScrollViewDelegate {
         newImageView = UIImageView(image: UIImage(named: "heart-1"))
         let cleanRef = relationshipHex!.thumbResource.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
-        newImageView!.sd_setImage(with: url!, completed: {_, error, _, _ in
-            if error != nil {
-                print(error!.localizedDescription)
-            }
-        })
+        if url != nil {
+            newImageView!.sd_setImage(with: url!, completed: {_, error, _, _ in
+                if error != nil {
+                    print(error!.localizedDescription)
+                }
+            })
+        }
         scrollView.addSubview(newImageView!)
         scrollView.bringSubviewToFront(newImageView!)
         

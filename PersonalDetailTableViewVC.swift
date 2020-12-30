@@ -352,6 +352,9 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
     func addHex(hexData: HexagonStructData, completion: @escaping (Bool) -> Void) {
         let hexCollectionRef = db.collection("Hexagons2")
         let hexDoc = hexCollectionRef.document()
+        let userData = userDataVM?.userData.value
+        userData?.identityValues.append("\(hexData.type):\(hexData.text):\(hexData.resource)")
+        userDataVM?.updateUserData(newUserData: userData!, completion: {_ in})
         var hexCopy = HexagonStructData(dictionary: hexData.dictionary)
         hexCopy.docID = hexDoc.documentID
         hexDoc.setData(hexCopy.dictionary){ error in

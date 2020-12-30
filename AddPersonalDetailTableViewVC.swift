@@ -24,6 +24,9 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
     var myAgeLimit = 13
     var myCountry = ""
     var myCountries: [String] = []
+    var myCity = ""
+    var myPhoneNumber = ""
+    var myRelationship = ""
     var GDPRCountries: [String] = ["Austria", "Belgium", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Germany", "Greece", "Hungary", "Ireland", "Italy", "Latvia", "Lithuania", "Luxembourg", "Malta", "Netherlands", "Poland", "Portugal", "Romania", "Slovakia", "Slovenia", "Spain", "Sweden"]
     
     var userCountry = ""
@@ -33,6 +36,8 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
     var ogCountriesString = ""
     var ogPhoneNumber = ""
     var ogRelationship = ""
+    
+    var userDataIdentityList: [String]?
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -45,7 +50,7 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
     var navBarView = NavBarView()
     var titleLabel1 = UILabel()
     @IBOutlet weak var doneButton: UIButton!
-    var birthday = ""
+    //var birthday = ""
     var age = 0
     var cellArray: [PersonalDetailCell] = []
     
@@ -108,6 +113,34 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
         view.addSubview(tableView)
         
         setUpContinueButton()
+        
+        userDataIdentityList = userDataVM?.userData.value?.identityValues
+        
+        for identity in userDataIdentityList! {
+            let chunks = identity.split(separator: ":")
+            if chunks.count < 3 {
+                continue
+            }
+            switch chunks[0] {
+            case "pin_birthday":
+                ogBirthday = String(chunks[2])
+            case "pin_city":
+                ogCity = String(chunks[1])
+            case "pin_country":
+                ogCountries.append(String(chunks[2]))
+            case "pin_relationship":
+                ogRelationship = String(chunks[1])
+            case "pin_phone":
+                ogPhoneNumber = String(chunks[1])
+            default:
+                print("bad chunk")
+            }
+        }
+        myBirthday = ogBirthday
+        myCountries = ogCountries
+        myCity = ogCity
+        myRelationship = ogRelationship
+        myPhoneNumber = ogPhoneNumber
     }
     
     func getZodiacSign(_ date:Date) -> String{
@@ -281,7 +314,7 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
         formatter.dateFormat = "MM/dd/yyyy"
         cellArray[0].interactiveTextField.text = formatter.string(from: datePicker.date)
         var birthdaySubmitted = cellArray[0].interactiveTextField.text
-        self.birthday = birthdaySubmitted!
+        self.myBirthday = birthdaySubmitted!
         age = calcAge(birthday: birthdaySubmitted!)
         cellArray[0].socialMediaIcon.image = UIImage(named: self.myZodiac)
         self.view.endEditing(true)
@@ -340,6 +373,9 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
     func addHex(hexData: HexagonStructData, completion: @escaping (Bool) -> Void) {
         let hexCollectionRef = db.collection("Hexagons2")
         let hexDoc = hexCollectionRef.document()
+        let userData = userDataVM?.userData.value
+        userData?.identityValues.append("\(hexData.type):\(hexData.text):\(hexData.resource)")
+        userDataVM?.updateUserData(newUserData: userData!, completion: {_ in})
         var hexCopy = HexagonStructData(dictionary: hexData.dictionary)
         hexCopy.docID = hexDoc.documentID
         hexDoc.setData(hexCopy.dictionary){ error in
@@ -617,7 +653,7 @@ extension AddPersonalDetailTableViewVC: UITableViewDelegate, UITableViewDataSour
                                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         
         
-        cell.socialMediaIcon.image = iconArray[indexPath.row] ?? UIImage(named: "unity")
+        cell.socialMediaIcon.image = iconArray[indexPath.row]
         
         
         cell.circularMask.frame = cell.socialMediaIcon.frame
@@ -625,6 +661,8 @@ extension AddPersonalDetailTableViewVC: UITableViewDelegate, UITableViewDataSour
 
         
         cell.interactiveTextField.tag = indexPath.row
+        
+        
 
         
         //do birthday stuff
@@ -645,6 +683,9 @@ extension AddPersonalDetailTableViewVC: UITableViewDelegate, UITableViewDataSour
             
             cell.interactiveTextField.inputAccessoryView = toolbar
             cell.interactiveTextField.inputView = datePicker
+            
+            cell.interactiveTextField.text = ogBirthday
+            
         }
         
         // do current city stuff
@@ -653,6 +694,7 @@ extension AddPersonalDetailTableViewVC: UITableViewDelegate, UITableViewDataSour
             cell.interactiveTextField.isUserInteractionEnabled = false
             let cellTap = UITapGestureRecognizer(target: self, action: #selector(cityCellTap))
             cell.addGestureRecognizer(cellTap)
+            cell.interactiveTextField.text = myCity
         }
         
 
@@ -662,6 +704,17 @@ extension AddPersonalDetailTableViewVC: UITableViewDelegate, UITableViewDataSour
             cell.interactiveTextField.isUserInteractionEnabled = false
             let cellTap = UITapGestureRecognizer(target: self, action: #selector(cultureCell))
             cell.addGestureRecognizer(cellTap)
+            var countryString = ""
+            var index = 0
+            for country in myCountries {
+                if index != myCountries.count - 1 {
+                    countryString.append("\(country), ")
+                }
+                else {
+                    countryString.append(country)
+                }
+                index += 1
+            }
         }
         // do phone stuff
         else if indexPath.row == 3 {
@@ -669,7 +722,7 @@ extension AddPersonalDetailTableViewVC: UITableViewDelegate, UITableViewDataSour
             cell.interactiveTextField.keyboardType = UIKeyboardType.numberPad
             let cellTap = UITapGestureRecognizer(target: self, action: #selector(phoneCellTap))
             cell.addGestureRecognizer(cellTap)
-            
+            cell.interactiveTextField.text = myPhoneNumber
         }
         
         //do relationship
@@ -678,6 +731,8 @@ extension AddPersonalDetailTableViewVC: UITableViewDelegate, UITableViewDataSour
             let cellTap = UITapGestureRecognizer(target: self, action: #selector(relationshipCellTap))
             cell.addGestureRecognizer(cellTap)
             cell.interactiveTextField.inputView = relationshipPickerView
+            cell.interactiveTextField.text = myRelationship
+            
         }
         
         
