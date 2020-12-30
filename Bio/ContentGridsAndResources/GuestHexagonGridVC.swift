@@ -1212,6 +1212,8 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         profilePicCancelButton.setImage(UIImage(named: "cancel2"), for: .normal)
         view.bringSubviewToFront(profilePicCancelButton)
         profilePicCancelButton.layer.cornerRadius = profilePicCancelButton.frame.size.width / 2
+        profilePicCancelButton.backgroundColor = .clear
+        //profilePicCancelButton.backgroundColor = .black
         //returnButton.setBackgroundImage(UIImage(named: "cancel11"), for: .normal)
         profilePicCancelButton.clipsToBounds = true
     }

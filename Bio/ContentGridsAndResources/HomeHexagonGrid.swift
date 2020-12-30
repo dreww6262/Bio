@@ -461,14 +461,19 @@ var navBarView = NavBarView()
                     self.contentView.bringSubviewToFront(image)
                     if image.hexData?.isPrioritized == true {
                         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
+                        let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.longTapPrioritized))
                     let clearHexagon = PostImageView()
+                        clearHexagon.tag = image.tag
                         clearHexagon.isUserInteractionEnabled = true
                         clearHexagon.hexData = image.hexData
                         self.contentView.addSubview(clearHexagon)
                         clearHexagon.frame = image.frame
                         clearHexagon.setupHexagonMask(lineWidth: image.frame.width/15, color: .clear, cornerRadius: image.frame.width/15)
                         clearHexagon.addGestureRecognizer(tapGesture)
+                        clearHexagon.addGestureRecognizer(longGesture)
                         clearHexagon.backgroundColor = .clear
+                        clearHexagon.alpha = 0.0
+                        clearHexagon.image = image.image
                         self.contentView.bringSubviewToFront(clearHexagon)
                     prioritizedPosts.append(image)
                     image.pulse(withIntensity: 0.8, withDuration: 1.5, loop: true)
@@ -763,6 +768,152 @@ var navBarView = NavBarView()
     var dragView : PostImageView? = nil
     var draggedcounter = 0
     
+    
+    @objc func longTapPrioritized(_ sender: UIGestureRecognizer) {
+//        print("Long tap")
+//        print("🎹🎹🎹🎹🎹🎹🎹🎹🎹")
+        //scrollView.zoomScale = 1
+        var currentHexagonCenter = CGPoint(x:0.0, y:0.0)
+        let hexImage = sender.view! as! PostImageView
+        //make it not transparent anymore
+        hexImage.alpha = 1.0
+       
+        var removedImageView = PostImageView()
+        var removedImageLocation = Int()
+         if sender.state == .began {
+            for hexLabel in indexLabelArray {
+                hexLabel.isHidden = false
+            }
+            for imageCopy in indexImageViewArray {
+                imageCopy.isHidden = false
+            }
+            
+            
+            let tappedImage = sender.view as! PostImageView
+            currentHexagonCenter = tappedImage.center
+//            print("yo: This is tapped image.center \(tappedImage.center)")
+            tappedImage.setupHexagonMask(lineWidth: 10.0, color: .red, cornerRadius: 10.0)
+            print("This is sender.view.tag \(hexImage.tag)")
+            removedImageView = shakebleImages[sender.view!.tag - 1]
+            removedImageLocation = sender.view!.tag - 1
+            shakebleImages.remove(at: sender.view!.tag - 1)
+//            for shakeyImage in shakebleImages {
+//                shakeyImage.shake()
+//            }
+            
+            //dragItem(sender as! UIPanGestureRecognizer)
+            dragView = (sender.view as! PostImageView)
+            dragView?.center = sender.location(in: contentView)
+//            print("yo: this is dragView.center before \(dragView!.center)")
+            contentView.bringSubviewToFront(dragView!)
+            trashButton.isHidden = false
+            menuView.menuButton.isHidden = true
+            
+            for image in imageViewArray {
+                image.setupHexagonMask(lineWidth: 10.0, color: .darkGray, cornerRadius: 10.0)
+            }
+            
+        }
+        else if (sender.state == .changed) {
+            draggedcounter += 1
+            let xDelta = dragView!.center.x - sender.location(in: contentView).x
+            let yDelta = dragView!.center.y - sender.location(in: contentView).y
+            dragView?.center = sender.location(in: contentView)
+//            print("yo: this is dragView.center changed \(dragView!.center)")
+            
+            self.scrollIfNeeded(location: sender.location(in: scrollView.superview), xDelta: xDelta, yDelta: yDelta)
+            //                print("This is newIndex before \(newIndex)")
+            currentHexagonCenter = (sender.view?.center)!
+//            print("This is currentHexagon center changed: \(currentHexagonCenter)")
+            
+            // shake Images
+//            for shakeyImage in shakebleImages {
+//                shakeyImage.shake()
+//            }
+            
+            
+            let hexCenterInView = contentView.convert(currentHexagonCenter, to: view)
+//            DispatchQueue.global().async {
+            if (draggedcounter > 25 || xDelta > 2 || yDelta > 2) {
+                draggedcounter = 0
+                let _ = self.findIntersectingHexagon(hexView: self.dragView!)
+            }
+//            }
+            
+//            print(distance(hexCenterInView, trashButton.center))
+            if (distance(hexCenterInView, trashButton.center) < 70) {
+                trashButton.imageView!.makeRoundedRed()
+//                print("It should be gold")
+            } else {
+                trashButton.imageView!.makeRoundedBlack()
+//                print("This is outside 70")
+            }
+        }
+       else if (sender.state == .ended) {
+        for hexLabel in indexLabelArray {
+            hexLabel.isHidden = true
+        }
+        for imageCopy in indexImageViewArray {
+            imageCopy.isHidden = true
+        }
+            shakebleImages.insert(removedImageView, at: removedImageLocation)
+            currentHexagonCenter = (sender.view?.center)!
+            let hexCenterInView = contentView.convert(currentHexagonCenter, to: view)
+            if (distance(hexCenterInView, trashButton.center) < 70) {
+                // trash current hexagon
+                
+                // give alert
+                let refreshAlert = UIAlertController(title: "Delete This Post?", message: "All data will be lost.", preferredStyle: UIAlertController.Style.alert)
+
+                refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { [self] (action: UIAlertAction!) in
+//                      print("Handle Deleting Hexagon!")
+                    self.handleDeleting(hexImage: hexImage)
+                    
+                }))
+
+                refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+//                      print("Handle Cancel Logic here")
+                    self.refresh()
+                }))
+
+                present(refreshAlert, animated: true, completion: nil)
+            
+            }
+            else {
+                let intersectingHex = findIntersectingHexagon(hexView: dragView!)
+                if (intersectingHex != nil && intersectingHex?.hexData?.location != dragView?.hexData?.location) {
+                    let tempLoc = intersectingHex!.hexData!.location
+                    intersectingHex!.hexData!.location = dragView!.hexData!.location
+                    dragView!.hexData!.location = tempLoc
+//                    print(dragView!.hexData!)
+//                    print(intersectingHex!.hexData!)
+                    db.collection("Hexagons2").document(intersectingHex!.hexData!.docID).setData(intersectingHex!.hexData!.dictionary) { error in
+                        if error == nil {
+                            self.db.collection("Hexagons2").document(self.dragView!.hexData!.docID).setData(self.dragView!.hexData!.dictionary) { error in
+                                self.refresh()
+                            }
+                        }
+                    }
+                }
+                intersectingHex?.frame = CGRect(x: self.reOrderedCoordinateArrayPoints[intersectingHex!.hexData!.location].x,
+                                                y: self.reOrderedCoordinateArrayPoints[intersectingHex!.hexData!.location].y, width: hexaDiameter, height: hexaDiameter)
+                dragView?.frame = CGRect(x: self.reOrderedCoordinateArrayPoints[dragView!.hexData!.location].x,
+                                         y: self.reOrderedCoordinateArrayPoints[dragView!.hexData!.location].y, width: hexaDiameter, height: hexaDiameter)
+            }
+            for hex in imageViewArray {
+                createHexagonMaskWithCorrespondingColor(imageView: hex, type: hex.hexData!.type)
+            }
+        //make it transparent again
+        hexImage.alpha = 0.0
+            trashButton.isHidden = true
+            menuView.menuButton.isHidden = false
+            
+        }
+    }
+    
+    
+    
+    
     @objc func longTap(_ sender: UIGestureRecognizer){
 //        print("Long tap")
 //        print("🎹🎹🎹🎹🎹🎹🎹🎹🎹")
@@ -778,11 +929,9 @@ var navBarView = NavBarView()
             }
             for imageCopy in indexImageViewArray {
                 imageCopy.isHidden = false
-                
             }
             
             
-//            print("UIGestureRecognizerStateBegan.")
             let tappedImage = sender.view as! PostImageView
             currentHexagonCenter = tappedImage.center
 //            print("yo: This is tapped image.center \(tappedImage.center)")
@@ -870,25 +1019,7 @@ var navBarView = NavBarView()
                 }))
 
                 present(refreshAlert, animated: true, completion: nil)
-              
             
-//                hexImage.hexData!.isArchived = true
-//                // push update to server
-//                let docRef = db.collection("Hexagons2").document(hexImage.hexData!.docID)
-//                docRef.setData(hexImage.hexData!.dictionary) { error in
-//                    if error == nil {
-//                        self.userData!.numPosts -= 1
-//                        self.db.collection("UserData1").document(self.userData!.privateID).setData(self.userData!.dictionary)
-//                    }
-//                }
-//                for hex in imageViewArray {
-//                    if (hex.hexData!.location > hexImage.hexData!.location) {
-//                        hex.hexData!.location -= 1
-//                        db.collection("Hexagons2").document(hex.hexData!.docID).setData(hex.hexData!.dictionary)
-//                    }
-//                }
-//                refresh()
-                
             }
             else {
                 let intersectingHex = findIntersectingHexagon(hexView: dragView!)
@@ -1461,6 +1592,7 @@ var navBarView = NavBarView()
         profilePicCancelButton.setImage(UIImage(named: "cancel2"), for: .normal)
         view.bringSubviewToFront(profilePicCancelButton)
         profilePicCancelButton.layer.cornerRadius = profilePicCancelButton.frame.size.width / 2
+        profilePicCancelButton.backgroundColor = .black
         //returnButton.setBackgroundImage(UIImage(named: "cancel11"), for: .normal)
         profilePicCancelButton.clipsToBounds = true
         
