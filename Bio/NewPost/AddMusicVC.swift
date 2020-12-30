@@ -60,7 +60,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
     @IBOutlet weak var linkTextField: UITextField!
     
     @IBOutlet weak var linkHexagonImage: UIImageView!
-    var linkHexagonImageCopy = UIImageView()
+
     
     
     // buttons
@@ -90,14 +90,10 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
     // default func
     override func viewDidLoad() {
         textOverlayLabel.isHidden = true
-        linkHexagonImageCopy.contentMode = .scaleAspectFit
-        linkHexagonImageCopy.image = UIImage(named: "addCover")
-        scrollView.addSubview(linkHexagonImageCopy)
         checkBox.setImage(UIImage(named: "tealEmpty"), for: .normal)
         linkLogo.isHidden = true
+
         linkHexagonImage.isHidden = false
-        linkHexagonImageCopy.isHidden = true
-        
 //        confirmLinkButton.isHidden = true
         setUpNavBarView()
         
@@ -119,8 +115,6 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         linkTap.numberOfTapsRequired = 1
         linkHexagonImage.isUserInteractionEnabled = true
         linkHexagonImage.addGestureRecognizer(linkTap)
-        linkHexagonImageCopy.isUserInteractionEnabled = true
-        linkHexagonImageCopy.addGestureRecognizer(linkTapCopy)
         
     // insertTextOverlay()
         
@@ -148,11 +142,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         
         linkHexagonImage.frame = CGRect(x: 40, y: navBarView.frame.maxY + 10, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
         
-        linkHexagonImage.setupHexagonMask(lineWidth: linkHexagonImage.frame.width/15, color: myBlueGreen, cornerRadius: linkHexagonImage.frame.width/15)
-        
-        linkHexagonImageCopy.frame = CGRect(x: 40, y: navBarView.frame.maxY + 10, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
-        
-        linkHexagonImageCopy.setupHexagonMask(lineWidth: linkHexagonImage.frame.width/15, color: myBlueGreen, cornerRadius: linkHexagonImage.frame.width/15)
+       
         
         
         linkTextField.frame = CGRect(x: 10, y: linkHexagonImage.frame.maxY + 20, width: self.view.frame.size.width - 20, height: 30)
@@ -176,10 +166,8 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: linkTextField.frame.minY, width: 30, height: 30)
         
         linkHexagonImage.frame = CGRect(x: 40, y: self.navBarView.frame.maxY + 10, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
-        
-        
-        linkHexagonImageCopy.frame = CGRect(x: 40, y: self.navBarView.frame.maxY + 10, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
-        linkHexagonImageCopy.image = UIImage(named: "addCover")
+        linkHexagonImage.setupHexagonMask(lineWidth: linkHexagonImage.frame.width/15, color: myBlueGreen, cornerRadius: linkHexagonImage.frame.width/15)
+
         
         linkTextField.frame = CGRect(x: 10, y: linkHexagonImage.frame.maxY, width: self.view.frame.size.width - 20, height: 30)
         songNameTextField.frame = CGRect(x: 10, y: linkTextField.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
@@ -265,7 +253,6 @@ prioritizeLabel.text = "Prioritize This Post?"
         
      //   setUpTextOverlayLabel()
       insertTextOverlay(linkHexagonImage: linkHexagonImage)
-    insertTextOverlay(linkHexagonImage: linkHexagonImageCopy)
         
     }
     
@@ -410,16 +397,14 @@ prioritizeLabel.text = "Prioritize This Post?"
     
     @objc func checkBoxTapped(_ sender: UITapGestureRecognizer) {
         if checkBoxStatus == false {
-            linkHexagonImage.isHidden = false
-            linkHexagonImageCopy.isHidden = true
+
             checkBox.setImage(UIImage(named: "check-2"), for: .normal)
             checkBoxStatus = true
             linkHexagonImage.pulse(withIntensity: 0.8, withDuration: 1.5, loop: true)
         }
         else {
             checkBox.setImage(UIImage(named: "tealEmpty"), for: .normal)
-            linkHexagonImage.isHidden = true
-            linkHexagonImageCopy.isHidden = false
+         
             checkBoxStatus = false
         //    linkHexagonImage.frame = CGRect(x: 40, y: navBarView.frame.maxY + 10, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
            linkHexagonImage.pulse(withIntensity: 1.0, withDuration: 0.1, loop: false)
@@ -782,7 +767,6 @@ prioritizeLabel.text = "Prioritize This Post?"
         // Local variable inserted by Swift 4.2 migrator.
         let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         linkHexagonImage.image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
-        linkHexagonImageCopy.image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
         changedProfilePic = true
         self.dismiss(animated: true, completion: nil)
     }

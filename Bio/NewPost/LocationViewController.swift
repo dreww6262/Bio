@@ -64,12 +64,19 @@ class LocationViewController : UIViewController, UISearchBarDelegate, UITableVie
     }
     
     
-    
-    
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
-        tableView.reloadData()
+      
+        searchBar.text = ""
+    
+        self.dismiss(animated: false, completion: nil)
+    
     }
+    
+//    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+//        searchBar.resignFirstResponder()
+//        tableView.reloadData()
+//    }
     
     
     func parseAddress(selectedItem:MKPlacemark) -> String {

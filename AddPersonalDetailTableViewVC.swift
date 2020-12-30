@@ -468,6 +468,7 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
     }
     
     
+    
    
     @objc func backTapped(_ sender: UITapGestureRecognizer) {
         print("back hit!")
