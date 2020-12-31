@@ -16,14 +16,16 @@ class LocationViewController : UIViewController, UISearchBarDelegate, UITableVie
     var userDataVM: UserDataVM?
     let locationManager = CLLocationManager()
     var delegate: isAbleToReceiveData?
+    var savedLocation = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print("savedlocation: \(savedLocation)")
         view.addSubview(searchBar)
         searchBar.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height/12)
         searchBar.delegate = self
-        
+        searchBar.setShowsCancelButton(true, animated: true)
+        searchBar.becomeFirstResponder()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
@@ -63,12 +65,17 @@ class LocationViewController : UIViewController, UISearchBarDelegate, UITableVie
         searchFor(term: searchText)
     }
     
+    func searchBarTextDidBeginEditing(_searchBar: UISearchBar) {
+          searchBar.setShowsCancelButton(true, animated: true)
+          //write other necessary statements
+      }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
-      
+      print("savedlocation: \(savedLocation)")
         searchBar.text = ""
-    
+        selectedLocation = savedLocation
+    //m    delegate?.pass(data: savedLocation ?? "")
         self.dismiss(animated: false, completion: nil)
     
     }

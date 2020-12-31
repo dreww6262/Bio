@@ -470,6 +470,7 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
     }
     
     func pass(data: String) {
+        print("data: \(data)")
         cellArray[1].interactiveTextField.text = data
     }
     
@@ -619,6 +620,8 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
         let citySearchVC = storyboard?.instantiateViewController(withIdentifier: "locationViewController") as! LocationViewController
         citySearchVC.delegate = self
         citySearchVC.userDataVM = userDataVM
+        citySearchVC.savedLocation = cellArray[1].interactiveTextField.text ?? ""
+        print("citySearVC.savedLocation = \(citySearchVC.savedLocation)")
         citySearchVC.modalPresentationStyle = .fullScreen
         self.present(citySearchVC, animated: false, completion: nil)
     }
@@ -805,6 +808,7 @@ extension AddPersonalDetailTableViewVC: UITableViewDelegate, UITableViewDataSour
                 }
                 index += 1
             }
+            print("This is myCountries \(myCountries)")
         }
         // do phone stuff
         else if indexPath.row == 3 {

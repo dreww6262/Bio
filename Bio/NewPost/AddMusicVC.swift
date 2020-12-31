@@ -407,8 +407,9 @@ prioritizeLabel.text = "Prioritize This Post?"
          
             checkBoxStatus = false
         //    linkHexagonImage.frame = CGRect(x: 40, y: navBarView.frame.maxY + 10, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
-           linkHexagonImage.pulse(withIntensity: 1.0, withDuration: 0.1, loop: false)
-        
+            linkHexagonImage.isHidden = true
+         linkHexagonImage.pulse(withIntensity: 1.0, withDuration: 0.001, loop: false)
+            linkHexagonImage.isHidden = false
         }
     }
     

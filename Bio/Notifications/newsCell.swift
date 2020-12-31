@@ -33,6 +33,7 @@ class newsCell: UITableViewCell {
         infoLbl.translatesAutoresizingMaskIntoConstraints = false
         dateLbl.translatesAutoresizingMaskIntoConstraints = false
         
+        
         self.contentView.addConstraints(NSLayoutConstraint.constraints(
             withVisualFormat: "H:|-10-[ava(30)]-10-[username]-7-[info]-7-[date]",
             options: [], metrics: nil, views: ["ava":avaImg as Any, "username":usernameBtn as Any, "info":infoLbl as Any, "date":dateLbl as Any]))
@@ -56,8 +57,11 @@ class newsCell: UITableViewCell {
         // round ava
        // avaImg.layer.cornerRadius = avaImg.frame.size.width / 2
         avaImg.clipsToBounds = true
+        
+        
+        
     }
-    
+ 
     
 
     @IBAction func rejectButtonPressed(_ sender: UIButton) {

@@ -249,6 +249,23 @@ class NotificationsVC: UIViewController {
         })
     }
     
+    @objc func buttonViewLinkAction(sender: UITapGestureRecognizer!) {
+        var button = sender.view as! UIButton
+        UIPasteboard.general.string = button.titleLabel!.text //
+        print("Copied \(UIPasteboard.general.string)")
+        let alert = UIAlertController(title: "Copied \(UIPasteboard.general.string!)", message: "", preferredStyle: .alert)
+        present(alert, animated: true, completion: nil)
+
+        // change to desired number of seconds (in this case 5 seconds)
+        let when = DispatchTime.now() + 1.5
+        DispatchQueue.main.asyncAfter(deadline: when){
+          // your code with delay
+          alert.dismiss(animated: true, completion: nil)
+        }
+        UIDevice.vibrate()
+        
+        }
+    
     @objc func acceptTapped(_ sender: UITapGestureRecognizer) {
         let cell = sender.view?.superview?.superview as! newsCell
         print(notificationArray[cell.tag])
@@ -350,7 +367,70 @@ class NotificationsVC: UIViewController {
         })
     }
     
-    
+    func format(phoneNumber sourcePhoneNumber: String) -> String? {
+        // Remove any character that is not a number
+        let numbersOnly = sourcePhoneNumber.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
+        let length = numbersOnly.count
+        let hasLeadingOne = numbersOnly.hasPrefix("1")
+
+        // Check for supported phone number length
+        guard length == 7 || (length == 10 && !hasLeadingOne) || (length == 11 && hasLeadingOne) else {
+            return nil
+        }
+
+        let hasAreaCode = (length >= 10)
+        var sourceIndex = 0
+
+        // Leading 1
+        var leadingOne = ""
+        if hasLeadingOne {
+            leadingOne = "1 "
+            sourceIndex += 1
+        }
+
+        // Area code
+        var areaCode = ""
+        if hasAreaCode {
+            let areaCodeLength = 3
+            guard let areaCodeSubstring = numbersOnly.substring(start: sourceIndex, offsetBy: areaCodeLength) else {
+                return nil
+            }
+            areaCode = String(format: "(%@) ", areaCodeSubstring)
+            sourceIndex += areaCodeLength
+        }
+
+        // Prefix, 3 characters
+        let prefixLength = 3
+        guard let prefix = numbersOnly.substring(start: sourceIndex, offsetBy: prefixLength) else {
+            return nil
+        }
+        sourceIndex += prefixLength
+
+        // Suffix, 4 characters
+        let suffixLength = 4
+        guard let suffix = numbersOnly.substring(start: sourceIndex, offsetBy: suffixLength) else {
+            return nil
+        }
+
+        return leadingOne + areaCode + prefix + "-" + suffix
+    }
+
+  
+}
+
+extension String {
+    /// This method makes it easier extract a substring by character index where a character is viewed as a human-readable character (grapheme cluster).
+    internal func substring(start: Int, offsetBy: Int) -> String? {
+        guard let substringStartIndex = self.index(startIndex, offsetBy: start, limitedBy: endIndex) else {
+            return nil
+        }
+
+        guard let substringEndIndex = self.index(startIndex, offsetBy: start + offsetBy, limitedBy: endIndex) else {
+            return nil
+        }
+
+        return String(self[substringStartIndex ..< substringEndIndex])
+    }
 }
 
 extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
@@ -467,9 +547,14 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
             cell.phoneButton.isHidden = false
             let phoneNumberButton = cell.phoneButton
             phoneNumberButton.isHidden = false
-            phoneNumberButton.setTitle(notificationArray[indexPath.row].ava, for: .normal)
-            phoneNumberButton.titleLabel?.textColor = .blue
+            var unformattedPhoneNumber = notificationArray[indexPath.row].ava
+           var formattedPhoneNumber = format(phoneNumber: unformattedPhoneNumber)
+            phoneNumberButton.setTitle(formattedPhoneNumber, for: .normal)
+            //phoneNumberButton.titleLabel?.textColor = .blue
+            phoneNumberButton.setTitleColor(white, for: .normal)
             phoneNumberButton.tintColor = .blue
+            let copyTap = UITapGestureRecognizer(target: self, action: #selector(buttonViewLinkAction))
+            cell.phoneButton.addGestureRecognizer(copyTap)
 //            cell.addSubview(phoneNumberButton)
             phoneNumberButton.frame = CGRect(x: cell.infoLbl.frame.minX + 16, y: cell.infoLbl.frame.maxY, width: cell.frame.width - cell.infoLbl.frame.minX, height: 30)
             phoneNumberButton.sizeToFit()
@@ -500,7 +585,14 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return self.view.frame.size.height/14
+        
+        if notificationArray[indexPath.row].type == "approvePhoneNumber" {
+        return (self.view.frame.size.height/14) + CGFloat(30)
+    }
+        else {
+            return self.view.frame.size.height/14
+        }
+        
     }
     
     
