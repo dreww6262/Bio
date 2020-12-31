@@ -21,7 +21,7 @@ class BlockedUsersVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "blockedCell", for: indexPath) as! BlockedCell
-        //cell.backgroundColor = .black
+        cell.backgroundColor = .systemGray6
         
         let cleanRef = searchArray[indexPath.row].avaRef.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
@@ -39,17 +39,27 @@ class BlockedUsersVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         cell.indexPath = indexPath
         
         cell.avaImage.frame = CGRect(x: 10, y: (cell.contentView.frame.height - 15) / 2, width: 30, height: 30)
-        cell.avaImage.setupHexagonMask(lineWidth: 1, color: .white, cornerRadius: 2)
-        
-        
+        //cell.avaImage.setupHexagonMask(lineWidth: 1, color: .white, cornerRadius: 2)
+      //  cell.avaImage.layer.cornerRadius = cell.avaImage.frame.width/2
+        cell.avaImage.addGrayCircleGradiendBorder(1.0)
+        cell.avaImage.layer.borderColor = white.cgColor
         cell.usernameLabel.font = UIFont(name: "poppins-SemiBold", size: 14)
         cell.usernameLabel.text = searchArray[indexPath.row].publicID
         cell.usernameLabel.sizeToFit()
         cell.usernameLabel.frame = CGRect(x: cell.avaImage.frame.maxX + 16, y: cell.avaImage.frame.minY + cell.usernameLabel.frame.height/2, width: cell.usernameLabel.frame.width, height: cell.usernameLabel.frame.height)
         
+        // if they are not blocked make this the picture
+       // cell.deleteButton.setImage(UIImage(named: "blocked"), for: .normal)
+       // cell.deleteButton.frame = CGRect(x: cell.contentView.frame.width - 40, y: (cell.contentView.frame.height - 30)/2 , width: 30, height: 30)
         
-        cell.deleteButton.setImage(UIImage(named: "cancel2"), for: .normal)
-        cell.deleteButton.frame = CGRect(x: cell.contentView.frame.width - 40, y: (cell.contentView.frame.height - 30)/2 , width: 30, height: 30)
+        //if they are blocked create a custom made unblock button
+        cell.deleteButton.setTitle("Unblock", for: .normal)
+        cell.deleteButton.setTitleColor(.black, for: .normal)
+        cell.deleteButton.frame = CGRect(x: cell.contentView.frame.width - 100, y: (cell.contentView.frame.height - 30)/2 , width: 100, height: 30)
+        cell.deleteButton.layer.cornerRadius = cell.deleteButton.frame.width/10
+        cell.deleteButton.layer.borderColor = myTikTokBlack.cgColor
+        cell.deleteButton.layer.borderWidth = CGFloat(2.0)
+        
         let deleteTapped = UITapGestureRecognizer(target: self, action: #selector(deletePressed))
         cell.deleteButton.addGestureRecognizer(deleteTapped)
         
@@ -151,33 +161,60 @@ class BlockedUsersVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         var isBlocking = true
         
         if (index == nil) {
-            userData?.blockedUsers.append(cell.usernameLabel.text!)
-            blockedArray.append(newElement: cell.blockedUserData!)
-            cell.deleteButton.setImage(nil, for: .normal)
-            cell.deleteButton.setTitle("Unblock", for: .normal)
+            //block user
+//            userData?.blockedUsers.append(cell.usernameLabel.text!)
+//            blockedArray.append(newElement: cell.blockedUserData!)
+//            cell.deleteButton.setImage(nil, for: .normal)
+//            cell.deleteButton.setTitle("Unblock", for: .normal)
+            
+            let sureAlert = UIAlertController(title: "Are you sure you want to block \(cell.usernameLabel.text!)?", message: "", preferredStyle: .alert)
+            
+            sureAlert.addAction(UIKit.UIAlertAction(title: "Yes", style: .default, handler: { (UIAlertAction) in
+                userData?.blockedUsers.append(cell.usernameLabel.text!)
+                self.blockedArray.append(newElement: cell.blockedUserData!)
+                cell.deleteButton.setImage(nil, for: .normal)
+                cell.deleteButton.setTitle("Unblock", for: .normal)
+            }))
+            
+            sureAlert.addAction(UIKit.UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            self.present(sureAlert, animated: true, completion: nil)
+            
+            
         }
         else {
-            isBlocking = false
-            cell.deleteButton.setImage(UIImage(named: "cancel2"), for: .normal)
-           // cell.deleteButton.setTitle("Unblock", for: .normal)
-            userData?.blockedUsers.remove(at: index!)
-            var count = 0
-            for i in searchArray.readOnlyArray() {
-                if i.publicID == cell.usernameLabel.text! {
-                    searchArray.removeAtIndex(index: count)
-                    break
+            let sureAlert = UIAlertController(title: "Are you sure you want to unblock \(cell.usernameLabel.text!)?", message: "", preferredStyle: .alert)
+            
+            sureAlert.addAction(UIKit.UIAlertAction(title: "Yes", style: .default, handler: { (UIAlertAction) in
+                isBlocking = false
+                cell.deleteButton.setImage(UIImage(named: "block"), for: .normal)
+               // cell.deleteButton.setTitle("Unblock", for: .normal)
+                userData?.blockedUsers.remove(at: index!)
+                var count = 0
+                for i in self.searchArray.readOnlyArray() {
+                    if i.publicID == cell.usernameLabel.text! {
+                        self.searchArray.removeAtIndex(index: count)
+                        break
+                    }
+                    count += 1
                 }
-                count += 1
-            }
-            count = 0
-            for i in blockedArray.readOnlyArray() {
-                if i.publicID == cell.usernameLabel.text! {
-                    blockedArray.removeAtIndex(index: count)
-                    break
+                count = 0
+                for i in self.blockedArray.readOnlyArray() {
+                    if i.publicID == cell.usernameLabel.text! {
+                        self.blockedArray.removeAtIndex(index: count)
+                        break
+                    }
+                    count += 1
                 }
-                count += 1
-            }
-            tableView.reloadData()
+                self.tableView.reloadData()
+            }))
+            
+            sureAlert.addAction(UIKit.UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            self.present(sureAlert, animated: true, completion: nil)
+            
+            
+           // tableView.reloadData()
+            
+       
             
         }
         userDataVM?.updateUserData(newUserData: userData!, completion: {_ in })

@@ -33,7 +33,7 @@ class BlockedCell: UITableViewCell {
         contentView.addSubview(deleteButton)
         contentView.addSubview(avaImage)
         contentView.addSubview(usernameLabel)
-        
+        //avaImage.layer.cornerRadius = avaImage.frame.width/2
     }
 
 }
