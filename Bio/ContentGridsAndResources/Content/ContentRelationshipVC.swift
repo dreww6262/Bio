@@ -25,7 +25,7 @@ class ContentRelationship: UIViewController, UIScrollViewDelegate {
             return
         }
         viewAlreadyLoaded = true
-        view.backgroundColor = .black
+        view.backgroundColor = .systemGray6
         setUpScrollView()
         setZoomScale()
         
@@ -102,9 +102,9 @@ class ContentRelationship: UIViewController, UIScrollViewDelegate {
         label1.frame = label1Frame
         label2.frame = label2Frame
         label3.frame = label3Frame
-        label1.textColor = .white
-        label2.textColor = .white
-        label3.textColor = .white
+        label1.textColor = .black
+        label2.textColor = .black
+        label3.textColor = .black
         label1.textAlignment = .center
         label2.textAlignment = .center
         label3.textAlignment = .center
@@ -115,7 +115,7 @@ class ContentRelationship: UIViewController, UIScrollViewDelegate {
         label1.isUserInteractionEnabled = false
         print("This is caption text \(relationshipText)")
         print("This is text field text \(label1.text)")
-        label1.textColor = .white
+        label1.textColor = .black
      //   birthdayLabel.frame = captionFrame
     //    captionTextField.size
         
@@ -159,7 +159,7 @@ class ContentRelationship: UIViewController, UIScrollViewDelegate {
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.alwaysBounceVertical = false
         scrollView.alwaysBounceHorizontal = false
-        scrollView.backgroundColor = .black
+        scrollView.backgroundColor = .systemGray6
         //scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         scrollView.contentMode = .scaleAspectFit
         scrollView.bouncesZoom = false

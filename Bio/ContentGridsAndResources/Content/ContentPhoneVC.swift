@@ -25,7 +25,8 @@ class ContentPhoneVC: UIViewController, UIScrollViewDelegate {
             return
         }
         viewAlreadyLoaded = true
-        view.backgroundColor = .black
+       // view.backgroundColor = .black
+        view.backgroundColor = .darkGray
         setUpScrollView()
         setZoomScale()
         scrollView.addSubview(newImageView)
@@ -41,8 +42,8 @@ class ContentPhoneVC: UIViewController, UIScrollViewDelegate {
 //        })
         newImageView.image = UIImage(named: "smartphone")
         newImageView.backgroundColor = .white
-        newImageView.layer.borderWidth = 5.0
-        newImageView.layer.borderColor = white.cgColor
+        newImageView.layer.borderWidth = 0.0
+      //  newImageView.layer.borderColor =
         scrollView.addSubview(newImageView)
         scrollView.bringSubviewToFront(newImageView)
         
@@ -54,6 +55,7 @@ class ContentPhoneVC: UIViewController, UIScrollViewDelegate {
 //        captionTextField.textAlignment = .center
 //        captionTextField.isUserInteractionEnabled = false
         newImageView.frame = frame
+        newImageView.clipsToBounds = true
         newImageView.layer.cornerRadius = (frame.width)/2
         //newImageView.backgroundColor = .black
         
@@ -159,7 +161,7 @@ class ContentPhoneVC: UIViewController, UIScrollViewDelegate {
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.alwaysBounceVertical = false
         scrollView.alwaysBounceHorizontal = false
-        scrollView.backgroundColor = .black
+        scrollView.backgroundColor = .systemGray6
         //scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         scrollView.contentMode = .scaleAspectFit
         scrollView.bouncesZoom = false

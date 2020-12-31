@@ -26,7 +26,7 @@ class ContentBirthdayVC: UIViewController, UIScrollViewDelegate {
             return
         }
         viewAlreadyLoaded = true
-        view.backgroundColor = .black
+        view.backgroundColor = .systemGray6
         setUpScrollView()
         setZoomScale()
         
@@ -46,7 +46,7 @@ class ContentBirthdayVC: UIViewController, UIScrollViewDelegate {
 
         newImageView!.frame = frame
         newImageView?.layer.cornerRadius = (frame.width)/2
-        newImageView!.backgroundColor = .black
+        newImageView!.backgroundColor = .clear
         
         newImageView!.contentMode = .scaleAspectFit
         newImageView!.isUserInteractionEnabled = true
@@ -121,9 +121,9 @@ class ContentBirthdayVC: UIViewController, UIScrollViewDelegate {
         birthdayLabel.frame = birthdayFrame
         ageLabel.frame = ageFrame
         zodiacLabel.frame = zodiacFrame
-        birthdayLabel.textColor = .white
-        ageLabel.textColor = .white
-        zodiacLabel.textColor = .white
+        birthdayLabel.textColor = .black
+        ageLabel.textColor = .black
+        zodiacLabel.textColor = .black
         birthdayLabel.textAlignment = .center
         ageLabel.textAlignment = .center
         zodiacLabel.textAlignment = .center
@@ -134,7 +134,7 @@ class ContentBirthdayVC: UIViewController, UIScrollViewDelegate {
         birthdayLabel.isUserInteractionEnabled = false
         print("This is caption text \(birthdayText)")
         print("This is text field text \(birthdayLabel.text)")
-        birthdayLabel.textColor = .white
+        birthdayLabel.textColor = .black
      //   birthdayLabel.frame = captionFrame
     //    captionTextField.size
         
@@ -216,7 +216,7 @@ class ContentBirthdayVC: UIViewController, UIScrollViewDelegate {
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.alwaysBounceVertical = false
         scrollView.alwaysBounceHorizontal = false
-        scrollView.backgroundColor = .black
+        scrollView.backgroundColor = .systemGray6
         //scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         scrollView.contentMode = .scaleAspectFit
         scrollView.bouncesZoom = false

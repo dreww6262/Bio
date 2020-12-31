@@ -44,7 +44,7 @@ class ContentCulturalVC: UIViewController, UIScrollViewDelegate {
             return
         }
         viewAlreadyLoaded = true
-        view.backgroundColor = .black
+        view.backgroundColor = .systemGray6
         
         setUpScrollView()
         setZoomScale()
@@ -55,7 +55,7 @@ class ContentCulturalVC: UIViewController, UIScrollViewDelegate {
         countryText3 = ""
         
         captionLabel.text = "Nationality"
-        captionLabel.textColor = .white
+        captionLabel.textColor = .black
         captionLabel.font = UIFont(name: "DINAlternate-Bold", size: 28)
         captionLabel.textAlignment = .center
         scrollView.addSubview(captionLabel)
@@ -123,7 +123,7 @@ class ContentCulturalVC: UIViewController, UIScrollViewDelegate {
     
         countryImage1.frame = frame
         countryImage1.layer.cornerRadius = (frame.width)/2
-        countryImage1.backgroundColor = .black
+        countryImage1.backgroundColor = .clear
         
         countryImage1.contentMode = .scaleAspectFit
         countryImage1.isUserInteractionEnabled = true
@@ -172,22 +172,22 @@ class ContentCulturalVC: UIViewController, UIScrollViewDelegate {
     
     
     func setUpLabels() {
-        countryLabel1.textColor = .white
+        countryLabel1.textColor = .black
         countryLabel1.font = UIFont(name: "DINAlternate-Bold", size: 28)
         countryLabel1.textAlignment = .center
-        countryLabel2.textColor = .white
+        countryLabel2.textColor = .black
         countryLabel2.font = UIFont(name: "DINAlternate-Bold", size: 28)
         countryLabel2.textAlignment = .center
-        countryLabel3.textColor = .white
+        countryLabel3.textColor = .black
         countryLabel3.font = UIFont(name: "DINAlternate-Bold", size: 28)
         countryLabel3.textAlignment = .center
-        countryLabel4.textColor = .white
+        countryLabel4.textColor = .black
         countryLabel4.font = UIFont(name: "DINAlternate-Bold", size: 28)
         countryLabel4.textAlignment = .center
-        countryLabel5.textColor = .white
+        countryLabel5.textColor = .black
         countryLabel5.font = UIFont(name: "DINAlternate-Bold", size: 28)
         countryLabel5.textAlignment = .center
-        countryLabel6.textColor = .white
+        countryLabel6.textColor = .black
         countryLabel6.font = UIFont(name: "DINAlternate-Bold", size: 28)
         countryLabel6.textAlignment = .center
 //        countryLabel1.sizeToFit()
@@ -446,7 +446,7 @@ class ContentCulturalVC: UIViewController, UIScrollViewDelegate {
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.alwaysBounceVertical = false
         scrollView.alwaysBounceHorizontal = false
-        scrollView.backgroundColor = .black
+        scrollView.backgroundColor = .systemGray6
         //scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         scrollView.contentMode = .scaleAspectFit
         scrollView.bouncesZoom = false
