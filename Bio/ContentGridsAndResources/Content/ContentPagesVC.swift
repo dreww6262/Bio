@@ -58,7 +58,7 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
                             vc.webHex = data
                             vc.showOpenAppButton = false
                             showBool = false
-                            vc.viewDidLoad()
+                            //vc.viewDidLoad()
                             viewControllers.append(vc)
                         case "pin_birthday":
                             let vc = ContentBirthdayVC()
@@ -66,7 +66,7 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
                             vc.birthdayHex = data
                             vc.showOpenAppButton = false
                             showBool = false
-                            vc.viewDidLoad()
+                            //vc.viewDidLoad()
                             viewControllers.append(vc)
                         case "pin_phone":
                             let vc = ContentPhoneVC()
@@ -75,7 +75,7 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
                             vc.birthdayHex = data
                             vc.showOpenAppButton = false
                             showBool = false
-                            vc.viewDidLoad()
+                            //vc.viewDidLoad()
                             viewControllers.append(vc)
                         case "pin_country":
                             let vc = ContentCulturalVC()
@@ -83,7 +83,7 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
                             vc.cultureHex = data
                             vc.showOpenAppButton = false
                             showBool = false
-                            vc.viewDidLoad()
+                            //vc.viewDidLoad()
                             viewControllers.append(vc)
                         case "pin_relationship":
                             let vc = ContentRelationship()
@@ -91,7 +91,7 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
                             vc.relationshipHex = data
                             vc.showOpenAppButton = false
                             showBool = false
-                            vc.viewDidLoad()
+                            //vc.viewDidLoad()
                             viewControllers.append(vc)
                         case "pin_city":
                             let vc = ContentCityVC()
@@ -99,7 +99,7 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
                             vc.cityHex = data
                             vc.showOpenAppButton = false
                             showBool = false
-                            vc.viewDidLoad()
+                            //vc.viewDidLoad()
                             viewControllers.append(vc)
                         default:
                             let vc = ContentLinkVC()
@@ -107,7 +107,7 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
                             vc.userDataVM = userDataVM
                             vc.showOpenAppButton = true
                             showBool = true
-                            vc.viewDidLoad()
+                            //vc.viewDidLoad()
                             viewControllers.append(vc)
                         }
                         //pageView.setViewControllers(viewControllers, direction: .forward, animated: false, completion: nil)

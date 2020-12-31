@@ -1181,39 +1181,39 @@ var navBarView = NavBarView()
         
     }
     
-    func chooseSpecificSocialMedia(type: String, imageView: UIImageView) {
-        if type.contains("insta") {
-            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myInstaPurple, cornerRadius: imageView.frame.width/15)
-        }
-        else if type.contains("twitter") {
-            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myTwitterBlue, cornerRadius: imageView.frame.width/15)
-        }
-        else if type.contains("tik") {
-            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myTikTokBlack, cornerRadius: imageView.frame.width/15)
-        }
-        else if type.contains("hudl") {
-            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myHudlOrange, cornerRadius: imageView.frame.width/15)
-        }
-        else if type.contains("sound") {
-            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: mySoundCloudOrange, cornerRadius: imageView.frame.width/15)
-        }
-        else if type.contains("snap") {
-            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: mySnapChatYellow, cornerRadius: imageView.frame.width/15)
-        }
-        else if type.contains("posh") {
-            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myPoshmarkMaroon, cornerRadius: imageView.frame.width/15)
-        }
-        else if type.contains("linked") {
-            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myLinkedInBlue, cornerRadius: imageView.frame.width/15)
-        }
-        else if type.contains("venmo") {
-            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myVenmoBlue, cornerRadius: imageView.frame.width/15)
-        }
-        else {
-            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myPink, cornerRadius: imageView.frame.width/15)
-        }
-
-    }
+//    func chooseSpecificSocialMedia(type: String, imageView: UIImageView) {
+//        if type.contains("insta") {
+//            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myInstaPurple, cornerRadius: imageView.frame.width/15)
+//        }
+//        else if type.contains("twitter") {
+//            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myTwitterBlue, cornerRadius: imageView.frame.width/15)
+//        }
+//        else if type.contains("tik") {
+//            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myTikTokBlack, cornerRadius: imageView.frame.width/15)
+//        }
+//        else if type.contains("hudl") {
+//            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myHudlOrange, cornerRadius: imageView.frame.width/15)
+//        }
+//        else if type.contains("sound") {
+//            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: mySoundCloudOrange, cornerRadius: imageView.frame.width/15)
+//        }
+//        else if type.contains("snap") {
+//            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: mySnapChatYellow, cornerRadius: imageView.frame.width/15)
+//        }
+//        else if type.contains("posh") {
+//            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myPoshmarkMaroon, cornerRadius: imageView.frame.width/15)
+//        }
+//        else if type.contains("linked") {
+//            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myLinkedInBlue, cornerRadius: imageView.frame.width/15)
+//        }
+//        else if type.contains("venmo") {
+//            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myVenmoBlue, cornerRadius: imageView.frame.width/15)
+//        }
+//        else {
+//            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myPink, cornerRadius: imageView.frame.width/15)
+//        }
+//
+//    }
     
     func findIntersectingHexagon(hexView: PostImageView) -> PostImageView? {
         //find coordinates of final location for hexagon
@@ -1241,19 +1241,6 @@ var navBarView = NavBarView()
         }
         return hexToReturn
         
-//        if (closeHexagons.count > 1) {
-//            var closestHex = closeHexagons.first!
-//            var closestHexDistance = distance(hexCenter, reOrderedCoordinateArrayPointsCentered[closestHex.hexData!.location])
-//            for hex in closeHexagons {
-//                let newHexDistance = distance(hexCenter, reOrderedCoordinateArrayPointsCentered[hex.hexData!.location])
-//                if closestHexDistance > newHexDistance {
-//                    closestHex.setupHexagonMask(lineWidth: 10.0, color: .darkGray, cornerRadius: 10.0)
-//                    closestHexDistance = newHexDistance
-//                    closestHex = hex
-//                }
-//            }
-//            closestHex.setupHexagonMask(lineWidth: 10.0, color: red, cornerRadius: 10.0)
-//        }
     }
     
     func distance(_ a: CGPoint, _ b: CGPoint) -> CGFloat {
@@ -1299,61 +1286,61 @@ var navBarView = NavBarView()
         menuView.tabController!.customTabBar.switchTab(from: menuView.currentTab, to: 4)
     }
     
-    func openSpotifySong() {
-        //  UIApplication.shared.open(URL(string: "spotify:artist:4gzpq5DPGxSnKTe4SA8HAU")!, options: [:], completionHandler: nil)
-        // UIApplication.shared.openURL(URL(string: "spotify:track:1dNIEtp7AY3oDAKCGg2XkH")!)
-        //   UIApplication.shared.open(URL(string: "spotify:track:1dNIEtp7AY3oDAKCGg2XkH")!, options: [:], completionHandler: nil)
-        UIApplication.shared.open(URL(string: "https://p.scdn.co/mp3-preview/18d3b87b0765cd6d8c0a418d6142b3b441c0f8b2?cid=476c620368f349cc8be5b2a29b596eaf" )!, options: [:], completionHandler: nil)
-        
-        //   UIApplication.shared.
-        //   UIApplication.shared.open(<#T##url: URL##URL#>, options: <#T##[UIApplication.OpenExternalURLOptionsKey : Any]#>, completionHandler: <#T##((Bool) -> Void)?##((Bool) -> Void)?##(Bool) -> Void#>)
-        // UIApplication.
-        //  "https://p.scdn.co/mp3-preview/18d3b87b0765cd6d8c0a418d6142b3b441c0f8b2?cid=476c620368f349cc8be5b2a29b596eaf"
-        
-        //  URL(string: "spotify:track:1dNIEtp7AY3oDAKCGg2XkH")
-    }
-    
-    func openFacebook(facebookHandle: String) {
-        let webURL: NSURL = NSURL(string: "https://www.facebook.com/ID")!
-        let IdURL: NSURL = NSURL(string: "fb://profile/ID")!
-        
-        if(UIApplication.shared.canOpenURL(IdURL as URL)){
-            // FB installed
-            UIApplication.shared.open(webURL as URL, options: [:], completionHandler: nil)
-        } else {
-            // FB is not installed, open in safari
-            UIApplication.shared.open(webURL as URL, options: [:], completionHandler: nil)
-        }
-        
-    }
-    
-    func openTwitter(twitterHandle: String) {
-        guard let url = URL(string: "https://twitter.com/\(twitterHandle)")  else { return }
-        if UIApplication.shared.canOpenURL(url) {
-            if #available(iOS 10.0, *) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            } else {
-                UIApplication.shared.openURL(url)
-            }
-        }
-    }
-    
-    func openSnapchat(snapchatUsername: String) {
-        let username = snapchatUsername
-//        print("This us username for openSnapchat \(username)")
-        let appURL = URL(string: "snapchat://add/\(username)")!
-        let application = UIApplication.shared
-        
-        if application.canOpenURL(appURL) {
-            application.open(appURL)
-            
-        } else {
-            // if Snapchat app is not installed, open URL inside Safari
-            let webURL = URL(string: "https://www.snapchat.com/add/\(username)")!
-            application.open(webURL)
-            
-        }
-    }
+//    func openSpotifySong() {
+//        //  UIApplication.shared.open(URL(string: "spotify:artist:4gzpq5DPGxSnKTe4SA8HAU")!, options: [:], completionHandler: nil)
+//        // UIApplication.shared.openURL(URL(string: "spotify:track:1dNIEtp7AY3oDAKCGg2XkH")!)
+//        //   UIApplication.shared.open(URL(string: "spotify:track:1dNIEtp7AY3oDAKCGg2XkH")!, options: [:], completionHandler: nil)
+//        UIApplication.shared.open(URL(string: "https://p.scdn.co/mp3-preview/18d3b87b0765cd6d8c0a418d6142b3b441c0f8b2?cid=476c620368f349cc8be5b2a29b596eaf" )!, options: [:], completionHandler: nil)
+//
+//        //   UIApplication.shared.
+//        //   UIApplication.shared.open(<#T##url: URL##URL#>, options: <#T##[UIApplication.OpenExternalURLOptionsKey : Any]#>, completionHandler: <#T##((Bool) -> Void)?##((Bool) -> Void)?##(Bool) -> Void#>)
+//        // UIApplication.
+//        //  "https://p.scdn.co/mp3-preview/18d3b87b0765cd6d8c0a418d6142b3b441c0f8b2?cid=476c620368f349cc8be5b2a29b596eaf"
+//
+//        //  URL(string: "spotify:track:1dNIEtp7AY3oDAKCGg2XkH")
+//    }
+//
+//    func openFacebook(facebookHandle: String) {
+//        let webURL: NSURL = NSURL(string: "https://www.facebook.com/ID")!
+//        let IdURL: NSURL = NSURL(string: "fb://profile/ID")!
+//
+//        if(UIApplication.shared.canOpenURL(IdURL as URL)){
+//            // FB installed
+//            UIApplication.shared.open(webURL as URL, options: [:], completionHandler: nil)
+//        } else {
+//            // FB is not installed, open in safari
+//            UIApplication.shared.open(webURL as URL, options: [:], completionHandler: nil)
+//        }
+//
+//    }
+//
+//    func openTwitter(twitterHandle: String) {
+//        guard let url = URL(string: "https://twitter.com/\(twitterHandle)")  else { return }
+//        if UIApplication.shared.canOpenURL(url) {
+//            if #available(iOS 10.0, *) {
+//                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+//            } else {
+//                UIApplication.shared.openURL(url)
+//            }
+//        }
+//    }
+//
+//    func openSnapchat(snapchatUsername: String) {
+//        let username = snapchatUsername
+////        print("This us username for openSnapchat \(username)")
+//        let appURL = URL(string: "snapchat://add/\(username)")!
+//        let application = UIApplication.shared
+//
+//        if application.canOpenURL(appURL) {
+//            application.open(appURL)
+//
+//        } else {
+//            // if Snapchat app is not installed, open URL inside Safari
+//            let webURL = URL(string: "https://www.snapchat.com/add/\(username)")!
+//            application.open(webURL)
+//
+//        }
+//    }
     
     func textToImage(drawText text: String, inImage image: UIImage, atPoint point: CGPoint) -> UIImage {
        let textColor = UIColor.white
@@ -1601,86 +1588,6 @@ var navBarView = NavBarView()
         }
         
         
-//        //TO DO: Tap to Play Video
-//        if hexItem.type.contains("video") {
-//            //TO DO: play a video here!!
-//            let videoVC = ContentVideoVC()
-//            videoVC.videoHex = hexItem
-//            present(videoVC, animated: false, completion: nil)
-//
-//        }
-//
-//
-//
-//        else if hexItem.type.contains("photo") {
-////            let contentImageVC = ContentImageVC()
-////            contentImageVC.photoHex = hexItem
-////            present(contentImageVC, animated: false, completion: nil)
-//            contentPages!.currentIndex = hexItem.location - 1
-//            contentPages!.modalPresentationStyle = .fullScreen
-//            self.present(contentPages!, animated: false, completion: nil)
-//
-//        }
-//        else if hexItem.type.contains("link") {
-////            openLinkVC(hex: hexItem)
-//            contentPages!.currentIndex = hexItem.location - 1
-//            contentPages!.modalPresentationStyle = .fullScreen
-//            self.present(contentPages!, animated: false, completion: nil)
-//        }
-//        else if hexItem.type.contains("music") {
-////            openLinkVC(hex: hexItem)
-//            contentPages!.currentIndex = hexItem.location - 1
-//            contentPages!.modalPresentationStyle = .fullScreen
-//            self.present(contentPages!, animated: false, completion: nil)
-//        }
-//
-////        else if hexItem.type.contains("social") {
-////            let theType = hexItem.type
-////            if theType.contains("instagram") {
-////                openInstagram(instagramHandle: hexItem.text)
-////            }
-////            if theType.contains("twitter") {
-////                openTwitter(twitterHandle: hexItem.text)
-////            }
-////            if theType.contains("tik") {
-////                openTikTok(tikTokHandle: hexItem.text)
-////            }
-////            if theType.contains("snapchat") {
-////                openSnapchat(snapchatUsername: hexItem.text)
-////            }
-////            if theType.contains("youtube") {
-////                openLink(link: hexItem.text)
-////            }
-////            if theType.contains("hudl") {
-////                openLink(link: hexItem.text)
-////            }
-////            if theType.contains("venmo") {
-////                openLink(link: hexItem.text)
-////            }
-////            if theType.contains("sound") {
-////                openLink(link: hexItem.text)
-////            }
-////            if theType.contains("linked") {
-////                openLink(link: hexItem.text)
-////            }
-////            if theType.contains("posh") {
-////                openLink(link: hexItem.text)
-////            }
-//        else {
-//            contentPages!.currentIndex = hexItem.location - 1
-//            contentPages!.modalPresentationStyle = .fullScreen
-//            contentPages!.userDataVM = userDataVM
-//            self.present(contentPages!, animated: false, completion: nil)
-//
-//        }
-        
-    }
-    
-   
-    func openLinkVC(hex: HexagonStructData) {
-        let linkVC = ContentLinkVC()
-        linkVC.webHex = hex
-        present(linkVC, animated: false, completion: nil)
     }
     
 

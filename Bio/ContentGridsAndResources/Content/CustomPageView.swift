@@ -45,7 +45,7 @@ class CustomPageView: UIViewController {
                             vc.webHex = data
                             vc.showOpenAppButton = false
                             showBool = false
-                            vc.viewDidLoad()
+//                            vc.viewDidLoad()
                             viewControllers.append(vc)
                         case "pin_birthday":
                             let vc = ContentBirthdayVC()
@@ -53,7 +53,7 @@ class CustomPageView: UIViewController {
                             vc.birthdayHex = data
                             vc.showOpenAppButton = false
                             showBool = false
-                            vc.viewDidLoad()
+//                            vc.viewDidLoad()
                             viewControllers.append(vc)
                         case "pin_phone":
                             let vc = ContentPhoneVC()
@@ -62,7 +62,7 @@ class CustomPageView: UIViewController {
                             vc.birthdayHex = data
                             vc.showOpenAppButton = false
                             showBool = false
-                            vc.viewDidLoad()
+//                            vc.viewDidLoad()
                             viewControllers.append(vc)
                         case "pin_country":
                             let vc = ContentCulturalVC()
@@ -70,7 +70,7 @@ class CustomPageView: UIViewController {
                             vc.cultureHex = data
                             vc.showOpenAppButton = false
                             showBool = false
-                            vc.viewDidLoad()
+//                            vc.viewDidLoad()
                             viewControllers.append(vc)
                         case "pin_relationship":
                             let vc = ContentRelationship()
@@ -78,7 +78,7 @@ class CustomPageView: UIViewController {
                             vc.relationshipHex = data
                             vc.showOpenAppButton = false
                             showBool = false
-                            vc.viewDidLoad()
+//                            vc.viewDidLoad()
                             viewControllers.append(vc)
                         case "pin_city":
                             let vc = ContentCityVC()
@@ -86,7 +86,7 @@ class CustomPageView: UIViewController {
                             vc.cityHex = data
                             vc.showOpenAppButton = false
                             showBool = false
-                            vc.viewDidLoad()
+//                            vc.viewDidLoad()
                             viewControllers.append(vc)
                         default:
                             let vc = ContentLinkVC()
@@ -94,7 +94,7 @@ class CustomPageView: UIViewController {
                             vc.userDataVM = userDataVM
                             vc.showOpenAppButton = true
                             showBool = true
-                            vc.viewDidLoad()
+//                            vc.viewDidLoad()
                             viewControllers.append(vc)
                         }
                         //pageView.setViewControllers(viewControllers, direction: .forward, animated: false, completion: nil)
@@ -389,6 +389,13 @@ class CustomPageView: UIViewController {
         vc.view.layer.cornerRadius = vc.view.frame.width / 20
         vc.view.clipsToBounds = true
         
+        if currentIndex! - 2 >= 0 {
+            viewControllers[currentIndex! - 2].viewDidLoad()
+            if currentIndex! - 3 >= 0 {
+                viewControllers[currentIndex! - 3].viewDidLoad()
+            }
+        }
+        
         return vc
     }
     
@@ -402,6 +409,13 @@ class CustomPageView: UIViewController {
         vc.view.frame = CGRect(x: rightBox.maxX, y: rightBox.minY, width: rightBox.width, height: rightBox.height)
         vc.view.layer.cornerRadius = vc.view.frame.width / 20
         vc.view.clipsToBounds = true
+        
+        if currentIndex! + 2 < viewControllers.count {
+            viewControllers[currentIndex! + 2].viewDidLoad()
+            if currentIndex! + 3 < viewControllers.count {
+                viewControllers[currentIndex! + 3].viewDidLoad()
+            }
+        }
         
         return vc
     }

@@ -34,11 +34,6 @@ class ContentLinkVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
             self.webView.allowsBackForwardNavigationGestures = false
             self.webView.autoresizesSubviews = true
             self.webView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-//            let topConstraint = NSLayoutConstraint(item: self.webView, attribute: .centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 1, constant: 0)
-//            let leftConstraint = NSLayoutConstraint(item: self.webView, attribute: .centerX, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1, constant: 0)
-//            let widthConstraint = NSLayoutConstraint(item: self.webView, attribute: .width, relatedBy: .equal, toItem: self.view, attribute: .width, multiplier: 1, constant: 0)
-//            let heightConstraint = NSLayoutConstraint(item: self.webView, attribute: .height, relatedBy: .equal, toItem: self.view, attribute: .height, multiplier: 1, constant: 0)
-//            NSLayoutConstraint.activate([topConstraint, leftConstraint, widthConstraint, heightConstraint])
             self.loadLink()
         }
         
