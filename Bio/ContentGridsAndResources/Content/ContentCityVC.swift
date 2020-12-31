@@ -14,8 +14,13 @@ class ContentCityVC: UIViewController, UIScrollViewDelegate {
     var userDataVM: UserDataVM?
    // var captionTextField = UITextField()
     
+    var viewHasLoaded = false
     override func viewDidLoad() {
         super.viewDidLoad()
+        if viewHasLoaded {
+            return
+        }
+        viewHasLoaded = true
         view.backgroundColor = .black
         setUpScrollView()
         setZoomScale()
@@ -35,9 +40,7 @@ class ContentCityVC: UIViewController, UIScrollViewDelegate {
        // let frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - 65)
       //  let smallframe = CGRect(x: view.frame.width/3, y: view.frame.height/12, width: view.frame.width/3, height: view.frame.width/3)
         let frame = CGRect(x: view.frame.width/6, y: view.frame.height/12, width: view.frame.width*(2/3), height: view.frame.width*(2/3))
-        let birthdayFrame = CGRect(x: 0, y: frame.maxY + 5, width: view.frame.width, height: 20)
-        let ageFrame = CGRect(x: 0, y: birthdayFrame.maxY + 5, width: view.frame.width, height: 20)
-        let zodiacFrame = CGRect(x: 0, y: ageFrame.maxY + 5, width: view.frame.width, height: 20)
+
 //        captionTextField.font = UIFont(name: "DINAlternate-Bold", size: 28)
 //        captionTextField.textAlignment = .center
 //        captionTextField.isUserInteractionEnabled = false
@@ -51,35 +54,30 @@ class ContentCityVC: UIViewController, UIScrollViewDelegate {
         //let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         //newImageView.addGestureRecognizer(tap)
         
-        let textView = UITextView()
-        textView.text = "asdfkjlasdfjasdf"
-        textView.textColor = .red
-        // Do any additional setup after loading the view.
-        
-      //  captionTextField.frame = captionFrame
         
     }
     
 
-    
+    let label1 = UILabel()
+    let label2 = UILabel()
+    let label3 = UILabel()
     func setUpCaption() {
-        var label1 = UILabel()
-        var label2 = UILabel()
-        var label3 = UILabel()
+        
         scrollView.addSubview(label1)
         scrollView.addSubview(label2)
         scrollView.addSubview(label3)
-        var currentCity = cityHex!.text
-        var relationshipText = "\(cityHex!.resource) is living in"
+        let currentCity = cityHex!.text
+        let relationshipText = "\(cityHex!.resource) is living in"
         
         label1.text = relationshipText
         label2.text = currentCity
         label3.text = ""
-        let captionFrame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 66)
-        label1.font = UIFont(name: "DINAlternate-Bold", size: 28)
-        label3.font = UIFont(name: "DINAlternate-Bold", size: 28)
-        label2.font = UIFont(name: "DINAlternate-Bold", size: 28)
-        let frame = CGRect(x: view.frame.width/3, y: view.frame.height/12, width: view.frame.width/3, height: view.frame.width/3)
+        
+        
+        //let captionFrame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 66)
+        label1.font = UIFont(name: "DINAlternate-Bold", size: 23)
+        label3.font = UIFont(name: "DINAlternate-Bold", size: 23)
+        label2.font = UIFont(name: "DINAlternate-Bold", size: 23)
         let label1Frame = CGRect(x: 0, y: (newImageView?.frame.maxY)! + 20, width: view.frame.width, height: 30)
         let label2Frame = CGRect(x: 0, y: label1Frame.maxY + 20, width: view.frame.width, height: 30)
         let label3Frame = CGRect(x: 0, y: label2Frame.maxY + 20, width: view.frame.width, height: 30)
@@ -111,18 +109,24 @@ class ContentCityVC: UIViewController, UIScrollViewDelegate {
     }
     override func viewDidLayoutSubviews() {
         let frame = CGRect(x: view.frame.width/6, y: view.frame.height/12, width: view.frame.width*(2/3), height: view.frame.width*(2/3))
-        let birthdayFrame = CGRect(x: 0, y: frame.maxY + 5, width: view.frame.width, height: 20)
-        let ageFrame = CGRect(x: 0, y: birthdayFrame.maxY + 5, width: view.frame.width, height: 20)
-        let zodiacFrame = CGRect(x: 0, y: ageFrame.maxY + 5, width: view.frame.width, height: 20)
-//        captionTextField.font = UIFont(name: "DINAlternate-Bold", size: 28)
-//        captionTextField.textAlignment = .center
-//        captionTextField.isUserInteractionEnabled = false
+
         newImageView!.frame = frame
         newImageView?.layer.cornerRadius = (frame.width)/2
-        newImageView!.backgroundColor = .black
+        newImageView!.backgroundColor = .white
         
         newImageView!.contentMode = .scaleAspectFit
         newImageView!.isUserInteractionEnabled = true
+        
+        let label1Frame = CGRect(x: 0, y: (newImageView?.frame.maxY)! + 20, width: view.frame.width, height: 30)
+        let label2Frame = CGRect(x: 0, y: label1Frame.maxY + 20, width: view.frame.width, height: 30)
+        let label3Frame = CGRect(x: 0, y: label2Frame.maxY + 20, width: view.frame.width, height: 30)
+        label1.frame = label1Frame
+        label2.frame = label2Frame
+        label3.frame = label3Frame
+        
+        label1.numberOfLines = 0
+        label2.numberOfLines = 0
+        label3.numberOfLines = 0
     }
     
     
@@ -162,22 +166,5 @@ class ContentCityVC: UIViewController, UIScrollViewDelegate {
         return newImageView
     }
     
-//    @objc func handleTap(_ sender: UITapGestureRecognizer) {
-//        for view in view.subviews {
-//            view.removeFromSuperview()
-//        }
-//        self.dismiss(animated: false, completion: nil)
-//    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

@@ -727,11 +727,16 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         let cleanRef = hexData.thumbResource.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
 
-        image.sd_setImage(with: url!, placeholderImage: placeHolderImage, options: .refreshCached) { (_, error, _, _) in
-            if (error != nil) {
-                print(error!.localizedDescription)
-                image.image = placeHolderImage
+        if url != nil {
+            image.sd_setImage(with: url!, placeholderImage: placeHolderImage, options: .refreshCached) { (_, error, _, _) in
+                if (error != nil) {
+                    print(error!.localizedDescription)
+                    image.image = placeHolderImage
+                }
             }
+        }
+        else {
+            image.image = placeHolderImage
         }
         
         image.textOverlay.textAlignment = .center
@@ -1121,7 +1126,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         }
         else if type == "pin_phone" {
             imageView.backgroundColor = white
-            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: white, cornerRadius: imageView.frame.width/15)
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: .clear, cornerRadius: imageView.frame.width/15)
         }
         else if type == "pin_country" {
             imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: .clear, cornerRadius: imageView.frame.width/15)

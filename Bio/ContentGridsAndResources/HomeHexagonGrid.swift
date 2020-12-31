@@ -670,38 +670,48 @@ var navBarView = NavBarView()
         //    var gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
 //        print("This is the type of hexagon: \(hexData.type)")
         let myType = hexData.type
-        //change this to photo one when we make that
-        var placeHolderImage = UIImage(named: "linkCenter")
         
-        switch myType {
-        case "photo":
-            placeHolderImage = UIImage(named: "cameraCenter")
-        case "video":
-            placeHolderImage = UIImage(named: "cameraCenter")
-        case "link":
-            placeHolderImage = UIImage(named: "linkCenter")
-        case "music":
-            placeHolderImage = UIImage(named: "musicCenter")
-        case "social_media":
-            placeHolderImage = UIImage(named: "socialMediaCenter")
-        default:
-            placeHolderImage = UIImage(named: "socialMediaCenter")
+        if myType == "pin_country" {
+            var ttext = hexData.text.lowercased()
+            ttext = ttext.replacingOccurrences(of: " ", with: "-")
+            image.image = UIImage(named: ttext)
+            createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
         }
-        
-        
-        // image.setupHexagonMask(lineWidth: 10.0, color: myBlueGreen, cornerRadius: 10.0)
-        createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
-        //let ref = storage.child(hexData.thumbResource)
-        let cleanRef = hexData.thumbResource.replacingOccurrences(of: "/", with: "%2F")
-        let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
-        if url != nil {
-        
-        image.sd_setImage(with: url!, placeholderImage: placeHolderImage, options: .refreshCached) { (_, error, _, _) in
-            if (error != nil) {
-                print(error!.localizedDescription)
-                image.image = placeHolderImage
+        else {
+            //change this to photo one when we make that
+            var placeHolderImage = UIImage(named: "linkCenter")
+            
+            switch myType {
+            case "photo":
+                placeHolderImage = UIImage(named: "cameraCenter")
+            case "video":
+                placeHolderImage = UIImage(named: "cameraCenter")
+            case "link":
+                placeHolderImage = UIImage(named: "linkCenter")
+            case "music":
+                placeHolderImage = UIImage(named: "musicCenter")
+            case "social_media":
+                placeHolderImage = UIImage(named: "socialMediaCenter")
+            default:
+                placeHolderImage = UIImage(named: "socialMediaCenter")
             }
-        }
+            
+            
+            // image.setupHexagonMask(lineWidth: 10.0, color: myBlueGreen, cornerRadius: 10.0)
+            createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
+            //let ref = storage.child(hexData.thumbResource)
+            
+            let cleanRef = hexData.thumbResource.replacingOccurrences(of: "/", with: "%2F")
+            let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
+            if url != nil {
+                
+                image.sd_setImage(with: url!, placeholderImage: placeHolderImage, options: .refreshCached) { (_, error, _, _) in
+                    if (error != nil) {
+                        print(error!.localizedDescription)
+                        image.image = placeHolderImage
+                    }
+                }
+            }
         }
         
         image.textOverlay.textAlignment = .center
@@ -1124,7 +1134,7 @@ var navBarView = NavBarView()
         }
         else if type == "pin_phone" {
             imageView.backgroundColor = white
-            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: white, cornerRadius: imageView.frame.width/15)
+            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: .clear, cornerRadius: imageView.frame.width/15)
         }
         else if type == "pin_country" {
             imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: .clear, cornerRadius: imageView.frame.width/15)

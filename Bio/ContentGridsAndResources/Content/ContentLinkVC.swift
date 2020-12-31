@@ -20,10 +20,14 @@ class ContentLinkVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
     var myRequest: URLRequest?
     
     
-    
+    var viewAlreadyLoaded = false
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        if viewAlreadyLoaded {
+            return
+        }
+        viewAlreadyLoaded = true
         DispatchQueue.main.async {
 
             let wkWebConfig = WKWebViewConfiguration()

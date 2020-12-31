@@ -19,9 +19,15 @@ class ContentVideoVC: UIViewController {
     var userDataVM: UserDataVM?
     
     let storage = FirebaseStorage.Storage.storage().reference()
+    
+    var viewAlreadyLoaded = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        if viewAlreadyLoaded {
+            return
+        }
+        viewAlreadyLoaded = true
         let urlString = videoHex!.resource
         let vidRef = storage.child(urlString)
         
@@ -85,25 +91,5 @@ class ContentVideoVC: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         pauseVideo()
     }
-    
-//    @objc func handleTap(_ sender: UITapGestureRecognizer) {
-//        player.pause()
-//        for view in contentViewer.subviews {
-//            view.removeFromSuperview()
-//        }
-//        contentViewer.removeFromSuperview()
-//        self.dismiss(animated: false, completion: nil)
-//    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

@@ -23,7 +23,6 @@ class UserTableView: UIViewController, UISearchBarDelegate {
     
     var currentUser: User?
     var loadUserDataArray = ThreadSafeArray<UserData>()
-    var searchString: String = ""
     var userDataVM: UserDataVM?
     
     var followList = [String]()
@@ -146,17 +145,28 @@ class UserTableView: UIViewController, UISearchBarDelegate {
                     print(error!.localizedDescription)
                     return
                 }
-                
+                let userData = self.userDataVM?.userData.value
+                print("blocked users: \(userData?.blockedUsers)")
+                print("blocked by: \(userData?.isBlockedBy)")
                 for object in documents {
                     let newUserData = UserData(dictionary: object.data())
                     let readOnlyArray = self.loadUserDataArray.readOnlyArray()
                     
                     // TODO: Very inefficient.  Use database operations to make sure data is clean.  Followers shouldnt be too many.  < 100 elements
-                    let userData = self.userDataVM?.userData.value
+                    
                     if (!readOnlyArray.contains(where: { data in
                         data.publicID == newUserData.publicID
                     }) && !userData!.isBlockedBy.contains(newUserData.publicID) && !userData!.blockedUsers.contains(newUserData.publicID)) {
                         self.loadUserDataArray.append(newElement: newUserData)
+                    }
+                    else if userData!.isBlockedBy.contains(newUserData.publicID) && userData!.blockedUsers.contains(newUserData.publicID){
+                        print("is blocking and is blocked by \(newUserData.publicID)")
+                    }
+                    else if userData!.isBlockedBy.contains(newUserData.publicID){
+                        print("is blocked by \(newUserData.publicID)")
+                    }
+                    else {
+                        print("is blocking \(newUserData.publicID)")
                     }
                 }
             } else {
@@ -208,16 +218,20 @@ class UserTableView: UIViewController, UISearchBarDelegate {
         })
     }
     
-    // search updated
-    func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if text == "" && searchString != "" {
-            let _ = searchString.popLast()
-        }
-        else {
-            searchString += text
-        }
+//    // search updated
+//    func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+//        if text == "" && searchString != "" {
+//            let _ = searchString.popLast()
+//        }
+//        else {
+//            searchString += text
+//        }
+//        loadUserData()
+//        return true
+//    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         loadUserData()
-        return true
     }
     
     
@@ -256,6 +270,7 @@ class UserTableView: UIViewController, UISearchBarDelegate {
     func loadUserData() {
         loadUserDataArray.removeAll()
         //searchString = searchBar.text
+        var searchString = searchBar.text ?? ""
         if searchString == "" {
             startWithFollowers()
             return
@@ -271,13 +286,16 @@ class UserTableView: UIViewController, UISearchBarDelegate {
                 return
             }
             print("success, search bar pulled data")
+            let userData = self.userDataVM?.userData.value
             for doc in snapshots!.documents {
                 //self.usernameArray.append(doc.value(forKey: "publicID") as! String)
-                let userdata = UserData(dictionary: doc.data())
+                let newUD = UserData(dictionary: doc.data())
                 if (!self.loadUserDataArray.readOnlyArray().contains(where: { u in
-                    return u.publicID == userdata.publicID
+                    return u.publicID == newUD.publicID
                 })) {
-                    self.loadUserDataArray.append(newElement: userdata)
+                    if !userData!.blockedUsers.contains(newUD.publicID) && !userData!.isBlockedBy.contains(newUD.publicID) {
+                        self.loadUserDataArray.append(newElement: newUD)
+                    }
                 }
             }
             self.sortUserDataArray()

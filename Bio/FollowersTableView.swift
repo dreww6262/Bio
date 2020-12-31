@@ -158,7 +158,7 @@ class FollowersTableView: UIViewController, UISearchBarDelegate {
                     }
                     if (!readOnlyArray.contains(where: { data in
                         data.publicID == newUserData.publicID
-                    }) && userData!.isBlockedBy.contains(newUserData.publicID) && userData!.blockedUsers.contains(newUserData.publicID)) {
+                    }) && !userData!.isBlockedBy.contains(newUserData.publicID) && !userData!.blockedUsers.contains(newUserData.publicID)) {
                         self.loadUserDataArray.append(newElement: newUserData)
                     }
                 }

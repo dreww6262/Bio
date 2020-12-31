@@ -15,10 +15,17 @@ class ContentBirthdayVC: UIViewController, UIScrollViewDelegate {
     var scrollView = UIScrollView()
     var newImageView: UIImageView?
     var userDataVM: UserDataVM?
+    
+    var viewAlreadyLoaded = false
    // var captionTextField = UITextField()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if viewAlreadyLoaded {
+            return
+        }
+        viewAlreadyLoaded = true
         view.backgroundColor = .black
         setUpScrollView()
         setZoomScale()
@@ -34,16 +41,9 @@ class ContentBirthdayVC: UIViewController, UIScrollViewDelegate {
         })
         scrollView.addSubview(newImageView!)
         scrollView.bringSubviewToFront(newImageView!)
-        
-       // let frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - 65)
-      //  let smallframe = CGRect(x: view.frame.width/3, y: view.frame.height/12, width: view.frame.width/3, height: view.frame.width/3)
+
         let frame = CGRect(x: view.frame.width/6, y: view.frame.height/12, width: view.frame.width*(2/3), height: view.frame.width*(2/3))
-        let birthdayFrame = CGRect(x: 0, y: frame.maxY + 5, width: view.frame.width, height: 20)
-        let ageFrame = CGRect(x: 0, y: birthdayFrame.maxY + 5, width: view.frame.width, height: 20)
-        let zodiacFrame = CGRect(x: 0, y: ageFrame.maxY + 5, width: view.frame.width, height: 20)
-//        captionTextField.font = UIFont(name: "DINAlternate-Bold", size: 28)
-//        captionTextField.textAlignment = .center
-//        captionTextField.isUserInteractionEnabled = false
+
         newImageView!.frame = frame
         newImageView?.layer.cornerRadius = (frame.width)/2
         newImageView!.backgroundColor = .black
@@ -63,6 +63,21 @@ class ContentBirthdayVC: UIViewController, UIScrollViewDelegate {
         
     }
     
+    override func viewWillLayoutSubviews() {
+        let frame = CGRect(x: view.frame.width/6, y: view.frame.height/12, width: view.frame.width*(2/3), height: view.frame.width*(2/3))
+
+        newImageView!.frame = frame
+        
+        let birthdayFrame = CGRect(x: 0, y: (newImageView?.frame.maxY)! + 20, width: view.frame.width, height: 30)
+        let ageFrame = CGRect(x: 0, y: birthdayFrame.maxY + 20, width: view.frame.width, height: 30)
+        let zodiacFrame = CGRect(x: 0, y: ageFrame.maxY + 20, width: view.frame.width, height: 30)
+        birthdayLabel.frame = birthdayFrame
+        ageLabel.frame = ageFrame
+        zodiacLabel.frame = zodiacFrame
+        
+        
+    }
+    
     func calcAge(birthday: String) -> Int {
         let dateFormater = DateFormatter()
         dateFormater.dateFormat = "MM/dd/yyyy"
@@ -77,10 +92,11 @@ class ContentBirthdayVC: UIViewController, UIScrollViewDelegate {
         return age!
     }
     
+    let birthdayLabel = UILabel()
+    let ageLabel = UILabel()
+    let zodiacLabel = UILabel()
+    
     func setUpCaption() {
-        var birthdayLabel = UILabel()
-        var ageLabel = UILabel()
-        var zodiacLabel = UILabel()
         scrollView.addSubview(birthdayLabel)
         scrollView.addSubview(ageLabel)
         scrollView.addSubview(zodiacLabel)
@@ -226,24 +242,6 @@ class ContentBirthdayVC: UIViewController, UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return newImageView
     }
-    
-//    @objc func handleTap(_ sender: UITapGestureRecognizer) {
-//        for view in view.subviews {
-//            view.removeFromSuperview()
-//        }
-//        self.dismiss(animated: false, completion: nil)
-//    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
 

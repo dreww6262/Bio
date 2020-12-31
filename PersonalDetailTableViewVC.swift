@@ -55,7 +55,6 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
     
     var currentUser: User?
     var loadUserDataArray = ThreadSafeArray<UserData>()
-    var searchString: String = ""
     //    var textFieldArray = [UITextField]()
     
     var followList = [String]()
@@ -184,7 +183,7 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
       //  var trimmedText = myText.trimmingCharacters(in: .whitespaces)
         trimmedText = trimmedText.lowercased()
         //        print("This is trimmedText \(trimmedText)")
-        let cultureHex = HexagonStructData(resource: "\(userData!.displayName)", type: "pin_country", location: userData!.numPosts + 1, thumbResource: "icons/StateIcons/\(trimmedText).png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myText, views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: myCountries)
+        let cultureHex = HexagonStructData(resource: "\(userData!.displayName)", type: "pin_country", location: userData!.numPosts + 1, thumbResource: "icons/flags/\(trimmedText).png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myText, views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: myCountries)
         addHex(hexData: cultureHex, completion: { bool in
             success = success && bool
             

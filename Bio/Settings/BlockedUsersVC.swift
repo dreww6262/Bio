@@ -53,7 +53,16 @@ class BlockedUsersVC: UIViewController, UITableViewDelegate, UITableViewDataSour
        // cell.deleteButton.frame = CGRect(x: cell.contentView.frame.width - 40, y: (cell.contentView.frame.height - 30)/2 , width: 30, height: 30)
         
         //if they are blocked create a custom made unblock button
-        cell.deleteButton.setTitle("Unblock", for: .normal)
+        let userData = userDataVM?.userData.value
+        if (searchArray.readOnlyArray() == blockedArray.readOnlyArray()) {
+            cell.deleteButton.setTitle("Unblock", for: .normal)
+        }
+        else if userData!.blockedUsers.contains(searchArray[indexPath.row].publicID){
+            cell.deleteButton.setTitle("Unblock", for: .normal)
+        }
+        else {
+            cell.deleteButton.setTitle("Block", for: .normal)
+        }
         cell.deleteButton.setTitleColor(.black, for: .normal)
         cell.deleteButton.frame = CGRect(x: cell.contentView.frame.width - 100, y: (cell.contentView.frame.height - 30)/2 , width: 100, height: 30)
         cell.deleteButton.layer.cornerRadius = cell.deleteButton.frame.width/10
@@ -67,6 +76,9 @@ class BlockedUsersVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         return cell
     }
+    
+    
+    
     
     
     
@@ -324,28 +336,7 @@ class BlockedUsersVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.dismiss(animated: true)
      }
     
-    
-    func setUpNavBarViewold2() {
-        var statusBarHeight = UIApplication.shared.statusBarFrame.height
-        print("This is status bar height \(statusBarHeight)")
-        self.view.addSubview(navBarView)
-        self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
-        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
-        navBarView.backButton.isHidden = true
-        navBarView.postButton.isHidden = true
-    
-        let yOffset = navBarView.frame.maxY
-     //   self.tableView.frame = CGRect(x: 0, y: yOffset, width: self.view.frame.width, height: self.view.frame.height - yOffset)
-      //  self.navBarView.addSubview(titleLabel1)
-        self.navBarView.addBehavior()
-        self.navBarView.titleLabel.text = "Notifications"
 
-        print("This is navBarView.")
- 
-
-       // self.tableView.frame = CGRect(x: 0, y: yOffset, width: self.view.frame.width, height: self.view.frame.height - yOffset)
-
-    }
     
     func reloadBlockedUserData() {
         let userData = userDataVM?.userData.value
@@ -404,14 +395,5 @@ class BlockedUsersVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         })
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

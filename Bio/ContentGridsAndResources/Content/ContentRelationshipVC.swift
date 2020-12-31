@@ -18,8 +18,13 @@ class ContentRelationship: UIViewController, UIScrollViewDelegate {
     var userDataVM: UserDataVM?
    // var captionTextField = UITextField()
     
+    var viewAlreadyLoaded = false
     override func viewDidLoad() {
         super.viewDidLoad()
+        if viewAlreadyLoaded {
+            return
+        }
+        viewAlreadyLoaded = true
         view.backgroundColor = .black
         setUpScrollView()
         setZoomScale()
@@ -83,6 +88,7 @@ class ContentRelationship: UIViewController, UIScrollViewDelegate {
         var zodiacText = "Zodiac: \(zodiac)"
         
         label1.text = relationshipText
+        label1.numberOfLines = 0
         label2.text = ""
         label3.text = ""
         let captionFrame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 66)

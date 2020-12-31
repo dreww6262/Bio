@@ -203,9 +203,13 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
     }
     
     
-    
+    var viewAlreadyLoaded = false
     override func viewDidLoad() {
         super.viewDidLoad()
+        if viewAlreadyLoaded {
+            return
+        }
+        viewAlreadyLoaded = true
         //print("Content Pages userdata: \(userData)")
         
         

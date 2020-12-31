@@ -72,7 +72,6 @@ class CulturalIdentityVC: UIViewController, UITextFieldDelegate, MRCountryPicker
     
     var currentUser: User?
     var loadUserDataArray = ThreadSafeArray<UserData>()
-    var searchString: String = ""
     var userDataVM: UserDataVM?
 //    var textFieldArray = [UITextField]()
     
@@ -783,13 +782,13 @@ extension CulturalIdentityVC: UITableViewDelegate, UITableViewDataSource {
         
         
         if indexPath.row < userCountries.count {
-        cell.interactiveTextField.text = userCountries[indexPath.row] ?? "Add Another Cultural Identity"
+        cell.interactiveTextField.text = userCountries[indexPath.row]
             cell.xButton.isHidden = false
             cell.xButton.setImage(UIImage(named: "x"), for: .normal)
             let xtap = UITapGestureRecognizer(target: self, action: #selector(xButtonPressed))
             cell.xButton.addGestureRecognizer(xtap)
-        var countryText = formatCountryToImage(myCountry: userCountries[indexPath.row]) ?? ""
-            var countryName = userCountries[indexPath.row] ?? ""
+        var countryText = formatCountryToImage(myCountry: userCountries[indexPath.row])
+            var countryName = userCountries[indexPath.row]
             if countryText != "" {
                 countryText = "icons/Flags/\(countryText).png"
 //                print("This is countryText")

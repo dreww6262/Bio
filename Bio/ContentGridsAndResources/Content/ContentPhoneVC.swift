@@ -18,9 +18,13 @@ class ContentPhoneVC: UIViewController, UIScrollViewDelegate {
     let db = Firestore.firestore()
    // var captionTextField = UITextField()
     
+    var viewAlreadyLoaded = false
     override func viewDidLoad() {
-        print("im in")
         super.viewDidLoad()
+        if viewAlreadyLoaded {
+            return
+        }
+        viewAlreadyLoaded = true
         view.backgroundColor = .black
         setUpScrollView()
         setZoomScale()

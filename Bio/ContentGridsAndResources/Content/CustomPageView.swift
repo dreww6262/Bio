@@ -131,6 +131,7 @@ class CustomPageView: UIViewController {
         }
         
         view.addSubview(caption)
+        
         caption.frame = CGRect(x: centerBox.minX, y: centerBox.minY - 96, width: centerBox.width, height: 80)
         
         switch traitCollection.userInterfaceStyle {
@@ -293,19 +294,19 @@ class CustomPageView: UIViewController {
         
         case (is ContentCityVC):
             let imageVC = visibleVCs[0] as! ContentCityVC
-            text = imageVC.cityHex?.text ?? ""
+            text = ""
         case (is ContentBirthdayVC):
             let imageVC = visibleVCs[0] as! ContentBirthdayVC
-            text = imageVC.birthdayHex?.text ?? ""
+            text = ""
         case (is ContentRelationship):
             let imageVC = visibleVCs[0] as! ContentRelationship
-            text = imageVC.relationshipHex?.text ?? ""
+            text = ""
         case (is ContentCulturalVC):
             let imageVC = visibleVCs[0] as! ContentCulturalVC
-            text = imageVC.cultureHex?.text ?? ""
+            text = ""
         case (is ContentPhoneVC):
             let imageVC = visibleVCs[0] as! ContentPhoneVC
-            text = imageVC.birthdayHex?.text ?? ""
+            text = ""
                 
             default:
                 let videoVC = visibleVCs[0] as! ContentVideoVC

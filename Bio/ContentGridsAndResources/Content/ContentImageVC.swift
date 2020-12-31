@@ -20,8 +20,13 @@ class ContentImageVC: UIViewController, UIScrollViewDelegate {
         view = scrollView
     }
     
+    var viewAlreadyLoaded = false
     override func viewDidLoad() {
         super.viewDidLoad()
+        if viewAlreadyLoaded {
+            return
+        }
+        viewAlreadyLoaded = true
         
         setUpScrollView()
         setZoomScale()
