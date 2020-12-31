@@ -184,7 +184,7 @@ class CustomPageView: UIViewController {
             reportButton.sizeToFit()
             switch traitCollection.userInterfaceStyle {
             case .light, .unspecified:
-                reportButton.setBackgroundImage(UIImage(named: "more"), for: .normal)
+                reportButton.setBackgroundImage(UIImage(named: "more1"), for: .normal)
             //    reportButton.tintColor = .white
             case .dark:
                 reportButton.setBackgroundImage(UIImage(named: "whiteDots"), for: .normal)
@@ -206,7 +206,7 @@ class CustomPageView: UIViewController {
             crudButton.sizeToFit()
             switch traitCollection.userInterfaceStyle {
             case .light, .unspecified:
-                crudButton.setBackgroundImage(UIImage(named: "more"), for: .normal)
+                crudButton.setBackgroundImage(UIImage(named: "more1"), for: .normal)
             case .dark:
                 crudButton.setBackgroundImage(UIImage(named: "whiteDots"), for: .normal)
             }
