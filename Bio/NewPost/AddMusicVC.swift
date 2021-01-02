@@ -13,6 +13,7 @@ import FirebaseAuth
 import FirebaseStorage
 import FirebaseUI
 import FirebaseFirestore
+import Alamofire
 
 
 
@@ -25,7 +26,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
     //    label.font = UIFontMetrics.default.scaledFont(for: customFont)
     //    label.adjustsFontForContentSizeCategory = true
     
-   var textOverlayLabel = UILabel()
+    var textOverlayLabel = UILabel()
     
     var bottomLine = CALayer()
     var badMusicLink = false
@@ -60,7 +61,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
     @IBOutlet weak var linkTextField: UITextField!
     
     @IBOutlet weak var linkHexagonImage: UIImageView!
-
+    
     
     
     // buttons
@@ -86,19 +87,22 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
     // keyboard frame size
     var keyboard = CGRect()
     
+    var searchResults = [MusicItem]()
+    
+    let searchTable = UITableView()
     
     // default func
     override func viewDidLoad() {
         textOverlayLabel.isHidden = true
         checkBox.setImage(UIImage(named: "tealEmpty"), for: .normal)
         linkLogo.isHidden = true
-
+        
         linkHexagonImage.isHidden = false
-//        confirmLinkButton.isHidden = true
+        //        confirmLinkButton.isHidden = true
         setUpNavBarView()
         
         let checkBoxTap = UITapGestureRecognizer(target: self, action: #selector(checkBoxTapped(_:)))
-     //   checkBoxTap.numberOfTapsRequired = 1
+        //   checkBoxTap.numberOfTapsRequired = 1
         //checkBox.isUserInteractionEnabled = true
         checkBox.addGestureRecognizer(checkBoxTap)
         
@@ -116,7 +120,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         linkHexagonImage.isUserInteractionEnabled = true
         linkHexagonImage.addGestureRecognizer(linkTap)
         
-    // insertTextOverlay()
+        // insertTextOverlay()
         
         
         //poshmarkLogo.image = UIImage(named: "poshmarkLogo")
@@ -142,7 +146,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         
         linkHexagonImage.frame = CGRect(x: 40, y: navBarView.frame.maxY + 10, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
         
-       
+        
         
         
         linkTextField.frame = CGRect(x: 10, y: linkHexagonImage.frame.maxY + 20, width: self.view.frame.size.width - 20, height: 30)
@@ -153,8 +157,8 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         songNameTextField.frame = CGRect(x: 10, y: linkTextField.frame.maxY + 5, width: self.view.frame.size.width - 20, height: 30)
         songNameTextField.attributedPlaceholder = NSAttributedString(string: "Song/Album Name (Optional)",
                                                                      attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
-   
-
+        
+        
         setUpNavBarView()
         
         
@@ -167,24 +171,24 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         
         linkHexagonImage.frame = CGRect(x: 40, y: self.navBarView.frame.maxY + 10, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
         linkHexagonImage.setupHexagonMask(lineWidth: linkHexagonImage.frame.width/15, color: myBlueGreen, cornerRadius: linkHexagonImage.frame.width/15)
-
+        
         
         linkTextField.frame = CGRect(x: 10, y: linkHexagonImage.frame.maxY, width: self.view.frame.size.width - 20, height: 30)
         songNameTextField.frame = CGRect(x: 10, y: linkTextField.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
         
         captionTextField.frame = CGRect(x: 10, y: songNameTextField.frame.maxY + 5, width: self.view.frame.size.width - 20, height: 30)
         captionTextField.attributedPlaceholder = NSAttributedString(string: "Write a Caption... (Optional)",
-                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         textOverlayTextField.frame = CGRect(x: 10, y: captionTextField.frame.maxY + 5, width: self.view.frame.size.width - 20, height: 30)
         textOverlayTextField.attributedPlaceholder = NSAttributedString(string: "Add Text To Cover Photo (Optional)",
-                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+                                                                        attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         
-prioritizeLabel.frame = CGRect(x: 10, y: textOverlayTextField.frame.maxY + 5, width: self.view.frame.size.width - 20, height: 30)
-prioritizeLabel.text = "Prioritize This Post?"
+        prioritizeLabel.frame = CGRect(x: 10, y: textOverlayTextField.frame.maxY + 5, width: self.view.frame.size.width - 20, height: 30)
+        prioritizeLabel.text = "Prioritize This Post?"
         checkBox.frame = CGRect(x: 165, y: textOverlayTextField.frame.maxY + 5, width: 30, height: 30)
         
-
-     
+        
+        
         
         
         
@@ -233,98 +237,203 @@ prioritizeLabel.text = "Prioritize This Post?"
         prioritizeLabel.layer.addSublayer(bottomLine5)
         bottomLine5.frame = CGRect(x: 0.0, y: prioritizeLabel.frame.height, width: prioritizeLabel.frame.width, height: 1.0)
         
-      prioritizeLabel.backgroundColor = .clear
+        prioritizeLabel.backgroundColor = .clear
         
-    //    prioritizeLabel.borderStyle = UITextField.BorderStyle.none
-       // prio.font = UIFont(name: "DINAlternate-Bold", size: 50)
+        //    prioritizeLabel.borderStyle = UITextField.BorderStyle.none
+        // prio.font = UIFont(name: "DINAlternate-Bold", size: 50)
         prioritizeLabel.textColor = .white
-
         
         
         
         
-    
+        
+        
         linkTextField.textColor = .white
         songNameTextField.textColor = .white
-       
+        
         
         postButton.titleLabel?.font = UIFontMetrics.default.scaledFont(for: poppinsSemiBold ?? UIFont(name: "DINAlternate-Bold", size: 20)!)
         postButton.titleLabel!.adjustsFontForContentSizeCategory = true
         
-     //   setUpTextOverlayLabel()
-      insertTextOverlay(linkHexagonImage: linkHexagonImage)
+        //   setUpTextOverlayLabel()
+        insertTextOverlay(linkHexagonImage: linkHexagonImage)
+        
+        searchTable.frame = CGRect(x: linkTextField.frame.minX, y: linkTextField.frame.maxY, width: linkTextField.frame.width, height: 0)
+        searchTable.register(MusicSuggestionCell.self, forCellReuseIdentifier: "musicSuggestion")
+        searchTable.dataSource = self
+        searchTable.delegate = self
+        searchTable.backgroundColor = .gray
+        searchTable.rowHeight = UITableView.automaticDimension
+        searchTable.estimatedRowHeight = 60
+        
+        view.addSubview(searchTable)
+        
+        linkTextField.delegate = self
+        linkTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        getSpotifyToken()
+        
+    }
+    
+    var token: String?
+    
+    func getSpotifyToken() {
+        let parameters = ["client_id" : "747b180c3b2746a3a235d4cc93c62173",
+                              "client_secret" : "796e347bb2de4214a320703ee7e85f74",
+                              "grant_type" : "client_credentials"]
+        
+        AF.request("https://accounts.spotify.com/api/token", method: .post, parameters: parameters).responseJSON(completionHandler: {
+            response in
+//            print(response.result)
+            if response.data != nil {
+                do {
+                    let readableJSON = try JSONSerialization.jsonObject(with: response.data!, options: .mutableContainers) as! [String: Any]
+                    self.token = readableJSON["access_token"] as! String?
+                }
+                catch {
+                    print(error)
+                }
+            }
+        })
+       
+    }
+    
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        let keywords = linkTextField.text
+        let finalKeywords = keywords?.replacingOccurrences(of: " ", with: "+")
+        let searchURL = "https://api.spotify.com/v1/search?q=\(finalKeywords!)&type=track&limit=10"
+        
+        
+        let url = URL(string: searchURL)
+        if url != nil {
+            var request = URLRequest(url: url!)
+            request.addValue("Bearer \(token ?? "")", forHTTPHeaderField: "Authorization")
+            //callAlamo(url: searchURL)
+            AF.request(request).responseJSON(completionHandler: { response in
+                if response.data != nil {
+                    self.parseData(jsonData: response.data!)
+                }
+            })
+        
+        }
+    }
+    
+    func parseData(jsonData: Data) {
+        do {
+            let readableJSON = try JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers) as! [String: Any]
+            //print("readableJson: \(readableJSON)")
+            if let tracks = readableJSON["tracks"] as? [String: Any] {
+                if let items = tracks["items"] as? [[String: Any]] {
+                    searchResults.removeAll()
+                    for i in 0..<items.count{
+                        let item = items[i]
+                        //print(item)
+                        let name = item["name"] as! String
+                        let artist = item["artist"] as! String? ?? ""
+                        let previewURL = item["uri"] as? String? ?? ""
+                        if let album = item["album"] as? [String: Any] {
+                            //print("album: \(album)")
+                            let albumName = album["name"] as? String? ?? ""
+                            let music = MusicItem(track: name, artist: artist, album: albumName ?? "", uri: previewURL ?? "")
+                            searchResults.append(music)
+//                            print(music.dictionary)
+                        }
+                    }
+                    self.searchTable.reloadData()
+                }
+            }
+        }
+        catch{
+            print(error)
+        }
+        
         
     }
     
     func insertTextOverlay(linkHexagonImage: UIImageView) {
-    linkHexagonImage.addSubview(textOverlayLabel)
-    textOverlayLabel.clipsToBounds = true
-    textOverlayLabel.textAlignment = .center
-    linkHexagonImage.bringSubviewToFront(textOverlayLabel)
-    //self.contentView.addSubview(imageCopy)
-        textOverlayLabel.frame = CGRect(x: 0, y: linkHexagonImage.frame.height*(6/10), width: linkHexagonImage.frame.width, height: 20*(linkHexagonImage.frame.height/150))
-   // textOverlayLabel.frame = CGRect(x: 0, y: linkHexagonImage.frame.height*(6/10), width: linkHexagonImage.frame.width, height: 20)
-        textOverlayLabel.text = textOverlayTextField.text!
-    textOverlayLabel.numberOfLines = 1
-    textOverlayLabel.font = UIFont(name: "DINAternate-Bold", size: 10)
-    textOverlayLabel.textColor = white
-        
-    textOverlayLabel.textAlignment = .center
-      //  image.bringSubviewToFront(image.textOverlay)
+        linkHexagonImage.addSubview(textOverlayLabel)
+        textOverlayLabel.clipsToBounds = true
+        textOverlayLabel.textAlignment = .center
+        linkHexagonImage.bringSubviewToFront(textOverlayLabel)
         //self.contentView.addSubview(imageCopy)
-    //    image.textOverlay.frame = CGRect(x: 0, y: image.frame.height*(5/10) + 4, width: image.frame.width, height: 20)
-        //textOverlayLabel.frame = CGRect(x: self.linkHexagonImage.frame.minX, y:self.linkHexagonImage.frame.minY + linkHexagonImage.frame.height*(6/10), width: linkHexagonImage.frame.width, height: 20)
-      textOverlayLabel.text = "image.hexData!.coverText"
+        textOverlayLabel.frame = CGRect(x: 0, y: linkHexagonImage.frame.height*(6/10), width: linkHexagonImage.frame.width, height: 20*(linkHexagonImage.frame.height/150))
+        // textOverlayLabel.frame = CGRect(x: 0, y: linkHexagonImage.frame.height*(6/10), width: linkHexagonImage.frame.width, height: 20)
+        textOverlayLabel.text = textOverlayTextField.text!
         textOverlayLabel.numberOfLines = 1
         textOverlayLabel.font = UIFont(name: "DINAternate-Bold", size: 10)
         textOverlayLabel.textColor = white
         
-      
+        textOverlayLabel.textAlignment = .center
+        //  image.bringSubviewToFront(image.textOverlay)
+        //self.contentView.addSubview(imageCopy)
+        //    image.textOverlay.frame = CGRect(x: 0, y: image.frame.height*(5/10) + 4, width: image.frame.width, height: 20)
+        //textOverlayLabel.frame = CGRect(x: self.linkHexagonImage.frame.minX, y:self.linkHexagonImage.frame.minY + linkHexagonImage.frame.height*(6/10), width: linkHexagonImage.frame.width, height: 20)
+        textOverlayLabel.text = "image.hexData!.coverText"
+        textOverlayLabel.numberOfLines = 1
+        textOverlayLabel.font = UIFont(name: "DINAternate-Bold", size: 10)
+        textOverlayLabel.textColor = white
         
         
         
-  //      if image.hexData!.coverText != "" {
-            textOverlayLabel.backgroundColor = UIColor(white: 0.25, alpha: 0.5)
-//            let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
-//            visualEffectView.backgroundColor = .clear
-//            image.textOverlay.addSubview(visualEffectView)
-//            visualEffectView.frame = CGRect(x: 0, y: 0, width: image.textOverlay.frame.width, height: image.textOverlay.frame.height)
-            
-//            visualEffectView.backgroundColor = UIColor(white: 0.1, alpha: 0.3)
-//            image.sendSubviewToBack(visualEffectView)
-      //  }
-
         
-     //   textOverlayLabel.text = "YOOOOOOOOOO"
+        
+        //      if image.hexData!.coverText != "" {
+        textOverlayLabel.backgroundColor = UIColor(white: 0.25, alpha: 0.5)
+        //            let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
+        //            visualEffectView.backgroundColor = .clear
+        //            image.textOverlay.addSubview(visualEffectView)
+        //            visualEffectView.frame = CGRect(x: 0, y: 0, width: image.textOverlay.frame.width, height: image.textOverlay.frame.height)
+        
+        //            visualEffectView.backgroundColor = UIColor(white: 0.1, alpha: 0.3)
+        //            image.sendSubviewToBack(visualEffectView)
+        //  }
+        
+        
+        //   textOverlayLabel.text = "YOOOOOOOOOO"
     }
     
-    func textViewDidEndEditing(_ textView: UITextView) {
-        print("I recognize that it is ending")
-        if textOverlayTextField.text != "" {
-            textOverlayLabel.isHidden = false
-            textOverlayLabel.text = textOverlayTextField.text!
-        }
-        else {
-            print("text overlay textfield empty")
-            textOverlayLabel.isHidden = true
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        
+        if textField == linkTextField {
+            UIView.animate(withDuration: 0.25, animations: {
+                self.searchTable.frame = CGRect(x: self.linkTextField.frame.minX, y: self.linkTextField.frame.maxY, width: self.linkTextField.frame.width, height: 150)
+            })
         }
     }
-
+    
+    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+        
+        if textField == linkTextField {
+            UIView.animate(withDuration: 0.25, animations: {
+                self.searchTable.frame = CGRect(x: self.linkTextField.frame.minX, y: self.linkTextField.frame.maxY, width: self.linkTextField.frame.width, height: 0)
+            })
+        }
+        
+        else if textOverlayLabel == textField {
+            if textOverlayTextField.text != "" {
+                textOverlayLabel.isHidden = false
+                textOverlayLabel.text = textOverlayTextField.text!
+            }
+            else {
+                print("text overlay textfield empty")
+                textOverlayLabel.isHidden = true
+            }
+        }
+    }
     
     func setUpNavBarView() {
         var statusBarHeight = UIApplication.shared.statusBarFrame.height
-        print("This is status bar height \(statusBarHeight)")
+//        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.addSubview(backButton)
         self.navBarView.addSubview(postButton)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
-       
+        
         var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
         navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
         self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 34, height: 34)
-//        self.navBarView.addSubview(toSettingsButton)
-//        self.navBarView.addSubview(toSearchButton)
+        //        self.navBarView.addSubview(toSettingsButton)
+        //        self.navBarView.addSubview(toSearchButton)
         
         if cancelLbl != nil {
             backButton.setTitle(cancelLbl, for: .normal)
@@ -349,11 +458,11 @@ prioritizeLabel.text = "Prioritize This Post?"
         postButton.addGestureRecognizer(postTap)
         postButton.setTitle("Next", for: .normal)
         postButton.setTitleColor(.systemBlue, for: .normal)
-      //  postButton.frame = CGRect(x: (self.view.frame.width) - (topBar.frame.height) - 5, y: 0, width: topBar.frame.height, height: topBar.frame.height)
+        //  postButton.frame = CGRect(x: (self.view.frame.width) - (topBar.frame.height) - 5, y: 0, width: topBar.frame.height, height: topBar.frame.height)
         postButton.titleLabel?.sizeToFit()
         postButton.titleLabel?.textAlignment = .right
         
-    
+        
         
         //self.backButton.frame = CGRect(x: 10, y: (navBarView.frame.height - 25)/2, width: 25, height: 25)
         
@@ -361,28 +470,29 @@ prioritizeLabel.text = "Prioritize This Post?"
         postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 40, height: 34)
         //navBarView.postButton.titleLabel?.sizeToFit()
         navBarView.postButton.titleLabel?.textAlignment = .right
-        let yOffset = navBarView.frame.maxY
-  
+        
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Add Music"
-       // self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
+        // self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
         self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: postButton.frame.minY, width: 200, height: 25)
-        print("This is navBarView.")
-      
-      
+//        print("This is navBarView.")
+        
+        
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        print("I recognize that it is ending")
+//        print("I recognize that it is ending")
         if textOverlayTextField.text != "" {
             textOverlayLabel.isHidden = false
             textOverlayLabel.text = textOverlayTextField.text!
         }
         else {
-            print("text overlay textfield empty")
+//            print("text overlay textfield empty")
             textOverlayLabel.isHidden = true
         }
     }
+    
+    
     
     override func viewWillAppear(_ animated: Bool) {
         hasChosenThumbnailImage = false
@@ -397,18 +507,18 @@ prioritizeLabel.text = "Prioritize This Post?"
     
     @objc func checkBoxTapped(_ sender: UITapGestureRecognizer) {
         if checkBoxStatus == false {
-
+            
             checkBox.setImage(UIImage(named: "check-2"), for: .normal)
             checkBoxStatus = true
             linkHexagonImage.pulse(withIntensity: 0.8, withDuration: 1.5, loop: true)
         }
         else {
             checkBox.setImage(UIImage(named: "tealEmpty"), for: .normal)
-         
+            
             checkBoxStatus = false
-        //    linkHexagonImage.frame = CGRect(x: 40, y: navBarView.frame.maxY + 10, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
+            //    linkHexagonImage.frame = CGRect(x: 40, y: navBarView.frame.maxY + 10, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
             linkHexagonImage.isHidden = true
-         linkHexagonImage.pulse(withIntensity: 1.0, withDuration: 0.001, loop: false)
+            linkHexagonImage.pulse(withIntensity: 1.0, withDuration: 0.001, loop: false)
             linkHexagonImage.isHidden = false
         }
     }
@@ -423,43 +533,21 @@ prioritizeLabel.text = "Prioritize This Post?"
     }
     
     @objc func backButtonpressed() {
-        print("It should dismiss here")
+//        print("It should dismiss here")
         self.dismiss(animated: true)
-     }
-    
-  
-    
-    //    @objc func keyboard(notification:Notification) {
-    //        guard let keyboardReact = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else{
-    //            return
-    //        }
-    //
-    //        if notification.name == UIResponder.keyboardWillShowNotification ||  notification.name == UIResponder.keyboardWillChangeFrameNotification {
-    //            self.view.frame.origin.y = -keyboardReact.height
-    //        }else{
-    //            self.view.frame.origin.y = 0
-    //        }
-    //
-    //    }
+    }
     
     
+
     
-    
-  
     
     // show keyboard
     @objc func showKeyboard(_ notification:Notification) {
         // pushEverythingUp()
         
-        
-        
         // define keyboard size
         keyboard = ((notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]! as AnyObject).cgRectValue)!
-        
-        // move up UI
-        //        UIView.animate(withDuration: 0.4, animations: { () -> Void in
-        //            self.scrollView.frame.size.height = self.scrollViewHeight - self.keyboard.height
-        //        })
+
         
         
     }
@@ -482,7 +570,7 @@ prioritizeLabel.text = "Prioritize This Post?"
     
     
     @objc func backTapped(_ sender: UITapGestureRecognizer) {
-        print("back hit!")
+//        print("back hit!")
         for v in view.subviews {
             v.isHidden = true
         }
@@ -506,7 +594,7 @@ prioritizeLabel.text = "Prioritize This Post?"
         hexDoc.setData(hexCopy.dictionary){ error in
             //     group.leave()
             if error == nil {
-                print("added hex: \(hexData)")
+//                print("added hex: \(hexData)")
                 completion(true)
             }
             else {
@@ -516,42 +604,42 @@ prioritizeLabel.text = "Prioritize This Post?"
         }
     }
     
-   
-//
-//    @IBAction func confirmButtonClicked(_ sender: UIButton) {
-//        createMusicLink()
-//
-//        //   continueBtn.isHidden = false
-//        linkHexagonImage.isHidden = false
-//        linkHexagonImage.frame = CGRect(x: linkHexagonImage.frame.minX, y: navBarView.frame.maxY + 10, width: linkHexagonImage.frame.width, height: linkHexagonImage.frame.height)
-//    }
+    
+    //
+    //    @IBAction func confirmButtonClicked(_ sender: UIButton) {
+    //        createMusicLink()
+    //
+    //        //   continueBtn.isHidden = false
+    //        linkHexagonImage.isHidden = false
+    //        linkHexagonImage.frame = CGRect(x: linkHexagonImage.frame.minX, y: navBarView.frame.maxY + 10, width: linkHexagonImage.frame.width, height: linkHexagonImage.frame.height)
+    //    }
     
     func createMusicLink() {
         var artistText = linkTextField.text?.replacingOccurrences(of: "'", with: "") ?? ""
         var songText = songNameTextField.text?.replacingOccurrences(of: "'", with: "") ?? ""
         while artistText.hasPrefix(" ") {
             artistText = artistText.chopPrefix()
-            print("This is trimmedText now 1 \(artistText)")
+//            print("This is trimmedText now 1 \(artistText)")
         }
         while artistText.hasSuffix(" ") {
             artistText = artistText.chopSuffix()
-            print("This is trimmedText now 2 \(artistText)")
+//            print("This is trimmedText now 2 \(artistText)")
         }
         
         while songText.hasPrefix(" ") {
-           songText = songText.chopPrefix()
-            print("This is trimmedText now 3 \(songText)")
+            songText = songText.chopPrefix()
+//            print("This is trimmedText now 3 \(songText)")
         }
         while songText.hasSuffix(" ") {
-           songText = songText.chopSuffix()
-            print("This is trimmedText now 4 \(songText)")
+            songText = songText.chopSuffix()
+//            print("This is trimmedText now 4 \(songText)")
         }
-   
+        
         
         artistText = artistText.replacingOccurrences(of: " ", with: "-") as! String
         
         
-         songText = songText.replacingOccurrences(of: " ", with: "-")
+        songText = songText.replacingOccurrences(of: " ", with: "-")
         songText = songText.replacingOccurrences(of: "'", with: "") as! String
         while songText.contains("'") {
             songText.remove(at: songText.firstIndex(of: "'")!)
@@ -567,7 +655,7 @@ prioritizeLabel.text = "Prioritize This Post?"
         }
         
         musicLink = "https://songwhip.com/\(artistText)/\(songText)"
-        print("This is music Link. Try it yourself! \(musicLink)")
+//        print("This is music Link. Try it yourself! \(musicLink)")
         if artistText == "" {
             badMusicLink = true
         }
@@ -628,12 +716,12 @@ prioritizeLabel.text = "Prioritize This Post?"
                 let refText = "userFiles/\(username)/\(imageFileName)"
                 let imageRef = storageRef.child(refText)
                 numPosts += 1
-                print("music link before \(musicLink)")
+//                print("music link before \(musicLink)")
                 musicLink = musicLink.replacingOccurrences(of: " ", with: "-")
                 musicLink = musicLink.replacingOccurrences(of: "'", with: "")
                 musicLink.trimmingCharacters(in: ["'", "!", "?"])
-                print("music Link after \(musicLink)")
-                print("This is music Link")
+//                print("music Link after \(musicLink)")
+//                print("This is music Link")
                 var trimmedMusicLink = musicLink.trimmingCharacters(in: .whitespaces)
                 
                 
@@ -642,12 +730,12 @@ prioritizeLabel.text = "Prioritize This Post?"
                 previewVC.webHex = musicHex
                 
                 if changedProfilePic == true {
-                previewVC.thumbImage = linkHexagonImage.image
+                    previewVC.thumbImage = linkHexagonImage.image
                 }
                 else {
                     previewVC.thumbImage = UIImage(named: "musicCenter")
                 }
-    
+                
                 previewVC.userDataVM = userDataVM
                 previewVC.modalPresentationStyle = .fullScreen
                 previewVC.cancelLbl = cancelLbl
@@ -661,7 +749,7 @@ prioritizeLabel.text = "Prioritize This Post?"
     
     // clicked sign up
     @IBAction func continueClicked(_ sender: AnyObject) {
-        print("continue button pressed")
+//        print("continue button pressed")
         
         let userData = userDataVM?.userData.value
         if userData == nil {
@@ -711,11 +799,11 @@ prioritizeLabel.text = "Prioritize This Post?"
                 let refText = "userFiles/\(username)/\(imageFileName)"
                 let imageRef = storageRef.child(refText)
                 numPosts += 1
-                print("music link before \(musicLink)")
+//                print("music link before \(musicLink)")
                 musicLink = musicLink.replacingOccurrences(of: " ", with: "-")
                 musicLink = musicLink.replacingOccurrences(of: "'", with: "")
                 musicLink.trimmingCharacters(in: ["'", "!", "?"])
-                print("music Link after \(musicLink)")
+//                print("music Link after \(musicLink)")
                 let musicHex = HexagonStructData(resource: musicLink, type: "music", location: numPosts, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: musicLink, views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: checkBoxStatus, array: [])
                 
                 
@@ -723,10 +811,10 @@ prioritizeLabel.text = "Prioritize This Post?"
                 
                 imageRef.putData(linkHexagonImage.image!.pngData()!, metadata: nil){ data, error in
                     if (error == nil) {
-                        print ("upload successful")
+//                        print ("upload successful")
                         self.addHex(hexData: musicHex, completion: { bool in
                             if (bool) {
-                                print("Add hex successful")
+//                                print("Add hex successful")
                             }
                             else {
                                 print("didnt add hex")
@@ -742,8 +830,8 @@ prioritizeLabel.text = "Prioritize This Post?"
                 userData?.numPosts = numPosts
                 userDataVM?.updateUserData(newUserData: userData!, completion: { success in
                     if success {}
-                        print("userdata updated successfully")
-                        self.performSegue(withIdentifier: "unwindFromLinkToHome", sender: nil)
+//                    print("userdata updated successfully")
+                    self.performSegue(withIdentifier: "unwindFromLinkToHome", sender: nil)
                     
                 })
             }
@@ -777,10 +865,10 @@ prioritizeLabel.text = "Prioritize This Post?"
     
     // clicked cancel
     @IBAction func cancelBtn_click(_ sender: AnyObject) {
-        print("hit cancel button")
+//        print("hit cancel button")
         // hide keyboard when pressed cancel
         self.view.endEditing(true)
-        print("should dismiss vc")
+//        print("should dismiss vc")
         self.dismiss(animated: true, completion: nil)
         
     }
@@ -806,4 +894,52 @@ extension String {
             return false
         }
     }
+}
+
+extension AddMusicVC: UITableViewDelegate {
+    
+}
+
+extension AddMusicVC: UITableViewDataSource {
+    
+    
+    
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return searchResults.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "musicSuggestion") as! MusicSuggestionCell
+        print("creating cell \(searchResults[indexPath.row].track)")
+        cell.albumLabel.text = searchResults[indexPath.row].album
+        cell.trackLabel.text = searchResults[indexPath.row].track
+        cell.artistLabel.text = searchResults[indexPath.row].artist
+        
+        cell.albumLabel.textColor = .black
+        cell.trackLabel.textColor = .black
+        cell.artistLabel.textColor = .black
+        
+        cell.albumLabel.font = UIFont(name: "Poppins-SemiBold", size: 10)
+        cell.trackLabel.font = UIFont(name: "Poppins-SemiBold", size: 10)
+        cell.artistLabel.font = UIFont(name: "Poppins-SemiBold", size: 10)
+
+        
+        cell.trackLabel.frame = CGRect(x: 8, y: 4, width: cell.frame.width, height: 12)
+        if (cell.trackLabel.text != "" && cell.albumLabel.text != "") {
+            cell.artistLabel.frame = CGRect(x: 8, y: cell.trackLabel.frame.maxY + 6, width: cell.frame.width, height: 12)
+        }
+        else {
+            cell.artistLabel.frame = CGRect(x: 8, y: cell.frame.midY - 6, width: cell.frame.width, height: 12)
+        }
+        if (cell.trackLabel.text != "") {
+            cell.albumLabel.frame = CGRect(x: 8, y: cell.artistLabel.frame.maxY + 6, width: cell.frame.width, height: 12)
+        }
+        else {
+            cell.albumLabel.frame = CGRect(x: 8, y: 4, width: cell.frame.width, height: 12)
+        }
+        return cell
+    }
+    
+    
 }
