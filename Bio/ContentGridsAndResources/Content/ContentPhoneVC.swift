@@ -26,7 +26,7 @@ class ContentPhoneVC: UIViewController, UIScrollViewDelegate {
         }
         viewAlreadyLoaded = true
        // view.backgroundColor = .black
-        view.backgroundColor = .darkGray
+        view.backgroundColor = .white
         setUpScrollView()
         setZoomScale()
         scrollView.addSubview(newImageView)
@@ -161,7 +161,7 @@ class ContentPhoneVC: UIViewController, UIScrollViewDelegate {
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.alwaysBounceVertical = false
         scrollView.alwaysBounceHorizontal = false
-        scrollView.backgroundColor = .systemGray6
+        scrollView.backgroundColor = .white
         //scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         scrollView.contentMode = .scaleAspectFit
         scrollView.bouncesZoom = false

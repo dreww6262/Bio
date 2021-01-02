@@ -52,13 +52,11 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     
     // scrollView
     @IBOutlet weak var scrollView: UIScrollView!
-    var datePicker = UIDatePicker()
     // profile image
     @IBOutlet weak var avaImg: UIImageView!
     
     @IBOutlet weak var gradientImage: UIImageView!
     @IBOutlet weak var displayNameTxt: UITextField!
-    var txtDatePicker = UITextField()
     
     @IBOutlet weak var emailTxt: UITextField!
     // textfields
@@ -143,6 +141,7 @@ var countryFlag = UIImageView()
         self.countries = self.getCountryList()
         self.countries = self.countries.sorted(by: <)
         self.countries.insert("United States", at: 0)
+        self.countries.insert("", at: 0)
         self.scrollView.addSubview(countryTextField)
         countryPicker.isHidden = true
         avaImg.image = UIImage(named: "boyprofile")
@@ -152,7 +151,7 @@ var countryFlag = UIImageView()
         scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
         scrollView.contentSize.height = self.view.frame.height
         scrollViewHeight = scrollView.frame.size.height
-        showDatePicker()
+
         // check notifications if keyboard is shown or not
         NotificationCenter.default.addObserver(self, selector: #selector(GoodBioSignUpVC.showKeyboard(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(GoodBioSignUpVC.hideKeybard(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -173,8 +172,7 @@ var countryFlag = UIImageView()
         avaTap.numberOfTapsRequired = 1
         avaImg.isUserInteractionEnabled = true
         avaImg.addGestureRecognizer(avaTap)
-        self.scrollView.addSubview(txtDatePicker)
-        txtDatePicker.backgroundColor = .clear
+  
 
         countryPicker.countryPickerDelegate = self
         countryPicker.showPhoneNumbers = true
@@ -197,13 +195,19 @@ var countryFlag = UIImageView()
      //   HexagonView.setupHexagonImageView(imageView: avaImg)
               avaImg.clipsToBounds = true
         emailTxt.frame = CGRect(x: 10, y: avaImg.frame.maxY + 20, width: self.view.frame.size.width - 20, height: 30)
+        emailTxt.autocorrectionType = .no
         usernameTxt.frame = CGRect(x: 10, y: emailTxt.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
+        usernameTxt.autocorrectionType = .no
         displayNameTxt.frame = CGRect(x: 10, y: usernameTxt.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
+        displayNameTxt.autocorrectionType = .no
         passwordTxt.frame = CGRect(x: 10, y: displayNameTxt.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
+        passwordTxt.autocorrectionType = .no
         repeatPassword.frame = CGRect(x: 10, y: passwordTxt.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
-        txtDatePicker.frame = CGRect(x: 10, y: repeatPassword.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
-        countryTextField.frame = CGRect(x: 10, y: txtDatePicker.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
+        repeatPassword.autocorrectionType = .no
+        countryTextField.frame = CGRect(x: 10, y: repeatPassword.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
+        countryTextField.autocorrectionType = .no
         bioTxt.frame = CGRect(x: 10, y: countryTextField.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
+        bioTxt.autocorrectionType = .no
         
         signUpBtn.frame = CGRect(x: 10, y: bioTxt.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 40)
         signUpBtn.layer.cornerRadius = signUpBtn.frame.size.width / 20
@@ -220,38 +224,9 @@ var countryFlag = UIImageView()
         
     }
     
-    func showDatePicker(){
-        //Formate Date
-        datePicker.datePickerMode = .date
 
-       //ToolBar
-       let toolbar = UIToolbar();
-       toolbar.sizeToFit()
-       let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker));
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
-      let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker));
 
-     toolbar.setItems([spaceButton,doneButton], animated: false)
 
-      txtDatePicker.inputAccessoryView = toolbar
-      txtDatePicker.inputView = datePicker
-
-     }
-
-      @objc func donedatePicker(){
-
-       let formatter = DateFormatter()
-       formatter.dateFormat = "MM/dd/yyyy"
-       txtDatePicker.text = formatter.string(from: datePicker.date)
-        var birthdaySubmitted = txtDatePicker.text
-        self.birthday = birthdaySubmitted!
-      age = calcAge(birthday: birthdaySubmitted!)
-       self.view.endEditing(true)
-     }
-
-     @objc func cancelDatePicker(){
-        self.view.endEditing(true)
-      }
     
     
    func formatBottomLines(){
@@ -285,12 +260,7 @@ var countryFlag = UIImageView()
     bottomLine5.backgroundColor = UIColor.systemGray4.cgColor
     repeatPassword.borderStyle = UITextField.BorderStyle.none
     repeatPassword.layer.addSublayer(bottomLine5)
-    let bottomLine6 = CALayer()
-    bottomLine6.frame = CGRect(x: 0, y: self.txtDatePicker.frame.height, width: txtDatePicker.frame.width, height: 1.0)
-    bottomLine6.backgroundColor = UIColor.systemGray4.cgColor
-    self.txtDatePicker.borderStyle = UITextField.BorderStyle.none
-    self.txtDatePicker.layer.addSublayer(bottomLine6)
-    
+
     let bottomLine7 = CALayer()
     bottomLine7.frame = CGRect(x: 0, y: countryTextField.frame.height, width: countryPicker.frame.width, height: 1.0)
     bottomLine7.backgroundColor = UIColor.systemGray4.cgColor
@@ -319,9 +289,7 @@ var countryFlag = UIImageView()
                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
     repeatPassword.textColor = .white
     
-    self.txtDatePicker.attributedPlaceholder = NSAttributedString(string: "Birthday",
-                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
-    self.txtDatePicker.textColor = .white
+
     
     self.countryTextField.attributedPlaceholder = NSAttributedString(string: "Country",
                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])

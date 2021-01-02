@@ -15,7 +15,8 @@ import FirebaseStorage
 import YPImagePicker
 
 class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource, isAbleToReceiveData {
-    
+    let stateCodes = ["AL","AK","AZ","AR","CA","CO","CT","DE","DC","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"]
+    let fullStateNames = ["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","District of Columbia","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"]
     
     var userDataVM: UserDataVM?
     //var userData: UserData?
@@ -300,26 +301,63 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
 
     }
     
+    func shortStateName(_ state:String) -> String {
+        let lowercaseNames = fullStateNames.map { $0.lowercased() }
+        let dic = NSDictionary(objects: stateCodes, forKeys: lowercaseNames as [NSCopying])
+        return dic.object(forKey:state.lowercased()) as? String ?? state}
+
+    func longStateName(_ stateCode:String) -> String {
+        let dic = NSDictionary(objects: fullStateNames, forKeys:stateCodes as [NSCopying])
+        return dic.object(forKey:stateCode) as? String ?? stateCode
+    }
+    
     func addCityHex() {
         let userData = userDataVM?.userData.value
         var success = true
         let myText = cellArray[1].interactiveTextField.text ?? ""
-        // var trimmedText = myText.trimmingCharacters(in: .whitespaces)
-        //  trimmedText = trimmedText.lowercased()
-        //  print("This is trimmedText \(trimmedText)")
-        let cityHex = HexagonStructData(resource: "\(userData!.displayName)", type: "pin_city", location: userData!.numPosts + 1, thumbResource: "icons/home.png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myText, views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: [])
+        var stateCode = ""
+        var state = ""
+        var stateImage = ""
+        for shortState in stateCodes {
+            if myText.contains(shortState) {
+                print("This is the state code: \(shortState)")
+                stateCode = shortState
+               state = longStateName(stateCode)
+                state = state.lowercased()
+                print("This is state \(state)")
+                stateImage = "\(state)_flag-png-square-large.png"
+                cellArray[1].socialMediaIcon.image = UIImage(named: stateImage)
+            }
+        }
+        let cityHex = HexagonStructData(resource: "\(userData!.displayName)", type: "pin_city", location: userData!.numPosts + 1, thumbResource: stateImage, createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myText, views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: [])
         addHex(hexData: cityHex, completion: { bool in
             success = success && bool
             
         })
-    }
     
+    }
+
     func updateCityHex() {
         let userData = userDataVM?.userData.value
         let myText = cellArray[1].interactiveTextField.text ?? ""
-        let cityHex = HexagonStructData(resource: "\(userData!.displayName)", type: "pin_city", location: userData!.numPosts + 1, thumbResource: "icons/home.png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myText, views: 0, isArchived: false, docID: cityDoc, coverText: "", isPrioritized: false, array: [])
+        var stateCode = ""
+        var state = ""
+        var stateImage = ""
+        for shortState in stateCodes {
+            if myText.contains(shortState) {
+                print("This is the state code: \(shortState)")
+                stateCode = shortState
+               state = longStateName(stateCode)
+                state = state.lowercased()
+                print("This is state \(state)")
+                stateImage = "\(state)_flag-png-square-large.png"
+                cellArray[1].socialMediaIcon.image = UIImage(named: stateImage)
+            }
+        }
+        let cityHex = HexagonStructData(resource: "\(userData!.displayName)", type: "pin_city", location: userData!.numPosts + 1, thumbResource: stateImage, createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myText, views: 0, isArchived: false, docID: cityDoc, coverText: "", isPrioritized: false, array: [])
         db.collection("Hexagons2").document(cityDoc).setData(cityHex.dictionary)
     }
+        
     
     
     func calcAge(birthday: String) -> Int {

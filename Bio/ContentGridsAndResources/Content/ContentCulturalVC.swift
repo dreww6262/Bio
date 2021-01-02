@@ -9,7 +9,7 @@
 import UIKit
 
 class ContentCulturalVC: UIViewController, UIScrollViewDelegate {
-    
+    var minimumFontSize = CGFloat(28)
     var cultureHex: HexagonStructData?
     var showOpenAppButton = false
     var scrollView = UIScrollView()
@@ -44,7 +44,7 @@ class ContentCulturalVC: UIViewController, UIScrollViewDelegate {
             return
         }
         viewAlreadyLoaded = true
-        view.backgroundColor = .systemGray6
+        view.backgroundColor = .white
         
         setUpScrollView()
         setZoomScale()
@@ -143,6 +143,7 @@ class ContentCulturalVC: UIViewController, UIScrollViewDelegate {
         scrollView.addSubview(countryLabel6)
         
         divyUpFrames()
+      
         
     }
     
@@ -173,22 +174,22 @@ class ContentCulturalVC: UIViewController, UIScrollViewDelegate {
     
     func setUpLabels() {
         countryLabel1.textColor = .black
-        countryLabel1.font = UIFont(name: "DINAlternate-Bold", size: 28)
+        countryLabel1.font = UIFont(name: "DINAlternate-Bold", size: minimumFontSize)
         countryLabel1.textAlignment = .center
         countryLabel2.textColor = .black
-        countryLabel2.font = UIFont(name: "DINAlternate-Bold", size: 28)
+        countryLabel2.font = UIFont(name: "DINAlternate-Bold", size: minimumFontSize)
         countryLabel2.textAlignment = .center
         countryLabel3.textColor = .black
-        countryLabel3.font = UIFont(name: "DINAlternate-Bold", size: 28)
+        countryLabel3.font = UIFont(name: "DINAlternate-Bold", size: minimumFontSize)
         countryLabel3.textAlignment = .center
         countryLabel4.textColor = .black
-        countryLabel4.font = UIFont(name: "DINAlternate-Bold", size: 28)
+        countryLabel4.font = UIFont(name: "DINAlternate-Bold", size: minimumFontSize)
         countryLabel4.textAlignment = .center
         countryLabel5.textColor = .black
-        countryLabel5.font = UIFont(name: "DINAlternate-Bold", size: 28)
+        countryLabel5.font = UIFont(name: "DINAlternate-Bold", size: minimumFontSize)
         countryLabel5.textAlignment = .center
         countryLabel6.textColor = .black
-        countryLabel6.font = UIFont(name: "DINAlternate-Bold", size: 28)
+        countryLabel6.font = UIFont(name: "DINAlternate-Bold", size: minimumFontSize)
         countryLabel6.textAlignment = .center
 //        countryLabel1.sizeToFit()
 //        countryLabel2.sizeToFit()
@@ -431,6 +432,60 @@ class ContentCulturalVC: UIViewController, UIScrollViewDelegate {
     
     override func viewWillLayoutSubviews() {
         divyUpFrames()
+        if countryLabel1.text != "" && countryLabel1.text != nil {
+        countryLabel1.text = countryLabel1.text!.capitalizingFirstLetter()
+        countryLabel1.numberOfLines = 1
+        countryLabel1.adjustsFontSizeToFitWidth = true
+        
+        }
+        if countryLabel2.text != "" && countryLabel3.text !=  nil {
+        countryLabel2.text = countryLabel2.text!.capitalizingFirstLetter()
+            countryLabel2.numberOfLines = 1
+            countryLabel2.adjustsFontSizeToFitWidth = true
+        }
+        if countryLabel3.text != "" && countryLabel3.text != nil {
+        countryLabel3.text = countryLabel3.text!.capitalizingFirstLetter()
+            countryLabel3.numberOfLines = 1
+            countryLabel3.adjustsFontSizeToFitWidth = true
+        }
+        if countryLabel4.text != "" && countryLabel4.text != nil  {
+        countryLabel4.text = countryLabel4.text!.capitalizingFirstLetter()
+            countryLabel4.numberOfLines = 1
+            countryLabel4.adjustsFontSizeToFitWidth = true
+        }
+        if countryLabel5.text != "" && countryLabel5.text != nil  {
+        countryLabel5.text = countryLabel5.text!.capitalizingFirstLetter()
+            countryLabel5.numberOfLines = 1
+            countryLabel5.adjustsFontSizeToFitWidth = true
+        }
+        if countryLabel6.text != "" && countryLabel6.text != nil  {
+        countryLabel6.text = countryLabel6.text!.capitalizingFirstLetter()
+            countryLabel6.numberOfLines = 1
+            countryLabel6.adjustsFontSizeToFitWidth = true
+        }
+        var size1 = countryLabel1.font.pointSize
+        var size2 = countryLabel2.font.pointSize
+        var size3 = countryLabel3.font.pointSize
+        var size4 = countryLabel4.font.pointSize
+        var size5 = countryLabel5.font.pointSize
+        var size6 = countryLabel6.font.pointSize
+        var sizeArray = [size1, size2, size3, size4, size5
+        , size6]
+        var index = 0
+        for size in sizeArray {
+            print("This is size for \(index): \(size)")
+            index = index + 1
+        }
+        self.minimumFontSize = sizeArray.min()!
+        print("This is smallest size \(self.minimumFontSize)")
+        countryLabel1.font.withSize(self.minimumFontSize)
+        countryLabel2.font.withSize(self.minimumFontSize)
+        countryLabel3.font.withSize(self.minimumFontSize)
+        countryLabel4.font.withSize(self.minimumFontSize)
+        countryLabel5.font.withSize(self.minimumFontSize)
+        countryLabel6.font.withSize(self.minimumFontSize)
+        
+
     }
     
     override func loadView() {
@@ -446,7 +501,7 @@ class ContentCulturalVC: UIViewController, UIScrollViewDelegate {
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.alwaysBounceVertical = false
         scrollView.alwaysBounceHorizontal = false
-        scrollView.backgroundColor = .systemGray6
+        scrollView.backgroundColor = .white
         //scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         scrollView.contentMode = .scaleAspectFit
         scrollView.bouncesZoom = false

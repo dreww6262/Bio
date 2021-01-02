@@ -5,6 +5,13 @@
 //  Created by Ann McDonough on 12/27/20.
 //
 import UIKit
+var offWhite1 = #colorLiteral(red: 1, green: 1, blue: 0.9490196078, alpha: 1)
+var offWhite2 = #colorLiteral(red: 0.9843137255, green: 0.968627451, blue: 0.9607843137, alpha: 1)
+var offWhite3 = #colorLiteral(red: 0.9764705882, green: 0.9450980392, blue: 0.9450980392, alpha: 1)
+var offWhite4 = #colorLiteral(red: 0.9764705882, green: 0.9450980392, blue: 0.9450980392, alpha: 1)
+
+
+
 class ContentCityVC: UIViewController, UIScrollViewDelegate {
     
     var cityHex: HexagonStructData?
@@ -21,19 +28,19 @@ class ContentCityVC: UIViewController, UIScrollViewDelegate {
             return
         }
         viewHasLoaded = true
-        view.backgroundColor = .systemGray6
+        view.backgroundColor = .white
         setUpScrollView()
         setZoomScale()
         
         
-        newImageView = UIImageView(image: UIImage(named: "homeCircle"))
+        newImageView = UIImageView(image: UIImage(named: cityHex!.thumbResource))
         let cleanRef = cityHex!.thumbResource.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
-        newImageView!.sd_setImage(with: url!, completed: {_, error, _, _ in
-            if error != nil {
-                print(error!.localizedDescription)
-            }
-        })
+//        newImageView!.sd_setImage(with: url!, completed: {_, error, _, _ in
+//            if error != nil {
+//                print(error!.localizedDescription)
+//            }
+//        })
         scrollView.addSubview(newImageView!)
         scrollView.bringSubviewToFront(newImageView!)
         
@@ -140,7 +147,7 @@ class ContentCityVC: UIViewController, UIScrollViewDelegate {
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.alwaysBounceVertical = false
         scrollView.alwaysBounceHorizontal = false
-        scrollView.backgroundColor = .systemGray6
+        scrollView.backgroundColor = white
         //scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         scrollView.contentMode = .scaleAspectFit
         scrollView.bouncesZoom = false

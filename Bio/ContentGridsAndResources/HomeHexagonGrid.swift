@@ -677,6 +677,13 @@ var navBarView = NavBarView()
             image.image = UIImage(named: ttext)
             createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
         }
+        else if myType == "pin_city" {
+            var ttext = hexData.thumbResource
+           // ttext = ttext.replacingOccurrences(of: " ", with: "-")
+            print("This is image name \(ttext)")
+            image.image = UIImage(named: ttext)
+            createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
+        }
         else {
             //change this to photo one when we make that
             var placeHolderImage = UIImage(named: "linkCenter")

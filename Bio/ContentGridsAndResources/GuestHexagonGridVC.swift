@@ -700,6 +700,20 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         image.addGestureRecognizer(tapGesture)
         image.isUserInteractionEnabled = true
         let myType = hexData.type
+        if myType == "pin_country" {
+            var ttext = hexData.text.lowercased()
+            ttext = ttext.replacingOccurrences(of: " ", with: "-")
+            image.image = UIImage(named: ttext)
+            createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
+        }
+        else if myType == "pin_city" {
+            var ttext = hexData.thumbResource
+           // ttext = ttext.replacingOccurrences(of: " ", with: "-")
+            print("This is image name \(ttext)")
+            image.image = UIImage(named: ttext)
+            createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
+        }
+        else {
         var placeHolderImage = UIImage(named: "linkCenter")
         createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
         switch myType {
@@ -737,6 +751,8 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         }
         else {
             image.image = placeHolderImage
+        }
+        
         }
         
         image.textOverlay.textAlignment = .center

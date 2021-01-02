@@ -134,7 +134,7 @@ class PhoneSignInVC: UIViewController {
     signUpButton.layer.borderColor = UIColor.white.cgColor
     signIn.frame = CGRect(x: (self.view.frame.size.width-224)/2, y: signUpButton.frame.maxY + 20, width: 224, height: 44)
  //   mottoLabel.frame = CGRect(x: 0, y: signUpButton.frame.minY - 60, width: self.view.frame.size.width, height: 50)
-    mottoLabel.text = "Get Discovered"
+    mottoLabel.text = "One Social Internet"
     
     
     

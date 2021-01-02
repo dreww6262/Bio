@@ -25,7 +25,7 @@ class ContentRelationship: UIViewController, UIScrollViewDelegate {
             return
         }
         viewAlreadyLoaded = true
-        view.backgroundColor = .systemGray6
+        view.backgroundColor = .white
         setUpScrollView()
         setZoomScale()
         
@@ -159,7 +159,7 @@ class ContentRelationship: UIViewController, UIScrollViewDelegate {
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.alwaysBounceVertical = false
         scrollView.alwaysBounceHorizontal = false
-        scrollView.backgroundColor = .systemGray6
+        scrollView.backgroundColor = .white
         //scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         scrollView.contentMode = .scaleAspectFit
         scrollView.bouncesZoom = false
