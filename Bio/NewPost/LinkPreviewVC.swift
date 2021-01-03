@@ -195,6 +195,8 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
         
         else {
             
+            
+            
             let imageRef = storage.child(webHex!.thumbResource)
             let loadingIndicator = storyboard?.instantiateViewController(withIdentifier: "loading")
             
@@ -224,50 +226,90 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
                 return
             }
             
-            imageRef.putData(thumbImage!.pngData()!, metadata: nil){ data, error in
-                if (error == nil) {
-                    //                print ("upload successful")
-                    
-                    self.addHex(hexData: self.webHex!, completion: { bool in
-                        if (bool) {
-                            userData?.numPosts = self.webHex!.location
-                            userData?.lastTimePosted = NSDate.now.description
-                            
-                            self.userDataVM?.updateUserData(newUserData: userData!, completion: { success in
-                                if success {
-                                    //                                print("userdata updated successfully")
-                                    
-                                    //                                    if (self.cancelLbl == nil || self.webHex?.type == "link") {
-                                    self.performSegue(withIdentifier: "unwindFromLinkToHome", sender: nil)
-                                    //                                    }
-                                    
-                                    //                                    else {
-                                    //                                        let linkVC = self.storyboard?.instantiateViewController(withIdentifier: "linkVC") as! AddLinkVCViewController
-                                    //                                        linkVC.userData = self.userData
-                                    //                                        linkVC.currentUser = self.user
-                                    //                                        linkVC.cancelLbl = "Skip"
-                                    //                                        self.present(linkVC, animated: false, completion: nil)
-                                    //                                    }
-                                }
-                                else {
-                                    print("userData not saved \(error!.localizedDescription)")
-                                    loadingIndicator?.view.removeFromSuperview()
-                                    loadingIndicator?.removeFromParent()
-                                }
+            if thumbImage == nil {
+                self.addHex(hexData: self.webHex!, completion: { bool in
+                    if (bool) {
+                        userData?.numPosts = self.webHex!.location
+                        userData?.lastTimePosted = NSDate.now.description
+                        
+                        self.userDataVM?.updateUserData(newUserData: userData!, completion: { success in
+                            if success {
+                                //                                print("userdata updated successfully")
                                 
-                            })
-                        }
-                        else {
-                            print("didnt add hex")
-                            loadingIndicator?.view.removeFromSuperview()
-                            loadingIndicator?.removeFromParent()
-                        }
-                    })
-                }
-                else {
-                    print ("upload failed")
-                    loadingIndicator?.view.removeFromSuperview()
-                    loadingIndicator?.removeFromParent()
+                                //                                    if (self.cancelLbl == nil || self.webHex?.type == "link") {
+                                self.performSegue(withIdentifier: "unwindFromLinkToHome", sender: nil)
+                                //                                    }
+                                
+                                //                                    else {
+                                //                                        let linkVC = self.storyboard?.instantiateViewController(withIdentifier: "linkVC") as! AddLinkVCViewController
+                                //                                        linkVC.userData = self.userData
+                                //                                        linkVC.currentUser = self.user
+                                //                                        linkVC.cancelLbl = "Skip"
+                                //                                        self.present(linkVC, animated: false, completion: nil)
+                                //                                    }
+                            }
+                            else {
+                                print("userData not saved")
+                                loadingIndicator?.view.removeFromSuperview()
+                                loadingIndicator?.removeFromParent()
+                            }
+                            
+                        })
+                    }
+                    else {
+                        print("didnt add hex")
+                        loadingIndicator?.view.removeFromSuperview()
+                        loadingIndicator?.removeFromParent()
+                    }
+                })
+            }
+            
+            else {
+                imageRef.putData(thumbImage!.pngData()!, metadata: nil){ data, error in
+                    if (error == nil) {
+                        //                print ("upload successful")
+                        
+                        self.addHex(hexData: self.webHex!, completion: { bool in
+                            if (bool) {
+                                userData?.numPosts = self.webHex!.location
+                                userData?.lastTimePosted = NSDate.now.description
+                                
+                                self.userDataVM?.updateUserData(newUserData: userData!, completion: { success in
+                                    if success {
+                                        //                                print("userdata updated successfully")
+                                        
+                                        //                                    if (self.cancelLbl == nil || self.webHex?.type == "link") {
+                                        self.performSegue(withIdentifier: "unwindFromLinkToHome", sender: nil)
+                                        //                                    }
+                                        
+                                        //                                    else {
+                                        //                                        let linkVC = self.storyboard?.instantiateViewController(withIdentifier: "linkVC") as! AddLinkVCViewController
+                                        //                                        linkVC.userData = self.userData
+                                        //                                        linkVC.currentUser = self.user
+                                        //                                        linkVC.cancelLbl = "Skip"
+                                        //                                        self.present(linkVC, animated: false, completion: nil)
+                                        //                                    }
+                                    }
+                                    else {
+                                        print("userData not saved")
+                                        loadingIndicator?.view.removeFromSuperview()
+                                        loadingIndicator?.removeFromParent()
+                                    }
+                                    
+                                })
+                            }
+                            else {
+                                print("didnt add hex")
+                                loadingIndicator?.view.removeFromSuperview()
+                                loadingIndicator?.removeFromParent()
+                            }
+                        })
+                    }
+                    else {
+                        print ("upload failed")
+                        loadingIndicator?.view.removeFromSuperview()
+                        loadingIndicator?.removeFromParent()
+                    }
                 }
             }
         }

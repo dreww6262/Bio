@@ -299,6 +299,12 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
     }
     
     @objc func textFieldDidChange(_ textField: UITextField) {
+        
+        if textField.text == "" {
+            searchResults.removeAll()
+            searchTable.reloadData()
+        }
+        
         let keywords = linkTextField.text
         let finalKeywords = keywords?.replacingOccurrences(of: " ", with: "+")
         let searchURL = "https://api.spotify.com/v1/search?q=\(finalKeywords!)&type=track&limit=10"
@@ -333,7 +339,13 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
                         let previewURL = item["uri"] as? String? ?? ""
                         if let album = item["album"] as? [String: Any] {
                             var artist = ""
-//                            print("album: \(album)")
+                            //print("album: \(album)")
+                            var imageUrl = ""
+                            if let images = album["images"] as? [[String: Any]] {
+                                if images.count > 0 {
+                                    imageUrl = images[0]["url"] as? String ?? ""
+                                }
+                            }
                             
                             if let artists = album["artists"] as? [[String: Any]] {
 //                                print("entered")
@@ -346,12 +358,13 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
                                 //artist = (artists["name"] as? String? ?? "") ?? ""
                             }
                             let albumName = album["name"] as? String? ?? ""
-                            let music = MusicItem(track: name, artist: artist, album: albumName ?? "", uri: previewURL ?? "")
+                            let music = MusicItem(track: name, artist: artist, album: albumName ?? "", uri: previewURL ?? "", imageUrl: imageUrl)
                             searchResults.append(music)
                             print(music.dictionary)
                         }
                     }
                     self.searchTable.reloadData()
+                    searchTable.scrollToRow(at: IndexPath(row: 1, section: 0), at: .top, animated: false)
                 }
             }
         }
@@ -426,9 +439,17 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
     func textFieldDidBeginEditing(_ textField: UITextField) {
         
         if textField == linkTextField {
-            UIView.animate(withDuration: 0.25, animations: {
-                self.searchTable.frame = CGRect(x: self.linkTextField.frame.minX, y: self.linkTextField.frame.maxY, width: self.linkTextField.frame.width, height: 150)
-            })
+            linkTextField.text = ""
+            createRequestURL = ""
+            searchResults.removeAll()
+            searchTable.reloadData()
+            if !hasChosenThumbnailImage {
+                linkHexagonImage.image = nil
+            }
+            
+//            UIView.animate(withDuration: 0.25, animations: {
+//                self.searchTable.frame = CGRect(x: self.linkTextField.frame.minX, y: self.linkTextField.frame.maxY, width: self.linkTextField.frame.width, height: 150)
+//            })
         }
     }
     
@@ -712,177 +733,98 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
     @objc func postTapped(_ recognizer:UITapGestureRecognizer) {
         print("continue button pressed")
         
-        let userData = userDataVM?.userData.value
-        if userData == nil {
-            return
-        }
-//        createMusicLink()
-        
-        let username = userData!.publicID
-        var numPosts = userData!.numPosts
-        
-        if numPosts + 1 > 37 {
-            // too many posts
-            let alert = UIAlertController(title: "Not Enough Space :/", message: "Either cancel or delete a post from your home grid.", preferredStyle: .alert)
+        if createRequestURL == "" {
+            let alert = UIAlertController(title: "Invalid Input", message: "Please select a valid track, album or artist.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
             return
         }
         
-        
-        if hasChosenThumbnailImage == false {
-            loadImg(UITapGestureRecognizer())
-        }
         else {
+            let userData = userDataVM?.userData.value
+            if userData == nil {
+                return
+            }
+    //        createMusicLink()
             
-            // dismiss keyboard
-            self.view.endEditing(true)
+            let username = userData!.publicID
+            var numPosts = userData!.numPosts
             
-            // if fields are empty
-            if (linkTextField.text!.isEmpty) {
-                
-                // alert message
-                let alert = UIAlertController(title: "Hold up", message: "Fill in a field or hit Cancel", preferredStyle: UIAlertController.Style.alert)
-                let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
-                alert.addAction(ok)
+            if numPosts + 1 > 37 {
+                // too many posts
+                let alert = UIAlertController(title: "Not Enough Space :/", message: "Either cancel or delete a post from your home grid.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
-                
                 return
             }
             
             
-            
-            
-            
-            //let group = DispatchGroup()
-            if (!linkTextField.text!.isEmpty) {
-                let timestamp = Timestamp.init().seconds
-                let imageFileName = "\(username)_\(timestamp)_link.png"
-                let refText = "userFiles/\(username)/\(imageFileName)"
-                let imageRef = storageRef.child(refText)
-                numPosts += 1
-//                print("music link before \(musicLink)")
-                musicLink = musicLink.replacingOccurrences(of: " ", with: "-")
-                musicLink = musicLink.replacingOccurrences(of: "'", with: "")
-                musicLink.trimmingCharacters(in: ["'", "!", "?"])
-//                print("music Link after \(musicLink)")
-//                print("This is music Link")
-                var trimmedMusicLink = musicLink.trimmingCharacters(in: .whitespaces)
+            if hasChosenThumbnailImage == false && (selectedMusicItem?.imageUrl == nil || selectedMusicItem?.imageUrl == "") {
+                loadImg(UITapGestureRecognizer())
+            }
+            else {
                 
+                // dismiss keyboard
+                self.view.endEditing(true)
                 
-                let musicHex = HexagonStructData(resource: createRequestURL, type: "music", location: numPosts, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: captionTextField.text ?? "", views: 0, isArchived: false, docID: "WillBeSetLater", coverText: textOverlayTextField.text ?? "", isPrioritized: checkBoxStatus, array: [])
-                let previewVC = storyboard?.instantiateViewController(identifier: "linkPreview") as! LinkPreviewVC
-                previewVC.webHex = musicHex
-                
-                if changedProfilePic == true {
-                    previewVC.thumbImage = linkHexagonImage.image
-                }
-                else {
-                    previewVC.thumbImage = UIImage(named: "musicCenter")
+                // if fields are empty
+                if (linkTextField.text!.isEmpty) {
+                    
+                    // alert message
+                    let alert = UIAlertController(title: "Hold up", message: "Fill in a field or hit Cancel", preferredStyle: UIAlertController.Style.alert)
+                    let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
+                    alert.addAction(ok)
+                    self.present(alert, animated: true, completion: nil)
+                    
+                    return
                 }
                 
-                previewVC.userDataVM = userDataVM
-                previewVC.modalPresentationStyle = .fullScreen
-                previewVC.cancelLbl = cancelLbl
-                self.present(previewVC, animated: false, completion: nil)
-                
-            }
-            
-        }
-    }
-    
-    
-    // clicked sign up
-    @IBAction func continueClicked(_ sender: AnyObject) {
-//        print("continue button pressed")
-        
-        let userData = userDataVM?.userData.value
-        if userData == nil {
-            return
-        }
-        
-        let username = userData!.publicID
-        var numPosts = userData!.numPosts
-        
-        if numPosts + 1 > 37 {
-            // too many posts
-            let alert = UIAlertController(title: "Not Enough Space :/", message: "Either cancel or delete a post from your home grid.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-            return
-        }
-        
-        
-        if hasChosenThumbnailImage == false {
-            loadImg(UITapGestureRecognizer())
-        }
-        else {
-            
-            // dismiss keyboard
-            self.view.endEditing(true)
-            
-            // if fields are empty
-            if (linkTextField.text!.isEmpty) {
-                
-                // alert message
-                let alert = UIAlertController(title: "Hold up", message: "Fill in a field or hit Cancel", preferredStyle: UIAlertController.Style.alert)
-                let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
-                alert.addAction(ok)
-                self.present(alert, animated: true, completion: nil)
-                
-                return
-            }
-            
-            
-            
-            
-            
-            //let group = DispatchGroup()
-            if (!linkTextField.text!.isEmpty) {
-                let timestamp = Timestamp.init().seconds
-                let imageFileName = "\(username)_\(timestamp)_link.png"
-                let refText = "userFiles/\(username)/\(imageFileName)"
-                let imageRef = storageRef.child(refText)
-                numPosts += 1
-//                print("music link before \(musicLink)")
-                musicLink = musicLink.replacingOccurrences(of: " ", with: "-")
-                musicLink = musicLink.replacingOccurrences(of: "'", with: "")
-                musicLink.trimmingCharacters(in: ["'", "!", "?"])
-//                print("music Link after \(musicLink)")
-                let musicHex = HexagonStructData(resource: musicLink, type: "music", location: numPosts, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: musicLink, views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: checkBoxStatus, array: [])
                 
                 
                 
                 
-                imageRef.putData(linkHexagonImage.image!.pngData()!, metadata: nil){ data, error in
-                    if (error == nil) {
-//                        print ("upload successful")
-                        self.addHex(hexData: musicHex, completion: { bool in
-                            if (bool) {
-//                                print("Add hex successful")
-                            }
-                            else {
-                                print("didnt add hex")
-                            }
-                        })
+                //let group = DispatchGroup()
+                if (!linkTextField.text!.isEmpty) {
+                    let timestamp = Timestamp.init().seconds
+                    let imageFileName = "\(username)_\(timestamp)_link.png"
+                    var refText = "userFiles/\(username)/\(imageFileName)"
+                    if !hasChosenThumbnailImage {
+                        refText = selectedMusicItem!.imageUrl
+                    }
+//                    let imageRef = storageRef.child(refText)
+                    numPosts += 1
+    //                print("music link before \(musicLink)")
+//                    musicLink = musicLink.replacingOccurrences(of: " ", with: "-")
+//                    musicLink = musicLink.replacingOccurrences(of: "'", with: "")
+//                    //musicLink.trimmingCharacters(in: ["'", "!", "?"])
+//    //                print("music Link after \(musicLink)")
+//    //                print("This is music Link")
+//                    let trimmedMusicLink = musicLink.trimmingCharacters(in: .whitespaces)
+                    
+                    
+                    let musicHex = HexagonStructData(resource: createRequestURL, type: "music", location: numPosts, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: captionTextField.text ?? "", views: 0, isArchived: false, docID: "WillBeSetLater", coverText: textOverlayTextField.text ?? "", isPrioritized: checkBoxStatus, array: [])
+                    let previewVC = storyboard?.instantiateViewController(identifier: "linkPreview") as! LinkPreviewVC
+                    previewVC.webHex = musicHex
+                    
+                    if hasChosenThumbnailImage == true {
+                        previewVC.thumbImage = linkHexagonImage.image
                     }
                     else {
-                        print ("upload failed")
+                        previewVC.thumbImage = nil
                     }
+                    
+                    previewVC.userDataVM = userDataVM
+                    previewVC.modalPresentationStyle = .fullScreen
+                    previewVC.cancelLbl = cancelLbl
+                    self.present(previewVC, animated: false, completion: nil)
+                    
                 }
                 
-                
-                userData?.numPosts = numPosts
-                userDataVM?.updateUserData(newUserData: userData!, completion: { success in
-                    if success {}
-//                    print("userdata updated successfully")
-                    self.performSegue(withIdentifier: "unwindFromLinkToHome", sender: nil)
-                    
-                })
             }
-            
         }
     }
+    
+   
     
     
     // call picker to select image
@@ -918,11 +860,23 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         
     }
     
+    var selectedMusicItem: MusicItem?
     @objc func cellTapped(_ sender: UITapGestureRecognizer) {
         if sender.view!.tag > -1 && sender.view!.tag < searchResults.count {
+            selectedMusicItem = searchResults[sender.view!.tag]
             setTextFields(musicItem: searchResults[sender.view!.tag])
+            
+            if !hasChosenThumbnailImage {
+                if let imageUrl = URL(string: searchResults[sender.view!.tag].imageUrl) {
+                    linkHexagonImage.sd_setImage(with: imageUrl, completed: nil)
+                }
+            }
         }
+        searchResults.removeAll()
+        
         linkTextField.resignFirstResponder()
+        
+        
     }
 }
 
@@ -958,6 +912,16 @@ extension AddMusicVC: UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        UIView.animate(withDuration: 0.25, animations: {
+            if (self.searchResults.count >= 3) {
+                self.searchTable.frame = CGRect(x: self.linkTextField.frame.minX, y: self.linkTextField.frame.maxY, width: self.linkTextField.frame.width, height: 150)
+            }
+            else {
+                self.searchTable.frame = CGRect(x: self.linkTextField.frame.minX, y: self.linkTextField.frame.maxY, width: self.linkTextField.frame.width, height: CGFloat(self.searchResults.count * 70))
+            }
+        })
+            
         return searchResults.count
     }
     
