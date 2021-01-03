@@ -153,10 +153,9 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         linkTextField.attributedPlaceholder = NSAttributedString(string: "Artist",
                                                                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: linkTextField.frame.minY, width: 30, height: 30)
-        
-        songNameTextField.frame = CGRect(x: 10, y: linkTextField.frame.maxY + 5, width: self.view.frame.size.width - 20, height: 30)
-        songNameTextField.attributedPlaceholder = NSAttributedString(string: "Song/Album Name (Optional)",
-                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        songNameTextField.isHidden = true
+//        songNameTextField.frame = CGRect(x: 10, y: linkTextField.frame.maxY + 5, width: self.view.frame.size.width - 20, height: 30)
+//        songNameTextField.attributedPlaceholder = NSAttributedString(string: "Song/Album Name (Optional)", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         
         
         setUpNavBarView()
@@ -174,9 +173,10 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         
         
         linkTextField.frame = CGRect(x: 10, y: linkHexagonImage.frame.maxY, width: self.view.frame.size.width - 20, height: 30)
-        songNameTextField.frame = CGRect(x: 10, y: linkTextField.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
+//        songNameTextField.frame =
+        let sframe = CGRect(x: 10, y: linkTextField.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
         
-        captionTextField.frame = CGRect(x: 10, y: songNameTextField.frame.maxY + 5, width: self.view.frame.size.width - 20, height: 30)
+        captionTextField.frame = CGRect(x: 10, y: sframe.maxY + 5, width: self.view.frame.size.width - 20, height: 30)
         captionTextField.attributedPlaceholder = NSAttributedString(string: "Write a Caption... (Optional)",
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         textOverlayTextField.frame = CGRect(x: 10, y: captionTextField.frame.maxY + 5, width: self.view.frame.size.width - 20, height: 30)
@@ -197,14 +197,14 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         self.bottomLine.frame = CGRect(x: 0.0, y: linkTextField.frame.height, width: linkTextField.frame.width, height: 1.0)
         self.bottomLine.backgroundColor = UIColor.systemGray4.cgColor
         var bottomLine2 = CALayer()
-        bottomLine2.frame = CGRect(x: 0.0, y: songNameTextField.frame.height, width: linkTextField.frame.width, height: 1.0)
+        bottomLine2.frame = CGRect(x: 0.0, y: sframe.height, width: linkTextField.frame.width, height: 1.0)
         bottomLine2.backgroundColor = UIColor.systemGray4.cgColor
         linkTextField.borderStyle = UITextField.BorderStyle.none
         linkTextField.layer.addSublayer(self.bottomLine)
         linkTextField.backgroundColor = .clear
-        songNameTextField.borderStyle = UITextField.BorderStyle.none
-        songNameTextField.layer.addSublayer(bottomLine2)
-        songNameTextField.backgroundColor = .clear
+//        songNameTextField.borderStyle = UITextField.BorderStyle.none
+//        songNameTextField.layer.addSublayer(bottomLine2)
+//        songNameTextField.backgroundColor = .clear
         linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: linkTextField.frame.minY, width: 30, height: 30)
         
         
@@ -249,7 +249,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         
         
         linkTextField.textColor = .white
-        songNameTextField.textColor = .white
+//        songNameTextField.textColor = .white
         
         
         postButton.titleLabel?.font = UIFontMetrics.default.scaledFont(for: poppinsSemiBold ?? UIFont(name: "DINAlternate-Bold", size: 20)!)
@@ -265,6 +265,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         searchTable.backgroundColor = .gray
         searchTable.rowHeight = 70
         searchTable.estimatedRowHeight = 100
+        searchTable.allowsSelection = true
         
         view.addSubview(searchTable)
         
@@ -326,16 +327,16 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
                     searchResults.removeAll()
                     for i in 0..<items.count{
                         let item = items[i]
-                        print("item: \(item)")
+//                        print("item: \(item)")
                         let name = item["name"] as! String
                         
                         let previewURL = item["uri"] as? String? ?? ""
                         if let album = item["album"] as? [String: Any] {
                             var artist = ""
-                            print("album: \(album)")
+//                            print("album: \(album)")
                             
                             if let artists = album["artists"] as? [[String: Any]] {
-                                print("entered")
+//                                print("entered")
                                 for i in 0 ..< artists.count {
                                     artist.append((artists[i]["name"] as? String? ?? "") ?? "")
                                     if (i != artists.count - 1) {
@@ -362,14 +363,22 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
     }
     
     func setTextFields(musicItem: MusicItem) {
+//        if musicItem.track != "" {
+//            songNameTextField.text = musicItem.track
+//        }
+//        else {
+//            songNameTextField.text = musicItem.album
+//        }
+        
         if musicItem.track != "" {
-            songNameTextField.text = musicItem.track
+            linkTextField.text = "\(musicItem.track), \(musicItem.artist)"
         }
         else {
-            songNameTextField.text = musicItem.album
+            linkTextField.text = "\(musicItem.album), \(musicItem.artist)"
         }
-        
-        linkTextField.text = musicItem.artist
+                
+        let formatted = musicItem.uri.replacingOccurrences(of: ":", with: "%3A")
+        createRequestURL = "https://songwhip.com/convert?url=\(formatted)&sourceAction=pasteUrl"
     }
     
     func insertTextOverlay(linkHexagonImage: UIImageView) {
@@ -637,9 +646,19 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
     //        linkHexagonImage.frame = CGRect(x: linkHexagonImage.frame.minX, y: navBarView.frame.maxY + 10, width: linkHexagonImage.frame.width, height: linkHexagonImage.frame.height)
     //    }
     
+    var createRequestURL = ""
+    
     func createMusicLink() {
+        let i = linkTextField.text!.indexOf(char: ",")
         var artistText = linkTextField.text?.replacingOccurrences(of: "'", with: "") ?? ""
-        var songText = songNameTextField.text?.replacingOccurrences(of: "'", with: "") ?? ""
+        if i != nil {
+            let s = artistText.substring(start: 0, offsetBy: i!)
+            artistText = String(s ?? artistText)
+            print("artistText: \(artistText)")
+        }
+        
+        
+//        var songText = songNameTextField.text?.replacingOccurrences(of: "'", with: "") ?? ""
         while artistText.hasPrefix(" ") {
             artistText = artistText.chopPrefix()
 //            print("This is trimmedText now 1 \(artistText)")
@@ -659,11 +678,11 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         }
         
         
-        artistText = artistText.replacingOccurrences(of: " ", with: "-") as! String
+        artistText = artistText.replacingOccurrences(of: " ", with: "-")
         
         
         songText = songText.replacingOccurrences(of: " ", with: "-")
-        songText = songText.replacingOccurrences(of: "'", with: "") as! String
+        songText = songText.replacingOccurrences(of: "'", with: "")
         while songText.contains("'") {
             songText.remove(at: songText.firstIndex(of: "'")!)
         }
@@ -678,7 +697,10 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         }
         
         musicLink = "https://songwhip.com/\(artistText)/\(songText)"
-//        print("This is music Link. Try it yourself! \(musicLink)")
+        
+        
+        
+        print("This is music Link. Try it yourself! \(musicLink)")
         if artistText == "" {
             badMusicLink = true
         }
@@ -694,7 +716,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         if userData == nil {
             return
         }
-        createMusicLink()
+//        createMusicLink()
         
         let username = userData!.publicID
         var numPosts = userData!.numPosts
@@ -748,7 +770,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
                 var trimmedMusicLink = musicLink.trimmingCharacters(in: .whitespaces)
                 
                 
-                let musicHex = HexagonStructData(resource: trimmedMusicLink, type: "music", location: numPosts, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: captionTextField.text ?? "", views: 0, isArchived: false, docID: "WillBeSetLater", coverText: textOverlayTextField.text ?? "", isPrioritized: checkBoxStatus, array: [])
+                let musicHex = HexagonStructData(resource: createRequestURL, type: "music", location: numPosts, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: captionTextField.text ?? "", views: 0, isArchived: false, docID: "WillBeSetLater", coverText: textOverlayTextField.text ?? "", isPrioritized: checkBoxStatus, array: [])
                 let previewVC = storyboard?.instantiateViewController(identifier: "linkPreview") as! LinkPreviewVC
                 previewVC.webHex = musicHex
                 
@@ -895,6 +917,13 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         self.dismiss(animated: true, completion: nil)
         
     }
+    
+    @objc func cellTapped(_ sender: UITapGestureRecognizer) {
+        if sender.view!.tag > -1 && sender.view!.tag < searchResults.count {
+            setTextFields(musicItem: searchResults[sender.view!.tag])
+        }
+        linkTextField.resignFirstResponder()
+    }
 }
 
 // Helper function inserted by Swift 4.2 migrator.
@@ -920,11 +949,7 @@ extension String {
 }
 
 extension AddMusicVC: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row > -1 && indexPath.row < searchResults.count {
-            setTextFields(musicItem: searchResults[indexPath.row])
-        }
-    }
+    
 }
 
 extension AddMusicVC: UITableViewDataSource {
@@ -947,6 +972,12 @@ extension AddMusicVC: UITableViewDataSource {
         }
         
         cell.contentView.frame = cell.frame
+        cell.isUserInteractionEnabled = true
+        cell.contentView.isUserInteractionEnabled = false
+        
+        let cellTap = UITapGestureRecognizer(target: self, action: #selector(cellTapped))
+        cell.addGestureRecognizer(cellTap)
+        cell.tag = indexPath.row
         
         print("creating cell \(searchResults[indexPath.row].track)")
         cell.albumLabel.text = searchResults[indexPath.row].album
@@ -985,4 +1016,11 @@ extension AddMusicVC: UITableViewDataSource {
     }
     
     
+    
+}
+
+fileprivate extension String {
+    func indexOf(char: Character) -> Int? {
+        return firstIndex(of: char)?.utf16Offset(in: self)
+    }
 }
