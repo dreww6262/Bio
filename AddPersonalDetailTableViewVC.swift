@@ -389,6 +389,10 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
         }
         
         iconArray = [birthdayImage ?? UIImage(), houseImage ?? UIImage(), cultureImage ?? UIImage(), phoneImage ?? UIImage(), relationshipImage ?? UIImage()]
+        
+   
+        
+        
         // relationshipPickerView.isHidden = true
         relationshipPickerView.endEditing(true)
     }
@@ -816,6 +820,15 @@ extension AddPersonalDetailTableViewVC: UITableViewDelegate, UITableViewDataSour
             
             cell.interactiveTextField.text = ogBirthday
             
+            if cell.interactiveTextField.text != "" {
+                let dateFormater = DateFormatter()
+                dateFormater.dateFormat = "MM/dd/yyyy"
+                let birthdayDate = dateFormater.date(from: ogBirthday)
+                self.myZodiac = getZodiacSign(birthdayDate!)
+                print("this is my zodiac \(self.myZodiac)")
+                cell.socialMediaIcon.image = UIImage(named: self.myZodiac.lowercased())
+            }
+            
         }
         
         // do current city stuff
@@ -825,6 +838,28 @@ extension AddPersonalDetailTableViewVC: UITableViewDelegate, UITableViewDataSour
             let cellTap = UITapGestureRecognizer(target: self, action: #selector(cityCellTap))
             cell.addGestureRecognizer(cellTap)
             cell.interactiveTextField.text = myCity
+        
+            var stateCode = ""
+            var state = ""
+            var stateImage = ""
+            for shortState in stateCodes {
+                if myCity.contains(shortState) {
+                    print("This is the state code: \(shortState)")
+                    stateCode = shortState
+                   state = longStateName(stateCode)
+                state = state.lowercased()
+                    print("This is state \(state)")
+                    stateImage = "\(state)_flag-png-square-large.png"
+                    cell.socialMediaIcon.image = UIImage(named: stateImage)
+                    houseImage = UIImage(named: stateImage)
+                    iconArray = [birthdayImage ?? UIImage(), houseImage ?? UIImage(), cultureImage ?? UIImage(), phoneImage ?? UIImage(), relationshipImage ?? UIImage()]
+                }
+             
+            }
+    
+            
+            
+            //dohere
         }
         
 
@@ -863,6 +898,9 @@ extension AddPersonalDetailTableViewVC: UITableViewDelegate, UITableViewDataSour
             cell.addGestureRecognizer(cellTap)
             cell.interactiveTextField.inputView = relationshipPickerView
             cell.interactiveTextField.text = myRelationship
+            if cell.interactiveTextField.text != "" {
+                cell.socialMediaIcon.image = UIImage(named: myRelationship.lowercased())
+            }
             
         }
         

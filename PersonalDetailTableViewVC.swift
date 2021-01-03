@@ -272,6 +272,8 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
         }
         
         iconArray = [birthdayImage ?? UIImage(), houseImage ?? UIImage(), genderImage ?? UIImage(), cultureImage ?? UIImage(), phoneImage ?? UIImage(), relationshipImage ?? UIImage()]
+            
+        
         //  genderPickerView.isHidden = true
         // relationshipPickerView.isHidden = true
         genderPickerView.endEditing(true)

@@ -18,6 +18,7 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     var changedProfilePic = false
     var bioCharacterLimit = 20
     var countries: [String] = []
+    var minimumAge = 13
    // var myCountry = ""
 //    var userData: UserData?
     var country = ""
@@ -71,7 +72,7 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     var signUpBtn = UIButton()
     var cancelBtn = UIButton()
     var profileImageLabel = UILabel()
-    var birthday = ""
+   
     
     var userDataVM: UserDataVM?
     //var avaImageExtension = ".jpg"
@@ -388,17 +389,7 @@ var countryFlag = UIImageView()
         })
     }
     
-    func calcAge(birthday: String) -> Int {
-        let dateFormater = DateFormatter()
-        dateFormater.dateFormat = "MM/dd/yyyy"
-        let birthdayDate = dateFormater.date(from: birthday)
-        let calendar: NSCalendar! = NSCalendar(calendarIdentifier: .gregorian)
-        let now = Date()
-        let calcAge = calendar.components(.year, from: birthdayDate!, to: now, options: [])
-        let age = calcAge.year
-        print("This is age: \(age)")
-        return age!
-    }
+
     
     
     var loadingIndicator: UIViewController?
@@ -425,9 +416,6 @@ var countryFlag = UIImageView()
         
         
         self.country = self.countryTextField.text!
-        var minimumAge = 13
-        print("This is age \(age)")
-        print("This is birthday \(birthday)")
         print("This is country \(country)")
         if GDPRCountries.contains(country) {
             print("GDPR country! 16 and up")
@@ -448,25 +436,8 @@ var countryFlag = UIImageView()
         
         
         
-        if age < minimumAge && age >= 13 {
-            // alert message
-            let alert = UIAlertController(title: "👶🏼", message: "You must be at least 16 years old to join Bio", preferredStyle: UIAlertController.Style.alert)
-            let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
-            alert.addAction(ok)
-            self.present(alert, animated: true, completion: nil)
-            
-            return
-        }
+      
         
-       else if age < minimumAge {
-            // alert message
-            let alert = UIAlertController(title: "👶🏼", message: "You must be at least 13 years old to join Bio", preferredStyle: UIAlertController.Style.alert)
-            let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
-            alert.addAction(ok)
-            self.present(alert, animated: true, completion: nil)
-            
-            return
-        }
         
         
         // if different passwords
@@ -548,7 +519,7 @@ var countryFlag = UIImageView()
            // country = self.countryTextField.text ?? ""
             avaFileRef.putData(self.avaImg.image!.pngData()!, metadata: nil, completion: { meta, error in
                 if (error == nil) {
-                    let userData = UserData(email: email, publicID: self.usernameTxt.text!.lowercased(), privateID: signedInUser!.uid, avaRef: reference, hexagonGridID: "", userPage: "", subscribedUsers: [""], subscriptions: [String: String](), numPosts: 0, displayName: self.displayNameTxt.text!, birthday: self.birthday, blockedUsers: [String](), isBlockedBy: [String](), pageViews: 0, bio: bio, country: country, lastTimePosted: NSDate.now.description, currentCity: "", gender: "", phoneNumber: "", identityHexIDs: [String]())
+                    let userData = UserData(email: email, publicID: self.usernameTxt.text!.lowercased(), privateID: signedInUser!.uid, avaRef: reference, hexagonGridID: "", userPage: "", subscribedUsers: [""], subscriptions: [String: String](), numPosts: 0, displayName: self.displayNameTxt.text!, birthday: "", blockedUsers: [String](), isBlockedBy: [String](), pageViews: 0, bio: bio, country: country, lastTimePosted: NSDate.now.description, currentCity: "", gender: "", phoneNumber: "", identityHexIDs: [String]())
                     let db = Firestore.firestore()
                     let userDataCollection = db.collection("UserData1")
                     let docRef = userDataCollection.document(user!.uid)
