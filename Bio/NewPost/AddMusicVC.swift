@@ -361,6 +361,17 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         
     }
     
+    func setTextFields(musicItem: MusicItem) {
+        if musicItem.track != "" {
+            songNameTextField.text = musicItem.track
+        }
+        else {
+            songNameTextField.text = musicItem.album
+        }
+        
+        linkTextField.text = musicItem.artist
+    }
+    
     func insertTextOverlay(linkHexagonImage: UIImageView) {
         linkHexagonImage.addSubview(textOverlayLabel)
         textOverlayLabel.clipsToBounds = true
@@ -909,7 +920,11 @@ extension String {
 }
 
 extension AddMusicVC: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row > -1 && indexPath.row < searchResults.count {
+            setTextFields(musicItem: searchResults[indexPath.row])
+        }
+    }
 }
 
 extension AddMusicVC: UITableViewDataSource {
