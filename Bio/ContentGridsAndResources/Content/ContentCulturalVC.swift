@@ -191,12 +191,7 @@ class ContentCulturalVC: UIViewController, UIScrollViewDelegate {
         countryLabel6.textColor = .black
         countryLabel6.font = UIFont(name: "DINAlternate-Bold", size: minimumFontSize)
         countryLabel6.textAlignment = .center
-//        countryLabel1.sizeToFit()
-//        countryLabel2.sizeToFit()
-//        countryLabel3.sizeToFit()
-//        countryLabel4.sizeToFit()
-//        countryLabel5.sizeToFit()
-//        countryLabel6.sizeToFit()
+
         
         countryLabel1.textAlignment = .center
         countryLabel2.textAlignment = .center
@@ -208,8 +203,7 @@ class ContentCulturalVC: UIViewController, UIScrollViewDelegate {
 
     
     func setUp1Country() {
-//        scrollView.addSubview(countryImage1)
-//        scrollView.addSubview(countryLabel1)
+
         let frame = CGRect(x: view.frame.width/6, y: captionLabel.frame.maxY + 10, width: view.frame.width*(2/3), height: view.frame.width*(2/3))
         countryImage1.frame = frame
         let label1Frame = CGRect(x: 0, y: (countryImage1.frame.maxY) + 20, width: view.frame.width, height: 30)
@@ -219,18 +213,14 @@ class ContentCulturalVC: UIViewController, UIScrollViewDelegate {
     }
     
     func setUp2Country() {
-//        scrollView.addSubview(countryImage1)
-//        scrollView.addSubview(countryLabel1)
-//        scrollView.addSubview(countryImage2)
-//        scrollView.addSubview(countryLabel2)
+
         countryLabel1.text = myCountries[0]
         countryLabel2.text = myCountries[1]
-        var frame1 = CGRect(x: view.frame.width/3, y: captionLabel.frame.maxY + 10, width: view.frame.width/3, height: view.frame.width/3)
+        let frame1 = CGRect(x: view.frame.width/3, y: captionLabel.frame.maxY + 10, width: view.frame.width/3, height: view.frame.width/3)
         let label1frame = CGRect(x: 0, y: frame1.maxY + 10, width: view.frame.width, height: 30)
         let country2imageFrame = CGRect(x: view.frame.width/3, y: label1frame.maxY + 20, width: view.frame.width/3, height: view.frame.width/3)
-        var country2LabelFrame = CGRect(x: 0, y: country2imageFrame.maxY + 10, width: view.frame.width, height: 30)
+        let country2LabelFrame = CGRect(x: 0, y: country2imageFrame.maxY + 10, width: view.frame.width, height: 30)
         countryLabel1.frame = label1frame
-        var frame2 = CGRect(x: view.frame.width/3, y: countryLabel1.frame.maxY + 10, width: view.frame.width/3, height: view.frame.width/3)
         countryLabel2.frame = country2LabelFrame
         countryImage1.frame = frame1
         countryLabel1.frame = label1frame
@@ -239,24 +229,18 @@ class ContentCulturalVC: UIViewController, UIScrollViewDelegate {
         
     }
     func setUp3Country() {
-//        scrollView.addSubview(countryImage1)
-//        scrollView.addSubview(countryLabel1)
-//        scrollView.addSubview(countryImage2)
-//        scrollView.addSubview(countryLabel2)
-//        scrollView.addSubview(countryImage3)
-//        scrollView.addSubview(countryLabel3)
-        countryLabel1.text = myCountries[0] ?? ""
-        countryLabel2.text = myCountries[1] ?? ""
-        countryLabel3.text = myCountries[2] ?? ""
-        var frame1 = CGRect(x: view.frame.width/3, y: captionLabel.frame.maxY + 10, width: view.frame.width/3, height: view.frame.width/3)
+
+        countryLabel1.text = myCountries[0]
+        countryLabel2.text = myCountries[1]
+        countryLabel3.text = myCountries[2]
+        let frame1 = CGRect(x: view.frame.width/3, y: captionLabel.frame.maxY + 10, width: view.frame.width/3, height: view.frame.width/3)
         let label1frame = CGRect(x: 0, y: frame1.maxY + 10, width: view.frame.width, height: 30)
         let country2imageFrame = CGRect(x: view.frame.width/3, y: label1frame.maxY + 20, width: view.frame.width/3, height: view.frame.width/3)
-        var country2LabelFrame = CGRect(x: 0, y: country2imageFrame.maxY + 10, width: view.frame.width, height: 30)
+        let country2LabelFrame = CGRect(x: 0, y: country2imageFrame.maxY + 10, width: view.frame.width, height: 30)
         countryLabel1.frame = label1frame
-        var frame2 = CGRect(x: view.frame.width/3, y: countryLabel1.frame.maxY + 10, width: view.frame.width/3, height: view.frame.width/3)
         countryLabel2.frame = country2LabelFrame
-        var frame3 = CGRect(x: view.frame.width/3, y: countryLabel2.frame.maxY + 20, width: view.frame.width/3, height: view.frame.width/3)
-        var country3LabelFrame = CGRect(x: 0, y: frame3.maxY + 10, width: view.frame.width, height: 30)
+        let frame3 = CGRect(x: view.frame.width/3, y: countryLabel2.frame.maxY + 20, width: view.frame.width/3, height: view.frame.width/3)
+        let country3LabelFrame = CGRect(x: 0, y: frame3.maxY + 10, width: view.frame.width, height: 30)
         countryImage1.frame = frame1
         countryLabel1.frame = label1frame
         countryImage2.frame = country2imageFrame
@@ -266,30 +250,19 @@ class ContentCulturalVC: UIViewController, UIScrollViewDelegate {
     }
     
     func setUp3CountryAlternative() {
-//        scrollView.addSubview(countryImage1)
-//        scrollView.addSubview(countryLabel1)
-//        scrollView.addSubview(countryImage2)
-//        scrollView.addSubview(countryLabel2)
-//        scrollView.addSubview(countryImage3)
-//        scrollView.addSubview(countryLabel3)
-        countryLabel1.text = myCountries[0] ?? ""
-        countryLabel2.text = myCountries[1] ?? ""
-        countryLabel3.text = myCountries[2] ?? ""
-        var frame1 = CGRect(x: view.frame.width/3, y: captionLabel.frame.maxY + 10, width: view.frame.width/3, height: view.frame.width/3)
+
+        countryLabel1.text = myCountries[0]
+        countryLabel2.text = myCountries[1]
+        countryLabel3.text = myCountries[2]
+        let frame1 = CGRect(x: view.frame.width/3, y: captionLabel.frame.maxY + 10, width: view.frame.width/3, height: view.frame.width/3)
         let label1frame = CGRect(x: 0, y: frame1.maxY + 10, width: view.frame.width, height: 30)
         let country2imageFrame = CGRect(x: view.frame.width/9, y: label1frame.maxY + 20, width: view.frame.width/3, height: view.frame.width/3)
-        var country2LabelFrame = CGRect(x: view.frame.width/9, y: country2imageFrame.maxY + 10, width: view.frame.width/3, height: 30)
+        let country2LabelFrame = CGRect(x: view.frame.width/9, y: country2imageFrame.maxY + 10, width: view.frame.width/3, height: 30)
         countryLabel2.frame = country2LabelFrame
-        var frame3 = CGRect(x: view.frame.width/9, y: countryLabel2.frame.maxY + 20, width: view.frame.width/3, height: view.frame.width/3)
-        var country3LabelFrame = CGRect(x: view.frame.width/9, y: frame3.maxY + 10, width: view.frame.width/3, height: 30)
 
-        var frame4 = CGRect(x: view.frame.width*(5/9), y: captionLabel.frame.maxY + 10, width: view.frame.width/3, height: view.frame.width/3)
-        let label4frame = CGRect(x: view.frame.width*(5/9), y: frame1.maxY + 10, width: view.frame.width/3, height: 30)
         let country5imageFrame = CGRect(x: view.frame.width*(5/9), y: label1frame.maxY + 20, width: view.frame.width/3, height: view.frame.width/3)
-        var country5LabelFrame = CGRect(x: view.frame.width*(5/9), y: country2imageFrame.maxY + 10, width: view.frame.width/3, height: 30)
+        let country5LabelFrame = CGRect(x: view.frame.width*(5/9), y: country2imageFrame.maxY + 10, width: view.frame.width/3, height: 30)
         countryLabel2.frame = country2LabelFrame
-        var frame6 = CGRect(x: view.frame.width*(5/9), y: countryLabel2.frame.maxY + 20, width: view.frame.width/3, height: view.frame.width/3)
-        var country6LabelFrame = CGRect(x: view.frame.width*(5/9), y: frame3.maxY + 10, width: view.frame.width/3, height: 30)
         countryImage1.frame = frame1
         countryLabel1.frame = label1frame
         countryImage2.frame = country2imageFrame
@@ -300,33 +273,22 @@ class ContentCulturalVC: UIViewController, UIScrollViewDelegate {
     
     
     func setUp4Country() {
-//        scrollView.addSubview(countryImage1)
-//        scrollView.addSubview(countryLabel1)
-//        scrollView.addSubview(countryImage2)
-//        scrollView.addSubview(countryLabel2)
-//        scrollView.addSubview(countryImage3)
-//        scrollView.addSubview(countryLabel3)
-//        scrollView.addSubview(countryImage4)
-//        scrollView.addSubview(countryLabel4)
-        countryLabel1.text = myCountries[0] ?? ""
-        countryLabel2.text = myCountries[1] ?? ""
-        countryLabel3.text = myCountries[2] ?? ""
-        countryLabel4.text = myCountries[3] ?? ""
-        var frame1 = CGRect(x: view.frame.width/9, y: captionLabel.frame.maxY + 10, width: view.frame.width/3, height: view.frame.width/3)
+
+        countryLabel1.text = myCountries[0]
+        countryLabel2.text = myCountries[1]
+        countryLabel3.text = myCountries[2]
+        countryLabel4.text = myCountries[3]
+        let frame1 = CGRect(x: view.frame.width/9, y: captionLabel.frame.maxY + 10, width: view.frame.width/3, height: view.frame.width/3)
         let label1frame = CGRect(x: view.frame.width/9, y: frame1.maxY + 10, width: view.frame.width/3, height: 30)
         let country2imageFrame = CGRect(x: view.frame.width/9, y: label1frame.maxY + 20, width: view.frame.width/3, height: view.frame.width/3)
-        var country2LabelFrame = CGRect(x: view.frame.width/9, y: country2imageFrame.maxY + 10, width: view.frame.width/3, height: 30)
+        let country2LabelFrame = CGRect(x: view.frame.width/9, y: country2imageFrame.maxY + 10, width: view.frame.width/3, height: 30)
         countryLabel2.frame = country2LabelFrame
-        var frame3 = CGRect(x: view.frame.width/9, y: countryLabel2.frame.maxY + 20, width: view.frame.width/3, height: view.frame.width/3)
-        var country3LabelFrame = CGRect(x: view.frame.width/9, y: frame3.maxY + 10, width: view.frame.width/3, height: 30)
 
-        var frame4 = CGRect(x: view.frame.width*(5/9), y: captionLabel.frame.maxY + 10, width: view.frame.width/3, height: view.frame.width/3)
+        let frame4 = CGRect(x: view.frame.width*(5/9), y: captionLabel.frame.maxY + 10, width: view.frame.width/3, height: view.frame.width/3)
         let label4frame = CGRect(x: view.frame.width*(5/9), y: frame1.maxY + 10, width: view.frame.width/3, height: 30)
         let country5imageFrame = CGRect(x: view.frame.width*(5/9), y: label1frame.maxY + 20, width: view.frame.width/3, height: view.frame.width/3)
-        var country5LabelFrame = CGRect(x: view.frame.width*(5/9), y: country2imageFrame.maxY + 10, width: view.frame.width/3, height: 30)
+        let country5LabelFrame = CGRect(x: view.frame.width*(5/9), y: country2imageFrame.maxY + 10, width: view.frame.width/3, height: 30)
         countryLabel2.frame = country2LabelFrame
-        var frame6 = CGRect(x: view.frame.width*(5/9), y: countryLabel2.frame.maxY + 20, width: view.frame.width/3, height: view.frame.width/3)
-        var country6LabelFrame = CGRect(x: view.frame.width*(5/9), y: frame3.maxY + 10, width: view.frame.width/3, height: 30)
         countryImage1.frame = frame1
         countryLabel1.frame = label1frame
         countryImage2.frame = frame4
@@ -339,36 +301,25 @@ class ContentCulturalVC: UIViewController, UIScrollViewDelegate {
         
     }
     func setUp5Country() {
-//        scrollView.addSubview(countryImage1)
-//        scrollView.addSubview(countryLabel1)
-//        scrollView.addSubview(countryImage2)
-//        scrollView.addSubview(countryLabel2)
-//        scrollView.addSubview(countryImage3)
-//        scrollView.addSubview(countryLabel3)
-//        scrollView.addSubview(countryImage4)
-//        scrollView.addSubview(countryLabel4)
-//        scrollView.addSubview(countryImage5)
-//        scrollView.addSubview(countryLabel5)
-        countryLabel1.text = myCountries[0] ?? ""
-        countryLabel2.text = myCountries[1] ?? ""
-        countryLabel3.text = myCountries[2] ?? ""
-        countryLabel4.text = myCountries[3] ?? ""
-        countryLabel5.text = myCountries[4] ?? ""
-        var frame1 = CGRect(x: view.frame.width/3, y: captionLabel.frame.maxY + 10, width: view.frame.width/3, height: view.frame.width/3)
+
+        countryLabel1.text = myCountries[0]
+        countryLabel2.text = myCountries[1]
+        countryLabel3.text = myCountries[2]
+        countryLabel4.text = myCountries[3]
+        countryLabel5.text = myCountries[4]
+        let frame1 = CGRect(x: view.frame.width/3, y: captionLabel.frame.maxY + 10, width: view.frame.width/3, height: view.frame.width/3)
         let label1frame = CGRect(x: 0, y: frame1.maxY + 10, width: view.frame.width, height: 30)
         let country2imageFrame = CGRect(x: view.frame.width/9, y: label1frame.maxY + 20, width: view.frame.width/3, height: view.frame.width/3)
-        var country2LabelFrame = CGRect(x: view.frame.width/9, y: country2imageFrame.maxY + 10, width: view.frame.width/3, height: 30)
+        let country2LabelFrame = CGRect(x: view.frame.width/9, y: country2imageFrame.maxY + 10, width: view.frame.width/3, height: 30)
         countryLabel2.frame = country2LabelFrame
-        var frame3 = CGRect(x: view.frame.width/9, y: countryLabel2.frame.maxY + 20, width: view.frame.width/3, height: view.frame.width/3)
-        var country3LabelFrame = CGRect(x: view.frame.width/9, y: frame3.maxY + 10, width: view.frame.width/3, height: 30)
+        let frame3 = CGRect(x: view.frame.width/9, y: countryLabel2.frame.maxY + 20, width: view.frame.width/3, height: view.frame.width/3)
+        let country3LabelFrame = CGRect(x: view.frame.width/9, y: frame3.maxY + 10, width: view.frame.width/3, height: 30)
 
-        var frame4 = CGRect(x: view.frame.width*(5/9), y: view.frame.height/16, width: view.frame.width/3, height: view.frame.width/3)
-        let label4frame = CGRect(x: view.frame.width*(5/9), y: frame1.maxY + 10, width: view.frame.width/3, height: 30)
         let country5imageFrame = CGRect(x: view.frame.width*(5/9), y: label1frame.maxY + 20, width: view.frame.width/3, height: view.frame.width/3)
-        var country5LabelFrame = CGRect(x: view.frame.width*(5/9), y: country2imageFrame.maxY + 10, width: view.frame.width/3, height: 30)
+        let country5LabelFrame = CGRect(x: view.frame.width*(5/9), y: country2imageFrame.maxY + 10, width: view.frame.width/3, height: 30)
         countryLabel2.frame = country2LabelFrame
-        var frame6 = CGRect(x: view.frame.width*(5/9), y: countryLabel2.frame.maxY + 20, width: view.frame.width/3, height: view.frame.width/3)
-        var country6LabelFrame = CGRect(x: view.frame.width*(5/9), y: frame3.maxY + 10, width: view.frame.width/3, height: 30)
+        let frame6 = CGRect(x: view.frame.width*(5/9), y: countryLabel2.frame.maxY + 20, width: view.frame.width/3, height: view.frame.width/3)
+        let country6LabelFrame = CGRect(x: view.frame.width*(5/9), y: frame3.maxY + 10, width: view.frame.width/3, height: 30)
         countryImage1.frame = frame1
         countryLabel1.frame = label1frame
         countryImage2.frame = country2imageFrame
@@ -381,40 +332,29 @@ class ContentCulturalVC: UIViewController, UIScrollViewDelegate {
         countryLabel5.frame = country6LabelFrame
     }
     func setUp6Country() {
-//        scrollView.addSubview(countryImage1)
-//        scrollView.addSubview(countryLabel1)
-//        scrollView.addSubview(countryImage2)
-//        scrollView.addSubview(countryLabel2)
-//        scrollView.addSubview(countryImage3)
-//        scrollView.addSubview(countryLabel3)
-//        scrollView.addSubview(countryImage4)
-//        scrollView.addSubview(countryLabel4)
-//        scrollView.addSubview(countryImage5)
-//        scrollView.addSubview(countryLabel5)
-//        scrollView.addSubview(countryImage6)
-//        scrollView.addSubview(countryLabel6)
-        countryLabel1.text = myCountries[0] ?? ""
-        countryLabel2.text = myCountries[1] ?? ""
-        countryLabel3.text = myCountries[2] ?? ""
-        countryLabel4.text = myCountries[3] ?? ""
-        countryLabel5.text = myCountries[4] ?? ""
-        countryLabel6.text = myCountries[5] ?? ""
-        var frame1 = CGRect(x: view.frame.width/9, y: captionLabel.frame.maxY + 10, width: view.frame.width/3, height: view.frame.width/3)
+
+        countryLabel1.text = myCountries[0]
+        countryLabel2.text = myCountries[1]
+        countryLabel3.text = myCountries[2]
+        countryLabel4.text = myCountries[3]
+        countryLabel5.text = myCountries[4]
+        countryLabel6.text = myCountries[5]
+        let frame1 = CGRect(x: view.frame.width/9, y: captionLabel.frame.maxY + 10, width: view.frame.width/3, height: view.frame.width/3)
         let label1frame = CGRect(x: view.frame.width/9, y: frame1.maxY + 10, width: view.frame.width/3, height: 30)
         let country2imageFrame = CGRect(x: view.frame.width/9, y: label1frame.maxY + 20, width: view.frame.width/3, height: view.frame.width/3)
-        var country2LabelFrame = CGRect(x: view.frame.width/9, y: country2imageFrame.maxY + 10, width: view.frame.width/3, height: 30)
+        let country2LabelFrame = CGRect(x: view.frame.width/9, y: country2imageFrame.maxY + 10, width: view.frame.width/3, height: 30)
         countryLabel2.frame = country2LabelFrame
-        var frame3 = CGRect(x: view.frame.width/9, y: countryLabel2.frame.maxY + 20, width: view.frame.width/3, height: view.frame.width/3)
-        var country3LabelFrame = CGRect(x: view.frame.width/9, y: frame3.maxY + 10, width: view.frame.width/3, height: 30)
+        let frame3 = CGRect(x: view.frame.width/9, y: countryLabel2.frame.maxY + 20, width: view.frame.width/3, height: view.frame.width/3)
+        let country3LabelFrame = CGRect(x: view.frame.width/9, y: frame3.maxY + 10, width: view.frame.width/3, height: 30)
         
         
-        var frame4 = CGRect(x: view.frame.width*(5/9), y: captionLabel.frame.maxY + 10, width: view.frame.width/3, height: view.frame.width/3)
+        let frame4 = CGRect(x: view.frame.width*(5/9), y: captionLabel.frame.maxY + 10, width: view.frame.width/3, height: view.frame.width/3)
         let label4frame = CGRect(x: view.frame.width*(5/9), y: frame1.maxY + 10, width: view.frame.width/3, height: 30)
         let country5imageFrame = CGRect(x: view.frame.width*(5/9), y: label1frame.maxY + 20, width: view.frame.width/3, height: view.frame.width/3)
-        var country5LabelFrame = CGRect(x: view.frame.width*(5/9), y: country2imageFrame.maxY + 10, width: view.frame.width/3, height: 30)
+        let country5LabelFrame = CGRect(x: view.frame.width*(5/9), y: country2imageFrame.maxY + 10, width: view.frame.width/3, height: 30)
         countryLabel2.frame = country2LabelFrame
-        var frame6 = CGRect(x: view.frame.width*(5/9), y: countryLabel2.frame.maxY + 20, width: view.frame.width/3, height: view.frame.width/3)
-        var country6LabelFrame = CGRect(x: view.frame.width*(5/9), y: frame3.maxY + 10, width: view.frame.width/3, height: 30)
+        let frame6 = CGRect(x: view.frame.width*(5/9), y: countryLabel2.frame.maxY + 20, width: view.frame.width/3, height: view.frame.width/3)
+        let country6LabelFrame = CGRect(x: view.frame.width*(5/9), y: frame3.maxY + 10, width: view.frame.width/3, height: 30)
         countryImage1.frame = frame1
         countryLabel1.frame = label1frame
         countryImage2.frame = country2imageFrame
@@ -494,8 +434,6 @@ class ContentCulturalVC: UIViewController, UIScrollViewDelegate {
     
     // viewdidload helper functions
     func setUpScrollView() {
-        //view.addSubview(scrollView)
-        //scrollView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - 65)
         scrollView.delegate = self
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
@@ -527,7 +465,4 @@ class ContentCulturalVC: UIViewController, UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return countryImage1
     }
-    
-
-
 }

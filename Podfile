@@ -7,6 +7,7 @@ target 'Bio' do
 
 use_frameworks!
 
+pod 'Alamofire', '~> 5.2'
 pod 'GoogleUtilities'
 pod 'MBVideoPlayer', :git => 'https://github.com/mwaqasbhati/MBVideoPlayer.git'
 pod 'Firebase/Auth'

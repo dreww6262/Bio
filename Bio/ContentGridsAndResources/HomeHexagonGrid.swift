@@ -708,15 +708,33 @@ var navBarView = NavBarView()
             createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
             //let ref = storage.child(hexData.thumbResource)
             
-            let cleanRef = hexData.thumbResource.replacingOccurrences(of: "/", with: "%2F")
-            let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
-            if url != nil {
-                
-                image.sd_setImage(with: url!, placeholderImage: placeHolderImage, options: .refreshCached) { (_, error, _, _) in
-                    if (error != nil) {
-                        print(error!.localizedDescription)
-                        image.image = placeHolderImage
+            if hexData.thumbResource.contains("userFiles") {
+                let cleanRef = hexData.thumbResource.replacingOccurrences(of: "/", with: "%2F")
+                let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
+                if url != nil {
+                    
+                    image.sd_setImage(with: url!, placeholderImage: placeHolderImage, options: .refreshCached) { (_, error, _, _) in
+                        if (error != nil) {
+                            print(error!.localizedDescription)
+                            image.image = placeHolderImage
+                        }
                     }
+                }
+                else {
+                    image.image = placeHolderImage
+                }
+            }
+            else {
+                if let url = URL(string: hexData.thumbResource) {
+                    image.sd_setImage(with: url, placeholderImage: placeHolderImage, options: .refreshCached) { (_, error, _, _) in
+                        if (error != nil) {
+                            print(error!.localizedDescription)
+                            image.image = placeHolderImage
+                        }
+                    }
+                }
+                else {
+                    image.image = placeHolderImage
                 }
             }
         }

@@ -27,6 +27,8 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
     var backButton = UIButton()
     var postButton = UIButton()
     
+    var readyToPost = false
+    
     private var db = Firestore.firestore()
     private var storage = Storage.storage().reference()
     
@@ -47,32 +49,32 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
         webView.navigationDelegate = self
         webView.allowsBackForwardNavigationGestures = false
         
-        
-        
         let link = webHex!.resource
         let myUrl = URL(string: link)
         
         if webHex?.text != "" {
             self.captionTextField.isHidden = false
-            print("This is web hex text \(webHex?.text)")
+            //            print("This is web hex text \(webHex?.text)")
             setUpCaption()
             
         }
         else {
             self.captionTextField.isHidden = true
-            print("This is web hex text \(webHex?.text)")
+            //            print("This is web hex text \(webHex?.text)")
             webView.frame = CGRect(x: 0, y: self.view.frame.height/12, width: view.frame.width, height: view.frame.height*(11/12))
         }
         
         if (myUrl != nil) {
             let myRequest = URLRequest(url: myUrl!)
-            print("should be loading url!")
+            //            print("should be loading url!")
             webView.load(myRequest)
         }
-        print("This is webView.frame \(webView.frame)")
+        //        print("This is webView.frame \(webView.frame)")
         
         view.bringSubviewToFront(navBarView)
         navBarView.bringSubviewToFront(navBarView.titleLabel)
+        webView.addObserver(self, forKeyPath: "URL", options: .new, context: nil)
+        
         
     }
     
@@ -85,18 +87,18 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
         self.captionTextField.textAlignment = .center
         self.captionTextField.isUserInteractionEnabled = false
         self.captionTextField.backgroundColor = .black
-        print("This is caption text \(captionText)")
-        print("This is text field text \(captionTextField.text)")
+        //        print("This is caption text \(captionText)")
+        //        print("This is text field text \(captionTextField.text)")
         self.captionTextField.textColor = .white
         self.captionTextField.frame = captionFrame
         let webFrame = CGRect(x: 0, y: self.captionTextField.frame.maxY, width: view.frame.width, height: view.frame.height*(11/12) - 66)
         webView.frame = webFrame
-        print("This is webView.frame \(webView.frame)")
+        //        print("This is webView.frame \(webView.frame)")
     }
     
     func setUpNavBarView() {
         var statusBarHeight = UIApplication.shared.statusBarFrame.height
-        print("This is status bar height \(statusBarHeight)")
+        //        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.addSubview(backButton)
         self.navBarView.addSubview(postButton)
@@ -140,7 +142,7 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
         self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: postButton.frame.minY, width: 200, height: 25)
         self.navBarView.titleLabel.isHidden = true
         
-        print("This is navBarView.")
+        //        print("This is navBarView.")
         
         alternateTitleLabel.text = "Preview"
         alternateTitleLabel.textColor = .white
@@ -160,7 +162,7 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
         hexDoc.setData(hexCopy.dictionary){ error in
             //     group.leave()
             if error == nil {
-                print("added hex: \(hexData)")
+                //                print("added hex: \(hexData)")
                 completion(true)
             }
             else {
@@ -183,39 +185,48 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
     }
     
     @objc func finishPressed(_ sender: UITapGestureRecognizer) {
-        let imageRef = storage.child(webHex!.thumbResource)
-        let loadingIndicator = storyboard?.instantiateViewController(withIdentifier: "loading")
         
-        let blurEffectView: UIVisualEffectView = {
-            let blurEffect = UIBlurEffect(style: .dark)
-            let blurEffectView = UIVisualEffectView(effect: blurEffect)
-            
-            blurEffectView.alpha = 0.8
-            
-            // Setting the autoresizing mask to flexible for
-            // width and height will ensure the blurEffectView
-            // is the same size as its parent view.
-            blurEffectView.autoresizingMask = [
-                .flexibleWidth, .flexibleHeight
-            ]
-            blurEffectView.frame = view.bounds
-            
-            return blurEffectView
-        }()
-        view.addSubview(blurEffectView)
-        
-        addChild(loadingIndicator!)
-        view.addSubview(loadingIndicator!.view)
-        
-        let userData = self.userDataVM?.userData.value
-        if (userData == nil) {
+        if !readyToPost {
+            let alert = UIAlertController(title: "Link not ready yet", message: "Please wait for link to load.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
             return
         }
         
-        imageRef.putData(thumbImage!.pngData()!, metadata: nil){ data, error in
-            if (error == nil) {
-                print ("upload successful")
+        else {
+            
+            
+            
+            let imageRef = storage.child(webHex!.thumbResource)
+            let loadingIndicator = storyboard?.instantiateViewController(withIdentifier: "loading")
+            
+            let blurEffectView: UIVisualEffectView = {
+                let blurEffect = UIBlurEffect(style: .dark)
+                let blurEffectView = UIVisualEffectView(effect: blurEffect)
                 
+                blurEffectView.alpha = 0.8
+                
+                // Setting the autoresizing mask to flexible for
+                // width and height will ensure the blurEffectView
+                // is the same size as its parent view.
+                blurEffectView.autoresizingMask = [
+                    .flexibleWidth, .flexibleHeight
+                ]
+                blurEffectView.frame = view.bounds
+                
+                return blurEffectView
+            }()
+            view.addSubview(blurEffectView)
+            
+            addChild(loadingIndicator!)
+            view.addSubview(loadingIndicator!.view)
+            
+            let userData = self.userDataVM?.userData.value
+            if (userData == nil) {
+                return
+            }
+            
+            if thumbImage == nil {
                 self.addHex(hexData: self.webHex!, completion: { bool in
                     if (bool) {
                         userData?.numPosts = self.webHex!.location
@@ -223,7 +234,7 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
                         
                         self.userDataVM?.updateUserData(newUserData: userData!, completion: { success in
                             if success {
-                                print("userdata updated successfully")
+                                //                                print("userdata updated successfully")
                                 
                                 //                                    if (self.cancelLbl == nil || self.webHex?.type == "link") {
                                 self.performSegue(withIdentifier: "unwindFromLinkToHome", sender: nil)
@@ -238,7 +249,7 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
                                 //                                    }
                             }
                             else {
-                                print("userData not saved \(error!.localizedDescription)")
+                                print("userData not saved")
                                 loadingIndicator?.view.removeFromSuperview()
                                 loadingIndicator?.removeFromParent()
                             }
@@ -252,13 +263,65 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
                     }
                 })
             }
+            
             else {
-                print ("upload failed")
-                loadingIndicator?.view.removeFromSuperview()
-                loadingIndicator?.removeFromParent()
+                imageRef.putData(thumbImage!.pngData()!, metadata: nil){ data, error in
+                    if (error == nil) {
+                        //                print ("upload successful")
+                        
+                        self.addHex(hexData: self.webHex!, completion: { bool in
+                            if (bool) {
+                                userData?.numPosts = self.webHex!.location
+                                userData?.lastTimePosted = NSDate.now.description
+                                
+                                self.userDataVM?.updateUserData(newUserData: userData!, completion: { success in
+                                    if success {
+                                        //                                print("userdata updated successfully")
+                                        
+                                        //                                    if (self.cancelLbl == nil || self.webHex?.type == "link") {
+                                        self.performSegue(withIdentifier: "unwindFromLinkToHome", sender: nil)
+                                        //                                    }
+                                        
+                                        //                                    else {
+                                        //                                        let linkVC = self.storyboard?.instantiateViewController(withIdentifier: "linkVC") as! AddLinkVCViewController
+                                        //                                        linkVC.userData = self.userData
+                                        //                                        linkVC.currentUser = self.user
+                                        //                                        linkVC.cancelLbl = "Skip"
+                                        //                                        self.present(linkVC, animated: false, completion: nil)
+                                        //                                    }
+                                    }
+                                    else {
+                                        print("userData not saved")
+                                        loadingIndicator?.view.removeFromSuperview()
+                                        loadingIndicator?.removeFromParent()
+                                    }
+                                    
+                                })
+                            }
+                            else {
+                                print("didnt add hex")
+                                loadingIndicator?.view.removeFromSuperview()
+                                loadingIndicator?.removeFromParent()
+                            }
+                        })
+                    }
+                    else {
+                        print ("upload failed")
+                        loadingIndicator?.view.removeFromSuperview()
+                        loadingIndicator?.removeFromParent()
+                    }
+                }
             }
         }
-        
     }
-    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if (!readyToPost) {
+            if let key = change?[NSKeyValueChangeKey.newKey] {
+                let link = (key as! URL).absoluteString
+                print("observeValue \(link)") // url value
+                webHex?.resource = link
+                readyToPost = true
+            }
+        }
+    }
 }
