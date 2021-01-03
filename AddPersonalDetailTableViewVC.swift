@@ -513,6 +513,28 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
     func pass(data: String) {
         print("data: \(data)")
         cellArray[1].interactiveTextField.text = data
+        //dostatestuff
+        var stateCode = ""
+        var state = ""
+        var stateImage = ""
+        for shortState in stateCodes {
+            if data.contains(shortState) {
+                print("This is the state code: \(shortState)")
+                stateCode = shortState
+               state = longStateName(stateCode)
+            state = state.lowercased()
+                print("This is state \(state)")
+                stateImage = "\(state)_flag-png-square-large.png"
+                cellArray[1].socialMediaIcon.image = UIImage(named: stateImage)
+                houseImage = UIImage(named: stateImage)
+                print("This is pass state \(stateImage)")
+                iconArray = [birthdayImage ?? UIImage(), houseImage ?? UIImage(), cultureImage ?? UIImage(), phoneImage ?? UIImage(), relationshipImage ?? UIImage()]
+            }
+         
+        }
+        
+        
+        
     }
     
     func passArray(dataArray: [String]) {
@@ -838,7 +860,6 @@ extension AddPersonalDetailTableViewVC: UITableViewDelegate, UITableViewDataSour
             let cellTap = UITapGestureRecognizer(target: self, action: #selector(cityCellTap))
             cell.addGestureRecognizer(cellTap)
             cell.interactiveTextField.text = myCity
-        
             var stateCode = ""
             var state = ""
             var stateImage = ""
@@ -847,15 +868,13 @@ extension AddPersonalDetailTableViewVC: UITableViewDelegate, UITableViewDataSour
                     print("This is the state code: \(shortState)")
                     stateCode = shortState
                    state = longStateName(stateCode)
-                state = state.lowercased()
+                    state = state.lowercased()
                     print("This is state \(state)")
                     stateImage = "\(state)_flag-png-square-large.png"
-                    cell.socialMediaIcon.image = UIImage(named: stateImage)
-                    houseImage = UIImage(named: stateImage)
-                    iconArray = [birthdayImage ?? UIImage(), houseImage ?? UIImage(), cultureImage ?? UIImage(), phoneImage ?? UIImage(), relationshipImage ?? UIImage()]
+                cell.socialMediaIcon.image = UIImage(named: stateImage)
                 }
-             
             }
+            
     
             
             
