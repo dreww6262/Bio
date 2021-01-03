@@ -263,8 +263,8 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         searchTable.dataSource = self
         searchTable.delegate = self
         searchTable.backgroundColor = .gray
-        searchTable.rowHeight = UITableView.automaticDimension
-        searchTable.estimatedRowHeight = 60
+        searchTable.rowHeight = 70
+        searchTable.estimatedRowHeight = 100
         
         view.addSubview(searchTable)
         
@@ -326,16 +326,28 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
                     searchResults.removeAll()
                     for i in 0..<items.count{
                         let item = items[i]
-                        //print(item)
+                        print("item: \(item)")
                         let name = item["name"] as! String
-                        let artist = item["artist"] as! String? ?? ""
+                        
                         let previewURL = item["uri"] as? String? ?? ""
                         if let album = item["album"] as? [String: Any] {
-                            //print("album: \(album)")
+                            var artist = ""
+                            print("album: \(album)")
+                            
+                            if let artists = album["artists"] as? [[String: Any]] {
+                                print("entered")
+                                for i in 0 ..< artists.count {
+                                    artist.append((artists[i]["name"] as? String? ?? "") ?? "")
+                                    if (i != artists.count - 1) {
+                                        artist.append(", ")
+                                    }
+                                }
+                                //artist = (artists["name"] as? String? ?? "") ?? ""
+                            }
                             let albumName = album["name"] as? String? ?? ""
                             let music = MusicItem(track: name, artist: artist, album: albumName ?? "", uri: previewURL ?? "")
                             searchResults.append(music)
-//                            print(music.dictionary)
+                            print(music.dictionary)
                         }
                     }
                     self.searchTable.reloadData()
@@ -911,33 +923,49 @@ extension AddMusicVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "musicSuggestion") as! MusicSuggestionCell
+        
+        if indexPath.row % 2 == 0 {
+            cell.backgroundColor = .gray
+        }
+        else {
+            cell.backgroundColor = .lightGray
+        }
+        
+        cell.contentView.frame = cell.frame
+        
         print("creating cell \(searchResults[indexPath.row].track)")
         cell.albumLabel.text = searchResults[indexPath.row].album
         cell.trackLabel.text = searchResults[indexPath.row].track
         cell.artistLabel.text = searchResults[indexPath.row].artist
         
+        
         cell.albumLabel.textColor = .black
         cell.trackLabel.textColor = .black
         cell.artistLabel.textColor = .black
         
-        cell.albumLabel.font = UIFont(name: "Poppins-SemiBold", size: 10)
-        cell.trackLabel.font = UIFont(name: "Poppins-SemiBold", size: 10)
-        cell.artistLabel.font = UIFont(name: "Poppins-SemiBold", size: 10)
+        cell.albumLabel.font = UIFont(name: "Poppins-SemiBold", size: 14)
+        cell.trackLabel.font = UIFont(name: "Poppins-SemiBold", size: 14)
+        cell.artistLabel.font = UIFont(name: "Poppins-SemiBold", size: 14)
 
         
-        cell.trackLabel.frame = CGRect(x: 8, y: 4, width: cell.frame.width, height: 12)
-        if (cell.trackLabel.text != "" && cell.albumLabel.text != "") {
-            cell.artistLabel.frame = CGRect(x: 8, y: cell.trackLabel.frame.maxY + 6, width: cell.frame.width, height: 12)
+        cell.trackLabel.frame = CGRect(x: 8, y: 8, width: cell.frame.width, height: 15)
+        
+        cell.clipsToBounds = true
+        
+        if (cell.trackLabel.text != "" || cell.albumLabel.text != "") {
+            cell.artistLabel.frame = CGRect(x: 8, y: cell.trackLabel.frame.maxY + 4, width: cell.frame.width, height: 15)
         }
         else {
-            cell.artistLabel.frame = CGRect(x: 8, y: cell.frame.midY - 6, width: cell.frame.width, height: 12)
+            cell.artistLabel.frame = CGRect(x: 8, y: cell.frame.midY - 6, width: cell.frame.width, height: 15)
         }
         if (cell.trackLabel.text != "") {
-            cell.albumLabel.frame = CGRect(x: 8, y: cell.artistLabel.frame.maxY + 6, width: cell.frame.width, height: 12)
+            cell.albumLabel.frame = CGRect(x: 8, y: cell.artistLabel.frame.maxY + 4, width: cell.frame.width, height: 15)
         }
         else {
-            cell.albumLabel.frame = CGRect(x: 8, y: 4, width: cell.frame.width, height: 12)
+            cell.albumLabel.frame = CGRect(x: 8, y: 4, width: cell.frame.width, height: 15)
         }
+        
+        
         return cell
     }
     
