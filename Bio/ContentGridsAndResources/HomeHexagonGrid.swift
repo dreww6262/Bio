@@ -113,6 +113,8 @@ var navBarView = NavBarView()
         toSearchButton.isHidden = false
         toSettingsButton.isHidden = false
         
+        
+        
         observeUserData()
         refresh()
     }
@@ -122,6 +124,13 @@ var navBarView = NavBarView()
             if (userData == nil) {
                 self.observeUserData()
                 return
+            }
+            
+            if self.userDataVM?.userData.value?.identityValues.isEmpty ?? false {
+                let personalDetailTableViewVC = self.storyboard?.instantiateViewController(withIdentifier: "personalDetailTableViewVC") as! PersonalDetailTableViewVC
+                personalDetailTableViewVC.userDataVM = self.userDataVM
+                personalDetailTableViewVC.comingFromHome = true
+                self.present(personalDetailTableViewVC, animated: false, completion: nil)
             }
             // do changes? maybe refresh
             self.refresh()
@@ -295,8 +304,8 @@ var navBarView = NavBarView()
     }
     
     func shrinkImage(imageView: UIImageView) {
-        var shrinkFactor = CGFloat(0.0666666666667) // 1/15
-        var currentImageViewFrame = imageView.frame
+        let shrinkFactor = CGFloat(0.0666666666667) // 1/15
+        let currentImageViewFrame = imageView.frame
         print("This is currentImageViewFrame \(currentImageViewFrame)")
         var shrunkFrame = CGRect(x: currentImageViewFrame.minX, y: currentImageViewFrame.minY, width: imageView.frame.width*(14/15), height: imageView.frame.height*(14/15))
         print("This is shrunkFrame \(shrunkFrame)")
@@ -305,7 +314,7 @@ var navBarView = NavBarView()
         print("shrunk frame min x = \(shrunkFrame.minX)")
         print("shrunk frame min y = \(shrunkFrame.minY)")
         print("shrunk frame width = \(shrunkFrame.width)")
-        var product = shrinkFactor*(shrunkFrame.width)
+        let product = shrinkFactor*(shrunkFrame.width)
         print("This is product \(product)")
         shrunkFrame = CGRect(x: shrunkFrame.minX + (shrunkFrame.width*shrinkFactor/2), y: shrunkFrame.minY + (shrunkFrame.height*shrinkFactor/2), width: shrunkFrame.width, height: shrunkFrame.height)
         print("This is shrunk Frame moved \(shrunkFrame)")
@@ -460,9 +469,6 @@ var navBarView = NavBarView()
                     shakebleImages.append(image)
                     self.contentView.bringSubviewToFront(image)
                     if image.hexData?.isPrioritized == true {
-                        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
-                        let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.longTapPrioritized))
-               
                     prioritizedPosts.append(image)
                     image.pulse(withIntensity: 0.8, withDuration: 1.5, loop: true)
                     }
@@ -558,7 +564,7 @@ var navBarView = NavBarView()
         self.indexLabelArray = []
         self.indexImageViewArray = []
         for image in imageViewArray {
-            var imageType = image.hexData?.type
+            let imageType = image.hexData?.type
        var copyColor = myBlueGreen
             
             if imageType == "photo" {
@@ -579,8 +585,8 @@ var navBarView = NavBarView()
             
             image.frame = CGRect(x: self.reOrderedCoordinateArrayPoints[image.hexData!.location].x,
                                  y: self.reOrderedCoordinateArrayPoints[image.hexData!.location].y, width: hexaDiameter, height: hexaDiameter)
-            var imageCopyFrame = image.frame
-            var imageCopy = UIImageView(frame: imageCopyFrame)
+            let imageCopyFrame = image.frame
+            let imageCopy = UIImageView(frame: imageCopyFrame)
             imageCopy.backgroundColor = copyColor
             imageCopy.setupHexagonMask(lineWidth: imageCopy.frame.width/15, color: copyColor, cornerRadius: imageCopy.frame.width/15)
             self.indexImageViewArray.append(imageCopy)
@@ -617,31 +623,6 @@ var navBarView = NavBarView()
         
     }
     
- //   func makeRateMenu() -> UIMenu {
-//      let ratingButtonTitles = ["View Profile Picture", "Change Profile Picture"]
-//
-//      let rateActions = ratingButtonTitles
-//        .enumerated()
-//        .map { index, title in
-//          return UIAction(
-//            title: title,
-//            identifier: UIAction.Identifier("\(index + 1)"),
-////            handler: handleProfilePicTap(nil))
-//            return UIMenu(
-//              title: "Rate...",
-////              image: UIImage(systemName: "star.circle"),
-////              options: .displayInline,
-////              children: ratingButtonTitles)
-////
-//        let menu1 = UIMenu(title: <#T##String#>, image: <#T##UIImage?#>, identifier: <#T##UIMenu.Identifier?#>, options: <#T##UIMenu.Options#>, children: <#T##[UIMenuElement]#>)
-//
-//        UIMenuElement(
-//
-//      return UIMenu(title: "View Profile Picture", image: nil, children: <#T##[UIMenuElement]#>
-//        title: "Rate...",
-//        image: UIImage(systemName: "star.circle"),
-//        children: ratingButtonTitles)
-//    }
     
     func createContentView() {
         let interaction = UIContextMenuInteraction(delegate: self)
@@ -678,7 +659,7 @@ var navBarView = NavBarView()
             createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
         }
         else if myType == "pin_city" {
-            var ttext = hexData.thumbResource
+            let ttext = hexData.thumbResource
            // ttext = ttext.replacingOccurrences(of: " ", with: "-")
             print("This is image name \(ttext)")
             image.image = UIImage(named: ttext)
@@ -1074,11 +1055,11 @@ var navBarView = NavBarView()
     }
     
     func setUpNavBarView() {
-        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
 //        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
-        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        let navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
         navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
         self.navBarView.addSubview(toSettingsButton)
@@ -1103,7 +1084,6 @@ var navBarView = NavBarView()
         self.toSettingsButton.frame = CGRect(x: 10, y: navBarView.frame.height - 30, width: 25, height: 25)
         self.toSettingsButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
         self.toSearchButton.frame = CGRect(x: navBarView.frame.width - 35, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
-        let yOffset = navBarView.frame.maxY
       //  self.navBarView.addSubview(titleLabel1)
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.isHidden = true

@@ -95,14 +95,16 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
     
     var placeHolderTextArray: [String] = ["Birthday", "Current City", "Cultural Identity", "Phone Number", "Relationship Status"]
     
+    var numPosts = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpNavBarView()
         tableView.delegate = self
         tableView.dataSource = self
-        var numRows = CGFloat(6.0)
-        var rowHeight = CGFloat(90)
-        var tableViewHeight = CGFloat(numRows*rowHeight)
+        let numRows = CGFloat(6.0)
+        let rowHeight = CGFloat(90)
+        let tableViewHeight = CGFloat(numRows*rowHeight)
         tableView.frame = CGRect(x: 0, y: navBarView.frame.height, width: view.frame.width, height: tableViewHeight)
         tableView.reloadData()
         relationshipPickerView.delegate = self
@@ -152,6 +154,19 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
         myCity = ogCity
         myRelationship = ogRelationship
         myPhoneNumber = ogPhoneNumber
+        
+        numPosts = userDataVM?.userData.value?.numPosts ?? 0
+    }
+    
+    
+    
+    func incrementNumPosts() {
+        DispatchQueue.global().async {
+            DispatchQueue.main.sync {
+                self.numPosts += 1
+            }
+        }
+        
     }
     
     func getZodiacSign(_ date:Date) -> String{
@@ -196,8 +211,10 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
         var trimmedText = myText.trimmingCharacters(in: .whitespaces)
         trimmedText = trimmedText.lowercased()
         //        print("This is trimmedText \(trimmedText)")
-        let birthdayHex = HexagonStructData(resource: myText, type: "pin_birthday", location: userData!.numPosts + 1, thumbResource: "icons/AstrologicalSigns/\(myZodiac).png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myZodiac, views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: [])
+        let birthdayHex = HexagonStructData(resource: myText, type: "pin_birthday", location: numPosts + 1, thumbResource: "icons/AstrologicalSigns/\(myZodiac).png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myZodiac, views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: [])
+        self.incrementNumPosts()
         addHex(hexData: birthdayHex, completion: { bool in
+            
             success = success && bool
             
         })
@@ -209,8 +226,20 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
         var trimmedText = myText.trimmingCharacters(in: .whitespaces)
         trimmedText = trimmedText.lowercased()
         //        print("This is trimmedText \(trimmedText)")
-        let birthdayHex = HexagonStructData(resource: myText, type: "pin_birthday", location: userData!.numPosts + 1, thumbResource: "icons/AstrologicalSigns/\(myZodiac).png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myZodiac, views: 0, isArchived: false, docID: birthdayDoc, coverText: "", isPrioritized: false, array: [])
-        db.collection("Hexagons2").document(birthdayDoc).setData(birthdayHex.dictionary)
+        db.collection("Hexagons2").document(birthdayDoc).getDocument(completion: { obj, error in
+            if obj != nil {
+                let prevHex = HexagonStructData(dictionary: obj!.data()!)
+                var position = prevHex.location
+                if prevHex.isArchived {
+                    position = self.numPosts + 1
+                    self.incrementNumPosts()
+                }
+                self.queue.leave()
+                let birthdayHex = HexagonStructData(resource: myText, type: "pin_birthday", location: position, thumbResource: "icons/AstrologicalSigns/\(self.myZodiac).png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: self.myZodiac, views: 0, isArchived: false, docID: self.birthdayDoc, coverText: "", isPrioritized: false, array: [])
+                self.db.collection("Hexagons2").document(self.birthdayDoc).setData(birthdayHex.dictionary)
+            }
+        })
+        
 
     }
     
@@ -221,7 +250,8 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
         var trimmedText = myText.trimmingCharacters(in: .whitespaces)
         trimmedText = trimmedText.lowercased()
         //        print("This is trimmedText \(trimmedText)")
-        let relationshipHex = HexagonStructData(resource: "\(userData!.displayName)", type: "pin_relationship", location: userData!.numPosts + 1, thumbResource: "icons/RelationshipSigns/\(trimmedText).png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myText, views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: [])
+        let relationshipHex = HexagonStructData(resource: "\(userData!.displayName)", type: "pin_relationship", location: numPosts + 1, thumbResource: "icons/RelationshipSigns/\(trimmedText).png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myText, views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: [])
+        incrementNumPosts()
         addHex(hexData: relationshipHex, completion: { bool in
             success = success && bool
             
@@ -234,9 +264,20 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
         var trimmedText = myText.trimmingCharacters(in: .whitespaces)
         trimmedText = trimmedText.lowercased()
         //        print("This is trimmedText \(trimmedText)")
-        let relationshipHex = HexagonStructData(resource: "\(userData!.displayName)", type: "pin_relationship", location: userData!.numPosts + 1, thumbResource: "icons/RelationshipSigns/\(trimmedText).png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myText, views: 0, isArchived: false, docID: relationshipDoc, coverText: "", isPrioritized: false, array: [])
-        db.collection("Hexagons2").document(relationshipDoc).setData(relationshipHex.dictionary)
-
+        db.collection("Hexagons2").document(relationshipDoc).getDocument(completion: { obj, error in
+            if obj != nil {
+                let prevHex = HexagonStructData(dictionary: obj!.data()!)
+                var position = prevHex.location
+                if prevHex.isArchived {
+                    position = self.numPosts + 1
+                    self.incrementNumPosts()
+                }
+                self.queue.leave()
+                let relationshipHex = HexagonStructData(resource: "\(userData!.displayName)", type: "pin_relationship", location: position, thumbResource: "icons/RelationshipSigns/\(trimmedText).png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myText, views: 0, isArchived: false, docID: self.relationshipDoc, coverText: "", isPrioritized: false, array: [])
+                
+                self.db.collection("Hexagons2").document(self.relationshipDoc).setData(relationshipHex.dictionary)
+            }
+        })
         
     }
     
@@ -253,7 +294,8 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
       //  var trimmedText = myText.trimmingCharacters(in: .whitespaces)
         trimmedText = trimmedText.lowercased()
         //        print("This is trimmedText \(trimmedText)")
-        let cultureHex = HexagonStructData(resource: "\(userData!.displayName)", type: "pin_country", location: userData!.numPosts + 1, thumbResource: "icons/flags/\(trimmedText).png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myText, views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: myCountries)
+        let cultureHex = HexagonStructData(resource: "\(userData!.displayName)", type: "pin_country", location: numPosts + 1, thumbResource: "icons/flags/\(trimmedText).png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myText, views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: myCountries)
+        self.incrementNumPosts()
         addHex(hexData: cultureHex, completion: { bool in
             success = success && bool
             
@@ -270,8 +312,22 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
       //  var trimmedText = myText.trimmingCharacters(in: .whitespaces)
         trimmedText = trimmedText.lowercased()
         //        print("This is trimmedText \(trimmedText)")
-        let cultureHex = HexagonStructData(resource: "\(userData!.displayName)", type: "pin_country", location: userData!.numPosts + 1, thumbResource: "icons/flags/\(trimmedText).png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myText, views: 0, isArchived: false, docID: cultureDoc, coverText: "", isPrioritized: false, array: myCountries)
-        db.collection("Hexagons2").document(cultureDoc).setData(cultureHex.dictionary)
+        
+        db.collection("Hexagons2").document(cultureDoc).getDocument(completion: { obj, error in
+            if obj != nil {
+                let prevHex = HexagonStructData(dictionary: obj!.data()!)
+                var position = prevHex.location
+                if prevHex.isArchived {
+                    position = self.numPosts + 1
+                    self.incrementNumPosts()
+                }
+                self.queue.leave()
+                let cultureHex = HexagonStructData(resource: "\(userData!.displayName)", type: "pin_country", location: position, thumbResource: "icons/flags/\(trimmedText).png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myText, views: 0, isArchived: false, docID: self.cultureDoc, coverText: "", isPrioritized: false, array: self.myCountries)
+                self.db.collection("Hexagons2").document(self.cultureDoc).setData(cultureHex.dictionary)
+            }
+        })
+        
+        
 
         
     }
@@ -279,11 +335,12 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
     func addPhoneHex() {
         let userData = userDataVM?.userData.value
         var success = true
-        var myText = cellArray[3].interactiveTextField.text ?? ""
+        let myText = cellArray[3].interactiveTextField.text ?? ""
         var trimmedText = myText.trimmingCharacters(in: .whitespaces)
         trimmedText = trimmedText.lowercased()
         //        print("This is trimmedText \(trimmedText)")
-        let phoneHex = HexagonStructData(resource: "\(userData!.displayName)", type: "pin_phone", location: userData!.numPosts + 1, thumbResource: "icons/smartphone.png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myText, views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: [])
+        let phoneHex = HexagonStructData(resource: "\(userData!.displayName)", type: "pin_phone", location: numPosts + 1, thumbResource: "icons/smartphone.png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myText, views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: [])
+        self.incrementNumPosts()
         addHex(hexData: phoneHex, completion: { bool in
             success = success && bool
             
@@ -296,8 +353,20 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
         var trimmedText = myText.trimmingCharacters(in: .whitespaces)
         trimmedText = trimmedText.lowercased()
         //        print("This is trimmedText \(trimmedText)")
-        let phoneHex = HexagonStructData(resource: "\(userData!.displayName)", type: "pin_phone", location: userData!.numPosts + 1, thumbResource: "icons/smartphone.png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myText, views: 0, isArchived: false, docID: phoneDoc, coverText: "", isPrioritized: false, array: [])
-        db.collection("Hexagons2").document(phoneDoc).setData(phoneHex.dictionary)
+        
+        db.collection("Hexagons2").document(phoneDoc).getDocument(completion: { obj, error in
+            if obj != nil {
+                let prevHex = HexagonStructData(dictionary: obj!.data()!)
+                var position = prevHex.location
+                if prevHex.isArchived {
+                    position = self.numPosts + 1
+                    self.incrementNumPosts()
+                }
+                self.queue.leave()
+                let phoneHex = HexagonStructData(resource: "\(userData!.displayName)", type: "pin_phone", location: position, thumbResource: "icons/smartphone.png", createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myText, views: 0, isArchived: false, docID: self.phoneDoc, coverText: "", isPrioritized: false, array: [])
+                self.db.collection("Hexagons2").document(self.phoneDoc).setData(phoneHex.dictionary)
+            }
+        })
 
     }
     
@@ -354,8 +423,22 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
                 cellArray[1].socialMediaIcon.image = UIImage(named: stateImage)
             }
         }
-        let cityHex = HexagonStructData(resource: "\(userData!.displayName)", type: "pin_city", location: userData!.numPosts + 1, thumbResource: stateImage, createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myText, views: 0, isArchived: false, docID: cityDoc, coverText: "", isPrioritized: false, array: [])
-        db.collection("Hexagons2").document(cityDoc).setData(cityHex.dictionary)
+        
+        db.collection("Hexagons2").document(cityDoc).getDocument(completion: { obj, error in
+            if obj != nil {
+                let prevHex = HexagonStructData(dictionary: obj!.data()!)
+                var position = prevHex.location
+                if prevHex.isArchived {
+                    position = self.numPosts + 1
+                    self.incrementNumPosts()
+                }
+                self.queue.leave()
+                let cityHex = HexagonStructData(resource: "\(userData!.displayName)", type: "pin_city", location: position, thumbResource: stateImage, createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: myText, views: 0, isArchived: false, docID: self.cityDoc, coverText: "", isPrioritized: false, array: [])
+                self.db.collection("Hexagons2").document(self.cityDoc).setData(cityHex.dictionary)
+            }
+        })
+        
+        
     }
         
     
@@ -550,6 +633,7 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
         
     }
     
+    let queue = DispatchGroup()
     
     @objc func continueTapped(_ sender: UITapGestureRecognizer) {
         let userData = userDataVM?.userData.value
@@ -582,46 +666,46 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
         
         if myBirthday != "" && ogBirthday == ""{
             addBirthdayHex()
-            userData?.numPosts += 1
         }
         else if myBirthday != "" && ogBirthday != "" {
+            queue.enter()
             updateBirthdayHex()
         }
         
         let myCity = cellArray[1].interactiveTextField.text ?? ""
         if myCity.contains("United States") && ogCity == "" {
             addCityHex()
-            userData?.numPosts += 1
         }
         else if myCity.contains("United States") && ogCity != "" {
+            queue.enter()
             updateCityHex()
         }
             
   
         if !myCountries.isEmpty && ogCountries.isEmpty {
             addCultureHex()
-            userData?.numPosts += 1
         }
         
         else if !myCountries.isEmpty && !ogCountries.isEmpty {
+            queue.enter()
             updateCultureHex()
         }
         
         if cellArray[3].interactiveTextField.text != "" && ogPhoneNumber == "" {
             addPhoneHex()
-            userData?.numPosts += 1
         }
         
         else if cellArray[3].interactiveTextField.text != "" && ogPhoneNumber != "" {
+            queue.enter()
             updatePhoneHex()
         }
         
         if cellArray[4].interactiveTextField.text != "" && ogRelationship == "" {
             addRelationshipHex()
-            userData?.numPosts += 1
         }
         
         else if cellArray[4].interactiveTextField.text != "" && ogRelationship != "" {
+            queue.enter()
             updateRelationshipHex()
         }
         
@@ -648,13 +732,18 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
         addChild(loadingIndicator!)
         view.addSubview(loadingIndicator!.view)
         
-        userDataVM?.updateUserData(newUserData: userData!, completion: {_ in
-            //segue to home screen
-            self.performSegue(withIdentifier: "rewindToFront", sender: self)
-            blurEffectView.removeFromSuperview()
-            loadingIndicator!.view.removeFromSuperview()
-            loadingIndicator!.removeFromParent()
+        
+        queue.notify(queue: .main, execute: {
+            userData?.numPosts = self.numPosts
+            self.userDataVM?.updateUserData(newUserData: userData!, completion: {_ in
+                //segue to home screen
+                self.performSegue(withIdentifier: "rewindToFront", sender: self)
+                blurEffectView.removeFromSuperview()
+                loadingIndicator!.view.removeFromSuperview()
+                loadingIndicator!.removeFromParent()
+            })
         })
+        
     }
     
     

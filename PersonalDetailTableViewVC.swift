@@ -76,6 +76,8 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
     
     var iconArray: [UIImage] = []
     
+    var comingFromHome = false
+    
     
     var placeHolderTextArray: [String] = ["Birthday (Required)", "Current City (Required)", "Gender (Required)", "Cultural Identity", "Phone Number", "Relationship Status"]
     
@@ -106,6 +108,10 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
         view.addSubview(tableView)
         
         setUpContinueButton()
+        
+        if comingFromHome {
+            backButton.isHidden = true
+        }
     }
     
     func getZodiacSign(_ date:Date) -> String{
