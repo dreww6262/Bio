@@ -218,17 +218,19 @@ class FollowersTableView: UIViewController, UISearchBarDelegate {
     }
     
     // search updated
-    func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if text == "" && searchString != "" {
-            let _ = searchString.popLast()
-        }
-        else {
-            searchString += text
-        }
+//    func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+//        if text == "" && searchString != "" {
+//            let _ = searchString.popLast()
+//        }
+//        else {
+//            searchString += text
+//        }
+//        loadUserData()
+//        return true
+//    }
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         loadUserData()
-        return true
     }
-    
     
     
     // tapped on the searchBar
@@ -264,7 +266,7 @@ class FollowersTableView: UIViewController, UISearchBarDelegate {
     
     func loadUserData() {
         loadUserDataArray.removeAll()
-        //searchString = searchBar.text
+        searchString = searchBar.text ?? ""
         if searchString == "" {
             startWithFollowers()
             return
@@ -374,7 +376,7 @@ extension FollowersTableView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return followList.count
+        return loadUserDataArray.count
     }
     
     // cell height

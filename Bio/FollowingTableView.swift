@@ -217,15 +217,19 @@ class FollowingTableView: UIViewController, UISearchBarDelegate {
     }
     
     // search updated
-    func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if text == "" && searchString != "" {
-            let _ = searchString.popLast()
-        }
-        else {
-            searchString += text
-        }
+//    func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+//        if text == "" && searchString != "" {
+//            let _ = searchString.popLast()
+//        }
+//        else {
+//            searchString += text
+//        }
+//        loadUserData()
+//        return true
+//    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         loadUserData()
-        return true
     }
     
     
@@ -264,7 +268,7 @@ class FollowingTableView: UIViewController, UISearchBarDelegate {
 
     func loadUserData() {
         loadUserDataArray.removeAll()
-        //searchString = searchBar.text
+        searchString = searchBar.text ?? ""
         if searchString == "" {
             startWithFollowers()
             return
