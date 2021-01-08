@@ -106,24 +106,9 @@ var countryFlag = UIImageView()
         return textField
         
     }()
+    let db = Firestore.firestore()
     
-    
-    
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        countryPicker.countryPickerDelegate = self
-//        countryPicker.showPhoneNumbers = true
-//
-//        // set country by its code
-//        countryPicker.setCountry("SI")
-//
-//        // optionally set custom locale; defaults to system's locale
-//        countryPicker.setLocale("sl_SI")
-//
-//        // set country by its name
-//        countryPicker.setCountryByName("Canada")
-//    }
-    
+
     // a picker item was selected
     func countryPhoneCodePicker(_ picker: MRCountryPicker, didSelectCountryWithName name: String, countryCode: String, phoneCode: String, flag: UIImage) {
         self.countryName.text = name
@@ -385,7 +370,7 @@ var countryFlag = UIImageView()
                 print("failed to create user \(error?.localizedDescription)")
                 completion(nil)
             }
-            print("completed")
+//            print("completed")
         })
     }
     
@@ -396,7 +381,7 @@ var countryFlag = UIImageView()
     var blurEffectView: UIVisualEffectView?
     // clicked sign up
     @objc func signUpTapped(_ recognizer: UITapGestureRecognizer) {
-        print("sign up pressed")
+//        print("sign up pressed")
         
         // dismiss keyboard
         self.view.endEditing(true)
@@ -413,12 +398,10 @@ var countryFlag = UIImageView()
             return
         }
         
-        
-        
         self.country = self.countryTextField.text!
-        print("This is country \(country)")
+//        print("This is country \(country)")
         if GDPRCountries.contains(country) {
-            print("GDPR country! 16 and up")
+//            print("GDPR country! 16 and up")
             minimumAge = 16
         } else {
             minimumAge = 13
@@ -433,12 +416,6 @@ var countryFlag = UIImageView()
             
             return
         }
-        
-        
-        
-      
-        
-        
         
         // if different passwords
         if passwordTxt.text != repeatPassword.text {
@@ -468,10 +445,10 @@ var countryFlag = UIImageView()
             password = "\(password.removeLast())"
             print(password)
         }
-        var bio = bioTxt.text ?? ""
+        let bio = bioTxt.text ?? ""
         var signedInUser: User?
         
-        print("about to create new user")
+//        print("about to create new user")
         
         let loadingIndicator = storyboard?.instantiateViewController(withIdentifier: "loading")
         
@@ -496,82 +473,99 @@ var countryFlag = UIImageView()
         addChild(loadingIndicator!)
         view.addSubview(loadingIndicator!.view)
         
-        createUser(email: email, password: password, completion: { [self]user in
-            if (user == nil) {
-                self.blurEffectView?.removeFromSuperview()
-                loadingIndicator!.view.removeFromSuperview()
-                loadingIndicator!.removeFromParent()
-                return
-            }
-            signedInUser = user
-            let changableUser = signedInUser?.createProfileChangeRequest()
-            changableUser?.displayName = self.displayNameTxt.text!
-            changableUser?.commitChanges(completion: { (error) in
-                if (error != nil) {
-                    print(error as Any)
-                }
-            })
-            var reference = "userFiles/\(username)"
-            let userDataStorageRef = self.storage.child(reference)
-            let filename = "\(username)_avatar.png"
-            reference.append("/\(filename)")
-            let avaFileRef = userDataStorageRef.child(filename)
-           // country = self.countryTextField.text ?? ""
-            avaFileRef.putData(self.avaImg.image!.pngData()!, metadata: nil, completion: { meta, error in
-                if (error == nil) {
-                    let userData = UserData(email: email, publicID: self.usernameTxt.text!.lowercased(), privateID: signedInUser!.uid, avaRef: reference, hexagonGridID: "", userPage: "", subscribedUsers: [""], subscriptions: [String: String](), numPosts: 0, displayName: self.displayNameTxt.text!, birthday: "", blockedUsers: [String](), isBlockedBy: [String](), pageViews: 0, bio: bio, country: country, lastTimePosted: NSDate.now.description, currentCity: "", gender: "", phoneNumber: "", identityHexIDs: [String]())
-                    let db = Firestore.firestore()
-                    let userDataCollection = db.collection("UserData1")
-                    let docRef = userDataCollection.document(user!.uid)
-                    docRef.setData(userData.dictionary, completion: { error in
-                        if error == nil {
-                            print("userData posted")
-                            self.userDataVM?.userData.value = userData
-                            self.userDataVM?.retreiveUserData(username: userData.publicID)
-                            
-                            if self.changedProfilePic == false {
-                                let addProfilePic = self.storyboard?.instantiateViewController(withIdentifier: "addProfilePhotoVC") as! AddProfilePhotoVC
-                                addProfilePic.userDataVM = self.userDataVM
-                                addProfilePic.country = country
-                                addProfilePic.minimumAge = minimumAge
-                                self.present(addProfilePic, animated: false, completion: nil)
-                            }
-        // this triggers old/bad sign out process
-                            else {
-                                let personalDetailTableViewVC = self.storyboard?.instantiateViewController(withIdentifier: "personalDetailTableViewVC") as! PersonalDetailTableViewVC
-                                personalDetailTableViewVC.userDataVM = self.userDataVM
-                                personalDetailTableViewVC.myCountry = self.country
-                                personalDetailTableViewVC.myCountries.append(self.country)
-                                personalDetailTableViewVC.myAgeLimit = minimumAge
-                                self.present(personalDetailTableViewVC, animated: false, completion: nil)
-                            }
-                            
-//                                self.performSegue(withIdentifier: "signUpSegue", sender: self)
-//                            self.blurEffectView?.removeFromSuperview()
-//                            loadingIndicator!.view.removeFromSuperview()
-//                            loadingIndicator!.removeFromParent()
-//                            }
-                            
-                            
-                        }
-                        else {
-                            print(error?.localizedDescription)
+        db.collection("UserData1").whereField("publicID", isEqualTo: usernameTxt.text!).getDocuments(completion: { obj, error in
+            if let docs = obj?.documents {
+                if docs.count > 0 {
+                    let alert = UIAlertController(title: "Username has already been taken", message: "Please choose a different username.", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+                    DispatchQueue.global().async {
+                        DispatchQueue.main.sync {
+                            self.present(alert, animated: true, completion: nil)
                             self.blurEffectView?.removeFromSuperview()
                             loadingIndicator!.view.removeFromSuperview()
                             loadingIndicator!.removeFromParent()
                         }
+                    }
+                    return
+                }
+                
+                self.createUser(email: email, password: password, completion: { [self]user in
+                    if (user == nil) {
+                        self.blurEffectView?.removeFromSuperview()
+                        loadingIndicator!.view.removeFromSuperview()
+                        loadingIndicator!.removeFromParent()
+                        return
+                    }
+                    signedInUser = user
+                    let changableUser = signedInUser?.createProfileChangeRequest()
+                    changableUser?.displayName = self.displayNameTxt.text!
+                    changableUser?.commitChanges(completion: { (error) in
+                        if (error != nil) {
+                            print(error as Any)
+                        }
                     })
-                    
-                }
-                else {
-                    print("could not upload profile photo \(error?.localizedDescription)")
-                    self.blurEffectView?.removeFromSuperview()
-                    loadingIndicator!.view.removeFromSuperview()
-                    loadingIndicator!.removeFromParent()
-                    
-                }
-            })
+                    var reference = "userFiles/\(username)"
+                    let userDataStorageRef = self.storage.child(reference)
+                    let filename = "\(username)_avatar.png"
+                    reference.append("/\(filename)")
+                    let avaFileRef = userDataStorageRef.child(filename)
+                   // country = self.countryTextField.text ?? ""
+                    avaFileRef.putData(self.avaImg.image!.pngData()!, metadata: nil, completion: { meta, error in
+                        if (error == nil) {
+                            let userData = UserData(email: email, publicID: self.usernameTxt.text!.lowercased(), privateID: signedInUser!.uid, avaRef: reference, hexagonGridID: "", userPage: "", subscribedUsers: [""], subscriptions: [String: String](), numPosts: 0, displayName: self.displayNameTxt.text!, birthday: "", blockedUsers: [String](), isBlockedBy: [String](), pageViews: 0, bio: bio, country: country, lastTimePosted: NSDate.now.description, currentCity: "", gender: "", phoneNumber: "", identityHexIDs: [String]())
+                            let db = Firestore.firestore()
+                            let userDataCollection = db.collection("UserData1")
+                            let docRef = userDataCollection.document(user!.uid)
+                            docRef.setData(userData.dictionary, completion: { error in
+                                if error == nil {
+//                                    print("userData posted")
+                                    self.userDataVM?.userData.value = userData
+                                    self.userDataVM?.retreiveUserData(username: userData.publicID, completion: {})
+                                    
+                                    if self.changedProfilePic == false {
+                                        let addProfilePic = self.storyboard?.instantiateViewController(withIdentifier: "addProfilePhotoVC") as! AddProfilePhotoVC
+                                        addProfilePic.userDataVM = self.userDataVM
+                                        addProfilePic.country = country
+                                        addProfilePic.minimumAge = minimumAge
+                                        self.present(addProfilePic, animated: false, completion: nil)
+                                    }
+                // this triggers old/bad sign out process
+                                    else {
+                                        let personalDetailTableViewVC = self.storyboard?.instantiateViewController(withIdentifier: "personalDetailTableViewVC") as! PersonalDetailTableViewVC
+                                        personalDetailTableViewVC.userDataVM = self.userDataVM
+                                        personalDetailTableViewVC.myCountry = self.country
+                                        personalDetailTableViewVC.myCountries.append(self.country)
+                                        personalDetailTableViewVC.myAgeLimit = minimumAge
+                                        self.present(personalDetailTableViewVC, animated: false, completion: nil)
+                                    }
+                                }
+                                else {
+                                    print(error?.localizedDescription)
+                                    self.blurEffectView?.removeFromSuperview()
+                                    loadingIndicator!.view.removeFromSuperview()
+                                    loadingIndicator!.removeFromParent()
+                                }
+                            })
+                            
+                        }
+                        else {
+                            print("could not upload profile photo \(error?.localizedDescription)")
+                            self.blurEffectView?.removeFromSuperview()
+                            loadingIndicator!.view.removeFromSuperview()
+                            loadingIndicator!.removeFromParent()
+                            
+                        }
+                    })
+                })
+                
+                
+            }
+            
         })
+        
+        
+        
+        
     }
     
     
@@ -594,7 +588,7 @@ var countryFlag = UIImageView()
     
     func setUpNavBarView() {
         var statusBarHeight = UIApplication.shared.statusBarFrame.height
-        print("This is status bar height \(statusBarHeight)")
+//        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.addSubview(cancelBtn)
         self.navBarView.addSubview(signUpBtn)
@@ -634,7 +628,7 @@ var countryFlag = UIImageView()
        //self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y:  statusBarHeight + (navBarHeightRemaining - 25)/2, width: 200, height: 25)
        // self.navBarView.titleLabel.sizet
         self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: signUpBtn.frame.minY, width: 200, height: 25)
-        print("This is navBarView.")
+//        print("This is navBarView.")
       
       
     }

@@ -163,6 +163,8 @@ var navBarView = NavBarView()
         self.followView.frame = CGRect(x: navBarView.frame.midX - 45, y: toSettingsButton.frame.minY, width: 90, height: 30)
         
         self.followView.layer.cornerRadius = followView.frame.size.width / 20
+        self.followView.layer.borderWidth = 3
+        self.followView.layer.borderColor = UIColor(red: 0.61, green: 0.38, blue: 0.87, alpha: 1.00).cgColor
         self.followView.addSubview(followImage)
         self.followView.addSubview(followLabel)
         self.followImage.frame = CGRect(x: 5, y: 0, width: followView.frame.height, height: followView.frame.height)
@@ -382,36 +384,7 @@ var navBarView = NavBarView()
             
             return
         }
-//        user = Auth.auth().currentUser
-//        if (user != nil) {
-//            db.collection("UserData1").whereField("email", isEqualTo: user!.email!).getDocuments(completion: { objects, error in
-//                if (error == nil) {
-//                    if (objects!.documents.capacity > 0) {
-//                        let newData = UserData(dictionary: objects!.documents[0].data())
-//                        if (self.userData == nil || !NSDictionary(dictionary: newData.dictionary).isEqual(to: self.userData!.dictionary)) {
-//                            self.userData = newData
-//                            if (self.userData != nil) {
-//                                self.populateUserAvatar()
-//                                self.menuView.userData = newData
-//                                self.createImageViews(completion: {
-//                                })
-//                            }
-//                            //                        print("created image views")
-//                        }
-//                        else {
-//                            //                        print("nothing changed")
-//                        }
-//
-//                    }
-//                    else {
-//                        print("getting userdata failed: no users by that email")
-//                    }
-//                }
-//                else {
-//                    print("error on getting userdata before adding image views")
-//                }
-//            })
-//        }
+
     }
     
     // search button logic
@@ -689,7 +662,7 @@ var navBarView = NavBarView()
             createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
             //let ref = storage.child(hexData.thumbResource)
             
-            if hexData.thumbResource.contains("userFiles") {
+            if hexData.thumbResource.contains("userFiles/") || hexData.thumbResource.contains("icons/") {
                 let cleanRef = hexData.thumbResource.replacingOccurrences(of: "/", with: "%2F")
                 let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
                 if url != nil {
@@ -736,13 +709,6 @@ var navBarView = NavBarView()
         
         if image.hexData!.coverText != "" {
             image.textOverlay.backgroundColor = UIColor(white: 0.25, alpha: 0.5)
-//            let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
-//            visualEffectView.backgroundColor = .clear
-//            image.textOverlay.addSubview(visualEffectView)
-//            visualEffectView.frame = CGRect(x: 0, y: 0, width: image.textOverlay.frame.width, height: image.textOverlay.frame.height)
-            
-//            visualEffectView.backgroundColor = UIColor(white: 0.1, alpha: 0.3)
-//            image.sendSubviewToBack(visualEffectView)
         }
         
         
@@ -765,6 +731,8 @@ var navBarView = NavBarView()
         followView.isHidden = false
         setUpPageViewListener()
         refresh()
+        
+        print("userdata: \(userDataVM?.userData.value?.dictionary)")
     }
     
     
@@ -825,16 +793,8 @@ var navBarView = NavBarView()
 //            print("yo: this is dragView.center changed \(dragView!.center)")
             
             self.scrollIfNeeded(location: sender.location(in: scrollView.superview), xDelta: xDelta, yDelta: yDelta)
-            //                print("This is newIndex before \(newIndex)")
             currentHexagonCenter = (sender.view?.center)!
-//            print("This is currentHexagon center changed: \(currentHexagonCenter)")
-            
-            // shake Images
-//            for shakeyImage in shakebleImages {
-//                shakeyImage.shake()
-//            }
-            
-            
+ 
             let hexCenterInView = contentView.convert(currentHexagonCenter, to: view)
 //            DispatchQueue.global().async {
             if (draggedcounter > 25 || xDelta > 2 || yDelta > 2) {
@@ -966,7 +926,7 @@ var navBarView = NavBarView()
             dragView?.center = sender.location(in: contentView)
 //            print("yo: this is dragView.center changed \(dragView!.center)")
             
-            self.scrollIfNeeded(location: sender.location(in: scrollView.superview), xDelta: xDelta, yDelta: yDelta)
+            //self.scrollIfNeeded(location: sender.location(in: scrollView.superview), xDelta: xDelta, yDelta: yDelta)
             //                print("This is newIndex before \(newIndex)")
             currentHexagonCenter = (sender.view?.center)!
 //            print("This is currentHexagon center changed: \(currentHexagonCenter)")
@@ -1621,7 +1581,9 @@ var navBarView = NavBarView()
         catch {
             print("could not sign out")
         }
-        menuView.tabController?.customTabBar.switchTab(from: 2, to: 5)
+        
+        
+        self.dismiss(animated: false, completion: nil)
     }
     
     

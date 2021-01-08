@@ -52,41 +52,50 @@ class PhoneSignInVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let email = Auth.auth().currentUser?.email {
+            userDataVM = UserDataVM()
+            let loadingIndicator = storyboard?.instantiateViewController(withIdentifier: "loading")
+            
+            let blurEffectView: UIVisualEffectView = {
+                let blurEffect = UIBlurEffect(style: .dark)
+                let blurEffectView = UIVisualEffectView(effect: blurEffect)
+                
+                blurEffectView.alpha = 0.8
+                
+                // Setting the autoresizing mask to flexible for
+                // width and height will ensure the blurEffectView
+                // is the same size as its parent view.
+                blurEffectView.autoresizingMask = [
+                    .flexibleWidth, .flexibleHeight
+                ]
+                blurEffectView.frame = view.bounds
+                
+                return blurEffectView
+            }()
+            view.addSubview(blurEffectView)
+            
+            addChild(loadingIndicator!)
+            view.addSubview(loadingIndicator!.view)
+            userDataVM?.retreiveUserData(email: email, completion: {
+                let tabVC = self.storyboard?.instantiateViewController(identifier: "tabController") as! NavigationMenuBaseController
+                tabVC.userDataVM = self.userDataVM
+                self.modalPresentationStyle = .fullScreen
+                tabVC.modalPresentationStyle = .fullScreen
+                DispatchQueue.global().async {
+                    DispatchQueue.main.sync {
+                        blurEffectView.removeFromSuperview()
+                        loadingIndicator?.view.removeFromSuperview()
+                        loadingIndicator?.removeFromParent()
+                        self.present(tabVC, animated: false, completion: nil)
+                    }
+                }
+            })
+            
+        }
+        
         formatLogo()
         formatLabelAndButtons()
- //       view.backgroundColor = backgroundBlue
-  //      setGradientBackground()
-        navigationController?.navigationBar.isHidden = true
-        //loginButton = FBLoginButton() // TODO: Change button from FB to custom layout
-        
-        // loginButton.center = signUpButton.frame.or signInButton.center +
-        //self.view.addSubview(loginButton)
-//        let gradientLayer = CAGradientLayer()
-//        gradientLayer.frame = self.view.bounds
-//        gradientLayer.colors = [backgroundBlue?.cgColor,lightPink?.cgColor]
-//        self.view.layer.insertSublayer(gradientLayer, at: 0)
 
-        
-        
-        
-        
-        //popUpView.isHidden = true
-       
-//        mottoLabel.layer.borderColor = UIColor.white.cgColor
-//        signUpButton.frame = CGRect(x: (self.view.frame.width-224)/2 , y: self.view.frame.height*3/4, width: 224, height: 44)
-//        signUpButton.layer.borderColor = UIColor.white.cgColor
-//        signIn.frame = CGRect(x: (self.view.frame.size.width-224)/2, y: signUpButton.frame.maxY + 20, width: 224, height: 44)
-//        mottoLabel.frame = CGRect(x: 0, y: signUpButton.frame.minY - 60, width: self.view.frame.size.width, height: 50)
-//        mottoLabel.text = "Get Discovered"
-  //      signUpButton.layer.borderWidth = 0.5
-       // signUpButton.layer.borderColor = white.cgColor
-   //    signUpMottoLabel.text = "Get Discovered."
-        //loginButton.frame = CGRect(x: (self.view.frame.size.width-224)/2, y: signInButton.frame.maxY + 20, width: 224, height: 44)
-        
-        //logo.setupHexagonMask(lineWidth: logo.frame.width/15, color: myBlueGreen, cornerRadius: logo.frame.width/15)
-      //  logo.frame = CGRect(x: 0, y: view.frame.height/16, width: view.frame.width, height: view.frame.width)
-        
-        
         signUpButton.layer.borderColor = white.cgColor
         signUpButton.layer.borderWidth = 1.0
         signUpButton.layer.cornerRadius = signUpButton.frame.size.width / 20
@@ -155,25 +164,32 @@ class PhoneSignInVC: UIViewController {
                signUpVC.modalPresentationStyle = .fullScreen
     }
     
-//    func setGradientBackground() {
-//    //    let colorTop =  backgroundBlue?.cgColor
-//    //    let colorBottom = lightPink?.cgColor
-//
-//        let gradientLayer = CAGradientLayer()
-//        gradientLayer.colors = [colorTop, colorBottom]
-//        gradientLayer.locations = [0.0, 1.0]
-//        gradientLayer.frame = self.view.bounds
-//        gradientLayer.shouldRasterize = true
-//        self.view.layer.insertSublayer(gradientLayer, at:0)
-//        print("gradient should be set!")
-//    }
+
     
     @IBAction func unvindSegueToMenu(segue:UIStoryboardSegue) {
-        let tabBar = self.tabBarController! as! NavigationMenuBaseController
-        let homeHexGrid = (tabBar.viewControllers![2] as! HomeHexagonGrid)
-        homeHexGrid.userDataVM = userDataVM
-        tabBar.viewControllers![2] = homeHexGrid
-        tabBar.customTabBar.switchTab(from: 5, to: 2) // to home controller
+//        let tabBar = self.tabBarController! as! NavigationMenuBaseController
+//
+//        for vc in tabBar.viewControllers! {
+//            vc.viewDidLoad()
+//        }
+//
+//        let homeHexGrid = (tabBar.viewControllers![2] as! HomeHexagonGrid)
+//        //homeHexGrid.userDataVM = userDataVM
+//        tabBar.viewControllers![2] = homeHexGrid
+//        tabBar.customTabBar.switchTab(from: 5, to: 2) // to home controller
+        
+        let tabVC = storyboard?.instantiateViewController(identifier: "tabController") as! NavigationMenuBaseController
+        tabVC.userDataVM = userDataVM
+        tabVC.modalPresentationStyle = .fullScreen
+        modalPresentationStyle = .fullScreen
+        DispatchQueue.global().async {
+            DispatchQueue.main.sync {
+                self.present(tabVC, animated: false, completion: nil)
+            }
+        }
+        
+        
+        
     }
     
     

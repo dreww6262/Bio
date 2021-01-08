@@ -11,11 +11,52 @@ import FirebaseAuth
 class NavigationMenuBaseController: UITabBarController, UINavigationControllerDelegate {
     var customTabBar: TabNavigationMenu!
     var tabBarHeight: CGFloat = 0.0 //67.0
+    var userDataVM: UserDataVM? {
+        didSet {
+            if viewControllers != nil {
+                for vc in viewControllers! {
+                    switch vc {
+                    case (is HomeHexagonGrid):
+                        (vc as! HomeHexagonGrid).userDataVM = userDataVM
+                    case (is NotificationsVC):
+                        (vc as! NotificationsVC).userDataVM = userDataVM
+                    case (is FriendsAndFeaturedVC):
+                        (vc as! FriendsAndFeaturedVC).userDataVM = userDataVM
+                    case (is NewPost5OptionsVC):
+                        (vc as! NewPost5OptionsVC).userDataVM = userDataVM
+                    default:
+                        print("bad vc")
+                    }
+                }
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.loadTabBar()
         self.moreNavigationController.delegate = self
-        
+        if (userDataVM?.userData.value == nil) {
+            self.dismiss(animated: false, completion: nil)
+        }
+        else {
+            if viewControllers != nil {
+                for vc in viewControllers! {
+                    switch vc {
+                    case (is HomeHexagonGrid):
+                        (vc as! HomeHexagonGrid).userDataVM = userDataVM
+                    case (is NotificationsVC):
+                        (vc as! NotificationsVC).userDataVM = userDataVM
+                    case (is FriendsAndFeaturedVC):
+                        (vc as! FriendsAndFeaturedVC).userDataVM = userDataVM
+                    case (is NewPost5OptionsVC):
+                        (vc as! NewPost5OptionsVC).userDataVM = userDataVM
+                    default:
+                        print("bad vc")
+                    }
+                }
+            }
+        }
     }
     
     @IBAction func unvindSegueFromAddToHome(segue:UIStoryboardSegue) {
@@ -28,18 +69,15 @@ class NavigationMenuBaseController: UITabBarController, UINavigationControllerDe
     //override func viewWillAppear(_ animated: Bool) {}
     
     func loadTabBar() {
-        let tabItems: [TabItem] = [.notifications, .dms, .home, .friends, .addPost, .signIn]
+        let tabItems: [TabItem] = [.notifications, .dms, .home, .friends, .addPost]
         
         self.setupCustomTabMenu(tabItems) { (controllers) in
             self.viewControllers = controllers
         }
         if (Auth.auth().currentUser == nil) {
-            self.selectedIndex = 5 // default our selected index to the first item
+            self.dismiss(animated: false, completion: nil)// default our selected index to the first item
         }
-        else {
-            self.selectedIndex = 2
-        }
-//        print("selectedIndex of FirstVC: \(self.selectedIndex)")
+        selectedIndex = 2
         
     }
     func setupCustomTabMenu(_ menuItems: [TabItem], completion: @escaping ([UIViewController]) -> Void) {

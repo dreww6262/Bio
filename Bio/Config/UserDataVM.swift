@@ -18,46 +18,53 @@ class UserDataVM {
     
     convenience init(username: String) {
         self.init()
-        retreiveUserData(username: username)
+        retreiveUserData(username: username, completion: {})
 
     }
+    
     convenience init(email: String) {
         self.init()
-        retreiveUserData(email: email)
+        retreiveUserData(email: email, completion: {})
     }
     
-    func retreiveUserData(username: String) {
+    func retreiveUserData(username: String, completion: @escaping () -> ()) {
         print("initializing userdata with username: \(username)")
         listener?.remove()
         listener = db.collection("UserData1").whereField("publicID", isEqualTo: username).addSnapshotListener { obj, error in
             guard let docs = obj?.documents else {
+                completion()
                 return
             }
             if docs.count != 1 {
                 print("Userdata docs count is \(docs.count)")
+                completion()
                 return
             }
             else{
                 self.userData.value = UserData(dictionary: docs[0].data())
                 self.userDataRef.value = docs[0].reference
+                completion()
             }
         }
     }
     
-    func retreiveUserData(email: String) {
+    func retreiveUserData(email: String, completion: @escaping () -> ()) {
         print("initializing userdata with email: \(email)")
         listener?.remove()
         listener = db.collection("UserData1").whereField("email", isEqualTo: email).addSnapshotListener { obj, error in
             guard let docs = obj?.documents else {
+                completion()
                 return
             }
             if docs.count != 1 {
+                completion()
                 print("Userdata docs count is \(docs.count)")
                 return
             }
             else{
                 self.userData.value = UserData(dictionary: docs[0].data())
                 self.userDataRef.value = docs[0].reference
+                completion()
             }
         }
     }

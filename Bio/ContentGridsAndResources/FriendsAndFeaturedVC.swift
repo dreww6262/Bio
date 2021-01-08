@@ -42,6 +42,8 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
     var toSettingsButton = UIButton()
 
     var customTabBar: TabNavigationMenu!
+    
+    var noFriendsLabel: UILabel?
         
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         if collectionView == profileCollectionView {
@@ -55,8 +57,16 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
 
     }
     
+    
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == profileCollectionView {
+            if followingUserDataArray.count == 0 {
+                noFriendsLabel?.isHidden = false
+            }
+            else {
+                noFriendsLabel?.isHidden = true
+            }
             return followingUserDataArray.count
         }
         return popList.count
@@ -90,33 +100,6 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
           //  cell.imageView.layer.cornerRadius = cell.imageView.frame.width/2
             // let ref = array[indexPath.row].avaRef as! StorageReference
            cell.imageView.sd_setImage(with: storageRef.child(array[indexPath.row].avaRef))
-            
-            //put in placeholders
-            
-//            var placeHolderImage = UIImage(named: "boyProfile")
-//            if storageRef.child(array[indexPath.row].avaRef) != nil {
-//                if array[indexPath.row].gender == "I am a man" {
-//                    print("recognized man")
-//                    placeHolderImage = UIImage(named: "boyProfile")
-//                }
-//               else if array[indexPath.row].gender == "I am a woman" {
-//                    print("recognized woman")
-//                placeHolderImage = UIImage(named: "kbit1")
-//                }
-//               else {
-//                placeHolderImage = UIImage(named: "cameo")
-//               }
-//                cell.imageView.sd_setImage(with: storageRef.child(array[indexPath.row].avaRef), maxImageSize: 10, placeholderImage: placeHolderImage, options: .refreshCached) { (_, error, _, _) in
-//                if (error != nil) {
-//                    print(error!.localizedDescription)
-//                    cell.imageView.image = placeHolderImage
-//                }
-//            }
-//            }
-            
-            
-            
-            //cell.imageView.sd_setImage(with: ref)
             
             
             return cell
@@ -315,6 +298,14 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
             headerView.featuredLabel.frame = CGRect(x: 8, y: headerView.collectionView.frame.maxY + 10, width: headerView.featuredLabel.frame.width, height: headerView.featuredLabel.frame.height)
             headerView.featuredLabel.textColor = .white
             
+            headerView.noFriendsLabel.text = "You don't follow anybody yet. Lets change that!"
+            headerView.noFriendsLabel.numberOfLines = 0
+            headerView.noFriendsLabel.font = UIFont(name: "Poppins-SemiBold", size: 24)
+            headerView.noFriendsLabel.textAlignment = .center
+            headerView.noFriendsLabel.frame = headerView.frame
+            headerView.noFriendsLabel.textColor = .white
+            noFriendsLabel = headerView.noFriendsLabel
+            
             headerView.collectionView.dataSource = self
             headerView.collectionView.delegate = self
             headerView.collectionView.register(ProfileCircleCell.self, forCellWithReuseIdentifier: "profileCircleCell")
@@ -357,10 +348,14 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         toSearchButton.isHidden = false
         
 
+        firstLoad = true
         observeUserData()
         loadPopularHexagons()
         
+        
     }
+    
+    var firstLoad = false
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -393,7 +388,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
 //        layout.itemSize = CGSize(width: view.frame.width * 4.5 / 10, height: view.frame.width * 4.5/10)
    //     layout.itemSize = CGSize(width: view.frame.width * 4.5 / 10, height: view.frame.width * 4.5/12)
 //        layout.sectionInset = UIEdgeInsets(top: 40, left: 10, bottom: 85, right: 10)
-        layout.sectionInset = UIEdgeInsets(top: 40, left: view.frame.width*1.5/20, bottom: 85, right: view.frame.width*1.5/20)
+        layout.sectionInset = UIEdgeInsets(top: 40, left: view.frame.width*1.5/20, bottom: view.frame.width * 4/10, right: view.frame.width*1.5/20)
         popularCollectionView.collectionViewLayout = layout
         
         
@@ -487,12 +482,15 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         menuView.tabController = (tabBarController! as! NavigationMenuBaseController)
-        observeUserData()
+//        observeUserData()
         toSearchButton.isHidden = false
         toSettingsButton.isHidden = false
+        
+        refresh()
     }
-    
+
     func observeUserData() {
+
         userDataVM?.userData.observe { userData in
             if (userData == nil) {
                 self.observeUserData()
@@ -503,11 +501,12 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
             self.observeUserData()
         }
     }
-    
+
     
     func loadUpToTenUserDatas(followers: [String], completion: @escaping () -> (), following: Bool) {
         let userData = userDataVM?.userData.value
         if userData == nil {
+            observeUserData()
             return
         }
         let userDataCollection = self.db.collection("UserData1")
@@ -669,22 +668,16 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
     func loadFollowings() {
         let userData = userDataVM?.userData.value
         if userData == nil {
+            observeUserData()
             return
         }
-        print("I got here loadfollowings")
-        if (self.followingUserDataArray.isEmpty()) {
-            self.followingUserDataArray.append(newElement: userData!)
-            //            if (profileCollectionView == nil) {
-            //                return
-            //            }
-            profileCollectionView?.reloadData()
-        }
+
         createFollowingArray(completion: { newFollowArray, success in
             //            print("loadFollowings: new follow array: \(newFollowArray)")
             if success {
                 // using 5 for efficiency and less possibility of timeout
                 self.followingUserDataArray.removeAll()
-                self.followingUserDataArray.append(newElement: userData!)
+                //self.followingUserDataArray.append(newElement: userData!)
                 let chunks = newFollowArray.chunked(into: 5)
                 let group = DispatchGroup()
                 for chunk in chunks {
@@ -734,83 +727,6 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         })
     }
     
-    
-    
-    
-    // loading followings
-//    func loadFollowers() {
-//        if (self.followerUserDataArray.isEmpty()) {
-//            self.followerUserDataArray.append(newElement: userData!)
-//            //            if (profileCollectionView == nil) {
-//            //                return
-//            //            }
-//            print("I get here load followers")
-//            profileCollectionView.reloadData()
-//        }
-//        createFollowerArray(completion: { newFollowArray, success in
-//            if success {
-//                // using 5 for efficiency and less possibility of timeout
-//                self.followerUserDataArray.removeAll()
-//                self.followerUserDataArray.append(newElement: self.userData!)
-//                let chunks = newFollowArray.chunked(into: 5)
-//                let group = DispatchGroup()
-//                for chunk in chunks {
-//                    group.enter()
-//                    self.loadUpToTenUserDatas(followers: chunk, completion: {
-//                        group.leave()
-//                    }, following: false)
-//                }
-//                group.notify(queue: .main) {
-//                    self.doneLoading()
-//                }
-//            }
-//        })
-//    }
-//
-//    func createFollowerArray(completion: @escaping ([String], Bool) -> ()) {
-//        let followCollection = db.collection("Followings")
-//        let usernameText:String = userData!.publicID
-//        var newFollowArray = [String]()
-//        followCollection.whereField("following", isEqualTo: usernameText).getDocuments(completion: { (objects, error) -> Void in
-//            if error == nil {
-//                //                print("no error")
-//
-//                // STEP 2. Hold received data in followArray
-//                // find related objects in "follow" class of Parse
-//                for object in objects!.documents {
-//                    print (object.data())
-//                    let followerString = object.get("follower")
-//                    if followerString != nil  && !newFollowArray.contains(followerString as! String){
-//                        newFollowArray.append(followerString as! String)
-//                    }
-//                    //                    print("Now this is followArray \(self.followArray)")
-//                }
-//                completion(newFollowArray, true)
-//            }
-//            else {
-//                print(error!.localizedDescription)
-//                completion([String](), false)
-//            }
-//        })
-//    }
- 
-    
-//    @objc func followersTapped(_ recognizer: UITapGestureRecognizer) {
-//        print("followers tapped")
-//        let followersTableVC = storyboard?.instantiateViewController(identifier: "followersTableView") as! FollowersTableView
-//        followersTableVC.userData = self.userData
-//        present(followersTableVC, animated: false)
-//    }
-//
-//    @objc func followingTapped(_ recognizer: UITapGestureRecognizer) {
-//        print("following tapped")
-//        let followingTableVC = storyboard?.instantiateViewController(identifier: "followingTableView") as! FollowingTableView
-//        followingTableVC.userData = self.userData
-//        present(followingTableVC, animated: false)
-//        // print("frame after pressed \(toSearchButton.frame)")
-//
-//
-//    }
     
     @objc func handleProfileCellTap(_ sender: UITapGestureRecognizer) {
         print("Profile Cell Tap sender \(sender)")
@@ -958,10 +874,7 @@ extension UIImageView {
         gradient.colors = colors
         gradient.startPoint = CGPoint(x: 1, y: 0.5)
         gradient.endPoint = CGPoint(x: 0, y: 0.5)
-        
-       // let cornerRadius = frame.size.width / 2
-       // layer.cornerRadius = cornerRadius
-        
+
         clipsToBounds = true
         
         let mask = CAShapeLayer()
@@ -976,28 +889,4 @@ extension UIImageView {
         
         layer.insertSublayer(gradient, below: layer)
     }
-    
-//    func setupHexagonMask(lineWidth: CGFloat, color: UIColor, cornerRadius: CGFloat) {
-//        let path = UIBezierPath(roundedPolygonPathInRect: bounds, lineWidth: lineWidth, sides: 6, cornerRadius: cornerRadius, rotationOffset: CGFloat.pi / 2.0).cgPath
-//
-//        let mask = CAShapeLayer()
-//        mask.path = path
-//        mask.lineWidth = lineWidth
-//        mask.strokeColor = UIColor.clear.cgColor
-//        mask.fillColor = UIColor.white.cgColor
-//        layer.mask = mask
-//
-//        let border = CAShapeLayer()
-//        border.path = path
-//        border.lineWidth = lineWidth
-//        border.strokeColor = color.cgColor
-//        border.fillColor = UIColor.clear.cgColor
-//        layer.addSublayer(border)
-//    }
-    
-    
-    
-    
-    
-    
 }

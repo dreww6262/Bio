@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="AGA-wN-m2B">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bbh-XN-JYU">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -624,7 +624,7 @@
         <!--Navigation Menu Base Controller-->
         <scene sceneID="uj3-32-9gK">
             <objects>
-                <tabBarController id="AGA-wN-m2B" customClass="NavigationMenuBaseController" customModule="Bio" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="tabController" id="AGA-wN-m2B" customClass="NavigationMenuBaseController" customModule="Bio" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="2pf-Bt-fuQ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -3055,7 +3055,7 @@
         <image name="boyprofile" width="216" height="233"/>
         <image name="cameraicon" width="128" height="102"/>
         <image name="cancel11" width="64" height="64"/>
-        <image name="cancel2" width="128" height="128"/>
+        <image name="cancel2" width="256" height="256"/>
         <image name="check-5" width="64" height="64"/>
         <image name="clearMusic" width="1280" height="1280"/>
         <image name="gradBG" width="488" height="780"/>

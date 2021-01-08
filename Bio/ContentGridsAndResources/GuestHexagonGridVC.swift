@@ -738,7 +738,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         // image.setupHexagonMask(lineWidth: 10.0, color: myBlueGreen, cornerRadius: 10.0)
         createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
         //let ref = storage.child(hexData.thumbResource)
-        if hexData.thumbResource.contains("userFiles") {
+        if hexData.thumbResource.contains("userFiles") || hexData.thumbResource.contains("icons/") {
             let cleanRef = hexData.thumbResource.replacingOccurrences(of: "/", with: "%2F")
             let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
             if url != nil {

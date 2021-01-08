@@ -361,7 +361,7 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
         continueButton.layer.cornerRadius = continueButton.frame.width/40
         continueButton.backgroundColor = .systemBlue
         continueButton.titleLabel!.textColor = .white
-        continueButton.setTitle("Create Account", for: .normal)
+        continueButton.setTitle("Finish Account", for: .normal)
         continueButton.titleLabel!.font = UIFont(name: "DINAlternate-Bold", size: 20)
         let continueTap = UITapGestureRecognizer(target: self, action: #selector(continueTapped))
         continueButton.addGestureRecognizer(continueTap)

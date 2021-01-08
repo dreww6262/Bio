@@ -432,8 +432,6 @@ class MenuView: UIView {
         let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         if (sender.state == .began) {
-           // makeAllMenuButtonsBlack()
-          //  makeAllMenuButtonsClear()
             changeBackToWhiteIcons()
             blurEffectViewArray.append(blurEffectView)
             superview!.addSubview(blurEffectView)
@@ -447,7 +445,6 @@ class MenuView: UIView {
             superview!.bringSubviewToFront(notificationLabel)
             setNotificationAlertText()
             showMenuOptions()
-         //   makeAllMenuButtonsClear()
             changeBackToWhiteIcons()
 
             

@@ -13,10 +13,13 @@ class HorizontalCircleCollectionViewHeader: UICollectionReusableView {
     let friendsLabel = UILabel()
     let featuredLabel = UILabel()
     
+    let noFriendsLabel = UILabel()
+    
     override func layoutSubviews() {
         self.addSubview(collectionView)
         addSubview(friendsLabel)
         addSubview(featuredLabel)
+        addSubview(noFriendsLabel)
     }
    
     

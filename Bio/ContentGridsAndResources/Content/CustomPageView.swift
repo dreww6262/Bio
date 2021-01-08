@@ -151,10 +151,14 @@ class CustomPageView: UIViewController {
         
         let swipeLeftGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeHorizontally))
         swipeLeftGesture.direction = .left
+        swipeLeftGesture.cancelsTouchesInView = true
         let swipeRightGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeHorizontally))
         swipeRightGesture.direction = .right
+        swipeRightGesture.cancelsTouchesInView = true
         view.addGestureRecognizer(swipeLeftGesture)
         view.addGestureRecognizer(swipeRightGesture)
+        
+        
         
         
         let returnButton = UIButton(frame: CGRect(x: view.frame.width/2-40, y: view.frame.height-112, width: 80, height: 80))
@@ -287,10 +291,16 @@ class CustomPageView: UIViewController {
             case (is ContentLinkVC):
                 let linkVC = visibleVCs[0] as! ContentLinkVC
                 text = linkVC.webHex?.text ?? ""
+                if text == "" {
+                    text = linkVC.webHex?.coverText ?? ""
+                }
                 
             case (is ContentImageVC):
                 let imageVC = visibleVCs[0] as! ContentImageVC
                 text = imageVC.photoHex?.text ?? ""
+                if text == "" {
+                    text = imageVC.photoHex?.coverText ?? ""
+                }
         
         case (is ContentCityVC):
             let imageVC = visibleVCs[0] as! ContentCityVC
@@ -311,6 +321,9 @@ class CustomPageView: UIViewController {
             default:
                 let videoVC = visibleVCs[0] as! ContentVideoVC
                 text = videoVC.videoHex?.text ?? ""
+                if text == "" {
+                    text = videoVC.videoHex?.coverText ?? ""
+                }
         }
         
         caption.text = text

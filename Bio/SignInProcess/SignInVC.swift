@@ -37,9 +37,9 @@ class SignInVC: UIViewController {
     }
     
  func formatStuff() {
-//    self.emailText.frame = CGRect(x: self.view.frame.width/2 - 50, y: self.view.frame.height/2-66, width: 100, height: 44)
-//    self.passwordText.frame = CGRect(x: emailText.frame.minX, y: emailText.frame.maxY + 10, width: 100, height: 44)
-//    signInButton.frame = CGRect(x: passwordText.frame.minX, y: passwordText.frame.maxY + 10, width: 100, height: 66)
+    self.emailText.frame = CGRect(x: 20, y: view.frame.height/2 - 200, width: view.frame.width - 40, height: 44)
+    self.passwordText.frame = CGRect(x: 20, y: emailText.frame.maxY + 10, width: view.frame.width - 40, height: 44)
+    signInButton.frame = CGRect(x: 50, y: passwordText.frame.maxY + 100, width: view.frame.width - 100, height: 44)
 //    cancelButton.frame = CGRect(x: signInButton.frame.minX, y: signInButton.frame.maxY + 10, width: 100, height: 44)
 //    signInButton.layer.cornerRadius = signInButton.frame.width/20
     self.emailText.attributedPlaceholder = NSAttributedString(string: "Email",
@@ -76,7 +76,7 @@ class SignInVC: UIViewController {
     
     func setUpNavBarView() {
         var statusBarHeight = UIApplication.shared.statusBarFrame.height
-        print("This is status bar height \(statusBarHeight)")
+//        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.addSubview(self.cancelButton)
        // self.navBarView.addSubview(self.signInButton)
@@ -117,7 +117,7 @@ class SignInVC: UIViewController {
         
         self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: self.cancelButton.frame.minY, width: 200, height: 25)
         //self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
-        print("This is navBarView.")
+//        print("This is navBarView.")
       
       
     }
@@ -143,22 +143,84 @@ class SignInVC: UIViewController {
     }
     
     @IBAction func signInClicked(_ sender: Any) {
-        print("signin in")
+//        print("signin in")
+        
+        if (emailText.text == nil || emailText.text == "") {
+            let alert = UIAlertController(title: "Please enter an email", message: "", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
+            return
+        }
+        if (passwordText.text == nil || passwordText.text == "") {
+            let alert = UIAlertController(title: "Please enter a password", message: "", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
+            return
+        }
+        
+        let loadingIndicator = storyboard?.instantiateViewController(withIdentifier: "loading")
+        
+        let blurEffectView: UIVisualEffectView = {
+            let blurEffect = UIBlurEffect(style: .dark)
+            let blurEffectView = UIVisualEffectView(effect: blurEffect)
+            
+            blurEffectView.alpha = 0.8
+            
+            // Setting the autoresizing mask to flexible for
+            // width and height will ensure the blurEffectView
+            // is the same size as its parent view.
+            blurEffectView.autoresizingMask = [
+                .flexibleWidth, .flexibleHeight
+            ]
+            blurEffectView.frame = view.bounds
+            
+            return blurEffectView
+        }()
+        view.addSubview(blurEffectView)
+        
+        addChild(loadingIndicator!)
+        view.addSubview(loadingIndicator!.view)
+        
         auth.signIn(withEmail: emailText.text!, password: passwordText.text!, completion: { result, error in
             if error == nil {
                 if result?.user != nil {
-                    print("success should segue")
+//                    print("success should segue")
                     if (result?.user.email == nil) {
+                        blurEffectView.removeFromSuperview()
+                        loadingIndicator?.view.removeFromSuperview()
+                        loadingIndicator?.removeFromParent()
                         return
                     }
-                    self.userDataVM?.retreiveUserData(email: result!.user.email!)
-                    self.performSegue(withIdentifier: "unwindFromSignIn", sender: nil)
+                    self.userDataVM?.retreiveUserData(email: result!.user.email!, completion: {
+                        if let vcs = self.tabBarController?.viewControllers {
+                            for vc in vcs {
+                                vc.viewDidLoad()
+                            }
+                        }
+                        blurEffectView.removeFromSuperview()
+                        loadingIndicator?.view.removeFromSuperview()
+                        loadingIndicator?.removeFromParent()
+                        self.performSegue(withIdentifier: "unwindFromSignIn", sender: nil)
+                    })
+                    
+                    
                 }
                 
             }
             else {
-                print("error during signin: \(error?.localizedDescription)")
-                // make toast
+                print("error during signin: \(error!.localizedDescription)")
+                let alert = UIAlertController(title: "Authentication Failed", message: error?.localizedDescription ?? "", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+                
+                DispatchQueue.global().async {
+                    DispatchQueue.main.sync {
+                        blurEffectView.removeFromSuperview()
+                        loadingIndicator?.view.removeFromSuperview()
+                        loadingIndicator?.removeFromParent()
+                        self.present(alert, animated: true, completion: nil)
+
+                    }
+                }
             }
         })
     }

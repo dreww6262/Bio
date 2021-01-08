@@ -15,54 +15,36 @@ enum TabItem: String, CaseIterable {
     case addPost = "Add Post"
     case notifications = "Notifications"
     case dms = "DMs"
-    case signIn
-var viewController: UIViewController {
-    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-    let currentEmail = Auth.auth().currentUser?.email
-    let userDataVM = { () -> UserDataVM in
-        if currentEmail != nil {
-            return UserDataVM(email: currentEmail!)
-        }
-        return UserDataVM()
-    }()
+    var viewController: UIViewController {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
         switch self {
         case .home:
             let homeVC = storyboard.instantiateViewController(identifier: "homeHexGrid420") as! HomeHexagonGrid
-            homeVC.userDataVM = userDataVM
             homeVC.loadView()
             homeVC.viewDidLoad()
             return homeVC
-    
+            
         case .friends:
             let friendsVC = storyboard.instantiateViewController(identifier: "friendsAndFeaturedVC") as! FriendsAndFeaturedVC
-            friendsVC.userDataVM = userDataVM
             friendsVC.loadView()
             friendsVC.viewDidLoad()
             return friendsVC
         case .addPost:
             let newPostVC = storyboard.instantiateViewController(identifier: "newPost5OptionsVC") as! NewPost5OptionsVC
-            newPostVC.userDataVM = userDataVM
             newPostVC.loadView()
             newPostVC.viewDidLoad()
             return newPostVC
         case .notifications:
             let notifications = storyboard.instantiateViewController(identifier: "newsVC") as! NotificationsVC
-            notifications.userDataVM = userDataVM
             notifications.loadView()
             notifications.viewDidLoad()
             return notifications
         case .dms:
             let homeVC = storyboard.instantiateViewController(identifier: "newPost5OptionsVC") as! NewPost5OptionsVC
-            homeVC.userDataVM = userDataVM
             homeVC.loadView()
             homeVC.viewDidLoad()
             return homeVC
-        case .signIn:
-            let signInVC = storyboard.instantiateViewController(identifier:"phoneSignIn") as! PhoneSignInVC
-            signInVC.userDataVM = userDataVM
-            signInVC.loadView()
-            signInVC.viewDidLoad()
-            return signInVC
         }
     }
     // these can be your icons
@@ -70,7 +52,7 @@ var viewController: UIViewController {
         switch self {
         case .home:
             return UIImage(named: "pinterestLogo")!
-        
+            
         case .friends:
             return UIImage(named: "poshmarkLogo")!
         case .addPost:
@@ -79,12 +61,10 @@ var viewController: UIViewController {
             return UIImage(named: "spotifylogo")!
         case .dms:
             return UIImage(named: "twitterlogo")!
-        case .signIn:
-            return UIImage(named: "twitterlogo")!
         }
         
     }
-var displayTitle: String {
+    var displayTitle: String {
         return self.rawValue.capitalized(with: nil)
     }
 }
