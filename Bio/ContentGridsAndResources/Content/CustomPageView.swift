@@ -115,6 +115,9 @@ class CustomPageView: UIViewController {
     
     let db = Firestore.firestore()
     
+    var swipeLeftGesture: UISwipeGestureRecognizer?
+    var swipeRightGesture: UISwipeGestureRecognizer?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -149,14 +152,14 @@ class CustomPageView: UIViewController {
         
         setPositions()
         
-        let swipeLeftGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeHorizontally))
-        swipeLeftGesture.direction = .left
-        swipeLeftGesture.cancelsTouchesInView = true
-        let swipeRightGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeHorizontally))
-        swipeRightGesture.direction = .right
-        swipeRightGesture.cancelsTouchesInView = true
-        view.addGestureRecognizer(swipeLeftGesture)
-        view.addGestureRecognizer(swipeRightGesture)
+        swipeLeftGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeHorizontally))
+        swipeLeftGesture!.direction = .left
+        swipeLeftGesture!.cancelsTouchesInView = true
+        swipeRightGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeHorizontally))
+        swipeRightGesture!.direction = .right
+        swipeRightGesture!.cancelsTouchesInView = true
+        view.addGestureRecognizer(swipeLeftGesture!)
+        view.addGestureRecognizer(swipeRightGesture!)
         
         
         
@@ -294,6 +297,13 @@ class CustomPageView: UIViewController {
                 if text == "" {
                     text = linkVC.webHex?.coverText ?? ""
                 }
+                if (swipeLeftGesture != nil) {
+                    linkVC.webView.scrollView.panGestureRecognizer.require(toFail: swipeLeftGesture!)
+                }
+                if (swipeRightGesture != nil) {
+                    linkVC.webView.scrollView.panGestureRecognizer.require(toFail: swipeRightGesture!)
+                }
+                
                 
             case (is ContentImageVC):
                 let imageVC = visibleVCs[0] as! ContentImageVC
@@ -509,7 +519,7 @@ class CustomPageView: UIViewController {
             onePostPreviewVC.captionString = hex!.text
             onePostPreviewVC.textOverlayString = hex!.coverText
             onePostPreviewVC.linkTextField.text = finalArist
-            onePostPreviewVC.songNameTextField.text = finalSong
+//            onePostPreviewVC.songNameTextField.text = finalSong
             let isPrioritized = currentVC.webHex?.isPrioritized ?? false
             onePostPreviewVC.checkBoxStatus = isPrioritized
             if isPrioritized {
@@ -526,15 +536,18 @@ class CustomPageView: UIViewController {
         let currentVC = viewControllers[currentIndex!]
         if currentVC is ContentLinkVC {
             let linkVC = currentVC as! ContentLinkVC
-            print("Go to add Link Post and feed current info")
+            if linkVC.webHex?.type == "music" {
+                editMusicPost()
+            }
+            else {
+                editLinkPost()
+            }
         }
         else if currentVC is ContentVideoVC {
-            let linkVC = currentVC as! ContentVideoVC
-            print("Go to One Post Preview and feed currrent info")
+            editPhotoPost()
         }
         else if currentVC is ContentImageVC {
-            let linkVC = currentVC as! ContentImageVC
-            print("Go to One Post Preview and feed currrent info")
+            editPhotoPost()
         }
         print("To:Do an else if for music")
     }
@@ -671,7 +684,7 @@ class CustomPageView: UIViewController {
         
         alert.addAction(UIAlertAction(title: "Edit Post", style: .default , handler:{ (UIAlertAction)in
             print("User click Edit Post")
-            self.editLinkPost()
+            self.editPost()
             //    self.copyTextToResource()
         }))
         

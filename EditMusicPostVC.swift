@@ -5,26 +5,19 @@
 //  Created by Ann McDonough on 11/24/20.
 //
 //
-//  AddMusicVC.swift
-//  Bio
-//
-//  Created by Ann McDonough on 9/14/20.
-//  Copyright © 2020 Patrick McDonough. All rights reserved.
-//
 
 import UIKit
-//import Parse
 import Firebase
 import FirebaseAuth
 import FirebaseStorage
 import FirebaseUI
 import FirebaseFirestore
+import Alamofire
 
 
 
 class EditMusicPostVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     var navBarView = NavBarView()
-    var changedProfilePic = false
     var poppinsBlack = UIFont(name: "poppins-Black", size: UIFont.labelFontSize)
     var poppinsSemiBold = UIFont(name: "poppins-SemiBold", size: UIFont.labelFontSize)
     
@@ -40,7 +33,7 @@ class EditMusicPostVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     var songText = ""
     var lowTitleTextFrame = CGRect()
     var lowSubtitleTextFrame = CGRect()
-   var songNameTextField = UITextField()
+//   var songNameTextField = UITextField()
     var musicLink = ""
     var lowLinkLogoFrame = CGRect()
     var lowLinkTextfieldFrame = CGRect()
@@ -100,6 +93,10 @@ class EditMusicPostVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     // keyboard frame size
     var keyboard = CGRect()
     
+    let searchTable = UITableView()
+    var searchResults = [MusicItem]()
+
+
     
     // default func
     override func viewDidLoad() {
@@ -137,7 +134,7 @@ class EditMusicPostVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         scrollView.addSubview(textOverlayLabel)
         scrollView.addSubview(prioritizeLabel)
         scrollView.addSubview(linkHexagonImage)
-        scrollView.addSubview(songNameTextField)
+//        scrollView.addSubview(songNameTextField)
         scrollView.addSubview(linkTextField)
         scrollView.addSubview(checkBox)
         scrollView.addSubview(linkHexagonImageCopy)
@@ -182,15 +179,36 @@ class EditMusicPostVC: UIViewController, UIImagePickerControllerDelegate, UINavi
                                                                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: linkTextField.frame.minY, width: 30, height: 30)
         
-        songNameTextField.frame = CGRect(x: 10, y: linkTextField.frame.maxY + 5, width: self.view.frame.size.width - 20, height: 30)
-        songNameTextField.attributedPlaceholder = NSAttributedString(string: "Song/Album Name (Optional)",
-                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+//        songNameTextField.frame = CGRect(x: 10, y: linkTextField.frame.maxY + 5, width: self.view.frame.size.width - 20, height: 30)
+//        songNameTextField.attributedPlaceholder = NSAttributedString(string: "Song/Album Name (Optional)",attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
    
 
         setUpNavBarView()
         
         
-        // set up link text Field
+        let placeHolderImage = UIImage(named: "musicCenter")
+        if hexData!.thumbResource.contains("userFiles") {
+            let cleanRef = hexData!.thumbResource.replacingOccurrences(of: "/", with: "%2F")
+            let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
+            if url != nil {
+                
+                linkHexagonImage.sd_setImage(with: url!, placeholderImage: placeHolderImage, options: .refreshCached) { (_, error, _, _) in
+                    if (error != nil) {
+                        print(error!.localizedDescription)
+                        self.linkHexagonImage.image = placeHolderImage
+                    }
+                }
+            }
+            else {
+                linkHexagonImage.image = placeHolderImage
+            }
+        }
+        else {
+            let url = URL(string: hexData!.thumbResource)
+            if url != nil {
+                linkHexagonImage.sd_setImage(with: url, completed: nil)
+            }
+        }
         
         
         linkTextField.attributedPlaceholder = NSAttributedString(string: "Artist Name (Required)",
@@ -204,9 +222,9 @@ class EditMusicPostVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         linkHexagonImageCopy.setupHexagonMask(lineWidth: linkHexagonImageCopy.frame.width/15, color: myBlueGreen, cornerRadius: linkHexagonImageCopy.frame.width/15)
         
         linkTextField.frame = CGRect(x: 10, y: linkHexagonImage.frame.maxY, width: self.view.frame.size.width - 20, height: 30)
-        songNameTextField.frame = CGRect(x: 10, y: linkTextField.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
+        let frame = CGRect(x: 10, y: linkTextField.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
         
-        captionTextField.frame = CGRect(x: 10, y: songNameTextField.frame.maxY + 5, width: self.view.frame.size.width - 20, height: 30)
+        captionTextField.frame = CGRect(x: 10, y: frame.maxY + 5, width: self.view.frame.size.width - 20, height: 30)
         captionTextField.attributedPlaceholder = NSAttributedString(string: "Write a Caption... (Optional)",
                                                                      attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         textOverlayTextField.frame = CGRect(x: 10, y: captionTextField.frame.maxY + 5, width: self.view.frame.size.width - 20, height: 30)
@@ -227,14 +245,14 @@ prioritizeLabel.text = "Prioritize This Post?"
         self.bottomLine.frame = CGRect(x: 0.0, y: linkTextField.frame.height, width: linkTextField.frame.width, height: 1.0)
         self.bottomLine.backgroundColor = UIColor.systemGray4.cgColor
         var bottomLine2 = CALayer()
-        bottomLine2.frame = CGRect(x: 0.0, y: songNameTextField.frame.height, width: linkTextField.frame.width, height: 1.0)
+        bottomLine2.frame = CGRect(x: 0.0, y: frame.height, width: linkTextField.frame.width, height: 1.0)
         bottomLine2.backgroundColor = UIColor.systemGray4.cgColor
         linkTextField.borderStyle = UITextField.BorderStyle.none
         linkTextField.layer.addSublayer(self.bottomLine)
         linkTextField.backgroundColor = .clear
-        songNameTextField.borderStyle = UITextField.BorderStyle.none
-        songNameTextField.layer.addSublayer(bottomLine2)
-        songNameTextField.backgroundColor = .clear
+//        songNameTextField.borderStyle = UITextField.BorderStyle.none
+//        songNameTextField.layer.addSublayer(bottomLine2)
+//        songNameTextField.backgroundColor = .clear
         linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: linkTextField.frame.minY, width: 30, height: 30)
         
         
@@ -279,7 +297,7 @@ prioritizeLabel.text = "Prioritize This Post?"
         
     
         linkTextField.textColor = .white
-        songNameTextField.textColor = .white
+//        songNameTextField.textColor = .white
        
         
         postButton.titleLabel?.font = UIFontMetrics.default.scaledFont(for: poppinsSemiBold ?? UIFont(name: "DINAlternate-Bold", size: 20)!)
@@ -294,6 +312,41 @@ prioritizeLabel.text = "Prioritize This Post?"
        textOverlayLabel.isHidden = true
         }
         
+        searchTable.frame = CGRect(x: linkTextField.frame.minX, y: linkTextField.frame.maxY, width: linkTextField.frame.width, height: 0)
+        searchTable.register(MusicSuggestionCell.self, forCellReuseIdentifier: "musicSuggestion")
+        searchTable.dataSource = self
+        searchTable.delegate = self
+        searchTable.backgroundColor = .gray
+        searchTable.rowHeight = 70
+        searchTable.estimatedRowHeight = 100
+        searchTable.allowsSelection = true
+        
+        view.addSubview(searchTable)
+        
+        linkTextField.delegate = self
+        linkTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        getSpotifyToken()
+        
+    }
+    func getSpotifyToken() {
+        let parameters = ["client_id" : "747b180c3b2746a3a235d4cc93c62173",
+                              "client_secret" : "796e347bb2de4214a320703ee7e85f74",
+                              "grant_type" : "client_credentials"]
+        
+        AF.request("https://accounts.spotify.com/api/token", method: .post, parameters: parameters).responseJSON(completionHandler: {
+            response in
+//            print(response.result)
+            if response.data != nil {
+                do {
+                    let readableJSON = try JSONSerialization.jsonObject(with: response.data!, options: .mutableContainers) as! [String: Any]
+                    self.token = readableJSON["access_token"] as! String?
+                }
+                catch {
+                    print(error)
+                }
+            }
+        })
+       
     }
     
     func insertTextOverlay(linkHexagonImage: UIImageView) {
@@ -412,16 +465,118 @@ prioritizeLabel.text = "Prioritize This Post?"
       
     }
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        print("I recognize that it is ending")
-        if textOverlayTextField.text != "" {
-            textOverlayLabel.isHidden = false
-            textOverlayLabel.text = textOverlayTextField.text!
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        
+        if textField == linkTextField {
+            linkTextField.text = ""
+            createRequestURL = ""
+            searchResults.removeAll()
+            searchTable.reloadData()
+            if !hasChosenThumbnailImage  && !hexData!.thumbResource.contains("userFiles") {
+                linkHexagonImage.image = nil
+            }
+            
+//            UIView.animate(withDuration: 0.25, animations: {
+//                self.searchTable.frame = CGRect(x: self.linkTextField.frame.minX, y: self.linkTextField.frame.maxY, width: self.linkTextField.frame.width, height: 150)
+//            })
         }
-        else {
-            print("text overlay textfield empty")
-            textOverlayLabel.isHidden = true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+        
+        if textField == linkTextField {
+            UIView.animate(withDuration: 0.25, animations: {
+                self.searchTable.frame = CGRect(x: self.linkTextField.frame.minX, y: self.linkTextField.frame.maxY, width: self.linkTextField.frame.width, height: 0)
+            })
         }
+        
+        else if textOverlayLabel == textField {
+            if textOverlayTextField.text != "" {
+                textOverlayLabel.isHidden = false
+                textOverlayLabel.text = textOverlayTextField.text!
+            }
+            else {
+                print("text overlay textfield empty")
+                textOverlayLabel.isHidden = true
+            }
+        }
+    }
+    
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        
+        if textField.text == "" {
+            searchResults.removeAll()
+            searchTable.reloadData()
+        }
+        
+        let keywords = linkTextField.text
+        let finalKeywords = keywords?.replacingOccurrences(of: " ", with: "+")
+        let searchURL = "https://api.spotify.com/v1/search?q=\(finalKeywords!)&type=track&limit=10"
+        
+        
+        let url = URL(string: searchURL)
+        if url != nil {
+            var request = URLRequest(url: url!)
+            request.addValue("Bearer \(token ?? "")", forHTTPHeaderField: "Authorization")
+            //callAlamo(url: searchURL)
+            AF.request(request).responseJSON(completionHandler: { response in
+                if response.data != nil {
+                    self.parseData(jsonData: response.data!)
+                }
+            })
+        
+        }
+    }
+    
+    func parseData(jsonData: Data) {
+        do {
+            let readableJSON = try JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers) as! [String: Any]
+            //print("readableJson: \(readableJSON)")
+            if let tracks = readableJSON["tracks"] as? [String: Any] {
+                if let items = tracks["items"] as? [[String: Any]] {
+                    searchResults.removeAll()
+                    for i in 0..<items.count{
+                        let item = items[i]
+//                        print("item: \(item)")
+                        let name = item["name"] as! String
+                        
+                        let previewURL = item["uri"] as? String? ?? ""
+                        if let album = item["album"] as? [String: Any] {
+                            var artist = ""
+                            //print("album: \(album)")
+                            var imageUrl = ""
+                            if let images = album["images"] as? [[String: Any]] {
+                                if images.count > 0 {
+                                    imageUrl = images[0]["url"] as? String ?? ""
+                                }
+                            }
+                            
+                            if let artists = album["artists"] as? [[String: Any]] {
+//                                print("entered")
+                                for i in 0 ..< artists.count {
+                                    artist.append((artists[i]["name"] as? String? ?? "") ?? "")
+                                    if (i != artists.count - 1) {
+                                        artist.append(", ")
+                                    }
+                                }
+                                //artist = (artists["name"] as? String? ?? "") ?? ""
+                            }
+                            let albumName = album["name"] as? String? ?? ""
+                            let music = MusicItem(track: name, artist: artist, album: albumName ?? "", uri: previewURL ?? "", imageUrl: imageUrl)
+                            searchResults.append(music)
+                            print(music.dictionary)
+                        }
+                    }
+                    self.searchTable.reloadData()
+                    searchTable.scrollToRow(at: IndexPath(row: 1, section: 0), at: .top, animated: false)
+                }
+            }
+        }
+        catch{
+            print(error)
+        }
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -433,6 +588,28 @@ prioritizeLabel.text = "Prioritize This Post?"
         linkVC.userDataVM = userDataVM
         linkVC.cancelLbl = "Skip"
         self.present(linkVC, animated: false, completion: nil)
+    }
+    
+    var createRequestURL = ""
+    var token: String?
+
+    func setTextFields(musicItem: MusicItem) {
+//        if musicItem.track != "" {
+//            songNameTextField.text = musicItem.track
+//        }
+//        else {
+//            songNameTextField.text = musicItem.album
+//        }
+        
+        if musicItem.track != "" {
+            linkTextField.text = "\(musicItem.track), \(musicItem.artist)"
+        }
+        else {
+            linkTextField.text = "\(musicItem.album), \(musicItem.artist)"
+        }
+                
+        let formatted = musicItem.uri.replacingOccurrences(of: ":", with: "%3A")
+        createRequestURL = "https://songwhip.com/convert?url=\(formatted)&sourceAction=pasteUrl"
     }
     
     @objc func checkBoxTapped(_ sender: UITapGestureRecognizer) {
@@ -468,22 +645,6 @@ prioritizeLabel.text = "Prioritize This Post?"
         print("It should dismiss here")
         self.dismiss(animated: true)
      }
-    
-  
-    
-    //    @objc func keyboard(notification:Notification) {
-    //        guard let keyboardReact = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else{
-    //            return
-    //        }
-    //
-    //        if notification.name == UIResponder.keyboardWillShowNotification ||  notification.name == UIResponder.keyboardWillChangeFrameNotification {
-    //            self.view.frame.origin.y = -keyboardReact.height
-    //        }else{
-    //            self.view.frame.origin.y = 0
-    //        }
-    //
-    //    }
-    
     
     
     
@@ -540,37 +701,10 @@ prioritizeLabel.text = "Prioritize This Post?"
         //        })
     }
     
-    func addHex(hexData: HexagonStructData, completion: @escaping (Bool) -> Void) {
-        let hexCollectionRef = db.collection("Hexagons2")
-        let hexDoc = hexCollectionRef.document()
-        var hexCopy = HexagonStructData(dictionary: hexData.dictionary)
-        hexCopy.docID = hexDoc.documentID
-        hexDoc.setData(hexCopy.dictionary){ error in
-            //     group.leave()
-            if error == nil {
-                print("added hex: \(hexData)")
-                completion(true)
-            }
-            else {
-                print("failed to add hex \(hexData)")
-                completion(false)
-            }
-        }
-    }
-    
-   
-//
-//    @IBAction func confirmButtonClicked(_ sender: UIButton) {
-//        createMusicLink()
-//
-//        //   continueBtn.isHidden = false
-//        linkHexagonImage.isHidden = false
-//        linkHexagonImage.frame = CGRect(x: linkHexagonImage.frame.minX, y: navBarView.frame.maxY + 10, width: linkHexagonImage.frame.width, height: linkHexagonImage.frame.height)
-//    }
     
     func createMusicLink() {
         var artistText = linkTextField.text?.replacingOccurrences(of: "'", with: "") ?? ""
-        var songText = songNameTextField.text?.replacingOccurrences(of: "'", with: "") ?? ""
+//        var songText = songNameTextField.text?.replacingOccurrences(of: "'", with: "") ?? ""
         while artistText.hasPrefix(" ") {
             artistText = artistText.chopPrefix()
             print("This is trimmedText now 1 \(artistText)")
@@ -629,27 +763,17 @@ prioritizeLabel.text = "Prioritize This Post?"
         let username = userData!.publicID
         var numPosts = userData!.numPosts
         
-        if (originalCaption == captionTextField.text! && originalTextOverlay == textOverlayTextField.text && originalPriority == checkBoxStatus && changedPhoto == false) {
+        if (originalCaption == captionTextField.text! && originalTextOverlay == textOverlayTextField.text && originalPriority == checkBoxStatus && changedPhoto == false && createRequestURL == hexData?.resource) {
          print("Changed Nothing and Dismiss")
             self.dismiss(animated: false, completion: nil)
             return
         }
         
-        print("IF you did change something. archive the old one in this location and replace with new one!")
         
-        if numPosts + 1 > 37 {
-            // too many posts
-            let alert = UIAlertController(title: "Not Enough Space :/", message: "Either cancel or delete a post from your home grid.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-            return
-        }
-        
-        
-        if hasChosenThumbnailImage == false {
-            loadImg(UITapGestureRecognizer())
-        }
-        else {
+//        if hasChosenThumbnailImage == false || !hexData!.thumbResource.contains("userFiles") {
+//            loadImg(UITapGestureRecognizer())
+//        }
+//        else {
             
             // dismiss keyboard
             self.view.endEditing(true)
@@ -666,31 +790,26 @@ prioritizeLabel.text = "Prioritize This Post?"
                 return
             }
             
-            
-            
-            
-            
             //let group = DispatchGroup()
             if (!linkTextField.text!.isEmpty) {
                 let timestamp = Timestamp.init().seconds
                 let imageFileName = "\(username)_\(timestamp)_link.png"
-                let refText = "userFiles/\(username)/\(imageFileName)"
-                let imageRef = storageRef.child(refText)
-                numPosts += 1
-                print("music link before \(musicLink)")
+                var refText = "userFiles/\(username)/\(imageFileName)"
+                if !hasChosenThumbnailImage {
+                    refText = selectedMusicItem!.imageUrl
+                }
+//                let imageRef = storageRef.child(refText)
                 musicLink = musicLink.replacingOccurrences(of: " ", with: "-")
                 musicLink = musicLink.replacingOccurrences(of: "'", with: "")
                 musicLink.trimmingCharacters(in: ["'", "!", "?"])
-                print("music Link after \(musicLink)")
-                print("This is music Link")
-                var trimmedMusicLink = musicLink.trimmingCharacters(in: .whitespaces)
+                //let trimmedMusicLink = musicLink.trimmingCharacters(in: .whitespaces)
                 
                 
-                let musicHex = HexagonStructData(resource: trimmedMusicLink, type: "music", location: hexData!.location ?? numPosts, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: captionTextField.text ?? "", views: hexData!.views ?? 0, isArchived: false, docID: "WillBeSetLater", coverText: textOverlayTextField.text ?? "", isPrioritized: checkBoxStatus, array: [])
+                let musicHex = HexagonStructData(resource: createRequestURL, type: "music", location: hexData!.location, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: captionTextField.text ?? "", views: hexData!.views, isArchived: false, docID: hexData!.docID, coverText: textOverlayTextField.text ?? "", isPrioritized: checkBoxStatus, array: [])
                 let previewVC = storyboard?.instantiateViewController(identifier: "linkPreview") as! LinkPreviewVC
                 previewVC.webHex = musicHex
                 
-                if changedProfilePic == true {
+                if hasChosenThumbnailImage {
                 previewVC.thumbImage = linkHexagonImage.image
                 }
                 else {
@@ -704,110 +823,13 @@ prioritizeLabel.text = "Prioritize This Post?"
                 
             }
             
-        }
+//        }
     }
     
-    
-    // clicked sign up
-    @IBAction func continueClicked(_ sender: AnyObject) {
-        print("continue button pressed")
-        
-        
-        let userData = userDataVM?.userData.value
-        if userData == nil {
-            return
-        }
-        
-        let username = userData!.publicID
-        var numPosts = userData!.numPosts
-        
-        if numPosts + 1 > 37 {
-            // too many posts
-            let alert = UIAlertController(title: "Not Enough Space :/", message: "Either cancel or delete a post from your home grid.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-            return
-        }
-        
-        
-        if hasChosenThumbnailImage == false {
-            loadImg(UITapGestureRecognizer())
-        }
-        else {
-            
-            // dismiss keyboard
-            self.view.endEditing(true)
-            
-            // if fields are empty
-            if (linkTextField.text!.isEmpty) {
-                
-                // alert message
-                let alert = UIAlertController(title: "Hold up", message: "Fill in a field or hit Cancel", preferredStyle: UIAlertController.Style.alert)
-                let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
-                alert.addAction(ok)
-                self.present(alert, animated: true, completion: nil)
-                
-                return
-            }
-            
-            
-            
-            
-            
-            //let group = DispatchGroup()
-            if (!linkTextField.text!.isEmpty) {
-                let timestamp = Timestamp.init().seconds
-                let imageFileName = "\(username)_\(timestamp)_link.png"
-                let refText = "userFiles/\(username)/\(imageFileName)"
-                let imageRef = storageRef.child(refText)
-                numPosts += 1
-                print("music link before \(musicLink)")
-                musicLink = musicLink.replacingOccurrences(of: " ", with: "-")
-                musicLink = musicLink.replacingOccurrences(of: "'", with: "")
-                musicLink.trimmingCharacters(in: ["'", "!", "?"])
-                print("music Link after \(musicLink)")
-                let musicHex = HexagonStructData(resource: musicLink, type: "music", location: numPosts, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: musicLink, views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: checkBoxStatus, array: [])
-                
-                
-                
-                
-                imageRef.putData(linkHexagonImage.image!.pngData()!, metadata: nil){ data, error in
-                    if (error == nil) {
-                        print ("upload successful")
-                        self.addHex(hexData: musicHex, completion: { bool in
-                            if (bool) {
-                                print("Add hex successful")
-                            }
-                            else {
-                                print("didnt add hex")
-                            }
-                        })
-                    }
-                    else {
-                        print ("upload failed")
-                    }
-                }
-                
-                
-                userData?.numPosts = numPosts
-                userDataVM?.updateUserData(newUserData: userData!, completion: { success in
-                    if success {}
-                        print("userdata updated successfully")
-                        self.performSegue(withIdentifier: "unwindFromLinkToHome", sender: nil)
-//                    else {
-//                        print("userData not saved \(error?.localizedDescription)")
-//                    }
-//
-                })
-            }
-            
-        }
-    }
     
     
     // call picker to select image
     @objc func loadImg(_ recognizer:UITapGestureRecognizer) {
-        self.hasChosenThumbnailImage = true
         let picker = UIImagePickerController()
         picker.delegate = self
         picker.sourceType = .photoLibrary
@@ -822,7 +844,7 @@ prioritizeLabel.text = "Prioritize This Post?"
         let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         linkHexagonImage.image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
         linkHexagonImageCopy.image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
-        changedProfilePic = true
+        self.hasChosenThumbnailImage = true
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -838,6 +860,26 @@ prioritizeLabel.text = "Prioritize This Post?"
         self.dismiss(animated: true, completion: nil)
         
     }
+    
+    var selectedMusicItem: MusicItem?
+    @objc func cellTapped(_ sender: UITapGestureRecognizer) {
+        if sender.view!.tag > -1 && sender.view!.tag < searchResults.count {
+            selectedMusicItem = searchResults[sender.view!.tag]
+            setTextFields(musicItem: searchResults[sender.view!.tag])
+            
+            if !hasChosenThumbnailImage  || !hexData!.thumbResource.contains("userFiles"){
+                if let imageUrl = URL(string: searchResults[sender.view!.tag].imageUrl) {
+                    linkHexagonImage.sd_setImage(with: imageUrl, completed: nil)
+                }
+            }
+        }
+        searchResults.removeAll()
+        
+        linkTextField.resignFirstResponder()
+        
+        
+    }
+
 }
 
 // Helper function inserted by Swift 4.2 migrator.
@@ -848,4 +890,90 @@ fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [U
 // Helper function inserted by Swift 4.2 migrator.
 fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
     return input.rawValue
+}
+extension EditMusicPostVC: UITableViewDelegate {
+    
+}
+
+extension EditMusicPostVC: UITableViewDataSource {
+    
+    
+    
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        UIView.animate(withDuration: 0.25, animations: {
+            if (self.searchResults.count >= 3) {
+                self.searchTable.frame = CGRect(x: self.linkTextField.frame.minX, y: self.linkTextField.frame.maxY, width: self.linkTextField.frame.width, height: 150)
+            }
+            else {
+                self.searchTable.frame = CGRect(x: self.linkTextField.frame.minX, y: self.linkTextField.frame.maxY, width: self.linkTextField.frame.width, height: CGFloat(self.searchResults.count * 70))
+            }
+        })
+            
+        return searchResults.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "musicSuggestion") as! MusicSuggestionCell
+        
+        if indexPath.row % 2 == 0 {
+            cell.backgroundColor = .gray
+        }
+        else {
+            cell.backgroundColor = .lightGray
+        }
+        
+        cell.contentView.frame = cell.frame
+        cell.isUserInteractionEnabled = true
+        cell.contentView.isUserInteractionEnabled = false
+        
+        let cellTap = UITapGestureRecognizer(target: self, action: #selector(cellTapped))
+        cell.addGestureRecognizer(cellTap)
+        cell.tag = indexPath.row
+        
+        print("creating cell \(searchResults[indexPath.row].track)")
+        cell.albumLabel.text = searchResults[indexPath.row].album
+        cell.trackLabel.text = searchResults[indexPath.row].track
+        cell.artistLabel.text = searchResults[indexPath.row].artist
+        
+        
+        cell.albumLabel.textColor = .black
+        cell.trackLabel.textColor = .black
+        cell.artistLabel.textColor = .black
+        
+        cell.albumLabel.font = UIFont(name: "Poppins-SemiBold", size: 14)
+        cell.trackLabel.font = UIFont(name: "Poppins-SemiBold", size: 14)
+        cell.artistLabel.font = UIFont(name: "Poppins-SemiBold", size: 14)
+
+        
+        cell.trackLabel.frame = CGRect(x: 8, y: 8, width: cell.frame.width, height: 15)
+        
+        cell.clipsToBounds = true
+        
+        if (cell.trackLabel.text != "" || cell.albumLabel.text != "") {
+            cell.artistLabel.frame = CGRect(x: 8, y: cell.trackLabel.frame.maxY + 4, width: cell.frame.width, height: 15)
+        }
+        else {
+            cell.artistLabel.frame = CGRect(x: 8, y: cell.frame.midY - 6, width: cell.frame.width, height: 15)
+        }
+        if (cell.trackLabel.text != "") {
+            cell.albumLabel.frame = CGRect(x: 8, y: cell.artistLabel.frame.maxY + 4, width: cell.frame.width, height: 15)
+        }
+        else {
+            cell.albumLabel.frame = CGRect(x: 8, y: 4, width: cell.frame.width, height: 15)
+        }
+        
+        
+        return cell
+    }
+    
+    
+    
+}
+
+fileprivate extension String {
+    func indexOf(char: Character) -> Int? {
+        return firstIndex(of: char)?.utf16Offset(in: self)
+    }
 }

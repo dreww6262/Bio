@@ -155,21 +155,40 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
     }
     
     func addHex(hexData: HexagonStructData, completion: @escaping (Bool) -> Void) {
+        
         let hexCollectionRef = db.collection("Hexagons2")
-        let hexDoc = hexCollectionRef.document()
-        var hexCopy = HexagonStructData(dictionary: hexData.dictionary)
-        hexCopy.docID = hexDoc.documentID
-        hexDoc.setData(hexCopy.dictionary){ error in
-            //     group.leave()
-            if error == nil {
-                //                print("added hex: \(hexData)")
-                completion(true)
-            }
-            else {
-                print("failed to add hex \(hexData)")
-                completion(false)
+        if hexData.docID.contains("WillBeSetLater") {
+            let hexDoc = hexCollectionRef.document()
+            var hexCopy = HexagonStructData(dictionary: hexData.dictionary)
+            hexCopy.docID = hexDoc.documentID
+            hexDoc.setData(hexCopy.dictionary){ error in
+                //     group.leave()
+                if error == nil {
+                    //                print("added hex: \(hexData)")
+                    completion(true)
+                }
+                else {
+                    print("failed to add hex \(hexData)")
+                    completion(false)
+                }
             }
         }
+        
+        else {
+            let hexDoc = hexCollectionRef.document(hexData.docID)
+            hexDoc.setData(hexData.dictionary){ error in
+                //     group.leave()
+                if error == nil {
+                    //                print("added hex: \(hexData)")
+                    completion(true)
+                }
+                else {
+                    print("failed to add hex \(hexData)")
+                    completion(false)
+                }
+            }
+        }
+        
     }
     
     @objc func backPressed(_ sender: UITapGestureRecognizer) {

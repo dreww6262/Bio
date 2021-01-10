@@ -473,7 +473,7 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
             onePostPreviewVC.captionString = hex!.text
             onePostPreviewVC.textOverlayString = hex!.coverText
             onePostPreviewVC.linkTextField.text = finalArist
-            onePostPreviewVC.songNameTextField.text = finalSong
+//            onePostPreviewVC.songNameTextField.text = finalSong
             var isPrioritized = currentVC.webHex?.isPrioritized ?? false
             onePostPreviewVC.checkBoxStatus = isPrioritized
             if isPrioritized {
