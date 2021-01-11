@@ -627,10 +627,12 @@ class CustomPageView: UIViewController {
         print("More tapped")
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        alert.addAction(UIAlertAction(title: "Copy Link", style: .default , handler:{ (UIAlertAction)in
-            print("User click Copy Link button")
-            self.copyTextToResource()
-        }))
+        if viewControllers[currentIndex!] is ContentLinkVC {
+            alert.addAction(UIAlertAction(title: "Copy Link", style: .default , handler: { (UIAlertAction) in
+                print("User click Copy Link button")
+                self.copyTextToResource()
+            }))
+        }
         
         
         
@@ -677,10 +679,12 @@ class CustomPageView: UIViewController {
         print("More tapped crud")
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        alert.addAction(UIAlertAction(title: "Copy Link", style: .default , handler:{ (UIAlertAction)in
-            print("User click Copy Link button")
-            self.copyTextToResource()
-        }))
+        if viewControllers[currentIndex!] is ContentLinkVC {
+            alert.addAction(UIAlertAction(title: "Copy Link", style: .default , handler:{ (UIAlertAction)in
+                print("User click Copy Link button")
+                self.copyTextToResource()
+            }))
+        }
         
         alert.addAction(UIAlertAction(title: "Edit Post", style: .default , handler:{ (UIAlertAction)in
             print("User click Edit Post")
