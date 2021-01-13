@@ -120,6 +120,7 @@ class NewPost5OptionsVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         return .lightContent
     }
 
+
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
@@ -242,31 +243,35 @@ class NewPost5OptionsVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         //print("This is addSocialMedia.userData \(addSocialMediaVC.userData)")
        // print("2 This is userData from NewPostOptionsVC \(userData)")
         // addSocialMediaVC.publicID = userData?.publicID
+        addSocialMediaVC.modalPresentationStyle = .fullScreen
         present(addSocialMediaVC, animated: false)
-        modalPresentationStyle = .fullScreen
+   
     }
     
     
     @objc func tappedPersonalDetailView(sender: UITapGestureRecognizer) {
         let addPersonalDetailVC = storyboard?.instantiateViewController(identifier: "addPersonalDetailTableViewVC") as! AddPersonalDetailTableViewVC
         addPersonalDetailVC.userDataVM = userDataVM
+        addPersonalDetailVC.modalPresentationStyle = .fullScreen
         present(addPersonalDetailVC, animated: false)
-        modalPresentationStyle = .fullScreen
+   
     }
     
     @objc func tappedlinkView(sender: UITapGestureRecognizer) {
         let linkVC = storyboard?.instantiateViewController(identifier: "linkVC") as! AddLinkVCViewController
         linkVC.userDataVM = userDataVM
+        linkVC.modalPresentationStyle = .fullScreen
         present(linkVC, animated: false)
-        modalPresentationStyle = .fullScreen
+
     }
     
     @objc func tappedMusicView(sender: UITapGestureRecognizer) {
       //  print("add music pressed want to switch to social media ")
             let musicVC = storyboard?.instantiateViewController(identifier: "addMusicVC") as! AddMusicVC
             musicVC.userDataVM = userDataVM
+        modalPresentationStyle = .fullScreen
             present(musicVC, animated: false)
-            modalPresentationStyle = .fullScreen
+       
     }
     
     @objc func tappedPhotoView(sender: UITapGestureRecognizer) {
@@ -304,8 +309,9 @@ class NewPost5OptionsVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
             }
             
         }
+        picker.modalPresentationStyle = .fullScreen
         present(picker, animated: false)
-        modalPresentationStyle = .fullScreen
+      
     }
     
     

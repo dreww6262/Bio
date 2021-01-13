@@ -17,6 +17,8 @@ import FirebaseStorage
 //import FirebaseFirestore
 
 class NotificationsVC: UIViewController {
+    var firstTime = true
+    var isNotificationsEmpty = true
     var navBarY = CGFloat(39)
     var titleFontSize = CGFloat(20)
     let menuView = MenuView()
@@ -438,14 +440,44 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
     // cell numb
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 //        print("This is notificationArray count \(notificationArray.count)")
+        if notificationArray.count == 0 {
+            isNotificationsEmpty = true
+            return 1
+        }
+        else {
         return notificationArray.count
+        }
     }
     
     
     // cell config
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // declare cell
+        if notificationArray.isEmpty == true {
+            isNotificationsEmpty = true
+        }
+        
+        if isNotificationsEmpty && self.firstTime == true {
+            self.firstTime = false
+            let cell = tableView.dequeueReusableCell(withIdentifier: "newsCell") as! newsCell
+            cell.tag = indexPath.row
+            //cell.frame = CGRect(x: cell.frame.minX, y: cell.frame.minY, width: view.frame.width, height: 43.5)
+            cell.avaImg.isHidden = true
+            cell.usernameBtn.isHidden = true
+            cell.infoLbl.isHidden = true
+            cell.dateLbl.isHidden = true
+            var myLabel = UILabel()
+            myLabel.font = UIFont(name: "DINAlternate-Bold", size: 22)
+            cell.addSubview(myLabel)
+            myLabel.frame = cell.bounds
+            myLabel.text = "No notfications yet. Follow people to make more connections"
+            myLabel.textColor = .white
+            myLabel.numberOfLines = 0
+            return cell
+        }
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "newsCell") as! newsCell
+        if notificationArray.isEmpty == false {
         cell.tag = indexPath.row
         cell.frame = CGRect(x: cell.frame.minX, y: cell.frame.minY, width: view.frame.width, height: 43.5)
         // connect cell objects with received data from server
@@ -468,11 +500,7 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
         // calculate post date
         let times = ["now", "now", "5m", "7m", "21m", "30m", "1hr", "1hr", "1hr", "1hr", "2hr", "2hr", "2hr", "2hr", "4hr", "4hr", "4hr", "4hr", "5hr", "5hr", "6hr", "7hr", "12hr", "1d", "1d", "1d", "1d", "1d", "1d", "1d", "1d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d"]
         
-     //   let times = ["now", "5m", "7m", "21m", "30m", "1hr", "2hr", "4hr", "5hr", "6hr", "7hr", "12hr", "1d", "2d", "3d","4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d"]
-        
-      //  let isoDate = "2016-04-14T10:44:00+0000"
 
-       // let dateFormatter = ISO8601DateFormatter()
         let dateFormatter = DateFormatter()
        // dateFormatter.dateFormat = "yyyy-MM-dd' 'HH:mm:ssZ"
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
@@ -521,8 +549,7 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
         // define info text
         if notificationArray[indexPath.row].type == "requestPhoneNumber" {
             cell.infoLbl.text = "asked for your phone number."
-//            cell.rejectButton.frame = CGRect(x: cell.dateLbl.frame.maxX + 10, y: (cell.frame.height - 30)/2, width: 30, height: 30)
-//            cell.acceptButton.frame = CGRect(x: cell.rejectButton.frame.maxX + 10, y: (cell.frame.height - 30)/2, width: 30, height: 30)
+
             cell.rejectButton.isHidden = false
             cell.acceptButton.isHidden = false
             
@@ -533,8 +560,6 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
         }
         else if notificationArray[indexPath.row].type == "requestCompleted" {
             cell.infoLbl.text = "has been sent your number"
-//            cell.rejectButton.frame = CGRect(x: cell.dateLbl.frame.maxX + 10, y: (cell.frame.height - 30)/2, width: 30, height: 30)
-//            cell.acceptButton.frame = CGRect(x: cell.rejectButton.frame.maxX + 10, y: (cell.frame.height - 30)/2, width: 30, height: 30)
             cell.rejectButton.isHidden = true
             cell.acceptButton.isHidden = true
         }
@@ -583,8 +608,17 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
         
         return cell
     }
+        return cell
+    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        if notificationArray.isEmpty {
+            isNotificationsEmpty = true
+        }
+        if isNotificationsEmpty {
+            return self.view.frame.size.height/14
+        }
         
         if notificationArray[indexPath.row].type == "approvePhoneNumber" {
         return (self.view.frame.size.height/14) + CGFloat(30)
