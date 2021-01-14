@@ -77,7 +77,6 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
     // buttons
     var signUpBtn = UIButton()
     var cancelBtn = UIButton()
-    var profileImageLabel = UILabel()
     var birthday = ""
     
     var userDataVM: UserDataVM?
@@ -145,6 +144,9 @@ var countryFlag = UIImageView()
     // default func
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+       
+        
         let userData = userDataVM?.userData.value
         ogAvaImg = avaImg.image!
         ogEmail = userData?.email ?? ""
@@ -247,7 +249,6 @@ var countryFlag = UIImageView()
         bg.image = UIImage(named: "manaloghourglass")
         bg.layer.zPosition = -1
         self.view.addSubview(bg)
-        formatPhotoLabel()
         formatBottomLines()
         let cleanRef = userData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
@@ -326,9 +327,21 @@ var countryFlag = UIImageView()
         picker.delegate = self
         picker.sourceType = .photoLibrary
         picker.allowsEditing = true
+        picker.modalPresentationStyle = .fullScreen
         present(picker, animated: true, completion: nil)
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+//        switch traitCollection.userInterfaceStyle {
+//        case .light, .unspecified:
+//            return .lightContent
+//        case .dark:
+//            return .darkContent
+//        }
+        return .lightContent
+    }
+    
+
     
     // connect selected image to our ImageView
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -359,16 +372,7 @@ var countryFlag = UIImageView()
         })
     }
     
-    func formatPhotoLabel() {
-        self.scrollView.addSubview(self.profileImageLabel)
-        var photoFrame = self.avaImg.frame
-        self.profileImageLabel.frame = CGRect(x: self.view.frame.width/32, y: photoFrame.minY - 10, width: self.view.frame.width/2, height: 44)
-        self.profileImageLabel.text = "Choose A Profile Picture:"
-        self.profileImageLabel.font = emailTxt.font
-       self.profileImageLabel.font = emailTxt.font?.withSize(12)
-        self.profileImageLabel.textAlignment = .left
-        self.profileImageLabel.textColor = .white
-    }
+
     
     
     // hide keyboard func

@@ -610,7 +610,7 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
         let yOffset = navBarView.frame.maxY
         
         self.navBarView.addBehavior()
-        self.navBarView.titleLabel.text = "Add Your Cultural Identities"
+        self.navBarView.titleLabel.text = "Personal Details"
         
         self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 140, y: postButton.frame.minY, width: 280, height: 25)
         navBarView.backgroundColor = .white

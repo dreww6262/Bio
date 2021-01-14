@@ -67,13 +67,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
     var bio = ""
     
     override func viewDidLoad() {
-        //        view.addSubview(navBarView)
-        //        navBarView.addSubview(titleLabel1)
-        //        navBarView.addSubview(backButton1)
-        //        navBarView.addBehavior()
-        //        backButton1.setTitle("Back", for: .normal)
-        //        backButton1.setTitleColor(.systemBlue, for: .normal)
-        //        titleLabel1.text = "Settings"
+  
         super.viewDidLoad()
         let userData = userDataVM?.userData.value
         setUpNavBarView()
@@ -109,7 +103,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
        // navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
         navBarView.backButton.setTitleColor(.black, for: .normal)
-        self.navBarView.backgroundColor = .systemGray6
+        self.navBarView.backgroundColor = .clear//.systemGray6
 //        self.navBarView.addSubview(toSettingsButton)
 //        self.navBarView.addSubview(toSearchButton)
 //
@@ -117,19 +111,9 @@ class ProfessionalSettingsVC: QuickTableViewController {
         backTap.numberOfTapsRequired = 1
         navBarView.backButton.isUserInteractionEnabled = true
         navBarView.backButton.addGestureRecognizer(backTap)
-//
-//        let searchTap = UITapGestureRecognizer(target: self, action: #selector(self.toSearchButtonClicked))
-//        searchTap.numberOfTapsRequired = 1
-//        toSearchButton.isUserInteractionEnabled = true
-//        toSearchButton.addGestureRecognizer(searchTap)
-        
 
-//        self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
-//        self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
-//
-//        self.toSettingsButton.frame = CGRect(x: 10, y: navBarView.frame.height - 30, width: 25, height: 25)
         navBarView.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 34, height: 34)
-//        self.toSearchButton.frame = CGRect(x: navBarView.frame.width - 35, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+
         let yOffset = navBarView.frame.maxY
         self.tableView.frame = CGRect(x: 0, y: yOffset, width: self.view.frame.width, height: self.view.frame.height - yOffset)
       //  self.navBarView.addSubview(titleLabel1)
@@ -137,44 +121,20 @@ class ProfessionalSettingsVC: QuickTableViewController {
         self.navBarView.titleLabel.text = "Settings"
         self.navBarView.titleLabel.textColor = .black
         print("This is navBarView.")
-//        self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
-//        self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
-   //     self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
+
         
         self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: self.navBarView.backButton.frame.minY, width: 200, height: 25)
-
-        //self.titleLabel1.text = "Notifications"
-     //   self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
-       // let yOffset = navBarView.frame.maxY
-     //   self.tableView.frame = CGRect(x: 0, y: yOffset, width: self.view.frame.width, height: self.view.frame.height - yOffset)
+        switch traitCollection.userInterfaceStyle {
+        case .light, .unspecified:
+            navBarView.backButton.setImage(UIImage(named: "blackChevron"), for: .normal)
+            navBarView.titleLabel.textColor = .black
+        case .dark:
+            navBarView.backButton.setImage(UIImage(named: "whiteChevron"), for: .normal)
+            navBarView.titleLabel.textColor = .white
+        }
 
     }
     
-//    func setUpNavBarViewBad() {
-//        self.view.addSubview(navBarView)
-//        self.navBarView.addSubview(titleLabel1)
-//        self.navBarView.addSubview(backButton1)
-//        self.navBarView.addBehavior()
-//        
-//        // tap to dismissSettings
-//        let dismissTap = UITapGestureRecognizer(target: self, action: #selector(self.backButtonpressed))
-//        dismissTap.numberOfTapsRequired = 1
-//        self.backButton1.isUserInteractionEnabled = true
-//        self.backButton1.addGestureRecognizer(dismissTap)
-//        
-//        
-//        self.backButton1.setBackgroundImage(UIImage(named: "whiteChevron"), for: .normal)
-//        self.backButton1.setTitleColor(.systemBlue, for: .normal)
-//        self.titleLabel1.text = "Settings"
-//        self.navBarView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/12)
-//        self.tableView.frame = CGRect(x: 0, y: self.navBarView.frame.height, width: self.view.frame.width, height: self.view.frame.height-self.navBarView.frame.height)
-//        self.titleLabel1.frame = CGRect(x: 0, y: navBarView.frame.maxY - 30, width: self.view.frame.width, height: 30)
-//        self.backButton1.frame = CGRect(x: 5, y: navBarView.frame.maxY - 30, width: 25, height: 25)
-//        self.titleLabel1.textAlignment = .center
-//        self.backButton1.titleLabel?.textAlignment = .left
-//        self.titleLabel1.font = UIFont(name: "DINAlternate-Bold", size: 20)
-//        self.navBarView.backgroundColor = .systemGray6
-//    }
     
     @objc func backButtonpressed() {
         print("It should dismiss here")

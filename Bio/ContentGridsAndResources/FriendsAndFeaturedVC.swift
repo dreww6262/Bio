@@ -285,7 +285,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         if (kind == UICollectionView.elementKindSectionHeader) {
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as! HorizontalCircleCollectionViewHeader
             headerView.friendsLabel.text = "Friends"
-            headerView.friendsLabel.font = UIFont(name: "DINAlternate-Bold", size: 17)
+            headerView.friendsLabel.font = UIFont(name: "DINAlternate-Bold", size: 25)
             headerView.friendsLabel.sizeToFit()
             headerView.friendsLabel.frame = CGRect(x: 8, y: 10, width: headerView.friendsLabel.frame.width, height: headerView.friendsLabel.frame.height)
             headerView.friendsLabel.textColor = .white
@@ -293,7 +293,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
             headerView.collectionView.frame = CGRect(x: 0, y: headerView.friendsLabel.frame.maxY + 10, width: view.frame.width, height: view.frame.height / 8)
             
             headerView.featuredLabel.text = "Featured"
-            headerView.featuredLabel.font = UIFont(name: "DINAlternate-Bold", size: 17)
+            headerView.featuredLabel.font = UIFont(name: "DINAlternate-Bold", size: 25)
             headerView.featuredLabel.sizeToFit()
             headerView.featuredLabel.frame = CGRect(x: 8, y: headerView.collectionView.frame.maxY + 10, width: headerView.featuredLabel.frame.width, height: headerView.featuredLabel.frame.height)
             headerView.featuredLabel.textColor = .white

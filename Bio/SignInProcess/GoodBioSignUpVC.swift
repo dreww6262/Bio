@@ -15,6 +15,7 @@ import Photos
 import MRCountryPicker
 
 class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MRCountryPickerDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
+    
     var changedProfilePic = false
     var bioCharacterLimit = 20
     var countries: [String] = []
@@ -124,6 +125,7 @@ var countryFlag = UIImageView()
     // default func
     override func viewDidLoad() {
         super.viewDidLoad()
+        profileImageLabel.isHidden = true
         self.countries = self.getCountryList()
         self.countries = self.countries.sorted(by: <)
         self.countries.insert("United States", at: 0)
@@ -305,6 +307,7 @@ var countryFlag = UIImageView()
         picker.delegate = self
         picker.sourceType = .photoLibrary
         picker.allowsEditing = true
+        picker.modalPresentationStyle = .fullScreen
         present(picker, animated: true, completion: nil)
     }
     

@@ -46,6 +46,8 @@ var minimumAge = 13
         picker.sourceType = .photoLibrary
         picker.allowsEditing = true
         present(picker, animated: true, completion: nil)
+  //      picker.cameraOverlayView
+     //   picker.cameraOverlayView!.setupHexagonMaskView(lineWidth: picker.cameraOverlayView!.frame.width/15, color: myOrange, cornerRadius: picker.cameraOverlayView!.frame.width/15)
         self.addProfilePictureButton.setTitle("Add Profile Picture", for: .normal)
     }
     
