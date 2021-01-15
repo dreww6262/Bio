@@ -505,6 +505,9 @@ class AddSocialMediaVC: UIViewController {
         
         
     }
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
 
     
     // clicked cancel

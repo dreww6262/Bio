@@ -29,6 +29,11 @@ class FollowingTableView: UIViewController, UISearchBarDelegate {
     var followList = [String]()
     var followListener: ListenerRegistration?
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(searchBar)
@@ -39,8 +44,10 @@ class FollowingTableView: UIViewController, UISearchBarDelegate {
         searchBar.backgroundColor = UIColor.black
   //      searchBar.isTranslucent = true
         searchBar.barStyle = .blackOpaque
+        //searchBar.frame.size.width = self.view.frame.size.width
         searchBar.frame.size.width = self.view.frame.size.width
-        searchBar.frame = CGRect(x: 0, y: 20, width: searchBar.frame.width, height: searchBar.frame.height)
+        searchBar.frame = CGRect(x: 0, y: UIApplication.shared.statusBarFrame.height, width: searchBar.frame.width, height: searchBar.frame.height)
+      //  searchBar.frame = CGRect(x: 0, y: 20, width: searchBar.frame.width, height: searchBar.frame.height)
 //        let attributes:[NSAttributedString.Key: Any] = [
 //            .foregroundColor: UIColor.black,
 //            .font: UIFont.systemFont(ofSize: 17)
@@ -89,7 +96,7 @@ class FollowingTableView: UIViewController, UISearchBarDelegate {
         tableView.keyboardDismissMode = .onDrag
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.frame = CGRect(x: 0, y: searchBar.frame.height + 20, width: view.frame.width, height: view.frame.height - searchBar.frame.height)
+        tableView.frame = CGRect(x: 0, y: searchBar.frame.maxY, width: view.frame.width, height: view.frame.height - searchBar.frame.maxY)
         tableView.reloadData()
         
         

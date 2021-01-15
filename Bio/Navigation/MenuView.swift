@@ -11,6 +11,7 @@ import FirebaseAuth
 import FirebaseFirestore
 
 class MenuView: UIView {
+    var tipLabel = UILabel()
     var blurEffectViewArray: [UIView] = []
     var menuButton: UIButton = UIButton()
     var closeMenuButton: UIButton = UIButton()
@@ -382,6 +383,11 @@ class MenuView: UIView {
         makeAllMenuButtonsClear()
         let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        tipLabel.text = "Tap or Swipe To A Menu Button To Go To That Destination."
+        tipLabel.font = UIFont(name: "DINAlternate-Bold", size: 16)
+        tipLabel.textColor = .black
+
+        blurEffectView.bringSubviewToFront(tipLabel)
           //hide menu button and replace with close button
    closeMenuButton = menuButton
      menuButton.isHidden = true
@@ -400,6 +406,8 @@ class MenuView: UIView {
             superview!.bringSubviewToFront(newPostButton)
             superview!.bringSubviewToFront(menuButton)
             superview!.bringSubviewToFront(notificationLabel)
+        superview!.addSubview(tipLabel)
+        tipLabel.center = superview!.center
             setNotificationAlertText()
             showMenuOptions()
         //makeAllMenuButtonsClear()
@@ -417,6 +425,8 @@ class MenuView: UIView {
         makeAllMenuButtonsClear()
         for blurview in blurEffectViewArray {
         blurview.removeFromSuperview()
+            tipLabel.isHidden = true
+            
         }
         closeMenuButton.isHidden = true
         menuButton.isHidden = false

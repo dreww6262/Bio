@@ -461,6 +461,9 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
             }
         }
     }
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
     
     
     // call picker to select image
@@ -470,6 +473,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         picker.delegate = self
         picker.sourceType = .photoLibrary
         picker.allowsEditing = true
+        picker.modalPresentationStyle = .fullScreen
         present(picker, animated: true, completion: nil)
     }
     

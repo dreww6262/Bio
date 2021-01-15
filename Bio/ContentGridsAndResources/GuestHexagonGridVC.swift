@@ -700,6 +700,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         image.addGestureRecognizer(tapGesture)
         image.isUserInteractionEnabled = true
         let myType = hexData.type
+        if myType.contains("pin") {
         if myType == "pin_country" {
             var ttext = hexData.text.lowercased()
             ttext = ttext.replacingOccurrences(of: " ", with: "-")
@@ -713,6 +714,80 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
             image.image = UIImage(named: ttext)
             createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
         }
+        else if myType == "pin_birthday" {
+            var ttext = hexData.text
+           // ttext = ttext.replacingOccurrences(of: " ", with: "-")
+            print("This is image name \(ttext)")
+            image.image = UIImage(named: ttext)
+            createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
+        }
+        else if myType == "pin_phone" {
+            var ttext = hexData.text
+            image.backgroundColor = .white
+            image.image = UIImage(named: "smartphone")
+            createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
+        }
+        }
+        else if myType.contains("socialmedia") {
+         if myType == "socialmedia_instagram" {
+            image.image = UIImage(named: "instagramLogo")
+            createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
+        }
+        else if myType == "socialmedia_cameo" {
+            image.image = UIImage(named: "cameo")
+            image.setupHexagonMaskView(lineWidth: image.frame.width/15, color: .white, cornerRadius: image.frame.width/15)
+        }
+        else if myType == "socialmedia_cashapp" {
+            image.image = UIImage(named: "cashapp")
+            createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
+        }
+        else if myType == "socialmedia_etsy" {
+            image.image = UIImage(named: "etsyLogoCircle")
+            createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
+        }
+        else if myType == "socialmedia_hudl" {
+            image.image = UIImage(named: "hudlapp")
+            createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
+        }
+        else if myType == "socialmedia_linkedIn" {
+            image.image = UIImage(named: "linkedIn7")
+            createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
+        }
+        else if myType == "socialmedia_poshmark" {
+            image.image = UIImage(named: "poshmarkLogo")
+            createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
+        }
+        else if myType == "socialmedia_snapchat" {
+            image.image = UIImage(named: "snapchatlogo")
+            createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
+        }
+        else if myType == "socialmedia_tiktok" {
+            image.image = UIImage(named: "tikTokLogo4")
+            image.setupHexagonMaskView(lineWidth: image.frame.width/15, color: .white, cornerRadius: image.frame.width/15)
+        }
+        else if myType == "socialmedia_twitch" {
+            image.image = UIImage(named: "twitchCircle")
+            createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
+        }
+        else if myType == "socialmedia_twitter" {
+            image.image = UIImage(named: "twitter")
+            createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
+        }
+        else if myType == "socialmedia_venmo" {
+            image.image = UIImage(named: "venmoCircle")
+            createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
+        }
+        else if myType == "socialmedia_vsco" {
+            image.image = UIImage(named: "vscologo1")
+            createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
+        }
+        else if myType == "socialmedia_youtube" {
+            image.image = UIImage(named: "youtube3")
+            createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
+        }
+        
+        }
+        
         else {
         var placeHolderImage = UIImage(named: "linkCenter")
         createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)

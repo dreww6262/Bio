@@ -467,10 +467,10 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
             cell.infoLbl.isHidden = true
             cell.dateLbl.isHidden = true
             var myLabel = UILabel()
-            myLabel.font = UIFont(name: "DINAlternate-Bold", size: 22)
+            myLabel.font = UIFont(name: "DINAlternate-Bold", size: 15)
             cell.addSubview(myLabel)
             myLabel.frame = cell.bounds
-            myLabel.text = "No notfications yet. Follow people to make more connections"
+            myLabel.text = "No notfications yet. Follow people to make more connections."
             myLabel.textColor = .white
             myLabel.numberOfLines = 0
             return cell

@@ -824,7 +824,9 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
     }
     
    
-    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
     
     // call picker to select image
     @objc func loadImg(_ recognizer:UITapGestureRecognizer) {
@@ -833,6 +835,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         picker.delegate = self
         picker.sourceType = .photoLibrary
         picker.allowsEditing = true
+        picker.modalPresentationStyle = .fullScreen
         present(picker, animated: true, completion: nil)
     }
     

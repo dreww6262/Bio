@@ -104,28 +104,38 @@ var titleLabel1 = UILabel()
     
     func setUpNavBarView() {
         self.view.addSubview(navBarView)
-        self.navBarView.addSubview(titleLabel1)
-        self.navBarView.addSubview(backButton1)
         self.navBarView.addBehavior()
         
         // tap to dismissSettings
 let dismissTap = UITapGestureRecognizer(target: self, action: #selector(self.backButtonpressed))
         dismissTap.numberOfTapsRequired = 1
-        self.backButton1.isUserInteractionEnabled = true
-        self.backButton1.addGestureRecognizer(dismissTap)
+        navBarView.backButton.isUserInteractionEnabled = true
+        navBarView.backButton.addGestureRecognizer(dismissTap)
 
         
-        self.backButton1.setBackgroundImage(UIImage(named:"whiteChevron"), for: .normal)
+      
        // self.backButton1.setTitleColor(.systemBlue, for: .normal)
-        self.titleLabel1.text = "Report Post"
+        navBarView.titleLabel.text = "Report Post"
+        navBarView.postButton.isHidden = true
+        navBarView.titleLabel.textColor = .black
+    
         self.navBarView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/12)
         self.tableView.frame = CGRect(x: 0, y: self.navBarView.frame.height, width: self.view.frame.width, height: self.view.frame.height-self.navBarView.frame.height)
-        self.titleLabel1.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/12)
-        self.backButton1.frame = CGRect(x: 0, y: 0, width: navBarView.frame.width/8, height: titleLabel1.frame.height)
-        self.titleLabel1.textAlignment = .center
-        self.backButton1.titleLabel?.textAlignment = .left
-        self.titleLabel1.font = UIFont(name: "DINAlternate-Bold", size: 20)
+      //  navBarView.titleLabel.frame = CGRect(x: 0, y: navBarView.frame.height/4, width: self.view.frame.width, height: navBarView.frame.height/2)
+        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.postButton.frame.minY, width: 200, height: 25)
+       // self.backButton1.frame = CGRect(x: 0, y: 0, width: navBarView.frame.width/8, height: titleLabel1.frame.height)
+        //self.titleLabel1.textAlignment = .center
+        //self.backButton1.titleLabel?.textAlignment = .left
+        navBarView.titleLabel.font = UIFont(name: "DINAlternate-Bold", size: 20)
         self.navBarView.backgroundColor = .systemGray6
+        switch traitCollection.userInterfaceStyle {
+        case .light, .unspecified:
+            navBarView.backButton.setImage(UIImage(named: "blackChevron"), for: .normal)
+            navBarView.titleLabel.textColor = .black
+        case .dark:
+            navBarView.backButton.setImage(UIImage(named: "whiteChevron"), for: .normal)
+            navBarView.titleLabel.textColor = .white
+        }
     }
     
     @objc func backButtonpressed() {
@@ -175,7 +185,17 @@ let dismissTap = UITapGestureRecognizer(target: self, action: #selector(self.bac
         var reason = row.text
         print("toggled row: \(row.text)")
         
-        if row.text != "" {
+        if row.text == "Other" {
+            let otherReasonVC = self?.storyboard!.instantiateViewController(identifier: "otherReasonVC") as! OtherReasonVC
+     //       otherReasonVC.userDataVM = userDataVM
+         
+            otherReasonVC.modalPresentationStyle = .fullScreen
+            otherReasonVC.hexData = self!.hexData
+            otherReasonVC.userDataVM = self!.userDataVM!
+            self!.present(otherReasonVC, animated: false,completion: nil)
+        }
+        
+     else if row.text != "" {
             let alert = UIAlertController(title: "Are You Sure?", message: "Click Yes to report this user for \(row.text)", preferredStyle: UIAlertController.Style.alert)
             let ok = UIAlertAction(title: "Yes", style: UIAlertAction.Style.cancel, handler: {_ in
                 print("Send report to backend for \(row.text)")

@@ -111,7 +111,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         cell.applyshadowWithCorner(containerView: cell, cornerRadious: cell.frame.width/10)
         
         let popData = popList[indexPath.row]
-        
+        cell.image.backgroundColor = .black
         cell.userData = popData
         cell.usernameLabel.text = popData.publicID
         cell.displayNameLabel.text = popData.displayName
@@ -143,7 +143,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
             placeHolderImage = UIImage(named: "kbit1")
             }
            else {
-            placeHolderImage = UIImage(named: "cameo")
+            placeHolderImage = UIImage()
            }
             
         

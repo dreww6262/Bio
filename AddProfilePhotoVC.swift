@@ -45,6 +45,8 @@ var minimumAge = 13
         picker.delegate = self
         picker.sourceType = .photoLibrary
         picker.allowsEditing = true
+        picker.modalPresentationStyle = .fullScreen
+        picker.cameraOverlayView!.setupHexagonMaskView(lineWidth: picker.cameraOverlayView!.frame.width/15, color: white, cornerRadius: picker.cameraOverlayView!.frame.width)
         present(picker, animated: true, completion: nil)
   //      picker.cameraOverlayView
      //   picker.cameraOverlayView!.setupHexagonMaskView(lineWidth: picker.cameraOverlayView!.frame.width/15, color: myOrange, cornerRadius: picker.cameraOverlayView!.frame.width/15)

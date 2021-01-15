@@ -1,9 +1,9 @@
 //
-//  BugSpottedVC.swift
+//  OtherReasonVC.swift
 //  Bio
 //
-//  Created by Ann McDonough on 10/7/20.
-//  Copyright © 2020 Patrick McDonough. All rights reserved.
+//  Created by Ann McDonough on 1/14/21.
+//  Copyright © 2021 Patrick McDonough. All rights reserved.
 //
 
 import UIKit
@@ -14,7 +14,7 @@ import FirebaseStorage
 import FirebaseAuth
 import FirebaseUI
 
-class BugSpottedVC: UIViewController, UITextViewDelegate {
+class OtherReasonVC: UIViewController, UITextViewDelegate {
     var navBarView = NavBarView()
     var titleLabel1 = UILabel()
     var cancelButton = UIButton()
@@ -22,6 +22,8 @@ class BugSpottedVC: UIViewController, UITextViewDelegate {
     var textView = UITextView()
     var placeholderLabel = UILabel()
     let db = Firestore.firestore()
+    var hexData: HexagonStructData?
+    var userDataVM: UserDataVM?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +36,7 @@ setUpNavBarView()
     func setUpTextView() {
         self.view.addSubview(self.textView)
         self.view.addSubview(self.placeholderLabel)
-        self.placeholderLabel.text = "Where did you find a bug?"
+        self.placeholderLabel.text = "Why are you reporting this post?"
         self.placeholderLabel.font = UIFont(name: "DINAlternate-SemiBold", size: 18)
         self.textView.font = UIFont(name: "DINAlternate-SemiBold", size: 18)
      //   self.placeholderLabel.font = UIFont.italicSystemFont(ofSize: (textView.font?.pointSize)!)
@@ -77,7 +79,7 @@ setUpNavBarView()
      
       //  self.navBarView.addSubview(titleLabel1)
         self.navBarView.addBehavior()
-        self.navBarView.titleLabel.text = "Report A Bug"
+        self.navBarView.titleLabel.text = "Report A Post"
         navBarView.backButton.setImage(UIImage(named: "whiteChevron"), for: .normal)
         self.navBarView.titleLabel.textColor = .white
         print("This is navBarView.")
@@ -104,40 +106,33 @@ setUpNavBarView()
     
     @objc func submitPressed() {
         print("I hit submit!")
-        if self.textView.text.isEmpty {
-            print("But text is empty give an alert :( ")
-            // alert message
-            let alert = UIAlertController(title: "PLEASE", message: "Fill All Fields", preferredStyle: UIAlertController.Style.alert)
+        
+        if textView.text != "" {
+            let reportObjectref = self.db.collection("ReportedPosts")
+           let reportDoc = reportObjectref.document()
+            let reportObject = ReportedPostObject(reason: textView.text,post: (self.hexData?.thumbResource)!, userReporting: self.userDataVM?.userData.value?.publicID ?? "unable to find userData.publicID", userWhoWasReported: (self.hexData!.postingUserID))
+           reportDoc.setData(reportObject.dictionary){ error in
+               if error == nil {
+                UIDevice.vibrate()
+                   print("reported post reason: \(reportObject)")
+                self.dismiss(animated: true)
+               }
+               else {
+                   print("failed to report \(reportObject)")
+
+               }
+           }
+     
+        }
+        else {
+            print("give warning to enter text")
+            let alert = UIAlertController(title: "No Reason Provided", message: "Provide a reason for reporting or hit Cancel", preferredStyle: UIAlertController.Style.alert)
             let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
             alert.addAction(ok)
             self.present(alert, animated: true, completion: nil)
             
             return
         }
-        else {
-            let newSuggestion = self.textView.text
-            print("This is the new suggestion: \(newSuggestion)")
-            //db.collection("Feedback").addDocument(data: newSuggestion as String)
-            
-     
-            
-            
-            let bugObjectref = db.collection("Bugs")
-               let bugDoc = bugObjectref.document()
-            let bugObject = FeedbackObject(text: newSuggestion!)
-               bugDoc.setData(bugObject.dictionary){ error in
-                   if error == nil {
-                    UIDevice.vibrate()
-                       print("reported ug: \(bugObject)")
-                    self.dismiss(animated: true)
-                   }
-                   else {
-                       print("failed to add bug \(bugObject)")
-
-                   }
-               }
-        }
-     
      }
     
     

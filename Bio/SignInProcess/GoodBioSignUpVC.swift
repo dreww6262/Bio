@@ -307,6 +307,7 @@ var countryFlag = UIImageView()
         picker.delegate = self
         picker.sourceType = .photoLibrary
         picker.allowsEditing = true
+        //picker. setupHexagonMaskView(lineWidth: picker.cameraOverlayView!.frame.width/15, color: white, cornerRadius: picker.cameraOverlayView!.frame.width)
         picker.modalPresentationStyle = .fullScreen
         present(picker, animated: true, completion: nil)
     }
@@ -371,7 +372,14 @@ var countryFlag = UIImageView()
             }
             else {
                 print("failed to create user \(error?.localizedDescription)")
+                // alert message
+                let alert = UIAlertController(title: "Invalid Email", message: "Enter a valid email address.", preferredStyle: UIAlertController.Style.alert)
+                let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
+                alert.addAction(ok)
+                self.present(alert, animated: true, completion: nil)
                 completion(nil)
+                return
+              
             }
 //            print("completed")
         })

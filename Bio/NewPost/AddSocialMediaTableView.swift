@@ -489,6 +489,9 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
         
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
     
     @IBAction func cancelPressed(_ sender: UIButton) {
         print("hit cancel button")
@@ -569,7 +572,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
         postTap.numberOfTapsRequired = 1
         postButton.isUserInteractionEnabled = true
         postButton.addGestureRecognizer(postTap)
-        postButton.setTitle("Next", for: .normal)
+        postButton.setTitle("Post", for: .normal)
         postButton.setTitleColor(.systemBlue, for: .normal)
       //  postButton.frame = CGRect(x: (self.view.frame.width) - (topBar.frame.height) - 5, y: 0, width: topBar.frame.height, height: topBar.frame.height)
         postButton.titleLabel?.sizeToFit()

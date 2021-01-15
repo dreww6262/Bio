@@ -583,8 +583,9 @@ class CustomPageView: UIViewController {
         
         //   onePostPreviewVC.items
         //   picker.present(onePostPreviewVC, animated: false, completion: nil)
-        present(onePostPreviewVC, animated: false,completion: nil)
         onePostPreviewVC.modalPresentationStyle = .fullScreen
+        present(onePostPreviewVC, animated: false,completion: nil)
+
     }
     
     func editPhotoPost() {
