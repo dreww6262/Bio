@@ -77,11 +77,9 @@ var navBarView = NavBarView()
     //var hexagonStructArray: [HexagonStructData] = []
     var imageViewArray: [PostImageView] = []
     
-    var reOrderedCoordinateArrayPoints: [CGPoint] = [CGPoint(x: 946.8266739736607,y: 902.5),CGPoint(x: 1081.7304845413264,y: 902.5),CGPoint(x: 1014.2785792574934,y: 1020.0), CGPoint(x: 879.3747686898278,y: 1020.0),CGPoint(x:811.9228634059948,y: 902.5), CGPoint(x: 879.3747686898278,y: 785.0),CGPoint(x: 1014.2785792574934,y: 785.0),CGPoint(x:946.8266739736607,y: 667.5),CGPoint(x:1081.7304845413264,y:667.5), CGPoint(x:1149.1823898251594,y:785.0),CGPoint(x: 1216.6342951089923,y: 902.5),CGPoint(x:1149.1823898251594,y: 1020.0), CGPoint(x:1081.7304845413264, y: 1137.5),CGPoint(x:946.8266739736607,y: 1137.5),CGPoint(x: 811.9228634059948, y: 1137.5),CGPoint(x: 744.4709581221618, y: 1020.0), CGPoint(x: 677.0190528383291, y: 902.5),CGPoint(x: 744.4709581221618, y: 785.0), CGPoint(x: 811.9228634059948, y: 667.5),CGPoint(x: 879.3747686898278, y: 550.0),CGPoint(x: 1014.2785792574934, y: 550.0),CGPoint(x: 1149.1823898251594,y: 550.0),CGPoint(x:1216.6342951089923,y: 667.5),CGPoint(x:1284.0862003928253, y: 785.0),CGPoint(x:1351.5381056766582,y: 902.5), CGPoint(x:1284.0862003928253, y: 1020.0),CGPoint(x: 1216.6342951089923, y: 1137.5),CGPoint(x: 1149.1823898251594, y: 1255.0), CGPoint(x:1014.2785792574934,y:1255.0),CGPoint(x:879.3747686898278, y:1255.0),CGPoint(x:744.4709581221618, y:1255.0),CGPoint(x:677.0190528383291, y:1137.5),CGPoint(x:609.5671475544962,y: 1020.0),CGPoint(x:542.1152422706632, y: 902.5),CGPoint(x: 609.5671475544962, y: 785.0),CGPoint(x: 677.0190528383291, y: 667.5),CGPoint(x: 744.4709581221618, y: 550.0)]
-    var fourthRowArray: [CGPoint] = [CGPoint(x: 744.4709581221618, y: 315.0), CGPoint(x: 879.3747686898278,y: 315.0), CGPoint(x: 1014.2785792574934,y: 315.0), CGPoint(x: 1149.1823898251594,y: 315.0), CGPoint(x:1284.0862003928253,y: 315.0),
-                                     CGPoint(x: 1351.5381056766582, y: 432.5), CGPoint(x: 1418.990010960491, y: 550.0),
-                                     CGPoint(x: 1486.441916244324, y: 667.5), CGPoint(x: 1553.8938215281566, y: 785.0),
-                                     CGPoint(x: 1621.3457268119896, y: 902.5), CGPoint(x: 1553.8938215281566, y: 1020.0), CGPoint(x: 1486.441916244324, y: 1137.5), CGPoint(x: 1418.990010960491, y: 1255.0), CGPoint(x: 1351.5381056766582, y: 1372.5), CGPoint(x: 1284.0862003928253, y: 1490.0), CGPoint(x: 1149.1823898251594,y: 1490.0), CGPoint(x: 1014.2785792574934, y: 1490.0), CGPoint(x: 879.3747686898278,y: 1490.0), CGPoint(x: 744.4709581221618,y: 1490.0), CGPoint(x: 609.5671475544962, y: 1490.0),      CGPoint(x: 542.1152422706632, y: 1372.5), CGPoint(x: 474.6633369868303, y: 1255.0), CGPoint(x: 407.2114317029974, y: 1137.5), CGPoint(x: 339.7595264191645, y: 1020.0), CGPoint(x: 272.3076211353316, y: 902.5),CGPoint(x: 339.7595264191645, y: 785.0), CGPoint(x: 407.2114317029974, y: 667.5), CGPoint(x: 474.6633369868303, y: 550.0), CGPoint(x: 542.1152422706632,y: 432.5),CGPoint(x: 609.5671475544962,y: 315.0)]
+    var reOrderedCoordinateArrayPoints: [CGPoint] = [CGPoint(x: 946.8266739736607,y: 902.5), CGPoint(x: 1081.7304845413264,y: 902.5), CGPoint(x: 1014.2785792574934,y: 1020.0), CGPoint(x: 879.3747686898278,y: 1020.0), CGPoint(x:811.9228634059948,y: 902.5), CGPoint(x: 879.3747686898278,y: 785.0), CGPoint(x: 1014.2785792574934,y: 785.0), CGPoint(x: 946.8266739736607, y: 1137.5), CGPoint(x: 744.4709581221618, y: 785.0), CGPoint(x:1149.1823898251594,y:785.0), CGPoint(x: 811.9228634059948, y: 667.5), CGPoint(x:946.8266739736607,y: 667.5), CGPoint(x:1081.7304845413264,y:667.5), CGPoint(x: 1216.6342951089923,y: 902.5), CGPoint(x:1149.1823898251594,y: 1020.0), CGPoint(x:1081.7304845413264, y: 1137.5), CGPoint(x: 811.9228634059948, y: 1137.5), CGPoint(x: 744.4709581221618, y: 1020.0), CGPoint(x: 677.0190528383291, y: 902.5), CGPoint(x: 879.3747686898278, y: 550.0), CGPoint(x: 1014.2785792574934, y: 550.0), CGPoint(x: 1149.1823898251594,y: 550.0), CGPoint(x:1216.6342951089923,y: 667.5), CGPoint(x:1284.0862003928253, y: 785.0), CGPoint(x:1351.5381056766582,y: 902.5), CGPoint(x:1284.0862003928253, y: 1020.0), CGPoint(x: 1216.6342951089923, y: 1137.5), CGPoint(x: 1149.1823898251594, y: 1255.0), CGPoint(x:1014.2785792574934,y:1255.0), CGPoint(x:879.3747686898278, y:1255.0), CGPoint(x:744.4709581221618, y:1255.0), CGPoint(x:677.0190528383291, y:1137.5), CGPoint(x:609.5671475544962,y: 1020.0), CGPoint(x:542.1152422706632, y: 902.5), CGPoint(x: 609.5671475544962, y: 785.0), CGPoint(x: 677.0190528383291, y: 667.5), CGPoint(x: 744.4709581221618, y: 550.0)]
+    var fourthRowArray: [CGPoint] = [CGPoint(x: 744.4709581221618, y: 315.0), CGPoint(x: 879.3747686898278,y: 315.0), CGPoint(x: 1014.2785792574934,y: 315.0), CGPoint(x: 1149.1823898251594,y: 315.0), CGPoint(x:1284.0862003928253,y: 315.0),CGPoint(x: 1351.5381056766582, y: 432.5), CGPoint(x: 1418.990010960491, y: 550.0),CGPoint(x: 1486.441916244324, y: 667.5), CGPoint(x: 1553.8938215281566, y: 785.0),CGPoint(x: 1621.3457268119896, y: 902.5), CGPoint(x: 1553.8938215281566, y: 1020.0), CGPoint(x: 1486.441916244324, y: 1137.5), CGPoint(x: 1418.990010960491, y: 1255.0), CGPoint(x: 1351.5381056766582, y: 1372.5), CGPoint(x: 1284.0862003928253, y: 1490.0), CGPoint(x: 1149.1823898251594,y: 1490.0), CGPoint(x: 1014.2785792574934, y: 1490.0), CGPoint(x: 879.3747686898278,y: 1490.0), CGPoint(x: 744.4709581221618,y: 1490.0), CGPoint(x: 609.5671475544962, y: 1490.0),      CGPoint(x: 542.1152422706632, y: 1372.5), CGPoint(x: 474.6633369868303, y: 1255.0), CGPoint(x: 407.2114317029974, y: 1137.5), CGPoint(x: 339.7595264191645, y: 1020.0), CGPoint(x: 272.3076211353316, y: 902.5),CGPoint(x: 339.7595264191645, y: 785.0), CGPoint(x: 407.2114317029974, y: 667.5), CGPoint(x: 474.6633369868303, y: 550.0), CGPoint(x: 542.1152422706632,y: 432.5),CGPoint(x: 609.5671475544962,y: 315.0)]
+
     
     //,CGPoint(x:811.9228634059948,y: 432.5), CGPoint(x: 946.8266739736607,y: 432.5), CGPoint(x:1081.7304845413264, y: 432.5), CGPoint(x: 1216.6342951089923,y: 432.5),CGPoint(x: 1284.0862003928253,y: 550.0),CGPoint(x:1351.5381056766582, y: 667.5), CGPoint(x:1418.990010960491,y: 785.0),  CGPoint(x: 1486.441916244324,y:902.5), CGPoint(x:1418.990010960491, y: 1020.0),CGPoint(x: 1351.5381056766582, y: 1137.5), CGPoint(x:1284.0862003928253,y: 1255.0),CGPoint(x: 1216.6342951089923,y: 1372.5),   CGPoint(x: 1081.7304845413264,y: 1372.5),CGPoint(x: 946.8266739736607, y: 1372.5),CGPoint(x: 811.9228634059948, y: 1372.5),CGPoint(x: 677.0190528383291,y: 1372.5), CGPoint(x: 609.5671475544962,y: 1255.0),CGPoint(x: 542.1152422706632,y: 1137.5),CGPoint(x: 474.6633369868303,y: 1020.0),CGPoint(x: 407.2114317029974, y: 902.5),CGPoint(x: 474.6633369868303, y: 785.0),CGPoint(x: 542.1152422706632,y: 667.5),CGPoint(x: 609.5671475544962,y: 550.0),CGPoint(x: 677.0190528383291, y: 432.5)]
     var reOrderedCoordinateArrayPointsCentered: [CGPoint] = []
@@ -303,31 +301,6 @@ var navBarView = NavBarView()
     
     override func viewWillLayoutSubviews() {
         setZoomScale()
-    }
-    
-    func shrinkImage(imageView: UIImageView) {
-        let shrinkFactor = CGFloat(0.0666666666667) // 1/15
-        let currentImageViewFrame = imageView.frame
-        print("This is currentImageViewFrame \(currentImageViewFrame)")
-        var shrunkFrame = CGRect(x: currentImageViewFrame.minX, y: currentImageViewFrame.minY, width: imageView.frame.width*(14/15), height: imageView.frame.height*(14/15))
-        print("This is shrunkFrame \(shrunkFrame)")
-       
-        print("This is shrinkFactor \(shrinkFactor)")
-        print("shrunk frame min x = \(shrunkFrame.minX)")
-        print("shrunk frame min y = \(shrunkFrame.minY)")
-        print("shrunk frame width = \(shrunkFrame.width)")
-        let product = shrinkFactor*(shrunkFrame.width)
-        print("This is product \(product)")
-        shrunkFrame = CGRect(x: shrunkFrame.minX + (shrunkFrame.width*shrinkFactor/2), y: shrunkFrame.minY + (shrunkFrame.height*shrinkFactor/2), width: shrunkFrame.width, height: shrunkFrame.height)
-        print("This is shrunk Frame moved \(shrunkFrame)")
-        imageView.frame = shrunkFrame
-        imageView.layer.cornerRadius = (imageView.frame.width)/2
-        imageView.layer.borderWidth = imageView.frame.width/15
-        imageView.layer.borderColor = white.cgColor
-   imageView.clipsToBounds = true
-        imageView.layer.masksToBounds = true
-        
-        
     }
     
     
@@ -807,149 +780,11 @@ var navBarView = NavBarView()
         setUpPageViewListener()
         refresh()
         
-        print("userdata: \(userDataVM?.userData.value?.dictionary)")
     }
     
     
     var dragView : PostImageView? = nil
     var draggedcounter = 0
-    
-    
-    @objc func longTapPrioritized(_ sender: UIGestureRecognizer) {
-//        print("Long tap")
-//        print("🎹🎹🎹🎹🎹🎹🎹🎹🎹")
-        //scrollView.zoomScale = 1
-        var currentHexagonCenter = CGPoint(x:0.0, y:0.0)
-        let hexImage = sender.view! as! PostImageView
-        //make it not transparent anymore
-        //hexImage.alpha = 1.0
-       
-        var removedImageView = PostImageView()
-        var removedImageLocation = Int()
-         if sender.state == .began {
-            for hexLabel in indexLabelArray {
-                hexLabel.isHidden = false
-            }
-            for imageCopy in indexImageViewArray {
-                imageCopy.isHidden = false
-            }
-            
-            
-            let tappedImage = sender.view as! PostImageView
-            currentHexagonCenter = tappedImage.center
-//            print("yo: This is tapped image.center \(tappedImage.center)")
-            tappedImage.setupHexagonMask(lineWidth: 10.0, color: .red, cornerRadius: 10.0)
-            print("This is sender.view.tag \(hexImage.tag)")
-            removedImageView = shakebleImages[sender.view!.tag - 1]
-            removedImageLocation = sender.view!.tag - 1
-            shakebleImages.remove(at: sender.view!.tag - 1)
-//            for shakeyImage in shakebleImages {
-//                shakeyImage.shake()
-//            }
-            
-            //dragItem(sender as! UIPanGestureRecognizer)
-            dragView = (sender.view as! PostImageView)
-            dragView?.center = sender.location(in: contentView)
-//            print("yo: this is dragView.center before \(dragView!.center)")
-            contentView.bringSubviewToFront(dragView!)
-            trashButton.isHidden = false
-            menuView.menuButton.isHidden = true
-            
-            for image in imageViewArray {
-                image.setupHexagonMask(lineWidth: 10.0, color: .darkGray, cornerRadius: 10.0)
-            }
-            
-        }
-        else if (sender.state == .changed) {
-            draggedcounter += 1
-            let xDelta = dragView!.center.x - sender.location(in: contentView).x
-            let yDelta = dragView!.center.y - sender.location(in: contentView).y
-            dragView?.center = sender.location(in: contentView)
-//            print("yo: this is dragView.center changed \(dragView!.center)")
-            
-            self.scrollIfNeeded(location: sender.location(in: scrollView.superview), xDelta: xDelta, yDelta: yDelta)
-            currentHexagonCenter = (sender.view?.center)!
- 
-            let hexCenterInView = contentView.convert(currentHexagonCenter, to: view)
-//            DispatchQueue.global().async {
-            if (draggedcounter > 25 || xDelta > 2 || yDelta > 2) {
-                draggedcounter = 0
-                let _ = self.findIntersectingHexagon(hexView: self.dragView!)
-            }
-//            }
-            
-//            print(distance(hexCenterInView, trashButton.center))
-            if (distance(hexCenterInView, trashButton.center) < 70) {
-                trashButton.imageView!.makeRoundedRed()
-//                print("It should be gold")
-            } else {
-                trashButton.imageView!.makeRoundedBlack()
-//                print("This is outside 70")
-            }
-        }
-       else if (sender.state == .ended) {
-        for hexLabel in indexLabelArray {
-            hexLabel.isHidden = true
-        }
-        for imageCopy in indexImageViewArray {
-            imageCopy.isHidden = true
-        }
-            shakebleImages.insert(removedImageView, at: removedImageLocation)
-            currentHexagonCenter = (sender.view?.center)!
-            let hexCenterInView = contentView.convert(currentHexagonCenter, to: view)
-            if (distance(hexCenterInView, trashButton.center) < 70) {
-                // trash current hexagon
-                
-                // give alert
-                let refreshAlert = UIAlertController(title: "Delete This Post?", message: "All data will be lost.", preferredStyle: UIAlertController.Style.alert)
-
-                refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { [self] (action: UIAlertAction!) in
-//                      print("Handle Deleting Hexagon!")
-                    self.handleDeleting(hexImage: hexImage)
-                    
-                }))
-
-                refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
-//                      print("Handle Cancel Logic here")
-                    self.refresh()
-                }))
-
-                present(refreshAlert, animated: true, completion: nil)
-            
-            }
-            else {
-                let intersectingHex = findIntersectingHexagon(hexView: dragView!)
-                if (intersectingHex != nil && intersectingHex?.hexData?.location != dragView?.hexData?.location) {
-                    let tempLoc = intersectingHex!.hexData!.location
-                    intersectingHex!.hexData!.location = dragView!.hexData!.location
-                    dragView!.hexData!.location = tempLoc
-//                    print(dragView!.hexData!)
-//                    print(intersectingHex!.hexData!)
-                    db.collection("Hexagons2").document(intersectingHex!.hexData!.docID).setData(intersectingHex!.hexData!.dictionary) { error in
-                        if error == nil {
-                            self.db.collection("Hexagons2").document(self.dragView!.hexData!.docID).setData(self.dragView!.hexData!.dictionary) { error in
-                                self.refresh()
-                            }
-                        }
-                    }
-                }
-                intersectingHex?.frame = CGRect(x: self.reOrderedCoordinateArrayPoints[intersectingHex!.hexData!.location].x,
-                                                y: self.reOrderedCoordinateArrayPoints[intersectingHex!.hexData!.location].y, width: hexaDiameter, height: hexaDiameter)
-                dragView?.frame = CGRect(x: self.reOrderedCoordinateArrayPoints[dragView!.hexData!.location].x,
-                                         y: self.reOrderedCoordinateArrayPoints[dragView!.hexData!.location].y, width: hexaDiameter, height: hexaDiameter)
-            }
-            for hex in imageViewArray {
-                createHexagonMaskWithCorrespondingColor(imageView: hex, type: hex.hexData!.type)
-            }
-        //make it transparent again
-   //     hexImage.alpha = 0.0
-            trashButton.isHidden = true
-            menuView.menuButton.isHidden = false
-            
-        }
-    }
-    
-    
     
     
     @objc func longTap(_ sender: UIGestureRecognizer){
@@ -999,34 +834,20 @@ var navBarView = NavBarView()
             let xDelta = dragView!.center.x - sender.location(in: contentView).x
             let yDelta = dragView!.center.y - sender.location(in: contentView).y
             dragView?.center = sender.location(in: contentView)
-//            print("yo: this is dragView.center changed \(dragView!.center)")
-            
-            //self.scrollIfNeeded(location: sender.location(in: scrollView.superview), xDelta: xDelta, yDelta: yDelta)
-            //                print("This is newIndex before \(newIndex)")
+
             currentHexagonCenter = (sender.view?.center)!
-//            print("This is currentHexagon center changed: \(currentHexagonCenter)")
-            
-            // shake Images
-//            for shakeyImage in shakebleImages {
-//                shakeyImage.shake()
-//            }
-            
+
             
             let hexCenterInView = contentView.convert(currentHexagonCenter, to: view)
-//            DispatchQueue.global().async {
             if (draggedcounter > 25 || xDelta > 2 || yDelta > 2) {
                 draggedcounter = 0
                 let _ = self.findIntersectingHexagon(hexView: self.dragView!)
             }
-//            }
             
-//            print(distance(hexCenterInView, trashButton.center))
             if (distance(hexCenterInView, trashButton.center) < 70) {
                 trashButton.imageView!.makeRoundedRed()
-//                print("It should be gold")
             } else {
                 trashButton.imageView!.makeRoundedBlack()
-//                print("This is outside 70")
             }
         }
        else if (sender.state == .ended) {
@@ -1075,14 +896,15 @@ var navBarView = NavBarView()
                         }
                     }
                 }
-                intersectingHex?.frame = CGRect(x: self.reOrderedCoordinateArrayPoints[intersectingHex!.hexData!.location].x,
-                                                y: self.reOrderedCoordinateArrayPoints[intersectingHex!.hexData!.location].y, width: hexaDiameter, height: hexaDiameter)
-                dragView?.frame = CGRect(x: self.reOrderedCoordinateArrayPoints[dragView!.hexData!.location].x,
-                                         y: self.reOrderedCoordinateArrayPoints[dragView!.hexData!.location].y, width: hexaDiameter, height: hexaDiameter)
+//                intersectingHex?.frame = CGRect(x: self.reOrderedCoordinateArrayPoints[intersectingHex!.hexData!.location].x,
+//                                                y: self.reOrderedCoordinateArrayPoints[intersectingHex!.hexData!.location].y, width: hexaDiameter, height: hexaDiameter)
+//                dragView?.frame = CGRect(x: self.reOrderedCoordinateArrayPoints[dragView!.hexData!.location].x,
+//                                         y: self.reOrderedCoordinateArrayPoints[dragView!.hexData!.location].y, width: hexaDiameter, height: hexaDiameter)
+                else {
+                    refresh()
+                }
             }
-            for hex in imageViewArray {
-                createHexagonMaskWithCorrespondingColor(imageView: hex, type: hex.hexData!.type)
-            }
+            
             trashButton.isHidden = true
             menuView.menuButton.isHidden = false
             
@@ -1127,11 +949,6 @@ var navBarView = NavBarView()
         self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
 
         setUpViewCounter()
-        
-
-        //self.titleLabel1.text = "Notifications"
-       // self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
-       // let yOffset = navBarView.frame.maxY
         
 
     }
@@ -1230,41 +1047,7 @@ var navBarView = NavBarView()
         }
         
     }
-    
-//    func chooseSpecificSocialMedia(type: String, imageView: UIImageView) {
-//        if type.contains("insta") {
-//            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myInstaPurple, cornerRadius: imageView.frame.width/15)
-//        }
-//        else if type.contains("twitter") {
-//            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myTwitterBlue, cornerRadius: imageView.frame.width/15)
-//        }
-//        else if type.contains("tik") {
-//            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myTikTokBlack, cornerRadius: imageView.frame.width/15)
-//        }
-//        else if type.contains("hudl") {
-//            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myHudlOrange, cornerRadius: imageView.frame.width/15)
-//        }
-//        else if type.contains("sound") {
-//            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: mySoundCloudOrange, cornerRadius: imageView.frame.width/15)
-//        }
-//        else if type.contains("snap") {
-//            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: mySnapChatYellow, cornerRadius: imageView.frame.width/15)
-//        }
-//        else if type.contains("posh") {
-//            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myPoshmarkMaroon, cornerRadius: imageView.frame.width/15)
-//        }
-//        else if type.contains("linked") {
-//            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myLinkedInBlue, cornerRadius: imageView.frame.width/15)
-//        }
-//        else if type.contains("venmo") {
-//            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myVenmoBlue, cornerRadius: imageView.frame.width/15)
-//        }
-//        else {
-//            imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myPink, cornerRadius: imageView.frame.width/15)
-//        }
-//
-//    }
-    
+
     func findIntersectingHexagon(hexView: PostImageView) -> PostImageView? {
         //find coordinates of final location for hexagon
         let hexCenter = hexView.center
@@ -1300,28 +1083,6 @@ var navBarView = NavBarView()
     }
     
     
-    func openInstagram(instagramHandle: String) {
-        guard let url = URL(string: "https://instagram.com/\(instagramHandle)")  else { return }
-        if UIApplication.shared.canOpenURL(url) {
-            if #available(iOS 10.0, *) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            } else {
-                UIApplication.shared.openURL(url)
-            }
-        }
-    }
-    
-    func openTikTok(tikTokHandle: String) {
-        guard let url = URL(string: tikTokHandle)  else { return }
-        if UIApplication.shared.canOpenURL(url) {
-            if #available(iOS 10.0, *) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            } else {
-                UIApplication.shared.openURL(url)
-            }
-        }
-    }
-    
     @objc func addHexagonTapped() {
         print("I recognized this")
         let viewControllers = menuView.tabController!.customizableViewControllers!
@@ -1335,62 +1096,7 @@ var navBarView = NavBarView()
         menuView.tabController!.viewControllers![4] = newPostVC
         menuView.tabController!.customTabBar.switchTab(from: menuView.currentTab, to: 4)
     }
-    
-//    func openSpotifySong() {
-//        //  UIApplication.shared.open(URL(string: "spotify:artist:4gzpq5DPGxSnKTe4SA8HAU")!, options: [:], completionHandler: nil)
-//        // UIApplication.shared.openURL(URL(string: "spotify:track:1dNIEtp7AY3oDAKCGg2XkH")!)
-//        //   UIApplication.shared.open(URL(string: "spotify:track:1dNIEtp7AY3oDAKCGg2XkH")!, options: [:], completionHandler: nil)
-//        UIApplication.shared.open(URL(string: "https://p.scdn.co/mp3-preview/18d3b87b0765cd6d8c0a418d6142b3b441c0f8b2?cid=476c620368f349cc8be5b2a29b596eaf" )!, options: [:], completionHandler: nil)
-//
-//        //   UIApplication.shared.
-//        //   UIApplication.shared.open(<#T##url: URL##URL#>, options: <#T##[UIApplication.OpenExternalURLOptionsKey : Any]#>, completionHandler: <#T##((Bool) -> Void)?##((Bool) -> Void)?##(Bool) -> Void#>)
-//        // UIApplication.
-//        //  "https://p.scdn.co/mp3-preview/18d3b87b0765cd6d8c0a418d6142b3b441c0f8b2?cid=476c620368f349cc8be5b2a29b596eaf"
-//
-//        //  URL(string: "spotify:track:1dNIEtp7AY3oDAKCGg2XkH")
-//    }
-//
-//    func openFacebook(facebookHandle: String) {
-//        let webURL: NSURL = NSURL(string: "https://www.facebook.com/ID")!
-//        let IdURL: NSURL = NSURL(string: "fb://profile/ID")!
-//
-//        if(UIApplication.shared.canOpenURL(IdURL as URL)){
-//            // FB installed
-//            UIApplication.shared.open(webURL as URL, options: [:], completionHandler: nil)
-//        } else {
-//            // FB is not installed, open in safari
-//            UIApplication.shared.open(webURL as URL, options: [:], completionHandler: nil)
-//        }
-//
-//    }
-//
-//    func openTwitter(twitterHandle: String) {
-//        guard let url = URL(string: "https://twitter.com/\(twitterHandle)")  else { return }
-//        if UIApplication.shared.canOpenURL(url) {
-//            if #available(iOS 10.0, *) {
-//                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-//            } else {
-//                UIApplication.shared.openURL(url)
-//            }
-//        }
-//    }
-//
-//    func openSnapchat(snapchatUsername: String) {
-//        let username = snapchatUsername
-////        print("This us username for openSnapchat \(username)")
-//        let appURL = URL(string: "snapchat://add/\(username)")!
-//        let application = UIApplication.shared
-//
-//        if application.canOpenURL(appURL) {
-//            application.open(appURL)
-//
-//        } else {
-//            // if Snapchat app is not installed, open URL inside Safari
-//            let webURL = URL(string: "https://www.snapchat.com/add/\(username)")!
-//            application.open(webURL)
-//
-//        }
-//    }
+ 
     
     func textToImage(drawText text: String, inImage image: UIImage, atPoint point: CGPoint) -> UIImage {
        let textColor = UIColor.white
@@ -1437,9 +1143,6 @@ var navBarView = NavBarView()
         }
         
         
-//    let saveToPhotos = UIAction(title: "Cancel", image: UIImage(systemName: "photo")) { _ in
-//    print("Save to Photos")
-//    }
     let cancelAction = UIAction(title: "Cancel", image: .none, attributes: .destructive) { action in
              // Delete this photo 😢
          }
@@ -1479,7 +1182,6 @@ var navBarView = NavBarView()
         avaImage?.layer.borderColor = UIColor.white.cgColor
         avaImage?.layer.borderWidth = (avaImage?.frame.width)!/30
 //        var myCenter = avaImage?.center
-//        shrinkImage(imageView: avaImage!)
        // var mySize = avaImage?.bounds*
         
         if (userDataVM?.userData.value == nil) {

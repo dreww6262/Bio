@@ -477,6 +477,25 @@ class CustomPageView: UIViewController {
         }
     }
     
+    func unprioritizeThisPost() {
+        let currentVC = viewControllers[currentIndex!]
+        if currentVC is ContentLinkVC {
+            let linkVC = currentVC as! ContentLinkVC
+            linkVC.webHex?.isPrioritized = false
+            db.collection("Hexagons2").document(linkVC.webHex!.docID).setData(linkVC.webHex!.dictionary)
+        }
+        else if currentVC is ContentVideoVC {
+            let linkVC = currentVC as! ContentVideoVC
+            linkVC.videoHex?.isPrioritized = false
+            db.collection("Hexagons2").document(linkVC.videoHex!.docID).setData(linkVC.videoHex!.dictionary)
+        }
+        else if currentVC is ContentImageVC {
+            let linkVC = currentVC as! ContentImageVC
+            linkVC.photoHex?.isPrioritized = false
+            db.collection("Hexagons2").document(linkVC.photoHex!.docID).setData(linkVC.photoHex!.dictionary)
+        }
+    }
+    
     func copyTextToResource() {
         let pasteboard = UIPasteboard.general
         let currentVC = viewControllers[currentIndex!]
@@ -693,11 +712,51 @@ class CustomPageView: UIViewController {
             //    self.copyTextToResource()
         }))
         
-        
-        alert.addAction(UIAlertAction(title: "Prioritize This Post", style: .default , handler:{ (UIAlertAction)in
-            print("User click Prioritize button")
-            self.prioritizeThisPost()
-        }))
+            let vc = viewControllers[currentIndex!]
+            switch vc {
+            case (is ContentImageVC):
+                if (vc as! ContentImageVC).photoHex?.isPrioritized ?? false {
+                    alert.addAction(UIAlertAction(title: "Un-Prioritize This Post", style: .default , handler:{ (UIAlertAction)in
+                        print("User click Prioritize button")
+                        self.unprioritizeThisPost()
+                    }))
+                }
+                else {
+                    alert.addAction(UIAlertAction(title: "Prioritize This Post", style: .default , handler:{ (UIAlertAction)in
+                        print("User click Prioritize button")
+                        self.prioritizeThisPost()
+                    }))
+                }
+            case (is ContentVideoVC):
+                if (vc as! ContentVideoVC).videoHex?.isPrioritized ?? false {
+                    alert.addAction(UIAlertAction(title: "Un-Prioritize This Post", style: .default , handler:{ (UIAlertAction)in
+                        print("User click Prioritize button")
+                        self.unprioritizeThisPost()
+                    }))
+                }
+                else {
+                    alert.addAction(UIAlertAction(title: "Prioritize This Post", style: .default , handler:{ (UIAlertAction)in
+                        print("User click Prioritize button")
+                        self.prioritizeThisPost()
+                    }))
+                }
+            case (is ContentLinkVC):
+                if (vc as! ContentLinkVC).webHex?.isPrioritized ?? false {
+                    alert.addAction(UIAlertAction(title: "Un-Prioritize This Post", style: .default , handler:{ (UIAlertAction)in
+                        print("User click Prioritize button")
+                        self.unprioritizeThisPost()
+                    }))
+                }
+                else {
+                    alert.addAction(UIAlertAction(title: "Prioritize This Post", style: .default , handler:{ (UIAlertAction)in
+                        print("User click Prioritize button")
+                        self.prioritizeThisPost()
+                    }))
+                }
+            default:
+                print("shouldnt do anything")
+            }
+            
         
         alert.addAction(UIAlertAction(title: "Delete This Post", style: .default, handler:  { (UIAlertAction)in
             
