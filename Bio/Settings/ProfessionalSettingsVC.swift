@@ -83,11 +83,11 @@ class ProfessionalSettingsVC: QuickTableViewController {
                         NavigationRow(text: "Country", detailText: .value1(userData?.country ?? ""), action: didToggleSelection()), NavigationRow(text: "Bio", detailText: .value1(userData?.bio ?? ""), action: didToggleSelection()), NavigationRow(text: "Email", detailText: .value1(email)!, icon: .named("time"), action: didToggleSelection()),
                         NavigationRow(text: "Change Profile Picture", detailText: .none, icon: .none, action: didToggleSelection()), NavigationRow(text: "Change Password", detailText: .none, icon: .none, action: didToggleSelection())]),
             Section(title: "Support", rows: [NavigationRow(text: "Blocked Users", detailText: .none, icon: .named("gear"), action: didToggleSelection()),
-                        NavigationRow(text: "FAQ's", detailText: .none, icon: .named("gear")),
+                        NavigationRow(text: "FAQ's", detailText: .none, icon: .named("gear"), action: didToggleSelection()),
                         NavigationRow(text: "I Spotted a Bug", detailText: .none, icon: .named("globe"), action: didToggleSelection()),
                         NavigationRow(text: "I Have a Suggestion", detailText: .none, icon: .named("time"), action: didToggleSelection()),
-                        NavigationRow(text: "Privacy Policy", detailText: .none),
-                        NavigationRow(text: "Terms of Service", detailText: .none, icon: .named("time"), action: { _ in }), NavigationRow(text: "Acknowledgements", detailText: .none, icon: .named("time"), action: didToggleSelection())]),
+                        NavigationRow(text: "Privacy Policy", detailText: .none, action: didToggleSelection()),
+                        NavigationRow(text: "Terms of Service", detailText: .none, icon: .named("time"), action: didToggleSelection()), NavigationRow(text: "Acknowledgements", detailText: .none, icon: .named("time"), action: didToggleSelection())]),
             Section(title: "Account Actions", rows: [NavigationRow(text: "Log Out", detailText: .none, icon: .named("gear"), action: didToggleSelection()),NavigationRow(text: "Delete Account", detailText: .none, icon: .none, action: didToggleSelection())])
         ]
         
@@ -121,9 +121,12 @@ class ProfessionalSettingsVC: QuickTableViewController {
         self.navBarView.titleLabel.text = "Settings"
         self.navBarView.titleLabel.textColor = .black
         print("This is navBarView.")
-
+  //      self.navBarView.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 34, height: 34)
+        self.navBarView.postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 40, height: 34)
+        self.navBarView.postButton.titleLabel?.sizeToFit()
+        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: self.navBarView.postButton.frame.minY, width: 200, height: 25)
         
-        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: self.navBarView.backButton.frame.minY, width: 200, height: 25)
+     //   self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: self.navBarView.backButton.frame.minY, width: 200, height: 25)
         switch traitCollection.userInterfaceStyle {
         case .light, .unspecified:
             navBarView.backButton.setImage(UIImage(named: "blackChevron"), for: .normal)
@@ -195,63 +198,63 @@ class ProfessionalSettingsVC: QuickTableViewController {
                 self!.present(alert, animated: true, completion: nil)
             }
             
-            if row.text == "Change Profile Picture" {
+            else if row.text == "Change Profile Picture" {
                 let editProfilePhotoVC = self?.storyboard?.instantiateViewController(identifier: "editProfilePhotoVC2") as! EditProfilePhotoVC2
            //     editProfilePhotoVC.userData = self?.userData
                 editProfilePhotoVC.userDataVM = self!.userDataVM
                 self!.present(editProfilePhotoVC, animated: false)
             }
             
-            if row.text == "Email" {
+          else if row.text == "Email" {
                 let editVC = self?.storyboard?.instantiateViewController(identifier: "editProfileVC") as! EditProfileVC
                 editVC.userDataVM = self!.userDataVM
                 self!.present(editVC, animated: false)
             }
             
-            if row.text == "Name" {
+            else if row.text == "Name" {
                 let editVC = self?.storyboard?.instantiateViewController(identifier: "editProfileVC") as! EditProfileVC
                 editVC.userDataVM = self!.userDataVM
                 self!.present(editVC, animated: false)
             }
             
-            if row.text == "Username" {
+           else if row.text == "Username" {
                 let editVC = self?.storyboard?.instantiateViewController(identifier: "editProfileVC") as! EditProfileVC
                 editVC.userDataVM = self!.userDataVM
                 self!.present(editVC, animated: false)
             }
             
-            if row.text == "Bio" {
+           else if row.text == "Bio" {
                 let editVC = self?.storyboard?.instantiateViewController(identifier: "editProfileVC") as! EditProfileVC
                 editVC.userDataVM = self!.userDataVM
                 self!.present(editVC, animated: false)
             }
-            if row.text == "Country" {
+            else if row.text == "Country" {
                 let editVC = self?.storyboard?.instantiateViewController(identifier: "editProfileVC") as! EditProfileVC
                 editVC.userDataVM = self!.userDataVM
                 self!.present(editVC, animated: false)
             }
             
-            if row.text == "Followers" {
+            else if row.text == "Followers" {
                 let followersVC = self?.storyboard?.instantiateViewController(identifier: "followersTableView") as! FollowersTableView
                 followersVC.userDataVM = self!.userDataVM
                 self!.present(followersVC, animated: false)
             }
 
-            if row.text == "Following" {
+            else if row.text == "Following" {
                 let followingVC = self?.storyboard?.instantiateViewController(identifier: "followingTableView") as! FollowingTableView
                 followingVC.userDataVM = self!.userDataVM
                 self!.present(followingVC, animated: false)
             }
 
             
-            if row.text == "Change Password" {
+           else if row.text == "Change Password" {
                 let changePasswordVC = self?.storyboard?.instantiateViewController(identifier: "changePasswordVC") as! ChangePasswordVC
            //     editProfilePhotoVC.userData = self?.userData
                 changePasswordVC.userDataVM = self!.userDataVM
                 self!.present(changePasswordVC, animated: false)
             }
             
-            if row.text == "Delete Account" {
+            else if row.text == "Delete Account" {
                 let userData = self!.userDataVM?.userData.value
                 if userData == nil {
                     return
@@ -427,14 +430,14 @@ class ProfessionalSettingsVC: QuickTableViewController {
                 self!.present(alert, animated: true, completion: nil)
             }
             
-            if row.text == "Blocked Users" {
+            else if row.text == "Blocked Users" {
                 let blockedVC = self?.storyboard?.instantiateViewController(identifier: "blockedVC") as! BlockedUsersVC
                 blockedVC.userDataVM = self?.userDataVM
                 self?.present(blockedVC, animated: false, completion: nil)
                 
             }
             
-            if row.text.contains("I Have") {
+          else if row.text.contains("I Have") {
                 print("Im submitted!!!!!!")
                 let suggestionVC = self?.storyboard?.instantiateViewController(identifier: "submitSuggestionsVC") as! SubmitSuggestionsVC
                 //suggestionVC.userData = userData
@@ -443,12 +446,49 @@ class ProfessionalSettingsVC: QuickTableViewController {
                 
             }
             
-            if row.text == "I Spotted a Bug" {
+           else if row.text == "I Spotted a Bug" {
                 print("I reported a bug!!!!!!")
                 let bugSpottedVC = self?.storyboard?.instantiateViewController(identifier: "bugSpottedVC") as! BugSpottedVC
                 //suggestionVC.userData = userData
                 bugSpottedVC.modalPresentationStyle = .fullScreen
                 self!.present(bugSpottedVC, animated: false)
+                
+            }
+          else if row.text == "Privacy Policy" {
+                let pdfVC = self?.storyboard?.instantiateViewController(identifier: "pdfViewer") as! PDFViewer
+            pdfVC.pdfString = "Bio Beta Privacy Policy"
+            pdfVC.titleString = "Privacy Policy"
+            pdfVC.navBarView.titleLabel.text = "Privacy Policy"
+                pdfVC.modalPresentationStyle = .fullScreen
+                self!.present(pdfVC, animated: false)
+                
+            }
+          else if row.text.contains("Terms of") {
+            print("tap terms of service ")
+            let pdfVC = self?.storyboard?.instantiateViewController(identifier: "pdfViewer") as! PDFViewer
+            pdfVC.pdfString = "Bio Beta Terms of Service"
+            pdfVC.navBarView.titleLabel.text = "Terms of Service"
+            pdfVC.titleString = "Terms of Service"
+            pdfVC.modalPresentationStyle = .fullScreen
+            self!.present(pdfVC, animated: false)
+                
+            }
+          else if row.text == "Acknowledgements" {
+            let pdfVC = self?.storyboard?.instantiateViewController(identifier: "pdfViewer") as! PDFViewer
+            pdfVC.navBarView.titleLabel.text = "Acknowledgements"
+            pdfVC.titleString = "Acknowledgements"
+            pdfVC.pdfString = "Bio Beta Terms of Service"
+            pdfVC.modalPresentationStyle = .fullScreen
+            self!.present(pdfVC, animated: false)
+                
+            }
+          else if row.text == "FAQ's" {
+            let pdfVC = self?.storyboard?.instantiateViewController(identifier: "pdfViewer") as! PDFViewer
+            pdfVC.titleString = "FAQ's"
+            pdfVC.pdfString = "Bio Beta Terms of Service"
+            pdfVC.navBarView.titleLabel.text = "FAQ's"
+            pdfVC.modalPresentationStyle = .fullScreen
+            self!.present(pdfVC, animated: false)
                 
             }
             

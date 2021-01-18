@@ -71,9 +71,10 @@ setUpNavBarView()
         backTap.numberOfTapsRequired = 1
         navBarView.backButton.isUserInteractionEnabled = true
         navBarView.backButton.addGestureRecognizer(backTap)
-        navBarView.postButton.frame = CGRect(x: view.frame.width - 60 - 10, y: navBarView.frame.midY - 35/2 + 10, width: 60, height: 35)
+     
         navBarView.postButton.titleLabel?.textAlignment = .right
         navBarView.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 34, height: 34)
+        navBarView.postButton.frame = CGRect(x: view.frame.width - 60 - 10 - 5, y: navBarView.postButton.frame.minY, width: 60, height: 34)
 
         let yOffset = navBarView.frame.maxY
      
@@ -90,6 +91,8 @@ setUpNavBarView()
         let submitTap = UITapGestureRecognizer(target: self, action: #selector(self.submitPressed))
         self.navBarView.postButton.setTitle("Submit", for: .normal)
         self.navBarView.postButton.addGestureRecognizer(submitTap)
+       // self.navBarView.postButton.titleLabel?.sizeToFit()
+        self.navBarView.postButton.titleLabel?.adjustsFontSizeToFitWidth = true
         self.navBarView.backButton.addGestureRecognizer(dismissTap)
 
     }
