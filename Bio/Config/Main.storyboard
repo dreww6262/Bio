@@ -2752,6 +2752,21 @@
             </objects>
             <point key="canvasLocation" x="-11708" y="-3984"/>
         </scene>
+        <!--Viewer-->
+        <scene sceneID="IQO-48-fst">
+            <objects>
+                <viewController storyboardIdentifier="pdfViewer" id="7Ja-65-l7l" customClass="PDFViewer" customModule="Bio" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="y49-Zj-7hj">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="2aI-d7-cNc"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3iq-GC-MBQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-10817" y="-4680"/>
+        </scene>
         <!--Personal Detail Table ViewVC-->
         <scene sceneID="J2c-qE-chN">
             <objects>

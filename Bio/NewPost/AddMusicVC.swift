@@ -529,6 +529,12 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: postButton.frame.minY, width: 200, height: 25)
 //        print("This is navBarView.")
         
+        //perfect navbar view setup
+        self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 34, height: 34)
+        postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 40, height: 34)
+        postButton.titleLabel?.sizeToFit()
+        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: postButton.frame.minY, width: 200, height: 25)
+        self.navBarView.titleLabel.text = "Add Music"
         
     }
     
