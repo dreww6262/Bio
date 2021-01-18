@@ -49,30 +49,20 @@ class PhoneSignInVC: UIViewController {
     }
     
 
-    
+    var blurEffectView: UIView?
+    var loadingIndicator: UIViewController?
     override func viewDidLoad() {
         super.viewDidLoad()
         if let email = Auth.auth().currentUser?.email {
             userDataVM = UserDataVM()
-            let loadingIndicator = storyboard?.instantiateViewController(withIdentifier: "loading")
+            loadingIndicator = storyboard?.instantiateViewController(withIdentifier: "loading")
             
-            let blurEffectView: UIVisualEffectView = {
-                let blurEffect = UIBlurEffect(style: .dark)
-                let blurEffectView = UIVisualEffectView(effect: blurEffect)
-                
-                blurEffectView.alpha = 0.8
-                
-                // Setting the autoresizing mask to flexible for
-                // width and height will ensure the blurEffectView
-                // is the same size as its parent view.
-                blurEffectView.autoresizingMask = [
-                    .flexibleWidth, .flexibleHeight
-                ]
-                blurEffectView.frame = view.bounds
-                
-                return blurEffectView
-            }()
-            view.addSubview(blurEffectView)
+            blurEffectView = UIView(frame: view.bounds)
+            blurEffectView!.autoresizingMask = [
+                .flexibleWidth, .flexibleHeight
+            ]
+            blurEffectView!.backgroundColor = .black
+            view.addSubview(blurEffectView!)
             
             addChild(loadingIndicator!)
             view.addSubview(loadingIndicator!.view)
@@ -83,9 +73,6 @@ class PhoneSignInVC: UIViewController {
                 tabVC.modalPresentationStyle = .fullScreen
                 DispatchQueue.global().async {
                     DispatchQueue.main.sync {
-                        blurEffectView.removeFromSuperview()
-                        loadingIndicator?.view.removeFromSuperview()
-                        loadingIndicator?.removeFromParent()
                         self.present(tabVC, animated: false, completion: nil)
                     }
                 }
@@ -110,13 +97,16 @@ class PhoneSignInVC: UIViewController {
         hideTap.numberOfTapsRequired = 1
         self.view.isUserInteractionEnabled = true
         self.view.addGestureRecognizer(hideTap)
+
         
-        
-        
-        // Ad Firebase fake user signin
-        //fakeUserSignIn()
-        
-        
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        blurEffectView?.removeFromSuperview()
+        loadingIndicator?.view.removeFromSuperview()
+        loadingIndicator?.removeFromParent()
+        blurEffectView = nil
+        loadingIndicator = nil
     }
     
     func formatLogo() {

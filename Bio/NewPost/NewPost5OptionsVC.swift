@@ -93,27 +93,8 @@ class NewPost5OptionsVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         l4.isUserInteractionEnabled = false
         l5.isUserInteractionEnabled = false
         
-//        l1.addGestureRecognizer(addPhotoTapped)
-//        l2.addGestureRecognizer(addSocialMediaTapped)
-//        l3.addGestureRecognizer(addLinkTapped)
-//        l4.addGestureRecognizer(addMusicTapped)
+        formatPicturesAndLabels()
         
-        
-//        pic1.layer.cornerRadius = pic1.frame.size.width / 2
-//        pic1.clipsToBounds = true
-//
-//        pic2.layer.cornerRadius = pic2.frame.size.width / 2
-//        pic2.clipsToBounds = true
-//
-//        pic3.layer.cornerRadius = pic3.frame.size.width / 2
-//        pic3.clipsToBounds = true
-//
-//        pic4.layer.cornerRadius = pic4.frame.size.width / 2
-//        pic4.clipsToBounds = true
-        
- formatPicturesAndLabels()
-        
-        // Do any additional setup after loading the view.
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -155,11 +136,11 @@ class NewPost5OptionsVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
     }
     
     func setUpNavBarView() {
-        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
         print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
-        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        let navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
         navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
         self.navBarView.addSubview(toSettingsButton)
@@ -182,7 +163,6 @@ class NewPost5OptionsVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
        // self.toSettingsButton.frame = CGRect(x: 10, y: navBarView.frame.height - 30, width: 25, height: 25)
         self.toSettingsButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
         self.toSearchButton.frame = CGRect(x: navBarView.frame.width - 35, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
-        let yOffset = navBarView.frame.maxY
       //  self.navBarView.addSubview(titleLabel1)
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Add Content"
@@ -192,11 +172,6 @@ class NewPost5OptionsVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
         self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
 
-
-        //self.titleLabel1.text = "Notifications"
-     //   self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
-       // let yOffset = navBarView.frame.maxY
-        
 
     }
     
@@ -209,40 +184,10 @@ class NewPost5OptionsVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         menuView.addBehavior()
     }
     
-//    @IBAction func addPhotoPressed(_ sender: UIButton) {
-//        var config = YPImagePickerConfiguration()
-//        config.screens = [.library, .photo, .video]
-//        config.library.mediaType = .photoAndVideo
-//        config.library.maxNumberOfItems = 10
-//        config.video.trimmerMaxDuration = 60.0
-//        config.video.recordingTimeLimit = 60.0
-//        config.video.automaticTrimToTrimmerMaxDuration = true
-//        let picker = YPImagePicker(configuration: config)
-//        picker.didFinishPicking { [unowned picker] items, cancelled in
-//            picker.dismiss(animated: true, completion: nil)
-//            if (items.count > 0) {
-//                let uploadPreviewVC = self.storyboard?.instantiateViewController(identifier: "uploadPreviewVC") as! UploadPreviewVC
-//                //print(photos)
-//                uploadPreviewVC.userData = self.userData
-//                uploadPreviewVC.items = items
-//                self.present(uploadPreviewVC, animated: false, completion: nil)
-//                uploadPreviewVC.modalPresentationStyle = .fullScreen
-//            }
-//        }
-//        present(picker, animated: false)
-//        modalPresentationStyle = .fullScreen
-//    }
-    
-    
-    
 
     @objc func tappedSocialMediaView(sender: UITapGestureRecognizer) {
         let addSocialMediaVC = storyboard?.instantiateViewController(identifier: "addSocialMediaTableView") as! AddSocialMediaTableView
         addSocialMediaVC.userDataVM = userDataVM
-        //addSocialMediaVC.cancelLbl = "Cancel"
-        //print("This is addSocialMedia.userData \(addSocialMediaVC.userData)")
-       // print("2 This is userData from NewPostOptionsVC \(userData)")
-        // addSocialMediaVC.publicID = userData?.publicID
         addSocialMediaVC.modalPresentationStyle = .fullScreen
         present(addSocialMediaVC, animated: false)
    
@@ -279,9 +224,10 @@ class NewPost5OptionsVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         config.screens = [.library, .photo, .video]
         config.startOnScreen = .library
         config.library.mediaType = .photoAndVideo
-        config.library.maxNumberOfItems = 10
-        config.video.trimmerMaxDuration = 60.0
-        config.video.recordingTimeLimit = 60.0
+        config.library.maxNumberOfItems = 1
+        config.library.defaultMultipleSelection = false
+        config.video.trimmerMaxDuration = 15.0
+        config.video.recordingTimeLimit = 15.0
         config.video.automaticTrimToTrimmerMaxDuration = true
         let picker = YPImagePicker(configuration: config)
         picker.didFinishPicking { [unowned picker] items, cancelled in
@@ -314,48 +260,29 @@ class NewPost5OptionsVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
       
     }
     
-    
-    
-//
-//    @IBAction func addSocialMediaPressed(_ sender: UIButton) {
-//    print("add music pressed want to switch to social media ")
-//        let musicVC = storyboard?.instantiateViewController(identifier: "addMusicVC") as! AddMusicVC
-//        musicVC.userData = userData
-//        present(musicVC, animated: false)
-//        modalPresentationStyle = .fullScreen
-//    }
-//
     func distance(_ a: CGPoint, _ b: CGPoint) -> CGFloat {
         let xDist = a.x - b.x
         let yDist = a.y - b.y
         return CGFloat(sqrt(xDist * xDist + yDist * yDist))
     }
     
-//    func formatPicturesAndLabelsFinal() {
-//        view1.frame = CGRect(x: view.frame.width/24,y: self.view.frame.height/6, width: (self.view.frame.width/2) - (self.view.frame.width/12), height: (self.view.frame.height/2) - self.view.frame/12)
-//
-//    }
-    
-
-    
-    
     func formatPicturesAndLabelsFinal() {
-        var frame1 = CGRect(x: self.view.frame.width/24, y: (self.view.frame.height*(3/24)), width: (self.view.frame.width)*(5/12), height: self.view.frame.height*(1/3))
+        let frame1 = CGRect(x: self.view.frame.width/24, y: (self.view.frame.height*(3/24)), width: (self.view.frame.width)*(5/12), height: self.view.frame.height*(1/3))
         view1.frame = frame1
       //  var frame2 = CGRect(
-        var frame2 = CGRect(x: self.view.frame.width*(13/24), y: (self.view.frame.height*(3/24)), width: (self.view.frame.width)*(5/12), height: self.view.frame.height*(1/3))
+        let frame2 = CGRect(x: self.view.frame.width*(13/24), y: (self.view.frame.height*(3/24)), width: (self.view.frame.width)*(5/12), height: self.view.frame.height*(1/3))
         view2.frame = frame2
         
-        var frame3 = CGRect(x: self.view.frame.width/24, y: self.view.frame.height*(12/24), width: (self.view.frame.width)*(5/12), height: self.view.frame.height*(1/3))
+        let frame3 = CGRect(x: self.view.frame.width/24, y: self.view.frame.height*(12/24), width: (self.view.frame.width)*(5/12), height: self.view.frame.height*(1/3))
          view3.frame = frame3
         
-        var frame4 = CGRect(x: self.view.frame.width*(13/24), y: self.view.frame.height*(12/24), width: (self.view.frame.width)*(5/12), height: self.view.frame.height*(1/3))
+        let frame4 = CGRect(x: self.view.frame.width*(13/24), y: self.view.frame.height*(12/24), width: (self.view.frame.width)*(5/12), height: self.view.frame.height*(1/3))
         view4.frame = frame4
         view1.addSubview(pic1)
         pic1.frame = CGRect(x: self.view1.frame.width*(3/16), y: self.view1.frame.height/12, width: self.view1.frame.width*(10/16), height: self.view1.frame.width/2)
         l1.frame =  CGRect(x: 0, y: self.pic1.frame.maxY + 10, width: self.view1.frame.width, height: 44)
         
-        var piclabelHeight = l1.frame.maxY - pic1.frame.minY
+        let piclabelHeight = l1.frame.maxY - pic1.frame.minY
         
         pic1.frame = CGRect(x: pic1.frame.minX, y: (frame1.height-piclabelHeight)/2, width: pic1.frame.width, height: pic1.frame.height)
         
@@ -387,17 +314,7 @@ class NewPost5OptionsVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         pic4.frame = CGRect(x: pic4.frame.minX, y: (frame4.height-piclabelHeight)/2, width: pic4.frame.width, height: pic4.frame.height)
         
         l4.frame = CGRect(x: l4.frame.minX, y: pic4.frame.maxY + 10, width: l4.frame.width, height: l4.frame.height)
-        
-        //rounded views
-    
-//        view5.isHidden = true
-//        view.addSubview(view5)
-//
-//        view5.backgroundColor = .white
-//        view5.frame = CGRect(x: (view.frame.width - view4.frame.width)/2, y: (view.frame.height - view4.frame.width)/2, width: view4.frame.width, height: view4.frame.height)
-//        view5.layer.cornerRadius = view5.frame.width/2
-//        pic5.frame = CGRect(x: view4.frame.width/4, y: view4.frame.height/12, width: view4.frame.width/2, height: view4.frame.width/2)
-//        l5.frame =  CGRect(x: 0, y: self.pic4.frame.maxY + 10, width: self.view4.frame.width, height: 44)
+      
         l5.text = "Personal Details"
         l5.textColor = .black
         
@@ -411,10 +328,8 @@ class NewPost5OptionsVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
     
     func formatPicturesAndLabels(){
         view1.frame = CGRect(x: (self.view.frame.width/18), y: (self.view.frame.height*(1.5/12)), width: self.view.frame.width*(8/9), height: self.view.frame.height/9)
-        //titleLabel.frame = CGRect(x: 0, y: 10.0, width: self.view.frame.width, height: 66.0)
         
         pic1.frame = CGRect(x: 10, y: view1.frame.height*(2/8) , width: view1.frame.height*(6/8), height: view1.frame.height*(4/8))
-//        pic1.frame = CGRect(x: (self.view.frame.width/12), y: (self.view.frame.height/3) - (self.view.frame.width/6) - 20 , width: self.view.frame.width/3, height: self.view.frame.width/3)
         
         l1.frame = CGRect(x: view1.frame.width - pic1.frame.maxY, y: pic1.frame.maxY + 30.0, width: view1.frame.width, height: view.frame.height/8)
         l1.text = "Add Photos/Videos"
@@ -433,7 +348,7 @@ class NewPost5OptionsVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         l3.textColor = UIColor.black
         l4.textColor = UIColor.black
         l5.textColor = UIColor.black
-        var spacing = CGFloat(20.0)
+        let spacing = CGFloat(20.0)
         view2.frame = CGRect(x: (view1.frame.minX), y: view1.frame.maxY + spacing, width: self.view1.frame.width, height: view1.frame.height)
        
         pic2.frame = view2.frame
@@ -461,11 +376,7 @@ class NewPost5OptionsVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         l3.center = CGPoint(x: view3.frame.width/2, y: view3.frame.height/2)
         l4.center = CGPoint(x: view4.frame.width/2, y: view4.frame.height/2)
         l5.center = CGPoint(x: view5.frame.width/2, y: view5.frame.height/2)
-     //   pic1.frame = CGRect(x: 10, y: view1.frame.width - (view1.frame.height/8) - 30, width: view1.frame.height*(6/8), height: view1.frame.height*(6/8))
-        
-        //right alignment
-       // pic1.frame = CGRect(x: view1.frame.width - (view1.frame.height*(6/8)) - 15, y: view1.frame.height*(1.5/8) , width: view1.frame.height*(6/8), height: view1.frame.height*(5/8))
-        //left alignment
+     
         let myY = view1.frame.height*(2/8)
         let myHeight = view1.frame.height*(4/8)
         pic1.frame = CGRect(x: 20, y: view1.frame.height*(2.5/8) , width: view1.frame.height*(4/8), height: view1.frame.height*(3/8))
