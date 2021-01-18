@@ -255,6 +255,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         scrollView.backgroundColor = .black
         contentView.backgroundColor = .black
         contentView.isHidden = false
+        scrollView.scrollsToTop = false
         resizeScrollView(numPosts: 0)
     }
     

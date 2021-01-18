@@ -151,6 +151,7 @@ var navBarView = NavBarView()
         scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         resizeScrollView(numPosts: 0)
         scrollView.bouncesZoom = false
+        scrollView.scrollsToTop = false
         
     }
     

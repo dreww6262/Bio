@@ -58,7 +58,7 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
     @IBOutlet weak var emailTxt: UITextField!
     // textfields
     @IBOutlet weak var usernameTxt: UITextField!
-
+    
     @IBOutlet weak var countryPicker: MRCountryPicker!
     @IBOutlet weak var bioTxt: UITextField!
     var emailLabel = UILabel()
@@ -93,11 +93,11 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
     var titleLabel1 = UILabel()
     var age = 0
     
- //  var countryPicker = MRCountryPicker()
-   var countryName = UILabel()
-  var countryCode = UILabel()
-var countryFlag = UIImageView()
- var phoneCode = UILabel()
+    //  var countryPicker = MRCountryPicker()
+    var countryName = UILabel()
+    var countryCode = UILabel()
+    var countryFlag = UIImageView()
+    var phoneCode = UILabel()
     
     lazy var countryTextField: UITextField = {
         let textField = UITextField()
@@ -114,20 +114,20 @@ var countryFlag = UIImageView()
     
     
     
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        countryPicker.countryPickerDelegate = self
-//        countryPicker.showPhoneNumbers = true
-//
-//        // set country by its code
-//        countryPicker.setCountry("SI")
-//
-//        // optionally set custom locale; defaults to system's locale
-//        countryPicker.setLocale("sl_SI")
-//
-//        // set country by its name
-//        countryPicker.setCountryByName("Canada")
-//    }
+    //    override func viewDidLoad() {
+    //        super.viewDidLoad()
+    //        countryPicker.countryPickerDelegate = self
+    //        countryPicker.showPhoneNumbers = true
+    //
+    //        // set country by its code
+    //        countryPicker.setCountry("SI")
+    //
+    //        // optionally set custom locale; defaults to system's locale
+    //        countryPicker.setLocale("sl_SI")
+    //
+    //        // set country by its name
+    //        countryPicker.setCountryByName("Canada")
+    //    }
     
     // a picker item was selected
     func countryPhoneCodePicker(_ picker: MRCountryPicker, didSelectCountryWithName name: String, countryCode: String, phoneCode: String, flag: UIImage) {
@@ -140,12 +140,12 @@ var countryFlag = UIImageView()
     
     
     
-
+    
     // default func
     override func viewDidLoad() {
         super.viewDidLoad()
         
-       
+        
         
         let userData = userDataVM?.userData.value
         ogAvaImg = avaImg.image!
@@ -170,7 +170,7 @@ var countryFlag = UIImageView()
         displayNameLabel.textColor = .white
         countryLabel.textColor = .white
         bioLabel.textColor = .white
-    
+        
         
         self.countries = self.getCountryList()
         self.countries = self.countries.sorted(by: <)
@@ -197,7 +197,7 @@ var countryFlag = UIImageView()
         // round ava
         //  avaImg.layer.cornerRadius = avaImg.frame.size.width / 2
         //hexagonAva
-
+        
         
         // declare select image tap
         let avaTap = UITapGestureRecognizer(target: self, action: #selector(GoodBioSignUpVC.loadImg(_:)))
@@ -206,27 +206,27 @@ var countryFlag = UIImageView()
         avaImg.addGestureRecognizer(avaTap)
         self.scrollView.addSubview(txtDatePicker)
         txtDatePicker.backgroundColor = .clear
-
+        
         countryPicker.countryPickerDelegate = self
         countryPicker.showPhoneNumbers = true
-
+        
         // set country by its code
         countryPicker.setCountry("SI")
-
+        
         // optionally set custom locale; defaults to system's locale
         countryPicker.setLocale("sl_SI")
-
+        
         // set country by its name
         countryPicker.setCountryByName("Canada")
-      
+        
         // alignment
         avaImg.frame = CGRect(x: self.view.frame.size.width / 2 - 60, y: 80, width: 120, height: 120)
-      //  avaImg.setupHexagonMask(lineWidth: 7.5, color: gray, cornerRadius: 10.0)
-     //   HexagonView.setupHexagonImageView(imageView: avaImg)
+        //  avaImg.setupHexagonMask(lineWidth: 7.5, color: gray, cornerRadius: 10.0)
+        //   HexagonView.setupHexagonImageView(imageView: avaImg)
         avaImg.layer.cornerRadius = avaImg.frame.width/2
         avaImg.layer.borderWidth = 5.0
         avaImg.layer.borderColor = white.cgColor
-              avaImg.clipsToBounds = true
+        avaImg.clipsToBounds = true
         emailTxt.frame = CGRect(x: 125, y: avaImg.frame.maxY + 20, width: self.view.frame.size.width - 135, height: 30)
         usernameTxt.frame = CGRect(x: 125, y: emailTxt.frame.maxY + 10, width: self.view.frame.size.width - 135, height: 30)
         displayNameTxt.frame = CGRect(x: 125, y: usernameTxt.frame.maxY + 10, width: self.view.frame.size.width - 135, height: 30)
@@ -253,73 +253,73 @@ var countryFlag = UIImageView()
         let cleanRef = userData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
         if url != nil {
-        avaImg!.sd_setImage(with: url!, completed: {_, error, _, _ in
-            if error != nil {
-                print(error!.localizedDescription)
-            }
-        })
+            avaImg!.sd_setImage(with: url!, completed: {_, error, _, _ in
+                if error != nil {
+                    print(error!.localizedDescription)
+                }
+            })
         }
         fillTextFields()
         
     }
     
-
-
     
     
-   func formatBottomLines(){
-    let bottomLine = CALayer()
-    bottomLine.frame = CGRect(x: 0, y: self.emailTxt.frame.height, width: self.emailTxt.frame.width, height: 1.0)
-    bottomLine.backgroundColor = UIColor.systemGray4.cgColor
-    self.emailTxt.borderStyle = UITextField.BorderStyle.none
-    self.emailTxt.layer.addSublayer(bottomLine)
-    
-    let bottomLine2 = CALayer()
-    bottomLine2.frame = CGRect(x: 0, y: usernameTxt.frame.height, width: usernameTxt.frame.width, height: 1.0)
-    bottomLine2.backgroundColor = UIColor.systemGray4.cgColor
-    usernameTxt.borderStyle = UITextField.BorderStyle.none
-    usernameTxt.layer.addSublayer(bottomLine2)
-    
-    let bottomLine3 = CALayer()
-    bottomLine3.frame = CGRect(x: 0, y: self.displayNameTxt.frame.height, width: self.displayNameTxt.frame.width, height: 1.0)
-    bottomLine3.backgroundColor = UIColor.systemGray4.cgColor
-    self.displayNameTxt.borderStyle = UITextField.BorderStyle.none
-    self.displayNameTxt.layer.addSublayer(bottomLine3)
-    
-   
-    let bottomLine7 = CALayer()
-    bottomLine7.frame = CGRect(x: 0, y: countryTextField.frame.height, width: countryPicker.frame.width, height: 1.0)
-    bottomLine7.backgroundColor = UIColor.systemGray4.cgColor
-    countryTextField.borderStyle = UITextField.BorderStyle.none
-    countryTextField.layer.addSublayer(bottomLine7)
-    
-    let bottomLine8 = CALayer()
-    bottomLine8.frame = CGRect(x: 0, y: bioTxt.frame.height, width: bioTxt.frame.width, height: 1.0)
-    bottomLine8.backgroundColor = UIColor.systemGray4.cgColor
-    bioTxt.borderStyle = UITextField.BorderStyle.none
-    bioTxt.layer.addSublayer(bottomLine8)
-    
-    emailTxt.attributedPlaceholder = NSAttributedString(string: "Email Address",
-                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
-    emailTxt.textColor = .white
-    usernameTxt.attributedPlaceholder = NSAttributedString(string: "Username",
-                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
-    usernameTxt.textColor = .white
-    displayNameTxt.attributedPlaceholder = NSAttributedString(string: "Display Name",
-                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
-    displayNameTxt.textColor = .white
     
     
-    self.countryTextField.attributedPlaceholder = NSAttributedString(string: "Country",
-                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
-    self.countryTextField.textColor = .white
-    
-    self.bioTxt.attributedPlaceholder = NSAttributedString(string: "Bio",
-                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
-    self.bioTxt.textColor = .white
-
-    
-    
+    func formatBottomLines(){
+        let bottomLine = CALayer()
+        bottomLine.frame = CGRect(x: 0, y: self.emailTxt.frame.height, width: self.emailTxt.frame.width, height: 1.0)
+        bottomLine.backgroundColor = UIColor.systemGray4.cgColor
+        self.emailTxt.borderStyle = UITextField.BorderStyle.none
+        self.emailTxt.layer.addSublayer(bottomLine)
+        
+        let bottomLine2 = CALayer()
+        bottomLine2.frame = CGRect(x: 0, y: usernameTxt.frame.height, width: usernameTxt.frame.width, height: 1.0)
+        bottomLine2.backgroundColor = UIColor.systemGray4.cgColor
+        usernameTxt.borderStyle = UITextField.BorderStyle.none
+        usernameTxt.layer.addSublayer(bottomLine2)
+        
+        let bottomLine3 = CALayer()
+        bottomLine3.frame = CGRect(x: 0, y: self.displayNameTxt.frame.height, width: self.displayNameTxt.frame.width, height: 1.0)
+        bottomLine3.backgroundColor = UIColor.systemGray4.cgColor
+        self.displayNameTxt.borderStyle = UITextField.BorderStyle.none
+        self.displayNameTxt.layer.addSublayer(bottomLine3)
+        
+        
+        let bottomLine7 = CALayer()
+        bottomLine7.frame = CGRect(x: 0, y: countryTextField.frame.height, width: countryPicker.frame.width, height: 1.0)
+        bottomLine7.backgroundColor = UIColor.systemGray4.cgColor
+        countryTextField.borderStyle = UITextField.BorderStyle.none
+        countryTextField.layer.addSublayer(bottomLine7)
+        
+        let bottomLine8 = CALayer()
+        bottomLine8.frame = CGRect(x: 0, y: bioTxt.frame.height, width: bioTxt.frame.width, height: 1.0)
+        bottomLine8.backgroundColor = UIColor.systemGray4.cgColor
+        bioTxt.borderStyle = UITextField.BorderStyle.none
+        bioTxt.layer.addSublayer(bottomLine8)
+        
+        emailTxt.attributedPlaceholder = NSAttributedString(string: "Email Address",
+                                                            attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+        emailTxt.textColor = .white
+        usernameTxt.attributedPlaceholder = NSAttributedString(string: "Username",
+                                                               attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+        usernameTxt.textColor = .white
+        displayNameTxt.attributedPlaceholder = NSAttributedString(string: "Display Name",
+                                                                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+        displayNameTxt.textColor = .white
+        
+        
+        self.countryTextField.attributedPlaceholder = NSAttributedString(string: "Country",
+                                                                         attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+        self.countryTextField.textColor = .white
+        
+        self.bioTxt.attributedPlaceholder = NSAttributedString(string: "Bio",
+                                                               attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+        self.bioTxt.textColor = .white
+        
+        
+        
     }
     // call picker to select image
     @objc func loadImg(_ recognizer:UITapGestureRecognizer) {
@@ -332,23 +332,23 @@ var countryFlag = UIImageView()
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-//        switch traitCollection.userInterfaceStyle {
-//        case .light, .unspecified:
-//            return .lightContent
-//        case .dark:
-//            return .darkContent
-//        }
+        //        switch traitCollection.userInterfaceStyle {
+        //        case .light, .unspecified:
+        //            return .lightContent
+        //        case .dark:
+        //            return .darkContent
+        //        }
         return .lightContent
     }
     
-
+    
     
     // connect selected image to our ImageView
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         // Local variable inserted by Swift 4.2 migrator.
         let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         avaImg.image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
-//        }
+        //        }
         changedProfilePic = true
         self.dismiss(animated: true, completion: nil)
     }
@@ -372,7 +372,7 @@ var countryFlag = UIImageView()
         })
     }
     
-
+    
     
     
     // hide keyboard func
@@ -407,50 +407,50 @@ var countryFlag = UIImageView()
         }
         if changedProfilePic == true {
             print("change ava")
-                print("Set the user's profile picture as the current image")
+            print("Set the user's profile picture as the current image")
             
-    //            var reference = "userFiles/\(username!)"
-                let userDataStorageRef = self.storage.child(userData!.avaRef)
+            //            var reference = "userFiles/\(username!)"
+            let userDataStorageRef = self.storage.child(userData!.avaRef)
+            
+            let loadingIndicator = storyboard?.instantiateViewController(withIdentifier: "loading")
+            
+            let blurEffectView: UIVisualEffectView = {
+                let blurEffect = UIBlurEffect(style: .dark)
+                let blurEffectView = UIVisualEffectView(effect: blurEffect)
                 
-                let loadingIndicator = storyboard?.instantiateViewController(withIdentifier: "loading")
+                blurEffectView.alpha = 0.8
                 
-                let blurEffectView: UIVisualEffectView = {
-                    let blurEffect = UIBlurEffect(style: .dark)
-                    let blurEffectView = UIVisualEffectView(effect: blurEffect)
+                blurEffectView.autoresizingMask = [
+                    .flexibleWidth, .flexibleHeight
+                ]
+                blurEffectView.frame = view.bounds
+                
+                return blurEffectView
+            }()
+            view.addSubview(blurEffectView)
+            
+            addChild(loadingIndicator!)
+            view.addSubview(loadingIndicator!.view)
+            
+            userDataStorageRef.putData(self.avaImg.image!.pngData()!, metadata: nil, completion: { meta, error in
+                if (error == nil) {
                     
-                    blurEffectView.alpha = 0.8
-
-                    blurEffectView.autoresizingMask = [
-                        .flexibleWidth, .flexibleHeight
-                    ]
-                    blurEffectView.frame = view.bounds
+                    SDImageCache.shared.clearMemory()
+                    SDImageCache.shared.clearDisk(onCompletion: {
+                        self.performSegue(withIdentifier: "unwindFromEditVC", sender: self)
+                    })
                     
-                    return blurEffectView
-                }()
-                view.addSubview(blurEffectView)
-                
-                addChild(loadingIndicator!)
-                view.addSubview(loadingIndicator!.view)
-                
-                userDataStorageRef.putData(self.avaImg.image!.pngData()!, metadata: nil, completion: { meta, error in
-                    if (error == nil) {
-             
-                        SDImageCache.shared.clearMemory()
-                        SDImageCache.shared.clearDisk(onCompletion: {
-                                self.performSegue(withIdentifier: "unwindFromEditVC", sender: self)
-                        })
-
-                        
-                    }
-                    else {
-                        print("could not upload profile photo")
-                        
-                    }
-                    blurEffectView.removeFromSuperview()
-                    loadingIndicator?.view.removeFromSuperview()
-                    loadingIndicator?.removeFromParent()
                     
-                })
+                }
+                else {
+                    print("could not upload profile photo")
+                    
+                }
+                blurEffectView.removeFromSuperview()
+                loadingIndicator?.view.removeFromSuperview()
+                loadingIndicator?.removeFromParent()
+                
+            })
             
             
         }
@@ -482,14 +482,14 @@ var countryFlag = UIImageView()
         if emailChanged {
             currentUser?.updateEmail(to: emailTxt.text!, completion: {_ in
                 self.userDataVM?.updateUserData(newUserData: userData!, completion: { _ in
-                self.dismiss(animated: true, completion: nil)
+                    self.dismiss(animated: true, completion: nil)
                 })
             })
         }
         
         else {
             db.collection("UserData1").document(userData!.privateID).setData(userData!.dictionary) { _ in
-            self.dismiss(animated: true, completion: nil)
+                self.dismiss(animated: true, completion: nil)
             }
         }
     }
@@ -500,10 +500,10 @@ var countryFlag = UIImageView()
             addProfilePic.userDataVM = userDataVM
         }
         else {
-        var addSocialMediaVC = segue.destination as! AddSocialMediaVC
+            var addSocialMediaVC = segue.destination as! AddSocialMediaVC
             addSocialMediaVC.currentUser = Auth.auth().currentUser
-        addSocialMediaVC.userDataVM = userDataVM
-        addSocialMediaVC.cancelLbl = "Skip"
+            addSocialMediaVC.userDataVM = userDataVM
+            addSocialMediaVC.cancelLbl = "Skip"
         }
     }
     
@@ -532,12 +532,12 @@ var countryFlag = UIImageView()
         self.navBarView.addSubview(cancelBtn)
         self.navBarView.addSubview(signUpBtn)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
-       
+        
         var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
         navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
-//        self.navBarView.addSubview(toSettingsButton)
-//        self.navBarView.addSubview(toSearchButton)
+        //        self.navBarView.addSubview(toSettingsButton)
+        //        self.navBarView.addSubview(toSearchButton)
         
         let backTap = UITapGestureRecognizer(target: self, action: #selector(self.backButtonpressed))
         backTap.numberOfTapsRequired = 1
@@ -551,25 +551,25 @@ var countryFlag = UIImageView()
         signUpBtn.addGestureRecognizer(postTap)
         signUpBtn.setTitle("Done", for: .normal)
         signUpBtn.setTitleColor(.systemBlue, for: .normal)
-      //  postButton.frame = CGRect(x: (self.view.frame.width) - (topBar.frame.height) - 5, y: 0, width: topBar.frame.height, height: topBar.frame.height)
+        //  postButton.frame = CGRect(x: (self.view.frame.width) - (topBar.frame.height) - 5, y: 0, width: topBar.frame.height, height: topBar.frame.height)
         signUpBtn.titleLabel?.sizeToFit()
         signUpBtn.titleLabel?.textAlignment = .right
         
-    
-       cancelBtn.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+        
+        cancelBtn.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
         signUpBtn.frame = CGRect(x: navBarView.frame.width - 60, y: statusBarHeight + (navBarHeightRemaining - 30)/2, width: 50, height: 30)
         //navBarView.postButton.titleLabel?.sizeToFit()
         navBarView.postButton.titleLabel?.textAlignment = .right
         let yOffset = navBarView.frame.maxY
-  
+        
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Edit Profile"
-       //self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y:  statusBarHeight + (navBarHeightRemaining - 25)/2, width: 200, height: 25)
-       // self.navBarView.titleLabel.sizet
+        //self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y:  statusBarHeight + (navBarHeightRemaining - 25)/2, width: 200, height: 25)
+        // self.navBarView.titleLabel.sizet
         self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: signUpBtn.frame.minY, width: 200, height: 25)
         print("This is navBarView.")
-      
-      
+        
+        
     }
     
     
@@ -577,16 +577,16 @@ var countryFlag = UIImageView()
         self.view.addSubview(self.navBarView)
         self.navBarView.addSubview(self.titleLabel1)
         self.navBarView.addBehavior()
-       
+        
         self.titleLabel1.text = "Create An Account"
         self.navBarView.frame = CGRect(x: 0, y: self.cancelBtn.frame.minY/2, width: self.view.frame.width, height: self.view.frame.height/12)
-       // self.tableView.frame = CGRect(x: 0, y: self.view.frame.height/12, width: self.view.frame.width, height: self.view.frame.height*(11/12))
+        // self.tableView.frame = CGRect(x: 0, y: self.view.frame.height/12, width: self.view.frame.width, height: self.view.frame.height*(11/12))
         self.titleLabel1.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/12)
         self.titleLabel1.textAlignment = .center
-       
+        
         self.titleLabel1.font = signUpBtn.titleLabel?.font
         self.titleLabel1.font.withSize(45)
-       // self.titleLabel1.font = UIFont(name: , size: 25)
+        // self.titleLabel1.font = UIFont(name: , size: 25)
         self.titleLabel1.textColor = .white
         self.navBarView.backgroundColor = .clear
         self.navBarView.isUserInteractionEnabled = false
