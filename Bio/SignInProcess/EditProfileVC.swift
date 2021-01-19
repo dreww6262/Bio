@@ -392,7 +392,6 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
         let now = Date()
         let calcAge = calendar.components(.year, from: birthdayDate!, to: now, options: [])
         let age = calcAge.year
-        print("This is age: \(age)")
         return age!
     }
     
@@ -401,7 +400,7 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
     var blurEffectView: UIVisualEffectView?
     // clicked sign up
     @objc func signUpTapped(_ recognizer: UITapGestureRecognizer) {
-        var userData = self.userDataVM?.userData.value
+        let userData = self.userDataVM?.userData.value
         if userData == nil {
             return
         }
@@ -462,8 +461,8 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
         if ogUsername != usernameTxt.text {
             userData?.publicID = usernameTxt.text ?? ogUsername
         }
-        if ogDisplayName != displayNameLabel.text {
-            userData?.displayName = displayNameLabel.text ?? ogDisplayName
+        if ogDisplayName != displayNameTxt.text {
+            userData?.displayName = displayNameTxt.text ?? ogDisplayName
         }
         if ogCountry != countryTextField.text {
             userData?.country = countryTextField.text ?? ogCountry
