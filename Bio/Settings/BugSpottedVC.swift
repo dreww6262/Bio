@@ -55,7 +55,7 @@ setUpNavBarView()
     
     func setUpNavBarView() {
         var statusBarHeight = UIApplication.shared.statusBarFrame.height
-        print("This is status bar height \(statusBarHeight)")
+//        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
         var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
@@ -80,7 +80,7 @@ setUpNavBarView()
         self.navBarView.titleLabel.text = "Report A Bug"
         navBarView.backButton.setImage(UIImage(named: "whiteChevron"), for: .normal)
         self.navBarView.titleLabel.textColor = .white
-        print("This is navBarView.")
+//        print("This is navBarView.")
 
         
         self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 200, height: 25)

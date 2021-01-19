@@ -139,11 +139,11 @@ class NotificationsVC: UIViewController {
     }
     
     func setUpNavBarView() {
-        var statusBarHeight = UIApplication.shared.statusBarFrame.height
-        print("This is status bar height \(statusBarHeight)")
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
+//        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
-        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        let navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
         navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
         self.navBarView.addSubview(toSettingsButton)
@@ -172,7 +172,7 @@ class NotificationsVC: UIViewController {
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Notifications"
         //self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
-        print("This is navBarView.")
+//        print("This is navBarView.")
         self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
         self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
 
@@ -252,9 +252,8 @@ class NotificationsVC: UIViewController {
     }
     
     @objc func buttonViewLinkAction(sender: UITapGestureRecognizer!) {
-        var button = sender.view as! UIButton
+        let button = sender.view as! UIButton
         UIPasteboard.general.string = button.titleLabel!.text //
-        print("Copied \(UIPasteboard.general.string)")
         let alert = UIAlertController(title: "Copied \(UIPasteboard.general.string!)", message: "", preferredStyle: .alert)
         present(alert, animated: true, completion: nil)
 
@@ -297,7 +296,7 @@ class NotificationsVC: UIViewController {
         
         // call cell to call further cell data
         let cell = tableView.cellForRow(at: i) as! newsCell
-        let username = cell.usernameBtn.titleLabel?.text!
+        let username = cell.usernameBtn.titleLabel!.text!
 //        print("This is cell.usernabeButton.title \(username)")
         
         db.collection("UserData1").whereField("publicID", isEqualTo: username).addSnapshotListener({ objects, error in
@@ -339,7 +338,7 @@ class NotificationsVC: UIViewController {
         
         // call cell to call further cell data
         let cell = tableView.cellForRow(at: i) as! newsCell
-        let username = cell.usernameBtn.titleLabel?.text!
+        let username = cell.usernameBtn.titleLabel!.text!
 //        print("This is cell.usernabeButton.title \(username)")
         
         db.collection("UserData1").whereField("publicID", isEqualTo: username).addSnapshotListener({ objects, error in
@@ -466,7 +465,7 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
             cell.usernameBtn.isHidden = true
             cell.infoLbl.isHidden = true
             cell.dateLbl.isHidden = true
-            var myLabel = UILabel()
+            let myLabel = UILabel()
             myLabel.font = UIFont(name: "DINAlternate-Bold", size: 15)
             cell.addSubview(myLabel)
             myLabel.frame = cell.bounds
@@ -498,7 +497,7 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
         cell.rejectButton.frame = CGRect(x: cell.acceptButton.frame.minX - 35, y: (cell.frame.height - 30)/2, width: 30, height: 30)
         
         // calculate post date
-        let times = ["now", "now", "5m", "7m", "21m", "30m", "1hr", "1hr", "1hr", "1hr", "2hr", "2hr", "2hr", "2hr", "4hr", "4hr", "4hr", "4hr", "5hr", "5hr", "6hr", "7hr", "12hr", "1d", "1d", "1d", "1d", "1d", "1d", "1d", "1d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d"]
+//        let times = ["now", "now", "5m", "7m", "21m", "30m", "1hr", "1hr", "1hr", "1hr", "2hr", "2hr", "2hr", "2hr", "4hr", "4hr", "4hr", "4hr", "5hr", "5hr", "6hr", "7hr", "12hr", "1d", "1d", "1d", "1d", "1d", "1d", "1d", "1d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d"]
         
 
         let dateFormatter = DateFormatter()
@@ -510,15 +509,13 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
 
         //"yyyy-MM-dd HH:mm:ss.SSSZ" // "yyyy-MM-dd HH:mm:ss"
         
-        var fromString = notificationArray[indexPath.row].createdAt
+        let fromString = notificationArray[indexPath.row].createdAt
         //var fromString1 = fromString.dropLast(6)
         //fromString = "\(fromString1)"
        let from = dateFormatter.date(from: fromString)
 //    let from = dateFormatter.date(from: fromString)
-        print("This is from: \(from) and fromString: *\(fromString)*")
 //        print("from: \(from)")
         let now = Date()
-        print("This is now: \(now)")
 //        print("now: \(now)")
         let components : NSCalendar.Unit = [.second, .minute, .hour, .day, .weekOfMonth]
         let difference = (Calendar.current as NSCalendar).components(components, from: from ?? Date(), to: now, options: [])

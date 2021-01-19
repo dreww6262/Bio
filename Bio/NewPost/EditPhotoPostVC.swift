@@ -406,7 +406,7 @@ class EditPhotoPostVC: UIViewController, UINavigationControllerDelegate, UIImage
     
     func setUpNavBarView() {
         var statusBarHeight = UIApplication.shared.statusBarFrame.height
-        print("This is status bar height \(statusBarHeight)")
+//        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.addSubview(backButton)
         self.navBarView.addSubview(postButton)
@@ -448,7 +448,7 @@ class EditPhotoPostVC: UIViewController, UINavigationControllerDelegate, UIImage
         self.navBarView.titleLabel.text = "Edit Post"
        // self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
         self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: postButton.frame.minY, width: 200, height: 25)
-        print("This is navBarView.")
+//        print("This is navBarView.")
     }
     
     

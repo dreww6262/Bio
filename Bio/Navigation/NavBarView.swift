@@ -33,7 +33,7 @@ class NavBarView: UIView {
     }
     
     func addBehavior() {
-        print("This is status bar height \(statusBarHeight)")
+//        print("This is status bar height \(statusBarHeight)")
         self.isUserInteractionEnabled = true
         let superView = self.superview!
         let superFrame = superView.frame
