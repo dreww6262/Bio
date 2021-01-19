@@ -163,11 +163,14 @@ class NewPost5OptionsVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
        // self.toSettingsButton.frame = CGRect(x: 10, y: navBarView.frame.height - 30, width: 25, height: 25)
         self.toSettingsButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
         self.toSearchButton.frame = CGRect(x: navBarView.frame.width - 35, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+      //  self.toSearchButton.frame = CGRect(x: navBarView.frame.width - 35, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 34, height: 34)
+        let yOffset = navBarView.frame.maxY
       //  self.navBarView.addSubview(titleLabel1)
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Add Content"
       //  self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
-        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: self.toSearchButton.frame.minY, width: 200, height: 25)
+        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 200, height: 25)
+        
         print("This is navBarView.")
         self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
         self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
@@ -223,6 +226,9 @@ class NewPost5OptionsVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         var config = YPImagePickerConfiguration()
         config.screens = [.library, .photo, .video]
         config.startOnScreen = .library
+     //   config.overlayView?.setupHexagonMaskView(lineWidth: view.frame.width/15, color: .red, cornerRadius: view.frame.width/15)
+        print("config.overlayView.frame = \(config.overlayView?.frame)")
+        config.overlayView?.clipsToBounds = true
         config.library.mediaType = .photoAndVideo
         config.library.maxNumberOfItems = 1
         config.library.defaultMultipleSelection = false
@@ -231,7 +237,7 @@ class NewPost5OptionsVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         config.video.automaticTrimToTrimmerMaxDuration = true
         let picker = YPImagePicker(configuration: config)
         picker.didFinishPicking { [unowned picker] items, cancelled in
-           
+
             if items.count == 1 {
                 let onePostPreviewVC = self.storyboard?.instantiateViewController(identifier: "onePostPreview") as! OnePostPreview
                 onePostPreviewVC.userDataVM = self.userDataVM

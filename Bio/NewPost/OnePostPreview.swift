@@ -89,6 +89,7 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
         let linkTapCopy = UITapGestureRecognizer(target: self, action: #selector(AddLinkVCViewController.loadImg(_:)))
         linkHexagonImageCopy.isUserInteractionEnabled = true
         linkHexagonImageCopy.addGestureRecognizer(linkTapCopy)
+        previewImage.addGestureRecognizer(linkTapCopy)
         
         
         switch items![0] {
@@ -382,6 +383,10 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
         picker.delegate = self
         picker.sourceType = .photoLibrary
         picker.allowsEditing = true
+  //      picker.view.setupHexagonMaskView(lineWidth: view.frame.width/15, color: .white, cornerRadius: view.frame.width/15)
+        picker.cameraOverlayView!.clipsToBounds = true
+      print("This is picker.cameraOverlayView.frame \(picker.cameraOverlayView?.frame)")
+     //   picker.cameraOverlayView!.largeContentImage.setupHexagonMaskView(lineWidth: picker.cameraOverlayView!.frame.width/15, color: .white, cornerRadius: picker.cameraOverlayView!.frame.width/15)
         present(picker, animated: true, completion: nil)
     }
     

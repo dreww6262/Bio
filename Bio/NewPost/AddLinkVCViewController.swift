@@ -250,7 +250,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     
     
     override func viewWillAppear(_ animated: Bool) {
-        hasChosenThumbnailImage = false
+       // hasChosenThumbnailImage = false
     }
     
     @objc func skipTapped(_ sender: UITapGestureRecognizer) {
@@ -484,6 +484,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         linkHexagonImage.image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
         self.changedProfilePic = true
+        self.hasChosenThumbnailImage = true
         self.dismiss(animated: true, completion: nil)
     }
     
