@@ -86,7 +86,7 @@ setUpNavBarView()
         print("This is navBarView.")
 
         
-        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: self.navBarView.backButton.frame.minY, width: 200, height: 25)
+        self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 200, height: 25)
         let dismissTap = UITapGestureRecognizer(target: self, action: #selector(self.backButtonpressed))
         let submitTap = UITapGestureRecognizer(target: self, action: #selector(self.submitPressed))
         self.navBarView.postButton.setTitle("Submit", for: .normal)
