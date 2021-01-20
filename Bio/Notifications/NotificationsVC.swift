@@ -33,7 +33,7 @@ class NotificationsVC: UIViewController {
     var titleLabel1 = UILabel()
     
     // arrays to hold data from server
-   var toSearchButton = UIButton()
+    var toSearchButton = UIButton()
     
     var toSettingsButton = UIButton()
     
@@ -51,7 +51,7 @@ class NotificationsVC: UIViewController {
         menuView.tabController = (tabBarController! as! NavigationMenuBaseController)
         
         loadData {
-//            print("Should be loading notifications!!")
+            //            print("Should be loading notifications!!")
         }
         self.tableView.reloadData()
     }
@@ -62,13 +62,26 @@ class NotificationsVC: UIViewController {
     override func viewDidLoad() {
         tableView.delegate = self
         tableView.dataSource = self
+        
+        tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: view.frame.width * 3/10, right: 0)
+        
         addMenuButtons()
         
         setUpNavBarView()
-
+        
         super.viewDidLoad()
-
+        
         self.navigationItem.title = "NOTIFICATIONS"
+        
+        view.addSubview(myLabel)
+        myLabel.numberOfLines = 0
+        myLabel.font = UIFont(name: "DINAlternate-Bold", size: 20)
+        myLabel.isHidden = true
+        myLabel.frame = CGRect(x: 20, y: view.frame.height / 4 - 10, width: view.frame.width - 40, height: 100)
+        myLabel.text = "No notfications yet. Follow people to make more connections."
+        myLabel.textColor = .white
+        myLabel.textAlignment = .center
+        
         
         // request notifications
         
@@ -82,14 +95,14 @@ class NotificationsVC: UIViewController {
     
     
     func loadData(completed: @escaping () -> ()) {
-//        print("in load notifications funtion")
+        //        print("in load notifications funtion")
         //le;t notificationsQuery = db.collection("News").whereField("currentUser", isEqualTo: userData?.publicID)
         let userData = userDataVM?.userData.value
         if userData == nil {
             return
         }
         let notificationsQuery = db.collection("News2").whereField("notifyingUser", isEqualTo: userData!.publicID)
-//        print("This is notification query \(notificationsQuery)")
+        //        print("This is notification query \(notificationsQuery)")
         notificationsQuery.getDocuments(completion: { (querySnapshot, error) in
             guard error == nil else {
                 print("error loading home photos: \n \(error!.localizedDescription)")
@@ -99,15 +112,15 @@ class NotificationsVC: UIViewController {
             //there are querySnapshot!.documents.count docments in the spots snapshot
             
             for document in querySnapshot!.documents {
-//                print("doc: \(document)")
+                //                print("doc: \(document)")
                 var newNotification = NewsObject(dictionary: document.data())
                 newNotification.checked = true
                 self.notificationArray.append(newNotification)
                 document.reference.setData(newNotification.dictionary)
-
+                
             }
             let dateFormatter = DateFormatter()
-           // dateFormatter.dateFormat = "yyyy-MM-dd' 'HH:mm:ssZ"
+            // dateFormatter.dateFormat = "yyyy-MM-dd' 'HH:mm:ssZ"
             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
             dateFormatter.locale = Locale.init(identifier: "en_GB")
             dateFormatter.timeZone = NSTimeZone(name: "GMT") as TimeZone?
@@ -140,7 +153,7 @@ class NotificationsVC: UIViewController {
     
     func setUpNavBarView() {
         let statusBarHeight = UIApplication.shared.statusBarFrame.height
-//        print("This is status bar height \(statusBarHeight)")
+        //        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
         let navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
@@ -159,30 +172,30 @@ class NotificationsVC: UIViewController {
         toSearchButton.isUserInteractionEnabled = true
         toSearchButton.addGestureRecognizer(searchTap)
         
-
+        
         self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
         self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
-     
+        
         self.toSettingsButton.frame = CGRect(x: 10, y: navBarView.frame.height - 30, width: 25, height: 25)
         self.toSettingsButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
         self.toSearchButton.frame = CGRect(x: navBarView.frame.width - 35, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
         let yOffset = navBarView.frame.maxY
         self.tableView.frame = CGRect(x: 0, y: yOffset, width: self.view.frame.width, height: self.view.frame.height - yOffset)
-      //  self.navBarView.addSubview(titleLabel1)
+        //  self.navBarView.addSubview(titleLabel1)
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Notifications"
         //self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
-//        print("This is navBarView.")
+        //        print("This is navBarView.")
         self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
         self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
-
+        
         self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 200, height: 25)
-
+        
         //self.titleLabel1.text = "Notifications"
-      //  self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
-       // let yOffset = navBarView.frame.maxY
+        //  self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
+        // let yOffset = navBarView.frame.maxY
         self.tableView.frame = CGRect(x: 0, y: yOffset, width: self.view.frame.width, height: self.view.frame.height - yOffset)
-
+        
     }
     
     @objc func toSettingsButtonClicked(_ recognizer: UITapGestureRecognizer) {
@@ -194,7 +207,7 @@ class NotificationsVC: UIViewController {
     
     func addSettingsButton() {
         self.view.addSubview(toSettingsButton)
-       // toSettingsButton.frame = CGRect(x: 15, y: self.view.frame.height/48, width: 30, height: 30)
+        // toSettingsButton.frame = CGRect(x: 15, y: self.view.frame.height/48, width: 30, height: 30)
         toSettingsButton.frame = CGRect(x: self.view.frame.height*(1/48), y: (self.view.frame.height/48) + 2, width: self.view.frame.height/24, height: self.view.frame.height/24)
         // round ava
         toSettingsButton.clipsToBounds = true
@@ -211,17 +224,17 @@ class NotificationsVC: UIViewController {
         self.view.addSubview(toSearchButton)
         toSearchButton.frame = CGRect(x: self.view.frame.width - (self.view.frame.height*(3/48)), y: (self.view.frame.height/48) + 2, width: self.view.frame.height/24, height: self.view.frame.height/24)
         // round ava
-    //    toSearchButton.layer.cornerRadius = toSearchButton.frame.size.width / 2
+        //    toSearchButton.layer.cornerRadius = toSearchButton.frame.size.width / 2
         toSearchButton.clipsToBounds = true
         toSearchButton.isHidden = false
-       // followView.isHidden = false
+        // followView.isHidden = false
         toSettingsButton.isHidden = false
     }
     
     
     
     @objc func cellTapped(_ sender : UITapGestureRecognizer) {
-//        print("I am within cellTapped")
+        //        print("I am within cellTapped")
         let cell  = sender.view as! UserCell
         let username = cell.usernameLbl.text!
         db.collection("UserData1").whereField("publicID", isEqualTo: username).addSnapshotListener({ objects, error in
@@ -256,16 +269,16 @@ class NotificationsVC: UIViewController {
         UIPasteboard.general.string = button.titleLabel!.text //
         let alert = UIAlertController(title: "Copied \(UIPasteboard.general.string!)", message: "", preferredStyle: .alert)
         present(alert, animated: true, completion: nil)
-
+        
         // change to desired number of seconds (in this case 5 seconds)
         let when = DispatchTime.now() + 1.5
         DispatchQueue.main.asyncAfter(deadline: when){
-          // your code with delay
-          alert.dismiss(animated: true, completion: nil)
+            // your code with delay
+            alert.dismiss(animated: true, completion: nil)
         }
         UIDevice.vibrate()
         
-        }
+    }
     
     @objc func acceptTapped(_ sender: UITapGestureRecognizer) {
         let cell = sender.view?.superview?.superview as! newsCell
@@ -285,19 +298,19 @@ class NotificationsVC: UIViewController {
         notificationArray.remove(at: cell.tag)
         tableView.reloadData()
     }
-
     
     
-@IBAction func photo_click(_ sender: UIImageView) {
-//        print("UserName Clicked")
+    
+    @IBAction func photo_click(_ sender: UIImageView) {
+        //        print("UserName Clicked")
         // call index of button
         let i = sender.layer.value(forKey: "index") as! IndexPath
-//        print("This is i: \(i)")
+        //        print("This is i: \(i)")
         
         // call cell to call further cell data
         let cell = tableView.cellForRow(at: i) as! newsCell
         let username = cell.usernameBtn.titleLabel!.text!
-//        print("This is cell.usernabeButton.title \(username)")
+        //        print("This is cell.usernabeButton.title \(username)")
         
         db.collection("UserData1").whereField("publicID", isEqualTo: username).addSnapshotListener({ objects, error in
             if error == nil {
@@ -331,15 +344,15 @@ class NotificationsVC: UIViewController {
     
     // clicked username button
     @IBAction func usernameBtn_click(_ sender: AnyObject) {
-//        print("UserName Clicked")
+        //        print("UserName Clicked")
         // call index of button
         let i = sender.layer.value(forKey: "index") as! IndexPath
-//        print("This is i: \(i)")
+        //        print("This is i: \(i)")
         
         // call cell to call further cell data
         let cell = tableView.cellForRow(at: i) as! newsCell
         let username = cell.usernameBtn.titleLabel!.text!
-//        print("This is cell.usernabeButton.title \(username)")
+        //        print("This is cell.usernabeButton.title \(username)")
         
         db.collection("UserData1").whereField("publicID", isEqualTo: username).addSnapshotListener({ objects, error in
             if error == nil {
@@ -373,22 +386,22 @@ class NotificationsVC: UIViewController {
         let numbersOnly = sourcePhoneNumber.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
         let length = numbersOnly.count
         let hasLeadingOne = numbersOnly.hasPrefix("1")
-
+        
         // Check for supported phone number length
         guard length == 7 || (length == 10 && !hasLeadingOne) || (length == 11 && hasLeadingOne) else {
             return nil
         }
-
+        
         let hasAreaCode = (length >= 10)
         var sourceIndex = 0
-
+        
         // Leading 1
         var leadingOne = ""
         if hasLeadingOne {
             leadingOne = "1 "
             sourceIndex += 1
         }
-
+        
         // Area code
         var areaCode = ""
         if hasAreaCode {
@@ -399,24 +412,25 @@ class NotificationsVC: UIViewController {
             areaCode = String(format: "(%@) ", areaCodeSubstring)
             sourceIndex += areaCodeLength
         }
-
+        
         // Prefix, 3 characters
         let prefixLength = 3
         guard let prefix = numbersOnly.substring(start: sourceIndex, offsetBy: prefixLength) else {
             return nil
         }
         sourceIndex += prefixLength
-
+        
         // Suffix, 4 characters
         let suffixLength = 4
         guard let suffix = numbersOnly.substring(start: sourceIndex, offsetBy: suffixLength) else {
             return nil
         }
-
+        
         return leadingOne + areaCode + prefix + "-" + suffix
     }
-
-  
+    
+    let myLabel = UILabel()
+    
 }
 
 extension String {
@@ -425,11 +439,11 @@ extension String {
         guard let substringStartIndex = self.index(startIndex, offsetBy: start, limitedBy: endIndex) else {
             return nil
         }
-
+        
         guard let substringEndIndex = self.index(startIndex, offsetBy: start + offsetBy, limitedBy: endIndex) else {
             return nil
         }
-
+        
         return String(self[substringStartIndex ..< substringEndIndex])
     }
 }
@@ -438,173 +452,150 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
     
     // cell numb
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        print("This is notificationArray count \(notificationArray.count)")
+        //        print("This is notificationArray count \(notificationArray.count)")
         if notificationArray.count == 0 {
-            isNotificationsEmpty = true
-            return 1
+            myLabel.isHidden = false
         }
         else {
-        return notificationArray.count
+            myLabel.isHidden = true
         }
+        return notificationArray.count
     }
     
     
     // cell config
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // declare cell
-        if notificationArray.isEmpty == true {
-            isNotificationsEmpty = true
-        }
-        
-        if isNotificationsEmpty && self.firstTime == true {
-            self.firstTime = false
-            let cell = tableView.dequeueReusableCell(withIdentifier: "newsCell") as! newsCell
-            cell.tag = indexPath.row
-            //cell.frame = CGRect(x: cell.frame.minX, y: cell.frame.minY, width: view.frame.width, height: 43.5)
-            cell.avaImg.isHidden = true
-            cell.usernameBtn.isHidden = true
-            cell.infoLbl.isHidden = true
-            cell.dateLbl.isHidden = true
-            let myLabel = UILabel()
-            myLabel.font = UIFont(name: "DINAlternate-Bold", size: 15)
-            cell.addSubview(myLabel)
-            myLabel.frame = cell.bounds
-            myLabel.text = "No notfications yet. Follow people to make more connections."
-            myLabel.textColor = .white
-            myLabel.numberOfLines = 0
-            return cell
-        }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "newsCell") as! newsCell
         if notificationArray.isEmpty == false {
-        cell.tag = indexPath.row
-        cell.frame = CGRect(x: cell.frame.minX, y: cell.frame.minY, width: view.frame.width, height: 43.5)
-        // connect cell objects with received data from server
-        cell.currentPostingUserID = notificationArray[indexPath.row].currentUser
-        cell.usernameBtn.setTitle(notificationArray[indexPath.row].currentUser, for: UIControl.State())
-        //print("cell frame: \(cell.frame)")
-        let ref = storage.child(notificationArray[indexPath.row].thumbResource)
-        cell.avaImg.sd_setImage(with: ref)
-        cell.avaImg.frame = CGRect(x: 5, y: 2, width: cell.frame.height-15, height: cell.frame.height-15)
-        cell.avaImg.clipsToBounds = true
-      //  cell.avaImg.setupHexagonMask(lineWidth: cell.avaImg.frame.width/15, color: gold, cornerRadius: cell.avaImg.frame.width/15)
-        cell.avaImg.layer.cornerRadius = cell.avaImg.frame.width/2
-        cell.infoLbl.frame = CGRect(x: cell.avaImg.frame.maxX + 5, y: 5, width: 140, height: 30)
-        cell.dateLbl.frame = CGRect(x: cell.infoLbl.frame.maxX + 5, y: 5, width: 50
-                                    , height: 30)
-   
-        cell.acceptButton.frame = CGRect(x: cell.frame.width - 35, y: (cell.frame.height - 30)/2, width: 30, height: 30)
-        cell.rejectButton.frame = CGRect(x: cell.acceptButton.frame.minX - 35, y: (cell.frame.height - 30)/2, width: 30, height: 30)
-        
-        // calculate post date
-//        let times = ["now", "now", "5m", "7m", "21m", "30m", "1hr", "1hr", "1hr", "1hr", "2hr", "2hr", "2hr", "2hr", "4hr", "4hr", "4hr", "4hr", "5hr", "5hr", "6hr", "7hr", "12hr", "1d", "1d", "1d", "1d", "1d", "1d", "1d", "1d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d"]
-        
-
-        let dateFormatter = DateFormatter()
-       // dateFormatter.dateFormat = "yyyy-MM-dd' 'HH:mm:ssZ"
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
-        dateFormatter.locale = Locale.init(identifier: "en_GB")
-        dateFormatter.timeZone = NSTimeZone(name: "GMT") as TimeZone?
-        cell.phoneButton.isHidden = true
-
-        //"yyyy-MM-dd HH:mm:ss.SSSZ" // "yyyy-MM-dd HH:mm:ss"
-        
-        let fromString = notificationArray[indexPath.row].createdAt
-        //var fromString1 = fromString.dropLast(6)
-        //fromString = "\(fromString1)"
-       let from = dateFormatter.date(from: fromString)
-//    let from = dateFormatter.date(from: fromString)
-//        print("from: \(from)")
-        let now = Date()
-//        print("now: \(now)")
-        let components : NSCalendar.Unit = [.second, .minute, .hour, .day, .weekOfMonth]
-        let difference = (Calendar.current as NSCalendar).components(components, from: from ?? Date(), to: now, options: [])
-        print("This is difference: \(difference)")
-        
-        // logic what to show: seconds, minuts, hours, days or weeks
-        if difference.second! <= 0 {
-            cell.dateLbl.text = "now"
-        }
-        else if difference.second! > 0 && difference.minute! == 0 {
-            cell.dateLbl.text = "\(String(describing: difference.second!))s."
-        }
-        else if difference.minute! > 0 && difference.hour! == 0 {
-            cell.dateLbl.text = "\(String(describing: difference.minute!))m."
-        }
-        else if difference.hour! > 0 && difference.day! == 0 {
-            cell.dateLbl.text = "\(String(describing: difference.hour!))h."
-        }
-        else if difference.day! > 0 && difference.weekOfMonth! == 0 {
-            cell.dateLbl.text = "\(String(describing: difference.day!))d."
-        }
-        else if difference.weekOfMonth! > 0 {
-            cell.dateLbl.text = "\(String(describing: difference.weekOfMonth!))w."
-        }
-        
-        //cell.dateLbl.text = times[indexPath.row]
-        
-        // define info text
-        if notificationArray[indexPath.row].type == "requestPhoneNumber" {
-            cell.infoLbl.text = "asked for your phone number."
-
-            cell.rejectButton.isHidden = false
-            cell.acceptButton.isHidden = false
+            cell.tag = indexPath.row
+            cell.frame = CGRect(x: cell.frame.minX, y: cell.frame.minY, width: view.frame.width, height: 43.5)
+            // connect cell objects with received data from server
+            cell.currentPostingUserID = notificationArray[indexPath.row].currentUser
+            cell.usernameBtn.setTitle(notificationArray[indexPath.row].currentUser, for: UIControl.State())
+            //print("cell frame: \(cell.frame)")
+            let ref = storage.child(notificationArray[indexPath.row].thumbResource)
+            cell.avaImg.sd_setImage(with: ref)
+            cell.avaImg.frame = CGRect(x: 5, y: 2, width: cell.frame.height-15, height: cell.frame.height-15)
+            cell.avaImg.clipsToBounds = true
+            //  cell.avaImg.setupHexagonMask(lineWidth: cell.avaImg.frame.width/15, color: gold, cornerRadius: cell.avaImg.frame.width/15)
+            cell.avaImg.layer.cornerRadius = cell.avaImg.frame.width/2
+            cell.infoLbl.frame = CGRect(x: cell.avaImg.frame.maxX + 5, y: 5, width: 140, height: 30)
+            cell.dateLbl.frame = CGRect(x: cell.infoLbl.frame.maxX + 5, y: 5, width: 50
+                                        , height: 30)
             
-            let rejectTap = UITapGestureRecognizer(target: self, action: #selector(rejectTapped))
-            let acceptTap = UITapGestureRecognizer(target: self, action: #selector(acceptTapped))
-            cell.rejectButton.addGestureRecognizer(rejectTap)
-            cell.acceptButton.addGestureRecognizer(acceptTap)
-        }
-        else if notificationArray[indexPath.row].type == "requestCompleted" {
-            cell.infoLbl.text = "has been sent your number"
-            cell.rejectButton.isHidden = true
-            cell.acceptButton.isHidden = true
-        }
-        
-        else if notificationArray[indexPath.row].type == "approvePhoneNumber" {
-            //let phoneNumber = UserDataVM(username: cell.usernameBtn.titleLabel!.text!).userData.value?.phoneNumber
+            cell.acceptButton.frame = CGRect(x: cell.frame.width - 35, y: (cell.frame.height - 30)/2, width: 30, height: 30)
+            cell.rejectButton.frame = CGRect(x: cell.acceptButton.frame.minX - 35, y: (cell.frame.height - 30)/2, width: 30, height: 30)
             
-       //     let phoneNumber = phoneNumberUserData.value!.phoneNumber
-            cell.infoLbl.text = "gave you their phone number."
-            cell.phoneButton.isHidden = false
-            let phoneNumberButton = cell.phoneButton
-            phoneNumberButton.isHidden = false
-            var unformattedPhoneNumber = notificationArray[indexPath.row].ava
-           var formattedPhoneNumber = format(phoneNumber: unformattedPhoneNumber)
-            phoneNumberButton.setTitle(formattedPhoneNumber, for: .normal)
-            //phoneNumberButton.titleLabel?.textColor = .blue
-            phoneNumberButton.setTitleColor(white, for: .normal)
-            phoneNumberButton.tintColor = .blue
-            let copyTap = UITapGestureRecognizer(target: self, action: #selector(buttonViewLinkAction))
-            cell.phoneButton.addGestureRecognizer(copyTap)
-//            cell.addSubview(phoneNumberButton)
-            phoneNumberButton.frame = CGRect(x: cell.infoLbl.frame.minX + 16, y: cell.infoLbl.frame.maxY, width: cell.frame.width - cell.infoLbl.frame.minX, height: 30)
-            phoneNumberButton.sizeToFit()
+            // calculate post date
+            //        let times = ["now", "now", "5m", "7m", "21m", "30m", "1hr", "1hr", "1hr", "1hr", "2hr", "2hr", "2hr", "2hr", "4hr", "4hr", "4hr", "4hr", "5hr", "5hr", "6hr", "7hr", "12hr", "1d", "1d", "1d", "1d", "1d", "1d", "1d", "1d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "2d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d"]
+            
+            
+            let dateFormatter = DateFormatter()
+            // dateFormatter.dateFormat = "yyyy-MM-dd' 'HH:mm:ssZ"
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
+            dateFormatter.locale = Locale.init(identifier: "en_GB")
+            dateFormatter.timeZone = NSTimeZone(name: "GMT") as TimeZone?
+            cell.phoneButton.isHidden = true
+            
+            //"yyyy-MM-dd HH:mm:ss.SSSZ" // "yyyy-MM-dd HH:mm:ss"
+            
+            let fromString = notificationArray[indexPath.row].createdAt
+            //var fromString1 = fromString.dropLast(6)
+            //fromString = "\(fromString1)"
+            let from = dateFormatter.date(from: fromString)
+            //    let from = dateFormatter.date(from: fromString)
+            //        print("from: \(from)")
+            let now = Date()
+            //        print("now: \(now)")
+            let components : NSCalendar.Unit = [.second, .minute, .hour, .day, .weekOfMonth]
+            let difference = (Calendar.current as NSCalendar).components(components, from: from ?? Date(), to: now, options: [])
+            print("This is difference: \(difference)")
+            
+            // logic what to show: seconds, minuts, hours, days or weeks
+            if difference.second! <= 0 {
+                cell.dateLbl.text = "now"
+            }
+            else if difference.second! > 0 && difference.minute! == 0 {
+                cell.dateLbl.text = "\(String(describing: difference.second!))s."
+            }
+            else if difference.minute! > 0 && difference.hour! == 0 {
+                cell.dateLbl.text = "\(String(describing: difference.minute!))m."
+            }
+            else if difference.hour! > 0 && difference.day! == 0 {
+                cell.dateLbl.text = "\(String(describing: difference.hour!))h."
+            }
+            else if difference.day! > 0 && difference.weekOfMonth! == 0 {
+                cell.dateLbl.text = "\(String(describing: difference.day!))d."
+            }
+            else if difference.weekOfMonth! > 0 {
+                cell.dateLbl.text = "\(String(describing: difference.weekOfMonth!))w."
+            }
+            
+            //cell.dateLbl.text = times[indexPath.row]
+            
+            // define info text
+            if notificationArray[indexPath.row].type == "requestPhoneNumber" {
+                cell.infoLbl.text = "asked for your phone number."
+                
+                cell.rejectButton.isHidden = false
+                cell.acceptButton.isHidden = false
+                
+                let rejectTap = UITapGestureRecognizer(target: self, action: #selector(rejectTapped))
+                let acceptTap = UITapGestureRecognizer(target: self, action: #selector(acceptTapped))
+                cell.rejectButton.addGestureRecognizer(rejectTap)
+                cell.acceptButton.addGestureRecognizer(acceptTap)
+            }
+            else if notificationArray[indexPath.row].type == "requestCompleted" {
+                cell.infoLbl.text = "has been sent your number"
+                cell.rejectButton.isHidden = true
+                cell.acceptButton.isHidden = true
+            }
+            
+            else if notificationArray[indexPath.row].type == "approvePhoneNumber" {
+                //let phoneNumber = UserDataVM(username: cell.usernameBtn.titleLabel!.text!).userData.value?.phoneNumber
+                
+                //     let phoneNumber = phoneNumberUserData.value!.phoneNumber
+                cell.infoLbl.text = "gave you their phone number."
+                cell.phoneButton.isHidden = false
+                let phoneNumberButton = cell.phoneButton
+                phoneNumberButton.isHidden = false
+                let unformattedPhoneNumber = notificationArray[indexPath.row].ava
+                let formattedPhoneNumber = format(phoneNumber: unformattedPhoneNumber)
+                phoneNumberButton.setTitle(formattedPhoneNumber, for: .normal)
+                //phoneNumberButton.titleLabel?.textColor = .blue
+                phoneNumberButton.setTitleColor(white, for: .normal)
+                phoneNumberButton.tintColor = .blue
+                let copyTap = UITapGestureRecognizer(target: self, action: #selector(buttonViewLinkAction))
+                cell.phoneButton.addGestureRecognizer(copyTap)
+                //            cell.addSubview(phoneNumberButton)
+                phoneNumberButton.frame = CGRect(x: cell.infoLbl.frame.minX + 16, y: cell.infoLbl.frame.maxY, width: cell.frame.width - cell.infoLbl.frame.minX, height: 30)
+                phoneNumberButton.sizeToFit()
+            }
+            
+            
+            
+            
+            else if notificationArray[indexPath.row].type == "mention" {
+                cell.infoLbl.text = "has mentioned you."
+            }
+            else if notificationArray[indexPath.row].type == "comment" {
+                cell.infoLbl.text = "has commented your post."
+            }
+            else if notificationArray[indexPath.row].type == "follow" {
+                cell.infoLbl.text = "is now following you."
+                //print("its a follow")
+            }
+            else if notificationArray[indexPath.row].type == "like" {
+                cell.infoLbl.text = "likes your post."
+            }
+            
+            
+            // asign index of button
+            cell.usernameBtn.layer.setValue(indexPath, forKey: "index")
+            
+            return cell
         }
-     
-                                     
-        
-        
-        else if notificationArray[indexPath.row].type == "mention" {
-            cell.infoLbl.text = "has mentioned you."
-        }
-        else if notificationArray[indexPath.row].type == "comment" {
-            cell.infoLbl.text = "has commented your post."
-        }
-        else if notificationArray[indexPath.row].type == "follow" {
-            cell.infoLbl.text = "is now following you."
-            //print("its a follow")
-        }
-        else if notificationArray[indexPath.row].type == "like" {
-            cell.infoLbl.text = "likes your post."
-        }
-        
-        
-        // asign index of button
-        cell.usernameBtn.layer.setValue(indexPath, forKey: "index")
-        
-        return cell
-    }
         return cell
     }
     
@@ -618,8 +609,8 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
         }
         
         if notificationArray[indexPath.row].type == "approvePhoneNumber" {
-        return (self.view.frame.size.height/14) + CGFloat(30)
-    }
+            return (self.view.frame.size.height/14) + CGFloat(30)
+        }
         else {
             return self.view.frame.size.height/14
         }

@@ -124,12 +124,7 @@ var navBarView = NavBarView()
                 return
             }
             
-            if self.userDataVM?.userData.value?.identityValues.isEmpty ?? false {
-                let personalDetailTableViewVC = self.storyboard?.instantiateViewController(withIdentifier: "personalDetailTableViewVC") as! PersonalDetailTableViewVC
-                personalDetailTableViewVC.userDataVM = self.userDataVM
-                personalDetailTableViewVC.comingFromHome = true
-                self.present(personalDetailTableViewVC, animated: false, completion: nil)
-            }
+            
             // do changes? maybe refresh
             self.refresh()
             self.setUpPageViewListener()
@@ -350,6 +345,15 @@ var navBarView = NavBarView()
         //loadView()
         
         if (userDataVM?.userData.value != nil) {
+            
+            if self.userDataVM?.userData.value?.identityValues.isEmpty ?? false {
+                let personalDetailTableViewVC = self.storyboard?.instantiateViewController(withIdentifier: "personalDetailTableViewVC") as! PersonalDetailTableViewVC
+                personalDetailTableViewVC.modalPresentationStyle = .fullScreen
+                personalDetailTableViewVC.userDataVM = self.userDataVM
+                personalDetailTableViewVC.comingFromHome = true
+                self.present(personalDetailTableViewVC, animated: false, completion: nil)
+            }
+            
 //            print("populates without getting userdata")
             populateUserAvatar()
             //menuView.userData = userData
@@ -909,7 +913,6 @@ var navBarView = NavBarView()
     
     func setUpNavBarView() {
         let statusBarHeight = UIApplication.shared.statusBarFrame.height
-//        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
         let navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
