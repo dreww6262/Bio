@@ -84,9 +84,16 @@ setUpPDF2()
           pdfView.autoScales = true
           
           // Load Sample.pdf file from app bundle.
-          let fileURL = Bundle.main.url(forResource: pdfString, withExtension: "pdf")
-        print("This is file URL \(fileURL)")
-          pdfView.document = PDFDocument(url: fileURL!)
+        guard let fileURL = Bundle.main.url(forResource: pdfString, withExtension: "pdf") else {
+            let alert = UIAlertController(title: "File Unavailable", message: "Try again later.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { _ in
+                self.dismiss(animated: true, completion: nil)
+            }))
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
+        //print("This is file URL \(fileURL)")
+          pdfView.document = PDFDocument(url: fileURL)
     }
     
    

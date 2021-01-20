@@ -222,6 +222,7 @@ var navBarView = NavBarView()
         var width = view.frame.width
         var height = view.frame.height
         let additionalRowWidth: CGFloat = 340.0
+        var zoomScale: CGFloat = 1
         //     let heightDifference = height - width
         if numPosts < 7 {
             //rows = 1
@@ -230,20 +231,21 @@ var navBarView = NavBarView()
         else if numPosts < 19 {
             //rows = 2
             width += additionalRowWidth
-            height += (additionalRowWidth)
+            height += additionalRowWidth
+            zoomScale = 0.5622340592868583
         }
         else if numPosts  < 43 {
             //rows = 3
             width += (2*additionalRowWidth)
             height += (2*additionalRowWidth)
+            zoomScale = 0.4026423034745347
         }
         else if numPosts < 91 {
             //rows = 4
             width += (3*additionalRowWidth)
             height += (3*additionalRowWidth)
+            zoomScale = 0.3203873021737038
         }
-        //  var addedWidth = 2*(rows-1)*160
-        // var addedHeight =  2 * (rows-1)*160
         
         for view in contentView.subviews {
             view.removeFromSuperview()
@@ -257,20 +259,11 @@ var navBarView = NavBarView()
         }
         
         contentView.frame = CGRect(x: 0,y: 0,width: width, height: height)
-        //scrollView.frame = contentView.frame
-        //scrollView.isScrollEnabled = true
         scrollView.contentSize = CGSize(width: width, height: height)
-//        print("contentviewframe: \(contentView.frame)")
         resetCoordinatePoints()
         let contentOffset = CGPoint(x: contentView.frame.width/2 - view.frame.width/2, y: contentView.frame.height/2 - view.frame.height/2)
-//        print(contentOffset)
         scrollView.contentOffset = contentOffset
-        //scrollView.frame = contentView.frame
-        //scrollView.bounds = contentView.frame
-//        print("content view frame: \(contentView.frame) \(contentView.frame.size)")
-//        print("scrollview content size: \(scrollView.contentSize)")
-//        print("scrollview frame: \(scrollView.frame)")
-//        print("view frame: \(view.frame)")
+        scrollView.setZoomScale(zoomScale, animated: true)
         
         toSettingsButton.isHidden = false
         toSearchButton.isHidden = false

@@ -54,11 +54,12 @@ setUpNavBarView()
         }
     
     func setUpNavBarView() {
-        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
 //        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
-        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        self.navBarView.addBehavior()
+        let navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
        // navBarView.backButton.isHidden = true
         navBarView.backButton.setTitleColor(.systemBlue, for: .normal)
         self.navBarView.backgroundColor = .clear//.systemGray6
@@ -69,14 +70,13 @@ setUpNavBarView()
         backTap.numberOfTapsRequired = 1
         navBarView.backButton.isUserInteractionEnabled = true
         navBarView.backButton.addGestureRecognizer(backTap)
-        navBarView.postButton.frame = CGRect(x: view.frame.width - 60 - 10, y: navBarView.frame.midY - 35/2 + 10, width: 60, height: 35)
+        navBarView.postButton.frame = CGRect(x: view.frame.width - 70 - 10, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 70, height: 25)
         navBarView.postButton.titleLabel?.textAlignment = .right
         navBarView.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 34, height: 34)
 
-        let yOffset = navBarView.frame.maxY
-     
+
       //  self.navBarView.addSubview(titleLabel1)
-        self.navBarView.addBehavior()
+        
         self.navBarView.titleLabel.text = "Report A Bug"
         navBarView.backButton.setImage(UIImage(named: "whiteChevron"), for: .normal)
         self.navBarView.titleLabel.textColor = .white
@@ -116,7 +116,6 @@ setUpNavBarView()
         }
         else {
             let newSuggestion = self.textView.text
-            print("This is the new suggestion: \(newSuggestion)")
             //db.collection("Feedback").addDocument(data: newSuggestion as String)
             
      

@@ -257,6 +257,8 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         contentView.isHidden = false
         scrollView.scrollsToTop = false
         resizeScrollView(numPosts: 0)
+        
+        
     }
     
     func addSearchButton() {
@@ -273,7 +275,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func setZoomScale() {
         scrollView.maximumZoomScale = 60
-        scrollView.minimumZoomScale = 0.5
+        scrollView.minimumZoomScale = 0.3
     }
     
     func addSettingsButton(){
@@ -437,6 +439,8 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         var width = view.frame.width
         var height = view.frame.height
         let additionalRowWidth: CGFloat = 340.0
+        
+        var zoomScale: CGFloat = 1
         //     let heightDifference = height - width
         if numPosts < 7 {
             //rows = 1
@@ -446,16 +450,19 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
             //rows = 2
             width += additionalRowWidth
             height += additionalRowWidth
+            zoomScale = 0.5622340592868583
         }
         else if numPosts  < 43 {
             //rows = 3
             width += (2*additionalRowWidth)
             height += (2*additionalRowWidth)
+            zoomScale = 0.4026423034745347
         }
         else if numPosts < 91 {
             //rows = 4
             width += (3*additionalRowWidth)
             height += (3*additionalRowWidth)
+            zoomScale = 0.3203873021737038
         }
         //  var addedWidth = 2*(rows-1)*160
         // var addedHeight =  2 * (rows-1)*160
@@ -471,6 +478,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         let contentOffset = CGPoint(x: contentView.frame.width/2 - view.frame.width/2, y: contentView.frame.height/2 - view.frame.height/2)
         print(contentOffset)
         scrollView.contentOffset = contentOffset
+        scrollView.setZoomScale(zoomScale, animated: true)
         toSearchButton.isHidden = false
         toSettingsButton.isHidden = false
        // followView.isHidden = false
@@ -506,6 +514,8 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         let horizontalPadding = imageViewSize.width < scrollViewSize.width ? (scrollViewSize.width - imageViewSize.width)/2 : 0
         
         scrollView.contentInset = UIEdgeInsets(top: verticalPadding, left: horizontalPadding, bottom: verticalPadding, right: horizontalPadding)
+        
+        print("Zoom scale: \(scrollView.zoomScale)")
         
     }
     

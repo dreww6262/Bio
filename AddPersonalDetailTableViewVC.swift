@@ -932,6 +932,7 @@ extension AddPersonalDetailTableViewVC: UITableViewDelegate, UITableViewDataSour
             cell.interactiveTextField.inputView = datePicker
             
             cell.interactiveTextField.text = ogBirthday
+            age = calcAge(birthday: ogBirthday)
             
             if cell.interactiveTextField.text != "" {
                 let dateFormater = DateFormatter()
