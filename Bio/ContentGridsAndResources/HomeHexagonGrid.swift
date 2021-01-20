@@ -1488,14 +1488,14 @@ var navBarView = NavBarView()
         let cleanRef = userDataVM?.userData.value?.avaRef.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef ?? "")?alt=media")
         if cleanRef != nil && url != nil {
-        avaImage!.sd_setImage(with: url!, placeholderImage: UIImage(named: "boyprofile"), completed: {_, error, _, _ in
+        avaImage!.sd_setImage(with: url!, placeholderImage: UIImage(named: "user-2"), completed: {_, error, _, _ in
             if error != nil {
                 print(error!.localizedDescription)
             }
         })
         }
         else {
-            avaImage?.image = UIImage(named: "boyprofile")
+            avaImage?.image = UIImage(named: "user-2")
         }
     }
     
@@ -1591,7 +1591,7 @@ var navBarView = NavBarView()
             })
         }
         else {
-            newImageView.image = UIImage(named: "boyprofile")
+            newImageView.image = UIImage(named: "user-2")
         }
         
         self.view.addSubview(newImageView)

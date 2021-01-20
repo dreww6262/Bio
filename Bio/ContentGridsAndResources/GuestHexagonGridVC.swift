@@ -1130,13 +1130,13 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         let cleanRef = guestUserData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
         if (url == nil) {
-            avaImage?.image = UIImage(named: "boyprofile")
+            avaImage?.image = UIImage(named: "user-2")
             return
         }
         avaImage?.sd_setImage(with: url!, completed: {_, error, _, _ in
             if error != nil {
                 print(error!.localizedDescription)
-                self.avaImage?.image = UIImage(named: "boyprofile")
+                self.avaImage?.image = UIImage(named: "user-2")
             }
         })
     }

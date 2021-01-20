@@ -49,7 +49,7 @@ class EditProfilePhotoVC2: UIViewController, UIImagePickerControllerDelegate & U
         })
         }
         else {
-            imageView.image = UIImage(named: "boyprofile")
+            imageView.image = UIImage(named: "user-2")
         }
             
       //  imageView.image = 
@@ -117,6 +117,10 @@ class EditProfilePhotoVC2: UIViewController, UIImagePickerControllerDelegate & U
         picker.delegate = self
         picker.sourceType = .photoLibrary
         picker.allowsEditing = true
+//        var circleMaskImage = UIImageView()
+//        picker.view.addSubview(circleMaskImage)
+//        circleMaskImage.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height/3)
+//        circleMaskImage.backgroundColor = .green
         present(picker, animated: true, completion: nil)
         self.signInButton.setTitle("Change Profile Picture", for: .normal)
     }

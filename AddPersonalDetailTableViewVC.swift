@@ -536,7 +536,9 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
         view.addSubview(continueButton)
         var buttonHeight = CGFloat(55)
         var buttonWidth = CGFloat(view.frame.width*(3/4))
-        continueButton.frame = CGRect(x: (view.frame.width - buttonWidth)/2, y: view.frame.height - buttonHeight - buttonHeight, width: buttonWidth, height: buttonHeight)
+        var heightToBottom = CGFloat(view.frame.height - tableView.frame.maxY)
+        continueButton.frame = CGRect(x: (view.frame.width - buttonWidth)/2, y: tableView.frame.maxY + ((heightToBottom - buttonHeight)/2), width: buttonWidth, height: buttonHeight)
+//        continueButton.frame = CGRect(x: (view.frame.width - buttonWidth)/2, y: view.frame.height - buttonHeight - buttonHeight, width: buttonWidth, height: buttonHeight)
         continueButton.layer.cornerRadius = continueButton.frame.width/40
         continueButton.backgroundColor = .systemBlue
         continueButton.titleLabel!.textColor = .white

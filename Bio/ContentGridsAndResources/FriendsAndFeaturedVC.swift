@@ -132,19 +132,8 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
 //                }
 //            })
 //        }
-        var placeHolderImage = UIImage(named: "boyProfile")
+        var placeHolderImage = UIImage(named: "user-2")
         if url != nil {
-            if cell.userData?.gender == "I am a man" {
-                print("recognized man")
-                placeHolderImage = UIImage(named: "boyProfile")
-            }
-           else if cell.userData?.gender == "I am a woman" {
-                print("recognized woman")
-            placeHolderImage = UIImage(named: "kbit1")
-            }
-           else {
-            placeHolderImage = UIImage()
-           }
             
         
             cell.image.sd_setImage(with: url!, placeholderImage: placeHolderImage, options: .refreshCached) { (_, error, _, _) in
@@ -156,7 +145,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         }
         
         else {
-            cell.image.image = UIImage(named: "boyprofile")
+            cell.image.image = UIImage(named: "user-2")
         }
         cell.image.tag = indexPath.row
         

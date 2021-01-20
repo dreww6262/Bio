@@ -745,7 +745,7 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
                     
                     let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
                     //            print("follower username \(data.publicID)")
-                    let defaultProfileImage = UIImage(named: "boyprofile")
+                    let defaultProfileImage = UIImage(named: "user-2")
 //                    let profileView = ProfileCell()
 //                    profileView.userData = popData
 //                    profileView.profileImageView = UIImageView(frame: self.)
@@ -771,7 +771,7 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
                         })
                     }
                     else {
-                        image.image = UIImage(named: "boyprofile")
+                        image.image = UIImage(named: "user-2")
                     }
                     image.tag = thisIndex
                     

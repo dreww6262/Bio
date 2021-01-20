@@ -15,7 +15,7 @@ class EditProfilePhotoVC: UIViewController, UIImagePickerControllerDelegate & UI
     var cancelButton = UIButton()
     var signInButton = UIButton()
     var imageView = UIImageView()
-    var myImage = UIImage(named: "boyprofile")
+    var myImage = UIImage(named: "user-2")
     let auth = Auth.auth()
     var navBarView = NavBarView()
     var titleLabel1 = UILabel()

@@ -93,6 +93,14 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
                             showBool = false
                             //vc.viewDidLoad()
                             viewControllers.append(vc)
+                        case "socialmedia_venmo":
+                            let vc = ContentVenmoVC()
+                            vc.userDataVM = userDataVM
+                            vc.venmoHex = data
+                            vc.showOpenAppButton = false
+                            showBool = false
+//                            vc.viewDidLoad()
+                            viewControllers.append(vc) 
                         case "pin_city":
                             let vc = ContentCityVC()
                             vc.userDataVM = userDataVM
