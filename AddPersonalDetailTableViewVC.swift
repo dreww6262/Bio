@@ -919,12 +919,13 @@ extension AddPersonalDetailTableViewVC: UITableViewDelegate, UITableViewDataSour
             
             //ToolBar
             let toolbar = UIToolbar();
-            toolbar.sizeToFit()
+            //toolbar.sizeToFit()
             let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker));
             let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
             let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker));
             
-            toolbar.setItems([spaceButton,doneButton], animated: false)
+            toolbar.setItems([cancelButton, spaceButton, doneButton], animated: false)
+            toolbar.sizeToFit()
             let cellTap = UITapGestureRecognizer(target: self, action: #selector(birthdayCellTap))
             cell.addGestureRecognizer(cellTap)
             
