@@ -177,7 +177,7 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
         self.countries.insert("United States", at: 0)
         self.scrollView.addSubview(countryTextField)
         countryPicker.isHidden = true
-        avaImg.image = UIImage(named: "boyprofile")
+        avaImg.image = UIImage(named: "user-2")
         let gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
         let gray = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         // scrollview frame size

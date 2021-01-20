@@ -207,6 +207,10 @@ class CulturalIdentityVC: UIViewController, UITextFieldDelegate, MRCountryPicker
         config.video.automaticTrimToTrimmerMaxDuration = true
         let picker = YPImagePicker(configuration: config)
         picker.didFinishPicking { [unowned picker] items, cancelled in
+//            var circleMaskImage = UIImageView()
+//            picker.view.addSubview(circleMaskImage)
+//            circleMaskImage.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/3)
+//            circleMaskImage.backgroundColor = .green
             
             if (items.count == 1) {
                 let onePostVC = self.storyboard?.instantiateViewController(identifier: "") as! OnePostPreview

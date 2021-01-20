@@ -23,7 +23,7 @@ class EditMusicPostVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     
     //    label.font = UIFontMetrics.default.scaledFont(for: customFont)
     //    label.adjustsFontForContentSizeCategory = true
-    
+    var hasMadeChanges = false
    var textOverlayLabel = UILabel()
     
     var bottomLine = CALayer()
@@ -86,6 +86,12 @@ class EditMusicPostVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     var prioritizeLabel = UILabel()
     var checkBox = UIButton()
     var checkBoxStatus = false
+    var ogMusicLink = ""
+    var ogCaption = ""
+    var ogTextOverlay = ""
+    var ogPhoto = UIImage()
+    var ogCheckboxStatus = false
+    
     
     // reset default size
     var scrollViewHeight : CGFloat = 0
@@ -642,8 +648,30 @@ prioritizeLabel.text = "Prioritize This Post?"
     }
     
     @objc func backButtonpressed() {
+      if ogCaption != captionTextField.text {
+            hasMadeChanges = true
+        } else if ogCheckboxStatus != checkBoxStatus {
+            hasMadeChanges = true
+        }
+        else if ogMusicLink != musicLink {
+            hasMadeChanges = true
+        }
+        
+        if hasMadeChanges {
+            print("Are you sure you want to leave")
+            let sureAlert = UIAlertController(title: "Discard Changes?", message: "Are you sure you want to lose these changes?", preferredStyle: .alert)
+            
+            sureAlert.addAction(UIKit.UIAlertAction(title: "Yes", style: .default, handler: {_ in
+                self.dismiss(animated: true)
+            }))
+            
+            sureAlert.addAction(UIKit.UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            self.present(sureAlert, animated: true, completion: nil)
+        }
+        else {
         print("It should dismiss here")
         self.dismiss(animated: true)
+        }
      }
     
     
@@ -845,6 +873,7 @@ prioritizeLabel.text = "Prioritize This Post?"
         linkHexagonImage.image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
         linkHexagonImageCopy.image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
         self.hasChosenThumbnailImage = true
+        self.hasMadeChanges = true
         self.dismiss(animated: true, completion: nil)
     }
     

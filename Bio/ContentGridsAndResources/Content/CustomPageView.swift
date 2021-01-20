@@ -88,6 +88,14 @@ class CustomPageView: UIViewController {
                             showBool = false
 //                            vc.viewDidLoad()
                             viewControllers.append(vc)
+                        case "socialmedia_venmo":
+                            let vc = ContentVenmoVC()
+                            vc.userDataVM = userDataVM
+                            vc.venmoHex = data
+                            vc.showOpenAppButton = false
+                            showBool = false
+//                            vc.viewDidLoad()
+                            viewControllers.append(vc)
                         default:
                             let vc = ContentLinkVC()
                             vc.webHex = data
@@ -327,6 +335,9 @@ class CustomPageView: UIViewController {
         case (is ContentPhoneVC):
             let imageVC = visibleVCs[0] as! ContentPhoneVC
             text = ""
+        case (is ContentVenmoVC):
+            let imageVC = visibleVCs[0] as! ContentVenmoVC
+            text = ""
                 
             default:
                 let videoVC = visibleVCs[0] as! ContentVideoVC
@@ -534,13 +545,18 @@ class CustomPageView: UIViewController {
             print("final artist \(finalArist)")
         print("final song \(finalSong)")
             onePostPreviewVC.captionTextField.text = hex!.text
+        onePostPreviewVC.ogCaption = hex!.text
+        onePostPreviewVC.ogTextOverlay = hex!.coverText
             onePostPreviewVC.textOverlayTextField.text = hex!.coverText
-            onePostPreviewVC.captionString = hex!.text
+        onePostPreviewVC.captionString = hex!.text
             onePostPreviewVC.textOverlayString = hex!.coverText
             onePostPreviewVC.linkTextField.text = finalArist
+        onePostPreviewVC.ogMusicLink = finalArist
 //            onePostPreviewVC.songNameTextField.text = finalSong
             let isPrioritized = currentVC.webHex?.isPrioritized ?? false
             onePostPreviewVC.checkBoxStatus = isPrioritized
+        onePostPreviewVC.ogCheckboxStatus = isPrioritized
+        onePostPreviewVC.hasMadeChanges = false
             if isPrioritized {
                 onePostPreviewVC.checkBox.setImage(UIImage(named: "check-2"), for: .normal)
             }
