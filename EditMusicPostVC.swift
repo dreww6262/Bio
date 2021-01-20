@@ -211,7 +211,7 @@ class EditMusicPostVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         }
         
         
-        linkTextField.attributedPlaceholder = NSAttributedString(string: "Artist Name (Required)",
+        linkTextField.attributedPlaceholder = NSAttributedString(string: "Track Name (Required)",
                                                                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         linkLogo.frame = CGRect(x: scrollView.frame.width - 40, y: linkTextField.frame.minY, width: 30, height: 30)
         

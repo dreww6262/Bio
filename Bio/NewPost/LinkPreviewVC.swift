@@ -73,14 +73,14 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
         
         view.bringSubviewToFront(navBarView)
         navBarView.bringSubviewToFront(navBarView.titleLabel)
-        webView.addObserver(self, forKeyPath: "URL", options: .new, context: nil)
+        //webView.addObserver(self, forKeyPath: "URL", options: .new, context: nil)
         
         
     }
     
     func setUpCaption() {
         view.addSubview(self.captionTextField)
-        var captionText = webHex?.text
+        let captionText = webHex?.text ?? ""
         self.captionTextField.text = captionText
         let captionFrame = CGRect(x: 0, y: navBarView.frame.maxY, width: view.bounds.width, height: 66)
         self.captionTextField.font = UIFont(name: "DINAlternate-Bold", size: 28)
@@ -97,16 +97,16 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
     }
     
     func setUpNavBarView() {
-        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
         //        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.addSubview(backButton)
         self.navBarView.addSubview(postButton)
-        var alternateTitleLabel = UILabel()
+        let alternateTitleLabel = UILabel()
         self.navBarView.addSubview(alternateTitleLabel)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
         
-        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        let navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
         navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
         //        self.navBarView.addSubview(toSettingsButton)
@@ -133,7 +133,6 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
         postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 40, height: 25)
         //navBarView.postButton.titleLabel?.sizeToFit()
         navBarView.postButton.titleLabel?.textAlignment = .right
-        let yOffset = navBarView.frame.maxY
         
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Preview"
@@ -333,14 +332,43 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
             }
         }
     }
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+//    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+//        if (!readyToPost) {
+//            if let key = change?[NSKeyValueChangeKey.newKey] {
+//
+//                let link = (key as! URL).absoluteString
+//                print("observeValue \(link)") // url value
+//                webHex?.resource = link
+//                readyToPost = true
+//            }
+//        }
+//    }
+    
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         if (!readyToPost) {
-            if let key = change?[NSKeyValueChangeKey.newKey] {
-                let link = (key as! URL).absoluteString
-                print("observeValue \(link)") // url value
-                webHex?.resource = link
-                readyToPost = true
+            
+            guard let url = webView.url else {
+                let alert = UIAlertController(title: "Not a valid link", message: "Please try again", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { _ in
+                    self.dismiss(animated: true, completion: nil)
+                }))
+                self.present(alert, animated: true, completion: nil)
+                return
             }
+            let link = url.absoluteString
+            print("observeValue \(link)") // url value
+            webHex?.resource = link
+            readyToPost = true
         }
+        
+    }
+    
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        let alert = UIAlertController(title: "Not a valid link", message: "Please try again", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { _ in
+            self.dismiss(animated: true, completion: nil)
+        }))
+        self.present(alert, animated: true, completion: nil)
+
     }
 }

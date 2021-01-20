@@ -106,7 +106,7 @@ class CulturalIdentityVC: UIViewController, UITextFieldDelegate, MRCountryPicker
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.addSubview(countryPicker)
+//        view.addSubview(countryPicker)
         countryPicker.dataSource = self
       countryPicker.delegate = self
         self.countries = self.getCountryList()
@@ -566,6 +566,7 @@ class CulturalIdentityVC: UIViewController, UITextFieldDelegate, MRCountryPicker
     
     @objc func cancelCountry() {
         countryPicker.resignFirstResponder()
+        tableView.reloadData()
     }
     
     @IBAction func cancelPressed(_ sender: UIButton) {
@@ -674,7 +675,7 @@ class CulturalIdentityVC: UIViewController, UITextFieldDelegate, MRCountryPicker
         let yOffset = navBarView.frame.maxY
   
         self.navBarView.addBehavior()
-        self.navBarView.titleLabel.text = "Add Your Cultural Identities"
+        self.navBarView.titleLabel.text = "Add Your Ethnicities"
         
        // self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
         self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 140, y: postButton.frame.minY, width: 280, height: 25)

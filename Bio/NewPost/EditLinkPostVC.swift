@@ -112,7 +112,7 @@ class EditLinkPostVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         textOverlayTextField.delegate = self
         
         linkHexagonImageCopy.contentMode = .scaleAspectFit
-       // linkHexagonImageCopy.image = UIImage(named: "addCover")
+        // linkHexagonImageCopy.image = UIImage(named: "addCover")
         scrollView.addSubview(linkHexagonImageCopy)
         linkHexagonImage.isHidden = false
         linkHexagonImageCopy.isHidden = true
@@ -165,11 +165,11 @@ class EditLinkPostVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         subtitleText.frame = CGRect(x:0, y: titleText.frame.origin.y + 30, width: self.view.frame.size.width, height: 30)
         
         
-
+        
         linkTextField.attributedPlaceholder = NSAttributedString(string: "Paste Link Here",
                                                                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
-    
-      
+        
+        
         
         linkHexagonImage.frame = CGRect(x: 40, y: navBarView.frame.maxY + 10, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
         
@@ -186,7 +186,7 @@ class EditLinkPostVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         prioritizeLabel.frame = CGRect(x: 10, y: textOverlayTextField.frame.maxY + 5, width: self.view.frame.size.width - 20, height: 30)
         prioritizeLabel.text = "Prioritize This Post?"
-                checkBox.frame = CGRect(x: 165, y: textOverlayTextField.frame.maxY + 5, width: 30, height: 30)
+        checkBox.frame = CGRect(x: 165, y: textOverlayTextField.frame.maxY + 5, width: 30, height: 30)
         prioritizeLabel.textColor = .white
         
         
@@ -221,14 +221,14 @@ class EditLinkPostVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         prioritizeLabel.layer.addSublayer(bottomLine5)
         bottomLine5.frame = CGRect(x: 0.0, y: prioritizeLabel.frame.height, width: prioritizeLabel.frame.width, height: 1.0)
         
-      prioritizeLabel.backgroundColor = .clear
+        prioritizeLabel.backgroundColor = .clear
         
         linkTextField.attributedPlaceholder = NSAttributedString(string: "Paste Link Here",
                                                                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         captionTextField.attributedPlaceholder = NSAttributedString(string: "Write a Caption... (Optional)",
-                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         textOverlayTextField.attributedPlaceholder = NSAttributedString(string: "Add Text To Cover Photo (Optional)",
-                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+                                                                        attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         
         
         
@@ -238,14 +238,14 @@ class EditLinkPostVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         addLinkLabel.font = UIFont(name: "DINAlternate-Bold", size: 22)
         postButton.titleLabel!.font = UIFont(name: "DINAlternate-Bold", size: 19)
         
-       // insertTextOverlay()
+        // insertTextOverlay()
         insertTextOverlay(linkHexagonImage: linkHexagonImage)
-     //   insertTextOverlay(linkHexagonImage: linkHexagonImageCopy)
+        //   insertTextOverlay(linkHexagonImage: linkHexagonImageCopy)
         if textOverlayString != "" {
             textOverlayLabel.isHidden = false
         }
         else {
-        textOverlayLabel.isHidden = true
+            textOverlayLabel.isHidden = true
         }
     }
     
@@ -261,7 +261,7 @@ class EditLinkPostVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
     }
     
-
+    
     
     override func viewWillAppear(_ animated: Bool) {
         hasChosenThumbnailImage = false
@@ -279,17 +279,17 @@ class EditLinkPostVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func setUpNavBarView() {
         var statusBarHeight = UIApplication.shared.statusBarFrame.height
-//        print("This is status bar height \(statusBarHeight)")
+        //        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.addSubview(backButton)
         self.navBarView.addSubview(postButton)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
-       
+        
         var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
         navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
-//        self.navBarView.addSubview(toSettingsButton)
-//        self.navBarView.addSubview(toSearchButton)
+        //        self.navBarView.addSubview(toSettingsButton)
+        //        self.navBarView.addSubview(toSearchButton)
         
         self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 34, height: 34)
         
@@ -316,30 +316,30 @@ class EditLinkPostVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         postButton.addGestureRecognizer(postTap)
         postButton.setTitle("Next", for: .normal)
         postButton.setTitleColor(myCoolBlue, for: .normal)
-      //  postButton.frame = CGRect(x: (self.view.frame.width) - (topBar.frame.height) - 5, y: 0, width: topBar.frame.height, height: topBar.frame.height)
+        //  postButton.frame = CGRect(x: (self.view.frame.width) - (topBar.frame.height) - 5, y: 0, width: topBar.frame.height, height: topBar.frame.height)
         postButton.titleLabel?.sizeToFit()
         postButton.titleLabel?.textAlignment = .right
         
-    
-      //  self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
         
-    //    backButton.sizeToFit()
+        //  self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
+        
+        //    backButton.sizeToFit()
         postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 40, height: 34)
         navBarView.postButton.titleLabel?.textAlignment = .right
         let yOffset = navBarView.frame.maxY
-  
+        
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Edit Post"
-     //   self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
+        //   self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
         self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: postButton.frame.minY, width: 200, height: 25)
-//        print("This is navBarView.")
-      
+        //        print("This is navBarView.")
+        
     }
     
     @objc func backButtonpressed() {
         print("It should dismiss here")
         self.dismiss(animated: true)
-     }
+    }
     
     
     
@@ -349,8 +349,8 @@ class EditLinkPostVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
         
         if notification.name == UIResponder.keyboardWillShowNotification ||  notification.name == UIResponder.keyboardWillChangeFrameNotification {
-           // self.view.frame.origin.y = -keyboardReact.height
-      //      self.view.frame.origin.y = -self.bottomLine.frame.maxY
+            // self.view.frame.origin.y = -keyboardReact.height
+            //      self.view.frame.origin.y = -self.bottomLine.frame.maxY
         }else{
             self.view.frame.origin.y = 0
         }
@@ -396,7 +396,7 @@ class EditLinkPostVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     
-        
+    
     
     // clicked sign up
     @objc func postTapped(_ sender: UITapGestureRecognizer) {
@@ -408,8 +408,8 @@ class EditLinkPostVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         let username = userData!.publicID
         let numPosts = userData!.numPosts
         
-        if (originalCaption == captionTextField.text! && originalTextOverlay == textOverlayTextField.text && originalPriority == checkBoxStatus && changedPhoto == false) {
-         print("Changed Nothing and Dismiss")
+        if (originalCaption == captionTextField.text! && originalTextOverlay == textOverlayTextField.text && originalPriority == checkBoxStatus && changedPhoto == false && hexData?.resource == linkTextField.text) {
+            print("Changed Nothing and Dismiss")
             self.dismiss(animated: false, completion: nil)
             return
         }
@@ -426,64 +426,66 @@ class EditLinkPostVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             return
         }
         
-        if hasChosenThumbnailImage == false {
-            loadImg(UITapGestureRecognizer())
+        
+        
+        // dismiss keyboard
+        self.view.endEditing(true)
+        
+        // if fields are empty
+        if (linkTextField.text!.isEmpty) {
+            
+            // alert message
+            let alert = UIAlertController(title: "Hold up", message: "Paste a Link or Hit Cancel", preferredStyle: UIAlertController.Style.alert)
+            let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
+            alert.addAction(ok)
+            self.present(alert, animated: true, completion: nil)
+            
+            return
+        }
+        
+        let linkString = "\(linkTextField.text!)"
+        print("This is linkString \(linkString)")
+        let url = URL(string: linkString)
+        if linkString.isValidURL {
+            print("linkString is valid URL")
+            validURL = true
         }
         else {
+            print("linkString is not valid URL \(linkString)")
+            validURL = false
+            let alert = UIAlertController(title: "Invalid URL", message: "Please Enter a Valid Url", preferredStyle: UIAlertController.Style.alert)
+            let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
+            alert.addAction(ok)
+            self.present(alert, animated: true, completion: nil)
             
-            // dismiss keyboard
-            self.view.endEditing(true)
-            
-            // if fields are empty
-            if (linkTextField.text!.isEmpty) {
-                
-                // alert message
-                let alert = UIAlertController(title: "Hold up", message: "Paste a Link or Hit Cancel", preferredStyle: UIAlertController.Style.alert)
-                let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
-                alert.addAction(ok)
-                self.present(alert, animated: true, completion: nil)
-                
-                return
+            return
+        }
+        
+        //let group = DispatchGroup()
+        if (!linkTextField.text!.isEmpty && validURL) {
+            let timestamp = Timestamp.init().seconds
+            let imageFileName = "\(username)_\(timestamp)_link.png"
+            let refText = "userFiles/\(username)/\(imageFileName)"
+            var link = linkTextField.text!
+            if !link.contains("https://") {
+                link = "https://\(link)"
             }
-    
-            let linkString = "\(linkTextField.text!)"
-            print("This is linkString \(linkString)")
-            let url = URL(string: linkString)
-            if linkString.isValidURL {
-                print("linkString is valid URL")
-                validURL = true
+            let trimmedLink = link.trimmingCharacters(in: .whitespaces)
+            let linkHex = HexagonStructData(resource: trimmedLink, type: "link", location: hexData?.location ?? numPosts + 1, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: captionTextField.text ?? "", views: hexData?.views ?? 0, isArchived: false, docID: hexData?.docID ?? "WillBeSetLater", coverText: textOverlayTextField.text ?? "", isPrioritized: checkBoxStatus, array: [])
+            
+            
+            let previewVC = storyboard?.instantiateViewController(identifier: "linkPreview") as! LinkPreviewVC
+            previewVC.webHex = linkHex
+            if changedProfilePic == true {
+                previewVC.thumbImage = linkHexagonImage.image
             }
             else {
-                print("linkString is not valid URL \(linkString)")
-                validURL = false
-                let alert = UIAlertController(title: "Invalid URL", message: "Please Enter a Valid Url", preferredStyle: UIAlertController.Style.alert)
-                let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
-                alert.addAction(ok)
-                self.present(alert, animated: true, completion: nil)
-                
-                return
+                previewVC.thumbImage = UIImage(named: "linkCenter")
             }
+            previewVC.userDataVM = userDataVM
+            previewVC.modalPresentationStyle = .fullScreen
+            self.present(previewVC, animated: false, completion: nil)
             
-            //let group = DispatchGroup()
-            if (!linkTextField.text!.isEmpty && validURL) {
-                let timestamp = Timestamp.init().seconds
-                let imageFileName = "\(username)_\(timestamp)_link.png"
-                let refText = "userFiles/\(username)/\(imageFileName)"
-                var link = linkTextField.text!
-                var trimmedLink = link.trimmingCharacters(in: .whitespaces)
-                let linkHex = HexagonStructData(resource: trimmedLink, type: "link", location: hexData?.location ?? numPosts + 1, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: captionTextField.text ?? "", views: hexData?.views ?? 0, isArchived: false, docID: "WillBeSetLater", coverText: textOverlayTextField.text ?? "", isPrioritized: checkBoxStatus, array: [])
-                let previewVC = storyboard?.instantiateViewController(identifier: "linkPreview") as! LinkPreviewVC
-                previewVC.webHex = linkHex
-                if changedProfilePic == true {
-                previewVC.thumbImage = linkHexagonImage.image
-                }
-                else {
-                    previewVC.thumbImage = UIImage(named: "linkCenter")
-                }
-                previewVC.userDataVM = userDataVM
-                previewVC.modalPresentationStyle = .fullScreen
-                self.present(previewVC, animated: false, completion: nil)
-            }
         }
     }
     
@@ -525,28 +527,28 @@ class EditLinkPostVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             linkHexagonImageCopy.isHidden = false
             checkBox.setImage(UIImage(named: "blueEmpty"), for: .normal)
             checkBoxStatus = false
-           linkHexagonImage.pulse(withIntensity: 1.0, withDuration: 0.1, loop: false)
+            linkHexagonImage.pulse(withIntensity: 1.0, withDuration: 0.1, loop: false)
         }
     }
     
     
     func insertTextOverlay(linkHexagonImage: UIImageView) {
-   // var textOverlayLabel = UILabel()
-    linkHexagonImage.addSubview(textOverlayLabel)
-    textOverlayLabel.clipsToBounds = true
-    textOverlayLabel.textAlignment = .center
-    linkHexagonImage.bringSubviewToFront(textOverlayLabel)
-    //self.contentView.addSubview(imageCopy)
+        // var textOverlayLabel = UILabel()
+        linkHexagonImage.addSubview(textOverlayLabel)
+        textOverlayLabel.clipsToBounds = true
+        textOverlayLabel.textAlignment = .center
+        linkHexagonImage.bringSubviewToFront(textOverlayLabel)
+        //self.contentView.addSubview(imageCopy)
         textOverlayLabel.frame = CGRect(x: 0, y: linkHexagonImage.frame.height*(6/10), width: linkHexagonImage.frame.width, height: 20*(linkHexagonImage.frame.height/150))
-   // textOverlayLabel.frame = CGRect(x: 0, y: linkHexagonImage.frame.height*(6/10), width: linkHexagonImage.frame.width, height: 20)
+        // textOverlayLabel.frame = CGRect(x: 0, y: linkHexagonImage.frame.height*(6/10), width: linkHexagonImage.frame.width, height: 20)
         textOverlayLabel.text = textOverlayTextField.text!
-    textOverlayLabel.numberOfLines = 1
-    textOverlayLabel.font = UIFont(name: "DINAternate-Bold", size: 16)
-    textOverlayLabel.textColor = white
+        textOverlayLabel.numberOfLines = 1
+        textOverlayLabel.font = UIFont(name: "DINAternate-Bold", size: 16)
+        textOverlayLabel.textColor = white
         
-    textOverlayLabel.textAlignment = .center
-
-      //textOverlayLabel.text = "image.hexData!.coverText"
+        textOverlayLabel.textAlignment = .center
+        
+        //textOverlayLabel.text = "image.hexData!.coverText"
         textOverlayLabel.numberOfLines = 1
         textOverlayLabel.font = UIFont(name: "DINAternate-Bold", size: 10)
         textOverlayLabel.textColor = white

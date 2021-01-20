@@ -93,7 +93,7 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
     var iconArray: [UIImage] = []
     
     
-    var placeHolderTextArray: [String] = ["Birthday", "Current City", "Cultural Identity", "Phone Number", "Relationship Status"]
+    var placeHolderTextArray: [String] = ["Birthday", "Current City", "Ethnicities", "Phone Number", "Relationship Status"]
     
     var numPosts = 0
     
@@ -894,7 +894,7 @@ extension AddPersonalDetailTableViewVC: UITableViewDelegate, UITableViewDataSour
         cell.interactiveTextField.textColor = .black
         
         
-        cell.interactiveTextField.attributedPlaceholder = NSAttributedString(string: "Cultural Identity",
+        cell.interactiveTextField.attributedPlaceholder = NSAttributedString(string: "Ethnicities",
                                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         
         
