@@ -151,7 +151,7 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
     
     func setUpNavBarView() {
         var statusBarHeight = UIApplication.shared.statusBarFrame.height
-        print("This is status bar height \(statusBarHeight)")
+//        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
         var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
@@ -183,7 +183,7 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         self.navBarView.titleLabel.text = "Add Content"
       //  self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
         self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: self.toSearchButton.frame.minY, width: 200, height: 25)
-        print("This is navBarView.")
+//        print("This is navBarView.")
         self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
         self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
 

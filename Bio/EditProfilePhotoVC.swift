@@ -84,7 +84,7 @@ class EditProfilePhotoVC: UIViewController, UIImagePickerControllerDelegate & UI
         self.signInButton.frame = CGRect(x: imageView.frame.minX, y: imageView.frame.maxY + 20, width: imageView.frame.width, height: 44)
         self.signInButton.backgroundColor = .darkGray
         self.signInButton.setTitle("Change Profile Picture", for: .normal)
-        print("This is imageview.frame \(imageView.frame)")
+//        print("This is imageview.frame \(imageView.frame)")
         
     }
     

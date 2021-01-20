@@ -71,7 +71,7 @@ var minimumAge = 13
     
     func setUpNavBarView() {
         var statusBarHeight = UIApplication.shared.statusBarFrame.height
-        print("This is status bar height \(statusBarHeight)")
+//        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
         var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
@@ -84,7 +84,7 @@ var minimumAge = 13
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Choose A Profile Picture"
         //self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
-        print("This is navBarView.")
+//        print("This is navBarView.")
         self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 150, y: (self.navBarView.frame.height - 25)/2, width: 300, height: 25)
     }
     

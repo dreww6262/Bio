@@ -378,7 +378,7 @@ class DraggableHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //,
         index1 = 0
         for image in fakeUserImageArray {
             imageViewArray[index1+7].image = fakeUserImageArray[index1]
-            print("This is image \(imageViewArray[index1+7].image)")
+//            print("This is image \(imageViewArray[index1+7].image)")
             fakeUserTotalProfileArray.append(imageViewArray[index1+7].image!)
             index1 = index1+1
             //            fakeUserTotalProfileArray[0].loadGif(named: "hockeygif")

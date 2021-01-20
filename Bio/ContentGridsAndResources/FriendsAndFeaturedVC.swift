@@ -75,9 +75,11 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         if collectionView == profileCollectionView {
-            let array: ThreadSafeArray<UserData> = followingUserDataArray
             
+            let array: ThreadSafeArray<UserData> = followingUserDataArray
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "profileCircleCell", for: indexPath) as! ProfileCircleCell
+            cell.imageView.layer.sublayers = nil
+            cell.imageView.layer.borderWidth = 0
             cell.label.text = array[indexPath.row].displayName
             cell.label.textColor = .white
             cell.label.font = UIFont(name: "DINAlternate-SemiBold", size: 12)
@@ -85,25 +87,43 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
             cell.label.textAlignment = .center
             cell.label.lineBreakMode = NSLineBreakMode.byWordWrapping
             cell.imageView.frame = CGRect(x: cell.frame.width*(2/16), y: 0, width: cell.frame.width*(12/16), height: cell.frame.height*(12/16))
-            //cell.label.sizeToFit()
             cell.imageView.clipsToBounds = true
             cell.imageView.layer.borderWidth = 2.0
-          //  cell.imageView.layer.borderColor = myBlueGreen.cgColor
             cell.label.frame = CGRect(x: 0, y: cell.imageView.frame.maxY, width: cell.frame.width, height: cell.frame.height - cell.imageView.frame.maxY)
-            //cell.imageView.layer.cornerRadius = cell.imageView.frame.width/2
-            cell.imageView.addCircleGradiendBorder(10.0)
+            
+            let dateFormatter = DateFormatter()
+           // dateFormatter.dateFormat = "yyyy-MM-dd' 'HH:mm:ssZ"
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
+            dateFormatter.locale = Locale.init(identifier: "en_GB")
+            dateFormatter.timeZone = NSTimeZone(name: "GMT") as TimeZone?
+
+            
+            let lastTimePostedText = array[indexPath.row].lastTimePosted
+            let lastTimePosted = dateFormatter.date(from: lastTimePostedText)
+            
+            let lastTimeViewedText = userDataVM?.userData.value?.subscriptions[array[indexPath.row].publicID] ?? ""
+            let lastTimeViewed = dateFormatter.date(from: lastTimeViewedText)
+            
+            
+            if lastTimeViewed == nil || lastTimePosted!.compare(lastTimeViewed!) == ComparisonResult.orderedDescending {
+                cell.imageView.addCircleGradiendBorder(10.0)
+            }
+            else {
+                cell.imageView.layer.borderWidth = 3
+                let cornerRadius = cell.imageView.frame.size.width / 2
+                cell.imageView.layer.cornerRadius = cornerRadius
+                cell.imageView.clipsToBounds = true
+                cell.imageView.layer.borderColor = UIColor.gray.cgColor
+            }
+            
             cell.tag = indexPath.row
             cell.imageView.tag = indexPath.row
             cell.label.tag = indexPath.row
             let tapCellGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleCollectionViewTap))
             cell.addGestureRecognizer(tapCellGesture)
-          //  cell.imageView.layer.cornerRadius = cell.imageView.frame.width/2
-            // let ref = array[indexPath.row].avaRef as! StorageReference
-           cell.imageView.sd_setImage(with: storageRef.child(array[indexPath.row].avaRef))
-            
+            cell.imageView.sd_setImage(with: storageRef.child(array[indexPath.row].avaRef))
             
             return cell
-            
         }
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "popCell", for: indexPath) as! PopularCell
@@ -115,7 +135,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         cell.userData = popData
         cell.usernameLabel.text = popData.publicID
         cell.displayNameLabel.text = popData.displayName
-        var cellBio = cell.userData!.bio ?? ""
+        let cellBio = cell.userData!.bio
         cell.userDescriptionLabel.text = cellBio
         let interaction = UIContextMenuInteraction(delegate: self)
         cell.addInteraction(interaction)
@@ -171,7 +191,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
       //  cell.image.addCircleGradiendBorder(10.0)
         
         cell.displayNameLabel.text = cell.userData?.displayName
-        let spaceRemaining = cell.frame.height - cell.image.frame.maxY
+//        let spaceRemaining = cell.frame.height - cell.image.frame.maxY
         
         //set up display name frame
        // cell.displayNameLabel.frame = CGRect(x: 0, y: cell.image.frame.maxY + (spaceRemaining/16), width: cell.frame.width, height: spaceRemaining/2)
@@ -179,14 +199,14 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
             cell.displayNameLabel.isHidden = false
             cell.userDescriptionLabel.isHidden = false
         cell.displayNameLabel.frame = CGRect(x: 0, y: cell.frame.height*(6/10), width: cell.frame.width, height: cell.frame.height*(2/10))
-        let spaceToBottom = cell.frame.height - cell.displayNameLabel.frame.maxY
+//        let spaceToBottom = cell.frame.height - cell.displayNameLabel.frame.maxY
         cell.userDescriptionLabel.frame = CGRect(x: 0, y: cell.displayNameLabel.frame.maxY, width: cell.frame.width, height: cell.frame.height*(2/10))
         }
         else {
             cell.displayNameLabel.isHidden = true
             cell.userDescriptionLabel.isHidden = true
             cell.displayNameLabel.frame = CGRect(x: 0, y: cell.frame.height*(6/10), width: cell.frame.width, height: cell.frame.height*(2/10))
-            let spaceToBottom = cell.frame.height - cell.displayNameLabel.frame.maxY
+//            let spaceToBottom = cell.frame.height - cell.displayNameLabel.frame.maxY
             cell.userDescriptionLabel.frame = CGRect(x: 0, y: cell.displayNameLabel.frame.maxY, width: cell.frame.width, height: cell.frame.height*(2/10))
             cell.displayNameLabel.frame = cell.userDescriptionLabel.frame
             cell.displayNameLabel.isHidden = false
@@ -206,7 +226,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         
         //cell.displayNameLabel.frame = CGRect(x: 0, y: cell.frame.height/2, width: cell.frame.width, height: spaceToBottom)
         
-        var bioArray: [String] = ["Artist", "Activist", "Photographer", "Producer", "Musician", "Student-Athlete", "Entrepreneur", "Teacher", "Professional Athlete", "Just For Fun"]
+//        let bioArray = ["Artist", "Activist", "Photographer", "Producer", "Musician", "Student-Athlete", "Entrepreneur", "Teacher", "Professional Athlete", "Just For Fun"]
         cell.userDescriptionLabel.font = UIFont.italicSystemFont(ofSize: 16)
         cell.userDescriptionLabel.textColor = .black
         cell.userDescriptionLabel.textAlignment = .center
@@ -217,14 +237,14 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
             NSAttributedString.Key.foregroundColor : UIColor.white,
             NSAttributedString.Key.strokeWidth : -2.0,
             NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 18)
-        ] as! [NSAttributedString.Key : Any]
+        ] as [NSAttributedString.Key : Any]
         
         let strokeTextAttributes2 = [
             NSAttributedString.Key.strokeColor : UIColor.black,
             NSAttributedString.Key.foregroundColor : UIColor.white,
             NSAttributedString.Key.strokeWidth : -1.5,
-            NSAttributedString.Key.font : UIFont.init(name: "DINAlternate-Bold", size: 20)
-        ] as! [NSAttributedString.Key : Any]
+            NSAttributedString.Key.font : UIFont(name: "DINAlternate-Bold", size: 20)!
+        ] as [NSAttributedString.Key : Any]
         
 //        let strokeTextAttributes2 = [
 //            NSAttributedString.Key.strokeColor : UIColor.black,
@@ -417,11 +437,11 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
     }
     
     func setUpNavBarView() {
-        var statusBarHeight = UIApplication.shared.statusBarFrame.height
-        print("This is status bar height \(statusBarHeight)")
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
+//        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
-        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        let navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
         navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
         self.navBarView.addSubview(toSettingsButton)
@@ -444,13 +464,10 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         self.toSettingsButton.frame = CGRect(x: 10, y: navBarView.frame.height - 30, width: 25, height: 25)
         self.toSettingsButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
         self.toSearchButton.frame = CGRect(x: navBarView.frame.width - 35, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
-        let yOffset = navBarView.frame.maxY
-      //  self.tableView.frame = CGRect(x: 0, y: yOffset, width: self.view.frame.width, height: self.view.frame.height - yOffset)
-      //  self.navBarView.addSubview(titleLabel1)
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Discover"
         //self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
-        print("This is navBarView.")
+//        print("This is navBarView.")
         self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
         self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
 
@@ -642,13 +659,52 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
         dateFormatter.locale = Locale.init(identifier: "en_GB")
         dateFormatter.timeZone = NSTimeZone(name: "GMT") as TimeZone?
-        array.sort(by: { x, y in
+        
+        var viewed = [UserData]()
+        var notViewed = [UserData]()
+        
+        for follower in array {
+            let lastTimePostedText = follower.lastTimePosted
+            let lastTimePosted = dateFormatter.date(from: lastTimePostedText)
+            
+            let lastTimeViewedText = userDataVM?.userData.value?.subscriptions[follower.publicID] ?? ""
+            let lastTimeViewed = dateFormatter.date(from: lastTimeViewedText)
+            
+            
+            if lastTimeViewed == nil || lastTimePosted!.compare(lastTimeViewed!) == ComparisonResult.orderedDescending {
+                notViewed.append(follower)
+            }
+            else {
+                viewed.append(follower)
+            }
+        }
+        
+        array = [UserData]()
+
+        notViewed.sort(by: { x, y in
             let xDate = dateFormatter.date(from: x.lastTimePosted)
             
             let yDate = dateFormatter.date(from: y.lastTimePosted)
             
             return xDate!.compare(yDate!) == ComparisonResult.orderedDescending
         })
+        viewed.sort(by: { x, y in
+            let xDate = dateFormatter.date(from: x.lastTimePosted)
+            
+            let yDate = dateFormatter.date(from: y.lastTimePosted)
+            
+            return xDate!.compare(yDate!) == ComparisonResult.orderedDescending
+        })
+        
+        for follower in notViewed {
+            array.append(follower)
+        }
+        
+        for follower in viewed {
+            array.append(follower)
+        }
+        
+        
         followingUserDataArray.setArray(array: array)
         profileCollectionView?.reloadData()
     }

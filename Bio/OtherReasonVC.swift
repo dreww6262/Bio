@@ -28,7 +28,7 @@ class OtherReasonVC: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.textView.delegate = self
-setUpNavBarView()
+        setUpNavBarView()
         setUpTextView()
         // Do any additional setup after loading the view.
     }
@@ -56,11 +56,12 @@ setUpNavBarView()
         }
     
     func setUpNavBarView() {
-        var statusBarHeight = UIApplication.shared.statusBarFrame.height
-        print("This is status bar height \(statusBarHeight)")
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
+//        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
-        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        self.navBarView.addBehavior()
+        let navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
        // navBarView.backButton.isHidden = true
         navBarView.backButton.setTitleColor(.systemBlue, for: .normal)
         self.navBarView.backgroundColor = .clear//.systemGray6
@@ -74,16 +75,13 @@ setUpNavBarView()
      
         navBarView.postButton.titleLabel?.textAlignment = .right
         navBarView.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 34, height: 34)
-        navBarView.postButton.frame = CGRect(x: view.frame.width - 60 - 10 - 5, y: navBarView.postButton.frame.minY, width: 60, height: 34)
-
-        let yOffset = navBarView.frame.maxY
-     
+        navBarView.postButton.frame = CGRect(x: view.frame.width - 100, y: navBarView.postButton.frame.minY, width: 80, height: 25)     
       //  self.navBarView.addSubview(titleLabel1)
-        self.navBarView.addBehavior()
+        
         self.navBarView.titleLabel.text = "Report A Post"
         navBarView.backButton.setImage(UIImage(named: "whiteChevron"), for: .normal)
         self.navBarView.titleLabel.textColor = .white
-        print("This is navBarView.")
+//        print("This is navBarView.")
 
         
         self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 200, height: 25)
@@ -91,8 +89,8 @@ setUpNavBarView()
         let submitTap = UITapGestureRecognizer(target: self, action: #selector(self.submitPressed))
         self.navBarView.postButton.setTitle("Submit", for: .normal)
         self.navBarView.postButton.addGestureRecognizer(submitTap)
-       // self.navBarView.postButton.titleLabel?.sizeToFit()
-        self.navBarView.postButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        self.navBarView.postButton.titleLabel?.sizeToFit()
+        //self.navBarView.postButton.titleLabel?.adjustsFontSizeToFitWidth = true
         self.navBarView.backButton.addGestureRecognizer(dismissTap)
 
     }

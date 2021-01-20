@@ -96,7 +96,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
     
     func setUpNavBarView() {
         var statusBarHeight = UIApplication.shared.statusBarFrame.height
-        print("This is status bar height \(statusBarHeight)")
+//        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
         var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
@@ -120,7 +120,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Settings"
         self.navBarView.titleLabel.textColor = .black
-        print("This is navBarView.")
+//        print("This is navBarView.")
   //      self.navBarView.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 34, height: 34)
         self.navBarView.postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 40, height: 34)
         self.navBarView.postButton.titleLabel?.sizeToFit()

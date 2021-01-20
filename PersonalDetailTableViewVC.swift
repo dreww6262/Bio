@@ -79,7 +79,7 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
     var comingFromHome = false
     
     
-    var placeHolderTextArray: [String] = ["Birthday (Required)", "Current City (Required)", "Gender (Required)", "Cultural Identity", "Phone Number", "Relationship Status"]
+    var placeHolderTextArray: [String] = ["Birthday (Required)", "Current City (Required)", "Gender (Required)", "Ethnicities", "Phone Number", "Relationship Status"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -665,7 +665,7 @@ extension PersonalDetailTableViewVC: UITableViewDelegate, UITableViewDataSource 
         cell.interactiveTextField.textColor = .black
         
         
-        cell.interactiveTextField.attributedPlaceholder = NSAttributedString(string: "Cultural Identity",
+        cell.interactiveTextField.attributedPlaceholder = NSAttributedString(string: "Ethnicities",
                                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         
         

@@ -550,8 +550,7 @@ class CustomPageView: UIViewController {
             onePostPreviewVC.textOverlayTextField.text = hex!.coverText
         onePostPreviewVC.captionString = hex!.text
             onePostPreviewVC.textOverlayString = hex!.coverText
-            onePostPreviewVC.linkTextField.text = finalArist
-        onePostPreviewVC.ogMusicLink = finalArist
+            onePostPreviewVC.linkTextField.text = "\(finalSong), \(finalArist)"
 //            onePostPreviewVC.songNameTextField.text = finalSong
             let isPrioritized = currentVC.webHex?.isPrioritized ?? false
             onePostPreviewVC.checkBoxStatus = isPrioritized

@@ -143,10 +143,6 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
         followingView.isHidden = true
         setUpCollectionView()
         
-        //   print("This is total count \(reOrderedCoordinateArrayPoints.count)")
-        // var unique = reOrderedCoordinateArrayPoints.removingDuplicates()
-        //  print("This is the new unique one \(reOrderedCoordinateArrayPoints.count)")
-        
         observeUserData()
     }
     
@@ -391,11 +387,11 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
     
     
     func setUpNavBarView() {
-        var statusBarHeight = UIApplication.shared.statusBarFrame.height
-        print("This is status bar height \(statusBarHeight)")
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
+//        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
-        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        let navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
         navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
         self.navBarView.addSubview(toSettingsButton)
@@ -420,11 +416,9 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
         self.toSettingsButton.frame = CGRect(x: 10, y: navBarView.frame.height - 30, width: 25, height: 25)
         self.toSettingsButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
         self.toSearchButton.frame = CGRect(x: navBarView.frame.width - 35, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
-        let yOffset = navBarView.frame.maxY
-        //  self.navBarView.addSubview(titleLabel1)
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.isHidden = true
-        print("This is navBarView.")
+//        print("This is navBarView.")
         self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
         self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
         
@@ -701,10 +695,7 @@ class DiscoverGrid: UIViewController, UIScrollViewDelegate, UICollectionViewData
     }
     
     @objc func handleCollectionViewTap(_ sender: UITapGestureRecognizer) {
-        //        print("🎯🎯🎯🎯🎯Hello World")
-        //        print("🎯🎯🎯🎯🎯🎯🎯I tapped image with tag \(sender.view!.tag)")
-        let username = followingUserDataArray[sender.view!.tag].publicID
-        //        print("🎯🎯🎯🎯🎯🎯🎯 I tapped image with associated username: \(username)")
+        //let username = followingUserDataArray[sender.view!.tag].publicID
         let guestVC = storyboard?.instantiateViewController(identifier: "guestGridVC") as! GuestHexagonGridVC
         //guestVC.user = user
         guestVC.userDataVM = userDataVM

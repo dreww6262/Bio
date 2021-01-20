@@ -711,14 +711,14 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         else if myType == "pin_city" {
             var ttext = hexData.thumbResource
            // ttext = ttext.replacingOccurrences(of: " ", with: "-")
-            print("This is image name \(ttext)")
+//            print("This is image name \(ttext)")
             image.image = UIImage(named: ttext)
             createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
         }
         else if myType == "pin_birthday" {
             var ttext = hexData.text
            // ttext = ttext.replacingOccurrences(of: " ", with: "-")
-            print("This is image name \(ttext)")
+//            print("This is image name \(ttext)")
             image.image = UIImage(named: ttext)
             createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
         }
@@ -944,7 +944,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func setUpNavBarView() {
         let statusBarHeight = UIApplication.shared.statusBarFrame.height
-        print("This is status bar height \(statusBarHeight)")
+//        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
         let navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
@@ -975,7 +975,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
       //  self.navBarView.addSubview(titleLabel1)
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.isHidden = true
-        print("This is navBarView.")
+//        print("This is navBarView.")
         self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
         self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
 

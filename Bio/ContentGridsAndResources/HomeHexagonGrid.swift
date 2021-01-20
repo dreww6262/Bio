@@ -606,21 +606,21 @@ var navBarView = NavBarView()
             createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
         }
         else if myType == "pin_city" {
-            var ttext = hexData.thumbResource
+            let ttext = hexData.thumbResource
            // ttext = ttext.replacingOccurrences(of: " ", with: "-")
-            print("This is image name \(ttext)")
+//            print("This is image name \(ttext)")
             image.image = UIImage(named: ttext)
             createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
         }
         else if myType == "pin_birthday" {
-            var ttext = hexData.text
+            let ttext = hexData.text
            // ttext = ttext.replacingOccurrences(of: " ", with: "-")
-            print("This is image name \(ttext)")
+//            print("This is image name \(ttext)")
             image.image = UIImage(named: ttext)
             createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
         }
         else if myType == "pin_phone" {
-            var ttext = hexData.text
+//            let ttext = hexData.text
             image.backgroundColor = .white
             image.image = UIImage(named: "smartphone")
             createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)

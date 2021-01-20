@@ -108,7 +108,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboard(notification:)), name:UIResponder.keyboardWillChangeFrameNotification, object: nil)
         
         
-        var alreadySnapped = false
+//        let alreadySnapped = false
         super.viewDidLoad()
         titleText.isHidden = true
         subtitleText.isHidden = true
@@ -123,9 +123,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         
         
         //poshmarkLogo.image = UIImage(named: "poshmarkLogo")
-        let gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
-        let gray = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
-        let orange = #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
+        
         
         // scrollview frame size
         scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
@@ -193,7 +191,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
         textOverlayTextField.textColor = .white
         
         
-        var bottomLine5 = CALayer()
+        let bottomLine5 = CALayer()
         bottomLine5.backgroundColor = UIColor.systemGray4.cgColor
         //prioritizeLabel.borderStyle = UITextField.BorderStyle.none
         prioritizeLabel.layer.addSublayer(bottomLine5)
@@ -265,13 +263,13 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     
     func setUpNavBarView() {
         var statusBarHeight = UIApplication.shared.statusBarFrame.height
-        print("This is status bar height \(statusBarHeight)")
+//        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.addSubview(backButton)
         self.navBarView.addSubview(postButton)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
        
-        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        let navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
         navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
 //        self.navBarView.addSubview(toSettingsButton)
@@ -312,13 +310,12 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     //    backButton.sizeToFit()
         postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 40, height: 34)
         navBarView.postButton.titleLabel?.textAlignment = .right
-        let yOffset = navBarView.frame.maxY
   
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Add A Link"
      //   self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
         self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: postButton.frame.minY, width: 200, height: 25)
-        print("This is navBarView.")
+//        print("This is navBarView.")
       
     }
     
@@ -330,7 +327,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     
     
     @objc func keyboard(notification:Notification) {
-        guard let keyboardReact = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else{
+        guard let _ = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else{
             return
         }
         
@@ -423,7 +420,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     
             let linkString = "\(linkTextField.text!)"
             print("This is linkString \(linkString)")
-            let url = URL(string: linkString)
+            //let url = URL(string: linkString)
             if linkString.isValidURL {
                 print("linkString is valid URL")
                 validURL = true
@@ -445,7 +442,10 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
                 let imageFileName = "\(username)_\(timestamp)_link.png"
                 let refText = "userFiles/\(username)/\(imageFileName)"
                 var link = linkTextField.text!
-                var trimmedLink = link.trimmingCharacters(in: .whitespaces)
+                if !link.contains("https://") {
+                    link = "https://\(link)"
+                }
+                let trimmedLink = link.trimmingCharacters(in: .whitespaces)
                 let linkHex = HexagonStructData(resource: trimmedLink, type: "link", location: numPosts + 1, thumbResource: refText, createdAt: NSDate.now.description, postingUserID: username, text: captionTextField.text ?? "", views: 0, isArchived: false, docID: "WillBeSetLater", coverText: textOverlayTextField.text ?? "", isPrioritized: checkBoxStatus, array: [])
                 let previewVC = storyboard?.instantiateViewController(identifier: "linkPreview") as! LinkPreviewVC
                 previewVC.webHex = linkHex
@@ -464,7 +464,6 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
-    
     
     // call picker to select image
     @objc func loadImg(_ recognizer:UITapGestureRecognizer) {

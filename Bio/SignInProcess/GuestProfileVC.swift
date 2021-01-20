@@ -317,7 +317,7 @@ var countryFlag = UIImageView()
         signUpBtn.isUserInteractionEnabled = true
         signUpBtn.isHidden = true
         var statusBarHeight = UIApplication.shared.statusBarFrame.height
-        print("This is status bar height \(statusBarHeight)")
+//        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.addSubview(cancelBtn)
         self.navBarView.addSubview(signUpBtn)
@@ -355,7 +355,7 @@ var countryFlag = UIImageView()
        //self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y:  statusBarHeight + (navBarHeightRemaining - 25)/2, width: 200, height: 25)
        // self.navBarView.titleLabel.sizet
         self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: signUpBtn.frame.minY, width: 200, height: 25)
-        print("This is navBarView.")
+//        print("This is navBarView.")
       
       
     }
