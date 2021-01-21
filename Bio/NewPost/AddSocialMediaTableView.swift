@@ -746,7 +746,7 @@ extension AddSocialMediaTableView: UITableViewDelegate, UITableViewDataSource {
 //            cell.socialMediaIcon.clipsToBounds = true
 //        }
         cell.interactiveTextField.attributedPlaceholder = NSAttributedString(string: placeHolderTextArray[indexPath.row],
-                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00)])
         cell.circularMask.frame = cell.socialMediaIcon.frame
         cell.interactiveTextField.textColor = .white
         cell.interactiveTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)

@@ -71,7 +71,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
         super.viewDidLoad()
         let userData = userDataVM?.userData.value
         setUpNavBarView()
-        navBarView.backgroundColor = .systemGray6
+        navBarView.backgroundColor = UIColor(red: 0.95, green: 0.95, blue: 0.97, alpha: 1.00)
         var myBirthday = userData?.birthday
         //
         tableContents = [
@@ -103,7 +103,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
        // navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
         navBarView.backButton.setTitleColor(.black, for: .normal)
-        self.navBarView.backgroundColor = .clear//.systemGray6
+        self.navBarView.backgroundColor = .clear//UIColor(red: 0.95, green: 0.95, blue: 0.97, alpha: 1.00)
 //        self.navBarView.addSubview(toSettingsButton)
 //        self.navBarView.addSubview(toSearchButton)
 //

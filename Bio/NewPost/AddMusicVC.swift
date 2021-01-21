@@ -194,10 +194,10 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         
         // let bottomLine = CALayer()
         self.bottomLine.frame = CGRect(x: 0.0, y: linkTextField.frame.height, width: linkTextField.frame.width, height: 1.0)
-        self.bottomLine.backgroundColor = UIColor.systemGray4.cgColor
+        self.bottomLine.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
         var bottomLine2 = CALayer()
         bottomLine2.frame = CGRect(x: 0.0, y: sframe.height, width: linkTextField.frame.width, height: 1.0)
-        bottomLine2.backgroundColor = UIColor.systemGray4.cgColor
+        bottomLine2.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
         linkTextField.borderStyle = UITextField.BorderStyle.none
         linkTextField.layer.addSublayer(self.bottomLine)
         linkTextField.backgroundColor = .clear
@@ -210,7 +210,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         linkTextField.font = UIFont(name: "Poppins", size: 20)
         
         var bottomLine3 = CALayer()
-        bottomLine3.backgroundColor = UIColor.systemGray4.cgColor
+        bottomLine3.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
         captionTextField.borderStyle = UITextField.BorderStyle.none
         captionTextField.layer.addSublayer(bottomLine3)
         bottomLine3.frame = CGRect(x: 0.0, y: captionTextField.frame.height, width: captionTextField.frame.width, height: 1.0)
@@ -220,7 +220,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         captionTextField.textColor = .white
         
         var bottomLine4 = CALayer()
-        bottomLine4.backgroundColor = UIColor.systemGray4.cgColor
+        bottomLine4.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
         textOverlayTextField.borderStyle = UITextField.BorderStyle.none
         textOverlayTextField.layer.addSublayer(bottomLine4)
         bottomLine4.frame = CGRect(x: 0.0, y: textOverlayTextField.frame.height, width: textOverlayTextField.frame.width, height: 1.0)
@@ -231,7 +231,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         
         
         var bottomLine5 = CALayer()
-        bottomLine5.backgroundColor = UIColor.systemGray4.cgColor
+        bottomLine5.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
         //prioritizeLabel.borderStyle = UITextField.BorderStyle.none
         prioritizeLabel.layer.addSublayer(bottomLine5)
         bottomLine5.frame = CGRect(x: 0.0, y: prioritizeLabel.frame.height, width: prioritizeLabel.frame.width, height: 1.0)

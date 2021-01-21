@@ -57,7 +57,7 @@ class PDFViewer: UIViewController {
         case .light, .unspecified:
             navBarView.backButton.setImage(UIImage(named: "blackChevron"), for: .normal)
             navBarView.titleLabel.textColor = .black
-            navBarView.backgroundColor = .systemGray6
+            navBarView.backgroundColor = UIColor(red: 0.95, green: 0.95, blue: 0.97, alpha: 1.00)
         case .dark:
             navBarView.backButton.setImage(UIImage(named: "whiteChevron"), for: .normal)
             navBarView.backgroundColor = .black

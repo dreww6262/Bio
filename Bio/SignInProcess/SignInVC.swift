@@ -43,9 +43,9 @@ class SignInVC: UIViewController {
 //    cancelButton.frame = CGRect(x: signInButton.frame.minX, y: signInButton.frame.maxY + 10, width: 100, height: 44)
 //    signInButton.layer.cornerRadius = signInButton.frame.width/20
     self.emailText.attributedPlaceholder = NSAttributedString(string: "Email",
-                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00)])
     self.passwordText.attributedPlaceholder = NSAttributedString(string: "Password",
-                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00)])
     self.emailText.textColor = white
     self.passwordText.textColor = white
     //self.emailText.font = UIFont(name: "Poppins-SemiBold", size: 20)
@@ -57,13 +57,13 @@ class SignInVC: UIViewController {
     
     let bottomLine = CALayer()
     bottomLine.frame = CGRect(x: 0, y: self.emailText.frame.height, width: self.emailText.frame.width, height: 1.0)
-    bottomLine.backgroundColor = UIColor.systemGray4.cgColor
+    bottomLine.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
     self.emailText.borderStyle = UITextField.BorderStyle.none
     self.emailText.layer.addSublayer(bottomLine)
     
     let bottomLine2 = CALayer()
     bottomLine2.frame = CGRect(x: 0, y: passwordText.frame.height, width: passwordText.frame.width, height: 1.0)
-    bottomLine2.backgroundColor = UIColor.systemGray4.cgColor
+    bottomLine2.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
     passwordText.borderStyle = UITextField.BorderStyle.none
     passwordText.layer.addSublayer(bottomLine2)
     

@@ -131,7 +131,7 @@ class CustomPageView: UIViewController {
         
         setBoxes()
         
-      //  view.backgroundColor = .systemGray6
+      //  view.backgroundColor = UIColor(red: 0.95, green: 0.95, blue: 0.97, alpha: 1.00)
      //   view.backgroundColor = .darkGray
         view.backgroundColor = .black
         

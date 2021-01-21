@@ -41,9 +41,9 @@ setUpNavBarView()
         self.placeholderLabel.sizeToFit()
         self.textView.addSubview(placeholderLabel)
         self.textView.frame = CGRect(x: 10, y: self.navBarView.frame.maxY + 20, width: self.view.frame.width - 20, height: 200)
-               placeholderLabel.textColor = UIColor.systemGray4
+               placeholderLabel.textColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00)
                placeholderLabel.isHidden = !textView.text.isEmpty
-        self.placeholderLabel.textColor = .systemGray4
+        self.placeholderLabel.textColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00)
         self.textView.textColor = .white
         self.textView.backgroundColor = .clear
         
@@ -62,7 +62,7 @@ setUpNavBarView()
         let navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
        // navBarView.backButton.isHidden = true
         navBarView.backButton.setTitleColor(.systemBlue, for: .normal)
-        self.navBarView.backgroundColor = .clear//.systemGray6
+        self.navBarView.backgroundColor = .clear//UIColor(red: 0.95, green: 0.95, blue: 0.97, alpha: 1.00)
 //        self.navBarView.addSubview(toSettingsButton)
 //        self.navBarView.addSubview(toSearchButton)
 //

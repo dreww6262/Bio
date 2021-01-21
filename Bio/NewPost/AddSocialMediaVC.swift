@@ -140,31 +140,31 @@ class AddSocialMediaVC: UIViewController {
         
         
         interactiveVenmoTxt.attributedPlaceholder = NSAttributedString(string: "Venmo Username",
-                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00)])
         interactivePoshmarkTxt.attributedPlaceholder = NSAttributedString(string: "Poshmark Username",
-                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00)])
         
         interactiveInstagramTxt.attributedPlaceholder = NSAttributedString(string: "Instagram Username",
-                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00)])
         
         interactiveTikTokText.attributedPlaceholder = NSAttributedString(string: "Tik Tok Username",
-                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00)])
         
         interactiveLinkedInText.attributedPlaceholder = NSAttributedString(string: "LinkedIn Link",
-                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00)])
         
         interactiveSoundCloudText.attributedPlaceholder = NSAttributedString(string: "SoundCloud Link",
-                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00)])
         
         interactiveTwitterHandleTxt.attributedPlaceholder = NSAttributedString(string: "Twitter Handle",
-                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00)])
         interactiveSnapchatUsernameTxt.attributedPlaceholder = NSAttributedString(string: "Snapchat Username",
-                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00)])
         interactiveHudlText.attributedPlaceholder = NSAttributedString(string: "Hudl Link",
-                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00)])
         
         interactiveTwitchText.attributedPlaceholder = NSAttributedString(string: "Twitch Username",
-                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00)])
         
         
         super.viewDidLoad()

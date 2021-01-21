@@ -40,31 +40,31 @@ class ChangePasswordVC: UIViewController {
         
         let bottomLine = CALayer()
         bottomLine.frame = CGRect(x: 0, y: self.currentPasswordText.frame.height, width: self.currentPasswordText.frame.width, height: 1.0)
-        bottomLine.backgroundColor = UIColor.systemGray4.cgColor
+        bottomLine.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
         self.currentPasswordText.borderStyle = UITextField.BorderStyle.none
         self.currentPasswordText.layer.addSublayer(bottomLine)
         
         let bottomLine2 = CALayer()
         bottomLine2.frame = CGRect(x: 0, y: self.newPasswordText.frame.height, width: self.newPasswordText.frame.width, height: 1.0)
-        bottomLine2.backgroundColor = UIColor.systemGray4.cgColor
+        bottomLine2.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
         self.newPasswordText.borderStyle = UITextField.BorderStyle.none
         self.newPasswordText.layer.addSublayer(bottomLine2)
         self.newPasswordText.clipsToBounds = false
         
         let bottomLine3 = CALayer()
         bottomLine3.frame = CGRect(x: 0, y: self.confirmNewPasswordText.frame.height, width: self.confirmNewPasswordText.frame.width, height: 1.0)
-        bottomLine3.backgroundColor = UIColor.systemGray4.cgColor
+        bottomLine3.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
         self.confirmNewPasswordText.borderStyle = UITextField.BorderStyle.none
         self.confirmNewPasswordText.layer.addSublayer(bottomLine3)
         self.confirmNewPasswordText.clipsToBounds = false
         
         currentPasswordText.attributedPlaceholder = NSAttributedString(string: "Current Password",
-                                                                       attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4, NSAttributedString.Key.font: UIFont(name: "Poppins-SemiBold", size: 16)])
+                                                                       attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00), NSAttributedString.Key.font: UIFont(name: "Poppins-SemiBold", size: 16)])
         newPasswordText.attributedPlaceholder = NSAttributedString(string: "New Password",
-                                                                   attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4, NSAttributedString.Key.font: UIFont(name: "Poppins-SemiBold", size: 16)!])
+                                                                   attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00), NSAttributedString.Key.font: UIFont(name: "Poppins-SemiBold", size: 16)!])
         
         confirmNewPasswordText.attributedPlaceholder = NSAttributedString(string: "Confirm Password",
-                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4, NSAttributedString.Key.font: UIFont(name: "Poppins-SemiBold", size: 16)!])
+                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00), NSAttributedString.Key.font: UIFont(name: "Poppins-SemiBold", size: 16)!])
         
         currentPasswordText.font = UIFont(name: "Poppins-SemiBold", size: 16)
         newPasswordText.font = UIFont(name: "Poppins-SemiBold", size: 16)

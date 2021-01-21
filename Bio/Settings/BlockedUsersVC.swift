@@ -21,7 +21,7 @@ class BlockedUsersVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "blockedCell", for: indexPath) as! BlockedCell
-        cell.backgroundColor = .systemGray6
+        cell.backgroundColor = UIColor(red: 0.95, green: 0.95, blue: 0.97, alpha: 1.00)
         
         cell.contentView.frame = cell.bounds
         
@@ -280,7 +280,7 @@ class BlockedUsersVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         tableView.frame = CGRect(x: 0, y: searchBar.frame.maxY, width: view.frame.width, height: view.frame.height - searchBar.frame.maxY)
         
-        tableView.backgroundColor = .systemGray6
+        tableView.backgroundColor = UIColor(red: 0.95, green: 0.95, blue: 0.97, alpha: 1.00)
         tableView.rowHeight = 45
         
         tableView.delegate = self

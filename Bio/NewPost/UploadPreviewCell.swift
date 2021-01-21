@@ -54,22 +54,22 @@ class UploadPreviewCell: UITableViewCell {
 //        locationView.frame = CGRect(x: 0, y: tagView.frame.maxY, width: self.frame.width, height: 44)
         
         bottomLine.frame = CGRect(x: 0, y: 100, width: self.frame.width, height: 0.1)
-        bottomLine.backgroundColor = UIColor.systemGray4.cgColor
+        bottomLine.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
         self.layer.addSublayer(bottomLine)
         
         let dividingLine = CALayer()
         dividingLine.frame = CGRect(x: 0, y: 100, width: self.frame.width, height: 0.1)
-        dividingLine.backgroundColor = UIColor.systemGray4.cgColor
+        dividingLine.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
         self.layer.addSublayer(dividingLine)
         
         
         
 //        bottomLine2.frame = CGRect(x: 0, y: self.tagView.frame.maxY , width: self.frame.width, height: 1.0)
-//        bottomLine2.backgroundColor = UIColor.systemGray4.cgColor
+//        bottomLine2.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
 //        self.layer.addSublayer(bottomLine2)
 //        
 //        bottomLine3.frame = CGRect(x: 0, y: self.locationView.frame.maxY , width: self.frame.width, height: 1.0)
-//        bottomLine3.backgroundColor = UIColor.systemGray4.cgColor
+//        bottomLine3.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
 //        self.layer.addSublayer(bottomLine3)
 //        
 //        captionField.frame = CGRect(x: previewImage.frame.maxX, y: previewImage.frame.minY, width: self.frame.width - previewImage.frame.maxX, height: self.frame.height - locationView.frame.minY)

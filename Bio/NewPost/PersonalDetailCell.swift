@@ -25,7 +25,7 @@ var xButton = UIButton()
     
     // default func
     override func layoutSubviews() {
-        self.backgroundColor = .systemGray6
+        self.backgroundColor = UIColor(red: 0.95, green: 0.95, blue: 0.97, alpha: 1.00)
         
         contentView.addSubview(interactiveTextField)
         contentView.addSubview(xButton)
@@ -45,7 +45,7 @@ var xButton = UIButton()
         let bottomLine = CALayer()
         bottomLine.isHidden = true
         bottomLine.frame = CGRect(x: 0.0, y: interactiveTextField.frame.height + 4, width: interactiveTextField.frame.width, height: 1.0)
-        bottomLine.backgroundColor = UIColor.systemGray4.cgColor
+        bottomLine.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
         interactiveTextField.borderStyle = UITextField.BorderStyle.none
         interactiveTextField.layer.addSublayer(bottomLine)
        

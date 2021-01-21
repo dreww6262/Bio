@@ -69,7 +69,7 @@ let dismissTap = UITapGestureRecognizer(target: self, action: #selector(self.bac
         self.titleLabel1.textAlignment = .center
         self.backButton1.titleLabel?.textAlignment = .left
         self.titleLabel1.font = UIFont(name: "DINAlternate-Bold", size: 20)
-        self.navBarView.backgroundColor = .systemGray6
+        self.navBarView.backgroundColor = UIColor(red: 0.95, green: 0.95, blue: 0.97, alpha: 1.00)
     }
     
     @objc func backButtonpressed() {

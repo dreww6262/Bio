@@ -469,7 +469,7 @@ extension NewUploadPreviewVC: UITableViewDelegate, UITableViewDataSource {
 //        cell.previewImage.center = CGPoint(x: cell.contentView.bounds.size.width/2,y: cell.contentView.bounds.size.height/2)
    
         cell.captionField.attributedPlaceholder = NSAttributedString(string: "Write A Caption...",
-                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00)])
    
         print("This is preview image frame \(cell.previewImage.frame)")
         print("This is cell frame \(cell.frame)")

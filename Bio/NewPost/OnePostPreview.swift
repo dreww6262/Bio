@@ -154,7 +154,7 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
         
         let bottomLine = CALayer()
         bottomLine.frame = CGRect(x: 0.0, y: captionTextField.frame.height, width: captionTextField.frame.width, height: 1.0)
-        bottomLine.backgroundColor = UIColor.systemGray4.cgColor
+        bottomLine.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
         captionTextField.borderStyle = UITextField.BorderStyle.none
         captionTextField.layer.addSublayer(bottomLine)
         captionTextField.backgroundColor = .clear
@@ -167,7 +167,7 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
     
         var bottomLine3 = CALayer()
         bottomLine3.frame = CGRect(x: 0.0, y: textOverlayTextField.frame.height, width: textOverlayTextField.frame.width, height: 1.0)
-        bottomLine3.backgroundColor = UIColor.systemGray4.cgColor
+        bottomLine3.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
         textOverlayTextField.borderStyle = UITextField.BorderStyle.none
         textOverlayTextField.layer.addSublayer(bottomLine3)
         textOverlayTextField.backgroundColor = .clear
@@ -176,7 +176,7 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
         
         
         var bottomLine5 = CALayer()
-        bottomLine5.backgroundColor = UIColor.systemGray4.cgColor
+        bottomLine5.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
         //prioritizeLabel.borderStyle = UITextField.BorderStyle.none
         prioritizeLabel.layer.addSublayer(bottomLine5)
         bottomLine5.frame = CGRect(x: 0.0, y: prioritizeLabel.frame.height, width: prioritizeLabel.frame.width, height: 1.0)

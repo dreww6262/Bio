@@ -116,7 +116,7 @@ class CulturalIdentityVC: UIViewController, UITextFieldDelegate, MRCountryPicker
         cancelButton.isHidden = true
         doneButton.isHidden = true
         titleLabel1.isHidden = true
-        view.backgroundColor = .systemGray6
+        view.backgroundColor = UIColor(red: 0.95, green: 0.95, blue: 0.97, alpha: 1.00)
         doneButton.titleLabel!.font = UIFont(name: "DINAlternate-Bold", size: 19)
         setUpNavBarView()
         countryPicker.countryPickerDelegate = self
@@ -766,7 +766,7 @@ extension CulturalIdentityVC: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "personalDetailCell", for: indexPath) as! PersonalDetailCell
         cell.tag = indexPath.row
         cell.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/8)
-        cell.backgroundColor = .systemGray6
+        cell.backgroundColor = UIColor(red: 0.95, green: 0.95, blue: 0.97, alpha: 1.00)
         var myGray = cell.backgroundColor
         cell.layer.borderColor = myGray?.cgColor
         cell.layer.borderWidth = 10

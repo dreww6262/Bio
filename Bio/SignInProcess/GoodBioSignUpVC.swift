@@ -220,75 +220,75 @@ var countryFlag = UIImageView()
    func formatBottomLines(){
     let bottomLine = CALayer()
     bottomLine.frame = CGRect(x: 0, y: self.emailTxt.frame.height, width: self.emailTxt.frame.width, height: 1.0)
-    bottomLine.backgroundColor = UIColor.systemGray4.cgColor
+    bottomLine.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
     self.emailTxt.borderStyle = UITextField.BorderStyle.none
     self.emailTxt.layer.addSublayer(bottomLine)
     
     let bottomLine2 = CALayer()
     bottomLine2.frame = CGRect(x: 0, y: usernameTxt.frame.height, width: usernameTxt.frame.width, height: 1.0)
-    bottomLine2.backgroundColor = UIColor.systemGray4.cgColor
+    bottomLine2.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
     usernameTxt.borderStyle = UITextField.BorderStyle.none
     usernameTxt.layer.addSublayer(bottomLine2)
     
     let bottomLine3 = CALayer()
     bottomLine3.frame = CGRect(x: 0, y: self.displayNameTxt.frame.height, width: self.displayNameTxt.frame.width, height: 1.0)
-    bottomLine3.backgroundColor = UIColor.systemGray4.cgColor
+    bottomLine3.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
     self.displayNameTxt.borderStyle = UITextField.BorderStyle.none
     self.displayNameTxt.layer.addSublayer(bottomLine3)
     
     let bottomLine4 = CALayer()
     bottomLine4.frame = CGRect(x: 0, y: passwordTxt.frame.height, width: passwordTxt.frame.width, height: 1.0)
-    bottomLine4.backgroundColor = UIColor.systemGray4.cgColor
+    bottomLine4.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
     passwordTxt.borderStyle = UITextField.BorderStyle.none
     passwordTxt.layer.addSublayer(bottomLine4)
     
     
     let bottomLine5 = CALayer()
     bottomLine5.frame = CGRect(x: 0, y: repeatPassword.frame.height, width: repeatPassword.frame.width, height: 1.0)
-    bottomLine5.backgroundColor = UIColor.systemGray4.cgColor
+    bottomLine5.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
     repeatPassword.borderStyle = UITextField.BorderStyle.none
     repeatPassword.layer.addSublayer(bottomLine5)
 
     let bottomLine7 = CALayer()
     bottomLine7.frame = CGRect(x: 0, y: countryTextField.frame.height, width: countryPicker.frame.width, height: 1.0)
-    bottomLine7.backgroundColor = UIColor.systemGray4.cgColor
+    bottomLine7.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
     countryTextField.borderStyle = UITextField.BorderStyle.none
     countryTextField.layer.addSublayer(bottomLine7)
     
     let bottomLine8 = CALayer()
     bottomLine8.frame = CGRect(x: 0, y: bioTxt.frame.height, width: bioTxt.frame.width, height: 1.0)
-    bottomLine8.backgroundColor = UIColor.systemGray4.cgColor
+    bottomLine8.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
     bioTxt.borderStyle = UITextField.BorderStyle.none
     bioTxt.layer.addSublayer(bottomLine8)
     
     emailTxt.attributedPlaceholder = NSAttributedString(string: "Email Address",
-                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00)])
     emailTxt.textColor = .white
     usernameTxt.attributedPlaceholder = NSAttributedString(string: "Username",
-                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00)])
     usernameTxt.textColor = .white
     displayNameTxt.attributedPlaceholder = NSAttributedString(string: "Display Name",
-                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00)])
     displayNameTxt.textColor = .white
     passwordTxt.attributedPlaceholder = NSAttributedString(string: "Password",
-                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00)])
     passwordTxt.textColor = .white
     repeatPassword.attributedPlaceholder = NSAttributedString(string: "Repeat Password",
-                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00)])
     repeatPassword.textColor = .white
     
 
     
     self.countryTextField.attributedPlaceholder = NSAttributedString(string: "Country",
-                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00)])
     self.countryTextField.textColor = .white
     
     self.bioTxt.attributedPlaceholder = NSAttributedString(string: "Bio",
-                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00)])
     self.bioTxt.textColor = .white
     
 //    self.txtDatePicker.attributedPlaceholder = NSAttributedString(string: "Repeat Password",
-//                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+//                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00)])
     
     
 //    emailTxt.font = UIFont(name: "Poppins-SemiBold", size: 17)
