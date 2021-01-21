@@ -11,51 +11,48 @@ import WebKit
 import PDFKit
 
 class PDFViewer: UIViewController {
-var navBarView = NavBarView()
-var webView = WKWebView()
-var pdfString = "Bio Beta Terms of Service"
-var titleString = ""
+    var navBarView = NavBarView()
+    var webView = WKWebView()
+    var pdfString = "Bio Beta Terms of Service"
+    var titleString = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(webView)
         setUpNavBarView()
-setUpPDF2()
+        setUpPDF2()
     }
     
     func setUpNavBarView() {
-        var statusBarHeight = UIApplication.shared.statusBarFrame.height
-//        print("This is status bar height \(statusBarHeight)")
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
+        //        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
-        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
-       // navBarView.backButton.isHidden = true
+        let navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        // navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
         navBarView.backButton.setTitleColor(.black, for: .normal)
-        self.navBarView.backgroundColor = .clear//.systemGray6
-//        self.navBarView.addSubview(toSettingsButton)
-//        self.navBarView.addSubview(toSearchButton)
-//
+        self.navBarView.backgroundColor = .clear//UIColor(red: 0.95, green: 0.95, blue: 0.97, alpha: 1.00).cgColor
+
+
+6
+        //        self.navBarView.addSubview(toSettingsButton)
+        //        self.navBarView.addSubview(toSearchButton)
+        //
         let backTap = UITapGestureRecognizer(target: self, action: #selector(self.backButtonpressed))
         backTap.numberOfTapsRequired = 1
         navBarView.backButton.isUserInteractionEnabled = true
         navBarView.backButton.addGestureRecognizer(backTap)
-
+        
         navBarView.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 34, height: 34)
-
-        let yOffset = navBarView.frame.maxY
-    //    self.webView.frame = CGRect(x: 0, y: yOffset, width: self.view.frame.width, height: self.view.frame.height - yOffset)
-      //  self.navBarView.addSubview(titleLabel1)
+        
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = titleString
         self.navBarView.titleLabel.textColor = .black
-//        print("This is navBarView.")
-  //      self.navBarView.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 34, height: 34)
         self.navBarView.postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 40, height: 34)
         self.navBarView.postButton.titleLabel?.sizeToFit()
         self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: self.navBarView.postButton.frame.minY, width: 200, height: 25)
         
-     //   self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: self.navBarView.backButton.frame.minY, width: 200, height: 25)
         switch traitCollection.userInterfaceStyle {
         case .light, .unspecified:
             navBarView.backButton.setImage(UIImage(named: "blackChevron"), for: .normal)
@@ -66,7 +63,7 @@ setUpPDF2()
             navBarView.backgroundColor = .black
             navBarView.titleLabel.textColor = .white
         }
-
+        
     }
     
     @objc func backButtonpressed() {
@@ -76,14 +73,14 @@ setUpPDF2()
     
     func setUpPDF2() {
         let pdfView = PDFView(frame: self.view.bounds)
-          pdfView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-          self.view.addSubview(pdfView)
+        pdfView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.view.addSubview(pdfView)
         pdfView.frame = CGRect(x: 0, y: self.navBarView.frame.maxY, width: view.frame.width, height: view.frame.height - self.navBarView.frame.maxY)
-          
-          // Fit content in PDFView.
-          pdfView.autoScales = true
-          
-          // Load Sample.pdf file from app bundle.
+        
+        // Fit content in PDFView.
+        pdfView.autoScales = true
+        
+        // Load Sample.pdf file from app bundle.
         guard let fileURL = Bundle.main.url(forResource: pdfString, withExtension: "pdf") else {
             let alert = UIAlertController(title: "File Unavailable", message: "Try again later.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { _ in
@@ -93,19 +90,6 @@ setUpPDF2()
             return
         }
         //print("This is file URL \(fileURL)")
-          pdfView.document = PDFDocument(url: fileURL)
+        pdfView.document = PDFDocument(url: fileURL)
     }
-    
-   
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
