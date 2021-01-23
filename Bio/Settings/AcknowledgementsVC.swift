@@ -34,8 +34,8 @@ class AcknowledgementsVC: QuickTableViewController {
                                   "Report User"]
     var accountActionsArray = ["Log Out"]
     
-   var mitLicenseArray = ["This software uses QuickTableViewController - See License", "This software uses SDWebImage - See License", "This software uses YPImagePicker - See License", "This software uses MRCountryPicker - See License", "This software uses MapKit - See License", "This software uses PDFKit - See License", "This software uses IQKeyboardManagerSwift - See License", "This software uses WebKit - See License"]
-   var mitLicensePDFTitleArray = ["MIT License - QuickTableViewController","MIT License - SDWebImage","MIT License - YPImagePicker","MIT License - MRCountryPicker","MIT License - MapKit","MIT License - PDFKit","MIT License - IQKeyboardManagerSwift","MIT License - WebKit"]
+   var mitLicenseArray = ["This software uses QuickTableView - See License", "This software uses SDWebImage - See License", "This software uses YPImagePicker - See License", "This software uses MRCountryPicker - See License", "This software uses MapKit - See License", "This software uses PDFKit - See License", "This software uses IQKeyboardManagerSwift - See License"]
+   var mitLicensePDFTitleArray = ["MIT License - QuickTableView","MIT License - SDWebImage","MIT License - YPImagePicker","MIT License - MRCountryPicker","MIT License - MapKit","MIT License - PDFKit","MIT License - IQKeyboardManagerSwift"]
 
     
     var settingsTitleArray: [String] = ["Name",
@@ -78,12 +78,12 @@ class AcknowledgementsVC: QuickTableViewController {
         var myBirthday = userData?.birthday
         //
         tableContents = [
-            Section(title: "My Account", rows: [
+            Section(title: "Acknowlegements", rows: [
                         NavigationRow(text: mitLicenseArray[0], detailText: .value1(name)!, icon: .named("gear"), action: didToggleSelection()),
                         NavigationRow(text: mitLicenseArray[1], detailText: .value1(email)!, icon: .named("globe"), action: didToggleSelection()), NavigationRow(text: mitLicenseArray[2], detailText: .none, icon: .none, action: didToggleSelection()),
                         NavigationRow(text: mitLicenseArray[3], detailText: .none, icon: .none, action: didToggleSelection()),
                         NavigationRow(text: mitLicenseArray[4], detailText: .value1(myBirthday ?? ""), icon: .none, action: didToggleSelection()),
-                        NavigationRow(text: mitLicenseArray[5], detailText: .value1(userData?.country ?? ""), action: didToggleSelection()), NavigationRow(text: mitLicenseArray[6], detailText: .value1(userData?.bio ?? ""), action: didToggleSelection()), NavigationRow(text: mitLicenseArray[7], detailText: .value1(email)!, icon: .named("time"), action: didToggleSelection())])]
+                        NavigationRow(text: mitLicenseArray[5], detailText: .value1(userData?.country ?? ""), action: didToggleSelection()), NavigationRow(text: mitLicenseArray[6], detailText: .value1(userData?.bio ?? ""), action: didToggleSelection())])]
                        
         
         
@@ -239,14 +239,7 @@ class AcknowledgementsVC: QuickTableViewController {
                 pdfVC.modalPresentationStyle = .fullScreen
                 self!.present(pdfVC, animated: false)
             }
-            else if row.text == self!.mitLicenseArray[7] {
-                let pdfVC = self?.storyboard?.instantiateViewController(identifier: "pdfViewer") as! PDFViewer
-                pdfVC.pdfString = self!.mitLicensePDFTitleArray[7]
-            pdfVC.titleString = "MIT License"
-            pdfVC.navBarView.titleLabel.text = "MIT License"
-                pdfVC.modalPresentationStyle = .fullScreen
-                self!.present(pdfVC, animated: false)
-            }
+     
         }
             
         }

@@ -84,6 +84,7 @@ setUpPDF2()
           pdfView.autoScales = true
           
           // Load Sample.pdf file from app bundle.
+        print("This is pdfString \(pdfString)")
           let fileURL = Bundle.main.url(forResource: pdfString, withExtension: "pdf")
         print("This is file URL \(fileURL)")
           pdfView.document = PDFDocument(url: fileURL!)
