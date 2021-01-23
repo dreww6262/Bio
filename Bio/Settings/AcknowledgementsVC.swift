@@ -183,65 +183,65 @@ class AcknowledgementsVC: QuickTableViewController {
         return { [weak self] row in
             print("toggled row: \(row.text)")
             
-            if row.text == mitLicenseArray[0] {
+            if row.text == self!.mitLicenseArray[0] {
                 let pdfVC = self?.storyboard?.instantiateViewController(identifier: "pdfViewer") as! PDFViewer
-            pdfVC.pdfString = mitLicensePDFTitleArray[0]
+                pdfVC.pdfString = self!.mitLicensePDFTitleArray[0]
             pdfVC.titleString = "MIT License"
             pdfVC.navBarView.titleLabel.text = "MIT License"
                 pdfVC.modalPresentationStyle = .fullScreen
                 self!.present(pdfVC, animated: false)
             }
-            else if row.text == mitLicenseArray[1] {
+            else if row.text == self!.mitLicenseArray[1] {
                 let pdfVC = self?.storyboard?.instantiateViewController(identifier: "pdfViewer") as! PDFViewer
-            pdfVC.pdfString = mitLicensePDFTitleArray[0]
+                pdfVC.pdfString = self!.mitLicensePDFTitleArray[0]
             pdfVC.titleString = "MIT License"
             pdfVC.navBarView.titleLabel.text = "MIT License"
                 pdfVC.modalPresentationStyle = .fullScreen
                 self!.present(pdfVC, animated: false)
             }
-            else if row.text == mitLicenseArray[2] {
+            else if row.text == self!.mitLicenseArray[2] {
                 let pdfVC = self?.storyboard?.instantiateViewController(identifier: "pdfViewer") as! PDFViewer
-            pdfVC.pdfString = mitLicensePDFTitleArray[2]
+                pdfVC.pdfString = self!.mitLicensePDFTitleArray[2]
             pdfVC.titleString = "MIT License"
             pdfVC.navBarView.titleLabel.text = "MIT License"
                 pdfVC.modalPresentationStyle = .fullScreen
                 self!.present(pdfVC, animated: false)
             }
-            else if row.text == mitLicenseArray[3] {
+            else if row.text == self!.mitLicenseArray[3] {
                 let pdfVC = self?.storyboard?.instantiateViewController(identifier: "pdfViewer") as! PDFViewer
-            pdfVC.pdfString = mitLicensePDFTitleArray[3]
+                pdfVC.pdfString = self!.mitLicensePDFTitleArray[3]
             pdfVC.titleString = "MIT License"
             pdfVC.navBarView.titleLabel.text = "MIT License"
                 pdfVC.modalPresentationStyle = .fullScreen
                 self!.present(pdfVC, animated: false)
             }
-            else if row.text == mitLicenseArray[4] {
+            else if row.text == self!.mitLicenseArray[4] {
                 let pdfVC = self?.storyboard?.instantiateViewController(identifier: "pdfViewer") as! PDFViewer
-            pdfVC.pdfString = mitLicensePDFTitleArray[4]
+                pdfVC.pdfString = self!.mitLicensePDFTitleArray[4]
             pdfVC.titleString = "MIT License"
             pdfVC.navBarView.titleLabel.text = "MIT License"
                 pdfVC.modalPresentationStyle = .fullScreen
                 self!.present(pdfVC, animated: false)
             }
-            else if row.text == mitLicenseArray[5] {
+            else if row.text == self!.mitLicenseArray[5] {
                 let pdfVC = self?.storyboard?.instantiateViewController(identifier: "pdfViewer") as! PDFViewer
-            pdfVC.pdfString = mitLicensePDFTitleArray[5]
+                pdfVC.pdfString = self!.mitLicensePDFTitleArray[5]
             pdfVC.titleString = "MIT License"
             pdfVC.navBarView.titleLabel.text = "MIT License"
                 pdfVC.modalPresentationStyle = .fullScreen
                 self!.present(pdfVC, animated: false)
             }
-            else if row.text == mitLicenseArray[6] {
+            else if row.text == self!.mitLicenseArray[6] {
                 let pdfVC = self?.storyboard?.instantiateViewController(identifier: "pdfViewer") as! PDFViewer
-            pdfVC.pdfString = mitLicensePDFTitleArray[6]
+                pdfVC.pdfString = self!.mitLicensePDFTitleArray[6]
             pdfVC.titleString = "MIT License"
             pdfVC.navBarView.titleLabel.text = "MIT License"
                 pdfVC.modalPresentationStyle = .fullScreen
                 self!.present(pdfVC, animated: false)
             }
-            else if row.text == mitLicenseArray[7] {
+            else if row.text == self!.mitLicenseArray[7] {
                 let pdfVC = self?.storyboard?.instantiateViewController(identifier: "pdfViewer") as! PDFViewer
-            pdfVC.pdfString = mitLicensePDFTitleArray[7]
+                pdfVC.pdfString = self!.mitLicensePDFTitleArray[7]
             pdfVC.titleString = "MIT License"
             pdfVC.navBarView.titleLabel.text = "MIT License"
                 pdfVC.modalPresentationStyle = .fullScreen

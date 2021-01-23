@@ -175,7 +175,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
 //        songNameTextField.frame =
         let sframe = CGRect(x: 10, y: linkTextField.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
         
-        captionTextField.frame = CGRect(x: 10, y: linkTextField.maxY + 5, width: self.view.frame.size.width - 20, height: 30)
+        captionTextField.frame = CGRect(x: 10, y: linkTextField.frame.maxY + 5, width: self.view.frame.size.width - 20, height: 30)
         captionTextField.attributedPlaceholder = NSAttributedString(string: "Write a Caption... (Optional)",
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         textOverlayTextField.frame = CGRect(x: 10, y: captionTextField.frame.maxY + 5, width: self.view.frame.size.width - 20, height: 30)
