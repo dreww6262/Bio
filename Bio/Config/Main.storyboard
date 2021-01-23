@@ -2088,6 +2088,21 @@
             </objects>
             <point key="canvasLocation" x="-9078" y="-4740"/>
         </scene>
+        <!--AcknowledgementsVC-->
+        <scene sceneID="DaC-mt-CNc">
+            <objects>
+                <viewController storyboardIdentifier="acknowledgementsVC" id="nzk-QB-r9o" customClass="AcknowledgementsVC" customModule="Bio" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="DNU-1R-LU6">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="v5q-gJ-Na3"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jPS-9c-Bp5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-8585" y="-5525"/>
+        </scene>
         <!--Edit Profile PhotoVC2-->
         <scene sceneID="t60-dl-Hxg">
             <objects>
@@ -3085,7 +3100,7 @@
         <image name="boyprofile" width="216" height="233"/>
         <image name="cameraicon" width="128" height="102"/>
         <image name="cancel11" width="64" height="64"/>
-        <image name="cancel2" width="256" height="256"/>
+        <image name="cancel2" width="64" height="64"/>
         <image name="check-5" width="64" height="64"/>
         <image name="clearMusic" width="1280" height="1280"/>
         <image name="gradBG" width="488" height="780"/>

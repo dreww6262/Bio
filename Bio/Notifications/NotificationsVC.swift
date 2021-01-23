@@ -581,7 +581,7 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
             let copyTap = UITapGestureRecognizer(target: self, action: #selector(buttonViewLinkAction))
             cell.phoneButton.addGestureRecognizer(copyTap)
 //            cell.addSubview(phoneNumberButton)
-            phoneNumberButton.frame = CGRect(x: cell.infoLbl.frame.minX + 16, y: cell.infoLbl.frame.maxY, width: cell.frame.width - cell.infoLbl.frame.minX, height: 30)
+            phoneNumberButton.frame = CGRect(x: cell.infoLbl.frame.minX + 16, y: cell.infoLbl.frame.maxY, width: cell.frame.width - cell.infoLbl.frame.minX, height: 20)
             phoneNumberButton.sizeToFit()
         }
      
@@ -621,7 +621,7 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
         }
         
         if notificationArray[indexPath.row].type == "approvePhoneNumber" {
-        return (self.view.frame.size.height/14) + CGFloat(30)
+        return (self.view.frame.size.height/14) + CGFloat(20)
     }
         else {
             return self.view.frame.size.height/14

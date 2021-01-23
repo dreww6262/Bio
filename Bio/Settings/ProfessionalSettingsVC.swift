@@ -474,10 +474,10 @@ class ProfessionalSettingsVC: QuickTableViewController {
                 
             }
           else if row.text == "Acknowledgements" {
-            let pdfVC = self?.storyboard?.instantiateViewController(identifier: "pdfViewer") as! PDFViewer
+            let pdfVC = self?.storyboard?.instantiateViewController(identifier: "acknowledgementsVC") as! AcknowledgementsVC
             pdfVC.navBarView.titleLabel.text = "Acknowledgements"
-            pdfVC.titleString = "Acknowledgements"
-            pdfVC.pdfString = "Bio Beta Terms of Service"
+//            pdfVC.titleString = "Acknowledgements"
+//            pdfVC.pdfString = "Bio Beta Terms of Service"
             pdfVC.modalPresentationStyle = .fullScreen
             self!.present(pdfVC, animated: false)
                 
