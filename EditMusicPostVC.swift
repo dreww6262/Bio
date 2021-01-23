@@ -179,7 +179,7 @@ class EditMusicPostVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         
         linkHexagonImage.frame = CGRect(x: 40, y: navBarView.frame.maxY + 10, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
         
-        linkHexagonImage.setupHexagonMask(lineWidth: linkHexagonImage.frame.width/15, color: myBlueGreen, cornerRadius: linkHexagonImage.frame.width/15)
+        linkHexagonImage.setupHexagonMask(lineWidth: linkHexagonImage.frame.width/15, color: myCoolBlue, cornerRadius: linkHexagonImage.frame.width/15)
         linkTextField.frame = CGRect(x: 10, y: linkHexagonImage.frame.maxY + 20, width: self.view.frame.size.width - 20, height: 30)
         linkTextField.attributedPlaceholder = NSAttributedString(string: "Artist",
                                                                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
