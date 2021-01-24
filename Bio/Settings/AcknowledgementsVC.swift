@@ -30,7 +30,7 @@ class AcknowledgementsVC: QuickTableViewController {
                                   "I spotted a bug",
                                   "I have a Suggestion",
                                   "Privacy Policy",
-                                  "Terms of Service",
+                                  "Terms and Conditions",
                                   "Report User"]
     var accountActionsArray = ["Log Out"]
     
@@ -49,7 +49,7 @@ class AcknowledgementsVC: QuickTableViewController {
                                         "I spotted a bug",
                                         "I have a Suggestion",
                                         "Privacy Policy",
-                                        "Terms of Service",
+                                        "Terms and Conditions",
                                         "Report User", "Log Out"]
     
     var user = "\(Auth.auth().currentUser?.email ?? "")"

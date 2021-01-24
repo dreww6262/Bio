@@ -13,7 +13,7 @@ import PDFKit
 class PDFViewer: UIViewController {
 var navBarView = NavBarView()
 var webView = WKWebView()
-var pdfString = "Bio Beta Terms of Service"
+var pdfString = "Bio Beta Terms and Conditions"
 var titleString = ""
     
     override func viewDidLoad() {

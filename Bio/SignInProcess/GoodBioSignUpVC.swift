@@ -24,6 +24,14 @@ class GoodBioSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavi
 //    var userData: UserData?
     var country = ""
     var GDPRCountries: [String] = ["Austria", "Belgium", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Germany", "Greece", "Hungary", "Ireland", "Italy", "Latvia", "Lithuania", "Luxembourg", "Malta", "Netherlands", "Poland", "Portugal", "Romania", "Slovakia", "Slovenia", "Spain", "Sweden"]
+    var checkBox = UIButton()
+    var checkBoxStatus = false
+    var checkBox2 = UIButton()
+    var checkBoxStatus2 = false
+    var termsOfServiceLabel = UILabel()
+    var privacyPolicyLabel = UILabel()
+    var termsOfServiceButton = UIButton()
+    var privacyPolicyButton = UIButton()
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -125,6 +133,36 @@ var countryFlag = UIImageView()
     // default func
     override func viewDidLoad() {
         super.viewDidLoad()
+        checkBox.setImage(UIImage(named: "tealEmpty"), for: .normal)
+        checkBox2.setImage(UIImage(named: "tealEmpty"), for: .normal)
+        termsOfServiceLabel.text = "I have read and accept the Terms and Conditions"
+        privacyPolicyLabel.text = "I have read and accept the Privacy Policy"
+        termsOfServiceButton.setTitle("Terms and Conditions", for: .normal)
+        termsOfServiceButton.setTitleColor(.link, for: .normal)
+        privacyPolicyButton.setTitle("Privacy Policy", for: .normal)
+        privacyPolicyButton.setTitleColor(.link, for: .normal)
+        
+        termsOfServiceLabel.textColor = .white
+        privacyPolicyLabel.textColor = .white
+        let checkBoxTap = UITapGestureRecognizer(target: self, action: #selector(checkBoxTapped(_:)))
+        let checkBoxTap2 = UITapGestureRecognizer(target: self, action: #selector(checkBox2Tapped(_:)))
+        
+        let termsTap = UITapGestureRecognizer(target: self, action: #selector(termsOfServiceTapped(_:)))
+        let privacyTap = UITapGestureRecognizer(target: self, action: #selector(privacyPolicyTapped(_:)))
+        //   checkBoxTap.numberOfTapsRequired = 1
+        //checkBox.isUserInteractionEnabled = true
+        checkBox.addGestureRecognizer(checkBoxTap)
+        checkBox2.addGestureRecognizer(checkBoxTap2)
+        termsOfServiceButton.addGestureRecognizer(termsTap)
+        privacyPolicyButton.addGestureRecognizer(privacyTap)
+        termsOfServiceLabel.isUserInteractionEnabled = false
+        privacyPolicyLabel.isUserInteractionEnabled = false
+        view.addSubview(checkBox)
+        view.addSubview(checkBox2)
+        view.addSubview(termsOfServiceLabel)
+        view.addSubview(privacyPolicyLabel)
+        view.addSubview(termsOfServiceButton)
+        view.addSubview(privacyPolicyButton)
         profileImageLabel.isHidden = true
         self.countries = self.getCountryList()
         self.countries = self.countries.sorted(by: <)
@@ -196,6 +234,15 @@ var countryFlag = UIImageView()
         countryTextField.autocorrectionType = .no
         bioTxt.frame = CGRect(x: 10, y: countryTextField.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
         bioTxt.autocorrectionType = .no
+        checkBox.frame = CGRect(x: 10, y: bioTxt.frame.maxY + 5, width: 30, height: 30)
+        checkBox2.frame = CGRect(x: 10, y: checkBox.frame.maxY + 5, width: 30, height: 30)
+        termsOfServiceLabel.frame = CGRect(x: checkBox.frame.maxX + 7, y: bioTxt.frame.maxY + 5, width: view.frame.width - checkBox.frame.maxX - 7, height: 30)
+        privacyPolicyLabel.frame = CGRect(x: checkBox.frame.maxX + 7, y: checkBox.frame.maxY + 5, width: view.frame.width - checkBox.frame.maxX - 7, height: 30)
+        termsOfServiceButton.frame = CGRect(x: 10, y: privacyPolicyLabel.frame.maxY + 5, width: (view.frame.width - 10)/2, height: 30)
+        privacyPolicyButton.frame = CGRect(x: view.frame.width/2, y: privacyPolicyLabel.frame.maxY + 5, width:(view.frame.width - 10)/2, height: 30)
+        privacyPolicyLabel.textAlignment = .left
+        termsOfServiceLabel.textAlignment = .left
+        
         
         signUpBtn.frame = CGRect(x: 10, y: bioTxt.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 40)
         signUpBtn.layer.cornerRadius = signUpBtn.frame.size.width / 20
@@ -213,8 +260,44 @@ var countryFlag = UIImageView()
     }
     
 
+    @objc func skipTapped(_ sender: UITapGestureRecognizer) {
+        let linkVC = storyboard?.instantiateViewController(withIdentifier: "linkVC") as! AddLinkVCViewController
+        linkVC.userDataVM = userDataVM
+        linkVC.cancelLbl = "Skip"
+        self.present(linkVC, animated: false, completion: nil)
+    }
+    
+    @objc func checkBoxTapped(_ sender: UITapGestureRecognizer) {
+        if checkBoxStatus == false {
+            
+            checkBox.setImage(UIImage(named: "check-2"), for: .normal)
+            checkBoxStatus = true
+        
+        }
+        else {
+            checkBox.setImage(UIImage(named: "tealEmpty"), for: .normal)
+            
+            checkBoxStatus = false
+            //    linkHexagonImage.frame = CGRect(x: 40, y: navBarView.frame.maxY + 10, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
+    
+        }
+    }
 
+    @objc func checkBox2Tapped(_ sender: UITapGestureRecognizer) {
+        if checkBoxStatus2 == false {
+            
+            checkBox2.setImage(UIImage(named: "check-2"), for: .normal)
+            checkBoxStatus2 = true
+        
+        }
+        else {
+            checkBox2.setImage(UIImage(named: "tealEmpty"), for: .normal)
+            
+            checkBoxStatus2 = false
 
+    
+        }
+    }
     
     
    func formatBottomLines(){
@@ -329,6 +412,26 @@ var countryFlag = UIImageView()
         self.view.endEditing(true)
     }
     
+    @objc func termsOfServiceTapped(_ recoginizer:UITapGestureRecognizer) {
+        self.view.endEditing(true)
+        let pdfVC = self.storyboard?.instantiateViewController(identifier: "pdfViewer") as! PDFViewer
+        pdfVC.pdfString = "Bio Beta Terms and Conditions"
+        pdfVC.navBarView.titleLabel.text = "Terms and Conditions"
+        pdfVC.titleString = "Terms and Conditions"
+    pdfVC.modalPresentationStyle = .fullScreen
+        self.present(pdfVC, animated: false)
+    }
+    
+    @objc func privacyPolicyTapped(_ recoginizer:UITapGestureRecognizer) {
+        self.view.endEditing(true)
+        let pdfVC = self.storyboard?.instantiateViewController(identifier: "pdfViewer") as! PDFViewer
+pdfVC.pdfString = "Bio Beta Privacy Policy"
+pdfVC.titleString = "Privacy Policy"
+pdfVC.navBarView.titleLabel.text = "Privacy Policy"
+    pdfVC.modalPresentationStyle = .fullScreen
+    self.present(pdfVC, animated: false)
+    }
+    
     
     // show keyboard
     @objc func showKeyboard(_ notification:Notification) {
@@ -402,6 +505,23 @@ var countryFlag = UIImageView()
             
             // alert message
             let alert = UIAlertController(title: "PLEASE", message: "fill all fields", preferredStyle: UIAlertController.Style.alert)
+            let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
+            alert.addAction(ok)
+            self.present(alert, animated: true, completion: nil)
+            
+            return
+        }
+        
+        if checkBoxStatus == false {
+            let alert = UIAlertController(title: "PLEASE", message: "Check the box to accept Terms and Conditions", preferredStyle: UIAlertController.Style.alert)
+            let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
+            alert.addAction(ok)
+            self.present(alert, animated: true, completion: nil)
+            
+            return
+        }
+        if checkBoxStatus2 == false {
+            let alert = UIAlertController(title: "PLEASE", message: "Check the box to accept Privacy Policy", preferredStyle: UIAlertController.Style.alert)
             let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
             alert.addAction(ok)
             self.present(alert, animated: true, completion: nil)
