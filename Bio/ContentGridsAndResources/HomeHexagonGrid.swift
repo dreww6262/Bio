@@ -251,12 +251,12 @@ var navBarView = NavBarView()
             view.removeFromSuperview()
         }
         
-        if (width == contentView.frame.width && height == contentView.frame.height) {
-            toSettingsButton.isHidden = false
-            toSearchButton.isHidden = false
-            followView.isHidden = false
-            return
-        }
+//        if (width == contentView.frame.width && height == contentView.frame.height) {
+//            toSettingsButton.isHidden = false
+//            toSearchButton.isHidden = false
+//            followView.isHidden = false
+//            return
+//        }
         
         contentView.frame = CGRect(x: 0,y: 0,width: width, height: height)
         scrollView.contentSize = CGSize(width: width, height: height)
@@ -338,6 +338,9 @@ var navBarView = NavBarView()
         //loadView()
         
         if (userDataVM?.userData.value != nil) {
+            scrollView.zoomScale = 1
+            let contentOffset = CGPoint(x: contentView.frame.width/2 - view.frame.width/2, y: contentView.frame.height/2 - view.frame.height/2)
+            scrollView.contentOffset = contentOffset
             
             if self.userDataVM?.userData.value?.identityValues.isEmpty ?? false {
                 let personalDetailTableViewVC = self.storyboard?.instantiateViewController(withIdentifier: "personalDetailTableViewVC") as! PersonalDetailTableViewVC
@@ -770,7 +773,7 @@ var navBarView = NavBarView()
         if tabBarController != nil {
             menuView.tabController = (tabBarController! as! NavigationMenuBaseController)
         }
-        scrollView.zoomScale = 1
+        //scrollView.zoomScale = 1
         observeUserData()
         toSearchButton.isHidden = false
         toSettingsButton.isHidden = false

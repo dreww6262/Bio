@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string></string>
+	<string>OSI</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -32,11 +32,11 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>FacebookAppID</key>
 	<string>322329095444680</string>
 	<key>FacebookDisplayName</key>
-	<string>Bio</string>
+	<string>OSI</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>LSApplicationQueriesSchemes</key>
@@ -68,15 +68,15 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Allow bio to use the camera.</string>
+	<string>Allow OSI to use the camera.</string>
 	<key>NSHumanReadableCopyright</key>
 	<string></string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Allow Bio to access location when in use</string>
+	<string>Allow OSI to access location when in use</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Allow bio to access your microphone to take videos.</string>
+	<string>Allow OSI to access your microphone to take videos.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Allow bio to access your photos and videos.</string>
+	<string>Allow OSI to access your photos and videos.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Poppins-Black</string>

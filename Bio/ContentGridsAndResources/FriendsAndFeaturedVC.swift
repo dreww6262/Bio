@@ -560,7 +560,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
     
     
     @objc func followTapped(_ sender: UITapGestureRecognizer) {
-        print("Follow tapped")
+//        print("Follow tapped")
 //        if guestUserData != nil {
 //            if !isFollowing {
 //                let newFollow = ["follower": myUserData!.publicID, "following": guestUserData!.publicID]
@@ -601,13 +601,13 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
     
     func createContextMenu(userData: UserData) -> UIMenu {
         let followAction = UIAction(title: "Follow \(userData.publicID)", image: nil) { _ in
-            print("follow \(userData.publicID)")
+//            print("follow \(userData.publicID)")
        // self.handleProfilePicTap(UITapGestureRecognizer())
             self.followTapped(UITapGestureRecognizer())
     }
         
         let unfollowAction = UIAction(title: "Unfollow \(userData)", image: nil) { _ in
-            print("Unfollow \(userData.publicID)")
+//            print("Unfollow \(userData.publicID)")
             let alert = UIAlertController(title: "Are you sure?", message: nil, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
                 self.followTapped(UITapGestureRecognizer())
@@ -617,7 +617,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
             
     }
         let featuredFollowingList = UIAction(title: "View Who \(userData.publicID) Follows", image: nil) { _ in
-    print("TODO: View their users")
+//    print("TODO: View their users")
             let featuredUserFollowingTableView = self.storyboard?.instantiateViewController(identifier: "followingTableView") as! FollowingTableView
             featuredUserFollowingTableView.userDataVM = self.userDataVM
             self.present(featuredUserFollowingTableView, animated: false)
@@ -756,7 +756,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
                 // STEP 2. Hold received data in followArray
                 // find related objects in "follow" class of Parse
                 for object in objects!.documents {
-                    print (object.data())
+//                    print (object.data())
                     let followerString = object.get("following")
                     if followerString != nil  && !newFollowArray.contains(followerString as! String){
                         newFollowArray.append(followerString as! String)
@@ -774,7 +774,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
     
     
     @objc func handleProfileCellTap(_ sender: UITapGestureRecognizer) {
-        print("Profile Cell Tap sender \(sender)")
+//        print("Profile Cell Tap sender \(sender)")
         //        print("🎯🎯🎯🎯🎯Hello World")
         //        print("🎯🎯🎯🎯🎯🎯🎯I tapped image with tag \(sender.view!.tag)")
         //let username = popularUserDataArray[sender.view!.tag].publicID

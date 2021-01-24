@@ -17,7 +17,7 @@ class LoadingAnimationView1: UIViewController {
         var loopLimit = 20
         //imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: gold, cornerRadius: imageView.frame.width/15)
         view.backgroundColor = .clear
-        imageView.image = UIImage(named: "bioBlue")
+        imageView.image = UIImage(named: "OSILogo")
         imageView.frame = CGRect(x: (view.frame.width/2) - (75), y: (view.frame.height/2) - (75), width: 150, height: 150)
         imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: myBlueGreen, cornerRadius: imageView.frame.width/15)
 

@@ -23,28 +23,23 @@ class ReportPostTableView: QuickTableViewController {
     var hexData: HexagonStructData?
     
     override func viewDidLoad() {
-//        view.addSubview(navBarView)
-//
+        //        view.addSubview(navBarView)
+        //
         setUpNavBarView()
         tableView.frame = CGRect(x: 0, y: navBarView.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - navBarView.frame.maxY)
-//        print("estimated row height \(tableView.estimatedRowHeight)")
-//        print("number of rows in section \(tableView.numberOfRows(inSection: 0))")
-//
-        // Do any additional setup after loading the view.
-       
-        //menuView.isHidden = true
+
         tableContents = [
             Section(title: "Report Post", rows: [
                         NavigationRow(text: "Nudity or sexual activity", detailText: .none, icon: .none), NavigationRow(text: "Hate speech of symbols", detailText: .none, icon: .none), NavigationRow(text: "Violence or dangerous organizations", detailText: .none, icon: .none), NavigationRow(text: "Sale of illegal or regulated goods", detailText: .none, icon: .none),NavigationRow(text: "Bullying or harassment", detailText: .none, icon: .none), NavigationRow(text: "Intellectual property violation", detailText: .none, icon: .none), NavigationRow(text: "Suicide, self-injury or eating disorders", detailText: .none, icon: .none), NavigationRow(text: "Scam or fraud", detailText: .none, icon: .none), NavigationRow(text: "False information", detailText: .none, icon: .none), NavigationRow(text: "Other", detailText: .none, icon: .none)]), Section(title: "Report Post", rows: [
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    NavigationRow(text: "Nudity or sexual activity", detailText: .none, icon: .none), NavigationRow(text: "Hate speech of symbols", detailText: .none, icon: .none), NavigationRow(text: "Violence or dangerous organizations", detailText: .none, icon: .none), NavigationRow(text: "Sale of illegal or regulated goods", detailText: .none, icon: .none),NavigationRow(text: "Bullying or harassment", detailText: .none, icon: .none), NavigationRow(text: "Intellectual property violation", detailText: .none, icon: .none), NavigationRow(text: "Suicide, self-injury or eating disorders", detailText: .none, icon: .none), NavigationRow(text: "Scam or fraud", detailText: .none, icon: .none), NavigationRow(text: "False information", detailText: .none, icon: .none), NavigationRow(text: "Other", detailText: .none, icon: .none)])
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                NavigationRow(text: "Nudity or sexual activity", detailText: .none, icon: .none), NavigationRow(text: "Hate speech of symbols", detailText: .none, icon: .none), NavigationRow(text: "Violence or dangerous organizations", detailText: .none, icon: .none), NavigationRow(text: "Sale of illegal or regulated goods", detailText: .none, icon: .none),NavigationRow(text: "Bullying or harassment", detailText: .none, icon: .none), NavigationRow(text: "Intellectual property violation", detailText: .none, icon: .none), NavigationRow(text: "Suicide, self-injury or eating disorders", detailText: .none, icon: .none), NavigationRow(text: "Scam or fraud", detailText: .none, icon: .none), NavigationRow(text: "False information", detailText: .none, icon: .none), NavigationRow(text: "Other", detailText: .none, icon: .none)])
         ]
         
         print("estimated row height \(tableView.estimatedRowHeight)")
         //print("number of rows in section \(tableView.numberOfRows(inSection: tableContents[0]))")
         
-     //   tableView.reloadData()
+        //   tableView.reloadData()
         
-        }
+    }
     
     func setUpNavBarView() {
         self.view.addSubview(navBarView)
@@ -53,11 +48,11 @@ class ReportPostTableView: QuickTableViewController {
         self.navBarView.addBehavior()
         
         // tap to dismissSettings
-let dismissTap = UITapGestureRecognizer(target: self, action: #selector(self.backButtonpressed))
+        let dismissTap = UITapGestureRecognizer(target: self, action: #selector(self.backButtonpressed))
         dismissTap.numberOfTapsRequired = 1
         self.backButton1.isUserInteractionEnabled = true
         self.backButton1.addGestureRecognizer(dismissTap)
-
+        
         
         self.backButton1.setImage(UIImage(named: "whiteChevron"), for: .normal)
         self.backButton1.setTitleColor(.systemBlue, for: .normal)
@@ -75,61 +70,50 @@ let dismissTap = UITapGestureRecognizer(target: self, action: #selector(self.bac
     @objc func backButtonpressed() {
         print("It should dismiss here")
         self.dismiss(animated: true)
-     }
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-
+        
     }
-
     
-   // override fun
-        
-        override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-          let cell = super.tableView(tableView, cellForRowAt: indexPath)
-          // Alter the cells created by QuickTableViewController
-            print("This is cell \(cell)")
-          return cell
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
+        // Alter the cells created by QuickTableViewController
+        print("This is cell \(cell)")
+        return cell
+    }
+    
+    
+    private func showAlert(_ sender: Row) {
+        // ...
+    }
+    
+    private func didToggleSelection() -> (Row) -> Void {
+        return { [weak self] row in
+            if row.text == "Log Out" {
+                let alert = UIAlertController(title: "Are You Sure?", message: "We will miss you <3", preferredStyle: UIAlertController.Style.alert)
+                let ok = UIAlertAction(title: "Yeah :/", style: UIAlertAction.Style.cancel, handler: {_ in
+                    self?.performSignout()
+                })
+                let nah = UIAlertAction(title: "I'll Stay", style: UIAlertAction.Style.default, handler: nil)
+                alert.addAction(ok)
+                alert.addAction(nah)
+                self!.present(alert, animated: true, completion: nil)
+            }
+            // ...
         }
-
-        
-//    @IBAction func backButtonClicked(_ sender: UIBarButtonItem) {
-////        menuView.homeButtonClicked(sender)
-//    dismiss(animated: false, completion: nil)
-//    }
-    
-        
-        
-    
-
-     private func showAlert(_ sender: Row) {
-       // ...
-     }
-
-     private func didToggleSelection() -> (Row) -> Void {
-       return { [weak self] row in
-        if row.text == "Log Out" {
-            let alert = UIAlertController(title: "Are You Sure?", message: "We will miss you <3", preferredStyle: UIAlertController.Style.alert)
-            let ok = UIAlertAction(title: "Yeah :/", style: UIAlertAction.Style.cancel, handler: {_ in
-                self?.performSignout()
-            })
-            let nah = UIAlertAction(title: "I'll Stay", style: UIAlertAction.Style.default, handler: nil)
-            alert.addAction(ok)
-            alert.addAction(nah)
-            self!.present(alert, animated: true, completion: nil)
-        }
-         // ...
-       }
-     }
+    }
     
     @objc func performSignout() {
         self.performSegue(withIdentifier: "rewindSignOut", sender: self)
     }
-
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         //empty for now.  Used for signout
     }
-   
+    
 }
 

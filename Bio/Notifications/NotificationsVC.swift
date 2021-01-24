@@ -266,7 +266,7 @@ class NotificationsVC: UIViewController {
     
     @objc func buttonViewLinkAction(sender: UITapGestureRecognizer!) {
         let button = sender.view as! UIButton
-        UIPasteboard.general.string = button.titleLabel!.text //
+        UIPasteboard.general.string = button.titleLabel?.text ?? "" //
         let alert = UIAlertController(title: "Copied \(UIPasteboard.general.string!)", message: "", preferredStyle: .alert)
         present(alert, animated: true, completion: nil)
         
@@ -558,19 +558,21 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
                 //     let phoneNumber = phoneNumberUserData.value!.phoneNumber
                 cell.infoLbl.text = "gave you their phone number."
                 cell.phoneButton.isHidden = false
+                cell.phoneButton.titleLabel?.font = UIFont(name: cell.phoneButton.titleLabel!.font.fontName, size: 18)
                 let phoneNumberButton = cell.phoneButton
                 phoneNumberButton.isHidden = false
                 let unformattedPhoneNumber = notificationArray[indexPath.row].ava
                 let formattedPhoneNumber = format(phoneNumber: unformattedPhoneNumber)
                 phoneNumberButton.setTitle(formattedPhoneNumber, for: .normal)
                 //phoneNumberButton.titleLabel?.textColor = .blue
-                phoneNumberButton.setTitleColor(white, for: .normal)
+                phoneNumberButton.setTitleColor(UIColor(red: 0.25, green: 0.59, blue: 0.97, alpha: 1.00), for: .normal)
                 phoneNumberButton.tintColor = .blue
                 let copyTap = UITapGestureRecognizer(target: self, action: #selector(buttonViewLinkAction))
                 cell.phoneButton.addGestureRecognizer(copyTap)
                 //            cell.addSubview(phoneNumberButton)
-                phoneNumberButton.frame = CGRect(x: cell.infoLbl.frame.minX + 16, y: cell.infoLbl.frame.maxY, width: cell.frame.width - cell.infoLbl.frame.minX, height: 30)
-                phoneNumberButton.sizeToFit()
+                phoneNumberButton.frame = CGRect(x: 0, y: cell.infoLbl.frame.maxY, width: cell.frame.width, height: 30)
+                phoneNumberButton.titleLabel?.textAlignment = .center
+                //phoneNumberButton.sizeToFit()
             }
             
             

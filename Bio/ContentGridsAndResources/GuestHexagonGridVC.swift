@@ -51,7 +51,6 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var curvedLayer = UIImageView()
     
     // Flags and tags
-    var firstLoad  = true
     var newPostArray: [PostImageView] = []
     
     // arrays
@@ -476,7 +475,6 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         print("contentviewframe: \(contentView.frame)")
         resetCoordinatePoints()
         let contentOffset = CGPoint(x: contentView.frame.width/2 - view.frame.width/2, y: contentView.frame.height/2 - view.frame.height/2)
-        print(contentOffset)
         scrollView.contentOffset = contentOffset
         scrollView.setZoomScale(zoomScale, animated: true)
         toSearchButton.isHidden = false
@@ -529,38 +527,47 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         //loadView()
         
         if (guestUserData != nil) {
-            print("populates without getting userdata")
+//            print("populates without getting userdata")
+            scrollView.zoomScale = 1
+            let contentOffset = CGPoint(x: contentView.frame.width/2 - view.frame.width/2, y: contentView.frame.height/2 - view.frame.height/2)
+            scrollView.contentOffset = contentOffset
             populateUserAvatar()
             createImageViews()
             return
         }
-        user = Auth.auth().currentUser
-        if (user != nil) {
-            db.collection("UserData1").whereField("email", isEqualTo: user!.email!).getDocuments(completion: { objects, error in
-                if (error == nil) {
-                    if (objects!.documents.capacity > 0) {
-                        let newData = UserData(dictionary: objects!.documents[0].data())
-                        if (self.guestUserData == nil || !NSDictionary(dictionary: newData.dictionary).isEqual(to: self.guestUserData!.dictionary)) {
-                            self.guestUserData = newData
-                            print("populates after getting userdata")
-                            self.populateUserAvatar()
-                            self.createImageViews()
-                            //                        print("created image views")
-                        }
-                        else {
-                            //                        print("nothing changed")
-                        }
-                        
-                    }
-                    else {
-                        print("getting userdata failed: no users by that email")
-                    }
-                }
-                else {
-                    print("error on getting userdata before adding image views")
-                }
-            })
-        }
+//        user = Auth.auth().currentUser
+//        if (user != nil) {
+//            db.collection("UserData1").whereField("email", isEqualTo: user!.email!).getDocuments(completion: { objects, error in
+//                if (error == nil) {
+//                    if (objects!.documents.capacity > 0) {
+//                        let newData = UserData(dictionary: objects!.documents[0].data())
+//                        if (self.guestUserData == nil || !NSDictionary(dictionary: newData.dictionary).isEqual(to: self.guestUserData!.dictionary)) {
+//                            self.guestUserData = newData
+//                            print("populates after getting userdata")
+//                            self.populateUserAvatar()
+//                            self.createImageViews()
+//                            //                        print("created image views")
+//                        }
+//                        else {
+//                            //                        print("nothing changed")
+//                        }
+//
+//                    }
+//                    else {
+//                        print("getting userdata failed: no users by that email")
+//                    }
+//                }
+//                else {
+//                    print("error on getting userdata before adding image views")
+//                }
+//            })
+//        }
+    }
+    
+    var savedContentOffset: CGPoint?
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        savedContentOffset = scrollView.contentOffset
     }
     
     @IBAction func returnPressed(_ sender: Any) {
@@ -636,16 +643,6 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
                 //}
             }
         })
-    }
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        if (firstLoad) {
-//            firstLoad = false
-//            return
-//        }
-//        toSearchButton.isHidden = true
-//        toSettingsButton.isHidden = true
-//        followView.isHidden = true
     }
     
     
@@ -877,7 +874,6 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         //loadView()
         super.viewWillAppear(true) // No need for semicolon
         //        print("search button \(toSearchButton.frame)")
-        firstLoad = true
         returnButton.isHidden = false
         toSearchButton.isHidden = false
         toSettingsButton.isHidden = false
