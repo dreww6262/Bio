@@ -427,7 +427,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
             trimmedText = trimmedText.lowercased()
             print("This is trimmedText \(trimmedText)")
             print("should be a venmo hex!")
-            let venmoHex = HexagonStructData(resource: "https://venmo.com/\(trimmedText)", type: "socialmedia_venmo", location: numPosts, thumbResource: "icons/venmologo.png", createdAt: NSDate.now.description, postingUserID: username, text: "", views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: [])
+            let venmoHex = HexagonStructData(resource: "https://venmo.com/\(trimmedText)", type: "socialmedia_venmo", location: numPosts, thumbResource: "icons/venmologo.png", createdAt: NSDate.now.description, postingUserID: username, text: trimmedText, views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: [])
             group.enter()
             addHex(hexData: venmoHex, completion: { bool in
                 success = success && bool

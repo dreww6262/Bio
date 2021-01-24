@@ -31,7 +31,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
                                   "I spotted a bug",
                                   "I have a Suggestion",
                                   "Privacy Policy",
-                                  "Terms of Service",
+                                  "Terms and Conditions",
                                   "Report User"]
     var accountActionsArray = ["Log Out"]
     
@@ -46,7 +46,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
                                         "I spotted a bug",
                                         "I have a Suggestion",
                                         "Privacy Policy",
-                                        "Terms of Service",
+                                        "Terms and Conditions",
                                         "Report User", "Log Out"]
     
     var user = "\(Auth.auth().currentUser?.email ?? "")"
@@ -87,7 +87,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
                         NavigationRow(text: "I Spotted a Bug", detailText: .none, icon: .named("globe"), action: didToggleSelection()),
                         NavigationRow(text: "I Have a Suggestion", detailText: .none, icon: .named("time"), action: didToggleSelection()),
                         NavigationRow(text: "Privacy Policy", detailText: .none, action: didToggleSelection()),
-                        NavigationRow(text: "Terms of Service", detailText: .none, icon: .named("time"), action: didToggleSelection()), NavigationRow(text: "Acknowledgements", detailText: .none, icon: .named("time"), action: didToggleSelection())]),
+                        NavigationRow(text: "Terms and Conditions", detailText: .none, icon: .named("time"), action: didToggleSelection()), NavigationRow(text: "Acknowledgements", detailText: .none, icon: .named("time"), action: didToggleSelection())]),
             Section(title: "Account Actions", rows: [NavigationRow(text: "Log Out", detailText: .none, icon: .named("gear"), action: didToggleSelection()),NavigationRow(text: "Delete Account", detailText: .none, icon: .none, action: didToggleSelection())])
         ]
         
@@ -463,21 +463,21 @@ class ProfessionalSettingsVC: QuickTableViewController {
                 self!.present(pdfVC, animated: false)
                 
             }
-          else if row.text.contains("Terms of") {
-            print("tap terms of service ")
+          else if row.text.contains("Terms and") {
+           // print("tap terms of service ")
             let pdfVC = self?.storyboard?.instantiateViewController(identifier: "pdfViewer") as! PDFViewer
-            pdfVC.pdfString = "Bio Beta Terms of Service"
-            pdfVC.navBarView.titleLabel.text = "Terms of Service"
-            pdfVC.titleString = "Terms of Service"
+            pdfVC.pdfString = "Bio Beta Terms and Conditions"
+            pdfVC.navBarView.titleLabel.text = "Terms and Conditions"
+            pdfVC.titleString = "Terms and Conditions"
             pdfVC.modalPresentationStyle = .fullScreen
             self!.present(pdfVC, animated: false)
                 
             }
           else if row.text == "Acknowledgements" {
-            let pdfVC = self?.storyboard?.instantiateViewController(identifier: "pdfViewer") as! PDFViewer
+            let pdfVC = self?.storyboard?.instantiateViewController(identifier: "acknowledgementsVC") as! AcknowledgementsVC
             pdfVC.navBarView.titleLabel.text = "Acknowledgements"
-            pdfVC.titleString = "Acknowledgements"
-            pdfVC.pdfString = "Bio Beta Terms of Service"
+//            pdfVC.titleString = "Acknowledgements"
+//            pdfVC.pdfString = "Bio Beta Terms of Service"
             pdfVC.modalPresentationStyle = .fullScreen
             self!.present(pdfVC, animated: false)
                 

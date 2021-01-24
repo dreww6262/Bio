@@ -54,7 +54,7 @@ class ContentCulturalVC: UIViewController, UIScrollViewDelegate {
         countryText2 = ""
         countryText3 = ""
         
-        captionLabel.text = "Nationality"
+        captionLabel.text = "Ethnicity"
         captionLabel.textColor = .black
         captionLabel.font = UIFont(name: "DINAlternate-Bold", size: 28)
         captionLabel.textAlignment = .center

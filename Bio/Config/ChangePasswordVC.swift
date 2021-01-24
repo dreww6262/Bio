@@ -130,7 +130,9 @@ class ChangePasswordVC: UIViewController {
         confirmNewPasswordText.text = ""
         currentPasswordText.text = ""
     }
-
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
     
     func setUpNavBarView() {
         self.view.addSubview(navBarView)

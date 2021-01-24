@@ -611,8 +611,8 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
         }
         
         if notificationArray[indexPath.row].type == "approvePhoneNumber" {
-            return (self.view.frame.size.height/14) + CGFloat(30)
-        }
+        return (self.view.frame.size.height/14) + CGFloat(20)
+    }
         else {
             return self.view.frame.size.height/14
         }

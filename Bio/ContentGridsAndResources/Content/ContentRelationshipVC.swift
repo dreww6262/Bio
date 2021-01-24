@@ -29,17 +29,9 @@ class ContentRelationship: UIViewController, UIScrollViewDelegate {
         setUpScrollView()
         setZoomScale()
         
-        
-        newImageView = UIImageView(image: UIImage(named: "heart-1"))
-        let cleanRef = relationshipHex!.thumbResource.replacingOccurrences(of: "/", with: "%2F")
-        let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
-        if url != nil {
-            newImageView!.sd_setImage(with: url!, completed: {_, error, _, _ in
-                if error != nil {
-                    print(error!.localizedDescription)
-                }
-            })
-        }
+        var imageText = "\(relationshipHex!.text.lowercased())"
+        newImageView = UIImageView(image: UIImage(named: imageText))
+//     /
         scrollView.addSubview(newImageView!)
         scrollView.bringSubviewToFront(newImageView!)
         
@@ -82,7 +74,16 @@ class ContentRelationship: UIViewController, UIScrollViewDelegate {
         scrollView.addSubview(label2)
         scrollView.addSubview(label3)
         var relationshipStatus = relationshipHex!.text
-        var relationshipText = "\(relationshipHex!.resource) is \(relationshipStatus.lowercased())"
+        var relationshipText = ""
+        if relationshipStatus.contains("complicated") {
+         relationshipText = "relationship status: \(relationshipStatus.lowercased())"
+            label1.font = UIFont(name: "DINAlternate-Bold", size: 18)
+        }
+        else {
+        relationshipText = "\(relationshipHex!.resource) is \(relationshipStatus.lowercased())"
+            label1.font = UIFont(name: "DINAlternate-Bold", size: 28)
+        }
+        
         var zodiacLowerCased = "\(relationshipHex!.text)"
         var zodiac = zodiacLowerCased.capitalizingFirstLetter()
         var zodiacText = "Zodiac: \(zodiac)"
@@ -92,7 +93,7 @@ class ContentRelationship: UIViewController, UIScrollViewDelegate {
         label2.text = ""
         label3.text = ""
         let captionFrame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 66)
-        label1.font = UIFont(name: "DINAlternate-Bold", size: 28)
+//        label1.font = UIFont(name: "DINAlternate-Bold", size: 28)
         label3.font = UIFont(name: "DINAlternate-Bold", size: 28)
         label2.font = UIFont(name: "DINAlternate-Bold", size: 28)
         let frame = CGRect(x: view.frame.width/3, y: view.frame.height/12, width: view.frame.width/3, height: view.frame.width/3)
