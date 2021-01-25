@@ -21,18 +21,7 @@ class MenuView: UIView {
     var dmButton: UIButton = UIButton()
     var homeProfileButton: UIButton =  UIButton()
     var tabController: NavigationMenuBaseController?
-//    var userData: UserData? {
-//        didSet {
-//            if (tabController != nil) {
-//                let viewControllers = tabController!.customizableViewControllers!
-//                (viewControllers[0] as! NotificationsVC).userData = userData
-//                (viewControllers[2] as! HomeHexagonGrid).userData = userData
-//                (viewControllers[2] as! HomeHexagonGrid).setUpPageViewListener()
-//                (viewControllers[3] as! FriendsAndFeaturedVC).userData = userData
-//                (viewControllers[4] as! NewPostColorfulVC).userData = userData
-//            }
-//        }
-//    }
+
     var db = Firestore.firestore()
     var user = Auth.auth().currentUser
     
@@ -59,48 +48,6 @@ class MenuView: UIView {
     }
     
     func addBehavior() {
-        
-//        if userData == nil {
-//            user = Auth.auth().currentUser
-//            if user != nil {
-//                db.collection("UserData1").whereField("email", isEqualTo: user!.email!).addSnapshotListener({ objects, error in
-//                    if error == nil {
-//                        guard let docs = objects?.documents
-//                            else{
-//                                print("bad docs")
-//                                return
-//                        }
-//
-//                        if docs.count == 0 {
-//                            print("no userdata found for this user.  Return to sign in")
-//                            do {
-//                                try Auth.auth().signOut()
-//                            }
-//                            catch {
-//                                print("could not sign out from firebase")
-//                            }
-//                            self.user = nil
-//                            self.userData = nil
-//                            self.tabController?.customTabBar.switchTab(from: self.currentTab, to: 5)
-//                        }
-//                        else if docs.count > 1 {
-//                            print("multiple user data.... fix this")
-//                        }
-//                        else {
-//                            self.userData = UserData(dictionary: docs[0].data())
-//                        }
-//                    }
-//                })
-//            }
-//            else {
-//                print("no user signed in.  Transitioning to sign in")
-//                self.user = nil
-//                self.userData = nil
-//                self.tabController?.customTabBar.switchTab(from: self.currentTab, to: 5)
-//            }
-//        }
-        
-        
         self.isUserInteractionEnabled = false
         let superView = self.superview!
         //let thisFrame = self.frame
@@ -114,14 +61,14 @@ class MenuView: UIView {
         superView.addSubview(notificationLabel)
         closeMenuButton.isHidden = true
         superView.addSubview(closeMenuButton)
-     
+        
         
         let buttonWidth = CGFloat(60)
         let halfButtonWidth = CGFloat(30)
         
         //self.backgroundColor = .white
         
-//        print("superFrame \(superFrame)")
+        //        print("superFrame \(superFrame)")
         
         menuButton.frame = CGRect(x: superFrame.width/2-40, y: superFrame.height-112, width: 80, height: 80)
         // round ava
@@ -133,10 +80,10 @@ class MenuView: UIView {
         closeMenuButton.layer.cornerRadius = closeMenuButton.frame.size.width / 2
         closeMenuButton.clipsToBounds = true
         
-//        print ("menuButton frame \(menuButton.frame)")
+        //        print ("menuButton frame \(menuButton.frame)")
         
         //newPostButton.frame = CGRect(x: superFrame.width/5 - halfButtonWidth, y: menuButton.frame.minY, width: buttonWidth, height: buttonWidth)
-    
+        
         notificationsButton.frame = CGRect(x: menuButton.center.x - 130.2829 - halfButtonWidth, y: menuButton.frame.minY + 10, width: buttonWidth, height: buttonWidth)
         
         let notificationSize: CGFloat = 40
@@ -149,54 +96,48 @@ class MenuView: UIView {
         notificationLabel.layer.cornerRadius = notificationSize/2
         notificationLabel.clipsToBounds = true
 
-        //  newPostButton.imageView?.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
-        // round ava
-       // newPostButton.layer.cornerRadius = newPostButton.frame.size.width / 2
         newPostButton.clipsToBounds = true
-//        print ("newpost frame \(newPostButton.frame)")
-        
-//        friendsButton.frame = CGRect(x: superFrame.width/2 - halfButtonWidth, y: superFrame.height - 223, width: buttonWidth, height: buttonWidth)
-//
+
         homeProfileButton.frame = CGRect(x: superFrame.width/2 - halfButtonWidth, y: superFrame.height - 223, width: buttonWidth, height: buttonWidth)
         
-     
+        
         
         friendsButton.frame = CGRect(x: menuButton.center.x + 64.2 - 5, y: superFrame.height - 192 + 10, width: buttonWidth, height: buttonWidth)
-    
+        
         friendsButton.clipsToBounds = true
-
+        
         newPostButton.frame = CGRect(x: menuButton.center.x + 130.2829 - halfButtonWidth, y: superFrame.height - 112 + 10, width: buttonWidth, height: buttonWidth)
-      
+        
         notificationsButton.clipsToBounds = true
-//        print ("settings frame \(settingsButton.frame)")
+        //        print ("settings frame \(settingsButton.frame)")
         
         
         dmButton.frame = CGRect(x: superFrame.width/5 + 5, y: friendsButton.frame.minY, width: buttonWidth, height: buttonWidth)
         dmButton.clipsToBounds = true
         homeProfileButton.clipsToBounds = true
-//        print("home frame \(homeProfileButton.frame)")
+        //        print("home frame \(homeProfileButton.frame)")
         
-        var xDistanceFromHomeToMenuCenter = menuButton.center.x - homeProfileButton.frame.maxX
-
+        let xDistanceFromHomeToMenuCenter = menuButton.center.x - homeProfileButton.frame.maxX
+        
         
         let menuTapped = UITapGestureRecognizer(target: self, action: #selector(tappedMenuButton))
         let closeMenuTapped = UITapGestureRecognizer(target: self, action: #selector(tappedCloseMenuButton))
         let menuDragged = UIPanGestureRecognizer(target: self, action: #selector(draggedMenuButton))
         let menuLongPressed = UILongPressGestureRecognizer(target: self, action: #selector(longPressMenuButton))
-
+        
         menuButton.addGestureRecognizer(menuTapped)
         menuButton.addGestureRecognizer(menuDragged)
         menuButton.addGestureRecognizer(menuLongPressed)
         closeMenuButton.addGestureRecognizer(closeMenuTapped)
-
+        
         
         dmButton.addTarget(self, action: #selector(dmsButtonClicked), for: .touchUpInside)
         friendsButton.addTarget(self, action: #selector(friendsButtonClicked), for: .touchUpInside)
         homeProfileButton.addTarget(self, action: #selector(homeButtonClicked), for: .touchUpInside)
         newPostButton.addTarget(self, action: #selector(newPostButtonClicked), for: .touchUpInside)
-          notificationsButton.addTarget(self, action: #selector(notificationsButtonClicked), for: .touchUpInside)
+        notificationsButton.addTarget(self, action: #selector(notificationsButtonClicked), for: .touchUpInside)
         
-
+        
         
         //hide buttons
         newPostButton.isHidden = true
@@ -244,24 +185,24 @@ class MenuView: UIView {
         //menuButton.imageView?.image = UIImage(named: "k23")
         menuButton.layer.zPosition = 2
     }
-
+    
     @objc func dmsButtonClicked(_ sender: UIButton) {
         for blurview in blurEffectViewArray {
-        blurview.removeFromSuperview()
+            blurview.removeFromSuperview()
         }
         hideMenuOptions()
         //makeAllMenuButtonsClear()
         changeBackToWhiteIcons()
         let alert = UIAlertController(title: "Coming Soon!", message: "DM's and Messenging Will Be Available in the Next Update.", preferredStyle: UIAlertController.Style.alert)
         let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: {_ in
-    })
+        })
         alert.addAction(ok)
         menuButton = closeMenuButton
         let menuTapped = UITapGestureRecognizer(target: self, action: #selector(tappedMenuButton))
         menuButton.addGestureRecognizer(menuTapped)
         hideMenuOptions()
         //makeAllMenuButtonsClear()
-    
+        
         //it goes to close menu button here when i want regular menu button!!!
         closeMenuButton.isHidden = true
         menuButton.isHidden = false
@@ -270,7 +211,7 @@ class MenuView: UIView {
     
     @objc func friendsButtonClicked(_ sender: UIButton) {
         for blurview in blurEffectViewArray {
-        blurview.removeFromSuperview()
+            blurview.removeFromSuperview()
         }
         //makeAllMenuButtonsClear()
         changeBackToWhiteIcons()
@@ -286,15 +227,15 @@ class MenuView: UIView {
         
         //profileGrid.userData = userData
         tabController!.viewControllers![3] = profileGrid
-       // tabController!.viewControllers![currentTab]
+        // tabController!.viewControllers![currentTab]
         tabController!.customTabBar.switchTab(from: currentTab, to: 3)
     }
     
     @objc func newPostButtonClicked(_ sender: UIButton) {
         for blurview in blurEffectViewArray {
-        blurview.removeFromSuperview()
+            blurview.removeFromSuperview()
         }
-      //  makeAllMenuButtonsClear()
+        //  makeAllMenuButtonsClear()
         changeBackToWhiteIcons()
         let viewControllers = tabController!.customizableViewControllers!
         let newPostVC = (viewControllers[4] as! NewPost5OptionsVC)
@@ -311,10 +252,10 @@ class MenuView: UIView {
     
     @objc func notificationsButtonClicked(_ sender: UIButton) {
         for blurview in blurEffectViewArray {
-        blurview.removeFromSuperview()
+            blurview.removeFromSuperview()
         }
         changeBackToWhiteIcons()
-     //   makeAllMenuButtonsClear()
+        //   makeAllMenuButtonsClear()
         let viewControllers = tabController!.customizableViewControllers!
         let notificationsVC = (viewControllers[0] as! NotificationsVC)
         //notificationsVC.userData = userData
@@ -330,9 +271,9 @@ class MenuView: UIView {
     
     @objc func homeButtonClicked(_ sender: Any) {
         for blurview in blurEffectViewArray {
-        blurview.removeFromSuperview()
+            blurview.removeFromSuperview()
         }
-      //  makeAllMenuButtonsClear()
+        //  makeAllMenuButtonsClear()
         changeBackToWhiteIcons()
         let viewControllers = tabController!.customizableViewControllers!
         let homeVC = (viewControllers[2] as! HomeHexagonGrid)
@@ -386,34 +327,34 @@ class MenuView: UIView {
         tipLabel.text = "Tap or Swipe To A Menu Button To Go To That Destination."
         tipLabel.font = UIFont(name: "DINAlternate-Bold", size: 16)
         tipLabel.textColor = .black
-
+        
         blurEffectView.bringSubviewToFront(tipLabel)
-          //hide menu button and replace with close button
-   closeMenuButton = menuButton
-     menuButton.isHidden = true
+        //hide menu button and replace with close button
+        closeMenuButton = menuButton
+        menuButton.isHidden = true
         closeMenuButton.isHidden = false
-  let closeMenuTapped = UITapGestureRecognizer(target: self, action: #selector(tappedCloseMenuButton))
- closeMenuButton.addGestureRecognizer(closeMenuTapped)
-          
-            
-            blurEffectViewArray.append(blurEffectView)
-            superview!.addSubview(blurEffectView)
-            blurEffectView.frame = superview!.frame
-            superview!.bringSubviewToFront(homeProfileButton)
-            superview!.bringSubviewToFront(notificationsButton)
-            superview!.bringSubviewToFront(dmButton)
-            superview!.bringSubviewToFront(friendsButton)
-            superview!.bringSubviewToFront(newPostButton)
-            superview!.bringSubviewToFront(menuButton)
-            superview!.bringSubviewToFront(notificationLabel)
+        let closeMenuTapped = UITapGestureRecognizer(target: self, action: #selector(tappedCloseMenuButton))
+        closeMenuButton.addGestureRecognizer(closeMenuTapped)
+        
+        
+        blurEffectViewArray.append(blurEffectView)
+        superview!.addSubview(blurEffectView)
+        blurEffectView.frame = superview!.frame
+        superview!.bringSubviewToFront(homeProfileButton)
+        superview!.bringSubviewToFront(notificationsButton)
+        superview!.bringSubviewToFront(dmButton)
+        superview!.bringSubviewToFront(friendsButton)
+        superview!.bringSubviewToFront(newPostButton)
+        superview!.bringSubviewToFront(menuButton)
+        superview!.bringSubviewToFront(notificationLabel)
         superview!.addSubview(tipLabel)
         tipLabel.center = superview!.center
-            setNotificationAlertText()
-            showMenuOptions()
+        setNotificationAlertText()
+        showMenuOptions()
         //makeAllMenuButtonsClear()
         changeBackToWhiteIcons()
-
-    
+        
+        
     }
     // TODO: TO DO Redo this for circular border
     @objc func tappedCloseMenuButton(sender: UITapGestureRecognizer) {
@@ -424,13 +365,13 @@ class MenuView: UIView {
         hideMenuOptions()
         makeAllMenuButtonsClear()
         for blurview in blurEffectViewArray {
-        blurview.removeFromSuperview()
+            blurview.removeFromSuperview()
             tipLabel.isHidden = true
             
         }
         closeMenuButton.isHidden = true
         menuButton.isHidden = false
-   
+        
         
     }
     
@@ -456,10 +397,10 @@ class MenuView: UIView {
             setNotificationAlertText()
             showMenuOptions()
             changeBackToWhiteIcons()
-
             
             
-    
+            
+            
         }
         if (sender.state == .changed) {
             //showMenuOptions()
@@ -471,7 +412,7 @@ class MenuView: UIView {
             // button?.imageView?.setupHexagonMask(lineWidth: 10.0, color: red, cornerRadius: 10)
             //button?.imageView?.makeRoundedMyCoolBlue()
             if button != nil {
-            makeTheIconTeal(iconButton: button!)
+                makeTheIconTeal(iconButton: button!)
             }
         }
         if (sender.state == .ended) {
@@ -479,11 +420,11 @@ class MenuView: UIView {
             let button = findMenuHexagonButton(hexCenter: point)
             hideMenuOptions()
             for blurview in blurEffectViewArray {
-            blurview.removeFromSuperview()
+                blurview.removeFromSuperview()
             }
             button?.sendActions(for: .touchUpInside)
             //print("button triggered: \(button?.titleLabel)")
-           
+            
             
             
             //change VC
@@ -492,32 +433,44 @@ class MenuView: UIView {
     
     func changeBackToWhiteIcons() {
         homeProfileButton.imageView?.image = UIImage(named: "clearHouse")
-        dmButton.imageView?.image = UIImage(named: "email1")
+        let buttonWidth: CGFloat = 60
+        let superFrame = self.superview!.frame
+        self.dmButton.setImage(UIImage(named: "email1"), for: .normal)
+        self.dmButton.frame = CGRect(x: superFrame.width/5 + 5, y: self.friendsButton.frame.minY, width: buttonWidth, height: buttonWidth)
+        self.dmButton.imageView?.contentMode = .scaleAspectFill
         friendsButton.imageView?.image = UIImage(named: "twoFriendsFlipped")
         newPostButton.imageView?.image = UIImage(named: "addCircle")
         notificationsButton.imageView?.image = UIImage(named: "bell1")
     }
     
     func makeTheIconTeal(iconButton: UIButton) {
-        if iconButton == newPostButton {
-          //  changeBackToWhiteIcons()
-            newPostButton.imageView?.image = UIImage(named: "newPostTeal100")
-        }
-        else if iconButton == friendsButton {
-          //  changeBackToWhiteIcons()
-            friendsButton.imageView?.image = UIImage(named: "friendsTeal100")
-        }
-        else if iconButton == homeProfileButton {
-         //   changeBackToWhiteIcons()
-            homeProfileButton.imageView?.image = UIImage(named: "houseTeal100")
-        }
-        else if iconButton == dmButton {
-      //      changeBackToWhiteIcons()
-            dmButton.imageView?.image = UIImage(named: "dmTeal100")
-        }
-        else if iconButton == notificationsButton {
-        //    changeBackToWhiteIcons()
-            notificationsButton.imageView?.image = UIImage(named: "bellTeal100")
+        
+        DispatchQueue.main.async {
+        
+            if iconButton == self.newPostButton {
+                //  changeBackToWhiteIcons()
+                self.newPostButton.imageView?.image = UIImage(named: "newPostTeal100")
+            }
+            else if iconButton == self.friendsButton {
+                //  changeBackToWhiteIcons()
+                self.friendsButton.imageView?.image = UIImage(named: "friendsTeal100")
+            }
+            else if iconButton == self.homeProfileButton {
+                //   changeBackToWhiteIcons()
+                self.homeProfileButton.imageView?.image = UIImage(named: "houseTeal100")
+            }
+            else if iconButton == self.dmButton {
+                //      changeBackToWhiteIcons()
+                let buttonWidth: CGFloat = 60
+                let superFrame = self.superview!.frame
+                self.dmButton.setImage(UIImage(named: "dmTeal100"), for: .normal)
+                self.dmButton.frame = CGRect(x: superFrame.width/5 + 5, y: self.friendsButton.frame.minY, width: buttonWidth, height: buttonWidth)
+                self.dmButton.imageView?.contentMode = .scaleAspectFill
+            }
+            else if iconButton == self.notificationsButton {
+                //    changeBackToWhiteIcons()
+                self.notificationsButton.imageView?.image = UIImage(named: "bellTeal100")
+            }
         }
     }
     
@@ -545,19 +498,19 @@ class MenuView: UIView {
     }
     
     @objc func longPressMenuButton(sender: UILongPressGestureRecognizer) {
-//        if (sender.state == .began) {
-//           // makeAllMenuButtonsBlack()
-//            makeAllMenuButtonsClear()
-//            showMenuOptions()
-//        }
-//        if (sender.state == .ended) {
-//            hideMenuOptions()
-//        }
+        //        if (sender.state == .began) {
+        //           // makeAllMenuButtonsBlack()
+        //            makeAllMenuButtonsClear()
+        //            showMenuOptions()
+        //        }
+        //        if (sender.state == .ended) {
+        //            hideMenuOptions()
+        //        }
         
         
     }
     
-
+    
     
     func hideMenuOptions() {
         newPostButton.isHidden = true

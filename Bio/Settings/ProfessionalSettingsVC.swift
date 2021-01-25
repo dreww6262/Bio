@@ -485,7 +485,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
           else if row.text == "FAQ's" {
             let pdfVC = self?.storyboard?.instantiateViewController(identifier: "pdfViewer") as! PDFViewer
             pdfVC.titleString = "FAQ's"
-            pdfVC.pdfString = "Bio Beta Terms of Service"
+            pdfVC.pdfString = "Osi FAQs"
             pdfVC.navBarView.titleLabel.text = "FAQ's"
             pdfVC.modalPresentationStyle = .fullScreen
             self!.present(pdfVC, animated: false)
