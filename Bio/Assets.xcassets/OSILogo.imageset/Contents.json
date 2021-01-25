@@ -1,7 +1,11 @@
 {
   "images" : [
     {
+<<<<<<< HEAD:Bio/Assets.xcassets/OSILogo.imageset/Contents.json
       "filename" : "OSILogo.png",
+=======
+      "filename" : "open-mail-2.png",
+>>>>>>> origin/pat113:Bio/Assets.xcassets/dmTeal100.imageset/Contents.json
       "idiom" : "universal",
       "scale" : "1x"
     },
