@@ -217,7 +217,7 @@
                                     <action selector="createAccountPressed:" destination="bbh-XN-JYU" eventType="touchUpInside" id="Poz-Tf-oLq"/>
                                 </connections>
                             </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bioBlue" id="kIQ-Uc-cA4">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="OSILogo" id="kIQ-Uc-cA4">
                                 <rect key="frame" x="0.0" y="113" width="414" height="414"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.070055258960000005" green="0.24478933950000001" blue="0.43987944159999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -230,7 +230,6 @@
                             <constraint firstItem="2pm-ax-tCU" firstAttribute="leading" secondItem="1Ez-mm-TEK" secondAttribute="leading" id="VWZ-s9-yiK"/>
                             <constraint firstItem="2pm-ax-tCU" firstAttribute="trailing" secondItem="1Ez-mm-TEK" secondAttribute="trailing" id="VcW-sC-71n"/>
                             <constraint firstItem="2pm-ax-tCU" firstAttribute="top" secondItem="PHP-gI-3eE" secondAttribute="bottom" id="X6z-Ar-c0T"/>
-                            <constraint firstItem="2pm-ax-tCU" firstAttribute="top" secondItem="nIH-JX-XL6" secondAttribute="top" id="b7O-Wh-F8y"/>
                             <constraint firstAttribute="bottom" secondItem="2pm-ax-tCU" secondAttribute="bottom" id="kfx-3J-0Vh"/>
                             <constraint firstItem="2pm-ax-tCU" firstAttribute="leading" secondItem="1Ez-mm-TEK" secondAttribute="leading" id="sRg-jD-sx9"/>
                         </constraints>
@@ -3093,7 +3092,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="addCover" width="1242" height="2208"/>
+        <image name="OSILogo" width="1024" height="1024"/>
+        <image name="addCover" width="1024" height="657"/>
         <image name="addFriend" width="512" height="512"/>
         <image name="beachex" width="960" height="640"/>
         <image name="bioBlue" width="512" height="512"/>
