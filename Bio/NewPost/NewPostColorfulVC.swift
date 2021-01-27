@@ -203,30 +203,7 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         menuView.currentTab = 4
         menuView.addBehavior()
     }
-    
-//    @IBAction func addPhotoPressed(_ sender: UIButton) {
-//        var config = YPImagePickerConfiguration()
-//        config.screens = [.library, .photo, .video]
-//        config.library.mediaType = .photoAndVideo
-//        config.library.maxNumberOfItems = 10
-//        config.video.trimmerMaxDuration = 60.0
-//        config.video.recordingTimeLimit = 60.0
-//        config.video.automaticTrimToTrimmerMaxDuration = true
-//        let picker = YPImagePicker(configuration: config)
-//        picker.didFinishPicking { [unowned picker] items, cancelled in
-//            picker.dismiss(animated: true, completion: nil)
-//            if (items.count > 0) {
-//                let uploadPreviewVC = self.storyboard?.instantiateViewController(identifier: "uploadPreviewVC") as! UploadPreviewVC
-//                //print(photos)
-//                uploadPreviewVC.userData = self.userData
-//                uploadPreviewVC.items = items
-//                self.present(uploadPreviewVC, animated: false, completion: nil)
-//                uploadPreviewVC.modalPresentationStyle = .fullScreen
-//            }
-//        }
-//        present(picker, animated: false)
-//        modalPresentationStyle = .fullScreen
-//    }
+
     
     
     

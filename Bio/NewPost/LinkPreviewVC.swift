@@ -213,7 +213,7 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
         
         else {
             
-            
+            postButton.isUserInteractionEnabled = false
             
             let imageRef = storage.child(webHex!.thumbResource)
             let loadingIndicator = storyboard?.instantiateViewController(withIdentifier: "loading")
@@ -252,21 +252,11 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
                         
                         self.userDataVM?.updateUserData(newUserData: userData!, completion: { success in
                             if success {
-                                //                                print("userdata updated successfully")
-                                
-                                //                                    if (self.cancelLbl == nil || self.webHex?.type == "link") {
+                                self.postButton.isUserInteractionEnabled = true
                                 self.performSegue(withIdentifier: "unwindFromLinkToHome", sender: nil)
-                                //                                    }
-                                
-                                //                                    else {
-                                //                                        let linkVC = self.storyboard?.instantiateViewController(withIdentifier: "linkVC") as! AddLinkVCViewController
-                                //                                        linkVC.userData = self.userData
-                                //                                        linkVC.currentUser = self.user
-                                //                                        linkVC.cancelLbl = "Skip"
-                                //                                        self.present(linkVC, animated: false, completion: nil)
-                                //                                    }
                             }
                             else {
+                                self.postButton.isUserInteractionEnabled = true
                                 print("userData not saved")
                                 loadingIndicator?.view.removeFromSuperview()
                                 loadingIndicator?.removeFromParent()
@@ -275,6 +265,7 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
                         })
                     }
                     else {
+                        self.postButton.isUserInteractionEnabled = true
                         print("didnt add hex")
                         loadingIndicator?.view.removeFromSuperview()
                         loadingIndicator?.removeFromParent()
@@ -294,22 +285,12 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
                                 
                                 self.userDataVM?.updateUserData(newUserData: userData!, completion: { success in
                                     if success {
-                                        //                                print("userdata updated successfully")
-                                        
-                                        //                                    if (self.cancelLbl == nil || self.webHex?.type == "link") {
+                                        self.postButton.isUserInteractionEnabled = true
                                         self.performSegue(withIdentifier: "unwindFromLinkToHome", sender: nil)
-                                        //                                    }
-                                        
-                                        //                                    else {
-                                        //                                        let linkVC = self.storyboard?.instantiateViewController(withIdentifier: "linkVC") as! AddLinkVCViewController
-                                        //                                        linkVC.userData = self.userData
-                                        //                                        linkVC.currentUser = self.user
-                                        //                                        linkVC.cancelLbl = "Skip"
-                                        //                                        self.present(linkVC, animated: false, completion: nil)
-                                        //                                    }
                                     }
                                     else {
                                         print("userData not saved")
+                                        self.postButton.isUserInteractionEnabled = true
                                         loadingIndicator?.view.removeFromSuperview()
                                         loadingIndicator?.removeFromParent()
                                     }
@@ -318,6 +299,7 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
                             }
                             else {
                                 print("didnt add hex")
+                                self.postButton.isUserInteractionEnabled = true
                                 loadingIndicator?.view.removeFromSuperview()
                                 loadingIndicator?.removeFromParent()
                             }
@@ -325,6 +307,7 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
                     }
                     else {
                         print ("upload failed")
+                        self.postButton.isUserInteractionEnabled = true
                         loadingIndicator?.view.removeFromSuperview()
                         loadingIndicator?.removeFromParent()
                     }
@@ -332,18 +315,7 @@ class LinkPreviewVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
             }
         }
     }
-//    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-//        if (!readyToPost) {
-//            if let key = change?[NSKeyValueChangeKey.newKey] {
-//
-//                let link = (key as! URL).absoluteString
-//                print("observeValue \(link)") // url value
-//                webHex?.resource = link
-//                readyToPost = true
-//            }
-//        }
-//    }
-    
+
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         if (!readyToPost) {
             

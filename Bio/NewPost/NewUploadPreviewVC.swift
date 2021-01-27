@@ -48,7 +48,7 @@ var cancelButton = UIButton()
     }
     
     func setUpNavBarView() {
-        var statusBarHeight = UIApplication.shared.statusBarFrame.maxY
+        let statusBarHeight = UIApplication.shared.statusBarFrame.maxY
         self.view.addSubview(navBarView)
       //  self.navBarView.addSubview(titleLabel1)
         self.navBarView.addBehavior()
@@ -69,7 +69,7 @@ var cancelButton = UIButton()
         
     //    self.navBarView.addSubview(self.cancelButton)
   //      self.navBarView.addSubview(doneButton)
-        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        let navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
       //  self.cancelButton.frame = CGRect(x: 5, y: navBarView.frame.maxY - 30, width: 25, height: 25)
         let postTap = UITapGestureRecognizer(target: self, action: #selector(self.donePressed))
         postTap.numberOfTapsRequired = 1
@@ -154,11 +154,11 @@ var cancelButton = UIButton()
     
     
     @objc func donePressed(_ sender: UIButton) {
+        doneButton.isUserInteractionEnabled = false
         let userData = userDataVM?.userData.value
         if userData == nil {
             return
         }
-        var success = true
         var count = 0
         let numPosts = userData!.numPosts
         
@@ -194,7 +194,7 @@ var cancelButton = UIButton()
         addChild(loadingIndicator!)
         view.addSubview(loadingIndicator!.view)
         
-        var hexesToUpload = ThreadSafeArray<HexagonStructData>()
+        let hexesToUpload = ThreadSafeArray<HexagonStructData>()
         
         let dispatchGroup = DispatchGroup()
         
@@ -210,7 +210,7 @@ var cancelButton = UIButton()
                 //print(photo)
                 let rawPhotoLocation = "userFiles/\(userData!.publicID)/\(count)_\(timestamp.dateValue()).png"
                 let photoLocation = rawPhotoLocation.filter{filterSet.contains($0)}
-                var photoHex = HexagonStructData(resource: photoLocation, type: "photo", location: numPosts + count, thumbResource: photoLocation, createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: "\(cell.captionField!.text!)", views: 0, isArchived: false, docID: "willBeSetLater", coverText: "", isPrioritized: false, array: [])
+                let photoHex = HexagonStructData(resource: photoLocation, type: "photo", location: numPosts + count, thumbResource: photoLocation, createdAt: NSDate.now.description, postingUserID: userData!.publicID, text: "\(cell.captionField!.text!)", views: 0, isArchived: false, docID: "willBeSetLater", coverText: "", isPrioritized: false, array: [])
                 uploadPhoto(reference: photoLocation, image: photo, completion: { upComplete in
                     if (upComplete) {
                         print("uploaded shid")
@@ -290,17 +290,10 @@ var cancelButton = UIButton()
 
         userDataVM?.updateUserData(newUserData: userData!, completion: { success in
             if success {
-//                if (self.cancelLbl == nil) {
                     self.performSegue(withIdentifier: "unwindFromUpload", sender: nil)
-//                }
-//                else {
-//                    let musicVC = self.storyboard?.instantiateViewController(withIdentifier: "addMusicVC") as! AddMusicVC
-//                    musicVC.userData = self.userData
-//                    musicVC.currentUser = Auth.auth().currentUser
-//                    musicVC.cancelLbl = "Skip"
-//                    self.present(musicVC, animated: false, completion: nil)
-//                }
+
             }
+            self.doneButton.isUserInteractionEnabled = true
         })
     }
     
@@ -369,7 +362,6 @@ var cancelButton = UIButton()
                         print(error.localizedDescription)
                         completion(false)
                     }else{
-                        //let strPic:String = (metadata?.downloadURL()?.absoluteString)!
                         completion(true)
                     }
             })
@@ -458,8 +450,6 @@ extension NewUploadPreviewVC: UITableViewDelegate, UITableViewDataSource {
             cell.previewImage.image = photo.image
         case .video(let video) :
             cell.previewImage.image = video.thumbnail
-        default:
-            print("bad")
         }
         cell.item = items![indexPath.row]
         cell.previewImage.setupHexagonMask(lineWidth: cell.previewImage.frame.width/15, color: myOrange, cornerRadius: cell.previewImage.frame.width/15)

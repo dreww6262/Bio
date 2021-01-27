@@ -67,7 +67,6 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
         textOverlayTextField.delegate = self
         
         textOverlayLabel.isHidden = true
-        var alreadySnapped = false
         super.viewDidLoad()
         locationTextField.isHidden = true
         tagTextField.isHidden = true
@@ -99,13 +98,8 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
         case .video(let video) :
             previewImage.image = video.thumbnail
             photoBool = false
-        default:
-            print("bad")
+
         }
-        //poshmarkLogo.image = UIImage(named: "poshmarkLogo")
-        let gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
-        let gray = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
-        let orange = #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
         
         // scrollview frame size
         scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
@@ -165,7 +159,7 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
         
         
     
-        var bottomLine3 = CALayer()
+        let bottomLine3 = CALayer()
         bottomLine3.frame = CGRect(x: 0.0, y: textOverlayTextField.frame.height, width: textOverlayTextField.frame.width, height: 1.0)
         bottomLine3.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
         textOverlayTextField.borderStyle = UITextField.BorderStyle.none
@@ -175,7 +169,7 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
         textOverlayTextField.textColor = .white
         
         
-        var bottomLine5 = CALayer()
+        let bottomLine5 = CALayer()
         bottomLine5.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
         //prioritizeLabel.borderStyle = UITextField.BorderStyle.none
         prioritizeLabel.layer.addSublayer(bottomLine5)
@@ -261,29 +255,26 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
     // clicked sign up
     @objc func postTapped(recognizer: UITapGestureRecognizer) {
         print("continue button pressed")
-        
         // dismiss keyboard
         self.view.endEditing(true)
-        
-        // if fields are empty
-//        if (captionTextField.text!.isEmpty) {
-//
-//            // alert message
-//            let alert = UIAlertController(title: "Hold up", message: "Fill in a field or hit \(backButton.titleLabel?.text)", preferredStyle: UIAlertController.Style.alert)
-//            let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
-//            alert.addAction(ok)
-//            self.present(alert, animated: true, completion: nil)
-//
-//            return
-//        }
         
         let userData = userDataVM!.userData.value
         if userData == nil {
             return
         }
+        
+        if userData!.numPosts + 1 > 37 {
+            // too many posts
+            let alert = UIAlertController(title: "Not Enough Space :/", message: "Either cancel or delete a post from your home grid.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
+        
+        postButton.isUserInteractionEnabled = false
+
         let username = userData!.publicID
         var numPosts = userData!.numPosts
-        var success = true
         
         
         
@@ -325,7 +316,6 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
 
             let photoLocation = refText.filter{filterSet.contains($0)}
             
-            let imageRef = storageRef.child(refText)
             numPosts += 1
             
             
@@ -343,17 +333,9 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
                             userData?.lastTimePosted = NSDate.now.description
 
                             self.userDataVM?.updateUserData(newUserData: userData!, completion: { _ in
-//                                    print("should navigate to homehexgrid")
-//                                    if (self.cancelLbl == nil) {
+                                self.postButton.isUserInteractionEnabled = true
                                         self.performSegue(withIdentifier: "unwindFromUpload", sender: nil)
-//                                    }
-//                                    else {
-//                                        let musicVC = self.storyboard?.instantiateViewController(withIdentifier: "addMusicVC") as! AddMusicVC
-//                                        musicVC.userData = self.userData
-//                                        musicVC.currentUser = Auth.auth().currentUser
-//                                        musicVC.cancelLbl = "Skip"
-//                                        self.present(musicVC, animated: false, completion: nil)
-//                                    }
+
                             })
                         })
                     })
@@ -367,6 +349,7 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
                             userData?.lastTimePosted = NSDate.now.description
 
                             self.userDataVM?.updateUserData(newUserData: userData!, completion: { success in
+                                self.postButton.isUserInteractionEnabled = true
                                         self.performSegue(withIdentifier: "unwindFromUpload", sender: nil)
                             })
                         })
@@ -385,7 +368,6 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
         picker.allowsEditing = true
   //      picker.view.setupHexagonMaskView(lineWidth: view.frame.width/15, color: .white, cornerRadius: view.frame.width/15)
         picker.cameraOverlayView!.clipsToBounds = true
-      print("This is picker.cameraOverlayView.frame \(picker.cameraOverlayView?.frame)")
      //   picker.cameraOverlayView!.largeContentImage.setupHexagonMaskView(lineWidth: picker.cameraOverlayView!.frame.width/15, color: .white, cornerRadius: picker.cameraOverlayView!.frame.width/15)
         present(picker, animated: true, completion: nil)
     }
@@ -406,14 +388,14 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
     }
     
     func setUpNavBarView() {
-        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
 //        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.addSubview(backButton)
         self.navBarView.addSubview(postButton)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
        
-        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        let navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
         navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
             let backTap = UITapGestureRecognizer(target: self, action: #selector(self.backButtonpressed))
@@ -436,7 +418,6 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
         postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 30)/2, width: 40, height: 30)
         //navBarView.postButton.titleLabel?.sizeToFit()
         navBarView.postButton.titleLabel?.textAlignment = .right
-        let yOffset = navBarView.frame.maxY
       //  backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
         self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 34, height: 34)
         

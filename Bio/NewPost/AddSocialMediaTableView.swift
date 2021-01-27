@@ -150,14 +150,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
                 uploadPreviewVC.modalPresentationStyle = .fullScreen
             }
             else {
-//                if (self.cancelLbl == "Skip") {
-//                    let musicVC = self.storyboard?.instantiateViewController(withIdentifier: "addMusicVC") as! AddMusicVC
-//                    musicVC.userData = self.userData
-//                    musicVC.currentUser = self.currentUser
-//                    musicVC.cancelLbl = "Skip"
-//                    picker.present(musicVC, animated: false, completion: nil)
-//                }
-                //else {
+
                     picker.dismiss(animated: false, completion: nil)
                 //}
             }
@@ -169,7 +162,6 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
     
   //  @IBAction func donePressed(_ sender: UIButton) {
     @objc func postTapped(_ recognizer:UITapGestureRecognizer) {
-        print("done button pressed")
         
         // dismiss keyboard
         self.view.endEditing(true)
@@ -178,7 +170,6 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
         if userData == nil {
             return
         }
-        
         // if fields are empty
         var isCompletelyEmpty = true
         
@@ -220,7 +211,8 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
         }
         
         
-        
+        postButton.isUserInteractionEnabled = false
+
         
         var success = true
         
@@ -480,6 +472,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
             userData?.numPosts = numPosts
             userData?.lastTimePosted = NSDate.now.description
             self.userDataVM?.updateUserData(newUserData: userData!, completion: { success in
+                self.postButton.isUserInteractionEnabled = true
                 if success {
                         self.performSegue(withIdentifier: "rewindToFront", sender: nil)
                 }
