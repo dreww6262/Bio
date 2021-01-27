@@ -202,8 +202,21 @@ class SignInVC: UIViewController {
                         loadingIndicator?.removeFromParent()
                         self.performSegue(withIdentifier: "unwindFromSignIn", sender: nil)
                     })
+                }
+                else {
+//                    print("error during signin: \(error!.localizedDescription)")
+                    let alert = UIAlertController(title: "Authentication Failed", message: "Please try again", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
                     
-                    
+                    DispatchQueue.global().async {
+                        DispatchQueue.main.sync {
+                            blurEffectView.removeFromSuperview()
+                            loadingIndicator?.view.removeFromSuperview()
+                            loadingIndicator?.removeFromParent()
+                            self.present(alert, animated: true, completion: nil)
+
+                        }
+                    }
                 }
                 
             }

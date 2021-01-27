@@ -65,6 +65,8 @@ class NotificationsVC: UIViewController {
         
         tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: view.frame.width * 3/10, right: 0)
         
+        tableView.rowHeight = UITableView.automaticDimension
+        
         addMenuButtons()
         
         setUpNavBarView()
@@ -463,6 +465,7 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     
+    
     // cell config
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -553,9 +556,6 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
             }
             
             else if notificationArray[indexPath.row].type == "approvePhoneNumber" {
-                //let phoneNumber = UserDataVM(username: cell.usernameBtn.titleLabel!.text!).userData.value?.phoneNumber
-                
-                //     let phoneNumber = phoneNumberUserData.value!.phoneNumber
                 cell.infoLbl.text = "gave you their phone number."
                 cell.phoneButton.isHidden = false
                 cell.phoneButton.titleLabel?.font = UIFont(name: cell.phoneButton.titleLabel!.font.fontName, size: 18)

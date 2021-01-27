@@ -397,7 +397,7 @@ prioritizeLabel.text = "Prioritize This Post?"
      //   textOverlayLabel.text = "YOOOOOOOOOO"
     }
     
-    func textViewDidEndEditing(_ textView: UITextView) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         print("I recognize that it is ending")
         if textOverlayTextField.text != "" {
             textOverlayLabel.isHidden = false
@@ -479,7 +479,7 @@ prioritizeLabel.text = "Prioritize This Post?"
             searchResults.removeAll()
             searchTable.reloadData()
             if !hasChosenThumbnailImage  && !hexData!.thumbResource.contains("userFiles") {
-                linkHexagonImage.image = nil
+                linkHexagonImage.image = UIImage(named: "addCover")
             }
             
 //            UIView.animate(withDuration: 0.25, animations: {

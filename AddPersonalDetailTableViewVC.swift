@@ -137,7 +137,7 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
                 ogCity = String(chunks[1])
                 cityDoc = String(chunks[3])
             case "pin_country":
-                ogCountries.append(String(chunks[2]))
+                ogCountries.append(String(chunks[1]))
                 cultureDoc = String(chunks[3])
             case "pin_relationship":
                 ogRelationship = String(chunks[1])

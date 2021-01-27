@@ -447,12 +447,8 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
             searchResults.removeAll()
             searchTable.reloadData()
             if !hasChosenThumbnailImage {
-                linkHexagonImage.image = nil
+                linkHexagonImage.image = UIImage(named: "addCover")
             }
-            
-//            UIView.animate(withDuration: 0.25, animations: {
-//                self.searchTable.frame = CGRect(x: self.linkTextField.frame.minX, y: self.linkTextField.frame.maxY, width: self.linkTextField.frame.width, height: 150)
-//            })
         }
     }
     
@@ -464,7 +460,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
             })
         }
         
-        else if textOverlayLabel == textField {
+        else if textOverlayTextField == textField {
             if textOverlayTextField.text != "" {
                 textOverlayLabel.isHidden = false
                 textOverlayLabel.text = textOverlayTextField.text!
@@ -869,6 +865,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         // Local variable inserted by Swift 4.2 migrator.
         let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         linkHexagonImage.image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
+//        insertTextOverlay(linkHexagonImage: linkHexagonImage)
         changedProfilePic = true
         self.dismiss(animated: true, completion: nil)
     }
@@ -895,6 +892,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
             if !hasChosenThumbnailImage {
                 if let imageUrl = URL(string: searchResults[sender.view!.tag].imageUrl) {
                     linkHexagonImage.sd_setImage(with: imageUrl, completed: nil)
+//                    insertTextOverlay(linkHexagonImage: linkHexagonImage)
                 }
             }
         }

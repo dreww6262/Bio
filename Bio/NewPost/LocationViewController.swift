@@ -22,7 +22,7 @@ class LocationViewController : UIViewController, UISearchBarDelegate, UITableVie
         super.viewDidLoad()
         print("savedlocation: \(savedLocation)")
         view.addSubview(searchBar)
-        searchBar.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height/12)
+        searchBar.frame = CGRect(x: 0, y: 20, width: view.frame.width, height: view.frame.height/12)
         searchBar.delegate = self
         searchBar.setShowsCancelButton(true, animated: true)
         searchBar.becomeFirstResponder()
@@ -31,7 +31,7 @@ class LocationViewController : UIViewController, UISearchBarDelegate, UITableVie
         locationManager.requestWhenInUseAuthorization()
         locationManager.requestLocation()
         view.addSubview(tableView)
-        tableView.frame = CGRect(x: 0, y: view.frame.height/12, width: view.frame.width, height: view.frame.height*(11/12))
+        tableView.frame = CGRect(x: 0, y: searchBar.frame.maxY, width: view.frame.width, height: view.frame.height - searchBar.frame.maxY)
         tableView.delegate = self
         tableView.dataSource = self
     }

@@ -719,13 +719,23 @@ class CustomPageView: UIViewController {
                 print("User click Copy Link button")
                 self.copyTextToResource()
             }))
+            let type = (viewControllers[currentIndex!] as! ContentLinkVC).webHex?.type
+            if !(type?.contains("socialmedia") ?? true) {
+                alert.addAction(UIAlertAction(title: "Edit Post", style: .default , handler:{ (UIAlertAction)in
+                    print("User click Edit Post")
+                    self.editPost()
+                    //    self.copyTextToResource()
+                }))
+            }
         }
         
-        alert.addAction(UIAlertAction(title: "Edit Post", style: .default , handler:{ (UIAlertAction)in
-            print("User click Edit Post")
-            self.editPost()
-            //    self.copyTextToResource()
-        }))
+        else {
+            alert.addAction(UIAlertAction(title: "Edit Post", style: .default , handler:{ (UIAlertAction)in
+                print("User click Edit Post")
+                self.editPost()
+                //    self.copyTextToResource()
+            }))
+        }
         
             let vc = viewControllers[currentIndex!]
             switch vc {
