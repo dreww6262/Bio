@@ -115,20 +115,8 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
         hideTap.numberOfTapsRequired = 1
         self.view.isUserInteractionEnabled = true
         self.view.addGestureRecognizer(hideTap)
-        
-        // round ava
-        //  avaImg.layer.cornerRadius = avaImg.frame.size.width / 2
-        //hexagonAva
-        
-        //cancelBtn.frame = CGRect(x: 5, y: 15, width: 24, height: 24)
+     
         backButton.layer.cornerRadius = backButton.frame.size.width / 20
-       // titleText.frame = CGRect(x: 0,y:60, width: self.view.frame.size.width, height: 30)
-      //  subtitleText.frame = CGRect(x:0, y: titleText.frame.origin.y + 30, width: self.view.frame.size.width, height: 30)
-        
-    
-        
-        
-        //         linkHexagonImage.frame = CGRect(x: 10, y: linkTextField.frame.origin.y + 30, width: self.view.frame.size.width - 20, height: 30)
         previewImage.frame = CGRect(x: 40, y: navBarView.frame.maxY + 10, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
         
         linkHexagonImageCopy.frame = CGRect(x: 40, y: navBarView.frame.maxY + 10, width: scrollView.frame.width - 80, height: scrollView.frame.width - 80)
@@ -276,10 +264,6 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
         let username = userData!.publicID
         var numPosts = userData!.numPosts
         
-        
-        
-        //let group = DispatchGroup()
-  //      if (!captionTextField.text!.isEmpty) {
             
             let loadingIndicator = storyboard?.instantiateViewController(withIdentifier: "loading")
             let blurEffectView = { () -> UIVisualEffectView in
@@ -287,10 +271,7 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
                 let blurEffectV = UIVisualEffectView(effect: blurEffect)
                 
                 blurEffectV.alpha = 0.8
-                
-                // Setting the autoresizing mask to flexible for
-                // width and height will ensure the blurEffectView
-                // is the same size as its parent view.
+ 
                 blurEffectV.autoresizingMask = [
                     .flexibleWidth, .flexibleHeight
                 ]
@@ -366,9 +347,7 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
         picker.delegate = self
         picker.sourceType = .photoLibrary
         picker.allowsEditing = true
-  //      picker.view.setupHexagonMaskView(lineWidth: view.frame.width/15, color: .white, cornerRadius: view.frame.width/15)
         picker.cameraOverlayView!.clipsToBounds = true
-     //   picker.cameraOverlayView!.largeContentImage.setupHexagonMaskView(lineWidth: picker.cameraOverlayView!.frame.width/15, color: .white, cornerRadius: picker.cameraOverlayView!.frame.width/15)
         present(picker, animated: true, completion: nil)
     }
     
@@ -379,11 +358,6 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
         let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         previewImage.image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
         linkHexagonImageCopy.image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
-        //        if let imageURL = info[UIImagePickerController.InfoKey.referenceURL.rawValue] as? URL {
-        //            let result = PHAsset.fetchAssets(withALAssetURLs: [imageURL], options: nil)
-        //            avaImageExtension = String((result.firstObject?.value(forKey: "filename") as! String).split(separator: ".")[1])
-        //            print("extension \(avaImageExtension)")
-        //        }
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -403,7 +377,6 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
             backButton.isUserInteractionEnabled = true
             backButton.addGestureRecognizer(backTap)
             backButton.setImage(UIImage(named: "whiteChevron"), for: .normal)
-     //   }
         
         let postTap = UITapGestureRecognizer(target: self, action: #selector(self.postTapped))
         postTap.numberOfTapsRequired = 1
@@ -411,26 +384,18 @@ class OnePostPreview: UIViewController, UINavigationControllerDelegate, UIImageP
         postButton.addGestureRecognizer(postTap)
         postButton.setTitle("Post", for: .normal)
         postButton.setTitleColor(.systemBlue, for: .normal)
-      //  postButton.frame = CGRect(x: (self.view.frame.width) - (topBar.frame.height) - 5, y: 0, width: topBar.frame.height, height: topBar.frame.height)
         postButton.titleLabel?.sizeToFit()
         postButton.titleLabel?.textAlignment = .right
         
         postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 30)/2, width: 40, height: 30)
-        //navBarView.postButton.titleLabel?.sizeToFit()
         navBarView.postButton.titleLabel?.textAlignment = .right
-      //  backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
         self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 34, height: 34)
         
-       // postButton.frame = CGRect(x: navBarView.frame.width - 35, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
-        
-     //   postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 40, height: 25)
         postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 40, height: 34)
         
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Add A Photo Or Video"
-       // self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
         self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: postButton.frame.minY, width: 200, height: 25)
-//        print("This is navBarView.")
     }
     
     

@@ -18,7 +18,7 @@ class AddProfilePhotoVC: UIViewController, UIImagePickerControllerDelegate & UIN
     let storage = Storage.storage().reference()
     @IBOutlet weak var imageView: UIImageView!
     var country = ""
-var minimumAge = 13
+    var minimumAge = 13
     
     let auth = Auth.auth()
     var navBarView = NavBarView()
@@ -32,9 +32,9 @@ var minimumAge = 13
         imageView.addGestureRecognizer(avaTap)
         addProfilePictureButton.layer.cornerRadius = addProfilePictureButton.frame.width/20
         // Do any additional setup after loading the view.
-       var rect1 = addProfilePictureButton.frame
+        let rect1 = addProfilePictureButton.frame
         addProfilePictureButton.frame = CGRect(x: rect1.minX, y: rect1.minY, width: rect1.width, height: rect1
-                                        .height*(5/4))
+                                                .height*(5/4))
         setUpNavBarView()
         formatStuff()
     }
@@ -42,23 +42,19 @@ var minimumAge = 13
     @objc func loadImg(_ recognizer:UITapGestureRecognizer) {
         self.hasOpenedImagePickerAlready = true
         let picker = UIImagePickerController()
-        picker.delegate = self
         picker.sourceType = .photoLibrary
+        picker.delegate = self
         picker.allowsEditing = true
         picker.modalPresentationStyle = .fullScreen
-        picker.cameraOverlayView!.setupHexagonMaskView(lineWidth: picker.cameraOverlayView!.frame.width/15, color: white, cornerRadius: picker.cameraOverlayView!.frame.width)
+//        picker.cameraOverlayView!.setupHexagonMaskView(lineWidth: picker.cameraOverlayView!.frame.width/15, color: white, cornerRadius: picker.cameraOverlayView!.frame.width)
         present(picker, animated: true, completion: nil)
-  //      picker.cameraOverlayView
-     //   picker.cameraOverlayView!.setupHexagonMaskView(lineWidth: picker.cameraOverlayView!.frame.width/15, color: myOrange, cornerRadius: picker.cameraOverlayView!.frame.width/15)
         self.addProfilePictureButton.setTitle("Add Profile Picture", for: .normal)
     }
     
     // connect selected image to our ImageView
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        // Local variable inserted by Swift 4.2 migrator.
         let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         imageView.image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
-//        }
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -70,21 +66,13 @@ var minimumAge = 13
     }
     
     func setUpNavBarView() {
-        var statusBarHeight = UIApplication.shared.statusBarFrame.height
-//        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
-        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
         navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
-
-        let yOffset = navBarView.frame.maxY
-      //  self.tableView.frame = CGRect(x: 0, y: yOffset, width: self.view.frame.width, height: self.view.frame.height - yOffset)
-      //  self.navBarView.addSubview(titleLabel1)
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Choose A Profile Picture"
-        //self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: navBarView.frame.maxY - 30, width: 200, height: 30)
-//        print("This is navBarView.")
+        
         self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 150, y: (self.navBarView.frame.height - 25)/2, width: 300, height: 25)
     }
     
@@ -101,7 +89,7 @@ var minimumAge = 13
             let blurEffectView = UIVisualEffectView(effect: blurEffect)
             
             blurEffectView.alpha = 0.8
-
+            
             blurEffectView.autoresizingMask = [
                 .flexibleWidth, .flexibleHeight
             ]
@@ -110,15 +98,16 @@ var minimumAge = 13
             return blurEffectView
         }()
         
+        addProfilePictureButton.isUserInteractionEnabled = false
+        
         if hasOpenedImagePickerAlready == false {
             print("You havent tried to pick an image yet.")
             loadImg(UITapGestureRecognizer())
             addProfilePictureButton.setTitle("Confirm Profile Picture", for: .normal)
+            addProfilePictureButton.isUserInteractionEnabled = true
+
         }
         else {
-            print("Set the user's profile picture as the current image")
-            
-            var username = userData?.publicID
             let userDataStorageRef = self.storage.child(userData!.avaRef)
             view.addSubview(blurEffectView)
             
@@ -127,11 +116,11 @@ var minimumAge = 13
             
             userDataStorageRef.putData(self.imageView.image!.pngData()!, metadata: nil, completion: { meta, error in
                 if (error == nil) {
-         
+                    
                     SDImageCache.shared.clearMemory()
                     SDImageCache.shared.clearDisk(onCompletion: {
                     })
-
+                    
                     
                 }
                 else {
@@ -141,41 +130,28 @@ var minimumAge = 13
                 blurEffectView.removeFromSuperview()
                 loadingIndicator?.view.removeFromSuperview()
                 loadingIndicator?.removeFromParent()
-        // this triggers old bad sign up method
-//                let addsocialmediaVC = self.storyboard?.instantiateViewController(withIdentifier: "addSocialMediaTableView") as! AddSocialMediaTableView
-//                addsocialmediaVC.userData = self.userData
-//                addsocialmediaVC.currentUser = Auth.auth().currentUser
-//                addsocialmediaVC.cancelLbl = "Skip"
-//                self.present(addsocialmediaVC, animated: false, completion: nil)
-                
-            //    self.performSegue(withIdentifier: "unwindFromSignIn", sender: self)
+                self.addProfilePictureButton.isUserInteractionEnabled = false
+
                 
                 let personalDetailTableViewVC = self.storyboard?.instantiateViewController(withIdentifier: "personalDetailTableViewVC") as! PersonalDetailTableViewVC
                 personalDetailTableViewVC.userDataVM = self.userDataVM
                 personalDetailTableViewVC.myCountry = self.country
                 personalDetailTableViewVC.myCountries.append(self.country)
                 personalDetailTableViewVC.myAgeLimit = self.minimumAge
+                personalDetailTableViewVC.modalPresentationStyle = .fullScreen
                 self.present(personalDetailTableViewVC, animated: false, completion: nil)
                 
-                
-//                let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "homeHexGrid420") as! HomeHexagonGrid
-//                homeVC.userData = self.userData
-//                homeVC.user = Auth.auth().currentUser
-//                self.present(homeVC, animated: false, completion: nil)
-                
             })
-        
+            
         }
-
+        
     }
     
     @objc func cancelButtonClicked(_ sender: UITapGestureRecognizer) {
-            self.view.endEditing(true)
-            
-            self.dismiss(animated: true, completion: nil)
+        self.view.endEditing(true)
+        
+        self.dismiss(animated: true, completion: nil)
     }
-
-
 }
 
 // Helper function inserted by Swift 4.2 migrator.

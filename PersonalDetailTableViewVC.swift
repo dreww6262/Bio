@@ -56,16 +56,11 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
     
     var currentUser: User?
     var loadUserDataArray = ThreadSafeArray<UserData>()
-    //    var textFieldArray = [UITextField]()
     
     var followList = [String]()
     var followListener: ListenerRegistration?
     
     var cancelLbl: String?
-    
-    
-    
-    
     var image1 = UIImage(named: "unity")
     var birthdayImage = UIImage(named: "birthday")
     var houseImage = UIImage(named: "homeCircle")
@@ -78,7 +73,6 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
     
     var comingFromHome = false
     
-    
     var placeHolderTextArray: [String] = ["Birthday (Required)", "Current City (Required)", "Gender (Required)", "Ethnicities", "Phone Number", "Relationship Status"]
     
     override func viewDidLoad() {
@@ -86,9 +80,9 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
         setUpNavBarView()
         tableView.delegate = self
         tableView.dataSource = self
-        var numRows = CGFloat(6.0)
-        var rowHeight = CGFloat(90)
-        var tableViewHeight = CGFloat(numRows*rowHeight)
+        let numRows = CGFloat(6.0)
+        let rowHeight = CGFloat(90)
+        let tableViewHeight = CGFloat(numRows*rowHeight)
         tableView.frame = CGRect(x: 0, y: navBarView.frame.height, width: view.frame.width, height: tableViewHeight)
         tableView.reloadData()
         genderPickerView.delegate = self
@@ -152,7 +146,7 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
     func addBirthdayHex() {
         let userData = userDataVM?.userData.value
         var success = true
-        var myText = cellArray[0].interactiveTextField.text ?? ""
+        let myText = cellArray[0].interactiveTextField.text ?? ""
         var trimmedText = myText.trimmingCharacters(in: .whitespaces)
         trimmedText = trimmedText.lowercased()
         //        print("This is trimmedText \(trimmedText)")
@@ -166,7 +160,7 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
     func addRelationshipHex() {
         let userData = userDataVM?.userData.value
         var success = true
-        var myText = cellArray[5].interactiveTextField.text ?? ""
+        let myText = cellArray[5].interactiveTextField.text ?? ""
         var trimmedText = myText.trimmingCharacters(in: .whitespaces)
         trimmedText = trimmedText.lowercased()
         //        print("This is trimmedText \(trimmedText)")
@@ -184,9 +178,9 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
       //  var myCountries = userData!.country
         var myText = myCountry
         if !myCountries.isEmpty {
-        var myText = myCountries[0]
+            myText = myCountries[0]
         }
-        var trimmedText = myText.replacingOccurrences(of: " ", with: "-") as! String
+        var trimmedText = myText.replacingOccurrences(of: " ", with: "-")
       //  var trimmedText = myText.trimmingCharacters(in: .whitespaces)
         trimmedText = trimmedText.lowercased()
         //        print("This is trimmedText \(trimmedText)")
@@ -200,7 +194,7 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
     func addPhoneHex() {
         let userData = userDataVM?.userData.value
         var success = true
-        var myText = cellArray[4].interactiveTextField.text ?? ""
+        let myText = cellArray[4].interactiveTextField.text ?? ""
         var trimmedText = myText.trimmingCharacters(in: .whitespaces)
         trimmedText = trimmedText.lowercased()
         //        print("This is trimmedText \(trimmedText)")
@@ -214,7 +208,7 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
     func addCityHex() {
         let userData = userDataVM?.userData.value
         var success = true
-        var myText = cellArray[1].interactiveTextField.text ?? ""
+        let myText = cellArray[1].interactiveTextField.text ?? ""
         var stateCode = ""
         var state = ""
         var stateImage = ""
@@ -297,7 +291,7 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
         let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
         let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker));
         
-        toolbar.setItems([spaceButton,doneButton], animated: false)
+        toolbar.setItems([cancelButton, spaceButton, doneButton], animated: false)
         
         
     }
@@ -311,7 +305,7 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
         let formatter = DateFormatter()
         formatter.dateFormat = "MM/dd/yyyy"
         cellArray[0].interactiveTextField.text = formatter.string(from: datePicker.date)
-        var birthdaySubmitted = cellArray[0].interactiveTextField.text
+        let birthdaySubmitted = cellArray[0].interactiveTextField.text
         self.birthday = birthdaySubmitted!
         age = calcAge(birthday: birthdaySubmitted!)
         cellArray[0].socialMediaIcon.image = UIImage(named: self.myZodiac)
@@ -355,9 +349,9 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
     
     func setUpContinueButton() {
         view.addSubview(continueButton)
-        var buttonHeight = CGFloat(55)
-        var buttonWidth = CGFloat(view.frame.width*(3/4))
-        var heightToBottom = CGFloat(view.frame.height - tableView.frame.maxY)
+        let buttonHeight = CGFloat(55)
+        let buttonWidth = CGFloat(view.frame.width*(3/4))
+        let heightToBottom = CGFloat(view.frame.height - tableView.frame.maxY)
         continueButton.frame = CGRect(x: (view.frame.width - buttonWidth)/2, y: tableView.frame.maxY + ((heightToBottom - buttonHeight)/2), width: buttonWidth, height: buttonHeight)
         continueButton.layer.cornerRadius = continueButton.frame.width/40
         continueButton.backgroundColor = .systemBlue
@@ -404,9 +398,8 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
     }
     
     func formatCountryToImage(myCountry: String) -> String {
-        var success = true
         
-        var hyphenCountry = myCountry.replacingOccurrences(of: " ", with: "-") as! String
+        var hyphenCountry = myCountry.replacingOccurrences(of: " ", with: "-")
         hyphenCountry = hyphenCountry.lowercased()
         return hyphenCountry
     }
@@ -451,9 +444,7 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
         let myBirthday = cellArray[0].interactiveTextField.text
         let myCurrentCity = cellArray[1].interactiveTextField.text
         let myGender = cellArray[2].interactiveTextField.text
-        let myCulturalIdentity = myCountries
         let myPhoneNumber = cellArray[4].interactiveTextField.text ?? ""
-        let myRelationship = cellArray[5].interactiveTextField.text ?? ""
         
         userData?.birthday = myBirthday ?? ""
         userData?.currentCity = myCurrentCity ?? ""
@@ -463,7 +454,7 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
         addBirthdayHex()
         userData?.numPosts += 1
         
-        var myCity = cellArray[1].interactiveTextField.text ?? ""
+        let myCity = cellArray[1].interactiveTextField.text ?? ""
         if myCity.contains("United States") {
             addCityHex()
             userData?.numPosts += 1
@@ -484,6 +475,8 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
             addRelationshipHex()
             userData?.numPosts += 1
         }
+        
+        postButton.isUserInteractionEnabled = false
         
         let loadingIndicator = storyboard?.instantiateViewController(withIdentifier: "loading")
         
@@ -514,18 +507,10 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
             blurEffectView.removeFromSuperview()
             loadingIndicator!.view.removeFromSuperview()
             loadingIndicator!.removeFromParent()
+            self.postButton.isUserInteractionEnabled = true
         })
     }
     
-    
-   
-    @objc func backTapped(_ sender: UITapGestureRecognizer) {
-        print("back hit!")
-        for v in view.subviews {
-            v.isHidden = true
-        }
-        self.dismiss(animated: false, completion: nil)
-    }
     
     @objc func backButtonpressed() {
         print("It should dismiss here")
@@ -577,16 +562,16 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
     
     
     func setUpNavBarView() {
-        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
         self.view.addSubview(navBarView)
         self.navBarView.addSubview(backButton)
         self.navBarView.addSubview(postButton)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
         
-        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        let navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
         navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
-        var backButtonWidth = CGFloat(30)
+        let backButtonWidth = CGFloat(30)
         self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - backButtonWidth)/2, width: backButtonWidth, height: backButtonWidth)
         
         
@@ -608,7 +593,6 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
         
         postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 40, height: 34)
         navBarView.postButton.titleLabel?.textAlignment = .right
-        let yOffset = navBarView.frame.maxY
         
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Personal Details"
@@ -653,7 +637,7 @@ extension PersonalDetailTableViewVC: UITableViewDelegate, UITableViewDataSource 
         let cell = tableView.dequeueReusableCell(withIdentifier: "personalDetailCell", for: indexPath) as! PersonalDetailCell
         cell.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/8)
         cell.backgroundColor = UIColor(red: 0.95, green: 0.95, blue: 0.97, alpha: 1.00)
-        var myGray = cell.backgroundColor
+        let myGray = cell.backgroundColor
         cell.layer.borderColor = myGray?.cgColor
         cell.layer.borderWidth = 10
 
@@ -669,8 +653,7 @@ extension PersonalDetailTableViewVC: UITableViewDelegate, UITableViewDataSource 
                                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         
         
-        cell.socialMediaIcon.image = iconArray[indexPath.row] ?? UIImage(named: "unity")
-        
+        cell.socialMediaIcon.image = iconArray[indexPath.row]
         
         cell.circularMask.frame = cell.socialMediaIcon.frame
         cell.interactiveTextField.textColor = .black
@@ -691,7 +674,7 @@ extension PersonalDetailTableViewVC: UITableViewDelegate, UITableViewDataSource 
             let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
             let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker));
             
-            toolbar.setItems([spaceButton,doneButton], animated: false)
+            toolbar.setItems([cancelButton, spaceButton,doneButton], animated: false)
             let cellTap = UITapGestureRecognizer(target: self, action: #selector(birthdayCellTap))
             cell.addGestureRecognizer(cellTap)
             

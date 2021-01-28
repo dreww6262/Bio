@@ -667,6 +667,7 @@ pdfVC.navBarView.titleLabel.text = "Privacy Policy"
                                         personalDetailTableViewVC.myCountry = self.country
                                         personalDetailTableViewVC.myCountries.append(self.country)
                                         personalDetailTableViewVC.myAgeLimit = minimumAge
+                                        personalDetailTableViewVC.modalPresentationStyle = .fullScreen
                                         self.present(personalDetailTableViewVC, animated: false, completion: nil)
                                     }
                                 }

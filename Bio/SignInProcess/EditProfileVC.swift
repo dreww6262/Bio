@@ -112,23 +112,6 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
         
     }()
     
-    
-    
-    //    override func viewDidLoad() {
-    //        super.viewDidLoad()
-    //        countryPicker.countryPickerDelegate = self
-    //        countryPicker.showPhoneNumbers = true
-    //
-    //        // set country by its code
-    //        countryPicker.setCountry("SI")
-    //
-    //        // optionally set custom locale; defaults to system's locale
-    //        countryPicker.setLocale("sl_SI")
-    //
-    //        // set country by its name
-    //        countryPicker.setCountryByName("Canada")
-    //    }
-    
     // a picker item was selected
     func countryPhoneCodePicker(_ picker: MRCountryPicker, didSelectCountryWithName name: String, countryCode: String, phoneCode: String, flag: UIImage) {
         self.countryName.text = name
@@ -136,10 +119,6 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
         self.phoneCode.text = phoneCode
         self.countryFlag.image = flag
     }
-    
-    
-    
-    
     
     // default func
     override func viewDidLoad() {
@@ -178,8 +157,7 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
         self.scrollView.addSubview(countryTextField)
         countryPicker.isHidden = true
         avaImg.image = UIImage(named: "user-2")
-        let gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
-        let gray = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+        
         // scrollview frame size
         scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
         scrollView.contentSize.height = self.view.frame.height
@@ -193,11 +171,6 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
         hideTap.numberOfTapsRequired = 1
         self.view.isUserInteractionEnabled = true
         self.view.addGestureRecognizer(hideTap)
-        
-        // round ava
-        //  avaImg.layer.cornerRadius = avaImg.frame.size.width / 2
-        //hexagonAva
-        
         
         // declare select image tap
         let avaTap = UITapGestureRecognizer(target: self, action: #selector(GoodBioSignUpVC.loadImg(_:)))
@@ -232,12 +205,13 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
         displayNameTxt.frame = CGRect(x: 125, y: usernameTxt.frame.maxY + 10, width: self.view.frame.size.width - 135, height: 30)
         countryTextField.frame = CGRect(x: 125, y: displayNameTxt.frame.maxY + 10, width: self.view.frame.size.width - 135, height: 30)
         bioTxt.frame = CGRect(x: 125, y: countryTextField.frame.maxY + 10, width: self.view.frame.size.width - 135, height: 30)
-        emailLabel.frame = CGRect(x: 10, y: avaImg.frame.maxY + 20, width: 50, height: 30)
-        usernameLabel.frame = CGRect(x: 10, y: emailTxt.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
         displayNameLabel.frame = CGRect(x: 10, y: usernameTxt.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
-        countryLabel.frame = CGRect(x: 10, y: displayNameTxt.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
-        bioLabel.frame = CGRect(x: 10, y: countryTextField.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 30)
+        displayNameLabel.sizeToFit()
+        emailLabel.frame = CGRect(x: 10, y: avaImg.frame.maxY + 20, width: displayNameLabel.frame.width, height: 30)
+        usernameLabel.frame = CGRect(x: 10, y: emailTxt.frame.maxY + 10, width: displayNameLabel.frame.width, height: 30)
         
+        countryLabel.frame = CGRect(x: 10, y: displayNameTxt.frame.maxY + 10, width: displayNameLabel.frame.width, height: 30)
+        bioLabel.frame = CGRect(x: 10, y: countryTextField.frame.maxY + 10, width: displayNameLabel.frame.width, height: 30)
         
         signUpBtn.frame = CGRect(x: 10, y: bioTxt.frame.maxY + 10, width: self.view.frame.size.width - 20, height: 40)
         signUpBtn.layer.cornerRadius = signUpBtn.frame.size.width / 20
@@ -288,7 +262,7 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
         
         
         let bottomLine7 = CALayer()
-        bottomLine7.frame = CGRect(x: 0, y: countryTextField.frame.height, width: countryPicker.frame.width, height: 1.0)
+        bottomLine7.frame = CGRect(x: 0, y: countryTextField.frame.height, width: countryTextField.frame.width, height: 1.0)
         bottomLine7.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
         countryTextField.borderStyle = UITextField.BorderStyle.none
         countryTextField.layer.addSublayer(bottomLine7)
@@ -332,12 +306,6 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        //        switch traitCollection.userInterfaceStyle {
-        //        case .light, .unspecified:
-        //            return .lightContent
-        //        case .dark:
-        //            return .darkContent
-        //        }
         return .lightContent
     }
     
@@ -495,11 +463,11 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if changedProfilePic == false {
-            var addProfilePic = segue.destination as! AddProfilePhotoVC
+            let addProfilePic = segue.destination as! AddProfilePhotoVC
             addProfilePic.userDataVM = userDataVM
         }
         else {
-            var addSocialMediaVC = segue.destination as! AddSocialMediaVC
+            let addSocialMediaVC = segue.destination as! AddSocialMediaVC
             addSocialMediaVC.currentUser = Auth.auth().currentUser
             addSocialMediaVC.userDataVM = userDataVM
             addSocialMediaVC.cancelLbl = "Skip"
@@ -525,14 +493,14 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
     }
     
     func setUpNavBarView() {
-        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
 //        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.addSubview(cancelBtn)
         self.navBarView.addSubview(signUpBtn)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
         
-        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        let navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
         navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
         //        self.navBarView.addSubview(toSettingsButton)
@@ -559,7 +527,6 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
         signUpBtn.frame = CGRect(x: navBarView.frame.width - 60, y: statusBarHeight + (navBarHeightRemaining - 30)/2, width: 50, height: 30)
         //navBarView.postButton.titleLabel?.sizeToFit()
         navBarView.postButton.titleLabel?.textAlignment = .right
-        let yOffset = navBarView.frame.maxY
         
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Edit Profile"
@@ -570,36 +537,6 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
         
         
     }
-    
-    
-    func setUpNavBarViewBad() {
-        self.view.addSubview(self.navBarView)
-        self.navBarView.addSubview(self.titleLabel1)
-        self.navBarView.addBehavior()
-        
-        self.titleLabel1.text = "Create An Account"
-        self.navBarView.frame = CGRect(x: 0, y: self.cancelBtn.frame.minY/2, width: self.view.frame.width, height: self.view.frame.height/12)
-        // self.tableView.frame = CGRect(x: 0, y: self.view.frame.height/12, width: self.view.frame.width, height: self.view.frame.height*(11/12))
-        self.titleLabel1.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/12)
-        self.titleLabel1.textAlignment = .center
-        
-        self.titleLabel1.font = signUpBtn.titleLabel?.font
-        self.titleLabel1.font.withSize(45)
-        // self.titleLabel1.font = UIFont(name: , size: 25)
-        self.titleLabel1.textColor = .white
-        self.navBarView.backgroundColor = .clear
-        self.navBarView.isUserInteractionEnabled = false
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 }
 
 // Helper function inserted by Swift 4.2 migrator.
