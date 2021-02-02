@@ -504,7 +504,16 @@ pdfVC.navBarView.titleLabel.text = "Privacy Policy"
         if (emailTxt.text!.isEmpty || usernameTxt.text!.isEmpty || passwordTxt.text!.isEmpty || repeatPassword.text!.isEmpty || countryTextField.text!.isEmpty || displayNameTxt.text!.isEmpty) {
             
             // alert message
-            let alert = UIAlertController(title: "PLEASE", message: "fill all fields", preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: "PLEASE", message: "Fill all fields", preferredStyle: UIAlertController.Style.alert)
+            let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
+            alert.addAction(ok)
+            self.present(alert, animated: true, completion: nil)
+            
+            return
+        }
+        
+        if usernameTxt.text?.contains(" ") ?? true {
+            let alert = UIAlertController(title: "Do not include a space in the username", message: "Fix that and try again", preferredStyle: UIAlertController.Style.alert)
             let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
             alert.addAction(ok)
             self.present(alert, animated: true, completion: nil)
