@@ -643,7 +643,7 @@ pdfVC.navBarView.titleLabel.text = "Privacy Policy"
                    // country = self.countryTextField.text ?? ""
                     avaFileRef.putData(self.avaImg.image!.pngData()!, metadata: nil, completion: { meta, error in
                         if (error == nil) {
-                            let userData = UserData(email: email, publicID: self.usernameTxt.text!.lowercased(), privateID: signedInUser!.uid, avaRef: reference, hexagonGridID: "", userPage: "", subscribedUsers: [""], subscriptions: [String: String](), numPosts: 0, displayName: self.displayNameTxt.text!, birthday: "", blockedUsers: [String](), isBlockedBy: [String](), pageViews: 0, bio: bio, country: country, lastTimePosted: NSDate.now.description, currentCity: "", gender: "", phoneNumber: "", identityHexIDs: [String]())
+                            let userData = UserData(email: email, publicID: self.usernameTxt.text!.lowercased(), privateID: signedInUser!.uid, avaRef: reference, hexagonGridID: "", userPage: "", subscribedUsers: [""], subscriptions: [String: String](), numPosts: 0, displayName: self.displayNameTxt.text!, birthday: "", blockedUsers: [String](), isBlockedBy: [String](), pageViews: 0, bio: bio, country: country, lastTimePosted: NSDate.now.description, currentCity: "", gender: "", phoneNumber: "", identityHexIDs: [String](), displayNameQueryable: self.displayNameTxt.text!.lowercased())
                             let db = Firestore.firestore()
                             let userDataCollection = db.collection("UserData1")
                             let docRef = userDataCollection.document(user!.uid)

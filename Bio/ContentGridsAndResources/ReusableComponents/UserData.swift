@@ -35,14 +35,15 @@ class UserData: Equatable {
     var phoneNumber: String
     var lastTimePosted: String
     var identityValues: [String]
+    var displayNameQueryable: String
     
     
     var dictionary: [String: Any] {
-        return ["email": email, "publicID": publicID, "privateID": privateID, "avaRef": avaRef, "hexagonGridID": hexagonGridID, "userPage": userPage, "subscribedUsers": subscribedUsers, "subscriptions":  subscriptions, "numPosts": numPosts, "displayName": displayName, "birthday": birthday, "blockedUsers": blockedUsers, "isBlockedBy": isBlockedBy, "pageViews": pageViews, "bio": bio, "country": country, "lastTimePosted": lastTimePosted, "currentCity": currentCity, "gender": gender, "phoneNumber": phoneNumber, "identityValues": identityValues]
+        return ["email": email, "publicID": publicID, "privateID": privateID, "avaRef": avaRef, "hexagonGridID": hexagonGridID, "userPage": userPage, "subscribedUsers": subscribedUsers, "subscriptions":  subscriptions, "numPosts": numPosts, "displayName": displayName, "birthday": birthday, "blockedUsers": blockedUsers, "isBlockedBy": isBlockedBy, "pageViews": pageViews, "bio": bio, "country": country, "lastTimePosted": lastTimePosted, "currentCity": currentCity, "gender": gender, "phoneNumber": phoneNumber, "identityValues": identityValues, "displayNameQueryable": displayNameQueryable]
     }
     
     
-    init(email: String, publicID: String, privateID: String, avaRef: String, hexagonGridID: String, userPage: String, subscribedUsers:  [String], subscriptions: [String: String], numPosts: Int, displayName: String, birthday: String, blockedUsers: [String], isBlockedBy: [String], pageViews: Int, bio: String, country: String, lastTimePosted: String, currentCity: String, gender: String, phoneNumber: String, identityHexIDs: [String]) {
+    init(email: String, publicID: String, privateID: String, avaRef: String, hexagonGridID: String, userPage: String, subscribedUsers:  [String], subscriptions: [String: String], numPosts: Int, displayName: String, birthday: String, blockedUsers: [String], isBlockedBy: [String], pageViews: Int, bio: String, country: String, lastTimePosted: String, currentCity: String, gender: String, phoneNumber: String, identityHexIDs: [String], displayNameQueryable: String) {
         
         self.email = email
         self.publicID = publicID
@@ -65,6 +66,7 @@ class UserData: Equatable {
         self.gender = gender
         self.phoneNumber = phoneNumber
         self.identityValues = identityHexIDs
+        self.displayNameQueryable = displayNameQueryable
     }
     
     
@@ -107,12 +109,12 @@ class UserData: Equatable {
         let phoneNumber = dictionary["phoneNumber"] as! String? ?? ""
         let identityHexIDs = dictionary["identityValues"] as! [String]? ?? [String]()
         
+        let displayNameQueryable = (dictionary["displayNameQueryable"] as? String) ?? displayName.lowercased()
         
         
         
         
-        
-        self.init(email: email, publicID: publicID,privateID: privateID, avaRef: avaRef, hexagonGridID: hexagonGridID, userPage: userPage, subscribedUsers: subscribedUsers, subscriptions: subscriptions, numPosts: numPosts, displayName: displayName, birthday: birthday, blockedUsers: blockedUsers, isBlockedBy: isBlockedBy, pageViews: pageViews, bio: bio, country: country, lastTimePosted: lastTimePosted, currentCity: currentCity, gender: gender, phoneNumber: phoneNumber, identityHexIDs: identityHexIDs)
+        self.init(email: email, publicID: publicID,privateID: privateID, avaRef: avaRef, hexagonGridID: hexagonGridID, userPage: userPage, subscribedUsers: subscribedUsers, subscriptions: subscriptions, numPosts: numPosts, displayName: displayName, birthday: birthday, blockedUsers: blockedUsers, isBlockedBy: isBlockedBy, pageViews: pageViews, bio: bio, country: country, lastTimePosted: lastTimePosted, currentCity: currentCity, gender: gender, phoneNumber: phoneNumber, identityHexIDs: identityHexIDs, displayNameQueryable: displayNameQueryable)
     }
 }
 
