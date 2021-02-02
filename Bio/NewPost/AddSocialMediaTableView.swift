@@ -246,6 +246,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
             numPosts += 1
             var myText = textFieldData[0]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
+            trimmedText = trimmedText.replacingOccurrences(of: "@", with: "")
             trimmedText = trimmedText.lowercased()
             print("This is trimmedText \(trimmedText)")
             let instaHex = HexagonStructData(resource: "https://instagram.com/\(trimmedText)", type: "socialmedia_instagram", location: numPosts, thumbResource: "icons/instagramLogo.png", createdAt: NSDate.now.description, postingUserID: username, text: "", views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: [])
@@ -261,6 +262,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
             var myText = textFieldData[1]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
             trimmedText = trimmedText.lowercased()
+            trimmedText = trimmedText.replacingOccurrences(of: "@", with: "")
             print("This is trimmedText \(trimmedText)")
             let snapHex = HexagonStructData(resource: "https://www.snapchat.com/add/\(trimmedText)", type: "socialmedia_snapchat", location: numPosts, thumbResource: "icons/snapchatlogo.jpg", createdAt: NSDate.now.description, postingUserID: username, text: "", views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: [])
             group.enter()
@@ -288,6 +290,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
             numPosts += 1
             var myText = textFieldData[3]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
+            trimmedText = trimmedText.replacingOccurrences(of: "@", with: "")
             trimmedText = trimmedText.lowercased()
             print("This is trimmedText \(trimmedText)")
             let twitterHex = HexagonStructData(resource: "https://twitter.com/\(trimmedText)", type: "socialmedia_twitter", location: numPosts, thumbResource: "icons/twitter.png", createdAt: NSDate.now.description, postingUserID: username, text: "", views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: [])
@@ -316,6 +319,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
             numPosts += 1
             var myText = textFieldData[5]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
+            trimmedText = trimmedText.replacingOccurrences(of: "@", with: "")
             trimmedText = trimmedText.lowercased()
             print("This is trimmedText \(trimmedText)")
             let vscoHex = HexagonStructData(resource: "https://www.vsco.co/\(trimmedText)/gallery", type: "socialmedia_vsco", location: numPosts, thumbResource: "icons/vscologo1.png", createdAt: NSDate.now.description, postingUserID: username, text: "", views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: [])
@@ -344,6 +348,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
             numPosts += 1
             var myText = textFieldData[7]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
+            trimmedText = trimmedText.replacingOccurrences(of: "@", with: "")
             trimmedText = trimmedText.lowercased()
             print("This is trimmedText \(trimmedText)")
             let twitchHex = HexagonStructData(resource: "https://m.twitch.tv/\(trimmedText)/profile", type: "socialmedia_twitch", location: numPosts, thumbResource: "icons/twitch1.png", createdAt: NSDate.now.description, postingUserID: username, text: "", views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: [])
@@ -373,6 +378,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
             var myText = textFieldData[9]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
             trimmedText = trimmedText.lowercased()
+            trimmedText = trimmedText.replacingOccurrences(of: "@", with: "")
             print("This is trimmedText \(trimmedText)")
             let etsyHex = HexagonStructData(resource: "https://etsy.com/shop/\(trimmedText)", type: "socialmedia_etsy", location: numPosts, thumbResource: "icons/etsyLogoCircle.png", createdAt: NSDate.now.description, postingUserID: username, text: "", views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: [])
             group.enter()
@@ -387,6 +393,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
             numPosts += 1
             var myText = textFieldData[10]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
+            trimmedText = trimmedText.replacingOccurrences(of: "@", with: "")
             trimmedText = trimmedText.lowercased()
             print("This is trimmedText \(trimmedText)")
             let poshmarkHex = HexagonStructData(resource: "https://poshmark.com/closet/\(trimmedText)", type: "socialmedia_poshmark", location: numPosts, thumbResource: "icons/poshmarkLogo.png", createdAt: NSDate.now.description, postingUserID: username, text: "", views: 0, isArchived: false, docID: "WillBeSetLater", coverText: "", isPrioritized: false, array: [])
@@ -416,6 +423,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
             numPosts += 1
             var myText = textFieldData[12]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
+            trimmedText = trimmedText.replacingOccurrences(of: "@", with: "")
             trimmedText = trimmedText.lowercased()
             print("This is trimmedText \(trimmedText)")
             print("should be a venmo hex!")
@@ -431,6 +439,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
             numPosts += 1
             var myText = textFieldData[13]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
+            trimmedText = trimmedText.replacingOccurrences(of: "@", with: "")
             trimmedText = trimmedText.lowercased()
             while trimmedText.hasPrefix("$") {
                 "hello".chopPrefix()

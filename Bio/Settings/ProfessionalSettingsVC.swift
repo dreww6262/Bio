@@ -71,7 +71,7 @@ class ProfessionalSettingsVC: QuickTableViewController {
         super.viewDidLoad()
         let userData = userDataVM?.userData.value
         setUpNavBarView()
-        navBarView.backgroundColor = UIColor(red: 0.95, green: 0.95, blue: 0.97, alpha: 1.00)
+       
         var myBirthday = userData?.birthday
         //
         tableContents = [
@@ -129,10 +129,12 @@ class ProfessionalSettingsVC: QuickTableViewController {
      //   self.navBarView.titleLabel.frame = CGRect(x: (self.view.frame.width/2) - 100, y: self.navBarView.backButton.frame.minY, width: 200, height: 25)
         switch traitCollection.userInterfaceStyle {
         case .light, .unspecified:
+            navBarView.backgroundColor = UIColor(red: 0.95, green: 0.95, blue: 0.97, alpha: 1.00)
             navBarView.backButton.setImage(UIImage(named: "blackChevron"), for: .normal)
             navBarView.titleLabel.textColor = .black
         case .dark:
             navBarView.backButton.setImage(UIImage(named: "whiteChevron"), for: .normal)
+            navBarView.backgroundColor = .black
             navBarView.titleLabel.textColor = .white
         }
 

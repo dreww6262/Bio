@@ -76,12 +76,12 @@ class ContentRelationship: UIViewController, UIScrollViewDelegate {
         var relationshipStatus = relationshipHex!.text
         var relationshipText = ""
         if relationshipStatus.contains("complicated") {
-         relationshipText = "relationship status: \(relationshipStatus.lowercased())"
+         relationshipText = "Relationship Status: \(relationshipStatus.lowercased())"
             label1.font = UIFont(name: "DINAlternate-Bold", size: 18)
         }
         else {
         relationshipText = "\(relationshipHex!.resource) is \(relationshipStatus.lowercased())"
-            label1.font = UIFont(name: "DINAlternate-Bold", size: 28)
+            label1.font = UIFont(name: "DINAlternate-Bold", size: 23)
         }
         
         var zodiacLowerCased = "\(relationshipHex!.text)"

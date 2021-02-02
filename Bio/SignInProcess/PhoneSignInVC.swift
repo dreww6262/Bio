@@ -53,6 +53,7 @@ class PhoneSignInVC: UIViewController {
     var loadingIndicator: UIViewController?
     override func viewDidLoad() {
         super.viewDidLoad()
+        signUpButton.setTitle("Create an OSI Account", for: .normal)
         userDataVM = UserDataVM()
         if let email = Auth.auth().currentUser?.email {
             loadingIndicator = storyboard?.instantiateViewController(withIdentifier: "loading")
@@ -113,7 +114,7 @@ class PhoneSignInVC: UIViewController {
         let screenWidth = self.view.frame.width
         let screenHeight = self.view.frame.height
         self.logo.frame = CGRect(x: screenWidth/32, y: screenHeight/9, width: screenWidth*(30/32), height: screenWidth*(30/32))
-        self.logo.setupHexagonMask(lineWidth: self.logo.frame.width/15, color: myBlueGreen, cornerRadius: self.logo.frame.width/15)
+        self.logo.setupHexagonMask(lineWidth: self.logo.frame.width/15, color: myCoolBlue, cornerRadius: self.logo.frame.width/15)
     }
     
     func formatLabelAndButtons() {

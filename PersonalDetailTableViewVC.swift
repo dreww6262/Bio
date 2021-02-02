@@ -283,7 +283,7 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
     func showDatePicker(){
         //Formate Date
         datePicker.datePickerMode = .date
-        
+        datePicker.preferredDatePickerStyle = .wheels
         //ToolBar
         let toolbar = UIToolbar();
         toolbar.sizeToFit()
@@ -666,7 +666,7 @@ extension PersonalDetailTableViewVC: UITableViewDelegate, UITableViewDataSource 
         if indexPath.row == 0 {
             //show datePicker
             datePicker.datePickerMode = .date
-            
+            datePicker.preferredDatePickerStyle = .wheels
             //ToolBar
             let toolbar = UIToolbar();
             toolbar.sizeToFit()

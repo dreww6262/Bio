@@ -21,12 +21,15 @@ class newsCell: UITableViewCell {
     
     @IBOutlet weak var acceptButton: UIButton!
     
+    var followBackButton = UIButton()
+    
     let phoneButton = UIButton()
 
     // default func
     override func awakeFromNib() {
         super.awakeFromNib()
         contentView.addSubview(phoneButton)
+        contentView.addSubview(followBackButton)
         // constraints
         avaImg.translatesAutoresizingMaskIntoConstraints = false
         usernameBtn.translatesAutoresizingMaskIntoConstraints = false
