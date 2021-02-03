@@ -838,9 +838,10 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
                     }
                 }
                 var list = popList.readOnlyArray()
-                list.sort(by: { x, y in
-                    return x.pageViews > y.pageViews
-                })
+//                list.sort(by: { x, y in
+//                    return x.pageViews > y.pageViews
+//                })
+                list.shuffle()
                 popList.setArray(array: list)
                 popularCollectionView.reloadData()
             }

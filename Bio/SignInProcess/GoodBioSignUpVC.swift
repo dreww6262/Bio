@@ -504,7 +504,16 @@ pdfVC.navBarView.titleLabel.text = "Privacy Policy"
         if (emailTxt.text!.isEmpty || usernameTxt.text!.isEmpty || passwordTxt.text!.isEmpty || repeatPassword.text!.isEmpty || countryTextField.text!.isEmpty || displayNameTxt.text!.isEmpty) {
             
             // alert message
-            let alert = UIAlertController(title: "PLEASE", message: "fill all fields", preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: "PLEASE", message: "Fill all fields", preferredStyle: UIAlertController.Style.alert)
+            let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
+            alert.addAction(ok)
+            self.present(alert, animated: true, completion: nil)
+            
+            return
+        }
+        
+        if usernameTxt.text?.contains(" ") ?? true {
+            let alert = UIAlertController(title: "Do not include a space in the username", message: "Fix that and try again", preferredStyle: UIAlertController.Style.alert)
             let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
             alert.addAction(ok)
             self.present(alert, animated: true, completion: nil)
@@ -643,7 +652,7 @@ pdfVC.navBarView.titleLabel.text = "Privacy Policy"
                    // country = self.countryTextField.text ?? ""
                     avaFileRef.putData(self.avaImg.image!.pngData()!, metadata: nil, completion: { meta, error in
                         if (error == nil) {
-                            let userData = UserData(email: email, publicID: self.usernameTxt.text!.lowercased(), privateID: signedInUser!.uid, avaRef: reference, hexagonGridID: "", userPage: "", subscribedUsers: [""], subscriptions: [String: String](), numPosts: 0, displayName: self.displayNameTxt.text!, birthday: "", blockedUsers: [String](), isBlockedBy: [String](), pageViews: 0, bio: bio, country: country, lastTimePosted: NSDate.now.description, currentCity: "", gender: "", phoneNumber: "", identityHexIDs: [String]())
+                            let userData = UserData(email: email, publicID: self.usernameTxt.text!.lowercased(), privateID: signedInUser!.uid, avaRef: reference, hexagonGridID: "", userPage: "", subscribedUsers: [""], subscriptions: [String: String](), numPosts: 0, displayName: self.displayNameTxt.text!, birthday: "", blockedUsers: [String](), isBlockedBy: [String](), pageViews: 0, bio: bio, country: country, lastTimePosted: NSDate.now.description, currentCity: "", gender: "", phoneNumber: "", identityHexIDs: [String](), displayNameQueryable: self.displayNameTxt.text!.lowercased())
                             let db = Firestore.firestore()
                             let userDataCollection = db.collection("UserData1")
                             let docRef = userDataCollection.document(user!.uid)

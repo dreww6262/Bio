@@ -115,7 +115,70 @@ var navBarView = NavBarView()
         
         observeUserData()
         refresh()
+        
+        // refreshes userdata to get queryable display name
+//        db.collection("UserData1").getDocuments(completion: { obj, error in
+//            if let docs = obj?.documents {
+//                for doc in docs {
+//                    let userData = UserData(dictionary: doc.data())
+//                    doc.reference.setData(userData.dictionary)
+//                }
+//            }
+//        })
+        
     }
+    
+    
+    // Function to clear out database
+    
+//    func clearOutDB() {
+//        db.collection("UserData1").getDocuments(completion: { obj, error in
+//            guard let docs = obj?.documents else {
+//                return
+//            }
+//            var usernames = [String]()
+//            for doc in docs {
+//                let uname = UserData(dictionary: doc.data()).publicID
+//                usernames.append(uname)
+//            }
+//
+//            self.db.collection("News2").getDocuments(completion: { obj, error in
+//                guard let docs = obj?.documents else {
+//                    return
+//                }
+//                for doc in docs {
+//                    let news = NewsObject(dictionary: doc.data())
+//                    if !usernames.contains(news.currentUser) || !usernames.contains(news.notifyingUser) {
+//                        doc.reference.delete()
+//                    }
+//                }
+//            })
+//
+//            self.db.collection("Hexagons2").getDocuments(completion: { obj, error in
+//                guard let docs = obj?.documents else {
+//                    return
+//                }
+//                for doc in docs {
+//                    let hex = HexagonStructData(dictionary: doc.data())
+//                    if !usernames.contains(hex.postingUserID) {
+//                        doc.reference.delete()
+//                    }
+//                }
+//            })
+//
+//            self.db.collection("PageViews").getDocuments(completion: { obj, error in
+//                guard let docs = obj?.documents else {
+//                    return
+//                }
+//                for doc in docs {
+//                    let pageView = doc.data()
+//                    if !usernames.contains(pageView["viewed"] as! String) || !usernames.contains(pageView["viewer"] as! String) {
+//                        doc.reference.delete()
+//                    }
+//                }
+//            })
+//        })
+//    }
     
     func observeUserData() {
         userDataVM?.userData.observe { userData in
