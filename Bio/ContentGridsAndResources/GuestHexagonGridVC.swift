@@ -13,8 +13,6 @@ import AVKit
 import Firebase
 import SDWebImage
 import WebKit
-import FirebaseFirestore
-//import Twinkle
 
 class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, WKUIDelegate, UIContextMenuInteractionDelegate  {
     var navBarView = NavBarView()
@@ -198,7 +196,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
                         if error == nil {
                             let docs = pobj!.documents
                             
-                            if (docs.count < 18) {
+                            if (docs.count < 100) {
                                 let index = docs.firstIndex(where: { ref in
                                     UserData(dictionary: ref.data()).publicID == self.guestUserData?.publicID
                                 })
