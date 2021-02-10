@@ -102,7 +102,7 @@ var detailStrings: [String] = []
     
     func setup3Image() {
         circlePhotoWidth = CGFloat(120.0)
-        var totalWidth: CGFloat = (3*circlePhotoWidth) + spacing
+        let totalWidth: CGFloat = (3*circlePhotoWidth) + spacing
         
         self.image1.frame = CGRect(x: (view.frame.width - totalWidth)/2, y: titleLabel.frame.maxY + 20, width: CGFloat(circlePhotoWidth), height: CGFloat(circlePhotoWidth))
         image1.clipsToBounds = true

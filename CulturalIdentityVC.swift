@@ -137,9 +137,9 @@ class CulturalIdentityVC: UIViewController, UITextFieldDelegate, MRCountryPicker
 
         tableView.delegate = self
         tableView.dataSource = self
-        var numRows = CGFloat(6.0)
-        var rowHeight = CGFloat(90)
-        var tableViewHeight = CGFloat(numRows*rowHeight)
+        let numRows = CGFloat(6.0)
+        let rowHeight = CGFloat(90)
+        let tableViewHeight = CGFloat(numRows*rowHeight)
         tableView.frame = CGRect(x: 0, y: navBarView.frame.height, width: view.frame.width, height: tableViewHeight)
         tableView.reloadData()
        // showDatePicker()
@@ -175,8 +175,8 @@ class CulturalIdentityVC: UIViewController, UITextFieldDelegate, MRCountryPicker
     
     func setUpContinueButton() {
         view.addSubview(continueButton)
-        var buttonHeight = CGFloat(55)
-        var buttonWidth = CGFloat(view.frame.width*(3/4))
+        let buttonHeight = CGFloat(55)
+        let buttonWidth = CGFloat(view.frame.width*(3/4))
         continueButton.frame = CGRect(x: (view.frame.width - buttonWidth)/2, y: view.frame.height - buttonHeight - buttonHeight, width: buttonWidth, height: buttonHeight)
         continueButton.layer.cornerRadius = continueButton.frame.width/40
         continueButton.backgroundColor = .systemBlue
@@ -332,7 +332,7 @@ class CulturalIdentityVC: UIViewController, UITextFieldDelegate, MRCountryPicker
         //let group = DispatchGroup()
         if (!(textFieldData[0] == "")) {
             numPosts += 1
-            var myText = textFieldData[0]
+            let myText = textFieldData[0]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
             trimmedText = trimmedText.lowercased()
             print("This is trimmedText \(trimmedText)")
@@ -345,7 +345,7 @@ class CulturalIdentityVC: UIViewController, UITextFieldDelegate, MRCountryPicker
         
         if (!(textFieldData[1] == "")) {
             numPosts += 1
-            var myText = textFieldData[1]
+            let myText = textFieldData[1]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
             trimmedText = trimmedText.lowercased()
             print("This is trimmedText \(trimmedText)")
@@ -358,7 +358,7 @@ class CulturalIdentityVC: UIViewController, UITextFieldDelegate, MRCountryPicker
         
         if (!(textFieldData[2] == "")) {
             numPosts += 1
-            var myText = textFieldData[2]
+            let myText = textFieldData[2]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
             trimmedText = trimmedText.lowercased()
             print("This is trimmedText \(trimmedText)")
@@ -371,7 +371,7 @@ class CulturalIdentityVC: UIViewController, UITextFieldDelegate, MRCountryPicker
         
         if (!(textFieldData[3] == "")) {
             numPosts += 1
-            var myText = textFieldData[3]
+            let myText = textFieldData[3]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
             trimmedText = trimmedText.lowercased()
             print("This is trimmedText \(trimmedText)")
@@ -384,7 +384,7 @@ class CulturalIdentityVC: UIViewController, UITextFieldDelegate, MRCountryPicker
         
         if (!(textFieldData[4] == "")) {
             numPosts += 1
-            var myText = textFieldData[4]
+            let myText = textFieldData[4]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
             trimmedText = trimmedText.lowercased()
             print("This is trimmedText \(trimmedText)")
@@ -397,7 +397,7 @@ class CulturalIdentityVC: UIViewController, UITextFieldDelegate, MRCountryPicker
         
         if (!(textFieldData[5] == "")) {
             numPosts += 1
-            var myText = textFieldData[5]
+            let myText = textFieldData[5]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
             trimmedText = trimmedText.lowercased()
             print("This is trimmedText \(trimmedText)")
@@ -410,7 +410,7 @@ class CulturalIdentityVC: UIViewController, UITextFieldDelegate, MRCountryPicker
         
         if (!(textFieldData[6] == "")) {
             numPosts += 1
-            var myText = textFieldData[6]
+            let myText = textFieldData[6]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
             trimmedText = trimmedText.lowercased()
             print("This is trimmedText \(trimmedText)")
@@ -423,7 +423,7 @@ class CulturalIdentityVC: UIViewController, UITextFieldDelegate, MRCountryPicker
         
         if (!(textFieldData[7] == "")) {
             numPosts += 1
-            var myText = textFieldData[7]
+            let myText = textFieldData[7]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
             trimmedText = trimmedText.lowercased()
             print("This is trimmedText \(trimmedText)")
@@ -436,7 +436,7 @@ class CulturalIdentityVC: UIViewController, UITextFieldDelegate, MRCountryPicker
         
         if (!(textFieldData[8] == "")) {
             numPosts += 1
-            var myText = textFieldData[8]
+            let myText = textFieldData[8]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
             trimmedText = trimmedText.lowercased()
             print("This is trimmedText \(trimmedText)")
@@ -449,7 +449,7 @@ class CulturalIdentityVC: UIViewController, UITextFieldDelegate, MRCountryPicker
      
         if (!(textFieldData[9] == "")) {
             numPosts += 1
-            var myText = textFieldData[9]
+            let myText = textFieldData[9]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
             trimmedText = trimmedText.lowercased()
             print("This is trimmedText \(trimmedText)")
@@ -463,7 +463,7 @@ class CulturalIdentityVC: UIViewController, UITextFieldDelegate, MRCountryPicker
         if (!(textFieldData[10] == "")) {
             print("Trying to add a poshmark link")
             numPosts += 1
-            var myText = textFieldData[10]
+            let myText = textFieldData[10]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
             trimmedText = trimmedText.lowercased()
             print("This is trimmedText \(trimmedText)")
@@ -476,7 +476,7 @@ class CulturalIdentityVC: UIViewController, UITextFieldDelegate, MRCountryPicker
         
         if (!(textFieldData[11] == "")) {
             numPosts += 1
-            var myText = textFieldData[11]
+            let myText = textFieldData[11]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
             trimmedText = trimmedText.lowercased()
             print("This is trimmedText \(trimmedText)")
@@ -490,7 +490,7 @@ class CulturalIdentityVC: UIViewController, UITextFieldDelegate, MRCountryPicker
         
         if (!(textFieldData[12] == "")) {
             numPosts += 1
-            var myText = textFieldData[12]
+            let myText = textFieldData[12]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
             trimmedText = trimmedText.lowercased()
             print("This is trimmedText \(trimmedText)")
@@ -504,7 +504,7 @@ class CulturalIdentityVC: UIViewController, UITextFieldDelegate, MRCountryPicker
         
         if (!(textFieldData[13] == "")) {
             numPosts += 1
-            var myText = textFieldData[13]
+            let myText = textFieldData[13]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
             trimmedText = trimmedText.lowercased()
             while trimmedText.hasPrefix("$") {
@@ -523,7 +523,7 @@ class CulturalIdentityVC: UIViewController, UITextFieldDelegate, MRCountryPicker
         
         if (!(textFieldData[14] == "")) {
             numPosts += 1
-            var myText = textFieldData[14]
+            let myText = textFieldData[14]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
             trimmedText = trimmedText.lowercased()
             print("This is trimmedText \(trimmedText)")
@@ -623,31 +623,31 @@ class CulturalIdentityVC: UIViewController, UITextFieldDelegate, MRCountryPicker
     }
     
     func formatCountryToImage(myCountry: String) -> String {
-        var success = true
+        _ = true
 
-        var hyphenCountry = myCountry.replacingOccurrences(of: " ", with: "-") as! String
+        var hyphenCountry = myCountry.replacingOccurrences(of: " ", with: "-") 
         hyphenCountry = hyphenCountry.lowercased()
         print("This is hypehenCountry \(hyphenCountry)")
         print("should be a country hex!")
-        var countryString = "icons/Flags/\(hyphenCountry).png"
+        let countryString = "icons/Flags/\(hyphenCountry).png"
   return countryString
     }
     
     
     func setUpNavBarView() {
-        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
 //        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.addSubview(backButton)
         self.navBarView.addSubview(postButton)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
        
-        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        let navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
         navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
 //        self.navBarView.addSubview(toSettingsButton)
 //        self.navBarView.addSubview(toSearchButton)
-        var backButtonWidth = CGFloat(30)
+        let backButtonWidth = CGFloat(30)
         self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - backButtonWidth)/2, width: backButtonWidth, height: backButtonWidth)
         
 
@@ -676,7 +676,7 @@ class CulturalIdentityVC: UIViewController, UITextFieldDelegate, MRCountryPicker
         postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 40, height: 34)
         //navBarView.postButton.titleLabel?.sizeToFit()
         navBarView.postButton.titleLabel?.textAlignment = .right
-        let yOffset = navBarView.frame.maxY
+        _ = navBarView.frame.maxY
   
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Add Your Ethnicities"
@@ -767,7 +767,7 @@ extension CulturalIdentityVC: UITableViewDelegate, UITableViewDataSource {
         cell.tag = indexPath.row
         cell.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/8)
         cell.backgroundColor = UIColor(red: 0.95, green: 0.95, blue: 0.97, alpha: 1.00)
-        var myGray = cell.backgroundColor
+        let myGray = cell.backgroundColor
         cell.layer.borderColor = myGray?.cgColor
         cell.layer.borderWidth = 10
        // let cellTappedRecognizer = UITapGestureRecognizer(target: self, action: #selector(cellTapped))

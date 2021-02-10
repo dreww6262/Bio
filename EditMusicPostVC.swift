@@ -145,7 +145,7 @@ class EditMusicPostVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         scrollView.addSubview(checkBox)
         scrollView.addSubview(linkHexagonImageCopy)
         textOverlayTextField.delegate = self
-        var alreadySnapped = false
+        _ = false
         super.viewDidLoad()
                 
         let linkTap = UITapGestureRecognizer(target: self, action: #selector(AddLinkVCViewController.loadImg(_:)))
@@ -157,9 +157,9 @@ class EditMusicPostVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         
         
         //poshmarkLogo.image = UIImage(named: "poshmarkLogo")
-        let gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
-        let gray = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
-        let orange = #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
+        _ = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
+        _ = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+        _ = #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
         
         // scrollview frame size
         scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
@@ -250,7 +250,7 @@ prioritizeLabel.text = "Prioritize This Post?"
         // let bottomLine = CALayer()
         self.bottomLine.frame = CGRect(x: 0.0, y: linkTextField.frame.height, width: linkTextField.frame.width, height: 1.0)
         self.bottomLine.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
-        var bottomLine2 = CALayer()
+        let bottomLine2 = CALayer()
         bottomLine2.frame = CGRect(x: 0.0, y: frame.height, width: linkTextField.frame.width, height: 1.0)
         bottomLine2.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
         linkTextField.borderStyle = UITextField.BorderStyle.none
@@ -264,7 +264,7 @@ prioritizeLabel.text = "Prioritize This Post?"
         
         linkTextField.font = UIFont(name: "Poppins", size: 20)
         
-        var bottomLine3 = CALayer()
+        let bottomLine3 = CALayer()
         bottomLine3.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
         captionTextField.borderStyle = UITextField.BorderStyle.none
         captionTextField.layer.addSublayer(bottomLine3)
@@ -274,7 +274,7 @@ prioritizeLabel.text = "Prioritize This Post?"
         captionTextField.font = UIFont(name: "Poppins", size: 20)
         captionTextField.textColor = .white
         
-        var bottomLine4 = CALayer()
+        let bottomLine4 = CALayer()
         bottomLine4.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
         textOverlayTextField.borderStyle = UITextField.BorderStyle.none
         textOverlayTextField.layer.addSublayer(bottomLine4)
@@ -285,7 +285,7 @@ prioritizeLabel.text = "Prioritize This Post?"
         textOverlayTextField.textColor = .white
         
         
-        var bottomLine5 = CALayer()
+        let bottomLine5 = CALayer()
         bottomLine5.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
         //prioritizeLabel.borderStyle = UITextField.BorderStyle.none
         prioritizeLabel.layer.addSublayer(bottomLine5)
@@ -411,14 +411,14 @@ prioritizeLabel.text = "Prioritize This Post?"
 
     
     func setUpNavBarView() {
-        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
 //        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.addSubview(backButton)
         self.navBarView.addSubview(postButton)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
        
-        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        let navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
         navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
         self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 34, height: 34)
@@ -460,7 +460,7 @@ prioritizeLabel.text = "Prioritize This Post?"
         postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 40, height: 34)
         //navBarView.postButton.titleLabel?.sizeToFit()
         navBarView.postButton.titleLabel?.textAlignment = .right
-        let yOffset = navBarView.frame.maxY
+        _ = navBarView.frame.maxY
   
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Edit Post"
@@ -698,7 +698,7 @@ prioritizeLabel.text = "Prioritize This Post?"
     
     
     @objc func keyboard(notification:Notification) {
-        guard let keyboardReact = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else{
+        guard ((notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue) != nil else{
             return
         }
         
@@ -752,11 +752,11 @@ prioritizeLabel.text = "Prioritize This Post?"
         }
    
         
-        artistText = artistText.replacingOccurrences(of: " ", with: "-") as! String
+        artistText = artistText.replacingOccurrences(of: " ", with: "-") 
         
         
          songText = songText.replacingOccurrences(of: " ", with: "-")
-        songText = songText.replacingOccurrences(of: "'", with: "") as! String
+        songText = songText.replacingOccurrences(of: "'", with: "") 
         while songText.contains("'") {
             songText.remove(at: songText.firstIndex(of: "'")!)
         }
@@ -789,7 +789,6 @@ prioritizeLabel.text = "Prioritize This Post?"
             return
         }
         let username = userData!.publicID
-        var numPosts = userData!.numPosts
         
         if (originalCaption == captionTextField.text! && originalTextOverlay == textOverlayTextField.text && originalPriority == checkBoxStatus && changedPhoto == false && createRequestURL == hexData?.resource) {
          print("Changed Nothing and Dismiss")

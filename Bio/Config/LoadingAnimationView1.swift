@@ -13,8 +13,6 @@ class LoadingAnimationView1: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        var loop = 0
-        var loopLimit = 20
         //imageView.setupHexagonMask(lineWidth: imageView.frame.width/15, color: gold, cornerRadius: imageView.frame.width/15)
         view.backgroundColor = .clear
         imageView.image = UIImage(named: "OSILogo")

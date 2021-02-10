@@ -128,7 +128,6 @@ class EditLinkPostVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboard(notification:)), name:UIResponder.keyboardWillChangeFrameNotification, object: nil)
         
         
-        var alreadySnapped = false
         super.viewDidLoad()
         titleText.isHidden = true
         subtitleText.isHidden = true
@@ -140,11 +139,6 @@ class EditLinkPostVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         linkHexagonImage.isUserInteractionEnabled = true
         linkHexagonImage.addGestureRecognizer(linkTap)
         
-        
-        //poshmarkLogo.image = UIImage(named: "poshmarkLogo")
-        let gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
-        let gray = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
-        let orange = #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
         
         // scrollview frame size
         scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
@@ -215,7 +209,7 @@ class EditLinkPostVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         textOverlayTextField.textColor = .white
         
         
-        var bottomLine5 = CALayer()
+        let bottomLine5 = CALayer()
         bottomLine5.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
         //prioritizeLabel.borderStyle = UITextField.BorderStyle.none
         prioritizeLabel.layer.addSublayer(bottomLine5)
@@ -278,14 +272,14 @@ class EditLinkPostVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func setUpNavBarView() {
-        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
         //        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.addSubview(backButton)
         self.navBarView.addSubview(postButton)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
         
-        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        let navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
         navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
         //        self.navBarView.addSubview(toSettingsButton)
@@ -326,7 +320,6 @@ class EditLinkPostVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         //    backButton.sizeToFit()
         postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 40, height: 34)
         navBarView.postButton.titleLabel?.textAlignment = .right
-        let yOffset = navBarView.frame.maxY
         
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Edit Post"
@@ -344,7 +337,7 @@ class EditLinkPostVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     
     @objc func keyboard(notification:Notification) {
-        guard let keyboardReact = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else{
+        guard ((notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue) != nil else{
             return
         }
         
@@ -445,7 +438,6 @@ class EditLinkPostVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         let linkString = "\(linkTextField.text!)"
         print("This is linkString \(linkString)")
-        let url = URL(string: linkString)
         if linkString.isValidURL {
             print("linkString is valid URL")
             validURL = true

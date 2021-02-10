@@ -72,12 +72,12 @@ class ProfessionalSettingsVC: QuickTableViewController {
         let userData = userDataVM?.userData.value
         setUpNavBarView()
        
-        var myBirthday = userData?.birthday
+        let myBirthday = userData?.birthday
         //
         tableContents = [
             Section(title: "My Account", rows: [
                         NavigationRow(text: "Name", detailText: .value1(name)!, icon: .named("gear"), action: didToggleSelection()),
-                        NavigationRow(text: "Username", detailText: .value1(email)!, icon: .named("globe")), NavigationRow(text: "Followers", detailText: .none, icon: .none, action: didToggleSelection()),
+                        NavigationRow(text: "Username", detailText: .value1(userData!.publicID)!, icon: .named("globe")), NavigationRow(text: "Followers", detailText: .none, icon: .none, action: didToggleSelection()),
                         NavigationRow(text: "Following", detailText: .none, icon: .none, action: didToggleSelection()),
                         NavigationRow(text: "Birthday", detailText: .value1(myBirthday ?? ""), icon: .none, action: nil),
                         NavigationRow(text: "Country", detailText: .value1(userData?.country ?? ""), action: didToggleSelection()), NavigationRow(text: "Bio", detailText: .value1(userData?.bio ?? ""), action: didToggleSelection()), NavigationRow(text: "Email", detailText: .value1(email)!, icon: .named("time"), action: didToggleSelection()),
@@ -95,11 +95,11 @@ class ProfessionalSettingsVC: QuickTableViewController {
     }
     
     func setUpNavBarView() {
-        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
 //        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
-        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        let navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
        // navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
         navBarView.backButton.setTitleColor(.black, for: .normal)

@@ -50,7 +50,6 @@ class EditProfilePhotoVC: UIViewController, UIImagePickerControllerDelegate & UI
         
         signInButton.layer.cornerRadius = signInButton.frame.width/20
         // Do any additional setup after loading the view.
-       var rect1 = signInButton.frame
         //signInButton.frame = CGRect(x: rect1.minX, y: rect1.minY, width: rect1.width, height: rect1.height*(5/4))
         setUpNavBarView()
   //      formatStuff()

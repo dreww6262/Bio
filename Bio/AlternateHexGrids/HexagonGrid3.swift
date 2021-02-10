@@ -59,15 +59,15 @@ class HexagonGrid3: UIViewController {
 //          // Do any additional setup after loading the view.
                 let hexaDiameter : CGFloat = 150
                 let hexaWidth = hexaDiameter * sqrt(3) * 0.5
-                let hexaWidthDelta = (hexaDiameter - hexaWidth) * 0.5
-                let hexaHeightDelta = hexaDiameter * 0.25
-                let spacing : CGFloat = 5
+        _ = (hexaDiameter - hexaWidth) * 0.5
+        _ = hexaDiameter * 0.25
+        let _ : CGFloat = 5
 
         //        let rows = 10
         //        let firstRowColumns = 6
 
-                let rows = 15
-                let firstRowColumns = 15
+        _ = 15
+        _ = 15
 
 //        self.scrollView.contentSize = CGSize(width: spacing + CGFloat(firstRowColumns) * (hexaWidth + spacing), height: spacing + CGFloat(rows) * (hexaDiameter - hexaHeightDelta + spacing) + hexaHeightDelta)
 //
@@ -82,13 +82,13 @@ class HexagonGrid3: UIViewController {
         
         
         
-        var reOrderedCoordinateArray: [[CGFloat]] = [[946.8266739736607, 902.5],[1081.7304845413264, 902.5], [1014.2785792574934, 1020.0],   [879.3747686898278,1020.0], [811.9228634059948,902.5], [879.3747686898278,785.0],[1014.2785792574934,785.0],[946.8266739736607, 667.5],[1081.7304845413264, 667.5], [1149.1823898251594, 785.0],  [1216.6342951089923, 902.5],[1149.1823898251594, 1020.0],   [1081.7304845413264, 1137.5], [1081.7304845413264, 1137.5],[946.8266739736607, 1137.5],[811.9228634059948, 1137.5],[744.4709581221618, 1020.0],[677.0190528383291, 902.5],[744.4709581221618, 785.0],  [811.9228634059948, 667.5], [879.3747686898278, 550.0],[1014.2785792574934, 550.0],[1149.1823898251594, 550.0],[1216.6342951089923, 667.5],[1284.0862003928253, 785.0],[1351.5381056766582, 902.5], [1284.0862003928253, 1020.0], [1216.6342951089923, 1137.5],[1149.1823898251594, 1255.0], [1014.2785792574934, 1255.0],[879.3747686898278, 1255.0],  [744.4709581221618, 1255.0],[677.0190528383291, 1137.5],[609.5671475544962, 1020.0],[542.1152422706632, 902.5],[609.5671475544962, 785.0],[677.0190528383291, 667.5],[744.4709581221618, 550.0], [811.9228634059948, 432.5], [946.8266739736607, 432.5], [1081.7304845413264, 432.5], [1216.6342951089923, 432.5],[1284.0862003928253, 550.0],[1351.5381056766582, 667.5], [1418.990010960491, 785.0],  [1486.441916244324, 902.5], [1418.990010960491, 1020.0],[1351.5381056766582, 1137.5],   [1284.0862003928253, 1255.0],[1216.6342951089923, 1372.5],   [1081.7304845413264, 1372.5],[946.8266739736607, 1372.5],[811.9228634059948, 1372.5],[677.0190528383291, 1372.5], [609.5671475544962, 1255.0],[542.1152422706632, 1137.5],[474.6633369868303, 1020.0],[407.2114317029974, 902.5],[474.6633369868303, 785.0],[542.1152422706632, 667.5],[609.5671475544962, 550.0],[677.0190528383291, 432.5]]
+        let reOrderedCoordinateArray: [[CGFloat]] = [[946.8266739736607, 902.5],[1081.7304845413264, 902.5], [1014.2785792574934, 1020.0],   [879.3747686898278,1020.0], [811.9228634059948,902.5], [879.3747686898278,785.0],[1014.2785792574934,785.0],[946.8266739736607, 667.5],[1081.7304845413264, 667.5], [1149.1823898251594, 785.0],  [1216.6342951089923, 902.5],[1149.1823898251594, 1020.0],   [1081.7304845413264, 1137.5], [1081.7304845413264, 1137.5],[946.8266739736607, 1137.5],[811.9228634059948, 1137.5],[744.4709581221618, 1020.0],[677.0190528383291, 902.5],[744.4709581221618, 785.0],  [811.9228634059948, 667.5], [879.3747686898278, 550.0],[1014.2785792574934, 550.0],[1149.1823898251594, 550.0],[1216.6342951089923, 667.5],[1284.0862003928253, 785.0],[1351.5381056766582, 902.5], [1284.0862003928253, 1020.0], [1216.6342951089923, 1137.5],[1149.1823898251594, 1255.0], [1014.2785792574934, 1255.0],[879.3747686898278, 1255.0],  [744.4709581221618, 1255.0],[677.0190528383291, 1137.5],[609.5671475544962, 1020.0],[542.1152422706632, 902.5],[609.5671475544962, 785.0],[677.0190528383291, 667.5],[744.4709581221618, 550.0], [811.9228634059948, 432.5], [946.8266739736607, 432.5], [1081.7304845413264, 432.5], [1216.6342951089923, 432.5],[1284.0862003928253, 550.0],[1351.5381056766582, 667.5], [1418.990010960491, 785.0],  [1486.441916244324, 902.5], [1418.990010960491, 1020.0],[1351.5381056766582, 1137.5],   [1284.0862003928253, 1255.0],[1216.6342951089923, 1372.5],   [1081.7304845413264, 1372.5],[946.8266739736607, 1372.5],[811.9228634059948, 1372.5],[677.0190528383291, 1372.5], [609.5671475544962, 1255.0],[542.1152422706632, 1137.5],[474.6633369868303, 1020.0],[407.2114317029974, 902.5],[474.6633369868303, 785.0],[542.1152422706632, 667.5],[609.5671475544962, 550.0],[677.0190528383291, 432.5]]
         
         index = 0
         print("This is reorderedcoordinatearray.count \(reOrderedCoordinateArray.count)")
         for coordinates in reOrderedCoordinateArray {
             print(coordinates)
-            let tapGesture = UIGestureRecognizer()
+            _ = UIGestureRecognizer()
             let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
             
             let image = UIImageView(frame: CGRect(x: coordinates[0]-680,
@@ -99,7 +99,7 @@ class HexagonGrid3: UIViewController {
                            image.image = UIImage(named: "stickfigure1")
             image.isUserInteractionEnabled = true
               image.addGestureRecognizer(tap)
-            var gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
+            let gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
             image.setupHexagonMask(lineWidth: 10.0, color: gold, cornerRadius: 10.0)
             view.addSubview(image)
             imageViewArray.append(image)
@@ -121,7 +121,7 @@ class HexagonGrid3: UIViewController {
            // Do any additional setup after loading the view.
                         let hexaDiameter : CGFloat = 150
                         let hexaWidth = hexaDiameter * sqrt(3) * 0.5
-                        let hexaWidthDelta = (hexaDiameter - hexaWidth) * 0.5
+        _ = (hexaDiameter - hexaWidth) * 0.5
                         let hexaHeightDelta = hexaDiameter * 0.25
                         let spacing : CGFloat = 5
 
@@ -249,7 +249,7 @@ class HexagonGrid3: UIViewController {
     
     func populateFakeUserPhotos() {
         index1 = 0
-        for image in fakeUserImageArray {
+        for _ in fakeUserImageArray {
             imageViewArray[index1+7].image = fakeUserImageArray[index1]
             fakeUserTotalProfileArray.append(imageViewArray[index1+7].image!)
         index1 = index1+1
@@ -357,7 +357,7 @@ class HexagonGrid3: UIViewController {
 //        expandedView.isHidden = false
 //        expandedView.bringSubviewToFront(expandedView)
         
-        for hexagon in fakeUserTotalProfileArray {
+        for _ in fakeUserTotalProfileArray {
             
         }
         
@@ -388,7 +388,7 @@ class HexagonGrid3: UIViewController {
         func play(url: String) {
 
             do {
-                var urlStringTurnURL = URL(string: url)
+                let urlStringTurnURL = URL(string: url)
                 //player = try AVAudioPlayer(contentsOf: url)
                 player = try AVAudioPlayer(contentsOf: urlStringTurnURL!)
                 player.prepareToPlay()

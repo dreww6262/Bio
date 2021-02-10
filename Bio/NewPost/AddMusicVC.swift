@@ -110,22 +110,15 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         scrollView.addSubview(prioritizeLabel)
         scrollView.addSubview(checkBox)
         textOverlayTextField.delegate = self
-        var alreadySnapped = false
         super.viewDidLoad()
         
         let linkTap = UITapGestureRecognizer(target: self, action: #selector(AddLinkVCViewController.loadImg(_:)))
-        let linkTapCopy = UITapGestureRecognizer(target: self, action: #selector(AddLinkVCViewController.loadImg(_:)))
         linkTap.numberOfTapsRequired = 1
         linkHexagonImage.isUserInteractionEnabled = true
         linkHexagonImage.addGestureRecognizer(linkTap)
         
         // insertTextOverlay()
         
-        
-        //poshmarkLogo.image = UIImage(named: "poshmarkLogo")
-        let gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
-        let gray = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
-        let orange = #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
         
         // scrollview frame size
         scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
@@ -195,7 +188,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         // let bottomLine = CALayer()
         self.bottomLine.frame = CGRect(x: 0.0, y: linkTextField.frame.height, width: linkTextField.frame.width, height: 1.0)
         self.bottomLine.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
-        var bottomLine2 = CALayer()
+        let bottomLine2 = CALayer()
         bottomLine2.frame = CGRect(x: 0.0, y: sframe.height, width: linkTextField.frame.width, height: 1.0)
         bottomLine2.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
         linkTextField.borderStyle = UITextField.BorderStyle.none
@@ -209,7 +202,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         
         linkTextField.font = UIFont(name: "Poppins", size: 20)
         
-        var bottomLine3 = CALayer()
+        let bottomLine3 = CALayer()
         bottomLine3.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
         captionTextField.borderStyle = UITextField.BorderStyle.none
         captionTextField.layer.addSublayer(bottomLine3)
@@ -219,7 +212,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         captionTextField.font = UIFont(name: "Poppins", size: 20)
         captionTextField.textColor = .white
         
-        var bottomLine4 = CALayer()
+        let bottomLine4 = CALayer()
         bottomLine4.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
         textOverlayTextField.borderStyle = UITextField.BorderStyle.none
         textOverlayTextField.layer.addSublayer(bottomLine4)
@@ -230,7 +223,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         textOverlayTextField.textColor = .white
         
         
-        var bottomLine5 = CALayer()
+        let bottomLine5 = CALayer()
         bottomLine5.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
         //prioritizeLabel.borderStyle = UITextField.BorderStyle.none
         prioritizeLabel.layer.addSublayer(bottomLine5)
@@ -473,14 +466,14 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
     }
     
     func setUpNavBarView() {
-        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
 //        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.addSubview(backButton)
         self.navBarView.addSubview(postButton)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
         
-        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        let navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
         navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
         self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 34, height: 34)
@@ -613,7 +606,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
     
     
     @objc func keyboard(notification:Notification) {
-        guard let keyboardReact = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else{
+        guard ((notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue) != nil else{
             return
         }
         
@@ -627,7 +620,7 @@ class AddMusicVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+        if ((notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue) != nil {
             if self.view.frame.origin.y == 0 {
                 self.view.frame.origin.y -= 200
             }

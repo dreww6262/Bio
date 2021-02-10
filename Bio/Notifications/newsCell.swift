@@ -24,12 +24,15 @@ class newsCell: UITableViewCell {
     var followBackButton = UIButton()
     
     let phoneButton = UIButton()
+    
+    var notification: NewsObject?
 
     // default func
     override func awakeFromNib() {
         super.awakeFromNib()
         contentView.addSubview(phoneButton)
         contentView.addSubview(followBackButton)
+        
         // constraints
         avaImg.translatesAutoresizingMaskIntoConstraints = false
         usernameBtn.translatesAutoresizingMaskIntoConstraints = false
@@ -60,9 +63,6 @@ class newsCell: UITableViewCell {
         // round ava
        // avaImg.layer.cornerRadius = avaImg.frame.size.width / 2
         avaImg.clipsToBounds = true
-        
-        
-        
     }
  
     

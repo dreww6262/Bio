@@ -29,7 +29,7 @@ class ContentRelationship: UIViewController, UIScrollViewDelegate {
         setUpScrollView()
         setZoomScale()
         
-        var imageText = "\(relationshipHex!.text.lowercased())"
+        let imageText = "\(relationshipHex!.text.lowercased())"
         newImageView = UIImageView(image: UIImage(named: imageText))
 //     /
         scrollView.addSubview(newImageView!)
@@ -40,7 +40,6 @@ class ContentRelationship: UIViewController, UIScrollViewDelegate {
         let frame = CGRect(x: view.frame.width/6, y: view.frame.height/12, width: view.frame.width*(2/3), height: view.frame.width*(2/3))
         let birthdayFrame = CGRect(x: 0, y: frame.maxY + 5, width: view.frame.width, height: 20)
         let ageFrame = CGRect(x: 0, y: birthdayFrame.maxY + 5, width: view.frame.width, height: 20)
-        let zodiacFrame = CGRect(x: 0, y: ageFrame.maxY + 5, width: view.frame.width, height: 20)
 //        captionTextField.font = UIFont(name: "DINAlternate-Bold", size: 28)
 //        captionTextField.textAlignment = .center
 //        captionTextField.isUserInteractionEnabled = false
@@ -73,7 +72,7 @@ class ContentRelationship: UIViewController, UIScrollViewDelegate {
         scrollView.addSubview(label1)
         scrollView.addSubview(label2)
         scrollView.addSubview(label3)
-        var relationshipStatus = relationshipHex!.text
+        let relationshipStatus = relationshipHex!.text
         var relationshipText = ""
         if relationshipStatus.contains("complicated") {
          relationshipText = "Relationship Status: \(relationshipStatus.lowercased())"
@@ -84,19 +83,16 @@ class ContentRelationship: UIViewController, UIScrollViewDelegate {
             label1.font = UIFont(name: "DINAlternate-Bold", size: 23)
         }
         
-        var zodiacLowerCased = "\(relationshipHex!.text)"
-        var zodiac = zodiacLowerCased.capitalizingFirstLetter()
-        var zodiacText = "Zodiac: \(zodiac)"
+        let zodiacLowerCased = "\(relationshipHex!.text)"
+        let zodiac = zodiacLowerCased.capitalizingFirstLetter()
         
         label1.text = relationshipText
         label1.numberOfLines = 0
         label2.text = ""
         label3.text = ""
-        let captionFrame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 66)
 //        label1.font = UIFont(name: "DINAlternate-Bold", size: 28)
         label3.font = UIFont(name: "DINAlternate-Bold", size: 28)
         label2.font = UIFont(name: "DINAlternate-Bold", size: 28)
-        let frame = CGRect(x: view.frame.width/3, y: view.frame.height/12, width: view.frame.width/3, height: view.frame.width/3)
         let label1Frame = CGRect(x: 0, y: (newImageView?.frame.maxY)! + 20, width: view.frame.width, height: 30)
         let label2Frame = CGRect(x: 0, y: label1Frame.maxY + 20, width: view.frame.width, height: 30)
         let label3Frame = CGRect(x: 0, y: label2Frame.maxY + 20, width: view.frame.width, height: 30)
@@ -131,7 +127,6 @@ class ContentRelationship: UIViewController, UIScrollViewDelegate {
         let frame = CGRect(x: view.frame.width/6, y: view.frame.height/12, width: view.frame.width*(2/3), height: view.frame.width*(2/3))
         let birthdayFrame = CGRect(x: 0, y: frame.maxY + 5, width: view.frame.width, height: 20)
         let ageFrame = CGRect(x: 0, y: birthdayFrame.maxY + 5, width: view.frame.width, height: 20)
-        let zodiacFrame = CGRect(x: 0, y: ageFrame.maxY + 5, width: view.frame.width, height: 20)
 //        captionTextField.font = UIFont(name: "DINAlternate-Bold", size: 28)
 //        captionTextField.textAlignment = .center
 //        captionTextField.isUserInteractionEnabled = false

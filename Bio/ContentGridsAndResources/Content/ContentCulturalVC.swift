@@ -403,13 +403,13 @@ class ContentCulturalVC: UIViewController, UIScrollViewDelegate {
             countryLabel6.numberOfLines = 1
             countryLabel6.adjustsFontSizeToFitWidth = true
         }
-        var size1 = countryLabel1.font.pointSize
-        var size2 = countryLabel2.font.pointSize
-        var size3 = countryLabel3.font.pointSize
-        var size4 = countryLabel4.font.pointSize
-        var size5 = countryLabel5.font.pointSize
-        var size6 = countryLabel6.font.pointSize
-        var sizeArray = [size1, size2, size3, size4, size5
+        let size1 = countryLabel1.font.pointSize
+        let size2 = countryLabel2.font.pointSize
+        let size3 = countryLabel3.font.pointSize
+        let size4 = countryLabel4.font.pointSize
+        let size5 = countryLabel5.font.pointSize
+        let size6 = countryLabel6.font.pointSize
+        let sizeArray = [size1, size2, size3, size4, size5
         , size6]
         var index = 0
         for size in sizeArray {

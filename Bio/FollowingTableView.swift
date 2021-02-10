@@ -130,7 +130,7 @@ class FollowingTableView: UIViewController, UISearchBarDelegate {
                 group.enter()
                 self.loadUpToTenUserDatas(usernames: chunk, completion: {
                     //print("loadFollowings: loaded followers \(self.followingUserDataArray)")
-                    defer{group.leave()}
+                    do{group.leave()}
                 })
             }
             group.notify(queue: .main) {

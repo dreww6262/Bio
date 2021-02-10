@@ -381,7 +381,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         returnButton.clipsToBounds = true
         
         //add left and right people
-        var rightButton = UIButton()
+        let rightButton = UIButton()
         view.addSubview(rightButton)
         rightButton.contentMode = .scaleAspectFit
        // rightButton.setImage(UIImage(named: "kbit2"), for: .normal)
@@ -407,7 +407,7 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         rightButton.clipsToBounds = true
       
         
-        var leftButton = UIButton()
+        let leftButton = UIButton()
         view.addSubview(leftButton)
         leftButton.contentMode = .scaleAspectFit
       //  leftButton.setImage(UIImage(named: "kbit2"), for: .normal)
@@ -714,28 +714,27 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
             createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
         }
         else if myType == "pin_city" {
-            var ttext = hexData.thumbResource
+            let ttext = hexData.thumbResource
            // ttext = ttext.replacingOccurrences(of: " ", with: "-")
 //            print("This is image name \(ttext)")
             image.image = UIImage(named: ttext)
             createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
         }
         else if myType == "pin_birthday" {
-            var ttext = hexData.text
+            let ttext = hexData.text
            // ttext = ttext.replacingOccurrences(of: " ", with: "-")
 //            print("This is image name \(ttext)")
             image.image = UIImage(named: ttext)
             createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
         }
         else if myType == "pin_relationship" {
-            var ttext = hexData.text.lowercased()
+            let ttext = hexData.text.lowercased()
            // ttext = ttext.replacingOccurrences(of: " ", with: "-")
             print("This is image name \(ttext)")
             image.image = UIImage(named: ttext)
             createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
         }
         else if myType == "pin_phone" {
-            var ttext = hexData.text
             image.backgroundColor = .white
             image.image = UIImage(named: "smartphone")
             createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)

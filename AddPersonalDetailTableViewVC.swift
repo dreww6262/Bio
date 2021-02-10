@@ -489,7 +489,6 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
         toolbar.sizeToFit()
         let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker));
         let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker));
         
         toolbar.setItems([spaceButton,doneButton], animated: false)
         
@@ -505,7 +504,7 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
         let formatter = DateFormatter()
         formatter.dateFormat = "MM/dd/yyyy"
         cellArray[0].interactiveTextField.text = formatter.string(from: datePicker.date)
-        var birthdaySubmitted = cellArray[0].interactiveTextField.text
+        let birthdaySubmitted = cellArray[0].interactiveTextField.text
         self.myBirthday = birthdaySubmitted!
         age = calcAge(birthday: birthdaySubmitted!)
         cellArray[0].socialMediaIcon.image = UIImage(named: self.myZodiac)
@@ -518,7 +517,7 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-           var countrows = self.relationshipStatusArray.count
+        let countrows = self.relationshipStatusArray.count
         return countrows
     }
     
@@ -534,9 +533,9 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
     
     func setUpContinueButton() {
         view.addSubview(continueButton)
-        var buttonHeight = CGFloat(55)
-        var buttonWidth = CGFloat(view.frame.width*(3/4))
-        var heightToBottom = CGFloat(view.frame.height - tableView.frame.maxY)
+        let buttonHeight = CGFloat(55)
+        let buttonWidth = CGFloat(view.frame.width*(3/4))
+        let heightToBottom = CGFloat(view.frame.height - tableView.frame.maxY)
         continueButton.frame = CGRect(x: (view.frame.width - buttonWidth)/2, y: tableView.frame.maxY + ((heightToBottom - buttonHeight)/2), width: buttonWidth, height: buttonHeight)
 //        continueButton.frame = CGRect(x: (view.frame.width - buttonWidth)/2, y: view.frame.height - buttonHeight - buttonHeight, width: buttonWidth, height: buttonHeight)
         continueButton.layer.cornerRadius = continueButton.frame.width/40
@@ -588,9 +587,8 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
     }
     
     func formatCountryToImage(myCountry: String) -> String {
-        var success = true
         
-        var hyphenCountry = myCountry.replacingOccurrences(of: " ", with: "-") as! String
+        var hyphenCountry = myCountry.replacingOccurrences(of: " ", with: "-") 
         hyphenCountry = hyphenCountry.lowercased()
         return hyphenCountry
     }
@@ -658,9 +656,7 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
         //save birthday, current city, cultural identity, phonenumber, relationship status
         let myBirthday = cellArray[0].interactiveTextField.text
         let myCurrentCity = cellArray[1].interactiveTextField.text
-        let myCulturalIdentity = myCountries
         let myPhoneNumber = cellArray[3].interactiveTextField.text ?? ""
-        let myRelationship = cellArray[4].interactiveTextField.text ?? ""
         
         userData?.birthday = myBirthday ?? ""
         userData?.currentCity = myCurrentCity ?? ""
@@ -807,16 +803,16 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
     
     
     func setUpNavBarView() {
-        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
         self.view.addSubview(navBarView)
         self.navBarView.addSubview(backButton)
         self.navBarView.addSubview(postButton)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
         
-        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        let navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
         navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
-        var backButtonWidth = CGFloat(30)
+        let backButtonWidth = CGFloat(30)
         self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - backButtonWidth)/2, width: backButtonWidth, height: backButtonWidth)
         
         
@@ -838,7 +834,6 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
         
         postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 40, height: 34)
         navBarView.postButton.titleLabel?.textAlignment = .right
-        let yOffset = navBarView.frame.maxY
         
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Personal Details"
@@ -884,7 +879,7 @@ extension AddPersonalDetailTableViewVC: UITableViewDelegate, UITableViewDataSour
         let cell = tableView.dequeueReusableCell(withIdentifier: "personalDetailCell", for: indexPath) as! PersonalDetailCell
         cell.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/8)
         cell.backgroundColor = UIColor(red: 0.95, green: 0.95, blue: 0.97, alpha: 1.00)
-        var myGray = cell.backgroundColor
+        let myGray = cell.backgroundColor
         cell.layer.borderColor = myGray?.cgColor
         cell.layer.borderWidth = 10
 

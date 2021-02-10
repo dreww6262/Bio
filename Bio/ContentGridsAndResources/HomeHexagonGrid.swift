@@ -1255,11 +1255,11 @@ var navBarView = NavBarView()
         let cleanRef = userDataVM?.userData.value?.avaRef.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef ?? "")?alt=media")
         if cleanRef != nil && url != nil {
-        avaImage!.sd_setImage(with: url!, placeholderImage: UIImage(named: "user-2"), completed: {_, error, _, _ in
-            if error != nil {
-                print(error!.localizedDescription)
-            }
-        })
+            avaImage!.sd_setImage(with: url!, placeholderImage: UIImage(named: "user-2"), completed: {_, error, _, _ in
+                if error != nil {
+                    print(error!.localizedDescription)
+                }
+            })
         }
         else {
             avaImage?.image = UIImage(named: "user-2")
@@ -1695,5 +1695,82 @@ extension UIView {
             layer.render(in: context.cgContext)
         }
         return image
+    }
+}
+    
+    extension UIImageView {
+        func setupHexagonMask(lineWidth: CGFloat, color: UIColor, cornerRadius: CGFloat) {
+            let path = UIBezierPath(roundedPolygonPathInRect: bounds, lineWidth: lineWidth, sides: 6, cornerRadius: cornerRadius, rotationOffset: CGFloat.pi / 2.0).cgPath
+    
+            let mask = CAShapeLayer()
+            mask.path = path
+            mask.lineWidth = lineWidth
+            mask.strokeColor = UIColor.clear.cgColor
+            mask.fillColor = UIColor.white.cgColor
+            layer.mask = mask
+    
+            let border = CAShapeLayer()
+            border.path = path
+            border.lineWidth = lineWidth
+            border.strokeColor = color.cgColor
+            border.fillColor = UIColor.clear.cgColor
+            layer.addSublayer(border)
+        }
+    }
+    
+    extension UIView {
+        func setupHexagonMaskView(lineWidth: CGFloat, color: UIColor, cornerRadius: CGFloat) {
+            let path = UIBezierPath(roundedPolygonPathInRect: bounds, lineWidth: lineWidth, sides: 6, cornerRadius: cornerRadius, rotationOffset: CGFloat.pi / 2.0).cgPath
+    
+            let mask = CAShapeLayer()
+            mask.path = path
+            mask.lineWidth = lineWidth
+            mask.strokeColor = UIColor.clear.cgColor
+            mask.fillColor = UIColor.white.cgColor
+            layer.mask = mask
+    
+            let border = CAShapeLayer()
+            border.path = path
+            border.lineWidth = lineWidth
+            border.strokeColor = color.cgColor
+            border.fillColor = UIColor.clear.cgColor
+            layer.addSublayer(border)
+        }
+    }
+
+extension UIBezierPath {
+    convenience init(roundedPolygonPathInRect rect: CGRect, lineWidth: CGFloat, sides: NSInteger, cornerRadius: CGFloat = 0, rotationOffset: CGFloat = 0) {
+        self.init()
+
+        let theta: CGFloat = 2.0 * CGFloat.pi / CGFloat(sides) // How much to turn at every corner
+        let width = min(rect.size.width, rect.size.height)        // Width of the square
+
+        let center = CGPoint(x: rect.origin.x + width / 2.0, y: rect.origin.y + width / 2.0)
+
+        // Radius of the circle that encircles the polygon
+        // Notice that the radius is adjusted for the corners, that way the largest outer
+        // dimension of the resulting shape is always exactly the width - linewidth
+        let radius = (width - lineWidth + cornerRadius - (cos(theta) * cornerRadius)) / 2.0
+
+        // Start drawing at a point, which by default is at the right hand edge
+        // but can be offset
+        var angle = CGFloat(rotationOffset)
+
+        let corner = CGPoint(x: center.x + (radius - cornerRadius) * cos(angle), y: center.y + (radius - cornerRadius) * sin(angle))
+        move(to: CGPoint(x: corner.x + cornerRadius * cos(angle + theta), y: corner.y + cornerRadius * sin(angle + theta)))
+
+        for _ in 0 ..< sides {
+            angle += theta
+
+            let corner = CGPoint(x: center.x + (radius - cornerRadius) * cos(angle), y: center.y + (radius - cornerRadius) * sin(angle))
+            let tip = CGPoint(x: center.x + radius * cos(angle), y: center.y + radius * sin(angle))
+            let start = CGPoint(x: corner.x + cornerRadius * cos(angle - theta), y: corner.y + cornerRadius * sin(angle - theta))
+            let end = CGPoint(x: corner.x + cornerRadius * cos(angle + theta), y: corner.y + cornerRadius * sin(angle + theta))
+
+            addLine(to: start)
+            addQuadCurve(to: end, controlPoint: tip)
+        }
+
+        close()
     }
 }

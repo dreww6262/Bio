@@ -244,7 +244,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
         //let group = DispatchGroup()
         if (!(textFieldData[0] == "")) {
             numPosts += 1
-            var myText = textFieldData[0]
+            let myText = textFieldData[0]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
             trimmedText = trimmedText.replacingOccurrences(of: "@", with: "")
             trimmedText = trimmedText.lowercased()
@@ -259,7 +259,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
         
         if (!(textFieldData[1] == "")) {
             numPosts += 1
-            var myText = textFieldData[1]
+            let myText = textFieldData[1]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
             trimmedText = trimmedText.lowercased()
             trimmedText = trimmedText.replacingOccurrences(of: "@", with: "")
@@ -274,7 +274,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
         
         if (!(textFieldData[2] == "")) {
             numPosts += 1
-            var myText = textFieldData[2]
+            let myText = textFieldData[2]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
             trimmedText = trimmedText.lowercased()
             print("This is trimmedText \(trimmedText)")
@@ -288,7 +288,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
         
         if (!(textFieldData[3] == "")) {
             numPosts += 1
-            var myText = textFieldData[3]
+            let myText = textFieldData[3]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
             trimmedText = trimmedText.replacingOccurrences(of: "@", with: "")
             trimmedText = trimmedText.lowercased()
@@ -303,7 +303,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
         
         if (!(textFieldData[4] == "")) {
             numPosts += 1
-            var myText = textFieldData[4]
+            let myText = textFieldData[4]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
             trimmedText = trimmedText.lowercased()
             print("This is trimmedText \(trimmedText)")
@@ -317,7 +317,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
         
         if (!(textFieldData[5] == "")) {
             numPosts += 1
-            var myText = textFieldData[5]
+            let myText = textFieldData[5]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
             trimmedText = trimmedText.replacingOccurrences(of: "@", with: "")
             trimmedText = trimmedText.lowercased()
@@ -332,7 +332,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
         
         if (!(textFieldData[6] == "")) {
             numPosts += 1
-            var myText = textFieldData[6]
+            let myText = textFieldData[6]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
             trimmedText = trimmedText.lowercased()
             print("This is trimmedText \(trimmedText)")
@@ -346,7 +346,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
         
         if (!(textFieldData[7] == "")) {
             numPosts += 1
-            var myText = textFieldData[7]
+            let myText = textFieldData[7]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
             trimmedText = trimmedText.replacingOccurrences(of: "@", with: "")
             trimmedText = trimmedText.lowercased()
@@ -361,7 +361,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
         
         if (!(textFieldData[8] == "")) {
             numPosts += 1
-            var myText = textFieldData[8]
+            let myText = textFieldData[8]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
             trimmedText = trimmedText.lowercased()
             print("This is trimmedText \(trimmedText)")
@@ -375,7 +375,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
      
         if (!(textFieldData[9] == "")) {
             numPosts += 1
-            var myText = textFieldData[9]
+            let myText = textFieldData[9]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
             trimmedText = trimmedText.lowercased()
             trimmedText = trimmedText.replacingOccurrences(of: "@", with: "")
@@ -391,7 +391,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
         if (!(textFieldData[10] == "")) {
             print("Trying to add a poshmark link")
             numPosts += 1
-            var myText = textFieldData[10]
+            let myText = textFieldData[10]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
             trimmedText = trimmedText.replacingOccurrences(of: "@", with: "")
             trimmedText = trimmedText.lowercased()
@@ -406,7 +406,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
         
         if (!(textFieldData[11] == "")) {
             numPosts += 1
-            var myText = textFieldData[11]
+            let myText = textFieldData[11]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
             trimmedText = trimmedText.lowercased()
             print("This is trimmedText \(trimmedText)")
@@ -421,7 +421,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
         
         if (!(textFieldData[12] == "")) {
             numPosts += 1
-            var myText = textFieldData[12]
+            let myText = textFieldData[12]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
             trimmedText = trimmedText.replacingOccurrences(of: "@", with: "")
             trimmedText = trimmedText.lowercased()
@@ -437,7 +437,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
         
         if (!(textFieldData[13] == "")) {
             numPosts += 1
-            var myText = textFieldData[13]
+            let myText = textFieldData[13]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
             trimmedText = trimmedText.replacingOccurrences(of: "@", with: "")
             trimmedText = trimmedText.lowercased()
@@ -458,7 +458,7 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
         
         if (!(textFieldData[14] == "")) {
             numPosts += 1
-            var myText = textFieldData[14]
+            let myText = textFieldData[14]
             var trimmedText = myText.trimmingCharacters(in: .whitespaces)
             trimmedText = trimmedText.lowercased()
             print("This is trimmedText \(trimmedText)")
@@ -512,6 +512,9 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
         let hexCollectionRef = db.collection("Hexagons2")
         let hexDoc = hexCollectionRef.document()
         var hexCopy = HexagonStructData(dictionary: hexData.dictionary)
+        if hexCopy.resource.hasPrefix("@") {
+            hexCopy.resource = hexCopy.resource.chopPrefix()
+        }
         hexCopy.docID = hexDoc.documentID
         hexDoc.setData(hexCopy.dictionary){ error in
             if error == nil {
@@ -539,14 +542,14 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
     
     
     func setUpNavBarView() {
-        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
 //        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.addSubview(backButton)
         self.navBarView.addSubview(postButton)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
        
-        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        let navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
         navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
 //        self.navBarView.addSubview(toSettingsButton)
@@ -587,7 +590,6 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
         postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 40, height: 34)
         //navBarView.postButton.titleLabel?.sizeToFit()
         navBarView.postButton.titleLabel?.textAlignment = .right
-        let yOffset = navBarView.frame.maxY
   
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Add Social Media"
@@ -719,7 +721,7 @@ extension AddSocialMediaTableView: UITableViewDelegate, UITableViewDataSource {
        // let cellTappedRecognizer = UITapGestureRecognizer(target: self, action: #selector(cellTapped))
        // cell.addGestureRecognizer(cellTappedRecognizer)
         //  Configure the cell...
-        cell.socialMediaIcon.image = iconArray[indexPath.row] ?? UIImage(named: "instagramLogo")
+        cell.socialMediaIcon.image = iconArray[indexPath.row]
         cell.socialMediaIcon.layer.cornerRadius = cell.socialMediaIcon.frame.size.width / 2
         cell.socialMediaIcon.clipsToBounds = true
         cell.socialMediaIcon.layer.borderWidth = 1.0

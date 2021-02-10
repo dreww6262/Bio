@@ -62,7 +62,48 @@ class UserDataVM {
                 return
             }
             else{
-                self.userData.value = UserData(dictionary: docs[0].data())
+                let ud = UserData(dictionary: docs[0].data())
+                self.db.collection("FCMToken").whereField("publicID", isEqualTo: ud.publicID).getDocuments(completion: { obj, error in
+                    guard let docs = obj?.documents else {
+                        return
+                    }
+                    guard let fcmToken = Messaging.messaging().fcmToken else {
+                        return
+                    }
+                    var fcmList: [String]
+                    if docs.count == 0 {
+                        self.db.collection("FCMToken").addDocument(data: ["publicID": ud.publicID, "fcmTokens": [fcmToken]])
+                        return
+                    }
+                    else if docs.count == 1 {
+                        fcmList = (docs[0]["fcmTokens"] as? [String]) ?? [String]()
+                        if !fcmList.contains(fcmToken) {
+                            fcmList.append(fcmToken)
+                        }
+                    }
+                    else {
+                        fcmList = (docs[0]["fcmTokens"] as? [String]) ?? [String]()
+                        if !fcmList.contains(fcmToken) {
+                            fcmList.append(fcmToken)
+                        }
+                        var first = true
+                        for doc in docs {
+                            if first {
+                                first = false
+                                continue
+                            }
+                            let tList = (doc["fcmTokens"] as? [String]) ?? [String]()
+                            for item in tList {
+                                if !fcmList.contains(item) {
+                                    fcmList.append(item)
+                                }
+                            }
+                            doc.reference.delete()
+                        }
+                    }
+                    docs[0].reference.setData(["publicID": ud.publicID, "fcmTokens": fcmList])
+                })
+                self.userData.value = ud
                 self.userDataRef.value = docs[0].reference
                 completion()
             }

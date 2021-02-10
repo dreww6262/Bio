@@ -53,8 +53,8 @@ class TagUsersVC: UIViewController {
         tagUserTableView.userDataVM = self.userDataVM
         tagUserTableView.tagCGPoint = touchPoint
         tagUserTableView.scaleCGPoint = CGPoint(x: self.tagImage.frame.width, y: self.tagImage.frame.height)
-        var percentWidthX = touchPoint.x/tagUserTableView.scaleCGPoint!.x
-        var percentHeightY = touchPoint.y/tagUserTableView.scaleCGPoint!.y
+        let percentWidthX = touchPoint.x/tagUserTableView.scaleCGPoint!.x
+        let percentHeightY = touchPoint.y/tagUserTableView.scaleCGPoint!.y
         tagUserTableView.percentWidthX = Double(percentWidthX)
         tagUserTableView.percentHeightY = Double(percentHeightY)
         present(tagUserTableView, animated: false)
@@ -99,8 +99,8 @@ class TagUsersVC: UIViewController {
         self.titleLabel1.font = UIFont(name: "DINAlternate-Bold", size: 20)
         self.titleLabel1.textColor = .white
       //  self.navBarView.backgroundColor = .clear
-        var buttonWidth = CGFloat(20)
-        var buttonHeight = CGFloat(20)
+        let buttonWidth = CGFloat(20)
+        let buttonHeight = CGFloat(20)
         cancelButton.sizeToFit()
   //      cancelButton.frame = CGRect(x: 5, y: navBarView.frame.height/4 + 10, width: buttonWidth height: buttonHeight)
         cancelButton.frame = CGRect(x: 5, y: (navBarView.frame.height - buttonHeight)/2 + 5, width: buttonWidth, height: buttonHeight)

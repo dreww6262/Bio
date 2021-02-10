@@ -117,7 +117,6 @@ class MenuView: UIView {
         homeProfileButton.clipsToBounds = true
         //        print("home frame \(homeProfileButton.frame)")
         
-        let xDistanceFromHomeToMenuCenter = menuButton.center.x - homeProfileButton.frame.maxX
         
         
         let menuTapped = UITapGestureRecognizer(target: self, action: #selector(tappedMenuButton))

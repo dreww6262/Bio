@@ -26,7 +26,6 @@ class LocationCell: UITableViewCell {
         self.backgroundColor = .white
         let cellHeight: CGFloat = self.contentView.frame.height
         print("This is cellHeight \(cellHeight)")
-        var labelHeight = CGFloat(30)
         label.frame = CGRect(x: 10, y: 0, width: contentView.frame.width - 20, height: 25)
         label.textColor = .black
      

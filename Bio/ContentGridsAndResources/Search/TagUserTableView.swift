@@ -132,7 +132,7 @@ class TagUserTableView: UIViewController, UISearchBarDelegate {
                 group.enter()
                 self.loadUpToTenUserDatas(usernames: chunk, completion: {
                     //print("loadFollowings: loaded followers \(self.followingUserDataArray)")
-                    defer{group.leave()}
+                    do{group.leave()}
                 })
             }
             group.notify(queue: .main) {
@@ -307,9 +307,9 @@ class TagUserTableView: UIViewController, UISearchBarDelegate {
         let cell  = sender.view as! TagUserCell
         let username = cell.usernameLbl.text!
         let tagPoint =  self.tagCGPoint ?? CGPoint(x: 0, y: 0)
-        var tagPointString = "CGPoint(x: \(tagPoint.x), y: \(tagPoint.y))"
-        var scaleCGPoint = self.scaleCGPoint ?? CGPoint(x: 0, y: 0)
-        var scaleCGPointString = "CGPoint(x: \(scaleCGPoint.x), y: \(scaleCGPoint.y))"
+        let tagPointString = "CGPoint(x: \(tagPoint.x), y: \(tagPoint.y))"
+        let scaleCGPoint = self.scaleCGPoint ?? CGPoint(x: 0, y: 0)
+        let scaleCGPointString = "CGPoint(x: \(scaleCGPoint.x), y: \(scaleCGPoint.y))"
         print("tagPointstring \(tagPointString)")
         print("scaleCGPointString \(scaleCGPointString)")
         

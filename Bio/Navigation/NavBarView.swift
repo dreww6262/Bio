@@ -36,9 +36,8 @@ class NavBarView: UIView {
 //        print("This is status bar height \(statusBarHeight)")
         self.isUserInteractionEnabled = true
         let superView = self.superview!
-        let superFrame = superView.frame
         self.frame = CGRect(x: -5, y: -5, width: superView.frame.width + 10, height: (superView.frame.height/12)+5)
-        var navBarHeightRemaining = self.frame.maxY - statusBarHeight
+        let navBarHeightRemaining = self.frame.maxY - statusBarHeight
         superView.addSubview(backButton)
         superView.addSubview(titleLabel)
         superView.addSubview(postButton)

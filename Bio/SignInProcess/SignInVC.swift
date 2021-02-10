@@ -29,7 +29,7 @@ class SignInVC: UIViewController {
         super.viewDidLoad()
         signInButton.layer.cornerRadius = signInButton.frame.width/20
         // Do any additional setup after loading the view.
-       var rect1 = signInButton.frame
+        let rect1 = signInButton.frame
         signInButton.frame = CGRect(x: rect1.minX, y: rect1.minY, width: rect1.width, height: rect1
                                         .height*(5/4))
         setUpNavBarView()
@@ -75,14 +75,14 @@ class SignInVC: UIViewController {
     }
     
     func setUpNavBarView() {
-        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
 //        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.addSubview(self.cancelButton)
        // self.navBarView.addSubview(self.signInButton)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
        
-        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        let navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
         navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
 //        self.navBarView.addSubview(toSettingsButton)
@@ -110,7 +110,6 @@ class SignInVC: UIViewController {
        // signInButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 30)/2, width: 40, height: 30)
         //navBarView.postButton.titleLabel?.sizeToFit()
         navBarView.postButton.titleLabel?.textAlignment = .right
-        let yOffset = navBarView.frame.maxY
   
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Sign In"

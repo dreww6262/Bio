@@ -125,7 +125,7 @@ class PhoneSignInVC: UIViewController {
         let heightRemaining = screenHeight - logoFrame.maxY
         //mottoLabel.frame = CGRect(x: <#T##CGFloat#>, y: <#T##CGFloat#>, width: <#T##CGFloat#>, height: <#T##CGFloat#>)
         let heightOf3ThingsAndSpacing = CGFloat(178)
-        var spaceBelowLogo = (heightRemaining - heightOf3ThingsAndSpacing)/3
+        let spaceBelowLogo = (heightRemaining - heightOf3ThingsAndSpacing)/3
         
         mottoLabel.frame = CGRect(x: 0, y: logoMaxY + spaceBelowLogo , width: screenWidth, height: 50)
         

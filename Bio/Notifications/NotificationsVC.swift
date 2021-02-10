@@ -17,8 +17,6 @@ import FirebaseStorage
 //import FirebaseFirestore
 
 class NotificationsVC: UIViewController {
-    var guestUserData: UserData?
-    var guestUserDataString = ""
     var firstTime = true
     var isNotificationsEmpty = true
     var navBarY = CGFloat(39)
@@ -456,49 +454,29 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
     @objc func followTapped(_ sender: UITapGestureRecognizer) {
         //        if followLabel.text == "Add" {
         //            print("Follow the user :)")
-        var isFollowing = false
         let myUserData = userDataVM?.userData.value
+        sender.view?.isHidden = true
         
-        if guestUserData != nil {
-            if !isFollowing {
-                let newFollow = ["follower": myUserData!.publicID, "following": guestUserData!.publicID]
-                db.collection("Followings").addDocument(data: newFollow as [String : Any])
-                UIDevice.vibrate()
-                
-                let notificationObjectref = db.collection("News2")
-                let notificationDoc = notificationObjectref.document()
-                let notificationObject = NewsObject(ava: myUserData!.avaRef, type: "follow", currentUser: myUserData!.publicID, notifyingUser: guestUserData!.publicID, thumbResource: myUserData!.avaRef, createdAt: NSDate.now.description, checked: false, notificationID: notificationDoc.documentID)
-                notificationDoc.setData(notificationObject.dictionary){ error in
-                    //     group.leave()
-                    if error == nil {
-                        //                           print("added notification: \(notificationObject)")
-                        
-                    }
-                    else {
-                        print("failed to add notification \(notificationObject)")
-                        
-                    }
+        let cell = sender.view?.superview?.superview as! newsCell
+        
+        if cell.notification != nil {
+            let newFollow = ["follower": myUserData!.publicID, "following": cell.notification!.currentUser]
+            db.collection("Followings").addDocument(data: newFollow as [String : Any])
+            UIDevice.vibrate()
+            
+            let notificationObjectref = db.collection("News2")
+            let notificationDoc = notificationObjectref.document()
+            let notificationObject = NewsObject(ava: myUserData!.avaRef, type: "follow", currentUser: myUserData!.publicID, notifyingUser: cell.notification!.currentUser, thumbResource: myUserData!.avaRef, createdAt: NSDate.now.description, checked: false, notificationID: notificationDoc.documentID)
+            notificationDoc.setData(notificationObject.dictionary){ error in
+                //     group.leave()
+                if error == nil {
+                    //                           print("added notification: \(notificationObject)")
+                    
                 }
-//                self.followImage.image = UIImage(named: "friendCheck")
-//                self.followLabel.text = "Added"
-//                isFollowing = true
-//                self.followView.isHidden = true
-            }
-            else {
-                db.collection("Followings").whereField("follower", isEqualTo: myUserData!.publicID).whereField("following", isEqualTo: guestUserData!.publicID).getDocuments(completion: { objects, error in
-                    if error == nil {
-                        guard let docs = objects?.documents else {
-                            return
-                        }
-                        for doc in docs {
-                            doc.reference.delete()
-                        }
-                    }
-                })
-//                self.followView.isHidden = false
-//                self.followImage.image = UIImage(named: "addFriend")
-//                self.followLabel.text = "Add"
-//                isFollowing = false
+                else {
+                    print("failed to add notification \(notificationObject)")
+                    
+                }
             }
         }
     }
@@ -557,6 +535,7 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
             //"yyyy-MM-dd HH:mm:ss.SSSZ" // "yyyy-MM-dd HH:mm:ss"
             
             let fromString = notificationArray[indexPath.row].createdAt
+            cell.notification = notificationArray[indexPath.row]
             //var fromString1 = fromString.dropLast(6)
             //fromString = "\(fromString1)"
             let from = dateFormatter.date(from: fromString)
@@ -591,6 +570,7 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
             //cell.dateLbl.text = times[indexPath.row]
             
             // define info text
+            cell.followBackButton.isHidden = true
             if notificationArray[indexPath.row].type == "requestPhoneNumber" {
                 cell.infoLbl.text = "asked for your phone number."
                 
@@ -638,18 +618,30 @@ extension NotificationsVC: UITableViewDelegate, UITableViewDataSource {
                 cell.infoLbl.text = "has commented your post."
             }
             else if notificationArray[indexPath.row].type == "follow" {
-              guestUserDataString = notificationArray[indexPath.row].currentUser
                 
               //  guestUserData = userDataVM.re
                 cell.infoLbl.text = "is now following you."
-                cell.followBackButton.setTitle("Follow Back", for: .normal)
+                cell.followBackButton.setTitle("Follow", for: .normal)
+                cell.followBackButton.titleLabel?.font = UIFont(name: "DINAlternate-Bold", size: 12)
                 cell.followBackButton.setTitleColor(.black, for: .normal)
                 cell.followBackButton.backgroundColor = UIColor(red: 0.95, green: 0.95, blue: 0.97, alpha: 1.00)
                 //print("its a follow")
-                cell.followBackButton.frame = CGRect(x: view.frame.width - 110, y: cell.dateLbl.frame.minY, width: 105, height: cell.dateLbl.frame.height)
-                cell.followBackButton.layer.cornerRadius = cell.followBackButton.frame.size.width/10
+                cell.followBackButton.frame = CGRect(x: view.frame.width - 80, y: cell.dateLbl.frame.midY, width: 65, height: 16)
+                cell.followBackButton.layer.cornerRadius = cell.followBackButton.frame.size.height/2
                 let tapped = UITapGestureRecognizer(target: self, action: #selector(followTapped))
                 cell.followBackButton.addGestureRecognizer(tapped)
+                
+                db.collection("Followings").whereField("follower", isEqualTo: notificationArray[indexPath.row].notifyingUser).whereField("following", isEqualTo: notificationArray[indexPath.row].currentUser).getDocuments(completion:  { obj, error in
+                    guard let docs = obj?.documents else {
+                        return
+                    }
+                    if docs.count == 0 {
+                        cell.followBackButton.isHidden = false
+                    }
+                    else {
+                        cell.followBackButton.isHidden = true
+                    }
+                })
 
             }
             else if notificationArray[indexPath.row].type == "like" {

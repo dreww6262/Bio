@@ -83,7 +83,6 @@ class EditPhotoPostVC: UIViewController, UINavigationControllerDelegate, UIImage
         else {
        textOverlayLabel.isHidden = true
         }
-        var alreadySnapped = false
         super.viewDidLoad()
         locationTextField.isHidden = true
         tagTextField.isHidden = true
@@ -111,11 +110,6 @@ class EditPhotoPostVC: UIViewController, UINavigationControllerDelegate, UIImage
         checkBox.addGestureRecognizer(checkBoxTap)
         checkBox.setImage(UIImage(named: "emptyOrange"), for: .normal)
 
-        
-        //poshmarkLogo.image = UIImage(named: "poshmarkLogo")
-        let gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
-        let gray = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
-        let orange = #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
         
         // scrollview frame size
         scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
@@ -174,7 +168,7 @@ class EditPhotoPostVC: UIViewController, UINavigationControllerDelegate, UIImage
         
         
     
-        var bottomLine3 = CALayer()
+        let bottomLine3 = CALayer()
         bottomLine3.frame = CGRect(x: 0.0, y: textOverlayTextField.frame.height, width: textOverlayTextField.frame.width, height: 1.0)
         bottomLine3.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
         textOverlayTextField.borderStyle = UITextField.BorderStyle.none
@@ -184,7 +178,7 @@ class EditPhotoPostVC: UIViewController, UINavigationControllerDelegate, UIImage
         textOverlayTextField.textColor = .white
         
         
-        var bottomLine5 = CALayer()
+        let bottomLine5 = CALayer()
         bottomLine5.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00).cgColor
         //prioritizeLabel.borderStyle = UITextField.BorderStyle.none
         prioritizeLabel.layer.addSublayer(bottomLine5)
@@ -283,7 +277,6 @@ class EditPhotoPostVC: UIViewController, UINavigationControllerDelegate, UIImage
     
         let username = userData!.publicID
         var numPosts = userData!.numPosts
-        var success = true
         
         if (originalCaption == captionTextField.text! && originalTextOverlay == textOverlayTextField.text && originalPriority == checkBoxStatus && changedPhoto == false) {
          print("Changed Nothing and Dismiss")
@@ -331,12 +324,11 @@ class EditPhotoPostVC: UIViewController, UINavigationControllerDelegate, UIImage
 
             let photoLocation = refText.filter{filterSet.contains($0)}
             
-            let imageRef = storageRef.child(refText)
             numPosts += 1
             
             
             
-        let photoHex = HexagonStructData(resource: photoLocation, type: type, location: hexData?.location ?? numPosts, thumbResource: photoLocation, createdAt: NSDate.now.description, postingUserID: username, text: "\(captionTextField.text!)" ?? "", views: hexData?.views ?? 0, isArchived: false, docID: "WillBeSetLater", coverText: textOverlayTextField.text ?? "", isPrioritized: checkBoxStatus, array: [])
+        let photoHex = HexagonStructData(resource: photoLocation, type: type, location: hexData?.location ?? numPosts, thumbResource: photoLocation, createdAt: NSDate.now.description, postingUserID: username, text: "\(captionTextField.text!)" , views: hexData?.views ?? 0, isArchived: false, docID: "WillBeSetLater", coverText: textOverlayTextField.text ?? "", isPrioritized: checkBoxStatus, array: [])
         
         if photoHex.type == "photo" {
             print("add a photo with this code")
@@ -405,14 +397,14 @@ class EditPhotoPostVC: UIViewController, UINavigationControllerDelegate, UIImage
     }
     
     func setUpNavBarView() {
-        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
 //        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.addSubview(backButton)
         self.navBarView.addSubview(postButton)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
        
-        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        let navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
         navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
             let backTap = UITapGestureRecognizer(target: self, action: #selector(self.backButtonpressed))
@@ -435,7 +427,6 @@ class EditPhotoPostVC: UIViewController, UINavigationControllerDelegate, UIImage
         postButton.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 30)/2, width: 40, height: 30)
         //navBarView.postButton.titleLabel?.sizeToFit()
         navBarView.postButton.titleLabel?.textAlignment = .right
-        let yOffset = navBarView.frame.maxY
       //  backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
         self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 34)/2, width: 34, height: 34)
         

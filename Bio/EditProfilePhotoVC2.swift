@@ -55,7 +55,7 @@ class EditProfilePhotoVC2: UIViewController, UIImagePickerControllerDelegate & U
       //  imageView.image = 
         
         // Do any additional setup after loading the view.
-       var rect1 = signInButton.frame
+        let rect1 = signInButton.frame
         signInButton.frame = CGRect(x: view.frame.width/6, y: rect1.minY, width: view.frame.width*(4/6), height: rect1
                                         .height*(5/4))
         signInButton.layer.cornerRadius = signInButton.frame.width/20
@@ -68,11 +68,11 @@ class EditProfilePhotoVC2: UIViewController, UIImagePickerControllerDelegate & U
     }
     
     func setUpNavBarView() {
-        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
 //        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
-        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        let navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
         navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
        
@@ -90,7 +90,7 @@ class EditProfilePhotoVC2: UIViewController, UIImagePickerControllerDelegate & U
      
         self.backButton.frame = CGRect(x: 10, y: navBarView.frame.height - 30, width: 25, height: 25)
         self.backButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
-        let yOffset = navBarView.frame.maxY
+        _ = navBarView.frame.maxY
       //  self.navBarView.addSubview(titleLabel1)
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Change Profile Picture"
