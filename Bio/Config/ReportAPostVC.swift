@@ -182,7 +182,7 @@ let dismissTap = UITapGestureRecognizer(target: self, action: #selector(self.bac
 
      private func didToggleSelection() -> (Row) -> Void {
        return { [weak self] row in
-        var reason = row.text
+        let reason = row.text
         print("toggled row: \(row.text)")
         
         if row.text == "Other" {

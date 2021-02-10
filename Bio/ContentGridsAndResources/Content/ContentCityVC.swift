@@ -34,8 +34,6 @@ class ContentCityVC: UIViewController, UIScrollViewDelegate {
         
         
         newImageView = UIImageView(image: UIImage(named: cityHex!.thumbResource))
-        let cleanRef = cityHex!.thumbResource.replacingOccurrences(of: "/", with: "%2F")
-        let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
 //        newImageView!.sd_setImage(with: url!, completed: {_, error, _, _ in
 //            if error != nil {
 //                print(error!.localizedDescription)
@@ -102,8 +100,6 @@ class ContentCityVC: UIViewController, UIScrollViewDelegate {
         
         label1.textAlignment = .center
         label1.isUserInteractionEnabled = false
-        print("This is caption text \(relationshipText)")
-        print("This is text field text \(label1.text)")
         label1.textColor = .black
      //   birthdayLabel.frame = captionFrame
     //    captionTextField.size

@@ -59,7 +59,7 @@ class ChangePasswordVC: UIViewController {
         self.confirmNewPasswordText.clipsToBounds = false
         
         currentPasswordText.attributedPlaceholder = NSAttributedString(string: "Current Password",
-                                                                       attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00), NSAttributedString.Key.font: UIFont(name: "Poppins-SemiBold", size: 16)])
+                                                                       attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00), NSAttributedString.Key.font: UIFont(name: "Poppins-SemiBold", size: 16) ?? UIFont()])
         newPasswordText.attributedPlaceholder = NSAttributedString(string: "New Password",
                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00), NSAttributedString.Key.font: UIFont(name: "Poppins-SemiBold", size: 16)!])
         

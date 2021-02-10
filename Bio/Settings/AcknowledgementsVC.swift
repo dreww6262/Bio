@@ -75,7 +75,7 @@ class AcknowledgementsVC: QuickTableViewController {
         let userData = userDataVM?.userData.value
         setUpNavBarView()
         navBarView.backgroundColor = .systemGray6
-        var myBirthday = userData?.birthday
+        let myBirthday = userData?.birthday
         //
         tableContents = [
             Section(title: "Acknowlegements", rows: [
@@ -90,11 +90,11 @@ class AcknowledgementsVC: QuickTableViewController {
     }
     
     func setUpNavBarView() {
-        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
         print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
-        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        let navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
        // navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
         navBarView.backButton.setTitleColor(.black, for: .normal)

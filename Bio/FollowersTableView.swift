@@ -132,7 +132,7 @@ class FollowersTableView: UIViewController, UISearchBarDelegate {
                 group.enter()
                 self.loadUpToTenUserDatas(usernames: chunk, completion: {
                     //print("loadFollowings: loaded followers \(self.followingUserDataArray)")
-                    defer{group.leave()}
+                    do{group.leave()}
                 })
             }
             group.notify(queue: .main) {
@@ -206,7 +206,7 @@ class FollowersTableView: UIViewController, UISearchBarDelegate {
         if (username == nil) {
             return
         }
-        followListener = db.collection("Followings").whereField("following", isEqualTo: username).addSnapshotListener({ objects, error in
+        followListener = db.collection("Followings").whereField("following", isEqualTo: username!).addSnapshotListener({ objects, error in
             if error == nil {
                 self.followList.removeAll(keepingCapacity: true)
                 guard let docs = objects?.documents else {

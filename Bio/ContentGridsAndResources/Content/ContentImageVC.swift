@@ -71,16 +71,14 @@ class ContentImageVC: UIViewController, UIScrollViewDelegate {
     }
     
     func setUpCaption() {
-        var captionTextField = UITextField()
+        let captionTextField = UITextField()
         scrollView.addSubview(captionTextField)
-        var captionText = photoHex?.text
+        let captionText = photoHex?.text
         captionTextField.text = captionText
         let captionFrame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 66)
         captionTextField.font = UIFont(name: "DINAlternate-Bold", size: 28)
         captionTextField.textAlignment = .center
         captionTextField.isUserInteractionEnabled = false
-        print("This is caption text \(captionText)")
-        print("This is text field text \(captionTextField.text)")
         captionTextField.textColor = .white
         captionTextField.frame = captionFrame
     //    captionTextField.size

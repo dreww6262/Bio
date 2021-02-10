@@ -35,7 +35,6 @@ var titleString = ""
         self.navBarView.backgroundColor = .clear//UIColor(red: 0.95, green: 0.95, blue: 0.97, alpha: 1.00).cgColor
 
 
-6
         //        self.navBarView.addSubview(toSettingsButton)
         //        self.navBarView.addSubview(toSearchButton)
         //

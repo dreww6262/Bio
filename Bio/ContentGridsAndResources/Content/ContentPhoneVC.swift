@@ -50,7 +50,7 @@ class ContentPhoneVC: UIViewController, UIScrollViewDelegate {
        // let frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - 65)
         let frame = CGRect(x: view.frame.width/6, y: view.frame.height/12, width: view.frame.width*(2/3), height: view.frame.width*(2/3))
         let birthdayFrame = CGRect(x: 0, y: frame.maxY + 5, width: view.frame.width, height: 20)
-        let ageFrame = CGRect(x: 0, y: birthdayFrame.maxY + 5, width: view.frame.width, height: 20)
+        _ = CGRect(x: 0, y: birthdayFrame.maxY + 5, width: view.frame.width, height: 20)
 //        captionTextField.font = UIFont(name: "DINAlternate-Bold", size: 28)
 //        captionTextField.textAlignment = .center
 //        captionTextField.isUserInteractionEnabled = false
@@ -76,9 +76,9 @@ class ContentPhoneVC: UIViewController, UIScrollViewDelegate {
     
     let requestButton = UIButton()
     func setUpCaption() {
-        var birthdayLabel = UILabel()
-        var ageLabel = UILabel()
-        var zodiacLabel = UILabel()
+        let birthdayLabel = UILabel()
+        let ageLabel = UILabel()
+        let zodiacLabel = UILabel()
         
         requestButton.tag = 0
         let requestTap = UITapGestureRecognizer(target: self, action: #selector(requestPhoneNumberPressed))
@@ -95,18 +95,18 @@ class ContentPhoneVC: UIViewController, UIScrollViewDelegate {
         requestButton.backgroundColor = myCoolBlue
         requestButton.setTitleColor(.white, for: .normal)
   
-        var birthdayText = "Birthday: \(birthdayHex!.resource)"
-        var zodiacText = "Zodiac: \(birthdayHex!.text)"
+        let birthdayText = "Birthday: \(birthdayHex!.resource)"
+        let zodiacText = "Zodiac: \(birthdayHex!.text)"
         birthdayLabel.text = birthdayText
       //  var theAge = calcAge(birthday: birthdayHex!.resource)
        // ageLabel.text = "Age: \(theAge) years old"
         zodiacLabel.text = zodiacText
-        let captionFrame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 66)
+        _ = CGRect(x: 0, y: 0, width: view.bounds.width, height: 66)
         birthdayLabel.font = UIFont(name: "DINAlternate-Bold", size: 28)
         zodiacLabel.font = UIFont(name: "DINAlternate-Bold", size: 28)
         ageLabel.font = UIFont(name: "DINAlternate-Bold", size: 28)
         requestButton.titleLabel?.font = UIFont(name: "DINAlternate-Bold", size: 20)
-        let frame = CGRect(x: view.frame.width/3, y: view.frame.height/12, width: view.frame.width/3, height: view.frame.width/3)
+        _ = CGRect(x: view.frame.width/3, y: view.frame.height/12, width: view.frame.width/3, height: view.frame.width/3)
         let birthdayFrame = CGRect(x: 0, y: (newImageView.frame.maxY) + 20, width: view.frame.width, height: 30)
         let ageFrame = CGRect(x: view.frame.width/8, y: birthdayFrame.maxY + 10, width: view.frame.width*(6/8), height: 50)
         let zodiacFrame = CGRect(x: view.frame.width/8, y: ageFrame.maxY + 10, width: view.frame.width*(6/8), height: 50)
@@ -126,8 +126,6 @@ class ContentPhoneVC: UIViewController, UIScrollViewDelegate {
         
         birthdayLabel.textAlignment = .center
         birthdayLabel.isUserInteractionEnabled = false
-        print("This is caption text \(birthdayText)")
-        print("This is text field text \(birthdayLabel.text)")
         birthdayLabel.textColor = .white
      //   birthdayLabel.frame = captionFrame
     //    captionTextField.size
@@ -173,9 +171,8 @@ class ContentPhoneVC: UIViewController, UIScrollViewDelegate {
         print("trying to request phone number")
         let vc = self
         let button = sender.view as! UIButton
-        let displayName = vc.birthdayHex!.resource
+        _ = vc.birthdayHex!.resource
             let userData = userDataVM?.userData.value
-        print("This is userData \(userData) and tag \(button.tag)")
             if userData != nil {
                 if button.tag == 0 {
                     let newRequest = ["requester": currentPostingUserID, "requesting": birthdayHex?.postingUserID]

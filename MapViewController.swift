@@ -57,7 +57,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UISearchBarDelegat
         mapView.delegate = self
         mapView.mapType = .hybrid
         
-        activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.gray)
+        activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.medium)
         activityIndicator.hidesWhenStopped = true
         self.view.addSubview(activityIndicator)
     }
@@ -192,6 +192,7 @@ extension MapViewController: CLLocationManagerDelegate {
             print("Access deined. Likely parental controls restrict location services in this app.")
             showAlert(title: "Access Denied.", message: "Likely parental controls restrict location services in this app.")
         }
+        
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {

@@ -40,7 +40,7 @@ class ContentVenmoVC: UIViewController, UIScrollViewDelegate {
         let frame = CGRect(x: view.frame.width/6, y: view.frame.height/12, width: view.frame.width*(2/3), height: view.frame.width*(2/3))
         let birthdayFrame = CGRect(x: 0, y: frame.maxY + 5, width: view.frame.width, height: 20)
         let ageFrame = CGRect(x: 0, y: birthdayFrame.maxY + 5, width: view.frame.width, height: 20)
-        let zodiacFrame = CGRect(x: 0, y: ageFrame.maxY + 5, width: view.frame.width, height: 20)
+        _ = CGRect(x: 0, y: ageFrame.maxY + 5, width: view.frame.width, height: 20)
 //        captionTextField.font = UIFont(name: "DINAlternate-Bold", size: 28)
 //        captionTextField.textAlignment = .center
 //        captionTextField.isUserInteractionEnabled = false
@@ -74,22 +74,21 @@ class ContentVenmoVC: UIViewController, UIScrollViewDelegate {
         scrollView.addSubview(label2)
         scrollView.addSubview(label3)
         var venmoUsername = venmoHex!.text
-        var relationshipText = "\(venmoHex!.resource) is \(venmoUsername.lowercased())"
         venmoUsername = venmoUsername.replacingOccurrences(of: "$", with: "")
         venmoUsername = venmoUsername.lowercased()
-        var zodiacLowerCased = "\(venmoHex!.text)"
-        var zodiac = zodiacLowerCased.capitalizingFirstLetter()
-        var zodiacText = "Zodiac: \(zodiac)"
+        let zodiacLowerCased = "\(venmoHex!.text)"
+        let zodiac = zodiacLowerCased.capitalizingFirstLetter()
+        _ = "Zodiac: \(zodiac)"
         
         label1.text = "Venmo: $\(venmoUsername)"
         label1.numberOfLines = 0
         label2.text = ""
         label3.text = ""
-        let captionFrame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 66)
+        _ = CGRect(x: 0, y: 0, width: view.bounds.width, height: 66)
         label1.font = UIFont(name: "DINAlternate-Bold", size: 28)
         label3.font = UIFont(name: "DINAlternate-Bold", size: 28)
         label2.font = UIFont(name: "DINAlternate-Bold", size: 28)
-        let frame = CGRect(x: view.frame.width/3, y: view.frame.height/12, width: view.frame.width/3, height: view.frame.width/3)
+        _ = CGRect(x: view.frame.width/3, y: view.frame.height/12, width: view.frame.width/3, height: view.frame.width/3)
         let label1Frame = CGRect(x: 0, y: (newImageView?.frame.maxY)! + 20, width: view.frame.width, height: 30)
         let label2Frame = CGRect(x: 0, y: label1Frame.maxY + 20, width: view.frame.width, height: 30)
         let label3Frame = CGRect(x: 0, y: label2Frame.maxY + 20, width: view.frame.width, height: 30)
@@ -107,8 +106,6 @@ class ContentVenmoVC: UIViewController, UIScrollViewDelegate {
         
         label1.textAlignment = .center
         label1.isUserInteractionEnabled = false
-        print("This is caption text \(relationshipText)")
-        print("This is text field text \(label1.text)")
         label1.textColor = .black
      //   birthdayLabel.frame = captionFrame
     //    captionTextField.size
@@ -124,7 +121,7 @@ class ContentVenmoVC: UIViewController, UIScrollViewDelegate {
         let frame = CGRect(x: view.frame.width/6, y: view.frame.height/12, width: view.frame.width*(2/3), height: view.frame.width*(2/3))
         let birthdayFrame = CGRect(x: 0, y: frame.maxY + 5, width: view.frame.width, height: 20)
         let ageFrame = CGRect(x: 0, y: birthdayFrame.maxY + 5, width: view.frame.width, height: 20)
-        let zodiacFrame = CGRect(x: 0, y: ageFrame.maxY + 5, width: view.frame.width, height: 20)
+        _ = CGRect(x: 0, y: ageFrame.maxY + 5, width: view.frame.width, height: 20)
 //        captionTextField.font = UIFont(name: "DINAlternate-Bold", size: 28)
 //        captionTextField.textAlignment = .center
 //        captionTextField.isUserInteractionEnabled = false

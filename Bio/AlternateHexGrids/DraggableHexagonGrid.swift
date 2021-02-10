@@ -79,9 +79,9 @@ class DraggableHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //,
         //adjust coordinates
         
         for point in reOrderedCoordinateArrayPoints {
-            var newPointX = point.x - 604 //680
-            var newPointY = point.y - 493 //570
-            var newPoint = CGPoint(x: newPointX, y: newPointY)
+            let newPointX = point.x - 604 //680
+            let newPointY = point.y - 493 //570
+            let newPoint = CGPoint(x: newPointX, y: newPointY)
             reOrderedCoordinateArrayPointsCentered.append(newPoint)
             
         }
@@ -170,7 +170,7 @@ class DraggableHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //,
         
         let hexaDiameter : CGFloat = 150
         let hexaWidth = hexaDiameter * sqrt(3) * 0.5
-        let hexaWidthDelta = (hexaDiameter - hexaWidth) * 0.5
+        _ = (hexaDiameter - hexaWidth) * 0.5
         let hexaHeightDelta = hexaDiameter * 0.25
         let spacing : CGFloat = 5
         
@@ -233,8 +233,8 @@ class DraggableHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //,
             if distance(hexCenter, coordinate) < 110.0 {
                 print("This is the coordinates it belongs to \(coordinate)")
                 print("This is the location in the reOrderedCoordinatePointArray \(thisIndex)")
-                var red = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
-                var gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
+                let red = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+                let gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
                 targetHexagons.append(thisIndex)
                 self.imageViewArray[thisIndex].setupHexagonMask(lineWidth: 10.0, color: red, cornerRadius: 10.0)
                 
@@ -376,7 +376,7 @@ class DraggableHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //,
     
     func populateFakeUserPhotos() {
         index1 = 0
-        for image in fakeUserImageArray {
+        for _ in fakeUserImageArray {
             imageViewArray[index1+7].image = fakeUserImageArray[index1]
 //            print("This is image \(imageViewArray[index1+7].image)")
             fakeUserTotalProfileArray.append(imageViewArray[index1+7].image!)
@@ -426,9 +426,9 @@ class DraggableHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //,
                 newIndex = findIntersectingHexagon(hexCenter: currentHexagonCenter)
                 print("This is current newIndex \(newIndex)")
                 hexIsMovable = false
-                var originalFrame = currentDraggedHexagonFrame
-                var tempImage1 = imageViewArray[currentDraggedHexagonTag].image
-                var tempImage2 = imageViewArray[newIndex].image
+                let originalFrame = currentDraggedHexagonFrame
+                let tempImage1 = imageViewArray[currentDraggedHexagonTag].image
+                let tempImage2 = imageViewArray[newIndex].image
                 imageViewArray[currentDraggedHexagonTag].frame = originalFrame
                 imageViewArray[currentDraggedHexagonTag].image = tempImage2
                 imageViewArray[newIndex].image = tempImage1
@@ -604,7 +604,7 @@ class DraggableHexagonGrid: UIViewController, UIGestureRecognizerDelegate  { //,
     func play(url: String) {
         
         do {
-            var urlStringTurnURL = URL(string: url)
+            let urlStringTurnURL = URL(string: url)
             //player = try AVAudioPlayer(contentsOf: url)
             player = try AVAudioPlayer(contentsOf: urlStringTurnURL!)
             player.prepareToPlay()

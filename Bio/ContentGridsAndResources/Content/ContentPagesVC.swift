@@ -270,7 +270,7 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         commentButton.frame = CGRect(x:5, y: bottomBar.frame.height/4, width: bottomBar.frame.height/2, height: bottomBar.frame.height/2)
         commentButton.imageView?.frame = commentButton.frame
         commentButton.imageView?.image = commentImage
-        var spacingForButton = bottomBar.frame.height/4
+        let spacingForButton = bottomBar.frame.height/4
         
         let shareButton = UIButton()
         //bottomBar.addSubview(shareButton)
@@ -453,7 +453,6 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
             let onePostPreviewVC = self.storyboard?.instantiateViewController(identifier: "editMusicPostVC") as! EditMusicPostVC
             onePostPreviewVC.userDataVM = self.userDataVM
             onePostPreviewVC.hexData = hex
-            print("This is hex \(hex)")
         let cleanRef = hex!.thumbResource.replacingOccurrences(of: "/", with: "%2F")
             let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
             onePostPreviewVC.linkHexagonImage.sd_setImage(with: url!, completed: {_, error, _, _ in
@@ -466,14 +465,14 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
                     print(error!.localizedDescription)
                 }
             })
-            var entireMusicString = hex!.resource
-            var artistSongString = hex!.resource.chopPrefix(21)
+        _ = hex!.resource
+        let artistSongString = hex!.resource.chopPrefix(21)
             print("This is artistSongString \(artistSongString)")
-            var artistSongComponents = artistSongString.components(separatedBy: "/")
-            var artist = artistSongComponents[0] as! String
-            var song = artistSongComponents[1] as! String
-            var finalArist = artist.replacingOccurrences(of: "-", with: " ")
-            var finalSong = song.replacingOccurrences(of: "-", with: " ")
+        let artistSongComponents = artistSongString.components(separatedBy: "/")
+        let artist = artistSongComponents[0]
+        let song = artistSongComponents[1]
+        let finalArist = artist.replacingOccurrences(of: "-", with: " ")
+        let finalSong = song.replacingOccurrences(of: "-", with: " ")
             print("final artist \(finalArist)")
         print("final song \(finalSong)")
             onePostPreviewVC.captionTextField.text = hex!.text
@@ -482,7 +481,7 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
             onePostPreviewVC.textOverlayString = hex!.coverText
             onePostPreviewVC.linkTextField.text = finalArist
 //            onePostPreviewVC.songNameTextField.text = finalSong
-            var isPrioritized = currentVC.webHex?.isPrioritized ?? false
+        let isPrioritized = currentVC.webHex?.isPrioritized ?? false
             onePostPreviewVC.checkBoxStatus = isPrioritized
             if isPrioritized {
                 onePostPreviewVC.checkBox.setImage(UIImage(named: "check-2"), for: .normal)
@@ -497,15 +496,15 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
     func editPost() {
         let currentVC = viewControllers[currentIndex]
         if currentVC is ContentLinkVC {
-            let linkVC = currentVC as! ContentLinkVC
+            _ = currentVC as! ContentLinkVC
             print("Go to add Link Post and feed current info")
         }
         else if currentVC is ContentVideoVC {
-            let linkVC = currentVC as! ContentVideoVC
+            _ = currentVC as! ContentVideoVC
             print("Go to One Post Preview and feed currrent info")
         }
         else if currentVC is ContentImageVC {
-            let linkVC = currentVC as! ContentImageVC
+            _ = currentVC as! ContentImageVC
             print("Go to One Post Preview and feed currrent info")
         }
         print("To:Do an else if for music")
@@ -517,7 +516,6 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         let onePostPreviewVC = self.storyboard?.instantiateViewController(identifier: "editLinkPostVC") as! EditLinkPostVC
         onePostPreviewVC.userDataVM = userDataVM
         onePostPreviewVC.hexData = hex
-        print("This is hex \(hex)")
         let cleanRef = hex!.thumbResource.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
         onePostPreviewVC.linkHexagonImage.sd_setImage(with: url!, completed: {_, error, _, _ in
@@ -535,7 +533,7 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         onePostPreviewVC.captionString = hex!.text
         onePostPreviewVC.textOverlayString = hex!.coverText
         onePostPreviewVC.linkTextField.text = hex!.resource
-        var isPrioritized = currentVC.webHex?.isPrioritized ?? false
+        let isPrioritized = currentVC.webHex?.isPrioritized ?? false
         onePostPreviewVC.checkBoxStatus = isPrioritized
         if isPrioritized {
             onePostPreviewVC.checkBox.setImage(UIImage(named: "check-3"), for: .normal)
@@ -553,7 +551,6 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         let onePostPreviewVC = self.storyboard?.instantiateViewController(identifier: "editPhotoPostVC") as! EditPhotoPostVC
         onePostPreviewVC.userDataVM = userDataVM
         onePostPreviewVC.hexData = hex
-        print("This is hex \(hex)")
         let cleanRef = hex!.thumbResource.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
         onePostPreviewVC.previewImage.sd_setImage(with: url!, completed: {_, error, _, _ in
@@ -570,7 +567,7 @@ class ContentPagesVC: UIViewController, UIPageViewControllerDelegate, UIPageView
         onePostPreviewVC.textOverlayTextField.text = hex!.coverText
         onePostPreviewVC.captionString = hex!.text
         onePostPreviewVC.textOverlayString = hex!.coverText
-        var isPrioritized = currentVC.photoHex?.isPrioritized ?? false
+        let isPrioritized = currentVC.photoHex?.isPrioritized ?? false
         onePostPreviewVC.checkBoxStatus = isPrioritized
         if isPrioritized {
             onePostPreviewVC.checkBox.setImage(UIImage(named: "check-3"), for: .normal)

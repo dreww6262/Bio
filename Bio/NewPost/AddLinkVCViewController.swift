@@ -262,7 +262,7 @@ class AddLinkVCViewController: UIViewController, UIImagePickerControllerDelegate
     }
     
     func setUpNavBarView() {
-        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
 //        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.addSubview(backButton)

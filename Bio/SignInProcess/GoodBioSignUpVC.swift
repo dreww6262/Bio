@@ -171,8 +171,6 @@ var countryFlag = UIImageView()
         self.scrollView.addSubview(countryTextField)
         countryPicker.isHidden = true
         avaImg.image = UIImage(named: "user-2")
-        let gold = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
-        let gray = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         // scrollview frame size
         scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
         scrollView.contentSize.height = self.view.frame.height
@@ -447,7 +445,7 @@ pdfVC.navBarView.titleLabel.text = "Privacy Policy"
     
     func formatPhotoLabel() {
         self.scrollView.addSubview(self.profileImageLabel)
-        var photoFrame = self.avaImg.frame
+        let photoFrame = self.avaImg.frame
         self.profileImageLabel.frame = CGRect(x: self.view.frame.width/32, y: photoFrame.minY - 10, width: self.view.frame.width/2, height: 44)
         self.profileImageLabel.text = "Choose A Profile Picture:"
         self.profileImageLabel.font = emailTxt.font
@@ -474,7 +472,7 @@ pdfVC.navBarView.titleLabel.text = "Privacy Policy"
                 completion(obj.user)
             }
             else {
-                print("failed to create user \(error?.localizedDescription)")
+                print("failed to create user \(error?.localizedDescription ?? "")")
                 // alert message
                 let alert = UIAlertController(title: "Invalid Email", message: "Enter a valid email address.", preferredStyle: UIAlertController.Style.alert)
                 let ok = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
@@ -681,7 +679,7 @@ pdfVC.navBarView.titleLabel.text = "Privacy Policy"
                                     }
                                 }
                                 else {
-                                    print(error?.localizedDescription)
+                                    print(error?.localizedDescription ?? "")
                                     self.blurEffectView?.removeFromSuperview()
                                     loadingIndicator!.view.removeFromSuperview()
                                     loadingIndicator!.removeFromParent()
@@ -690,7 +688,7 @@ pdfVC.navBarView.titleLabel.text = "Privacy Policy"
                             
                         }
                         else {
-                            print("could not upload profile photo \(error?.localizedDescription)")
+                            print("could not upload profile photo \(error?.localizedDescription ?? "")")
                             self.blurEffectView?.removeFromSuperview()
                             loadingIndicator!.view.removeFromSuperview()
                             loadingIndicator!.removeFromParent()
@@ -728,14 +726,14 @@ pdfVC.navBarView.titleLabel.text = "Privacy Policy"
     }
     
     func setUpNavBarView() {
-        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
 //        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.addSubview(cancelBtn)
         self.navBarView.addSubview(signUpBtn)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
        
-        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        let navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
         navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
 //        self.navBarView.addSubview(toSettingsButton)
@@ -762,7 +760,6 @@ pdfVC.navBarView.titleLabel.text = "Privacy Policy"
         signUpBtn.frame = CGRect(x: navBarView.frame.width - 50, y: statusBarHeight + (navBarHeightRemaining - 30)/2, width: 40, height: 30)
         //navBarView.postButton.titleLabel?.sizeToFit()
         navBarView.postButton.titleLabel?.textAlignment = .right
-        let yOffset = navBarView.frame.maxY
   
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Create An Account"

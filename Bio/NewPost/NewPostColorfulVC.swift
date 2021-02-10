@@ -150,11 +150,11 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
     }
     
     func setUpNavBarView() {
-        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
 //        print("This is status bar height \(statusBarHeight)")
         self.view.addSubview(navBarView)
         self.navBarView.frame = CGRect(x: -5, y: -5, width: self.view.frame.width + 10, height: (self.view.frame.height/12)+5)
-        var navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
+        let navBarHeightRemaining = navBarView.frame.maxY - statusBarHeight
         navBarView.backButton.isHidden = true
         navBarView.postButton.isHidden = true
         self.navBarView.addSubview(toSettingsButton)
@@ -177,7 +177,7 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
        // self.toSettingsButton.frame = CGRect(x: 10, y: navBarView.frame.height - 30, width: 25, height: 25)
         self.toSettingsButton.frame = CGRect(x: 10, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
         self.toSearchButton.frame = CGRect(x: navBarView.frame.width - 35, y: statusBarHeight + (navBarHeightRemaining - 25)/2, width: 25, height: 25)
-        let yOffset = navBarView.frame.maxY
+        _ = navBarView.frame.maxY
       //  self.navBarView.addSubview(titleLabel1)
         self.navBarView.addBehavior()
         self.navBarView.titleLabel.text = "Add Content"
@@ -299,22 +299,22 @@ class NewPostColorfulVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
     
     
     func formatPicturesAndLabelsFinal() {
-        var frame1 = CGRect(x: self.view.frame.width/24, y: (self.view.frame.height*(3/24)), width: (self.view.frame.width)*(5/12), height: self.view.frame.height*(1/3))
+        let frame1 = CGRect(x: self.view.frame.width/24, y: (self.view.frame.height*(3/24)), width: (self.view.frame.width)*(5/12), height: self.view.frame.height*(1/3))
         view1.frame = frame1
       //  var frame2 = CGRect(
-        var frame2 = CGRect(x: self.view.frame.width*(13/24), y: (self.view.frame.height*(3/24)), width: (self.view.frame.width)*(5/12), height: self.view.frame.height*(1/3))
+        let frame2 = CGRect(x: self.view.frame.width*(13/24), y: (self.view.frame.height*(3/24)), width: (self.view.frame.width)*(5/12), height: self.view.frame.height*(1/3))
         view2.frame = frame2
         
-        var frame3 = CGRect(x: self.view.frame.width/24, y: self.view.frame.height*(12/24), width: (self.view.frame.width)*(5/12), height: self.view.frame.height*(1/3))
+        let frame3 = CGRect(x: self.view.frame.width/24, y: self.view.frame.height*(12/24), width: (self.view.frame.width)*(5/12), height: self.view.frame.height*(1/3))
          view3.frame = frame3
         
-        var frame4 = CGRect(x: self.view.frame.width*(13/24), y: self.view.frame.height*(12/24), width: (self.view.frame.width)*(5/12), height: self.view.frame.height*(1/3))
+        let frame4 = CGRect(x: self.view.frame.width*(13/24), y: self.view.frame.height*(12/24), width: (self.view.frame.width)*(5/12), height: self.view.frame.height*(1/3))
         view4.frame = frame4
         view1.addSubview(pic1)
         pic1.frame = CGRect(x: self.view1.frame.width*(3/16), y: self.view1.frame.height/12, width: self.view1.frame.width*(10/16), height: self.view1.frame.width/2)
         l1.frame =  CGRect(x: 0, y: self.pic1.frame.maxY + 10, width: self.view1.frame.width, height: 44)
         
-        var piclabelHeight = l1.frame.maxY - pic1.frame.minY
+        let piclabelHeight = l1.frame.maxY - pic1.frame.minY
         
         pic1.frame = CGRect(x: pic1.frame.minX, y: (frame1.height-piclabelHeight)/2, width: pic1.frame.width, height: pic1.frame.height)
         

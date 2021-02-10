@@ -321,22 +321,22 @@ class CustomPageView: UIViewController {
                 }
         
         case (is ContentCityVC):
-            let imageVC = visibleVCs[0] as! ContentCityVC
+            _ = visibleVCs[0] as! ContentCityVC
             text = ""
         case (is ContentBirthdayVC):
-            let imageVC = visibleVCs[0] as! ContentBirthdayVC
+            _ = visibleVCs[0] as! ContentBirthdayVC
             text = ""
         case (is ContentRelationship):
-            let imageVC = visibleVCs[0] as! ContentRelationship
+            _ = visibleVCs[0] as! ContentRelationship
             text = ""
         case (is ContentCulturalVC):
-            let imageVC = visibleVCs[0] as! ContentCulturalVC
+            _ = visibleVCs[0] as! ContentCulturalVC
             text = ""
         case (is ContentPhoneVC):
-            let imageVC = visibleVCs[0] as! ContentPhoneVC
+            _ = visibleVCs[0] as! ContentPhoneVC
             text = ""
         case (is ContentVenmoVC):
-            let imageVC = visibleVCs[0] as! ContentVenmoVC
+            _ = visibleVCs[0] as! ContentVenmoVC
             text = ""
                 
             default:
@@ -812,7 +812,7 @@ class CustomPageView: UIViewController {
                     self.dismiss(animated: true, completion: nil)
                 }
                 else {
-                    self.setPresentedViewControllers(vcIndex: self.currentIndex!)
+                    let _ = self.setPresentedViewControllers(vcIndex: self.currentIndex!)
                 }
             }))
             

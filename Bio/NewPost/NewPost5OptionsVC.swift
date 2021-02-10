@@ -226,7 +226,6 @@ class NewPost5OptionsVC: UIViewController { //, FMPhotoPickerViewControllerDeleg
         config.screens = [.library, .photo, .video]
         config.startOnScreen = .library
      //   config.overlayView?.setupHexagonMaskView(lineWidth: view.frame.width/15, color: .red, cornerRadius: view.frame.width/15)
-        print("config.overlayView.frame = \(config.overlayView?.frame)")
         config.overlayView?.clipsToBounds = true
         config.library.mediaType = .photoAndVideo
         config.library.maxNumberOfItems = 1

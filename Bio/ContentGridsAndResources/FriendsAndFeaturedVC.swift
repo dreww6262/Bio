@@ -152,7 +152,7 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
 //                }
 //            })
 //        }
-        var placeHolderImage = UIImage(named: "user-2")
+        let placeHolderImage = UIImage(named: "user-2")
         if url != nil {
             
         

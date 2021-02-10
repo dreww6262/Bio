@@ -88,7 +88,6 @@ class ContentBirthdayVC: UIViewController, UIScrollViewDelegate {
         let now = Date()
         let calcAge = calendar.components(.year, from: birthdayDate!, to: now, options: [])
         let age = calcAge.year
-        print("This is age: \(age)")
         return age!
     }
     
@@ -100,21 +99,21 @@ class ContentBirthdayVC: UIViewController, UIScrollViewDelegate {
         scrollView.addSubview(birthdayLabel)
         scrollView.addSubview(ageLabel)
         scrollView.addSubview(zodiacLabel)
-        var formattedBirthday = formatBirthday(date: birthdayHex!.resource)
-        var birthdayText = "Birthday: \(formattedBirthday)"
-        var zodiacLowerCased = "\(birthdayHex!.text)"
-        var zodiac = zodiacLowerCased.capitalizingFirstLetter()
-        var zodiacText = "Zodiac: \(zodiac)"
+        let formattedBirthday = formatBirthday(date: birthdayHex!.resource)
+        let birthdayText = "Birthday: \(formattedBirthday)"
+        let zodiacLowerCased = "\(birthdayHex!.text)"
+        let zodiac = zodiacLowerCased.capitalizingFirstLetter()
+        let zodiacText = "Zodiac: \(zodiac)"
         
         birthdayLabel.text = birthdayText
-        var theAge = calcAge(birthday: birthdayHex!.resource)
+        let theAge = calcAge(birthday: birthdayHex!.resource)
         ageLabel.text = "Age: \(theAge) years old"
         zodiacLabel.text = zodiacText
-        let captionFrame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 66)
+        _ = CGRect(x: 0, y: 0, width: view.bounds.width, height: 66)
         birthdayLabel.font = UIFont(name: "DINAlternate-Bold", size: 28)
         zodiacLabel.font = UIFont(name: "DINAlternate-Bold", size: 28)
         ageLabel.font = UIFont(name: "DINAlternate-Bold", size: 28)
-        let frame = CGRect(x: view.frame.width/3, y: view.frame.height/12, width: view.frame.width/3, height: view.frame.width/3)
+        _ = CGRect(x: view.frame.width/3, y: view.frame.height/12, width: view.frame.width/3, height: view.frame.width/3)
         let birthdayFrame = CGRect(x: 0, y: (newImageView?.frame.maxY)! + 20, width: view.frame.width, height: 30)
         let ageFrame = CGRect(x: 0, y: birthdayFrame.maxY + 20, width: view.frame.width, height: 30)
         let zodiacFrame = CGRect(x: 0, y: ageFrame.maxY + 20, width: view.frame.width, height: 30)
@@ -132,8 +131,6 @@ class ContentBirthdayVC: UIViewController, UIScrollViewDelegate {
         
         birthdayLabel.textAlignment = .center
         birthdayLabel.isUserInteractionEnabled = false
-        print("This is caption text \(birthdayText)")
-        print("This is text field text \(birthdayLabel.text)")
         birthdayLabel.textColor = .black
      //   birthdayLabel.frame = captionFrame
     //    captionTextField.size
@@ -143,10 +140,10 @@ class ContentBirthdayVC: UIViewController, UIScrollViewDelegate {
     
     func formatBirthday(date: String) -> String {
         print("This is date \(date)")
-        var dateArray = date.components(separatedBy: "/")
-        var month = dateArray[0]
-        var day = dateArray[1]
-        var year = dateArray[2]
+        let dateArray = date.components(separatedBy: "/")
+        let month = dateArray[0]
+        let day = dateArray[1]
+        _ = dateArray[2]
         var monthString = ""
         switch (month) {
         case "01":

@@ -683,7 +683,7 @@ var navBarView = NavBarView()
             createHexagonMaskWithCorrespondingColor(imageView: image, type: myType)
         }
         else if myType == "pin_relationship" {
-            var ttext = hexData.text.lowercased()
+            let ttext = hexData.text.lowercased()
            // ttext = ttext.replacingOccurrences(of: " ", with: "-")
             print("This is image name \(ttext)")
             image.image = UIImage(named: ttext)
