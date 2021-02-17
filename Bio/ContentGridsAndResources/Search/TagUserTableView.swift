@@ -27,7 +27,6 @@ class TagUserTableView: UIViewController, UISearchBarDelegate {
     var searchString = ""
     
     var followList = [String]()
-    var followListener: ListenerRegistration?
     var scaleCGPoint: CGPoint?
     var tagCGPoint: CGPoint?
     var percentWidthX: Double = 0.0
@@ -123,7 +122,6 @@ class TagUserTableView: UIViewController, UISearchBarDelegate {
             
             // loads follower list to start
             
-            self.followListener?.remove()
             self.loadUserDataArray.removeAll()
             //self.loadUserDataArray.append(newElement: self.userData!)
             let chunks = self.followList.chunked(into: 5)
@@ -146,7 +144,7 @@ class TagUserTableView: UIViewController, UISearchBarDelegate {
     func loadUpToTenUserDatas(usernames: [String], completion: @escaping () -> ()) {
         let userDataCollection = self.db.collection("UserData1")
         let userDataQuery = userDataCollection.whereField("publicID", in: usernames)
-        let listener = userDataQuery.addSnapshotListener( { (objects, error) -> Void in
+        userDataQuery.getDocuments(completion: { (objects, error) -> Void in
             if error == nil {
                 guard let documents = objects?.documents else {
                     print("could not get documents from objects?.documents")
@@ -173,16 +171,10 @@ class TagUserTableView: UIViewController, UISearchBarDelegate {
             completion()
             
         })
-        listenerList?.append(listener)
     }
     
-    var listenerList: [ListenerRegistration]?
     
     func doneLoading() {
-        listenerList?.forEach({ listener in
-            listener.remove()
-        })
-        listenerList = nil
         sortUserDataArray()
         self.tableView.reloadData()
     }
@@ -204,7 +196,7 @@ class TagUserTableView: UIViewController, UISearchBarDelegate {
             return
         }
         
-        followListener = db.collection("Followings").whereField("follower", isEqualTo: userData!.publicID).addSnapshotListener({ objects, error in
+        db.collection("Followings").whereField("follower", isEqualTo: userData!.publicID).getDocuments(completion: { objects, error in
             if error == nil {
                 self.followList.removeAll(keepingCapacity: true)
                 guard let docs = objects?.documents else {
@@ -278,7 +270,7 @@ class TagUserTableView: UIViewController, UISearchBarDelegate {
         //var success = true
         searchString = searchString.lowercased()
         let usernameQuery = db.collection("UserData1").whereField("publicID", isGreaterThanOrEqualTo: searchString).whereField("publicID", isLessThan: searchString+"\u{F8FF}")
-        usernameQuery.addSnapshotListener({snapshots,error in
+        usernameQuery.getDocuments(completion: {snapshots,error in
             if (error != nil) {
                 print("god damnit")
                 //success = false

@@ -35,7 +35,6 @@ class AddSocialMediaTableView: UIViewController, UITextFieldDelegate {
 //    var textFieldArray = [UITextField]()
     
     var followList = [String]()
-    var followListener: ListenerRegistration?
     
     var cancelLbl: String?
     

@@ -127,7 +127,12 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
         
         
         let userData = userDataVM?.userData.value
-        ogAvaImg = avaImg.image!
+        
+        if userData == nil {
+            return
+        }
+        
+        ogAvaImg = avaImg.image ?? UIImage()
         ogEmail = userData?.email ?? ""
         ogUsername = userData?.publicID ?? ""
         ogDisplayName = userData?.displayName ?? ""
@@ -227,7 +232,7 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
         let cleanRef = userData!.avaRef.replacingOccurrences(of: "/", with: "%2F")
         let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
         if url != nil {
-            avaImg!.sd_setImage(with: url!, completed: {_, error, _, _ in
+            avaImg?.sd_setImage(with: url!, completed: {_, error, _, _ in
                 if error != nil {
                     print(error!.localizedDescription)
                 }
@@ -355,10 +360,10 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
     func calcAge(birthday: String) -> Int {
         let dateFormater = DateFormatter()
         dateFormater.dateFormat = "MM/dd/yyyy"
-        let birthdayDate = dateFormater.date(from: birthday)
+        let birthdayDate = dateFormater.date(from: birthday) ?? Date()
         let calendar: NSCalendar! = NSCalendar(calendarIdentifier: .gregorian)
         let now = Date()
-        let calcAge = calendar.components(.year, from: birthdayDate!, to: now, options: [])
+        let calcAge = calendar.components(.year, from: birthdayDate, to: now, options: [])
         let age = calcAge.year
         return age!
     }

@@ -153,17 +153,17 @@ class UserTableView: UIViewController, UISearchBarDelegate {
             userDataArray.sort(by: { x, y in
                 x.publicID < y.publicID
             })
-            userDataArray.forEach({ item in
-                self.loadUserDataArray.append(newElement: item)
-            })
+//            userDataArray.forEach({ item in
+//                self.loadUserDataArray.append(newElement: item)
+//            })
         }
         else {
             userDataArray.sort(by: { x, y in
                 x.displayNameQueryable < y.displayNameQueryable
             })
-            userDataArray.forEach({ item in
-                self.loadUserDataArray.append(newElement: item)
-            })
+//            userDataArray.forEach({ item in
+//                self.loadUserDataArray.append(newElement: item)
+//            })
         }
     }
     
@@ -240,6 +240,14 @@ class UserTableView: UIViewController, UISearchBarDelegate {
                 }
             }
             self.sortUserDataArray(userDataArray: &userDataArray, byPublicID: false)
+            userDataArray.forEach({ data in
+                if !self.loadUserDataArray.readOnlyArray().contains(where: { ud in
+                    return ud.publicID == data.publicID
+                }) {
+//                    print("adding display: \(data.publicID)")
+                    self.loadUserDataArray.append(newElement: data)
+                }
+            })
             
             let usernameQuery = self.db.collection("UserData1").whereField("publicID", isGreaterThanOrEqualTo: searchString).whereField("publicID", isLessThan: searchString+"\u{F8FF}")
             usernameQuery.getDocuments(completion: {snapshots,error in
@@ -256,11 +264,19 @@ class UserTableView: UIViewController, UISearchBarDelegate {
                         return u.publicID == newUD.publicID
                     })) {
                         if !userData!.blockedUsers.contains(newUD.publicID) && !userData!.isBlockedBy.contains(newUD.publicID) {
-                            self.loadUserDataArray.append(newElement: newUD)
+                            usernameDataArray.append(newUD)
                         }
                     }
                 }
                 self.sortUserDataArray(userDataArray: &usernameDataArray, byPublicID: true)
+                usernameDataArray.forEach({ data in
+                    if !self.loadUserDataArray.readOnlyArray().contains(where: { ud in
+                        return ud.publicID == data.publicID
+                    }) {
+//                        print("adding username: \(data.publicID)")
+                        self.loadUserDataArray.append(newElement: data)
+                    }
+                })
                 self.tableView.reloadData()
             })
         })

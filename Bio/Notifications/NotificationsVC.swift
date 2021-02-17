@@ -24,7 +24,6 @@ class NotificationsVC: UIViewController {
     let menuView = MenuView()
     let storage = Storage.storage().reference()
     var db = Firestore.firestore()
-    var listener: ListenerRegistration?
     var unreadNotifications = 0
     var userDataVM: UserDataVM?
     @IBOutlet weak var tableView: UITableView!
@@ -239,7 +238,7 @@ class NotificationsVC: UIViewController {
         //        print("I am within cellTapped")
         let cell  = sender.view as! UserCell
         let username = cell.usernameLbl.text!
-        db.collection("UserData1").whereField("publicID", isEqualTo: username).addSnapshotListener({ objects, error in
+        db.collection("UserData1").whereField("publicID", isEqualTo: username).getDocuments(completion: { objects, error in
             if error == nil {
                 guard let docs = objects?.documents else{
                     print("no docs?")
@@ -314,7 +313,7 @@ class NotificationsVC: UIViewController {
         let username = cell.usernameBtn.titleLabel!.text!
         //        print("This is cell.usernabeButton.title \(username)")
         
-        db.collection("UserData1").whereField("publicID", isEqualTo: username).addSnapshotListener({ objects, error in
+        db.collection("UserData1").whereField("publicID", isEqualTo: username).getDocuments(completion: { objects, error in
             if error == nil {
                 guard let docs = objects?.documents else{
                     print("no docs?")
@@ -356,7 +355,7 @@ class NotificationsVC: UIViewController {
         let username = cell.usernameBtn.titleLabel!.text!
         //        print("This is cell.usernabeButton.title \(username)")
         
-        db.collection("UserData1").whereField("publicID", isEqualTo: username).addSnapshotListener({ objects, error in
+        db.collection("UserData1").whereField("publicID", isEqualTo: username).getDocuments(completion: { objects, error in
             if error == nil {
                 guard let docs = objects?.documents else{
                     print("no docs?")

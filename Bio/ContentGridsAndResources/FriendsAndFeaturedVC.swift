@@ -827,7 +827,11 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
                 let fakeImage = UIImageView()
                 for doc in docs {
                     let popData = UserData(dictionary: doc.data())
-                    popList.append(newElement: popData)
+                    if !popList.readOnlyArray().contains(where: { ud in
+                        return ud.publicID == popData.publicID
+                    }){
+                        popList.append(newElement: popData)
+                    }
                     let cleanRef = popData.avaRef.replacingOccurrences(of: "/", with: "%2F")
                     let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/bio-social-media.appspot.com/o/\(cleanRef)?alt=media")
                     if (url != nil) {

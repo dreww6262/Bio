@@ -28,7 +28,6 @@ class FollowersTableView: UIViewController, UISearchBarDelegate {
     var userDataVM: UserDataVM?
     
     var followList = [String]()
-    var followListener: ListenerRegistration?
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -123,7 +122,6 @@ class FollowersTableView: UIViewController, UISearchBarDelegate {
             
             // loads follower list to start
             
-            self.followListener?.remove()
             self.loadUserDataArray.removeAll()
             //self.loadUserDataArray.append(newElement: self.userData!)
             let chunks = self.followList.chunked(into: 5)
@@ -146,7 +144,7 @@ class FollowersTableView: UIViewController, UISearchBarDelegate {
     func loadUpToTenUserDatas(usernames: [String], completion: @escaping () -> ()) {
         let userDataCollection = self.db.collection("UserData1")
         let userDataQuery = userDataCollection.whereField("publicID", in: usernames)
-        let listener = userDataQuery.addSnapshotListener( { (objects, error) -> Void in
+        userDataQuery.getDocuments(completion: { (objects, error) -> Void in
             if error == nil {
                 guard let documents = objects?.documents else {
                     print("could not get documents from objects?.documents")
@@ -176,16 +174,10 @@ class FollowersTableView: UIViewController, UISearchBarDelegate {
             completion()
             
         })
-        listenerList?.append(listener)
     }
     
-    var listenerList: [ListenerRegistration]?
     
     func doneLoading() {
-        listenerList?.forEach({ listener in
-            listener.remove()
-        })
-        listenerList = nil
         sortUserDataArray()
         self.tableView.reloadData()
     }
@@ -206,7 +198,7 @@ class FollowersTableView: UIViewController, UISearchBarDelegate {
         if (username == nil) {
             return
         }
-        followListener = db.collection("Followings").whereField("following", isEqualTo: username!).addSnapshotListener({ objects, error in
+        db.collection("Followings").whereField("following", isEqualTo: username!).getDocuments(completion: { objects, error in
             if error == nil {
                 self.followList.removeAll(keepingCapacity: true)
                 guard let docs = objects?.documents else {
@@ -290,7 +282,7 @@ class FollowersTableView: UIViewController, UISearchBarDelegate {
     @objc func cellTapped(_ sender : UITapGestureRecognizer) {
         let cell  = sender.view as! UserCell
         let username = cell.usernameLbl.text!
-        db.collection("UserData1").whereField("publicID", isEqualTo: username).addSnapshotListener({ objects, error in
+        db.collection("UserData1").whereField("publicID", isEqualTo: username).getDocuments(completion: { objects, error in
             if error == nil {
                 guard let docs = objects?.documents else{
                     print("no docs?")

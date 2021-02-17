@@ -76,7 +76,6 @@ class CulturalIdentityVC: UIViewController, UITextFieldDelegate, MRCountryPicker
 //    var textFieldArray = [UITextField]()
     
     var followList = [String]()
-    var followListener: ListenerRegistration?
     
     var cancelLbl: String?
     

@@ -23,11 +23,10 @@ class FollowingTableView: UIViewController, UISearchBarDelegate {
     
     var currentUser: User?
     var loadUserDataArray = ThreadSafeArray<UserData>()
-    var searchString: String = ""
+    var mostRecentUserDataArray = [UserData]()
     var userDataVM: UserDataVM?
     
     var followList = [String]()
-    var followListener: ListenerRegistration?
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -121,7 +120,6 @@ class FollowingTableView: UIViewController, UISearchBarDelegate {
             
             // loads follower list to start
             
-            self.followListener?.remove()
             self.loadUserDataArray.removeAll()
             //self.loadUserDataArray.append(newElement: self.userData!)
             let chunks = self.followList.chunked(into: 5)
@@ -144,7 +142,7 @@ class FollowingTableView: UIViewController, UISearchBarDelegate {
     func loadUpToTenUserDatas(usernames: [String], completion: @escaping () -> ()) {
         let userDataCollection = self.db.collection("UserData1")
         let userDataQuery = userDataCollection.whereField("publicID", in: usernames)
-        let listener = userDataQuery.addSnapshotListener( { (objects, error) -> Void in
+        userDataQuery.getDocuments(completion: { (objects, error) -> Void in
             if error == nil {
                 guard let documents = objects?.documents else {
                     print("could not get documents from objects?.documents")
@@ -174,24 +172,19 @@ class FollowingTableView: UIViewController, UISearchBarDelegate {
             completion()
             
         })
-        listenerList?.append(listener)
     }
-    
-    var listenerList: [ListenerRegistration]?
-    
+        
     func doneLoading() {
-        listenerList?.forEach({ listener in
-            listener.remove()
-        })
-        listenerList = nil
+        
         sortUserDataArray()
+        mostRecentUserDataArray = loadUserDataArray.readOnlyArray()
         self.tableView.reloadData()
     }
     
     func sortUserDataArray() {
         var sorted = self.loadUserDataArray.readOnlyArray()
         sorted.sort(by: { x, y in
-            x.publicID < y.publicID
+            x.displayName < y.displayName
         })
         loadUserDataArray.removeAll()
         sorted.forEach({ item in
@@ -205,7 +198,7 @@ class FollowingTableView: UIViewController, UISearchBarDelegate {
             completion()
             return
         }
-        followListener = db.collection("Followings").whereField("follower", isEqualTo: username!).addSnapshotListener({ objects, error in
+        db.collection("Followings").whereField("follower", isEqualTo: username!).getDocuments(completion: { objects, error in
             if error == nil {
                 self.followList.removeAll(keepingCapacity: true)
                 guard let docs = objects?.documents else {
@@ -223,17 +216,6 @@ class FollowingTableView: UIViewController, UISearchBarDelegate {
         })
     }
     
-    // search updated
-//    func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-//        if text == "" && searchString != "" {
-//            let _ = searchString.popLast()
-//        }
-//        else {
-//            searchString += text
-//        }
-//        loadUserData()
-//        return true
-//    }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         loadUserData()
@@ -275,7 +257,7 @@ class FollowingTableView: UIViewController, UISearchBarDelegate {
 
     func loadUserData() {
         loadUserDataArray.removeAll()
-        searchString = searchBar.text ?? ""
+        let searchString = searchBar.text ?? ""
         if searchString == "" {
             startWithFollowers()
             return
@@ -283,15 +265,42 @@ class FollowingTableView: UIViewController, UISearchBarDelegate {
         
         // right here we need to search within loaduserdataarray using searchString
         else {
-            print("Present substring of following based on searchString Here")
-            }
-        self.tableView.reloadData()
+            searchFollowing(searchString.lowercased())
         }
+        self.tableView.reloadData()
+    }
+    
+    func searchFollowing(_ searchString: String) {
+        var searchDataArray = [UserData]()
+        mostRecentUserDataArray.forEach({ followingData in
+            if followingData.displayNameQueryable.hasPrefix(searchString) {
+                if !searchDataArray.contains(where: { ud in
+                    return followingData.publicID == ud.publicID
+                }) {
+                    searchDataArray.append(followingData)
+                }
+            }
+        })
+        mostRecentUserDataArray.forEach({ followingData in
+            if followingData.publicID.hasPrefix(searchString) {
+                if !searchDataArray.contains(where: { ud in
+                    return followingData.publicID == ud.publicID
+                }) {
+                    searchDataArray.append(followingData)
+                }
+            }
+        })
+        searchDataArray.forEach({ ud in
+            print("filtered item: \(ud.displayName), \(ud.publicID)")
+        })
+        loadUserDataArray.setArray(array: searchDataArray)
+        tableView.reloadData()
+    }
     
     @objc func cellTapped(_ sender : UITapGestureRecognizer) {
         let cell  = sender.view as! UserCell
         let username = cell.usernameLbl.text!
-        db.collection("UserData1").whereField("publicID", isEqualTo: username).addSnapshotListener({ objects, error in
+        db.collection("UserData1").whereField("publicID", isEqualTo: username).getDocuments(completion: { objects, error in
             if error == nil {
                 guard let docs = objects?.documents else{
                     print("no docs?")
@@ -318,59 +327,6 @@ class FollowingTableView: UIViewController, UISearchBarDelegate {
             }
         })
     }
-
-    
-    // MARK: - Table view data source
-    
-    
-    
-    
-    
-    
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
-    
-    /*
-     // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     tableView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
-    
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
-     }
-     */
-    
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
     
 }
 

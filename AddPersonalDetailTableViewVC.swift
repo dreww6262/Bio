@@ -76,7 +76,6 @@ class AddPersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPic
     //    var textFieldArray = [UITextField]()
     
     var followList = [String]()
-    var followListener: ListenerRegistration?
     
     var cancelLbl: String?
     

@@ -58,7 +58,6 @@ class PersonalDetailTableViewVC: UIViewController, UITextFieldDelegate, UIPicker
     var loadUserDataArray = ThreadSafeArray<UserData>()
     
     var followList = [String]()
-    var followListener: ListenerRegistration?
     
     var cancelLbl: String?
     var image1 = UIImage(named: "unity")
