@@ -290,38 +290,39 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
     }
     
-    func insertFollowButton() {
-        self.view.addSubview(followView)
-        self.followView.backgroundColor = .white
-        self.followView.frame = CGRect(x: self.view.frame.midX - 45, y: navBarY, width: 90, height: 30)
-        self.followView.layer.cornerRadius = followView.frame.size.width / 20
-        self.followView.addSubview(followImage)
-        self.followView.addSubview(followLabel)
-       // self.followView.isHidden = false
-        self.followImage.frame = CGRect(x: 5, y: 0, width: followView.frame.height, height: followView.frame.height)
-        self.followView.layer.cornerRadius = followView.frame.size.width/10
-        //self.followView.clipsToBounds()
-        
-        if isFollowing {
-            self.followView.isHidden = true
-            self.followImage.image = UIImage(named: "friendCheck")
-            self.followLabel.text = "Added"
-        }
-        else {
-            self.followView.isHidden = false
-            self.followImage.image = UIImage(named: "addFriend")
-            self.followLabel.text = "Add"
-        }
-        
-        //self.followImage.image = UIImage(named: "friendCheck")
-        self.followLabel.frame = CGRect(x: followImage.frame.maxX + 5, y: 0.0, width: followView.frame.width - 10, height: followView.frame.height)
-        //self.followLabel.text = "Added"
-        self.followLabel.textColor = .black
-        let tapped = UITapGestureRecognizer(target: self, action: #selector(followTapped))
-        self.followView.addGestureRecognizer(tapped)
-        
-        
-    }
+//    func insertFollowButton() {
+//
+//        self.view.addSubview(followView)
+//        self.followView.backgroundColor = .white
+//        self.followView.frame = CGRect(x: self.view.frame.midX - 45, y: navBarY, width: 90, height: 30)
+//        self.followView.layer.cornerRadius = followView.frame.size.width / 20
+//        self.followView.addSubview(followImage)
+//        self.followView.addSubview(followLabel)
+//       // self.followView.isHidden = false
+//        self.followImage.frame = CGRect(x: 5, y: 0, width: followView.frame.height, height: followView.frame.height)
+//        self.followView.layer.cornerRadius = followView.frame.size.width/10
+//        //self.followView.clipsToBounds()
+//
+//        if isFollowing {
+//            self.followView.isHidden = true
+//            self.followImage.image = UIImage(named: "friendCheck")
+//            self.followLabel.text = "Following"
+//        }
+//        else {
+//            self.followView.isHidden = false
+//            self.followImage.image = UIImage(named: "addFriend")
+//            self.followLabel.text = "Follow"
+//        }
+//
+//        //self.followImage.image = UIImage(named: "friendCheck")
+//        self.followLabel.frame = CGRect(x: followImage.frame.maxX + 5, y: 0.0, width: followView.frame.width - 10, height: followView.frame.height)
+//        //self.followLabel.text = "Added"
+//        self.followLabel.textColor = .black
+//        let tapped = UITapGestureRecognizer(target: self, action: #selector(followTapped))
+//        self.followView.addGestureRecognizer(tapped)
+//
+//
+//    }
     
     
     @objc func followTapped(_ sender: UITapGestureRecognizer) {
@@ -989,12 +990,15 @@ class GuestHexagonGridVC: UIViewController, UIScrollViewDelegate, UIGestureRecog
         self.toSettingsButton.setImage(UIImage(named: "lightGrayGearFinal"), for: .normal)
         self.toSearchButton.setImage(UIImage(named: "lightGrayMagnifyingGlassFinal"), for: .normal)
 
-        self.navBarView.addSubview(followView)
+        if guestUserData?.publicID != userDataVM?.userData.value?.publicID {
+            self.navBarView.addSubview(followView)
+        }
         self.followView.backgroundColor = .white
         self.followView.frame = CGRect(x: self.view.frame.midX - 45, y: toSettingsButton.frame.minY, width: 90, height: 30)
         self.followView.layer.cornerRadius = followView.frame.size.width / 20
         self.followView.addSubview(followImage)
         self.followView.addSubview(followLabel)
+        
         //self.followView.isHidden = false
         self.followImage.frame = CGRect(x: 5, y: 0, width: followView.frame.height, height: followView.frame.height)
         self.followView.layer.cornerRadius = followView.frame.size.width/10

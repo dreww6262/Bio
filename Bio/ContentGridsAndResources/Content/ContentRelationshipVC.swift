@@ -89,7 +89,7 @@ class ContentRelationship: UIViewController, UIScrollViewDelegate {
 //        label1.font = UIFont(name: "DINAlternate-Bold", size: 28)
         label3.font = UIFont(name: "DINAlternate-Bold", size: 28)
         label2.font = UIFont(name: "DINAlternate-Bold", size: 28)
-        let label1Frame = CGRect(x: 0, y: (newImageView?.frame.maxY)! + 20, width: view.frame.width, height: 30)
+        let label1Frame = CGRect(x: 0, y: (newImageView?.frame.maxY)! + 20, width: view.frame.width, height: 60)
         let label2Frame = CGRect(x: 0, y: label1Frame.maxY + 20, width: view.frame.width, height: 30)
         let label3Frame = CGRect(x: 0, y: label2Frame.maxY + 20, width: view.frame.width, height: 30)
         label1.frame = label1Frame
@@ -130,12 +130,14 @@ class ContentRelationship: UIViewController, UIScrollViewDelegate {
         newImageView!.isUserInteractionEnabled = true
         
         
-        let label1Frame = CGRect(x: 0, y: (newImageView?.frame.maxY)! + 20, width: view.frame.width, height: 30)
+        let label1Frame = CGRect(x: 0, y: (newImageView?.frame.maxY)! + 20, width: view.frame.width, height: 60)
         let label2Frame = CGRect(x: 0, y: label1Frame.maxY + 20, width: view.frame.width, height: 30)
         let label3Frame = CGRect(x: 0, y: label2Frame.maxY + 20, width: view.frame.width, height: 30)
         label1.frame = label1Frame
         label2.frame = label2Frame
         label3.frame = label3Frame
+        
+        label1.numberOfLines = 0
     }
     
     // viewdidload helper functions

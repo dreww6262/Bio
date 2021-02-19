@@ -24,10 +24,10 @@ class FollowersTableView: UIViewController, UISearchBarDelegate {
     
     var currentUser: User?
     var loadUserDataArray = ThreadSafeArray<UserData>()
-    var searchString: String = ""
     var userDataVM: UserDataVM?
     
     var followList = [String]()
+    var mostRecentUserDataArray = [UserData]()
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -46,19 +46,7 @@ class FollowersTableView: UIViewController, UISearchBarDelegate {
         searchBar.barStyle = .blackOpaque
         searchBar.frame.size.width = self.view.frame.size.width
         searchBar.frame = CGRect(x: 0, y: UIApplication.shared.statusBarFrame.height, width: searchBar.frame.width, height: searchBar.frame.height)
-      //  searchBar.frame.size.width = self.view.frame.size.width
-      //  searchBar.frame = CGRect(x: 0, y: 20, width: searchBar.frame.width, height: searchBar.frame.height)
-//        let attributes:[NSAttributedString.Key: Any] = [
-//            .foregroundColor: UIColor.black,
-//            .font: UIFont.systemFont(ofSize: 17)
-//        ]
-//        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes(attributes, for: .normal)
-        
-//        if let cancelButton = searchBar.value(forKey: "cancelButton") as? UIButton {
-//            cancelButton.setTitle("cancel", for: .normal)
-//            cancelButton.setTitleColor(.white, for: .normal)
-//            cancelButton.setAttributedTitle(NSAttributedString(), for: .normal)
-//        }
+
         
         //change magnigying glass image
         let textField = searchBar.value(forKey: "searchField") as! UITextField
@@ -69,19 +57,7 @@ class FollowersTableView: UIViewController, UISearchBarDelegate {
         let clearButton = textField.value(forKey: "clearButton") as! UIButton
         clearButton.setImage(clearButton.imageView?.image?.withRenderingMode(.alwaysTemplate), for: .normal)
         clearButton.tintColor = .white
-        
-        //let textField2 = searchBar.value(forKey: "cancelButton") as! UITextField
-//        let cancelButton = searchBar.value(forKey: "cancelButton") as! UIButton
-//        cancelButton.titleLabel?.textColor = .white
-//        clearButton.tintColor = .white
-        
-        //cancel button white
-//        if let cancelButton = searchBar.value(forKey: "cancelButton") as? UIButton {
-//            print("Cancel button exists!")
-//            cancelButton.setTitle("Cancel", for: .normal)
-//            cancelButton.setTitleColor(.white, for: .normal)
-//           // cancelButton.setAttributedTitle(<your_nsattributedstring>, for: .normal)
-//        }
+
         
         if let buttonItem = searchBar.subviews.first?.subviews.last as? UIButton {
             buttonItem.setTitleColor(UIColor.white, for: .normal)
@@ -100,12 +76,6 @@ class FollowersTableView: UIViewController, UISearchBarDelegate {
         tableView.frame = CGRect(x: 0, y: searchBar.frame.maxY, width: view.frame.width, height: view.frame.height - searchBar.frame.maxY)
         tableView.reloadData()
         
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -115,6 +85,33 @@ class FollowersTableView: UIViewController, UISearchBarDelegate {
         else {
             doneLoading()
         }
+    }
+    
+    func searchFollower(_ searchString: String) {
+        var searchDataArray = [UserData]()
+        mostRecentUserDataArray.forEach({ followingData in
+            if followingData.displayNameQueryable.hasPrefix(searchString) {
+                if !searchDataArray.contains(where: { ud in
+                    return followingData.publicID == ud.publicID
+                }) {
+                    searchDataArray.append(followingData)
+                }
+            }
+        })
+        mostRecentUserDataArray.forEach({ followingData in
+            if followingData.publicID.hasPrefix(searchString) {
+                if !searchDataArray.contains(where: { ud in
+                    return followingData.publicID == ud.publicID
+                }) {
+                    searchDataArray.append(followingData)
+                }
+            }
+        })
+        searchDataArray.forEach({ ud in
+            print("filtered item: \(ud.displayName), \(ud.publicID)")
+        })
+        loadUserDataArray.setArray(array: searchDataArray)
+        tableView.reloadData()
     }
     
     func startWithFollowers() {
@@ -129,7 +126,7 @@ class FollowersTableView: UIViewController, UISearchBarDelegate {
             for chunk in chunks {
                 group.enter()
                 self.loadUpToTenUserDatas(usernames: chunk, completion: {
-                    //print("loadFollowings: loaded followers \(self.followingUserDataArray)")
+                    print("loadFollowings: loaded followers \(self.loadUserDataArray.count)")
                     do{group.leave()}
                 })
             }
@@ -179,6 +176,7 @@ class FollowersTableView: UIViewController, UISearchBarDelegate {
     
     func doneLoading() {
         sortUserDataArray()
+        mostRecentUserDataArray = loadUserDataArray.readOnlyArray()
         self.tableView.reloadData()
     }
     
@@ -206,7 +204,7 @@ class FollowersTableView: UIViewController, UISearchBarDelegate {
                 }
                 for doc in docs {
                     print("follow item \(doc.data())")
-                    let following = doc["following"] as! String
+                    let following = doc["follower"] as! String
                     if (!self.followList.contains(following)) {
                         self.followList.append(following)
                     }
@@ -215,47 +213,23 @@ class FollowersTableView: UIViewController, UISearchBarDelegate {
             completion()
         })
     }
-    
-    // search updated
-//    func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-//        if text == "" && searchString != "" {
-//            let _ = searchString.popLast()
-//        }
-//        else {
-//            searchString += text
-//        }
-//        loadUserData()
-//        return true
-//    }
+
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         loadUserData()
     }
     
     
-    // tapped on the searchBar
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        // hide collectionView when started search
-        // collectionView.isHidden = true
-        // show cancel button
-        //searchBar.showsCancelButton = true
-    }
     //
     //
     //        // clicked cancel button
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        // unhide collectionView when tapped cancel button
-        //  collectionView.isHidden = false
-        // dismiss keyboard
+
         searchBar.resignFirstResponder()
-        
-        // hide cancel button
-        //searchBar.showsCancelButton = false
-        
-        // reset text
+ 
         searchBar.text = ""
         
         // reset shown users
-        loadUserDataArray.removeAll()
+        loadUserData()
         self.dismiss(animated: false, completion: nil)
         
         //usernameArray = []
@@ -265,7 +239,7 @@ class FollowersTableView: UIViewController, UISearchBarDelegate {
     
     func loadUserData() {
         loadUserDataArray.removeAll()
-        searchString = searchBar.text ?? ""
+        let searchString = searchBar.text ?? ""
         if searchString == "" {
             startWithFollowers()
             return
@@ -273,10 +247,10 @@ class FollowersTableView: UIViewController, UISearchBarDelegate {
         
         // right here we need to search within loaduserdataarray using searchString
         else {
-            print("Present substring of following based on searchString Here")
-            }
-        self.tableView.reloadData()
+            searchFollower(searchString)
         }
+        self.tableView.reloadData()
+    }
 
     
     @objc func cellTapped(_ sender : UITapGestureRecognizer) {
@@ -309,60 +283,6 @@ class FollowersTableView: UIViewController, UISearchBarDelegate {
             }
         })
     }
-
-    
-    // MARK: - Table view data source
-    
-    
-    
-    
-    
-    
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
-    
-    /*
-     // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     tableView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
-    
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
-     }
-     */
-    
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
 }
 
 // MARK: - Table view data source
@@ -414,14 +334,6 @@ extension FollowersTableView: UITableViewDelegate, UITableViewDataSource {
             cell.followView.tag = 0
             cell.tag = 0
         }
-        
-        
-        
-        
-        //cell = loadUserDataArray![indexPath.row]
-        //print("This is cell image \(cell.avaImg.image)")
-        //   cell.previewImage.setupHexagonMask(lineWidth: 10.0, color: .black, cornerRadius: 10.0)
-        //     cellArray.append(cell)
         return cell
     }
 }

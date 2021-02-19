@@ -78,13 +78,15 @@ class ContentCityVC: UIViewController, UIScrollViewDelegate {
         label2.text = currentCity
         label3.text = ""
         
+        label2.numberOfLines = 0
+        
         
         //let captionFrame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 66)
         label1.font = UIFont(name: "DINAlternate-Bold", size: 23)
         label3.font = UIFont(name: "DINAlternate-Bold", size: 23)
         label2.font = UIFont(name: "DINAlternate-Bold", size: 23)
         let label1Frame = CGRect(x: 0, y: (newImageView?.frame.maxY)! + 20, width: view.frame.width, height: 30)
-        let label2Frame = CGRect(x: 0, y: label1Frame.maxY + 20, width: view.frame.width, height: 30)
+        let label2Frame = CGRect(x: 0, y: label1Frame.maxY + 20, width: view.frame.width, height: 60)
         let label3Frame = CGRect(x: 0, y: label2Frame.maxY + 20, width: view.frame.width, height: 30)
         label1.frame = label1Frame
         label2.frame = label2Frame
@@ -122,7 +124,7 @@ class ContentCityVC: UIViewController, UIScrollViewDelegate {
         newImageView!.isUserInteractionEnabled = true
         
         let label1Frame = CGRect(x: 0, y: (newImageView?.frame.maxY)! + 20, width: view.frame.width, height: 30)
-        let label2Frame = CGRect(x: 0, y: label1Frame.maxY + 20, width: view.frame.width, height: 30)
+        let label2Frame = CGRect(x: 0, y: label1Frame.maxY + 20, width: view.frame.width, height: 60)
         let label3Frame = CGRect(x: 0, y: label2Frame.maxY + 20, width: view.frame.width, height: 30)
         label1.frame = label1Frame
         label2.frame = label2Frame

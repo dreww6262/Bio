@@ -157,16 +157,28 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
             
         
             cell.image.sd_setImage(with: url!, placeholderImage: placeHolderImage, options: .refreshCached) { (_, error, _, _) in
-            if (error != nil) {
-                print(error!.localizedDescription)
-                cell.image.image = placeHolderImage
+                if (error != nil) {
+                    print(error!.localizedDescription)
+                    cell.image.image = placeHolderImage
+                }
+//                let blurGradient = UIBlurEffect(style: .dark)
+//                let blurView = UIVisualEffectView(effect: blurGradient)
+//                let lay = CAGradientLayer()
+//                lay.frame = CGRect(x: 0, y: cell.image.frame.midY, width: cell.image.frame.width, height: cell.image.frame.height / 2)
+//                lay.colors = [UIColor(white: 0, alpha: 0).cgColor, UIColor.darkGray.cgColor]
+//                lay.locations = [0, 1]
+//                blurView.layer.insertSublayer(lay, at: 0)
+//                cell.image.addSubview(blurView)
+//                cell.image.bringSubviewToFront(blurView)
             }
-        }
         }
         
         else {
             cell.image.image = UIImage(named: "user-2")
         }
+        
+        
+        
         cell.image.tag = indexPath.row
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleProfileCellTap))
@@ -201,6 +213,17 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
         cell.displayNameLabel.frame = CGRect(x: 0, y: cell.frame.height*(6/10), width: cell.frame.width, height: cell.frame.height*(2/10))
 //        let spaceToBottom = cell.frame.height - cell.displayNameLabel.frame.maxY
         cell.userDescriptionLabel.frame = CGRect(x: 0, y: cell.displayNameLabel.frame.maxY, width: cell.frame.width, height: cell.frame.height*(2/10))
+            
+            let blurGradient = UIBlurEffect(style: .dark)
+            let blurView = UIVisualEffectView(effect: blurGradient)
+            let lay = CAGradientLayer()
+            lay.frame = CGRect(x: 0, y: cell.image.frame.midY, width: cell.image.frame.width, height: cell.image.frame.height / 2)
+            lay.colors = [UIColor(white: 0, alpha: 0).cgColor, UIColor.darkGray.cgColor]
+            lay.locations = [0, 1]
+            blurView.layer.insertSublayer(lay, at: 0)
+            cell.image.addSubview(blurView)
+            cell.image.bringSubviewToFront(blurView)
+            
         }
         else {
             cell.displayNameLabel.isHidden = true
@@ -210,6 +233,16 @@ class FriendsAndFeaturedVC: UIViewController, UIScrollViewDelegate, UICollection
             cell.userDescriptionLabel.frame = CGRect(x: 0, y: cell.displayNameLabel.frame.maxY, width: cell.frame.width, height: cell.frame.height*(2/10))
             cell.displayNameLabel.frame = cell.userDescriptionLabel.frame
             cell.displayNameLabel.isHidden = false
+            
+            let blurGradient = UIBlurEffect(style: .dark)
+            let blurView = UIVisualEffectView(effect: blurGradient)
+            let lay = CAGradientLayer()
+            lay.frame = CGRect(x: 0, y: cell.image.frame.midY * 1.5, width: cell.image.frame.width, height: cell.image.frame.height / 4)
+            lay.colors = [UIColor(white: 0, alpha: 0).cgColor, UIColor.darkGray.cgColor]
+            lay.locations = [0, 1]
+            blurView.layer.insertSublayer(lay, at: 0)
+            cell.image.addSubview(blurView)
+            cell.image.bringSubviewToFront(blurView)
         }
 
         cell.displayNameLabel.textAlignment = .center
